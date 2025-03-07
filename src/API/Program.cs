@@ -1,3 +1,7 @@
+using API;
+using API.Features.IGDB;
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,16 +10,29 @@ builder.Services.AddOpenApi();
 
 // Output cache
 builder.Services.AddOutputCache();
+builder.Services.AddHttpClient();
+
+builder.Services.AddDbContext<AppDbContext>();
+
+builder.Services.AddHostedService<FetchAndSeedInitialDatabase>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.MapScalarApiReference(options =>
+    {
+        options.Servers = [];
+    //    options.Authentication = new() { PreferredSecurityScheme = IdentityConstants.BearerScheme };
+    });
+    
     app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
+
+app.Map("/", () => Results.Redirect("/scalar/v1"));
 
 var summaries = new[]
 {
@@ -36,6 +53,8 @@ app.MapGet("/weatherforecast", () =>
     })
     .WithName("GetWeatherForecast")
     .WithOpenApi();
+
+app.MapGameEndpoints();
 
 app.UseOutputCache();
 app.Run();
