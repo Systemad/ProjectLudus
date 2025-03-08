@@ -1,6 +1,5 @@
 ﻿namespace Shared;
 
-/*
 public partial class Game
 {
     [JsonPropertyName("id")] public long Id { get; set; }
@@ -185,4 +184,3 @@ public partial class Website
 
     [JsonPropertyName("type")] public long Type { get; set; }
 }
-*/

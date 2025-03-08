@@ -9,22 +9,21 @@ public class Fetch
 {
     private readonly HttpClient _httpClient;
 
-    public Fetch(HttpClient httpClient)
+    public Fetch()
     {
-        _httpClient = httpClient;
+        _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
+        _httpClient.DefaultRequestHeaders.Add("Client-ID", "i0s32q3oi8z074rvq0ljkaupnbkq98");
+        _httpClient.DefaultRequestHeaders.Add("Authorization", "");
+        _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     }
 
     // Fetch total count from the /count endpoint
-    public async Task<List<T>> FetchAllDataAsync<T>(string endpoint, string fields, CancellationToken cancellationToken)
+    public async Task<List<T>> FetchAllDataAsync<T>(string endpoint, string fields)
     {
-        /*
-            _httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
-            _httpClient.DefaultRequestHeaders.Add("Client-ID","");
-            _httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer ");
-            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-        */
+
         var allData = new List<T>();
-        long totalItems = await FetchCountAsync(_httpClient, endpoint, cancellationToken);
+        long totalItems = await FetchCountAsync(_httpClient, endpoint);
         const int batchSize = 500;
 
         for (int offset = 0; offset < totalItems; offset += batchSize)
@@ -32,30 +31,30 @@ public class Fetch
             var requestBody = $"fields {fields}; limit {batchSize}; offset {offset};";
             var url = $"https://api.igdb.com/v4/{endpoint}";
 
-            var response = await _httpClient.PostAsync(url, new StringContent(requestBody, Encoding.UTF8, "application/json"), cancellationToken);
+            var response = await _httpClient.PostAsync(url,
+                new StringContent(requestBody, Encoding.UTF8, "application/json"));
             response.EnsureSuccessStatusCode();
 
-            var batchData = await response.Content.ReadFromJsonAsync<T[]>(cancellationToken);
-        
+            var batchData = await response.Content.ReadFromJsonAsync<T[]>();
+            Console.WriteLine(batchData);
             if (batchData.Length > 0)
             {
                 allData.AddRange(batchData);
             }
 
-            await Task.Delay(500, cancellationToken);
+            await Task.Delay(500);
         }
 
         return allData;
     }
-    
-    public async Task<long> FetchCountAsync(HttpClient client, string endpoint, CancellationToken cancellationToken)
+
+    public async Task<long> FetchCountAsync(HttpClient client, string endpoint)
     {
-        var url = $"https://api.igdb.com/v4/{endpoint}/count";
-        var response = await client.PostAsync(url, new StringContent(""), cancellationToken);
+        var url = $"{endpoint}/count";
+        var response = await client.PostAsync(url, null);
         response.EnsureSuccessStatusCode();
 
-        var countResult = await response.Content.ReadFromJsonAsync<CountResponse>(cancellationToken);
+        var countResult = await response.Content.ReadFromJsonAsync<CountResponse>();
         return countResult?.Count ?? 0;
     }
-    
 }

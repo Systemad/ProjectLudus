@@ -31,4 +31,5 @@ public static class GameEndpoints
 
         return TypedResults.Ok(game);
     }
+    
 }
