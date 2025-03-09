@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace API.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIGDBModel : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +57,24 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Role = table.Column<string>(type: "TEXT", nullable: false),
+                    SteamId = table.Column<string>(type: "TEXT", nullable: false),
+                    AvatarImageId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Color = table.Column<string>(type: "TEXT", nullable: false),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Company",
                 columns: table => new
                 {
@@ -72,6 +91,30 @@ namespace API.Migrations
                         name: "FK_Company_Logo_LogoId",
                         column: x => x.LogoId,
                         principalTable: "Logo",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Images",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    ContentType = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    LudusUserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Images_Users_LudusUserId",
+                        column: x => x.LudusUserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -521,6 +564,12 @@ namespace API.Migrations
                 column: "GameTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Images_LudusUserId",
+                table: "Images",
+                column: "LudusUserId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InvolvedCompany_CompanyId",
                 table: "InvolvedCompany",
                 column: "CompanyId");
@@ -635,6 +684,9 @@ namespace API.Migrations
                 name: "GameLocalization");
 
             migrationBuilder.DropTable(
+                name: "Images");
+
+            migrationBuilder.DropTable(
                 name: "InvolvedCompany");
 
             migrationBuilder.DropTable(
@@ -660,6 +712,9 @@ namespace API.Migrations
 
             migrationBuilder.DropTable(
                 name: "RatingCategory");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Company");

@@ -1,7 +1,22 @@
 ﻿@page "/"
+@using System.Security.Claims
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<li class="nav-item ms-3">
+    <a href="/signin">
+        <p> Sign in with steam</p>
+        <img src="/img/steam/buttons/sits_small.png"/>
+    </a>
+</li> 
+
+<AuthorizeView>
+    
+    <Authorized>
+        @context.User.FindFirst(ClaimTypes.NameIdentifier).Value
+    </Authorized>
+</AuthorizeView>

@@ -7,6 +7,8 @@ namespace API;
 public class AppDbContext : DbContext
 {
     public DbSet<Game> Games { get; set; }
+    public DbSet<LudusUser> Users { get; set; }
+    public DbSet<LudusUserImage> Images { get; set; }
     
     private static readonly IgnoringIdentityResolutionInterceptor IgnoringIdentityResolutionInterceptor =
         new();
@@ -15,7 +17,7 @@ public class AppDbContext : DbContext
     public AppDbContext()
     {
         var projectRoot = Directory.GetCurrentDirectory();
-        DbPath = Path.Combine(projectRoot, "games.db");
+        DbPath = Path.Combine(projectRoot, "newdbtest.db");
     }
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
