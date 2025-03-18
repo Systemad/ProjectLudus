@@ -8,7 +8,6 @@ public static class AuthEndpoints
 {
     public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder routes)
     {
-        
         routes.MapGet("~/signout", SignOutAsync);
         routes.MapGet("~/signin", SignIn);
         routes.MapPost("~/signin", SignPost);
@@ -18,27 +17,43 @@ public static class AuthEndpoints
 
     private static Task<IResult> SignIn(HttpContext httpContext, [FromQuery] string returnUrl = "/")
     {
-        return Task.FromResult(Results.Challenge(new AuthenticationProperties
-        {
-            RedirectUri = returnUrl,
-            IsPersistent = true,
-            IssuedUtc = DateTime.Now,
-            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
-        }, ["Steam"]));
+        return Task.FromResult(
+            Results.Challenge(
+                new AuthenticationProperties
+                {
+                    RedirectUri = returnUrl,
+                    IsPersistent = true,
+                    IssuedUtc = DateTime.Now,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
+                },
+                ["Steam"]
+            )
+        );
     }
-    
-    private static Task<IResult> SignPost(HttpContext httpContext, [FromQuery] string returnUrl = "/")
+
+    private static Task<IResult> SignPost(
+        HttpContext httpContext,
+        [FromQuery] string returnUrl = "/"
+    )
     {
-        return Task.FromResult(Results.Challenge(new AuthenticationProperties
-        {
-            RedirectUri = returnUrl,
-            IsPersistent = true,
-            IssuedUtc = DateTime.Now,
-            ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7)
-        }, ["Steam"]));
+        return Task.FromResult(
+            Results.Challenge(
+                new AuthenticationProperties
+                {
+                    RedirectUri = returnUrl,
+                    IsPersistent = true,
+                    IssuedUtc = DateTime.Now,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
+                },
+                ["Steam"]
+            )
+        );
     }
-    
-    private static async Task<IResult> SignOutAsync(HttpContext httpContext, [FromQuery] string returnUrl = "/")
+
+    private static async Task<IResult> SignOutAsync(
+        HttpContext httpContext,
+        [FromQuery] string returnUrl = "/"
+    )
     {
         await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 

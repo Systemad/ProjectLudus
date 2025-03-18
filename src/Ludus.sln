@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Client", "Ludus.Clien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Shared", "Ludus.Shared\Ludus.Shared.csproj", "{C83A8B65-AAEB-4F8A-B894-938038EC50B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Data", "Ludus.Data\Ludus.Data.csproj", "{B6A9F9C8-C410-4726-A7EE-338B78AFEA65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Worker", "Ludus.Worker\Ludus.Worker.csproj", "{C32C1780-C329-4BC2-9C4A-274DCD4F4B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{C83A8B65-AAEB-4F8A-B894-938038EC50B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C83A8B65-AAEB-4F8A-B894-938038EC50B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C83A8B65-AAEB-4F8A-B894-938038EC50B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A9F9C8-C410-4726-A7EE-338B78AFEA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A9F9C8-C410-4726-A7EE-338B78AFEA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A9F9C8-C410-4726-A7EE-338B78AFEA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A9F9C8-C410-4726-A7EE-338B78AFEA65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C32C1780-C329-4BC2-9C4A-274DCD4F4B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C32C1780-C329-4BC2-9C4A-274DCD4F4B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C32C1780-C329-4BC2-9C4A-274DCD4F4B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C32C1780-C329-4BC2-9C4A-274DCD4F4B1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

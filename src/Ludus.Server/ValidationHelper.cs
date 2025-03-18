@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Ludus.Data;
 using Ludus.Shared;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;

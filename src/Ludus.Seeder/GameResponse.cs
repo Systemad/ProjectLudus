@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ludus.Shared;
+namespace Ludus.Seeder;
 
-public partial class Game
+public partial class GamesResponse
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -10,9 +10,11 @@ public partial class Game
     [JsonPropertyName("age_ratings")]
     public List<AgeRating> AgeRatings { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("alternative_names")]
     public List<AlternativeName> AlternativeNames { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("artworks")]
     public List<Artwork> Artworks { get; set; }
 
@@ -23,16 +25,19 @@ public partial class Game
     public long CreatedAt { get; set; }
 
     // conver into long list
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("dlcs")]
     public List<Dlc> Dlcs { get; set; }
 
     // conver into long list
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("expansions")]
     public List<Dlc> Expansions { get; set; }
 
     [JsonPropertyName("first_release_date")]
     public long FirstReleaseDate { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("franchises")]
     public List<Franchise> Franchises { get; set; }
 
@@ -45,12 +50,14 @@ public partial class Game
     [JsonPropertyName("genres")]
     public List<Genre> Genres { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("hypes")]
     public long? Hypes { get; set; }
 
     [JsonPropertyName("involved_companies")]
     public List<InvolvedCompany> InvolvedCompanies { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("keywords")]
     public List<Keyword> Keywords { get; set; }
 
@@ -82,6 +89,7 @@ public partial class Game
     [JsonPropertyName("slug")]
     public string Slug { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("storyline")]
     public string Storyline { get; set; }
 
@@ -115,12 +123,14 @@ public partial class Game
     [JsonPropertyName("language_supports")]
     public List<LanguageSupport> LanguageSupports { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("collections")]
     public List<Collection> Collections { get; set; }
 
     [JsonPropertyName("game_type")]
     public GameType GameType { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; }
 }
@@ -130,6 +140,7 @@ public partial class AgeRating
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("content_descriptions")]
     public List<ContentDescription> ContentDescriptions { get; set; }
 
@@ -139,6 +150,7 @@ public partial class AgeRating
     [JsonPropertyName("rating_category")]
     public RatingCategory RatingCategory { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("rating_content_descriptions")]
     public List<ContentDescription> RatingContentDescriptions { get; set; }
 }
@@ -181,6 +193,7 @@ public partial class Screenshot
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("animated")]
     public bool? Animated { get; set; }
 }
@@ -196,6 +209,7 @@ public partial class Artwork
     [JsonPropertyName("url")]
     public string Url { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("animated")]
     public bool? Animated { get; set; }
 }
@@ -331,6 +345,7 @@ public partial class GameEngine
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("logo")]
     public Logo Logo { get; set; }
 
@@ -400,6 +415,7 @@ public partial class Company
     [JsonPropertyName("slug")]
     public string Slug { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("websites")]
     public List<CompanyWebsite> Websites { get; set; }
 
@@ -463,15 +479,19 @@ public partial class MultiplayerMode
     [JsonPropertyName("splitscreen")]
     public bool Splitscreen { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("offlinecoopmax")]
     public long? Offlinecoopmax { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("offlinemax")]
     public long? Offlinemax { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("onlinecoopmax")]
     public long? Onlinecoopmax { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("onlinemax")]
     public long? Onlinemax { get; set; }
 }
@@ -481,9 +501,11 @@ public partial class Platform
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("abbreviation")]
     public string Abbreviation { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("generation")]
     public long? Generation { get; set; }
 
@@ -517,6 +539,7 @@ public partial class ReleaseDate
     [JsonPropertyName("release_region")]
     public ReleaseRegion ReleaseRegion { get; set; }
 
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [JsonPropertyName("status")]
     public long? Status { get; set; }
 }
