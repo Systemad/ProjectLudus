@@ -134,7 +134,7 @@ public partial class AgeRating
     public List<ContentDescription> ContentDescriptions { get; set; }
 
     [JsonPropertyName("organization")]
-    public AlternativeName Organization { get; set; }
+    public Organization Organization { get; set; }
 
     [JsonPropertyName("rating_category")]
     public RatingCategory RatingCategory { get; set; }
@@ -153,6 +153,15 @@ public partial class ContentDescription
 }
 
 public partial class AlternativeName
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+}
+
+public partial class Organization
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

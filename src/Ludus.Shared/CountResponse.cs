@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ludus.Worker;
+namespace Ludus.Shared;
 
 public class CountResponse
 {
