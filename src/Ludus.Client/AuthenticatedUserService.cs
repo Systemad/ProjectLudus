@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Ludus.Shared;
+using Ludus.Shared.Features.User;
 
 namespace Ludus.Client;
 
@@ -25,12 +26,10 @@ public class AuthenticatedUserService
         HttpResponseMessage response = await _httpClient.GetAsync("/api/user/me");
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            var hey  = await response.Content.ReadFromJsonAsync<LudusUser>();
+            var hey = await response.Content.ReadFromJsonAsync<LudusUser>();
             UserInfo = hey;
         }
     }
-    
-    
 
     public bool IsAuthenticated => UserInfo != null;
     public int UserId => UserInfo?.Id ?? 0;

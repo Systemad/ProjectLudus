@@ -1,4 +1,3 @@
-using Ludus.Data;
 using Ludus.Server;
 using Ludus.Server.Features.Auth;
 using Ludus.Server.Features.Games;
@@ -19,10 +18,10 @@ builder.Services.AddMarten(options =>
     {
         options.AutoCreateSchemaObjects = AutoCreate.All;
     }
+    //options.Schema.For<Game>().Index(x => x.RatingCount);
 });
 
 builder.Services.AddDbContext<AppDbContext>();
-
 builder
     .Services.AddAuthentication(options =>
     {
@@ -73,7 +72,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 
-app.Map("/", () => Results.Redirect("/scalar/v1"));
+//app.Map("/", () => Results.Redirect("/scalar/v1"));
 
 app.MapAuthEndpoints();
 

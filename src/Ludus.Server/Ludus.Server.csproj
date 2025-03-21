@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
-    <PackageReference Include="Marten" Version="7.39.1" />
+    <PackageReference Include="Marten" Version="7.39.2" />
+    <PackageReference Include="Marten.AspNetCore" Version="7.39.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
@@ -18,11 +19,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
     <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.0.24" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ludus.Data\Ludus.Data.csproj" />
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
     <ProjectReference Include="..\Ludus.Client\Ludus.Client.csproj" />
   </ItemGroup>

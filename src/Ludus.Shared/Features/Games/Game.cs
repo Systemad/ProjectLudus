@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ludus.Shared;
+namespace Ludus.Shared.Features.Games;
 
 public partial class Game
 {

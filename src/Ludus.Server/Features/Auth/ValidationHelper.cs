@@ -1,13 +1,13 @@
 ﻿using System.Security.Claims;
-using Ludus.Data;
 using Ludus.Shared;
+using Ludus.Shared.Features.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Steam.Models.SteamCommunity;
 using SteamWebAPI2.Interfaces;
 using SteamWebAPI2.Utilities;
 
-namespace Ludus.Server;
+namespace Ludus.Server.Features.Auth;
 
 public class ValidationHelper
 {
@@ -22,9 +22,10 @@ public class ValidationHelper
 
         using var db = new AppDbContext();
 
-        var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[SteamIdStartIndex..];
-        var user = await db.Users.FirstOrDefaultAsync(x =>
-            x.SteamId == steamId);
+        var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
+            SteamIdStartIndex..
+        ];
+        var user = await db.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         if (user != null)
         {
@@ -33,8 +34,9 @@ public class ValidationHelper
 
         var httpClientFactory =
             context.HttpContext.RequestServices.GetRequiredService<IHttpClientFactory>();
-        var logger =
-            context.HttpContext.RequestServices.GetRequiredService<ILogger<ValidationHelper>>();
+        var logger = context.HttpContext.RequestServices.GetRequiredService<
+            ILogger<ValidationHelper>
+        >();
         var steamFactory =
             context.HttpContext.RequestServices.GetRequiredService<SteamWebInterfaceFactory>();
         var httpClient = httpClientFactory.CreateClient();
@@ -44,7 +46,8 @@ public class ValidationHelper
         try
         {
             ISteamWebResponse<PlayerSummaryModel> steamWebResponse = await steamFactory
-                .CreateSteamWebInterface<SteamUser>(httpClient).GetPlayerSummaryAsync(ulong.Parse(steamId));
+                .CreateSteamWebInterface<SteamUser>(httpClient)
+                .GetPlayerSummaryAsync(ulong.Parse(steamId));
             playerSummary = steamWebResponse.Data;
         }
         catch (Exception e)
@@ -52,11 +55,7 @@ public class ValidationHelper
             logger.LogError(e, "An exception occurated when downloading player summaries");
         }
 
-        user = new LudusUser()
-        {
-            SteamId = steamId,
-            Role = RoleConstants.DefaultRoleId
-        };
+        user = new LudusUser() { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
 
         if (playerSummary != null)
         {
@@ -64,18 +63,23 @@ public class ValidationHelper
 
             try
             {
-                var avatarContentBytes = await httpClient.GetByteArrayAsync(playerSummary.AvatarFullUrl);
+                var avatarContentBytes = await httpClient.GetByteArrayAsync(
+                    playerSummary.AvatarFullUrl
+                );
                 var img = new LudusUserImage()
                 {
                     Name = "steam_avatar.jpg",
                     Content = avatarContentBytes,
-                    ContentType = "image/jpeg"
+                    ContentType = "image/jpeg",
                 };
                 user.LudusUserImage = img;
             }
             catch (Exception e)
             {
-                logger.LogError(e, $"An exception occurated when downloading player avatar {playerSummary.SteamId}");
+                logger.LogError(
+                    e,
+                    $"An exception occured when fetching player data {playerSummary.SteamId}"
+                );
             }
         }
 
@@ -85,7 +89,9 @@ public class ValidationHelper
 
     public static async Task Validate(CookieValidatePrincipalContext context)
     {
-        var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[SteamIdStartIndex..];
+        var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
+            SteamIdStartIndex..
+        ];
 
         using var db = new AppDbContext();
         var user = await db.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
@@ -93,7 +99,7 @@ public class ValidationHelper
         {
             new Claim(ClaimTypes.NameIdentifier, steamId),
             new Claim(ClaimTypes.Name, user.Id.ToString()),
-            new Claim(ClaimTypes.Role, user.Role)
+            new Claim(ClaimTypes.Role, user.Role),
         };
 
         context.ReplacePrincipal(new ClaimsPrincipal(new ClaimsIdentity(claims, "Steam")));

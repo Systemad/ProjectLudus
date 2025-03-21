@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Ludus.Shared;
+using Ludus.Shared.Features.User;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Ludus.Client;
@@ -9,9 +10,9 @@ public class SteamAuthProvider : AuthenticationStateProvider
     private readonly AuthenticatedUserService _userService;
     private readonly HttpClient _httpClient;
     private bool authenticated = false;
-    
+
     private readonly ClaimsPrincipal unauthenticated = new(new ClaimsIdentity());
-    
+
     public SteamAuthProvider(AuthenticatedUserService userService, HttpClient httpClient)
     {
         _userService = userService;
@@ -25,11 +26,11 @@ public class SteamAuthProvider : AuthenticationStateProvider
             new Claim(ClaimTypes.Name, userInfo.Name),
             new Claim(ClaimTypes.NameIdentifier, userInfo.Id.ToString()),
             new Claim("SteamId", userInfo.SteamId),
-            new Claim(ClaimTypes.Role, userInfo.Role)
+            new Claim(ClaimTypes.Role, userInfo.Role),
         };
     }
 
-    public  override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         /*
         authenticated = false;

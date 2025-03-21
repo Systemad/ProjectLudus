@@ -1,4 +1,4 @@
-﻿namespace Ludus.Shared;
+﻿namespace Ludus.Shared.Features.User;
 
 public class MImage
 {

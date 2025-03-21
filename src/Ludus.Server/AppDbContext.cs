@@ -1,16 +1,13 @@
-﻿using Ludus.Shared;
+﻿using Ludus.Shared.Features.User;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Ludus.Data;
+namespace Ludus.Server;
 
 public class AppDbContext : DbContext
 {
     public DbSet<LudusUser> Users { get; set; }
+    public DbSet<UserGameStatus> UserGameStatus { get; set; }
     public DbSet<LudusUserImage> Images { get; set; }
-
-    private static readonly IgnoringIdentityResolutionInterceptor IgnoringIdentityResolutionInterceptor =
-        new();
 
     public string DbPath { get; }
 
@@ -22,7 +19,6 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        //optionsBuilder.AddInterceptors(IgnoringIdentityResolutionInterceptor);
         optionsBuilder.UseSqlite($"Data Source={DbPath}");
         base.OnConfiguring(optionsBuilder);
     }

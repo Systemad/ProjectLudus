@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using Ludus.Service.Twitch;
 using Ludus.Shared;
+using Ludus.Shared.Features.Games;
 using Marten;
 
 namespace Ludus.Service;

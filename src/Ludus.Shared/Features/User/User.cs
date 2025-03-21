@@ -1,4 +1,6 @@
-﻿namespace Ludus.Shared;
+﻿using Ludus.Shared.Features.Games;
+
+namespace Ludus.Shared.Features.User;
 
 public class LudusUser
 {
@@ -7,14 +9,27 @@ public class LudusUser
     public string Role { get; set; }
     public string SteamId { get; set; }
     public int? AvatarImageId { get; set; }
+
     //public string Color { get; set; }
     public DateTime CreateDate { get; set; }
 
-    public string AvatarUrl() => AvatarImageId.HasValue ? 
-        $"api/images/{AvatarImageId}" : "/img/profiles/default_avatar.png";
-    
+    public string AvatarUrl() =>
+        AvatarImageId.HasValue ? $"api/images/{AvatarImageId}" : "/img/profiles/default_avatar.png";
+
     //public int LudusUserImageId { get; set; }
     public LudusUserImage? LudusUserImage { get; set; }
+
+    public List<UserGameStatus> GameStatusList { get; set; } = new();
+}
+
+public class UserGameStatus
+{
+    public int Id { get; set; }
+    public int LudusUserId { get; set; }
+    public LudusUser LudusUser { get; set; } = null!;
+
+    public long GameId { get; set; }
+    public GameStatus Status { get; set; }
 }
 
 public class LudusUserImage
