@@ -1,0 +1,10 @@
+﻿@import "tailwindcss";
+
+/*
+@import "tailwindcss" source(none);
+ */
+@plugin "daisyui" {
+    themes: cupcake --default;
+    prefix: "d-";
+}
+@source "../{Pages,Components}/**/*.{razor,razor.cs}";

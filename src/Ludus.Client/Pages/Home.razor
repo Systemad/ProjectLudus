@@ -2,16 +2,55 @@
 @using System.Security.Claims
 
 <PageTitle>Home</PageTitle>
+<!-- Search Input -->
+<input type="text" class="border p-2 rounded mb-4" placeholder="Search..." @bind="searchText" />
 
-<h1>Hello, world!</h1>
+<!-- Card Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @foreach (var card in filteredCards)
+    {
+        <div class="border p-4 rounded-lg shadow-md">
+            <h3 class="font-semibold text-lg">@card.Title</h3>
+            <p class="text-sm text-gray-600">@card.Description</p>
+        </div>
+    }
+</div>
 
-Welcome to your new app.
+<!-- Pagination -->
+<div class="flex justify-center mt-4">
+    <button class="border px-4 py-2 rounded" @onclick="PrevPage" disabled="@(!CanGoPrev)">Previous</button>
+    <button class="border px-4 py-2 rounded" @onclick="NextPage" disabled="@(!CanGoNext)">Next</button>
+</div>
 
+<!--
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="bg-white p-4 shadow-md rounded-lg">
+        <h3 class="text-xl font-semibold">Card 1</h3>
+        <p>Some content here.</p>
+    </div>
 
+    <div class="bg-white p-4 shadow-md rounded-lg">
+        <h3 class="text-xl font-semibold">Card 2</h3>
+        <p>Some content here.</p>
+    </div>
+
+    <div class="bg-white p-4 shadow-md rounded-lg">
+        <h3 class="text-xl font-semibold">Card 3</h3>
+        <p>Some content here.</p>
+    </div>
+
+    <div class="bg-white p-4 shadow-md rounded-lg">
+        <h3 class="text-xl font-semibold">Card 4</h3>
+        <p>Some content here.</p>
+    </div>
+
+</div>
+
+-->
 <AuthorizeView>
     <NotAuthorized>
         <a href="/signin">
-            <img src="/img/sits_small.png" />
+            <img src="/img/sits_small.png"/>
         </a>
     </NotAuthorized>
     
