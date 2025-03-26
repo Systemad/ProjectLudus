@@ -1,11 +1,35 @@
 ﻿@page "/"
 @using System.Security.Claims
+@using Ludus.Client.Components.Button
 
 <PageTitle>Home</PageTitle>
-<!-- Search Input -->
-<input type="text" class="border p-2 rounded mb-4" placeholder="Search..." @bind="searchText" />
 
-<!-- Card Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 py-4">
+    @for (var i = 0; i < 10; i++)
+    {
+        <div class="d-card bg-base-100 w-full shadow-sm">
+            <figure>
+                <img
+                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                    alt="Shoes" />
+            </figure>
+            <div class="d-card-body">
+                <h2 class="d-card-title">
+                    Card Title
+                </h2>
+                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                <div class="d-card-actions justify-end">
+                    <DaisyButton Color="DaisyButton.Colors.Primary" Size="DaisyButton.Sizes.MD">Default</DaisyButton>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Search Input
+<input type="text" class="border p-2 rounded mb-4" placeholder="Search..." @bind="searchText" />
+-->
+<!-- Card Grid
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     @foreach (var card in filteredCards)
     {
@@ -15,13 +39,13 @@
         </div>
     }
 </div>
-
-<!-- Pagination -->
+-->
+<!-- Pagination
 <div class="flex justify-center mt-4">
     <button class="border px-4 py-2 rounded" @onclick="PrevPage" disabled="@(!CanGoPrev)">Previous</button>
     <button class="border px-4 py-2 rounded" @onclick="NextPage" disabled="@(!CanGoNext)">Next</button>
 </div>
-
+-->
 <!--
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
     <div class="bg-white p-4 shadow-md rounded-lg">
@@ -47,6 +71,7 @@
 </div>
 
 -->
+<!--
 <AuthorizeView>
     <NotAuthorized>
         <a href="/signin">
@@ -60,3 +85,4 @@
         <a href="/logout">Sign Out</a>
     </Authorized>
 </AuthorizeView>
+-->

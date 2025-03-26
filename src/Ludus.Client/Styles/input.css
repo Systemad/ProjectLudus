@@ -4,7 +4,9 @@
 @import "tailwindcss" source(none);
  */
 @plugin "daisyui" {
-    themes: cupcake --default;
+    themes: cupcake --default, lemonade;
     prefix: "d-";
+    logs: true;
 }
-@source "../{Pages,Components}/**/*.{razor,razor.cs}";
+
+@source "../{Pages,Components,Layout}/**/*.{razor,razor.cs}";

@@ -8,30 +8,25 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.3" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.3" />
+		<PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
-	  <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
-	</ItemGroup>
-
 	<!-- Run the docs content generation command -->
 	<Target Name="InstallTailwindCSS" AfterTargets="Build" Condition="!Exists('tailwindcss-extra.exe')">
 		<PropertyGroup>
 			<!-- Tailwind standalone CLI for Windows -->
-			<TailwindURL Condition="'$(OS)' == 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/download/v2.0.8/tailwindcss-extra-windows-x64.exe</TailwindURL>
+			<TailwindURL Condition="'$(OS)' == 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/latest/download/tailwindcss-extra-windows-x64.exe</TailwindURL>
 			<TailwindFile Condition="'$(OS)' == 'Windows_NT'">tailwindcss-extra-windows-x64.exe</TailwindFile>
 
 			<!-- Tailwind standalone CLI for Linux -->
-			<TailwindURL Condition="'$(OS)' != 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/download/v2.0.8/tailwindcss-extra-linux-x64</TailwindURL>
+			<TailwindURL Condition="'$(OS)' != 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/latest/download/tailwindcss-extra-linux-x64</TailwindURL>
 			<TailwindFile Condition="'$(OS)' != 'Windows_NT'">tailwindcss-extra-linux-x64</TailwindFile>
 			
 		</PropertyGroup>
