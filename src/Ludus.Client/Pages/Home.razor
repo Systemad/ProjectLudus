@@ -2,6 +2,7 @@
 @using System.Security.Claims
 @using Ludus.Client.DaisyUI.Button
 @using Ludus.Client.DaisyUI.Badge
+@using Ludus.Client.DaisyUI.Status
 
 <PageTitle>Home</PageTitle>
 
@@ -19,6 +20,8 @@
                     Card Title
                 </h2>
                 <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+
+                <DaisyStatus Animation="DaisyStatus.Animations.Bounce" Color="DaisyStatus.Colors.Error" Size="DaisyStatus.Sizes.LG"></DaisyStatus>
                 <DaisyBadge Size="DaisyBadge.Sizes.LG" Variant="DaisyBadge.Variants.Soft" Color="DaisyBadge.Colors.Neutral">Hello</DaisyBadge>
                 <div class="d-card-actions justify-end">
                     <DaisyButton Color="DaisyButton.Colors.Primary" Size="DaisyButton.Sizes.MD">Default</DaisyButton>

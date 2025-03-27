@@ -1,0 +1,13 @@
+﻿@inherits DaisyComponentBase;
+
+@if (Animation == Animations.Ping)
+{
+    <div class="inline-grid *:[grid-area:1/1]">
+        <div class="@Classes animate-ping"></div>
+        <div class="@Classes"></div>
+    </div>
+}
+else
+{
+    <span class="@Classes" @attributes="@AdditionalAttributes"></span>
+}
