@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using TailwindMerge;
 
-namespace Ludus.Client.Components;
+namespace Ludus.Client.DaisyUI;
 
 public abstract class DaisyComponentBase : ComponentBase
 {

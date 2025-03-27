@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Ludus.Client.Components.Navbar;
+namespace Ludus.Client.Features.Navbar;
 
 public partial class DaisyNavBar : ComponentBase
 {

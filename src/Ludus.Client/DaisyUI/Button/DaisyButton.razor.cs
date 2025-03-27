@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace Ludus.Client.Components.Button;
+namespace Ludus.Client.DaisyUI.Button;
 
 public partial class DaisyButton : DaisyComponentBase
 {
+    private static string Type = "d-btn";
+
     public enum Modifiers
     {
         None,
@@ -135,6 +137,7 @@ public partial class DaisyButton : DaisyComponentBase
 
     private protected string? Classes =>
         TwMerge.Merge(
+            Type,
             GetVariant(Variant),
             GetColor(Color),
             GetSize(Size),
