@@ -1,5 +1,16 @@
-﻿<h3>DaisyTabs</h3>
+﻿@inherits DaisyComponentBase;
 
-@code {
-    
-}
+<CascadingValue Value="this">
+    <div role="tablist" class="@Classes">
+        @foreach (var tab in Tabs.Values.OrderBy(t => t.Index))
+        {
+            @tab.TabContent
+        }
+    </div>
+    <div class="tab-content">
+        @if (ActiveTabId is not null && Tabs.ContainsKey(ActiveTabId))
+        {
+            @Tabs[ActiveTabId].Content
+        }
+    </div>
+</CascadingValue>

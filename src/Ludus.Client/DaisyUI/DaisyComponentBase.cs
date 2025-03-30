@@ -10,4 +10,6 @@ public abstract class DaisyComponentBase : ComponentBase
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    public void Rerender() => StateHasChanged();
 }

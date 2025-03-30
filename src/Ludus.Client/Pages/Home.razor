@@ -1,35 +1,82 @@
 ﻿@page "/"
-@using System.Security.Claims
 @using Ludus.Client.DaisyUI.Button
 @using Ludus.Client.DaisyUI.Badge
 @using Ludus.Client.DaisyUI.Status
 
 <PageTitle>Home</PageTitle>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-4 py-4">
-    @for (var i = 0; i < 10; i++)
-    {
-        <div class="d-card bg-base-100 w-full shadow-sm">
-            <figure>
-                <img
-                    src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                    alt="Shoes" />
-            </figure>
-            <div class="d-card-body">
-                <h2 class="d-card-title">
-                    Card Title
-                </h2>
-                <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+<label class="tw:d-input">
+    <svg class="tw:h-[1em] tw:opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g></svg>
+    <input type="search" required placeholder="Search"/>
+</label>
 
-                <DaisyStatus Animation="DaisyStatus.Animations.Bounce" Color="DaisyStatus.Colors.Error" Size="DaisyStatus.Sizes.LG"></DaisyStatus>
-                <DaisyBadge Size="DaisyBadge.Sizes.LG" Variant="DaisyBadge.Variants.Soft" Color="DaisyBadge.Colors.Neutral">Hello</DaisyBadge>
-                <div class="d-card-actions justify-end">
-                    <DaisyButton Color="DaisyButton.Colors.Primary" Size="DaisyButton.Sizes.MD">Default</DaisyButton>
+<div class="tw:flex tw:w-full">
+    <div class="tw:w-1/6 flex tw:flex-col tw:gap-4">
+        <div class="tw:w-full">
+            <ul class="tw:d-list tw:w-full  tw:bg-base-100 tw:rounded-box tw:shadow-md tw:flex">
+
+                <li class="tw:p-4 tw:pb-2 tw:text-lg  tracking-wide">Categories</li>
+
+                <li class="tw:d-list-row">
+                    <label class="tw:d-fieldset-label">
+                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
+                        Remember me
+                    </label>
+                </li>
+
+                <li class="tw:d-list-row">
+                    <label class="tw:d-fieldset-label">
+                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
+                        Remember me
+                    </label>
+                </li>
+
+                <li class="tw:d-list-row">
+                    <label class="tw:d-fieldset-label">
+                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
+                        Remember me
+                    </label>
+                </li>
+            </ul>
+        </div>
+
+        <div class="w-full">
+            <ul class="tw:d-list tw:w-full  tw:bg-base-100 tw:rounded-box tw:shadow-md tw:flex">
+
+                <li class="tw:p-4 tw:pb-2 tw:text-lg tracking-wide">Platform</li>
+
+                <li class="tw:d-list-row">
+                    <label class="tw:d-fieldset-label">
+                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
+                        Remember me
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="tw:grid tw:grid-cols-1 tw:sm:grid-cols-2 tw:lg:grid-cols-4 tw:xl:grid-cols-5 tw:gap-4 tw:px-4 tw:py-4 rw:w-5/6">
+        @for (var i = 0; i < 10; i++)
+        {
+            <div class="tw:d-card tw:bg-base-100 tw:w-96 tw:shadow-sm">
+                <figure>
+                    <img
+                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+                        alt="Shoes" />
+                </figure>
+                <div class="tw:d-card-body">
+                    <h2 class="tw:d-card-title">Card Title</h2>
+                    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+                    <div class="tw:d-card-actions tw:justify-end">
+                        <button class="tw:d-btn tw:d-btn-primary">Buy Now</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
+
 
 <!-- Search Input
 <input type="text" class="border p-2 rounded mb-4" placeholder="Search..." @bind="searchText" />

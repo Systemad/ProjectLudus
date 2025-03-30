@@ -4,7 +4,7 @@ namespace Ludus.Client.DaisyUI.Status;
 
 public partial class DaisyStatus : DaisyComponentBase
 {
-    private static string Type = "d-status";
+    private static string Type = "tw:d-status";
 
     public enum Colors
     {
@@ -40,12 +40,12 @@ public partial class DaisyStatus : DaisyComponentBase
     protected static string GetSize(Sizes size) =>
         size switch
         {
-            Sizes.XS => "d-status-xs",
-            Sizes.SM => "d-status-sm",
-            Sizes.MD => "d-status-md",
-            Sizes.LG => "d-status-lg",
-            Sizes.XL => "d-status-xl",
-            _ => "d-status-md",
+            Sizes.XS => "tw:d-status-xs",
+            Sizes.SM => "tw:d-status-sm",
+            Sizes.MD => "tw:d-status-md",
+            Sizes.LG => "tw:d-status-lg",
+            Sizes.XL => "tw:d-status-xl",
+            _ => "tw:d-status-md",
         };
 
     [Parameter]
@@ -54,15 +54,15 @@ public partial class DaisyStatus : DaisyComponentBase
     protected static string GetColor(Colors color) =>
         color switch
         {
-            Colors.Neutral => "d-status-neutral",
-            Colors.Primary => "d-status-primary",
-            Colors.Secondary => "d-status-secondary",
-            Colors.Accent => "d-status-accent",
-            Colors.Info => "d-status-info",
-            Colors.Success => "d-status-success",
-            Colors.Warning => "d-status-warning",
-            Colors.Error => "d-status-error",
-            _ => "d-status-neutral",
+            Colors.Neutral => "tw:d-status-neutral",
+            Colors.Primary => "tw:d-status-primary",
+            Colors.Secondary => "tw:d-status-secondary",
+            Colors.Accent => "tw:d-status-accent",
+            Colors.Info => "tw:d-status-info",
+            Colors.Success => "tw:d-status-success",
+            Colors.Warning => "tw:d-status-warning",
+            Colors.Error => "tw:d-status-error",
+            _ => "tw:d-status-neutral",
         };
 
     [Parameter]

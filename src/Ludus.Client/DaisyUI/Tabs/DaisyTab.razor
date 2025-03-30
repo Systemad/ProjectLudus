@@ -1,5 +1,5 @@
-﻿<h3>DaisyTab</h3>
+﻿@inherits DaisyComponentBase
 
-@code {
-    
-}
+<a role="tab" class="tw:d-tab @Classes" @onclick="SelectActiveTab">
+    @Content
+</a>

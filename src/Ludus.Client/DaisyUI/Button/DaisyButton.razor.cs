@@ -4,7 +4,7 @@ namespace Ludus.Client.DaisyUI.Button;
 
 public partial class DaisyButton : DaisyComponentBase
 {
-    private static string Type = "d-btn";
+    private static string Type = "tw:d-btn";
 
     public enum Modifiers
     {
@@ -59,7 +59,7 @@ public partial class DaisyButton : DaisyComponentBase
     protected static string GetSize(Sizes size) =>
         size switch
         {
-            Sizes.XS => "d-btn-xs",
+            Sizes.XS => "tw:d-btn-xs",
             Sizes.SM => "d-btn-sm",
             Sizes.MD => "d-btn-md",
             Sizes.LG => "d-btn-lg",
@@ -73,14 +73,14 @@ public partial class DaisyButton : DaisyComponentBase
     protected static string GetColor(Colors color) =>
         color switch
         {
-            Colors.Neutral => "d-btn-neutral",
-            Colors.Primary => "d-btn-primary",
-            Colors.Secondary => "d-btn-secondary",
-            Colors.Accent => "d-btn-accent",
-            Colors.Info => "d-btn-info",
-            Colors.Success => "d-btn-success",
-            Colors.Warning => "d-btn-warning",
-            Colors.Error => "d-btn-error",
+            Colors.Neutral => "tw:d-btn-neutral",
+            Colors.Primary => "tw:d-btn-primary",
+            Colors.Secondary => "tw:d-btn-secondary",
+            Colors.Accent => "tw:d-btn-accent",
+            Colors.Info => "tw:d-btn-info",
+            Colors.Success => "tw:d-btn-success",
+            Colors.Warning => "tw:d-btn-warning",
+            Colors.Error => "tw:d-btn-error",
             _ => "d-btn-neutral",
         };
 
@@ -91,11 +91,11 @@ public partial class DaisyButton : DaisyComponentBase
         style switch
         {
             Variants.Default => "",
-            Variants.Outline => "d-btn-outline",
-            Variants.Dash => "d-btn-dash",
-            Variants.Soft => "d-btn-soft",
-            Variants.Ghost => "d-btn-ghost",
-            Variants.Link => "d-btn-link",
+            Variants.Outline => "tw:d-btn-outline",
+            Variants.Dash => "tw:d-btn-dash",
+            Variants.Soft => "tw:d-btn-soft",
+            Variants.Ghost => "tw:d-btn-ghost",
+            Variants.Link => "tw:d-btn-link",
             _ => "",
         };
 
@@ -106,8 +106,8 @@ public partial class DaisyButton : DaisyComponentBase
         behavior switch
         {
             Behaviors.Default => "",
-            Behaviors.Active => "d-btn-active",
-            Behaviors.Disabled => "d-btn-disabled",
+            Behaviors.Active => "tw:d-btn-active",
+            Behaviors.Disabled => "tw:d-btn-disabled",
             _ => "",
         };
 
@@ -117,11 +117,11 @@ public partial class DaisyButton : DaisyComponentBase
     protected static string GetModifier(Modifiers modifier) =>
         modifier switch
         {
-            Modifiers.None => "expr",
-            Modifiers.Wide => "d-btn-wide",
-            Modifiers.Block => "d-btn-block",
-            Modifiers.Square => "d-btn-square",
-            Modifiers.Circle => "d-btn-circle",
+            Modifiers.None => "",
+            Modifiers.Wide => "tw:d-btn-wide",
+            Modifiers.Block => "tw:d-btn-block",
+            Modifiers.Square => "tw:d-btn-square",
+            Modifiers.Circle => "tw:d-btn-circle",
             _ => "",
         };
 

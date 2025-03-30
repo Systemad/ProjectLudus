@@ -4,7 +4,7 @@ namespace Ludus.Client.DaisyUI.Badge;
 
 public partial class DaisyBadge : DaisyComponentBase
 {
-    private static string Type = "d-badge";
+    private static string Type = "tw:d-badge";
 
     public enum Modifiers
     {
@@ -51,11 +51,11 @@ public partial class DaisyBadge : DaisyComponentBase
     protected static string GetSize(Sizes size) =>
         size switch
         {
-            Sizes.XS => "d-badge-xs",
-            Sizes.SM => "d-badge-sm",
-            Sizes.MD => "d-badge-md",
-            Sizes.LG => "d-badge-lg",
-            Sizes.XL => "d-badge-xl",
+            Sizes.XS => "tw:d-badge-xs",
+            Sizes.SM => "tw:d-badge-sm",
+            Sizes.MD => "tw:d-badge-md",
+            Sizes.LG => "tw:d-badge-lg",
+            Sizes.XL => "tw:d-badge-xl",
             _ => "d-badge-md",
         };
 
@@ -65,15 +65,15 @@ public partial class DaisyBadge : DaisyComponentBase
     protected static string GetColor(Colors color) =>
         color switch
         {
-            Colors.Neutral => "d-badge-neutral",
-            Colors.Primary => "d-badge-primary",
-            Colors.Secondary => "d-badge-secondary",
-            Colors.Accent => "d-badge-accent",
-            Colors.Info => "d-badge-info",
-            Colors.Success => "d-badge-success",
-            Colors.Warning => "d-badge-warning",
-            Colors.Error => "d-badge-error",
-            _ => "d-badge-neutral",
+            Colors.Neutral => "tw:d-badge-neutral",
+            Colors.Primary => "tw:d-badge-primary",
+            Colors.Secondary => "tw:d-badge-secondary",
+            Colors.Accent => "tw:d-badge-accent",
+            Colors.Info => "tw:d-badge-info",
+            Colors.Success => "tw:d-badge-success",
+            Colors.Warning => "tw:d-badge-warning",
+            Colors.Error => "tw:d-badge-error",
+            _ => "tw:d-badge-neutral",
         };
 
     [Parameter]
@@ -83,10 +83,10 @@ public partial class DaisyBadge : DaisyComponentBase
         style switch
         {
             Variants.Default => "",
-            Variants.Outline => "d-badge-outline",
-            Variants.Dash => "d-badge-dash",
-            Variants.Soft => "d-badge-soft",
-            Variants.Ghost => "d-badge-ghost",
+            Variants.Outline => "tw:d-badge-outline",
+            Variants.Dash => "tw:d-badge-dash",
+            Variants.Soft => "tw:d-badge-soft",
+            Variants.Ghost => "tw:d-badge-ghost",
             _ => "",
         };
 
@@ -96,11 +96,11 @@ public partial class DaisyBadge : DaisyComponentBase
     protected static string GetModifier(Modifiers modifier) =>
         modifier switch
         {
-            Modifiers.None => "expr",
-            Modifiers.Wide => "d-badge-wide",
-            Modifiers.Block => "d-badge-block",
-            Modifiers.Square => "d-badge-square",
-            Modifiers.Circle => "d-badge-circle",
+            Modifiers.None => "",
+            Modifiers.Wide => "tw:d-badge-wide",
+            Modifiers.Block => "tw:d-badge-block",
+            Modifiers.Square => "tw:d-badge-square",
+            Modifiers.Circle => "tw:d-badge-circle",
             _ => "",
         };
 
