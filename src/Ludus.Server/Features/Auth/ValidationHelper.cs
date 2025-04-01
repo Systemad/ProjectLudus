@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using Ludus.Shared;
 using Ludus.Shared.Features.User;
+using Marten;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using Steam.Models.SteamCommunity;
 using SteamWebAPI2.Interfaces;
 using SteamWebAPI2.Utilities;
@@ -20,12 +20,15 @@ public class ValidationHelper
             throw new ArgumentNullException(nameof(context));
         }
 
-        using var db = new AppDbContext();
+        var services = context.HttpContext.RequestServices;
+        var userStore = services.GetRequiredService<IUserStore>();
+        await using var db = userStore.LightweightSession();
 
         var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
-        var user = await db.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await db.Query<Shared.Features.User.User>()
+            .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         if (user != null)
         {
@@ -55,7 +58,11 @@ public class ValidationHelper
             logger.LogError(e, "An exception occurated when downloading player summaries");
         }
 
-        user = new LudusUser() { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
+        user = new Shared.Features.User.User()
+        {
+            SteamId = steamId,
+            Role = RoleConstants.DefaultRoleId,
+        };
 
         if (playerSummary != null)
         {
@@ -66,13 +73,13 @@ public class ValidationHelper
                 var avatarContentBytes = await httpClient.GetByteArrayAsync(
                     playerSummary.AvatarFullUrl
                 );
-                var img = new LudusUserImage()
+                var img = new UserImage()
                 {
                     Name = "steam_avatar.jpg",
                     Content = avatarContentBytes,
                     ContentType = "image/jpeg",
                 };
-                user.LudusUserImage = img;
+                user.UserImage = img;
             }
             catch (Exception e)
             {
@@ -83,7 +90,7 @@ public class ValidationHelper
             }
         }
 
-        db.Users.Add(user);
+        db.Store(user);
         await db.SaveChangesAsync();
     }
 
@@ -93,8 +100,12 @@ public class ValidationHelper
             SteamIdStartIndex..
         ];
 
-        using var db = new AppDbContext();
-        var user = await db.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var services = context.HttpContext.RequestServices;
+        var userStore = services.GetRequiredService<IUserStore>();
+        await using var db = userStore.LightweightSession();
+
+        var user = await db.Query<Shared.Features.User.User>()
+            .FirstOrDefaultAsync(x => x.SteamId == steamId);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, steamId),

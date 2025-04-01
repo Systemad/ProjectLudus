@@ -19,7 +19,7 @@ public class SteamAuthProvider : AuthenticationStateProvider
         _httpClient = httpClient;
     }
 
-    private static IEnumerable<Claim> GetClaims(LudusUser userInfo)
+    private static IEnumerable<Claim> GetClaims(User userInfo)
     {
         return new[]
         {

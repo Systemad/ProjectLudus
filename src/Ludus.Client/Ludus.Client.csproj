@@ -11,6 +11,13 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.3" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.3" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.17.1" />
+		<PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.17.1" />
+		<PackageReference Include="MudBlazor" Version="8.5.0" />
 		<PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
 	</ItemGroup>
 
@@ -18,26 +25,25 @@
 		<ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
 	</ItemGroup>
 
-	<!-- Run the docs content generation command -->
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Klient\kiota-lock.json" />
+	</ItemGroup>
+
+	<!--
 	<Target Name="InstallTailwindCSS" AfterTargets="Build" Condition="!Exists('tailwindcss-extra.exe')">
 		<PropertyGroup>
-			<!-- Tailwind standalone CLI for Windows -->
 			<TailwindURL Condition="'$(OS)' == 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/latest/download/tailwindcss-extra-windows-x64.exe</TailwindURL>
 			<TailwindFile Condition="'$(OS)' == 'Windows_NT'">tailwindcss-extra-windows-x64.exe</TailwindFile>
 
-			<!-- Tailwind standalone CLI for Linux -->
 			<TailwindURL Condition="'$(OS)' != 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/latest/download/tailwindcss-extra-linux-x64</TailwindURL>
 			<TailwindFile Condition="'$(OS)' != 'Windows_NT'">tailwindcss-extra-linux-x64</TailwindFile>
 			
 		</PropertyGroup>
 
-		<!-- Download Tailwind standalone CLI -->
 		<Exec Command="curl -LO $(TailwindURL)" />
 
-		<!-- Rename a file for Windows -->
 		<Exec Command="ren $(TailwindFile) tailwindcss-extra.exe" Condition="'$(OS)' == 'Windows_NT'" />
 
-		<!-- Rename a file for Linux -->
 		<Exec Command="mv $(TailwindFile) tailwindcss-extra" Condition="'$(OS)' != 'Windows_NT'" />
 		<Exec Command="chmod +x tailwindcss-extra" Condition="'$(OS)' != 'Windows_NT'" />
 	</Target>
@@ -46,4 +52,5 @@
 		<Exec Command="tailwindcss-extra -i ./Styles/input.css -o ./wwwroot/css/output.css" Condition="'$(OS)' == 'Windows_NT'" />
 		<Exec Command="./tailwindcss-extra -i ./Styles/input.css -o ./wwwroot/css/output.css" Condition="'$(OS)' != 'Windows_NT'" />
 	</Target>
+	-->
 </Project>

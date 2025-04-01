@@ -14,7 +14,7 @@ public class AuthenticatedUserService
         _httpClient = httpClient;
     }
 
-    public LudusUser UserInfo { get; private set; }
+    public User UserInfo { get; private set; }
 
     public async Task InitializeAsync()
     {
@@ -26,7 +26,7 @@ public class AuthenticatedUserService
         HttpResponseMessage response = await _httpClient.GetAsync("/api/user/me");
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            var hey = await response.Content.ReadFromJsonAsync<LudusUser>();
+            var hey = await response.Content.ReadFromJsonAsync<User>();
             UserInfo = hey;
         }
     }

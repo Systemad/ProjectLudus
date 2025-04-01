@@ -1,50 +1,38 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ApiSdk;
+using ApiSdk.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
 public partial class Home : ComponentBase
 {
-    private string searchText = string.Empty;
-    private int currentPage = 1;
-    private int pageSize = 4;
-    private List<Card> cards;
+    public IReadOnlyCollection<string> SelectedValues = ["Milk", "Cafe Latte"];
+    public bool ReadOnly;
 
-    protected override void OnInitialized()
+    int _papers = 20;
+    public string TextValue { get; set; }
+
+    bool _expanded = true;
+
+    private void OnExpandCollapseClick()
     {
-        // Example card data
-        cards = new List<Card>
-        {
-            new Card { Title = "Card 1", Description = "Description for Card 1" },
-            new Card { Title = "Card 2", Description = "Description for Card 2" },
-            new Card { Title = "Card 3", Description = "Description for Card 3" },
-            new Card { Title = "Card 4", Description = "Description for Card 4" },
-            new Card { Title = "Card 5", Description = "Description for Card 5" },
-            new Card { Title = "Card 6", Description = "Description for Card 6" },
-            new Card { Title = "Card 7", Description = "Description for Card 7" },
-            new Card { Title = "Card 8", Description = "Description for Card 8" },
-        };
+        _expanded = !_expanded;
     }
 
-    private List<Card> filteredCards =>
-        cards
-            .Where(card =>
-                string.IsNullOrEmpty(searchText)
-                || card.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-            )
-            .Skip((currentPage - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+    public List<Game>? Games { get; set; }
 
-    private bool CanGoPrev => currentPage > 1;
-    private bool CanGoNext => (currentPage * pageSize) < cards.Count;
+    [Inject]
+    public ApiClient api { get; set; }
 
-    private void PrevPage() => currentPage--;
-
-    private void NextPage() => currentPage++;
-
-    public class Card
+    protected override async Task OnInitializedAsync()
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
+        var games = await api.Api.Games.Top.GetAsync(param =>
+        {
+            param.QueryParameters.PageNumber = 1;
+            param.QueryParameters.PageSize = 20;
+        });
+        Games = games;
+        //var games = await api.Api.Games.Top
+        await base.OnInitializedAsync();
     }
 }

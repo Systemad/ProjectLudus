@@ -2,18 +2,13 @@
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<PageTitle>Counter</PageTitle>
 
-<p role="status">Current count: @currentCount</p>
+<MudText Typo="Typo.h3" GutterBottom="true">Counter</MudText>
 
-<button class="d-btn d-btn-neutral">Neutral</button>
-<button class="d-btn d-btn-primary">Primary</button>
-<button class="d-btn d-btn-secondary">Secondary</button>
-<button class="d-btn d-btn-accent">Accent</button>
-<button class="d-btn d-btn-info">Info</button>
-<button class="d-btn d-btn-success">Success</button>
-<button class="d-btn d-btn-warning">Warning</button>
-<button class="d-btn d-btn-error">Error</button>
+<MudText Class="mb-4">Current count: @currentCount</MudText>
+
+<MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="IncrementCount">Click me</MudButton>
 
 @code {
     private int currentCount = 0;
@@ -22,4 +17,5 @@
     {
         currentCount++;
     }
+
 }

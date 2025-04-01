@@ -16,13 +16,19 @@ builder.Services.AddMarten(options =>
     }
 });
 
-builder.Services.AddHttpClient<DataSeeder>(client =>
-{
-    client.BaseAddress = new Uri("https://api.igdb.com/v4/");
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
+builder.Services.AddHttpClient(
+    "IGDB",
+    httpClient =>
+    {
+        httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
+        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    }
+);
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddSingleton<ITwitchAccessTokenService, TwitchAccessTokenService>();
+builder.Services.AddScoped<IDataSeeder, DataSeeder>();
 
 var app = builder.Build();
 
@@ -34,40 +40,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+using (var scope = app.Services.CreateScope()) // Creating a scope
 {
-    "Freezing",
-    "Bracing",
-    "Chilly",
-    "Cool",
-    "Mild",
-    "Warm",
-    "Balmy",
-    "Hot",
-    "Sweltering",
-    "Scorching",
-};
+    var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
-app.MapGet(
-        "/weatherforecast",
-        () =>
-        {
-            var forecast = Enumerable
-                .Range(1, 5)
-                .Select(index => new WeatherForecast(
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        }
-    )
-    .WithName("GetWeatherForecast");
+    await store.Advanced.Clean.CompletelyRemoveAllAsync();
+    await store.Advanced.Clean.DeleteAllDocumentsAsync();
+    await store.Advanced.Clean.DeleteAllEventDataAsync();
+
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<IDataSeeder>();
+    await dataSeeder.Seed();
+}
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

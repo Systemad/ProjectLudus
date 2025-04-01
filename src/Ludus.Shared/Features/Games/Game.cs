@@ -28,7 +28,7 @@ public partial class Game
 
     // conver into long list
     [JsonPropertyName("expansions")]
-    public List<Dlc> Expansions { get; set; }
+    public List<Expansion> Expansions { get; set; }
 
     [JsonPropertyName("first_release_date")]
     public long FirstReleaseDate { get; set; }
@@ -77,7 +77,7 @@ public partial class Game
 
     // conver into long list
     [JsonPropertyName("similar_games")]
-    public List<Dlc> SimilarGames { get; set; }
+    public List<SimilarGame> SimilarGames { get; set; }
 
     [JsonPropertyName("slug")]
     public string Slug { get; set; }
@@ -140,10 +140,19 @@ public partial class AgeRating
     public RatingCategory RatingCategory { get; set; }
 
     [JsonPropertyName("rating_content_descriptions")]
-    public List<ContentDescription> RatingContentDescriptions { get; set; }
+    public List<RatingContentDescriptions> RatingContentDescriptions { get; set; }
 }
 
 public partial class ContentDescription
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+
+    [JsonPropertyName("description")]
+    public string Description { get; set; }
+}
+
+public partial class RatingContentDescriptions
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -329,7 +338,19 @@ public partial class Cover
     public string Url { get; set; }
 }
 
+public partial class SimilarGame
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+}
+
 public partial class Dlc
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+}
+
+public partial class Expansion
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

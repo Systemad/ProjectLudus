@@ -1,128 +1,105 @@
 ﻿@page "/"
-@using Ludus.Client.DaisyUI.Button
-@using Ludus.Client.DaisyUI.Badge
-@using Ludus.Client.DaisyUI.Status
 
 <PageTitle>Home</PageTitle>
 
-<label class="tw:d-input">
-    <svg class="tw:h-[1em] tw:opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g></svg>
-    <input type="search" required placeholder="Search"/>
-</label>
+<MudContainer Class="mt-8" MaxWidth="MaxWidth.Large">
+    <div class="d-flex gap-8">
+        <MudStack Class="d-flex flex-column" Style="width: 25%">
+            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0" Style="height: fit-content; background: var(--mud-palette-background-gray)">
+                <MudStack Row="true">
+                    <MudButton OnClick="OnExpandCollapseClick" Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
+                </MudStack>
+                <MudCollapse Expanded="_expanded">
+                    <MudList T="string" @bind-SelectedValues="SelectedValues" SelectionMode="SelectionMode.MultiSelection"
+                             ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
+                        <MudListSubheader>
+                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        </MudListSubheader>
+                        <MudListItem Text="Milk"/>
+                        <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
+                    </MudList>
+                </MudCollapse>
+            </MudPaper>
 
-<div class="tw:flex tw:w-full">
-    <div class="tw:w-1/6 flex tw:flex-col tw:gap-4">
-        <div class="tw:w-full">
-            <ul class="tw:d-list tw:w-full  tw:bg-base-100 tw:rounded-box tw:shadow-md tw:flex">
+            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0" Style="height: fit-content; background: var(--mud-palette-background-gray)">
+                <MudStack Row="true">
+                    <MudButton OnClick="OnExpandCollapseClick" Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
+                </MudStack>
+                <MudCollapse Expanded="_expanded">
+                    <MudList T="string" @bind-SelectedValues="SelectedValues" SelectionMode="SelectionMode.MultiSelection"
+                             ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
+                        <MudListSubheader>
+                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                        </MudListSubheader>
+                        <MudListItem Text="Milk"/>
+                        <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
+                    </MudList>
+                </MudCollapse>
+            </MudPaper>
+        </MudStack>
 
-                <li class="tw:p-4 tw:pb-2 tw:text-lg  tracking-wide">Categories</li>
 
-                <li class="tw:d-list-row">
-                    <label class="tw:d-fieldset-label">
-                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
-                        Remember me
-                    </label>
-                </li>
+        <MudPaper Class="d-flex pa-4" Width="75%" Elevation="0">
+            <MudGrid Justify="Justify.FlexStart" Spacing="4">
+                @if (Games is not null)
+                {
+                    @foreach(var game in Games)
+                    {
+                        <MudItem xs="3">
+                            <MudCard Elevation="0" Class="expand-hover rounded-lg" Style="background: var(--mud-palette-background-gray); height: 100%">
+                                <MudCardMedia Image="img/co7n02.jpeg" Height="225" Class="object-fill"/>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h6">@game.Name</MudText>
+                                </MudCardContent>
+                                <MudCardActions Class="d-flex justify-space-between">
+                                    <MudIconButton Icon="@Icons.Material.Outlined.PlaylistAdd" Color="Color.Default"/>
+                                    <MudButton Variant="Variant.Filled" Class="rounded-lg" Color="Color.Tertiary" DropShadow="false">View</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </MudItem>
+                    }
+                    
+                    <MudItem xs="12" Class="d-flex justify-center">
+                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" Class="mt-4">
+                            Load more
+                        </MudButton>
+                    </MudItem>
+                }
+                else
+                {
+                    @for (int i = 0; i < _papers; i++)
+                    {
+                        <MudItem xs="3">
+                            <MudCard Elevation="0" Class="rounded-lg" Style="background: var(--mud-palette-background-gray); height: 100%">
+                                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
+                                <MudCardContent>
+                                    <MudSkeleton Width="30%" Height="42px;" />
+                                    <MudSkeleton Width="80%" />
+                                    <MudSkeleton Width="100%" />
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
+                                    <MudSkeleton Width="105px" Height="40px" Class="ml-3" />
+                                </MudCardActions>
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
 
-                <li class="tw:d-list-row">
-                    <label class="tw:d-fieldset-label">
-                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
-                        Remember me
-                    </label>
-                </li>
+            </MudGrid>
+        </MudPaper>
 
-                <li class="tw:d-list-row">
-                    <label class="tw:d-fieldset-label">
-                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
-                        Remember me
-                    </label>
-                </li>
-            </ul>
-        </div>
-
-        <div class="w-full">
-            <ul class="tw:d-list tw:w-full  tw:bg-base-100 tw:rounded-box tw:shadow-md tw:flex">
-
-                <li class="tw:p-4 tw:pb-2 tw:text-lg tracking-wide">Platform</li>
-
-                <li class="tw:d-list-row">
-                    <label class="tw:d-fieldset-label">
-                        <input type="checkbox" checked="checked" class="tw:d-checkbox"/>
-                        Remember me
-                    </label>
-                </li>
-            </ul>
-        </div>
     </div>
+</MudContainer>
 
-
-    <div class="tw:grid tw:grid-cols-1 tw:sm:grid-cols-2 tw:lg:grid-cols-4 tw:xl:grid-cols-5 tw:gap-4 tw:px-4 tw:py-4 rw:w-5/6">
-        @for (var i = 0; i < 10; i++)
-        {
-            <div class="tw:d-card tw:bg-base-100 tw:w-96 tw:shadow-sm">
-                <figure>
-                    <img
-                        src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                        alt="Shoes" />
-                </figure>
-                <div class="tw:d-card-body">
-                    <h2 class="tw:d-card-title">Card Title</h2>
-                    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
-                    <div class="tw:d-card-actions tw:justify-end">
-                        <button class="tw:d-btn tw:d-btn-primary">Buy Now</button>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
-
-
-<!-- Search Input
-<input type="text" class="border p-2 rounded mb-4" placeholder="Search..." @bind="searchText" />
--->
-<!-- Card Grid
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    @foreach (var card in filteredCards)
-    {
-        <div class="border p-4 rounded-lg shadow-md">
-            <h3 class="font-semibold text-lg">@card.Title</h3>
-            <p class="text-sm text-gray-600">@card.Description</p>
-        </div>
+<style>
+    .expand-hover {
+        transition: all .2s ease-in-out;
     }
-</div>
--->
-<!-- Pagination
-<div class="flex justify-center mt-4">
-    <button class="border px-4 py-2 rounded" @onclick="PrevPage" disabled="@(!CanGoPrev)">Previous</button>
-    <button class="border px-4 py-2 rounded" @onclick="NextPage" disabled="@(!CanGoNext)">Next</button>
-</div>
--->
-<!--
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="bg-white p-4 shadow-md rounded-lg">
-        <h3 class="text-xl font-semibold">Card 1</h3>
-        <p>Some content here.</p>
-    </div>
-
-    <div class="bg-white p-4 shadow-md rounded-lg">
-        <h3 class="text-xl font-semibold">Card 2</h3>
-        <p>Some content here.</p>
-    </div>
-
-    <div class="bg-white p-4 shadow-md rounded-lg">
-        <h3 class="text-xl font-semibold">Card 3</h3>
-        <p>Some content here.</p>
-    </div>
-
-    <div class="bg-white p-4 shadow-md rounded-lg">
-        <h3 class="text-xl font-semibold">Card 4</h3>
-        <p>Some content here.</p>
-    </div>
-
-</div>
-
--->
+    .expand-hover:hover {
+        transform: scale(1.02);
+    }
+</style>
 <!--
 <AuthorizeView>
     <NotAuthorized>
