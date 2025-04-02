@@ -1,5 +1,4 @@
-﻿using Ludus.Shared;
-using Ludus.Shared.Features.Games;
+﻿using Ludus.Shared.Features.Games;
 using Marten;
 using Marten.Pagination;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -13,9 +12,9 @@ public static class GameEndpoints
     {
         var group = routes.MapGroup("api/games").WithTags("Games").WithOpenApi();
 
-        group.MapPost("/", GetGamesByIds);
-        group.MapPost("/{id:long}", GetGamesById);
-        group.MapGet("/top", GetRatedGames);
+        group.MapPost("/", GetGamesByIds).Produces<List<Game>>();
+        group.MapPost("/{id:long}", GetGamesById).Produces<List<Game>>();
+        group.MapGet("/top", GetRatedGames).Produces<List<Game>>(StatusCodes.Status200OK);
         return group;
     }
 
@@ -40,7 +39,7 @@ public static class GameEndpoints
         return TypedResults.Ok(game);
     }
 
-    private static async Task<Results<Ok<List<Game>>, NotFound>> GetRatedGames(
+    private static async Task<IResult> GetRatedGames(
         [FromServices] IQuerySession session,
         int pageNumber = 1,
         int pageSize = 20
@@ -50,9 +49,8 @@ public static class GameEndpoints
             .Query<Game>()
             .OrderByDescending(g => g.RatingCount)
             .ToPagedListAsync(pageNumber, pageSize);
-        if (!games.Any())
-            TypedResults.NotFound();
 
-        return TypedResults.Ok(games.ToList());
+        var gamesList = games.ToList();
+        return TypedResults.Ok(gamesList);
     }
 }

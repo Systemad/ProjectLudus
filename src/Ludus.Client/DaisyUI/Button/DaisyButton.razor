@@ -1,0 +1,9 @@
+﻿@inherits DaisyComponentBase;
+
+<button class="@Classes" @attributes="@AdditionalAttributes" disabled="@Disabled">
+    @if (IsLoading)
+    {
+        <span class="tw:d-loading tw:d-loading-spinner"></span>
+    }
+    @ChildContent
+</button>

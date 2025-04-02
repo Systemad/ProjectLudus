@@ -1,8 +1,4 @@
-﻿@import "tailwindcss";
-
-/*
-@import "tailwindcss" source(none);
- */
+﻿@import "tailwindcss" prefix(tw);
 @plugin "daisyui" {
     themes: cupcake --default, lemonade;
     prefix: "d-";

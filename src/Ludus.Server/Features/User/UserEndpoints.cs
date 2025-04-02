@@ -1,11 +1,10 @@
 ﻿using System.Security.Claims;
-using Ludus.Shared;
 using Ludus.Shared.Features.Games;
 using Ludus.Shared.Features.User;
 using Ludus.Shared.Features.User.DTOs;
+using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Ludus.Server.Features.User;
 
@@ -20,15 +19,15 @@ public static class UserEndpoints
         return group;
     }
 
-    private static async Task<Results<Ok<LudusUser>, UnauthorizedHttpResult>> MeAsync(
-        AppDbContext db,
-        ClaimsPrincipal user
-    )
+    private static async Task<
+        Results<Ok<Shared.Features.User.User>, UnauthorizedHttpResult>
+    > MeAsync(IUserStore db, ClaimsPrincipal user)
     {
         if (user.Identity?.IsAuthenticated ?? false)
         {
-            var ludusUser = await db.Users.FirstOrDefaultAsync(u =>
-                u.Id == int.Parse(user.Identity.Name)
+            await using var session = db.QuerySession();
+            var ludusUser = await session.LoadAsync<Shared.Features.User.User>(
+                int.Parse(user.Identity.Name)
             );
             return TypedResults.Ok(ludusUser);
         }
@@ -37,32 +36,36 @@ public static class UserEndpoints
     }
 
     private static async Task<IResult> UpdateGameStatusAsync(
-        AppDbContext db,
+        IUserStore db,
         ClaimsPrincipal user,
         [FromBody] UpdateGameStatus status
     )
     {
+        await using var session = db.LightweightSession();
+
         int userId = int.Parse(user.Identity.Name);
-        var dbStatus = await db.UserGameStatus.FirstOrDefaultAsync(ug =>
-            ug.Id == userId && ug.GameId == status.GameId
-        );
-        if (dbStatus is not null)
+
+        var dbStatus = await session
+            .Query<UserGameStatus>()
+            .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == status.GameId);
+
+        if (dbStatus is null)
         {
-            dbStatus.Status = status.GameStatus;
+            var userGameStatus = new UserGameStatus
+            {
+                UserId = userId,
+                GameId = status.GameId,
+                Status = status.GameStatus,
+            };
+
+            session.Store(userGameStatus);
         }
         else
         {
-            db.UserGameStatus.Add(
-                new UserGameStatus
-                {
-                    LudusUserId = userId,
-                    GameId = status.GameId,
-                    Status = status.GameStatus,
-                }
-            );
+            dbStatus.Status = status.GameStatus;
         }
 
-        await db.SaveChangesAsync();
+        await session.SaveChangesAsync();
         return TypedResults.Ok();
     }
 }

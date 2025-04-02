@@ -7,20 +7,23 @@ using Marten;
 namespace Ludus.Service;
 
 public class DataSeeder(
-    HttpClient client,
+    IHttpClientFactory httpClientFactory,
     IDocumentSession session,
-    TwitchAccessTokenService accessTokenService
-) : IDisposable
+    ITwitchAccessTokenService accessTokenService
+) : IDataSeeder, IDisposable
 {
+    private HttpClient _client;
+
     public async Task Seed()
     {
-        TwitchOptions options = accessTokenService.GetCredentials();
-        var httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
-        httpClient.DefaultRequestHeaders.Add("Client-ID", options.ClientId);
-        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer ");
+        _client = httpClientFactory.CreateClient("IGDB");
+        _client.DefaultRequestHeaders.Add(
+            "Client-ID",
+            "" /*options.ClientId*/
+        );
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
 
-        var response = await httpClient.PostAsync("games/count", null);
+        var response = await _client.PostAsync("games/count", null);
         var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
 
         int maxItemsPerIteration = 500;
@@ -48,7 +51,7 @@ public class DataSeeder(
         using var request = new HttpRequestMessage(HttpMethod.Post, "games");
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await client.SendAsync(request);
+        var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var games = await response.Content.ReadFromJsonAsync<List<Game>>();
@@ -59,5 +62,5 @@ public class DataSeeder(
         await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.OverwriteExisting);
     }
 
-    public void Dispose() => client.Dispose();
+    public void Dispose() => _client.Dispose();
 }

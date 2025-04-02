@@ -1,4 +1,4 @@
-using Ludus.Server;
+using Ludus.Server.Features;
 using Ludus.Server.Features.Auth;
 using Ludus.Server.Features.Games;
 using Ludus.Server.Features.User;
@@ -10,18 +10,36 @@ using Weasel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMarten(options =>
-{
-    options.Connection("host=localhost:5432;database=gamingdb;password=Compaq2009;username=dan1");
-    options.UseSystemTextJsonForSerialization();
-    if (builder.Environment.IsDevelopment())
+builder
+    .Services.AddMarten(options =>
     {
-        options.AutoCreateSchemaObjects = AutoCreate.All;
-    }
-    //options.Schema.For<Game>().Index(x => x.RatingCount);
-});
+        options.Connection(
+            "host=localhost:5432;database=gamingdb;password=Compaq2009;username=dan1"
+        );
+        options.UseSystemTextJsonForSerialization();
+        if (builder.Environment.IsDevelopment())
+        {
+            options.AutoCreateSchemaObjects = AutoCreate.All;
+        }
+        //options.Schema.For<Game>().Index(x => x.RatingCount);
+    })
+    .OptimizeArtifactWorkflow()
+    .InitializeWith();
 
-builder.Services.AddDbContext<AppDbContext>();
+builder
+    .Services.AddMartenStore<IUserStore>(options =>
+    {
+        options.Connection("host=localhost:5432;database=userdb;password=Compaq2009;username=dan1");
+        options.UseSystemTextJsonForSerialization();
+        if (builder.Environment.IsDevelopment())
+        {
+            options.AutoCreateSchemaObjects = AutoCreate.All;
+        }
+        //options.Schema.For<Game>().Index(x => x.RatingCount);
+    })
+    .OptimizeArtifactWorkflow()
+    .InitializeWith();
+
 builder
     .Services.AddAuthentication(options =>
     {
