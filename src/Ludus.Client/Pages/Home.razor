@@ -5,15 +5,19 @@
 <MudContainer Class="mt-8" MaxWidth="MaxWidth.Large">
     <div class="d-flex gap-8">
         <MudStack Class="d-flex flex-column" Style="width: 25%">
-            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0" Style="height: fit-content; background: var(--mud-palette-background-gray)">
+            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0"
+                      Style="height: fit-content; background: var(--mud-palette-background-gray)">
                 <MudStack Row="true">
-                    <MudButton OnClick="OnExpandCollapseClick" Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
+                    <MudButton OnClick="OnExpandCollapseClick"
+                               Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
                 </MudStack>
                 <MudCollapse Expanded="_expanded">
-                    <MudList T="string" @bind-SelectedValues="SelectedValues" SelectionMode="SelectionMode.MultiSelection"
+                    <MudList T="string" @bind-SelectedValues="SelectedValues"
+                             SelectionMode="SelectionMode.MultiSelection"
                              ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
                         <MudListSubheader>
-                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined"
+                                          Margin="Margin.Dense"></MudTextField>
                         </MudListSubheader>
                         <MudListItem Text="Milk"/>
                         <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
@@ -21,15 +25,19 @@
                 </MudCollapse>
             </MudPaper>
 
-            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0" Style="height: fit-content; background: var(--mud-palette-background-gray)">
+            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0"
+                      Style="height: fit-content; background: var(--mud-palette-background-gray)">
                 <MudStack Row="true">
-                    <MudButton OnClick="OnExpandCollapseClick" Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
+                    <MudButton OnClick="OnExpandCollapseClick"
+                               Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
                 </MudStack>
                 <MudCollapse Expanded="_expanded">
-                    <MudList T="string" @bind-SelectedValues="SelectedValues" SelectionMode="SelectionMode.MultiSelection"
+                    <MudList T="string" @bind-SelectedValues="SelectedValues"
+                             SelectionMode="SelectionMode.MultiSelection"
                              ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
                         <MudListSubheader>
-                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined" Margin="Margin.Dense"></MudTextField>
+                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined"
+                                          Margin="Margin.Dense"></MudTextField>
                         </MudListSubheader>
                         <MudListItem Text="Milk"/>
                         <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
@@ -43,24 +51,33 @@
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
                 @if (Games is not null)
                 {
-                    @foreach(var game in Games)
+                    @foreach (var game in Games)
                     {
-                        <MudItem xs="3">
-                            <MudCard Elevation="0" Class="expand-hover rounded-lg" Style="background: var(--mud-palette-background-gray); height: 100%">
-                                <MudCardMedia Image="img/co7n02.jpeg" Height="225" Class="object-fill"/>
+                        <MudItem xs="12" sm="6" lg="3">
+                            <MudCard Elevation="0" Class="expand-hover rounded-lg"
+                                     Style="background: var(--mud-palette-background-gray); height: 100%">
+                                <div class="relative">
+                                    <MudCardMedia Image="img/co7n02.jpeg" Height="225" Class="object-fill"/>
+                                    <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small"
+                                                   Color="Color.Info"
+                                                   Variant="Variant.Filled"
+                                                   Class="absolute z-2 rounded-lg"
+                                                   Style="top: 8px; right: 8px; "/>
+                                    <MudPopover Class="pa-4" RelativeWidth="DropdownWidth.Relative" AnchorOrigin="Origin.BottomRight" Fixed="true" Open="false">
+                                         
+                                    </MudPopover>
+                                </div>
+
                                 <MudCardContent>
-                                    <MudText Typo="Typo.h6">@game.Name</MudText>
+                                    <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium">@game.Name</MudTextM3>
                                 </MudCardContent>
-                                <MudCardActions Class="d-flex justify-space-between">
-                                    <MudIconButton Icon="@Icons.Material.Outlined.PlaylistAdd" Color="Color.Default"/>
-                                    <MudButton Variant="Variant.Filled" Class="rounded-lg" Color="Color.Tertiary" DropShadow="false">View</MudButton>
-                                </MudCardActions>
                             </MudCard>
                         </MudItem>
                     }
-                    
+
                     <MudItem xs="12" Class="d-flex justify-center">
-                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary" Size="Size.Large" Class="mt-4">
+                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary"
+                                   Size="Size.Large" Class="mt-4">
                             Load more
                         </MudButton>
                     </MudItem>
@@ -70,16 +87,17 @@
                     @for (int i = 0; i < _papers; i++)
                     {
                         <MudItem xs="3">
-                            <MudCard Elevation="0" Class="rounded-lg" Style="background: var(--mud-palette-background-gray); height: 100%">
+                            <MudCard Elevation="0" Class="rounded-lg"
+                                     Style="background: var(--mud-palette-background-gray); height: 100%">
                                 <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
                                 <MudCardContent>
-                                    <MudSkeleton Width="30%" Height="42px;" />
-                                    <MudSkeleton Width="80%" />
-                                    <MudSkeleton Width="100%" />
+                                    <MudSkeleton Width="30%" Height="42px;"/>
+                                    <MudSkeleton Width="80%"/>
+                                    <MudSkeleton Width="100%"/>
                                 </MudCardContent>
                                 <MudCardActions>
-                                    <MudSkeleton Width="64px" Height="40px" Class="ml-2" />
-                                    <MudSkeleton Width="105px" Height="40px" Class="ml-3" />
+                                    <MudSkeleton Width="64px" Height="40px" Class="ml-2"/>
+                                    <MudSkeleton Width="105px" Height="40px" Class="ml-3"/>
                                 </MudCardActions>
                             </MudCard>
                         </MudItem>
@@ -93,11 +111,19 @@
 </MudContainer>
 
 <style>
-    .expand-hover {
-        transition: all .2s ease-in-out;
+    .truncateexpand-hover {
+        transition: all .3s ease-in-out;
     }
+
     .expand-hover:hover {
         transform: scale(1.02);
+    }
+
+    .truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
     }
 </style>
 <!--

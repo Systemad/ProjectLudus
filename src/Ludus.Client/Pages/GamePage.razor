@@ -1,3 +1,123 @@
-﻿@page "/games/{gameId}"
-<h3>Game</h3>
+﻿@page "/games/{Id:long}"
+
+<MudContainer Class="mt-12" MaxWidth="MaxWidth.Large">
+    <MudGrid Class="w-full h-full" Spacing="12">
+
+        <MudItem xs="12" md="7" sm="7">
+            <MudStack Spacing="6">
+
+                <!-- Image gallery -->
+                <MudCarousel Style="aspect-ratio: 16 / 9; width: 100%" ShowArrows="true" ShowBullets="true"
+                             AutoCycle="false"
+                             TData="object">
+                    <MudCarouselItem Color="@Color.Primary">
+                        <MudImage ObjectFit="ObjectFit.ScaleDown" Fluid="true" Class="mud-width-full mud-height-full"
+                                  Src="img/scaewv.webp"
+                                  Alt="Swedish Farm House"/>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem Color="@Color.Secondary">
+                        <MudImage ObjectFit="ObjectFit.ScaleDown" Fluid="true" Class="mud-width-full mud-height-full"
+                                  Src="img/scaewv.webp"
+                                  Alt="Swedish Farm House"/>
+                    </MudCarouselItem>
+
+                    <MudCarouselItem>
+                        <MudImage ObjectFit="ObjectFit.ScaleDown" Fluid="true" Class="mud-width-full mud-height-full"
+                                  Src="img/scaewv.webp"
+                                  Alt="Swedish Farm House"/>
+                    </MudCarouselItem>
+                </MudCarousel>
+
+                <!-- General information -->
+                <MudPaper Class="pa-4 rounded-lg mud-width-full mud-height-full"
+                          Style="background: var(--mud-palette-background-gray)"
+                          Height="10rem" Outlined="false" Elevation="0">
+                    <MudTextM3 Typo="TypoM3.Headline" Size="Size.Medium">Your content here</MudTextM3>
+                </MudPaper>
+            </MudStack>
+        </MudItem>
+
+        <!-- Side cards -->
+        <MudItem xs="12" md="5" sm="5">
+            <MudStack>
+                <MudExpansionPanels Outlined="false" Elevation="0" MultiExpansion="true">
+                    <MudExpansionPanel Expanded="true" Style="background: var(--mud-palette-background-gray)">
+                        <TitleContent>
+                            <MudStack Row="true" Spacing="2">
+                                <MudIcon Icon="@Icons.Material.Filled.Info"></MudIcon>
+                                <MudTextM3 Typo="TypoM3.Title" Size="Size.Large">Platforms</MudTextM3>
+                            </MudStack>
+                        </TitleContent>
+
+                        <ChildContent>
+                            <MudGrid Justify="Justify.FlexStart" Spacing="4">
+                                <MudItem xs="3">
+                                    <MudPaper
+                                        Class="rounded-lg pa-0 relative overflow-hidden" Elevation="0">
+
+                                        <MudIcon Icon="@Icons.Material.Filled.Favorite"
+                                                 Class="mud-width-full mud-height-full object-cover "
+                                                 Style="opacity: 0.8;"/>
+
+                                        <div class="absolute z-1"
+                                             style="inset: 0; background-color: rgba(0, 0, 0, 0.5);"></div>
+
+                                        <MudPaper
+                                            Style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: transparent;"
+                                            Class="pa-2 mx-auto absolute z-2"
+                                            Elevation="0">
+                                            <MudTextM3 Typo="TypoM3.Headline" Size="Size.Medium" Style="color: white;">
+                                                Xbox
+                                            </MudTextM3>
+                                        </MudPaper>
+                                    </MudPaper>
+                                </MudItem>
+                            </MudGrid>
+                        </ChildContent>
+
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="Panel One" Style="background: var(--mud-palette-background-gray)">
+                        <TitleContent>
+                            <div class="d-flex">
+                                <MudIcon Icon="@Icons.Material.Filled.Info" class="mr-3"></MudIcon>
+                                <MudText>Panel header as <strong>RenderFragment</strong></MudText>
+                            </div>
+                        </TitleContent>
+
+                        <ChildContent>
+                            <MudGrid Justify="Justify.FlexStart" Spacing="4">
+                                <MudItem xs="3">
+                                    <MudPaper
+                                        Class="rounded-lg pa-0 relative overflow-hidden" Elevation="0">
+
+                                        <MudIcon Icon="@Icons.Material.Filled.Favorite"
+                                                 Class="mud-width-full mud-height-full object-cover "
+                                                 Style="opacity: 0.8;"/>
+
+                                        <div class="absolute z-1"
+                                             style="inset: 0; background-color: rgba(0, 0, 0, 0.5);"></div>
+
+                                        <MudPaper
+                                            Style="top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: transparent;"
+                                            Class="pa-2 mx-auto absolute z-2"
+                                            Elevation="0">
+                                            <MudTextM3 Typo="TypoM3.Headline" Size="Size.Medium" Style="color: white;">
+                                                Xbox
+                                            </MudTextM3>
+                                        </MudPaper>
+                                    </MudPaper>
+                                </MudItem>
+                            </MudGrid>
+                        </ChildContent>
+
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+
+            </MudStack>
+        </MudItem>
+    </MudGrid>
+
+</MudContainer>
 

@@ -7,6 +7,7 @@ using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using MudBlazor;
 using MudBlazor.Services;
+using MudExtensions.Services;
 using TailwindMerge.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -25,7 +26,7 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.ShowTransitionDuration = 500;
     config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
-
+builder.Services.AddMudExtensions();
 builder.Services.AddScoped(sp => new HttpClient
 {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
