@@ -1,13 +1,22 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using ApiSdk.Models;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Ludus.Client.Layout;
 
 public partial class MainLayout : LayoutComponentBase
 {
+    [Inject]
+    public AuthenticatedUserService UserService { get; set; }
     private bool _drawerOpen = true;
     private bool _isDarkMode = false;
     private MudTheme? _theme = null;
+
+    public string GetImageSrc(string contentType, byte[] content)
+    {
+        var base64 = Convert.ToBase64String(content);
+        return $"data:{contentType};base64,{base64}";
+    }
 
     protected override void OnInitialized()
     {

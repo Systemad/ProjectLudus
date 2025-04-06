@@ -30,15 +30,37 @@
             <MudSpacer/>
             <MudDivider DividerType="DividerType.Middle"/>
             <MudPaper Class="pa-2" Elevation="0">
-                <MudStack Row="true">
-                    <MudAvatar Size="Size.Large" Rounded="true">
-                        <MudImage Src="img/scaewv.webp"></MudImage>
-                    </MudAvatar>
-                    <MudStack Justify="Justify.Center" Spacing="0">
-                        <MudText Typo="Typo.body1">Username</MudText>
-                        <MudText Typo="Typo.body2">Something else</MudText>
-                    </MudStack>
-                </MudStack>
+                
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <a href="/signin">
+                            <img src="/img/sits_small.png"/>
+                        </a>
+                    </NotAuthorized>
+    
+                    <Authorized>
+                        
+                        <MudStack Row="true">
+                            <MudAvatar Size="Size.Large" Rounded="true">
+                                <MudImage Src="@GetImageSrc(@UserService.UserInfo.UserImage.ContentType, UserService.UserInfo.UserImage.Content)"></MudImage>
+                            </MudAvatar>
+                            <MudStack Justify="Justify.Center" Spacing="0">
+                                <MudText Typo="Typo.body1">@UserService.UserInfo.Name</MudText>
+                                <MudLink Href="/logout">Logout</MudLink>
+                            <!--
+                                <MudText Typo="Typo.body2">Logout</MudText>
+                            -->
+                            </MudStack>
+                        </MudStack>
+                    <!--
+                        @context.User.FindFirst(ClaimTypes.NameIdentifier).Value
+
+                        <a href="/logout">Sign Out</a>
+-->
+                    </Authorized>
+                </AuthorizeView>
+                
+
             </MudPaper>
         </MudStack>
     </MudDrawer>

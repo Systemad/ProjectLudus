@@ -1,22 +1,23 @@
-﻿<MudNavMenu Class="pa-2">
+﻿<MudNavMenu Rounded="true" Class="pa-2">
+    <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Class="px-2">My Games</MudTextM3>
     <MudNavLink Href="backlog" Match="NavLinkMatch.Prefix">
         <MudStack Row="true">
             <MudBadge Elevation="0" Bordered="false" Color="Color.Error" Origin="Origin.CenterLeft"/>
-            <MudTextM3 Typo="TypoM3.Label">Backlog</MudTextM3>
+            <MudText Typo="Typo.body2">Backlog</MudText>
         </MudStack>
     </MudNavLink>
 
     <MudNavLink Href="playing" Match="NavLinkMatch.Prefix">
         <MudStack Row="true">
             <MudBadge Elevation="0" Bordered="false" Color="Color.Info" Origin="Origin.CenterLeft"/>
-            <MudTextM3 Typo="TypoM3.Label">Currently Playing</MudTextM3>
+            <MudText Typo="Typo.body2">Currently Playing</MudText>
         </MudStack>
     </MudNavLink>
 
     <MudNavLink Href="completed" Match="NavLinkMatch.Prefix">
         <MudStack Row="true">
             <MudBadge Elevation="0" Bordered="false" Color="Color.Success" Origin="Origin.CenterLeft"/>
-            <MudTextM3 Typo="TypoM3.Label">Completed</MudTextM3>
+            <MudText Typo="Typo.body2">Completed</MudText>
         </MudStack>
     </MudNavLink>
 

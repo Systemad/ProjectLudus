@@ -1,0 +1,59 @@
+﻿<MudCard Elevation="0" Class="expand-hover rounded-lg"
+         Style="background: var(--mud-palette-background-gray); height: 100%">
+    <div class="relative">
+        <MudCardMedia Image="img/co7n02.jpeg" Height="220" Class="object-fill"/>
+
+        <MudMenu @bind-Open="_open" Dense="true" Class="absolute z-2" Style="top: 8px; right: 8px;">
+            <ActivatorContent>
+                <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd"
+                               Size="Size.Small"
+                               Color="Color.Info"
+                               Variant="Variant.Filled"
+                               Class="rounded-lg"
+                               OnClick="OnOpen"
+                />
+            </ActivatorContent>
+
+            <ChildContent>
+                <MudMenu Dense="true" Label="Mark as">
+                    <MudMenuItem>
+                        <MudStack Row="true" Class="ml-3">
+                            <MudBadge Elevation="0" Bordered="false" Color="Color.Error" Origin="Origin.CenterLeft"/>
+                            <MudText Typo="Typo.body2">Backlog</MudText>
+                        </MudStack>
+                    </MudMenuItem>
+                    <MudMenuItem>
+                        <MudStack Row="true" Class="ml-3">
+                            <MudBadge Elevation="0" Bordered="false" Color="Color.Info" Origin="Origin.CenterLeft"/>
+                            <MudText Typo="Typo.body2">Currently Playing</MudText>
+                        </MudStack>
+                    </MudMenuItem>
+                    <MudMenuItem>
+                        <MudStack Row="true" Class="ml-3">
+                            <MudBadge Elevation="0" Bordered="false" Color="Color.Success" Origin="Origin.CenterLeft"/>
+                            <MudText Typo="Typo.body2">Completed</MudText>
+                        </MudStack>
+                    </MudMenuItem>
+                </MudMenu>
+                <MudMenuItem Icon="@Icons.Material.Filled.List" IconColor="Color.Secondary" Label="Add to list"/>
+                <MudDivider/>
+            </ChildContent>
+        </MudMenu>
+
+        <!--
+        <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small"
+                       Color="Color.Info"
+                       Variant="Variant.Filled"
+                       Class="absolute z-2 rounded-lg"
+                       Style="top: 8px; right: 8px; "
+                       OnClick="ToggleOpen"/>
+        <MudPopover Class="pa-4" RelativeWidth="DropdownWidth.Relative" AnchorOrigin="Origin.TopRight" Fixed="true" Open="@_open">
+                                         
+        </MudPopover>
+        -->
+    </div>
+
+    <MudCardContent>
+        <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium">@Game.Name</MudTextM3>
+    </MudCardContent>
+</MudCard>

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Ludus.Client.Features.Games.Components
 
 <PageTitle>Home</PageTitle>
 
@@ -54,24 +55,7 @@
                     @foreach (var game in Games)
                     {
                         <MudItem xs="12" sm="6" lg="3">
-                            <MudCard Elevation="0" Class="expand-hover rounded-lg"
-                                     Style="background: var(--mud-palette-background-gray); height: 100%">
-                                <div class="relative">
-                                    <MudCardMedia Image="img/co7n02.jpeg" Height="225" Class="object-fill"/>
-                                    <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small"
-                                                   Color="Color.Info"
-                                                   Variant="Variant.Filled"
-                                                   Class="absolute z-2 rounded-lg"
-                                                   Style="top: 8px; right: 8px; "/>
-                                    <MudPopover Class="pa-4" RelativeWidth="DropdownWidth.Relative" AnchorOrigin="Origin.BottomRight" Fixed="true" Open="false">
-                                         
-                                    </MudPopover>
-                                </div>
-
-                                <MudCardContent>
-                                    <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium">@game.Name</MudTextM3>
-                                </MudCardContent>
-                            </MudCard>
+                            <GameCard Game="@game"/>
                         </MudItem>
                     }
 

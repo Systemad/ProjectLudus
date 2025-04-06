@@ -1,7 +1,19 @@
-﻿<MudNavMenu Class="pa-2">
+﻿<MudNavMenu Rounded="true" Class="pa-2">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudDivider DividerType="DividerType.Middle" /> 
-    <MudNavLink Href="games" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Games">All games</MudNavLink>
-    <MudNavLink Href="counter" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.VideogameAsset">Platforms</MudNavLink>
-    <MudNavLink Href="weather" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Genres</MudNavLink>
+    <MudNavLink Href="games" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Games">
+        <MudText Typo="Typo.body2">
+            All games
+        </MudText>
+    </MudNavLink>
+    <MudNavLink Href="platform" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.VideogameAsset">
+        <MudText Typo="Typo.body2">
+            Platforms
+        </MudText>
+    </MudNavLink>
+    <MudNavLink Href="genres" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">
+        <MudText Typo="Typo.body2">
+            Genres
+        </MudText>
+    </MudNavLink>
 </MudNavMenu>
