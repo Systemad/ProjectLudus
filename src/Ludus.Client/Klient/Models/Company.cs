@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -37,21 +37,21 @@ namespace ApiSdk.Models
         /// <summary>The status property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.AlternativeName? Status { get; set; }
+        public global::Ludus.Client.Models.AlternativeName? Status { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.AlternativeName Status { get; set; }
+        public global::Ludus.Client.Models.AlternativeName Status { get; set; }
 #endif
         /// <summary>The websites property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.CompanyWebsite>? Websites { get; set; }
+        public List<global::Ludus.Client.Models.CompanyWebsite>? Websites { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.CompanyWebsite> Websites { get; set; }
+        public List<global::Ludus.Client.Models.CompanyWebsite> Websites { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.Company"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.Company"/> and sets the default values.
         /// </summary>
         public Company()
         {
@@ -60,12 +60,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.Company"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.Company"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.Company CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.Company CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.Company();
+            return new global::Ludus.Client.Models.Company();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -79,8 +79,8 @@ namespace ApiSdk.Models
                 { "id", n => { Id = n.GetLongValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "slug", n => { Slug = n.GetStringValue(); } },
-                { "status", n => { Status = n.GetObjectValue<global::ApiSdk.Models.AlternativeName>(global::ApiSdk.Models.AlternativeName.CreateFromDiscriminatorValue); } },
-                { "websites", n => { Websites = n.GetCollectionOfObjectValues<global::ApiSdk.Models.CompanyWebsite>(global::ApiSdk.Models.CompanyWebsite.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "status", n => { Status = n.GetObjectValue<global::Ludus.Client.Models.AlternativeName>(global::Ludus.Client.Models.AlternativeName.CreateFromDiscriminatorValue); } },
+                { "websites", n => { Websites = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.CompanyWebsite>(global::Ludus.Client.Models.CompanyWebsite.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -94,8 +94,8 @@ namespace ApiSdk.Models
             writer.WriteLongValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("slug", Slug);
-            writer.WriteObjectValue<global::ApiSdk.Models.AlternativeName>("status", Status);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.CompanyWebsite>("websites", Websites);
+            writer.WriteObjectValue<global::Ludus.Client.Models.AlternativeName>("status", Status);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.CompanyWebsite>("websites", Websites);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

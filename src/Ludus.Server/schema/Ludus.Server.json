@@ -101,12 +101,22 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
     },
     "/api/games/{id}": {
-      "post": {
+      "get": {
         "tags": [
           "Games"
         ],
@@ -127,10 +137,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Game"
-                  }
+                  "$ref": "#/components/schemas/Game"
                 }
               }
             }
@@ -163,6 +170,14 @@
               "type": "integer",
               "format": "int32",
               "default": 20
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": null
             }
           }
         ],

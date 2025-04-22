@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -19,21 +19,21 @@ namespace ApiSdk.Models
         /// <summary>The language property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.Language? Language { get; set; }
+        public global::Ludus.Client.Models.Language? Language { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.Language Language { get; set; }
+        public global::Ludus.Client.Models.Language Language { get; set; }
 #endif
         /// <summary>The language_support_type property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.AlternativeName? LanguageSupportType { get; set; }
+        public global::Ludus.Client.Models.AlternativeName? LanguageSupportType { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.AlternativeName LanguageSupportType { get; set; }
+        public global::Ludus.Client.Models.AlternativeName LanguageSupportType { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.LanguageSupport"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.LanguageSupport"/> and sets the default values.
         /// </summary>
         public LanguageSupport()
         {
@@ -42,12 +42,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.LanguageSupport"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.LanguageSupport"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.LanguageSupport CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.LanguageSupport CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.LanguageSupport();
+            return new global::Ludus.Client.Models.LanguageSupport();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -58,8 +58,8 @@ namespace ApiSdk.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "id", n => { Id = n.GetLongValue(); } },
-                { "language", n => { Language = n.GetObjectValue<global::ApiSdk.Models.Language>(global::ApiSdk.Models.Language.CreateFromDiscriminatorValue); } },
-                { "language_support_type", n => { LanguageSupportType = n.GetObjectValue<global::ApiSdk.Models.AlternativeName>(global::ApiSdk.Models.AlternativeName.CreateFromDiscriminatorValue); } },
+                { "language", n => { Language = n.GetObjectValue<global::Ludus.Client.Models.Language>(global::Ludus.Client.Models.Language.CreateFromDiscriminatorValue); } },
+                { "language_support_type", n => { LanguageSupportType = n.GetObjectValue<global::Ludus.Client.Models.AlternativeName>(global::Ludus.Client.Models.AlternativeName.CreateFromDiscriminatorValue); } },
             };
         }
         /// <summary>
@@ -70,8 +70,8 @@ namespace ApiSdk.Models
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteLongValue("id", Id);
-            writer.WriteObjectValue<global::ApiSdk.Models.Language>("language", Language);
-            writer.WriteObjectValue<global::ApiSdk.Models.AlternativeName>("language_support_type", LanguageSupportType);
+            writer.WriteObjectValue<global::Ludus.Client.Models.Language>("language", Language);
+            writer.WriteObjectValue<global::Ludus.Client.Models.AlternativeName>("language_support_type", LanguageSupportType);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -23,7 +23,7 @@ namespace ApiSdk.Models
         /// <summary>The userId property</summary>
         public int? UserId { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.UserGameStatus"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.UserGameStatus"/> and sets the default values.
         /// </summary>
         public UserGameStatus()
         {
@@ -32,12 +32,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.UserGameStatus"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.UserGameStatus"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.UserGameStatus CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.UserGameStatus CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.UserGameStatus();
+            return new global::Ludus.Client.Models.UserGameStatus();
         }
         /// <summary>
         /// The deserialization information for the current model

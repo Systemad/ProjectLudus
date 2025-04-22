@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -17,39 +17,39 @@ namespace ApiSdk.Models
         /// <summary>The content_descriptions property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.ContentDescription>? ContentDescriptions { get; set; }
+        public List<global::Ludus.Client.Models.ContentDescription>? ContentDescriptions { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.ContentDescription> ContentDescriptions { get; set; }
+        public List<global::Ludus.Client.Models.ContentDescription> ContentDescriptions { get; set; }
 #endif
         /// <summary>The id property</summary>
         public long? Id { get; set; }
         /// <summary>The organization property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.Organization? Organization { get; set; }
+        public global::Ludus.Client.Models.Organization? Organization { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.Organization Organization { get; set; }
+        public global::Ludus.Client.Models.Organization Organization { get; set; }
 #endif
         /// <summary>The rating_category property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.RatingCategory? RatingCategory { get; set; }
+        public global::Ludus.Client.Models.RatingCategory? RatingCategory { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.RatingCategory RatingCategory { get; set; }
+        public global::Ludus.Client.Models.RatingCategory RatingCategory { get; set; }
 #endif
         /// <summary>The rating_content_descriptions property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.RatingContentDescriptions>? RatingContentDescriptions { get; set; }
+        public List<global::Ludus.Client.Models.RatingContentDescriptions>? RatingContentDescriptions { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.RatingContentDescriptions> RatingContentDescriptions { get; set; }
+        public List<global::Ludus.Client.Models.RatingContentDescriptions> RatingContentDescriptions { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.AgeRating"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.AgeRating"/> and sets the default values.
         /// </summary>
         public AgeRating()
         {
@@ -58,12 +58,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.AgeRating"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.AgeRating"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.AgeRating CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.AgeRating CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.AgeRating();
+            return new global::Ludus.Client.Models.AgeRating();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -73,11 +73,11 @@ namespace ApiSdk.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "content_descriptions", n => { ContentDescriptions = n.GetCollectionOfObjectValues<global::ApiSdk.Models.ContentDescription>(global::ApiSdk.Models.ContentDescription.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "content_descriptions", n => { ContentDescriptions = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.ContentDescription>(global::Ludus.Client.Models.ContentDescription.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "id", n => { Id = n.GetLongValue(); } },
-                { "organization", n => { Organization = n.GetObjectValue<global::ApiSdk.Models.Organization>(global::ApiSdk.Models.Organization.CreateFromDiscriminatorValue); } },
-                { "rating_category", n => { RatingCategory = n.GetObjectValue<global::ApiSdk.Models.RatingCategory>(global::ApiSdk.Models.RatingCategory.CreateFromDiscriminatorValue); } },
-                { "rating_content_descriptions", n => { RatingContentDescriptions = n.GetCollectionOfObjectValues<global::ApiSdk.Models.RatingContentDescriptions>(global::ApiSdk.Models.RatingContentDescriptions.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "organization", n => { Organization = n.GetObjectValue<global::Ludus.Client.Models.Organization>(global::Ludus.Client.Models.Organization.CreateFromDiscriminatorValue); } },
+                { "rating_category", n => { RatingCategory = n.GetObjectValue<global::Ludus.Client.Models.RatingCategory>(global::Ludus.Client.Models.RatingCategory.CreateFromDiscriminatorValue); } },
+                { "rating_content_descriptions", n => { RatingContentDescriptions = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.RatingContentDescriptions>(global::Ludus.Client.Models.RatingContentDescriptions.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -87,11 +87,11 @@ namespace ApiSdk.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.ContentDescription>("content_descriptions", ContentDescriptions);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.ContentDescription>("content_descriptions", ContentDescriptions);
             writer.WriteLongValue("id", Id);
-            writer.WriteObjectValue<global::ApiSdk.Models.Organization>("organization", Organization);
-            writer.WriteObjectValue<global::ApiSdk.Models.RatingCategory>("rating_category", RatingCategory);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.RatingContentDescriptions>("rating_content_descriptions", RatingContentDescriptions);
+            writer.WriteObjectValue<global::Ludus.Client.Models.Organization>("organization", Organization);
+            writer.WriteObjectValue<global::Ludus.Client.Models.RatingCategory>("rating_category", RatingCategory);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.RatingContentDescriptions>("rating_content_descriptions", RatingContentDescriptions);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

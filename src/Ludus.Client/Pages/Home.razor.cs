@@ -1,5 +1,4 @@
-﻿using ApiSdk;
-using ApiSdk.Models;
+﻿using Ludus.Client.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;

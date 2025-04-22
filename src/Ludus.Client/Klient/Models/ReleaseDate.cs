@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -31,17 +31,17 @@ namespace ApiSdk.Models
         /// <summary>The release_region property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.ReleaseRegion? ReleaseRegion { get; set; }
+        public global::Ludus.Client.Models.ReleaseRegion? ReleaseRegion { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.ReleaseRegion ReleaseRegion { get; set; }
+        public global::Ludus.Client.Models.ReleaseRegion ReleaseRegion { get; set; }
 #endif
         /// <summary>The status property</summary>
         public long? Status { get; set; }
         /// <summary>The y property</summary>
         public long? Y { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.ReleaseDate"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.ReleaseDate"/> and sets the default values.
         /// </summary>
         public ReleaseDate()
         {
@@ -50,12 +50,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.ReleaseDate"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.ReleaseDate"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.ReleaseDate CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.ReleaseDate CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.ReleaseDate();
+            return new global::Ludus.Client.Models.ReleaseDate();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -69,7 +69,7 @@ namespace ApiSdk.Models
                 { "date_format", n => { DateFormat = n.GetLongValue(); } },
                 { "human", n => { Human = n.GetStringValue(); } },
                 { "id", n => { Id = n.GetLongValue(); } },
-                { "release_region", n => { ReleaseRegion = n.GetObjectValue<global::ApiSdk.Models.ReleaseRegion>(global::ApiSdk.Models.ReleaseRegion.CreateFromDiscriminatorValue); } },
+                { "release_region", n => { ReleaseRegion = n.GetObjectValue<global::Ludus.Client.Models.ReleaseRegion>(global::Ludus.Client.Models.ReleaseRegion.CreateFromDiscriminatorValue); } },
                 { "status", n => { Status = n.GetLongValue(); } },
                 { "y", n => { Y = n.GetLongValue(); } },
             };
@@ -85,7 +85,7 @@ namespace ApiSdk.Models
             writer.WriteLongValue("date_format", DateFormat);
             writer.WriteStringValue("human", Human);
             writer.WriteLongValue("id", Id);
-            writer.WriteObjectValue<global::ApiSdk.Models.ReleaseRegion>("release_region", ReleaseRegion);
+            writer.WriteObjectValue<global::Ludus.Client.Models.ReleaseRegion>("release_region", ReleaseRegion);
             writer.WriteLongValue("status", Status);
             writer.WriteLongValue("y", Y);
             writer.WriteAdditionalData(AdditionalData);

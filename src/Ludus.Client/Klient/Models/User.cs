@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -21,10 +21,10 @@ namespace ApiSdk.Models
         /// <summary>The gameStatusList property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.UserGameStatus>? GameStatusList { get; set; }
+        public List<global::Ludus.Client.Models.UserGameStatus>? GameStatusList { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.UserGameStatus> GameStatusList { get; set; }
+        public List<global::Ludus.Client.Models.UserGameStatus> GameStatusList { get; set; }
 #endif
         /// <summary>The id property</summary>
         public int? Id { get; set; }
@@ -55,13 +55,13 @@ namespace ApiSdk.Models
         /// <summary>The userImage property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.UserImage? UserImage { get; set; }
+        public global::Ludus.Client.Models.UserImage? UserImage { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.UserImage UserImage { get; set; }
+        public global::Ludus.Client.Models.UserImage UserImage { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.User"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.User"/> and sets the default values.
         /// </summary>
         public User()
         {
@@ -70,12 +70,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.User"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.User"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.User CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.User CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.User();
+            return new global::Ludus.Client.Models.User();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -87,12 +87,12 @@ namespace ApiSdk.Models
             {
                 { "avatarImageId", n => { AvatarImageId = n.GetIntValue(); } },
                 { "createDate", n => { CreateDate = n.GetDateTimeOffsetValue(); } },
-                { "gameStatusList", n => { GameStatusList = n.GetCollectionOfObjectValues<global::ApiSdk.Models.UserGameStatus>(global::ApiSdk.Models.UserGameStatus.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "gameStatusList", n => { GameStatusList = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.UserGameStatus>(global::Ludus.Client.Models.UserGameStatus.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "id", n => { Id = n.GetIntValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "role", n => { Role = n.GetStringValue(); } },
                 { "steamId", n => { SteamId = n.GetStringValue(); } },
-                { "userImage", n => { UserImage = n.GetObjectValue<global::ApiSdk.Models.UserImage>(global::ApiSdk.Models.UserImage.CreateFromDiscriminatorValue); } },
+                { "userImage", n => { UserImage = n.GetObjectValue<global::Ludus.Client.Models.UserImage>(global::Ludus.Client.Models.UserImage.CreateFromDiscriminatorValue); } },
             };
         }
         /// <summary>
@@ -104,12 +104,12 @@ namespace ApiSdk.Models
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteIntValue("avatarImageId", AvatarImageId);
             writer.WriteDateTimeOffsetValue("createDate", CreateDate);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.UserGameStatus>("gameStatusList", GameStatusList);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.UserGameStatus>("gameStatusList", GameStatusList);
             writer.WriteIntValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("role", Role);
             writer.WriteStringValue("steamId", SteamId);
-            writer.WriteObjectValue<global::ApiSdk.Models.UserImage>("userImage", UserImage);
+            writer.WriteObjectValue<global::Ludus.Client.Models.UserImage>("userImage", UserImage);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

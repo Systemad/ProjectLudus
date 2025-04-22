@@ -1,0 +1,26 @@
+﻿@using Ludus.Shared.Features.Games
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h4">
+            @Game.Name
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+                <MudSelect @bind-Value="GStatus" Label="Select drink" Variant="Variant.Outlined">
+                    @foreach (GameStatus status in Enum.GetValues(typeof(GameStatus)))
+                    {
+                        <MudSelectItem Value="@status">@status</MudSelectItem>
+                    }
+                    <MudSelectItem Value="@("Burger")">Burger</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+

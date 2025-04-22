@@ -5,7 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using System.Collections.Generic;
 using System.IO;
 using System;
-namespace ApiSdk.Models
+namespace Ludus.Client.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
@@ -17,26 +17,26 @@ namespace ApiSdk.Models
         /// <summary>The age_ratings property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.AgeRating>? AgeRatings { get; set; }
+        public List<global::Ludus.Client.Models.AgeRating>? AgeRatings { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.AgeRating> AgeRatings { get; set; }
+        public List<global::Ludus.Client.Models.AgeRating> AgeRatings { get; set; }
 #endif
         /// <summary>The alternative_names property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.AlternativeName>? AlternativeNames { get; set; }
+        public List<global::Ludus.Client.Models.AlternativeName>? AlternativeNames { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.AlternativeName> AlternativeNames { get; set; }
+        public List<global::Ludus.Client.Models.AlternativeName> AlternativeNames { get; set; }
 #endif
         /// <summary>The artworks property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Artwork>? Artworks { get; set; }
+        public List<global::Ludus.Client.Models.Artwork>? Artworks { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Artwork> Artworks { get; set; }
+        public List<global::Ludus.Client.Models.Artwork> Artworks { get; set; }
 #endif
         /// <summary>The checksum property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -49,78 +49,78 @@ namespace ApiSdk.Models
         /// <summary>The collections property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Collection>? Collections { get; set; }
+        public List<global::Ludus.Client.Models.Collection>? Collections { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Collection> Collections { get; set; }
+        public List<global::Ludus.Client.Models.Collection> Collections { get; set; }
 #endif
         /// <summary>The cover property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.Cover? Cover { get; set; }
+        public global::Ludus.Client.Models.Cover? Cover { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.Cover Cover { get; set; }
+        public global::Ludus.Client.Models.Cover Cover { get; set; }
 #endif
         /// <summary>The created_at property</summary>
         public long? CreatedAt { get; set; }
         /// <summary>The dlcs property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Dlc>? Dlcs { get; set; }
+        public List<global::Ludus.Client.Models.Dlc>? Dlcs { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Dlc> Dlcs { get; set; }
+        public List<global::Ludus.Client.Models.Dlc> Dlcs { get; set; }
 #endif
         /// <summary>The expansions property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Expansion>? Expansions { get; set; }
+        public List<global::Ludus.Client.Models.Expansion>? Expansions { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Expansion> Expansions { get; set; }
+        public List<global::Ludus.Client.Models.Expansion> Expansions { get; set; }
 #endif
         /// <summary>The first_release_date property</summary>
         public long? FirstReleaseDate { get; set; }
         /// <summary>The franchises property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Franchise>? Franchises { get; set; }
+        public List<global::Ludus.Client.Models.Franchise>? Franchises { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Franchise> Franchises { get; set; }
+        public List<global::Ludus.Client.Models.Franchise> Franchises { get; set; }
 #endif
         /// <summary>The game_engines property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.GameEngine>? GameEngines { get; set; }
+        public List<global::Ludus.Client.Models.GameEngine>? GameEngines { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.GameEngine> GameEngines { get; set; }
+        public List<global::Ludus.Client.Models.GameEngine> GameEngines { get; set; }
 #endif
         /// <summary>The game_modes property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.GameMode>? GameModes { get; set; }
+        public List<global::Ludus.Client.Models.GameMode>? GameModes { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.GameMode> GameModes { get; set; }
+        public List<global::Ludus.Client.Models.GameMode> GameModes { get; set; }
 #endif
         /// <summary>The game_type property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::ApiSdk.Models.GameType? GameType { get; set; }
+        public global::Ludus.Client.Models.GameType? GameType { get; set; }
 #nullable restore
 #else
-        public global::ApiSdk.Models.GameType GameType { get; set; }
+        public global::Ludus.Client.Models.GameType GameType { get; set; }
 #endif
         /// <summary>The genres property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Genre>? Genres { get; set; }
+        public List<global::Ludus.Client.Models.Genre>? Genres { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Genre> Genres { get; set; }
+        public List<global::Ludus.Client.Models.Genre> Genres { get; set; }
 #endif
         /// <summary>The hypes property</summary>
         public long? Hypes { get; set; }
@@ -129,34 +129,34 @@ namespace ApiSdk.Models
         /// <summary>The involved_companies property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.InvolvedCompany>? InvolvedCompanies { get; set; }
+        public List<global::Ludus.Client.Models.InvolvedCompany>? InvolvedCompanies { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.InvolvedCompany> InvolvedCompanies { get; set; }
+        public List<global::Ludus.Client.Models.InvolvedCompany> InvolvedCompanies { get; set; }
 #endif
         /// <summary>The keywords property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Keyword>? Keywords { get; set; }
+        public List<global::Ludus.Client.Models.Keyword>? Keywords { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Keyword> Keywords { get; set; }
+        public List<global::Ludus.Client.Models.Keyword> Keywords { get; set; }
 #endif
         /// <summary>The language_supports property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.LanguageSupport>? LanguageSupports { get; set; }
+        public List<global::Ludus.Client.Models.LanguageSupport>? LanguageSupports { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.LanguageSupport> LanguageSupports { get; set; }
+        public List<global::Ludus.Client.Models.LanguageSupport> LanguageSupports { get; set; }
 #endif
         /// <summary>The multiplayer_modes property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.MultiplayerMode>? MultiplayerModes { get; set; }
+        public List<global::Ludus.Client.Models.MultiplayerMode>? MultiplayerModes { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.MultiplayerMode> MultiplayerModes { get; set; }
+        public List<global::Ludus.Client.Models.MultiplayerMode> MultiplayerModes { get; set; }
 #endif
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -169,18 +169,18 @@ namespace ApiSdk.Models
         /// <summary>The platforms property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Platform>? Platforms { get; set; }
+        public List<global::Ludus.Client.Models.Platform>? Platforms { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Platform> Platforms { get; set; }
+        public List<global::Ludus.Client.Models.Platform> Platforms { get; set; }
 #endif
         /// <summary>The player_perspectives property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.PlayerPerspective>? PlayerPerspectives { get; set; }
+        public List<global::Ludus.Client.Models.PlayerPerspective>? PlayerPerspectives { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.PlayerPerspective> PlayerPerspectives { get; set; }
+        public List<global::Ludus.Client.Models.PlayerPerspective> PlayerPerspectives { get; set; }
 #endif
         /// <summary>The rating property</summary>
         public double? Rating { get; set; }
@@ -189,26 +189,26 @@ namespace ApiSdk.Models
         /// <summary>The release_dates property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.ReleaseDate>? ReleaseDates { get; set; }
+        public List<global::Ludus.Client.Models.ReleaseDate>? ReleaseDates { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.ReleaseDate> ReleaseDates { get; set; }
+        public List<global::Ludus.Client.Models.ReleaseDate> ReleaseDates { get; set; }
 #endif
         /// <summary>The screenshots property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Screenshot>? Screenshots { get; set; }
+        public List<global::Ludus.Client.Models.Screenshot>? Screenshots { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Screenshot> Screenshots { get; set; }
+        public List<global::Ludus.Client.Models.Screenshot> Screenshots { get; set; }
 #endif
         /// <summary>The similar_games property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.SimilarGame>? SimilarGames { get; set; }
+        public List<global::Ludus.Client.Models.SimilarGame>? SimilarGames { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.SimilarGame> SimilarGames { get; set; }
+        public List<global::Ludus.Client.Models.SimilarGame> SimilarGames { get; set; }
 #endif
         /// <summary>The slug property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
@@ -237,10 +237,10 @@ namespace ApiSdk.Models
         /// <summary>The themes property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Theme>? Themes { get; set; }
+        public List<global::Ludus.Client.Models.Theme>? Themes { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Theme> Themes { get; set; }
+        public List<global::Ludus.Client.Models.Theme> Themes { get; set; }
 #endif
         /// <summary>The total_rating property</summary>
         public double? TotalRating { get; set; }
@@ -259,21 +259,21 @@ namespace ApiSdk.Models
         /// <summary>The videos property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.Video>? Videos { get; set; }
+        public List<global::Ludus.Client.Models.Video>? Videos { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.Video> Videos { get; set; }
+        public List<global::Ludus.Client.Models.Video> Videos { get; set; }
 #endif
         /// <summary>The websites property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::ApiSdk.Models.GameWebsite>? Websites { get; set; }
+        public List<global::Ludus.Client.Models.GameWebsite>? Websites { get; set; }
 #nullable restore
 #else
-        public List<global::ApiSdk.Models.GameWebsite> Websites { get; set; }
+        public List<global::Ludus.Client.Models.GameWebsite> Websites { get; set; }
 #endif
         /// <summary>
-        /// Instantiates a new <see cref="global::ApiSdk.Models.Game"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Ludus.Client.Models.Game"/> and sets the default values.
         /// </summary>
         public Game()
         {
@@ -282,12 +282,12 @@ namespace ApiSdk.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::ApiSdk.Models.Game"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.Game"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::ApiSdk.Models.Game CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Ludus.Client.Models.Game CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
-            return new global::ApiSdk.Models.Game();
+            return new global::Ludus.Client.Models.Game();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -297,45 +297,45 @@ namespace ApiSdk.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "age_ratings", n => { AgeRatings = n.GetCollectionOfObjectValues<global::ApiSdk.Models.AgeRating>(global::ApiSdk.Models.AgeRating.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "alternative_names", n => { AlternativeNames = n.GetCollectionOfObjectValues<global::ApiSdk.Models.AlternativeName>(global::ApiSdk.Models.AlternativeName.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "artworks", n => { Artworks = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Artwork>(global::ApiSdk.Models.Artwork.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "age_ratings", n => { AgeRatings = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.AgeRating>(global::Ludus.Client.Models.AgeRating.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "alternative_names", n => { AlternativeNames = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.AlternativeName>(global::Ludus.Client.Models.AlternativeName.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "artworks", n => { Artworks = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Artwork>(global::Ludus.Client.Models.Artwork.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "checksum", n => { Checksum = n.GetStringValue(); } },
-                { "collections", n => { Collections = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Collection>(global::ApiSdk.Models.Collection.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "cover", n => { Cover = n.GetObjectValue<global::ApiSdk.Models.Cover>(global::ApiSdk.Models.Cover.CreateFromDiscriminatorValue); } },
+                { "collections", n => { Collections = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Collection>(global::Ludus.Client.Models.Collection.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "cover", n => { Cover = n.GetObjectValue<global::Ludus.Client.Models.Cover>(global::Ludus.Client.Models.Cover.CreateFromDiscriminatorValue); } },
                 { "created_at", n => { CreatedAt = n.GetLongValue(); } },
-                { "dlcs", n => { Dlcs = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Dlc>(global::ApiSdk.Models.Dlc.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "expansions", n => { Expansions = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Expansion>(global::ApiSdk.Models.Expansion.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "dlcs", n => { Dlcs = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Dlc>(global::Ludus.Client.Models.Dlc.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "expansions", n => { Expansions = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Expansion>(global::Ludus.Client.Models.Expansion.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "first_release_date", n => { FirstReleaseDate = n.GetLongValue(); } },
-                { "franchises", n => { Franchises = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Franchise>(global::ApiSdk.Models.Franchise.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "game_engines", n => { GameEngines = n.GetCollectionOfObjectValues<global::ApiSdk.Models.GameEngine>(global::ApiSdk.Models.GameEngine.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "game_modes", n => { GameModes = n.GetCollectionOfObjectValues<global::ApiSdk.Models.GameMode>(global::ApiSdk.Models.GameMode.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "game_type", n => { GameType = n.GetObjectValue<global::ApiSdk.Models.GameType>(global::ApiSdk.Models.GameType.CreateFromDiscriminatorValue); } },
-                { "genres", n => { Genres = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Genre>(global::ApiSdk.Models.Genre.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "franchises", n => { Franchises = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Franchise>(global::Ludus.Client.Models.Franchise.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "game_engines", n => { GameEngines = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.GameEngine>(global::Ludus.Client.Models.GameEngine.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "game_modes", n => { GameModes = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.GameMode>(global::Ludus.Client.Models.GameMode.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "game_type", n => { GameType = n.GetObjectValue<global::Ludus.Client.Models.GameType>(global::Ludus.Client.Models.GameType.CreateFromDiscriminatorValue); } },
+                { "genres", n => { Genres = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Genre>(global::Ludus.Client.Models.Genre.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "hypes", n => { Hypes = n.GetLongValue(); } },
                 { "id", n => { Id = n.GetLongValue(); } },
-                { "involved_companies", n => { InvolvedCompanies = n.GetCollectionOfObjectValues<global::ApiSdk.Models.InvolvedCompany>(global::ApiSdk.Models.InvolvedCompany.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "keywords", n => { Keywords = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Keyword>(global::ApiSdk.Models.Keyword.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "language_supports", n => { LanguageSupports = n.GetCollectionOfObjectValues<global::ApiSdk.Models.LanguageSupport>(global::ApiSdk.Models.LanguageSupport.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "multiplayer_modes", n => { MultiplayerModes = n.GetCollectionOfObjectValues<global::ApiSdk.Models.MultiplayerMode>(global::ApiSdk.Models.MultiplayerMode.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "involved_companies", n => { InvolvedCompanies = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.InvolvedCompany>(global::Ludus.Client.Models.InvolvedCompany.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "keywords", n => { Keywords = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Keyword>(global::Ludus.Client.Models.Keyword.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "language_supports", n => { LanguageSupports = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.LanguageSupport>(global::Ludus.Client.Models.LanguageSupport.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "multiplayer_modes", n => { MultiplayerModes = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.MultiplayerMode>(global::Ludus.Client.Models.MultiplayerMode.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "platforms", n => { Platforms = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Platform>(global::ApiSdk.Models.Platform.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "player_perspectives", n => { PlayerPerspectives = n.GetCollectionOfObjectValues<global::ApiSdk.Models.PlayerPerspective>(global::ApiSdk.Models.PlayerPerspective.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "platforms", n => { Platforms = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Platform>(global::Ludus.Client.Models.Platform.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "player_perspectives", n => { PlayerPerspectives = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.PlayerPerspective>(global::Ludus.Client.Models.PlayerPerspective.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "rating", n => { Rating = n.GetDoubleValue(); } },
                 { "rating_count", n => { RatingCount = n.GetLongValue(); } },
-                { "release_dates", n => { ReleaseDates = n.GetCollectionOfObjectValues<global::ApiSdk.Models.ReleaseDate>(global::ApiSdk.Models.ReleaseDate.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "screenshots", n => { Screenshots = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Screenshot>(global::ApiSdk.Models.Screenshot.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "similar_games", n => { SimilarGames = n.GetCollectionOfObjectValues<global::ApiSdk.Models.SimilarGame>(global::ApiSdk.Models.SimilarGame.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "release_dates", n => { ReleaseDates = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.ReleaseDate>(global::Ludus.Client.Models.ReleaseDate.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "screenshots", n => { Screenshots = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Screenshot>(global::Ludus.Client.Models.Screenshot.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "similar_games", n => { SimilarGames = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.SimilarGame>(global::Ludus.Client.Models.SimilarGame.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "slug", n => { Slug = n.GetStringValue(); } },
                 { "storyline", n => { Storyline = n.GetStringValue(); } },
                 { "summary", n => { Summary = n.GetStringValue(); } },
-                { "themes", n => { Themes = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Theme>(global::ApiSdk.Models.Theme.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "themes", n => { Themes = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Theme>(global::Ludus.Client.Models.Theme.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "total_rating", n => { TotalRating = n.GetDoubleValue(); } },
                 { "total_rating_count", n => { TotalRatingCount = n.GetLongValue(); } },
                 { "updated_at", n => { UpdatedAt = n.GetLongValue(); } },
                 { "url", n => { Url = n.GetStringValue(); } },
-                { "videos", n => { Videos = n.GetCollectionOfObjectValues<global::ApiSdk.Models.Video>(global::ApiSdk.Models.Video.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "websites", n => { Websites = n.GetCollectionOfObjectValues<global::ApiSdk.Models.GameWebsite>(global::ApiSdk.Models.GameWebsite.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "videos", n => { Videos = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Video>(global::Ludus.Client.Models.Video.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "websites", n => { Websites = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.GameWebsite>(global::Ludus.Client.Models.GameWebsite.CreateFromDiscriminatorValue)?.AsList(); } },
             };
         }
         /// <summary>
@@ -345,45 +345,45 @@ namespace ApiSdk.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.AgeRating>("age_ratings", AgeRatings);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.AlternativeName>("alternative_names", AlternativeNames);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Artwork>("artworks", Artworks);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.AgeRating>("age_ratings", AgeRatings);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.AlternativeName>("alternative_names", AlternativeNames);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Artwork>("artworks", Artworks);
             writer.WriteStringValue("checksum", Checksum);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Collection>("collections", Collections);
-            writer.WriteObjectValue<global::ApiSdk.Models.Cover>("cover", Cover);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Collection>("collections", Collections);
+            writer.WriteObjectValue<global::Ludus.Client.Models.Cover>("cover", Cover);
             writer.WriteLongValue("created_at", CreatedAt);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Dlc>("dlcs", Dlcs);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Expansion>("expansions", Expansions);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Dlc>("dlcs", Dlcs);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Expansion>("expansions", Expansions);
             writer.WriteLongValue("first_release_date", FirstReleaseDate);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Franchise>("franchises", Franchises);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.GameEngine>("game_engines", GameEngines);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.GameMode>("game_modes", GameModes);
-            writer.WriteObjectValue<global::ApiSdk.Models.GameType>("game_type", GameType);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Genre>("genres", Genres);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Franchise>("franchises", Franchises);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.GameEngine>("game_engines", GameEngines);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.GameMode>("game_modes", GameModes);
+            writer.WriteObjectValue<global::Ludus.Client.Models.GameType>("game_type", GameType);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Genre>("genres", Genres);
             writer.WriteLongValue("hypes", Hypes);
             writer.WriteLongValue("id", Id);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.InvolvedCompany>("involved_companies", InvolvedCompanies);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Keyword>("keywords", Keywords);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.LanguageSupport>("language_supports", LanguageSupports);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.MultiplayerMode>("multiplayer_modes", MultiplayerModes);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.InvolvedCompany>("involved_companies", InvolvedCompanies);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Keyword>("keywords", Keywords);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.LanguageSupport>("language_supports", LanguageSupports);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.MultiplayerMode>("multiplayer_modes", MultiplayerModes);
             writer.WriteStringValue("name", Name);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Platform>("platforms", Platforms);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.PlayerPerspective>("player_perspectives", PlayerPerspectives);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Platform>("platforms", Platforms);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.PlayerPerspective>("player_perspectives", PlayerPerspectives);
             writer.WriteDoubleValue("rating", Rating);
             writer.WriteLongValue("rating_count", RatingCount);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.ReleaseDate>("release_dates", ReleaseDates);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Screenshot>("screenshots", Screenshots);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.SimilarGame>("similar_games", SimilarGames);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.ReleaseDate>("release_dates", ReleaseDates);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Screenshot>("screenshots", Screenshots);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.SimilarGame>("similar_games", SimilarGames);
             writer.WriteStringValue("slug", Slug);
             writer.WriteStringValue("storyline", Storyline);
             writer.WriteStringValue("summary", Summary);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Theme>("themes", Themes);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Theme>("themes", Themes);
             writer.WriteDoubleValue("total_rating", TotalRating);
             writer.WriteLongValue("total_rating_count", TotalRatingCount);
             writer.WriteLongValue("updated_at", UpdatedAt);
             writer.WriteStringValue("url", Url);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.Video>("videos", Videos);
-            writer.WriteCollectionOfObjectValues<global::ApiSdk.Models.GameWebsite>("websites", Websites);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Video>("videos", Videos);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.GameWebsite>("websites", Websites);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

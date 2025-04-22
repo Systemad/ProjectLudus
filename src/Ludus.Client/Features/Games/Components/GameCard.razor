@@ -1,59 +1,61 @@
-﻿<MudCard Elevation="0" Class="expand-hover rounded-lg"
-         Style="background: var(--mud-palette-background-gray); height: 100%">
-    <div class="relative">
-        <MudCardMedia Image="img/co7n02.jpeg" Height="220" Class="object-fill"/>
+﻿<MudCard Elevation="0" Class="rounded-lg cursor-pointer hover-card"
+         Style="background: var(--mud-palette-background-gray); height: 100%"
+         @onclick="NavigateToDetails"
+>
+    <div class="relative hover-card">
+        <div class="media-container">
+            <MudCardMedia Image="img/co7n02.jpeg" Height="250" Class="object-cover" />
+            <div class="media-overlay"></div>
+        </div>
 
-        <MudMenu @bind-Open="_open" Dense="true" Class="absolute z-2" Style="top: 8px; right: 8px;">
-            <ActivatorContent>
-                <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd"
-                               Size="Size.Small"
-                               Color="Color.Info"
-                               Variant="Variant.Filled"
-                               Class="rounded-lg"
-                               OnClick="OnOpen"
-                />
-            </ActivatorContent>
+        <MudStack Row="true" Class="hover-controls">
+            <MudIconButton @onclick="OpenDialogAsync" Icon="@Icons.Material.Filled.Delete" Variant="Variant.Filled" Color="Color.Tertiary" Class="rounded-lg" />
+            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Variant="Variant.Filled" Color="Color.Primary" Class="rounded-lg" />
+            <MudIconButton Icon="@Icons.Material.Filled.Favorite" Variant="Variant.Filled" Color="Color.Secondary" Class="rounded-lg" />
+        </MudStack>
 
-            <ChildContent>
-                <MudMenu Dense="true" Label="Mark as">
-                    <MudMenuItem>
-                        <MudStack Row="true" Class="ml-3">
-                            <MudBadge Elevation="0" Bordered="false" Color="Color.Error" Origin="Origin.CenterLeft"/>
-                            <MudText Typo="Typo.body2">Backlog</MudText>
-                        </MudStack>
-                    </MudMenuItem>
-                    <MudMenuItem>
-                        <MudStack Row="true" Class="ml-3">
-                            <MudBadge Elevation="0" Bordered="false" Color="Color.Info" Origin="Origin.CenterLeft"/>
-                            <MudText Typo="Typo.body2">Currently Playing</MudText>
-                        </MudStack>
-                    </MudMenuItem>
-                    <MudMenuItem>
-                        <MudStack Row="true" Class="ml-3">
-                            <MudBadge Elevation="0" Bordered="false" Color="Color.Success" Origin="Origin.CenterLeft"/>
-                            <MudText Typo="Typo.body2">Completed</MudText>
-                        </MudStack>
-                    </MudMenuItem>
-                </MudMenu>
-                <MudMenuItem Icon="@Icons.Material.Filled.List" IconColor="Color.Secondary" Label="Add to list"/>
-                <MudDivider/>
-            </ChildContent>
-        </MudMenu>
-
-        <!--
-        <MudIconButton Icon="@Icons.Material.Filled.PlaylistAdd" Size="Size.Small"
-                       Color="Color.Info"
-                       Variant="Variant.Filled"
-                       Class="absolute z-2 rounded-lg"
-                       Style="top: 8px; right: 8px; "
-                       OnClick="ToggleOpen"/>
-        <MudPopover Class="pa-4" RelativeWidth="DropdownWidth.Relative" AnchorOrigin="Origin.TopRight" Fixed="true" Open="@_open">
-                                         
-        </MudPopover>
-        -->
     </div>
 
     <MudCardContent>
         <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium">@Game.Name</MudTextM3>
     </MudCardContent>
 </MudCard>
+<style>
+    .hover-card {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .media-container {
+        position: relative;
+    }
+
+    .media-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2); /* Just darken the image */
+        opacity: 0;
+        transition: opacity 0.15s ease-in-out;
+        pointer-events: none; /* Let clicks pass through */
+    }
+
+    .hover-controls {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .hover-card:hover .hover-controls,
+    .hover-card:hover .media-overlay {
+        opacity: 100%;
+    }
+</style>

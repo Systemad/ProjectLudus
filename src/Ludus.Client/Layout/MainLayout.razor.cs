@@ -1,5 +1,4 @@
-﻿using ApiSdk.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Ludus.Client.Layout;

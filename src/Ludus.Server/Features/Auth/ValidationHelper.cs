@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
+using Ludus.Server.Features.User;
 using Ludus.Shared;
-using Ludus.Shared.Features.User;
 using Marten;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Steam.Models.SteamCommunity;
@@ -27,8 +27,7 @@ public class ValidationHelper
         var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
-        var user = await db.Query<Shared.Features.User.User>()
-            .FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await db.Query<User.User>().FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         if (user != null)
         {
@@ -58,11 +57,7 @@ public class ValidationHelper
             logger.LogError(e, "An exception occurated when downloading player summaries");
         }
 
-        user = new Shared.Features.User.User()
-        {
-            SteamId = steamId,
-            Role = RoleConstants.DefaultRoleId,
-        };
+        user = new User.User { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
 
         if (playerSummary != null)
         {
@@ -104,8 +99,7 @@ public class ValidationHelper
         var userStore = services.GetRequiredService<IUserStore>();
         await using var db = userStore.LightweightSession();
 
-        var user = await db.Query<Shared.Features.User.User>()
-            .FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await db.Query<User.User>().FirstOrDefaultAsync(x => x.SteamId == steamId);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, steamId),

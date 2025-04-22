@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using Ludus.Client.Models;
 using Ludus.Shared;
-using Ludus.Shared.Features.User;
 
 namespace Ludus.Client;
 
@@ -14,7 +14,7 @@ public class AuthenticatedUserService
         _httpClient = httpClient;
     }
 
-    public User UserInfo { get; private set; }
+    public User User { get; private set; }
 
     public async Task InitializeAsync()
     {
@@ -26,12 +26,12 @@ public class AuthenticatedUserService
         HttpResponseMessage response = await _httpClient.GetAsync("/api/user/me");
         if (response.StatusCode == HttpStatusCode.OK)
         {
-            var hey = await response.Content.ReadFromJsonAsync<User>();
-            UserInfo = hey;
+            var userResponse = await response.Content.ReadFromJsonAsync<User>();
+            User = userResponse;
         }
     }
 
-    public bool IsAuthenticated => UserInfo != null;
-    public int UserId => UserInfo?.Id ?? 0;
-    public bool IsAdmin => UserInfo?.Role?.Equals(RoleConstants.AdminRoleId) ?? false;
+    public bool IsAuthenticated => User != null;
+    public int UserId => User?.Id ?? 0;
+    public bool IsAdmin => User?.Role?.Equals(RoleConstants.AdminRoleId) ?? false;
 }

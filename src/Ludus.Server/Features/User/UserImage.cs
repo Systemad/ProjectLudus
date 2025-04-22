@@ -1,11 +1,11 @@
-﻿namespace Ludus.Shared.Features.User;
+﻿namespace Ludus.Server.Features.User;
 
-public class MImage
+public class UserImage
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid UserId { get; set; }
     public string Name { get; set; }
     public string ContentType { get; set; }
     public byte[] Content { get; set; }
-    public int? UserId { get; set; }
     public DateTime CreateDate { get; set; }
 }

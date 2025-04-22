@@ -1,19 +1,50 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Ludus.Client.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
 public partial class GamePage : ComponentBase
 {
     [Parameter]
-    public long? Id { get; set; }
+    public long Id { get; set; }
 
-    bool _expanded = true;
+    [Inject]
+    public ApiClient Client { get; set; }
 
-    private void OnExpandCollapseClick()
+    public Game? Game { get; set; }
+
+    private bool shouldRender;
+
+    protected override bool ShouldRender() => shouldRender;
+
+    /*
+     *
+     *     [Inject]
+    public ApiClient api { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        _expanded = !_expanded;
+        var games = await api.Api.Games.Top.GetAsync(param =>
+        {
+            param.QueryParameters.PageNumber = 1;
+            param.QueryParameters.PageSize = 20;
+        });
+        Games = games;
+        //var games = await api.Api.Games.Top
+        await base.OnInitializedAsync();
     }
+     */
 
-    public string TargetIcon =
-        @"<circle cx=""12"" cy=""12"" r=""10""/><line x1=""22"" x2=""18"" y1=""12"" y2=""12""/><line x1=""6"" x2=""2"" y1=""12"" y2=""12""/><line x1=""12"" x2=""12"" y1=""6"" y2=""2""/><line x1=""12"" x2=""12"" y1=""22"" y2=""18""/>";
+    public string Logoo =
+        @"<svg viewBox=""0 0 32 32"">
+            <path fill=""currentColor"" d=""M18.901 32h4.901c4.5 0 8.198-3.698 8.198-8.198v-15.604c0-4.5-3.698-8.198-8.198-8.198h-5c-0.099 0-0.203 0.099-0.203 0.198v31.604c0 0.099 0.099 0.198 0.302 0.198zM25 14.401c1.802 0 3.198 1.5 3.198 3.198 0 1.802-1.5 3.198-3.198 3.198-1.802 0-3.198-1.396-3.198-3.198-0.104-1.797 1.396-3.198 3.198-3.198zM15.198 0h-7c-4.5 0-8.198 3.698-8.198 8.198v15.604c0 4.5 3.698 8.198 8.198 8.198h7c0.099 0 0.203-0.099 0.203-0.198v-31.604c0-0.099-0.099-0.198-0.203-0.198zM12.901 29.401h-4.703c-3.099 0-5.599-2.5-5.599-5.599v-15.604c0-3.099 2.5-5.599 5.599-5.599h4.604zM5 9.599c0 1.698 1.302 3 3 3s3-1.302 3-3c0-1.698-1.302-3-3-3s-3 1.302-3 3z""/>
+        </svg>";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await Client.Api.Games[Id].GetAsync();
+        Game = result;
+        shouldRender = true;
+        //await base.OnInitializedAsync();
+    }
 }

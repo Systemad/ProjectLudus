@@ -19,7 +19,7 @@
     -->
     <MudDrawer Anchor="Anchor.Left" @bind-open="@_drawerOpen" Variant="DrawerVariant.Persistent">
         <MudStack Class="mud-height-full">
-            <MudText Typo="Typo.h5" Class="pa-2 mt-4">🔥 Your Logo</MudText>
+            <MudText Typo="Typo.h5" Class="pa-2 my-4">🔥 Your Logo</MudText>
             
             <NavMenu/>
             
@@ -42,10 +42,10 @@
                         
                         <MudStack Row="true">
                             <MudAvatar Size="Size.Large" Rounded="true">
-                                <MudImage Src="@GetImageSrc(@UserService.UserInfo.UserImage.ContentType, UserService.UserInfo.UserImage.Content)"></MudImage>
+                                <MudImage Src="@GetImageSrc(@UserService.User.UserImage.ContentType, UserService.User.UserImage.Content)"></MudImage>
                             </MudAvatar>
                             <MudStack Justify="Justify.Center" Spacing="0">
-                                <MudText Typo="Typo.body1">@UserService.UserInfo.Name</MudText>
+                                <MudText Typo="Typo.body1">@UserService.User.Name</MudText>
                                 <MudLink Href="/logout">Logout</MudLink>
                             <!--
                                 <MudText Typo="Typo.body2">Logout</MudText>

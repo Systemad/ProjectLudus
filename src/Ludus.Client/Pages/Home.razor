@@ -3,9 +3,9 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudContainer Class="mt-8" MaxWidth="MaxWidth.Large">
+<MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraExtraLarge">
     <div class="d-flex gap-8">
-        <MudStack Class="d-flex flex-column" Style="width: 25%">
+        <MudStack Class="d-flex flex-column" Style="width: 20%; min-width: 15%">
             <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0"
                       Style="height: fit-content; background: var(--mud-palette-background-gray)">
                 <MudStack Row="true">
@@ -48,13 +48,13 @@
         </MudStack>
 
 
-        <MudPaper Class="d-flex pa-4" Width="75%" Elevation="0">
+        <MudPaper Class="d-flex pa-4" Width="80%" Elevation="0">
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
                 @if (Games is not null)
                 {
                     @foreach (var game in Games)
                     {
-                        <MudItem xs="12" sm="6" lg="3">
+                        <MudItem xs="12" md="4" lg="3" xl="2">
                             <GameCard Game="@game"/>
                         </MudItem>
                     }
@@ -94,22 +94,6 @@
     </div>
 </MudContainer>
 
-<style>
-    .truncateexpand-hover {
-        transition: all .3s ease-in-out;
-    }
-
-    .expand-hover:hover {
-        transform: scale(1.02);
-    }
-
-    .truncate {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 100%;
-    }
-</style>
 <!--
 <AuthorizeView>
     <NotAuthorized>

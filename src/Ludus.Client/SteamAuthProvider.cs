@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
-using Ludus.Shared;
-using Ludus.Shared.Features.User;
+using Ludus.Client.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Ludus.Client;
@@ -53,7 +52,7 @@ public class SteamAuthProvider : AuthenticationStateProvider
         ClaimsIdentity identity;
         if (_userService.IsAuthenticated)
         {
-            IEnumerable<Claim> claims = GetClaims(_userService.UserInfo);
+            IEnumerable<Claim> claims = GetClaims(_userService.User);
             identity = new(claims, "Steam");
         }
         else
