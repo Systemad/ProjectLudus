@@ -31,7 +31,6 @@ public partial class Home : ComponentBase
             param.QueryParameters.PageSize = 20;
         });
         Games = games;
-        //var games = await api.Api.Games.Top
         await base.OnInitializedAsync();
     }
 }

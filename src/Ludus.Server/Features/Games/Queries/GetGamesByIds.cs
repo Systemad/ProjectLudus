@@ -3,6 +3,8 @@ using Ludus.Shared.Features.Games;
 using Marten;
 using Marten.Linq;
 
+namespace Ludus.Server.Features.Games.Queries;
+
 public class GetGamesByIdQuery : ICompiledListQuery<Game>
 {
     public GetGamesByIdQuery(List<long> gameIds)

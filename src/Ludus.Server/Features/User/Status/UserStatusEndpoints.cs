@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Ludus.Server.Features.Games.Queries;
 using Ludus.Server.Features.User.Status.Requests;
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -11,9 +12,9 @@ public static class UserStatusEndpoints
     public static RouteGroupBuilder MapUserStatusEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("api/user/status").WithTags("User").WithOpenApi();
+        group.MapGet("/", GetMyGameStatusesAsync).RequireAuthorization();
         group.MapPut("/{gameId:long}", UpdateGameStatusAsync).RequireAuthorization();
-        group.MapGet("status", GetMyGameStatusesAsync).RequireAuthorization();
-        group.MapGet("status/{userId:guid}", GetGameStatusesAsync).RequireAuthorization("Admin");
+        group.MapGet("/{userId:guid}", GetGameStatusesAsync).RequireAuthorization("Admin");
 
         return group;
     }
@@ -98,13 +99,12 @@ public static class UserStatusEndpoints
                 GameId = status.GameId,
                 Status = status.GameStatus,
             };
-
-            session.Store(gameStatus);
         }
         else
         {
             gameStatus.Status = status.GameStatus;
         }
+        session.Store(gameStatus);
         await session.SaveChangesAsync();
 
         var gameStatuses = await session

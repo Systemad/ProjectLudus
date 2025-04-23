@@ -50,18 +50,7 @@ public static class GameEndpoints
     )
     {
         var pageQuery = new GamesPaginationQuery(pageNumber, 20);
-        /*
-         *         var games = await session
-            .Query<Game>()
-            .OrderByDescending(g => g.RatingCount)
-            .ToPagedListAsync(pageNumber, pageSize);
-
-         */
-        var gameModes = await session.Query<GameMode>().ToListAsync(); // .FirstOrDefaultAsync(x => x.Id == 2);
-
-        var games = await session.QueryAsync(pageQuery); //.OrderByDescending(g => g.RatingCount).ToList();
-        //.ToPagedListAsync(pageNumber, pageSize);
-
+        var games = await session.QueryAsync(pageQuery);
         var gamesList = games.ToList();
         return TypedResults.Ok(gamesList);
     }
