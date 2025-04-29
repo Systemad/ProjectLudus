@@ -15,19 +15,11 @@ namespace Ludus.Client.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The avatarImageId property</summary>
-        public int? AvatarImageId { get; set; }
+        public Guid? AvatarImageId { get; set; }
         /// <summary>The createDate property</summary>
         public DateTimeOffset? CreateDate { get; set; }
-        /// <summary>The gameStatusList property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public List<global::Ludus.Client.Models.UserGameStatus>? GameStatusList { get; set; }
-#nullable restore
-#else
-        public List<global::Ludus.Client.Models.UserGameStatus> GameStatusList { get; set; }
-#endif
         /// <summary>The id property</summary>
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -85,10 +77,9 @@ namespace Ludus.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "avatarImageId", n => { AvatarImageId = n.GetIntValue(); } },
+                { "avatarImageId", n => { AvatarImageId = n.GetGuidValue(); } },
                 { "createDate", n => { CreateDate = n.GetDateTimeOffsetValue(); } },
-                { "gameStatusList", n => { GameStatusList = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.UserGameStatus>(global::Ludus.Client.Models.UserGameStatus.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "id", n => { Id = n.GetIntValue(); } },
+                { "id", n => { Id = n.GetGuidValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "role", n => { Role = n.GetStringValue(); } },
                 { "steamId", n => { SteamId = n.GetStringValue(); } },
@@ -102,10 +93,9 @@ namespace Ludus.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteIntValue("avatarImageId", AvatarImageId);
+            writer.WriteGuidValue("avatarImageId", AvatarImageId);
             writer.WriteDateTimeOffsetValue("createDate", CreateDate);
-            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.UserGameStatus>("gameStatusList", GameStatusList);
-            writer.WriteIntValue("id", Id);
+            writer.WriteGuidValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteStringValue("role", Role);
             writer.WriteStringValue("steamId", SteamId);

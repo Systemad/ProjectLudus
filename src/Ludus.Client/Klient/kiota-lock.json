@@ -1,14 +1,14 @@
 {
-  "descriptionHash": "C9567DE1AA406CB305163EA2333D31B7E3BA3DAA975D5D61F02B4D6AF44FE1F603262CCAC5A1FC89831EA8BD8C723CCAF34D1AF98D1E69B6F774DE07E1ABAF15",
+  "descriptionHash": "0932B8C4F27094CE160750C09F3716577CA0BE8E5BDF07E977F9F4AF7CD220C1136B47074D68DEAF121408EFBD07338678E0E96F2209A0E7520159FBC30888FA",
   "descriptionLocation": "../../Ludus.Server/schema/Ludus.Server.json",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.24.3",
+  "kiotaVersion": "1.25.1",
   "clientClassName": "ApiClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "Ludus.Client",
   "language": "CSharp",
   "usesBackingStore": false,
-  "excludeBackwardCompatible": true,
+  "excludeBackwardCompatible": false,
   "includeAdditionalData": true,
   "disableSSLValidation": false,
   "serializers": [

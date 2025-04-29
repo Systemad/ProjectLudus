@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="Ludus.Client\Ludus.Client.csproj" Type="Classic C#" />
+  <Project Path="Ludus.Server\Ludus.Server.csproj" Type="Classic C#" />
+  <Project Path="Ludus.Service\Ludus.Service.csproj" Type="Classic C#" />
+  <Project Path="Ludus.Shared\Ludus.Shared.csproj" Type="Classic C#" />
+</Solution>

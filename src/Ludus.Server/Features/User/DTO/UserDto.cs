@@ -1,4 +1,6 @@
-﻿namespace Ludus.Server.Features.User;
+﻿using Ludus.Server.Features.User.Models;
+
+namespace Ludus.Server.Features.User.DTO;
 
 public class UserDto
 {

@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.User;
+using Ludus.Server.Features.User.Models;
 using Ludus.Shared;
 using Marten;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -27,7 +27,8 @@ public class ValidationHelper
         var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
-        var user = await db.Query<User.User>().FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await db.Query<User.Models.User>()
+            .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         if (user != null)
         {
@@ -54,10 +55,10 @@ public class ValidationHelper
         }
         catch (Exception e)
         {
-            logger.LogError(e, "An exception occurated when downloading player summaries");
+            logger.LogError(e, "An exception occured when downloading player summary");
         }
 
-        user = new User.User { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
+        user = new User.Models.User { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
 
         if (playerSummary != null)
         {
@@ -71,10 +72,12 @@ public class ValidationHelper
                 var img = new UserImage()
                 {
                     Name = "steam_avatar.jpg",
+                    UserId = user.Id,
                     Content = avatarContentBytes,
                     ContentType = "image/jpeg",
                 };
                 user.UserImage = img;
+                user.AvatarImageId = img.Id;
             }
             catch (Exception e)
             {
@@ -99,7 +102,8 @@ public class ValidationHelper
         var userStore = services.GetRequiredService<IUserStore>();
         await using var db = userStore.LightweightSession();
 
-        var user = await db.Query<User.User>().FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await db.Query<User.Models.User>()
+            .FirstOrDefaultAsync(x => x.SteamId == steamId);
         var claims = new List<Claim>
         {
             new Claim(ClaimTypes.NameIdentifier, steamId),

@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
-
     <OpenApiDocumentsDirectory>./schema</OpenApiDocumentsDirectory>
     <!--
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
     -->
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
     <PackageReference Include="Marten" Version="7.40.0" />
     <PackageReference Include="Marten.AspNetCore" Version="7.40.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
+      Version="9.0.4"
+    />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.4">
       <PrivateAssets>all</PrivateAssets>
@@ -31,17 +31,18 @@
     <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.1.13" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
-
-  <!--
+  <ItemGroup>
+    <Folder Include="Features\User\Status\Requests\" />
+  </ItemGroup>
   <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
-    <Exec Command="kiota generate -l CSharp -o $(SolutionDir)Ludus.Client\Klient -n Ludus.Client -c ApiClient  -d $(ProjectDir)/schema/Ludus.Server.json" WorkingDirectory="$(ProjectDir)" />
+    <Exec
+      Command="kiota generate -l CSharp -o $(SolutionDir)Ludus.Client\Klient -n Ludus.Client -c ApiClient  -d $(ProjectDir)/schema/Ludus.Server.json"
+      WorkingDirectory="$(ProjectDir)"
+    />
   </Target>
-  
-  -->
   <!--
   <Target Name="GenerateClient" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
     <Exec Command="kiota generate -l csharp -d $(ProjectDir)/schema/Ludus.Server.json -o $(SolutionDir)Ludus.Client\Klient" />

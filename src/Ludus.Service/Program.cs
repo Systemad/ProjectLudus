@@ -44,11 +44,18 @@ using (var scope = app.Services.CreateScope())
 {
     var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
+    /*
     await store.Advanced.Clean.CompletelyRemoveAllAsync();
     await store.Advanced.Clean.DeleteAllDocumentsAsync();
     await store.Advanced.Clean.DeleteAllEventDataAsync();
 
     var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
     await dataSeeder.Populate();
+    */
+    var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    await using var session = store.LightweightSession();
+    var gameTypes = await dataSeeder.FetchGamesTypesAsync();
+    session.StoreObjects(gameTypes);
+    await session.SaveChangesAsync();
 }
 app.Run();

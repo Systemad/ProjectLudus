@@ -33,7 +33,7 @@ namespace Ludus.Client.Models
         /// <summary>The createDate property</summary>
         public DateTimeOffset? CreateDate { get; set; }
         /// <summary>The id property</summary>
-        public int? Id { get; set; }
+        public Guid? Id { get; set; }
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -43,7 +43,7 @@ namespace Ludus.Client.Models
         public string Name { get; set; }
 #endif
         /// <summary>The userId property</summary>
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::Ludus.Client.Models.UserImage"/> and sets the default values.
         /// </summary>
@@ -72,9 +72,9 @@ namespace Ludus.Client.Models
                 { "content", n => { Content = n.GetByteArrayValue(); } },
                 { "contentType", n => { ContentType = n.GetStringValue(); } },
                 { "createDate", n => { CreateDate = n.GetDateTimeOffsetValue(); } },
-                { "id", n => { Id = n.GetIntValue(); } },
+                { "id", n => { Id = n.GetGuidValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "userId", n => { UserId = n.GetIntValue(); } },
+                { "userId", n => { UserId = n.GetGuidValue(); } },
             };
         }
         /// <summary>
@@ -87,9 +87,9 @@ namespace Ludus.Client.Models
             writer.WriteByteArrayValue("content", Content);
             writer.WriteStringValue("contentType", ContentType);
             writer.WriteDateTimeOffsetValue("createDate", CreateDate);
-            writer.WriteIntValue("id", Id);
+            writer.WriteGuidValue("id", Id);
             writer.WriteStringValue("name", Name);
-            writer.WriteIntValue("userId", UserId);
+            writer.WriteGuidValue("userId", UserId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

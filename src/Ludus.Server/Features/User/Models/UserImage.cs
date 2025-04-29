@@ -1,4 +1,4 @@
-﻿namespace Ludus.Server.Features.User;
+﻿namespace Ludus.Server.Features.User.Models;
 
 public class UserImage
 {

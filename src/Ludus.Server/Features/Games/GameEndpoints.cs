@@ -1,8 +1,4 @@
-﻿using Ludus.Server.Features.Games.Queries;
-using Ludus.Shared.Features.Games;
-using Marten;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Ludus.Server.Features.Games.Handlers;
 
 namespace Ludus.Server.Features.Games;
 
@@ -12,46 +8,10 @@ public static class GameEndpoints
     {
         var group = routes.MapGroup("api/games").WithTags("Games"); //.WithOpenApi();
 
-        group.MapPost("/", GetGamesByIds);
-        group.MapGet("/{id:long}", GetGameById);
-        group.MapGet("/top", GetRatedGames);
+        group.MapPost("/", GetGamesByIdsAsync.Handler);
+        group.MapGet("/{id:long}", GetGameByIdAsync.Handler);
+        group.MapGet("/top", GetTopRatedGamesAsync.Handler);
+        group.MapGet("/search", GetGamesByParametersAsync.Handler);
         return group;
-    }
-
-    private static async Task<Results<Ok<List<Game>>, BadRequest<string>>> GetGamesByIds(
-        [FromServices] IQuerySession session,
-        [FromBody] List<long> ids
-    )
-    {
-        if (ids.Count == 0)
-            return TypedResults.BadRequest("You need to provide at least one ID");
-
-        var results = await session.LoadManyAsync<Game>(ids);
-        return TypedResults.Ok(results.ToList());
-    }
-
-    private static async Task<Results<Ok<Game>, NotFound>> GetGameById(
-        [FromServices] IQuerySession session,
-        long id
-    )
-    {
-        var game = await session.Query<Game>().Where(g => g.Id == id).FirstOrDefaultAsync();
-        if (game is null)
-            return TypedResults.NotFound();
-
-        return TypedResults.Ok(game);
-    }
-
-    private static async Task<Ok<List<Game>>> GetRatedGames(
-        [FromServices] IQuerySession session,
-        int pageNumber = 1,
-        int pageSize = 20,
-        string? search = null
-    )
-    {
-        var pageQuery = new GamesPaginationQuery(pageNumber, 20);
-        var games = await session.QueryAsync(pageQuery);
-        var gamesList = games.ToList();
-        return TypedResults.Ok(gamesList);
     }
 }

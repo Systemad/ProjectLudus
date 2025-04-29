@@ -3,6 +3,7 @@ using Ludus.Service.Twitch;
 using Ludus.Shared;
 using Ludus.Shared.Features.Games;
 using Marten;
+using Marten.Internal.Sessions;
 using Marten.Schema;
 
 namespace Ludus.Service;
@@ -85,12 +86,14 @@ public class DataSeeder
         var themes = GetDistinctEntities(games, g => g.Themes);
         var franchises = GetDistinctEntities(games, g => g.Franchises);
 
+        /*
         var gameTypes = games
             .Select(g => g.GameType)
             .Where(gt => gt != null && gt.Id > 0)
             .GroupBy(gt => gt.Id)
             .Select(g => g.First())
             .ToList();
+        */
 
         session.StoreObjects(gameModes);
         session.StoreObjects(genres);
@@ -100,6 +103,8 @@ public class DataSeeder
         session.StoreObjects(gameEngines);
         session.StoreObjects(themes);
         session.StoreObjects(franchises);
+
+        var gameTypes = await FetchGamesTypesAsync();
         session.StoreObjects(gameTypes);
 
         await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.OverwriteExisting);
@@ -107,18 +112,25 @@ public class DataSeeder
         //await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.InsertsOnly);
     }
 
-    private async Task FetchGamesTypesAsync()
+    public async Task<List<GameType>> FetchGamesTypesAsync()
     {
-        await using var session = _store.LightweightSession();
-        var requestBody = $"fields {string.Join(",", Query.Fields)};;";
+        _client = _httpClientFactory.CreateClient("IGDB");
+        _client.DefaultRequestHeaders.Add(
+            "Client-ID",
+            "i0s32q3oi8z074rvq0ljkaupnbkq98" /*options.ClientId*/
+        );
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer x8hmb9ft7j8mohy6yjfdm9ano95abm");
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, "games");
+        var requestBody = $"fields type; limit 500;";
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, "game_types");
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var games = await response.Content.ReadFromJsonAsync<List<Game>>();
+        var gamesTypes = await response.Content.ReadFromJsonAsync<List<GameType>>();
+        return gamesTypes;
     }
 
     private static IList<T> GetDistinctEntities<T>(

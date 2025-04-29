@@ -32,6 +32,6 @@ public class AuthenticatedUserService
     }
 
     public bool IsAuthenticated => User != null;
-    public int UserId => User?.Id ?? 0;
+    public Guid UserId => User?.Id ?? Guid.Empty;
     public bool IsAdmin => User?.Role?.Equals(RoleConstants.AdminRoleId) ?? false;
 }
