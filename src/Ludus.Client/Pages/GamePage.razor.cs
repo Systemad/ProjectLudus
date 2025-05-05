@@ -9,7 +9,7 @@ public partial class GamePage : ComponentBase
     public long Id { get; set; }
 
     [Inject]
-    public ApiClient Client { get; set; }
+    public LudusClient Client { get; set; }
 
     public Game? Game { get; set; }
 

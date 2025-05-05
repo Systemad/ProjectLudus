@@ -50,9 +50,9 @@
 
         <MudPaper Class="d-flex pa-4" Width="80%" Elevation="0">
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
-                @if (Games is not null)
+                @if (RatedGames.Games is not null)
                 {
-                    @foreach (var game in Games)
+                    @foreach (var game in RatedGames.Games)
                     {
                         <MudItem xs="12" md="4" lg="3" xl="2">
                             <GameCard Game="@game"/>

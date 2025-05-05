@@ -1,4 +1,5 @@
-﻿using Ludus.Shared.Features.Games;
+﻿using Ludus.Server.Features.Shared;
+using Ludus.Shared.Features.Games;
 using Marten;
 using Marten.Linq;
 using Marten.Pagination;
@@ -7,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Games.Handlers;
 
-public class GameSearchParameters
+public class GameSearchQuery : IPaginationParameters
 {
     [FromQuery(Name = "ps")]
-    public int? PageSize { get; set; } = 20;
+    public int PageSize { get; set; } = 20;
 
     [FromQuery(Name = "pn")]
-    public int? PageNumber { get; set; } = 1;
+    public int PageNumber { get; set; } = 1;
 
     [FromQuery(Name = "name")]
     public string? Name { get; set; } = null;
@@ -34,70 +35,69 @@ public class GameSearchParameters
     public long[]? PlayerPerspectiveId { get; set; } = null;
 }
 
-public record GetSearchGamesResult(IEnumerable<Game> Games, long TotalItems, long TotalPages);
+public record GetSearchGamesResult(
+    IEnumerable<GameDTO> Games,
+    long TotalItemCount,
+    long PageCount,
+    bool IsLastPage
+) : IPaginatedResponse;
 
 public static class GetGamesByParametersAsync
 {
     public static async Task<Ok<GetSearchGamesResult>> Handler(
         [FromServices] IQuerySession session,
-        [AsParameters] GameSearchParameters parameters
+        [AsParameters] GameSearchQuery query
     )
     {
         var gameQuery = session.Query<Game>();
 
-        if (!string.IsNullOrWhiteSpace(parameters.Name))
+        if (!string.IsNullOrWhiteSpace(query.Name))
         {
-            gameQuery =
-                (IMartenQueryable<Game>)gameQuery.Where(x => x.Name.Contains(parameters.Name));
+            gameQuery = (IMartenQueryable<Game>)gameQuery.Where(x => x.Name.Contains(query.Name));
         }
 
-        if (parameters.GenreId is not null && parameters.GenreId.Length > 0)
-        {
-            gameQuery =
-                (IMartenQueryable<Game>)
-                    gameQuery.Where(x => x.Genres.Any(g => parameters.GenreId.Contains(g.Id)));
-        }
-
-        if (parameters.PlatformId is not null && parameters.PlatformId.Length > 0)
+        if (query.GenreId is not null && query.GenreId.Length > 0)
         {
             gameQuery =
                 (IMartenQueryable<Game>)
-                    gameQuery.Where(x =>
-                        x.Platforms.Any(g => parameters.PlatformId.Contains(g.Id))
-                    );
+                    gameQuery.Where(x => x.Genres.Any(g => query.GenreId.Contains(g.Id)));
         }
 
-        if (parameters.GameModeId is not null && parameters.GameModeId.Length > 0)
+        if (query.PlatformId is not null && query.PlatformId.Length > 0)
         {
             gameQuery =
                 (IMartenQueryable<Game>)
-                    gameQuery.Where(x =>
-                        x.GameModes.Any(g => parameters.GameModeId.Contains(g.Id))
-                    );
+                    gameQuery.Where(x => x.Platforms.Any(g => query.PlatformId.Contains(g.Id)));
         }
 
-        if (parameters.ThemeId is not null && parameters.ThemeId.Length > 0)
+        if (query.GameModeId is not null && query.GameModeId.Length > 0)
         {
             gameQuery =
                 (IMartenQueryable<Game>)
-                    gameQuery.Where(x => x.Themes.Any(g => parameters.ThemeId.Contains(g.Id)));
+                    gameQuery.Where(x => x.GameModes.Any(g => query.GameModeId.Contains(g.Id)));
         }
 
-        if (parameters.PlayerPerspectiveId is not null && parameters.PlayerPerspectiveId.Length > 0)
+        if (query.ThemeId is not null && query.ThemeId.Length > 0)
+        {
+            gameQuery =
+                (IMartenQueryable<Game>)
+                    gameQuery.Where(x => x.Themes.Any(g => query.ThemeId.Contains(g.Id)));
+        }
+
+        if (query.PlayerPerspectiveId is not null && query.PlayerPerspectiveId.Length > 0)
         {
             gameQuery =
                 (IMartenQueryable<Game>)
                     gameQuery.Where(x =>
-                        x.PlayerPerspectives.Any(g => parameters.PlayerPerspectiveId.Contains(g.Id))
+                        x.PlayerPerspectives.Any(g => query.PlayerPerspectiveId.Contains(g.Id))
                     );
         }
 
-        var games = await gameQuery.ToPagedListAsync(
-            parameters.PageNumber ?? 1,
-            parameters.PageSize ?? 20
-        );
+        var games = await gameQuery
+            .Select(x => x.ToGameDto())
+            .ToPagedListAsync(query.PageNumber, query.PageSize);
         return TypedResults.Ok(
-            new GetSearchGamesResult(games, games.TotalItemCount, games.PageCount)
+            new GetSearchGamesResult(games, games.TotalItemCount, games.PageCount, games.IsLastPage)
         );
     }
 }

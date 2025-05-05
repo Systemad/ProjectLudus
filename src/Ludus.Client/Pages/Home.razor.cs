@@ -18,19 +18,19 @@ public partial class Home : ComponentBase
         _expanded = !_expanded;
     }
 
-    public List<Game>? Games { get; set; }
+    public GetTopRatedGamesResult? RatedGames { get; set; }
 
     [Inject]
-    public ApiClient api { get; set; }
+    public LudusClient Client { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var games = await api.Api.Games.Top.GetAsync(param =>
+        var response = await Client.Api.Games.Top.GetAsync(param =>
         {
-            param.QueryParameters.PageNumber = 1;
-            param.QueryParameters.PageSize = 20;
+            param.QueryParameters.P = 20;
+            param.QueryParameters.Pn = 1;
         });
-        Games = games;
+        RatedGames = response;
         await base.OnInitializedAsync();
     }
 }

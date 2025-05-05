@@ -4,7 +4,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
-    <OpenApiDocumentsDirectory>./schema</OpenApiDocumentsDirectory>
+    <OpenApiDocumentsDirectory>./Schema</OpenApiDocumentsDirectory>
     <!--
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
@@ -35,14 +35,19 @@
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Features\User\Status\Requests\" />
+    <_ContentIncludedByDefault Remove="schema\Ludus.Server.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Schema\" />
+  </ItemGroup>
+  <!--
   <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
     <Exec
-      Command="kiota generate -l CSharp -o $(SolutionDir)Ludus.Client\Klient -n Ludus.Client -c ApiClient  -d $(ProjectDir)/schema/Ludus.Server.json"
+      Command="kiota generate -l CSharp -o $(SolutionDir)Ludus.Client\ApiClient -n Ludus.Client -c LudusClient  -d $(ProjectDir)/schema/Ludus.Server.json"
       WorkingDirectory="$(ProjectDir)"
     />
   </Target>
+  -->
   <!--
   <Target Name="GenerateClient" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
     <Exec Command="kiota generate -l csharp -d $(ProjectDir)/schema/Ludus.Server.json -o $(SolutionDir)Ludus.Client\Klient" />

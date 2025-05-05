@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.User.Queries;
 using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Ludus.Server.Features.User.Handlers;
@@ -15,7 +14,7 @@ public static class MeAsync
         {
             var userId = Guid.Parse(user.Identity.Name);
             await using var session = db.QuerySession();
-            var ludusUser = await session.QueryAsync(new GetUserByIdQuery() { Id = userId });
+            var ludusUser = await session.LoadAsync<Models.User>(userId);
             return TypedResults.Ok(ludusUser);
         }
 

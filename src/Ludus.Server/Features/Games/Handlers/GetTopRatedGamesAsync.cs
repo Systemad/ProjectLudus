@@ -1,4 +1,5 @@
-﻿using Ludus.Shared.Features.Games;
+﻿using Ludus.Server.Features.Shared;
+using Ludus.Shared.Features.Games;
 using Marten;
 using Marten.Pagination;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -6,30 +7,38 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Games.Handlers;
 
-public class TopRatedGamesParameters
+public record GetTopRatedGamesResponse(
+    IEnumerable<GameDTO> Games,
+    long TotalItemCount,
+    long PageCount,
+    bool IsLastPage
+) : IPaginatedResponse;
+
+public class GetTopRatedGamesQuery : IPaginationParameters
 {
-    [FromQuery(Name = "p")]
-    public int? PageSize { get; set; } = 20;
-
-    [FromQuery(Name = "pn")]
-    public int? PageNumber { get; set; } = 1;
+    public int PageSize { get; } = 20;
+    public int PageNumber { get; } = 1;
 }
-
-public record GetTopRatedGamesResult(IEnumerable<Game> Games, long TotalItems, long TotalPages);
 
 public static class GetTopRatedGamesAsync
 {
-    public static async Task<Ok<GetTopRatedGamesResult>> Handler(
+    public static async Task<Ok<GetTopRatedGamesResponse>> Handler(
         [FromServices] IQuerySession session,
-        [AsParameters] TopRatedGamesParameters parameters
+        [AsParameters] GetTopRatedGamesQuery query
     )
     {
         var games = await session
             .Query<Game>()
-            .ToPagedListAsync(parameters.PageNumber ?? 1, parameters.PageSize ?? 20);
+            .Select(x => x.ToGameDto())
+            .ToPagedListAsync(query.PageNumber, query.PageSize);
 
         return TypedResults.Ok(
-            new GetTopRatedGamesResult(games, games.TotalItemCount, games.PageCount)
+            new GetTopRatedGamesResponse(
+                games,
+                games.TotalItemCount,
+                games.PageCount,
+                games.IsLastPage
+            )
         );
     }
 }

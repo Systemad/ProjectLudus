@@ -10,10 +10,21 @@ public partial class GameCardActivityDialog : ComponentBase
 
     [Parameter]
     public Game Game { get; set; } = new Game();
+    
+    [Inject]
+    public LudusClient Client { get; set; }
 
-    private GameStatus GStatus { get; set; } = GameStatus.Played;
 
     private void Submit() => MudDialog.Close(DialogResult.Ok(true));
 
     private void Cancel() => MudDialog.Cancel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var status = await Client.Api.Status.GetAsync(parameter =>
+        {
+           parameter.QueryParameters. 
+        }):
+        return base.OnInitializedAsync();
+    }
 }

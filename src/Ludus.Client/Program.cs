@@ -43,7 +43,7 @@ builder.Services.AddScoped(sp =>
         BaseUrl = builder.HostEnvironment.BaseAddress,
     };
 
-    return new ApiClient(adapter);
+    return new LudusClient(adapter);
 });
 
 builder.Services.AddScoped<AuthenticationStateProvider, SteamAuthProvider>();

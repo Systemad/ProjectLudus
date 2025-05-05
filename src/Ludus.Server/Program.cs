@@ -1,10 +1,11 @@
 using Ludus.Server.Configuration;
 using Ludus.Server.Features;
 using Ludus.Server.Features.Auth;
+using Ludus.Server.Features.GameEntries;
 using Ludus.Server.Features.Games;
 using Ludus.Server.Features.Lists;
+using Ludus.Server.Features.Status;
 using Ludus.Server.Features.User;
-using Ludus.Server.Features.User.Status;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
@@ -16,7 +17,10 @@ builder.Services.AddAuth();
 
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
-builder.Services.AddOutputCache();
+builder.Services.AddOutputCache(options =>
+{
+    options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(30);
+});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
@@ -67,7 +71,7 @@ app.MapAuthEndpoints();
 app.MapGameEndpoints();
 app.MapUserEndpoints();
 app.MapListEndpoints();
-app.MapUserStatusEndpoints();
+app.MapGameEntryEndpoints();
 
 app.MapRazorPages();
 app.UseOutputCache();
