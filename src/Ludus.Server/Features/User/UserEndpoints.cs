@@ -7,7 +7,7 @@ public static class UserEndpoints
     public static RouteGroupBuilder MapUserEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.MapGroup("api/user").WithTags("User").WithOpenApi();
-        group.MapGet("me", MeAsync.Handler);
+        group.MapGet("/me", MeAsync.Handler);
 
         return group;
     }

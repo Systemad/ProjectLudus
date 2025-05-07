@@ -1,13 +1,12 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.GameEntries.Services;
+using Ludus.Server.Features.Collection.Services;
 using Ludus.Server.Features.Shared;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ludus.Server.Features.GameEntries.Handlers;
+namespace Ludus.Server.Features.Collection.Handlers;
 
 public record GameEntryQuery(
-    Guid Id,
     long GameId,
     GameStatus Status,
     DateTime? StartDate,
@@ -18,16 +17,16 @@ public record GameEntryQuery(
 
 public static class CreateOrUpdateGameStatusAsync
 {
-    public static async Task<Results<Ok<GameEntryDto>, BadRequest>> Handler(
-        [FromServices] GameEntryService gameEntryService,
+    public static async Task<Results<Ok<GameCollectionDto>, BadRequest>> Handler(
+        [FromServices] GameCollectionService gameCollectionService,
         ClaimsPrincipal user,
-        long gameId,
+        //long gameId,
         [FromBody] GameEntryQuery query
     )
     {
         var userId = Guid.Parse(user.Identity.Name);
 
-        var entry = await gameEntryService.UpsertGameEntryAsync(userId, query);
+        var entry = await gameCollectionService.UpsertGameEntryAsync(userId, query);
 
         return TypedResults.Ok(entry.ToGameEntryDto());
     }

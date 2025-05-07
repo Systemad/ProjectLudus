@@ -21,7 +21,7 @@ public class ValidationHelper
         }
 
         var services = context.HttpContext.RequestServices;
-        var userStore = services.GetRequiredService<IUserStore>();
+        var userStore = services.GetRequiredService<IDocumentStore>();
         await using var db = userStore.LightweightSession();
 
         var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
@@ -99,7 +99,7 @@ public class ValidationHelper
         ];
 
         var services = context.HttpContext.RequestServices;
-        var userStore = services.GetRequiredService<IUserStore>();
+        var userStore = services.GetRequiredService<IDocumentStore>();
         await using var db = userStore.LightweightSession();
 
         var user = await db.Query<User.Models.User>()

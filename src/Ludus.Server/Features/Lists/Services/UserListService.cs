@@ -1,4 +1,4 @@
-﻿using Ludus.Server.Features.GameEntries;
+﻿using Ludus.Server.Features.Collection;
 using Ludus.Server.Features.Games;
 using Ludus.Shared.Features.Games;
 using Marten;
@@ -7,10 +7,10 @@ namespace Ludus.Server.Features.Lists.Services;
 
 public class UserListService
 {
-    private IUserStore UserStore { get; set; }
-    private IDocumentStore GameDb { get; set; }
+    private IDocumentStore UserStore { get; set; }
+    private IGameStore GameDb { get; set; }
 
-    public UserListService(IUserStore userStore, IDocumentStore gameDb)
+    public UserListService(IDocumentStore userStore, IGameStore gameDb)
     {
         UserStore = userStore;
         GameDb = gameDb;
@@ -29,7 +29,7 @@ public class UserListService
         var gameEntryIds = fetchPreview ? list.GameEntryIds.Take(6).ToList() : list.GameEntryIds;
 
         var gameEntries = await session
-            .Query<GameEntry>()
+            .Query<GameCollection>()
             .Where(x => x.UserId == userId)
             .Where(x => gameEntryIds.Contains(x.Id))
             .ToListAsync();
@@ -72,7 +72,7 @@ public class UserListService
             : lists.SelectMany(x => x.GameEntryIds).ToList();
 
         var gameEntries = await session
-            .Query<GameEntry>()
+            .Query<GameCollection>()
             .Where(x => x.UserId == userId)
             .Where(x => gameEntryIds.Contains(x.Id))
             .ToListAsync();

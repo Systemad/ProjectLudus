@@ -45,10 +45,11 @@ public record GetSearchGamesResult(
 public static class GetGamesByParametersAsync
 {
     public static async Task<Ok<GetSearchGamesResult>> Handler(
-        [FromServices] IQuerySession session,
+        [FromServices] IGameStore store,
         [AsParameters] GameSearchQuery query
     )
     {
+        await using var session = store.QuerySession();
         var gameQuery = session.Query<Game>();
 
         if (!string.IsNullOrWhiteSpace(query.Name))
@@ -93,11 +94,15 @@ public static class GetGamesByParametersAsync
                     );
         }
 
-        var games = await gameQuery
-            .Select(x => x.ToGameDto())
-            .ToPagedListAsync(query.PageNumber, query.PageSize);
+        var games = await gameQuery.ToPagedListAsync(query.PageNumber, query.PageSize);
+        var mappedGames = games.Select(x => x.ToGameDto());
         return TypedResults.Ok(
-            new GetSearchGamesResult(games, games.TotalItemCount, games.PageCount, games.IsLastPage)
+            new GetSearchGamesResult(
+                mappedGames,
+                games.TotalItemCount,
+                games.PageCount,
+                games.IsLastPage
+            )
         );
     }
 }

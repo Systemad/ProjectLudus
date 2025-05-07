@@ -1,36 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
-
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="8.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.17.2" />
-		<PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.17.2" />
-		<PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.17.2" />
-		<PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.17.2" />
-		<PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.17.2" />
-		<PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.17.2" />
-		<PackageReference Include="MudBlazor" Version="8.5.1" />
-		<PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Klient\kiota-lock.json" />
-	</ItemGroup>
-
-	<!--
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="8.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
+      Version="9.0.4"
+      PrivateAssets="all"
+    />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.4" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.17.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.17.2" />
+    <PackageReference Include="MudBlazor" Version="8.6.0" />
+    <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Klient\kiota-lock.json" />
+  </ItemGroup>
+  <!--
 	<Target Name="InstallTailwindCSS" AfterTargets="Build" Condition="!Exists('tailwindcss-extra.exe')">
 		<PropertyGroup>
 			<TailwindURL Condition="'$(OS)' == 'Windows_NT'">https://github.com/dobicinaitis/tailwind-cli-extra/releases/latest/download/tailwindcss-extra-windows-x64.exe</TailwindURL>

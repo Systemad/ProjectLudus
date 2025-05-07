@@ -8,7 +8,7 @@ namespace Ludus.Server.Features.Lists.GetList;
 public static class GetListAsync
 {
     public static async Task<Results<Ok<UserGameListDto>, BadRequest<string>>> Handle(
-        UserListService listService,
+        [FromServices] UserListService listService,
         ClaimsPrincipal user,
         Guid listId,
         [FromQuery] bool preview = false

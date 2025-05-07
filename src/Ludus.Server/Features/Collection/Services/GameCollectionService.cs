@@ -1,29 +1,29 @@
-﻿using Ludus.Server.Features.GameEntries.Handlers;
+﻿using Ludus.Server.Features.Collection.Handlers;
 using Marten;
 
-namespace Ludus.Server.Features.GameEntries.Services;
+namespace Ludus.Server.Features.Collection.Services;
 
-public class GameEntryService
+public class GameCollectionService
 {
-    private IUserStore UserStore { get; set; }
-    private IDocumentStore GameDb { get; set; }
+    private IDocumentStore UserStore { get; set; }
+    private IGameStore GameDb { get; set; }
 
-    public GameEntryService(IUserStore db, IDocumentStore gameDb)
+    public GameCollectionService(IDocumentStore db, IGameStore gameDb)
     {
         UserStore = db;
         GameDb = gameDb;
     }
 
-    public async Task<GameEntry> UpsertGameEntryAsync(Guid userId, GameEntryQuery query)
+    public async Task<GameCollection> UpsertGameEntryAsync(Guid userId, GameEntryQuery query)
     {
         await using var session = UserStore.LightweightSession();
         var gameEntry = await session
-            .Query<GameEntry>()
+            .Query<GameCollection>()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == query.GameId);
 
         if (gameEntry is null)
         {
-            gameEntry = new GameEntry
+            gameEntry = new GameCollection
             {
                 UserId = userId,
                 GameId = query.GameId,

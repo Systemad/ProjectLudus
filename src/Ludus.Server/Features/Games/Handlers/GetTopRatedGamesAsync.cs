@@ -23,18 +23,17 @@ public class GetTopRatedGamesQuery : IPaginationParameters
 public static class GetTopRatedGamesAsync
 {
     public static async Task<Ok<GetTopRatedGamesResponse>> Handler(
-        [FromServices] IQuerySession session,
+        [FromServices] IGameStore store,
         [AsParameters] GetTopRatedGamesQuery query
     )
     {
-        var games = await session
-            .Query<Game>()
-            .Select(x => x.ToGameDto())
-            .ToPagedListAsync(query.PageNumber, query.PageSize);
+        await using var session = store.QuerySession();
+        var games = await session.Query<Game>().ToPagedListAsync(query.PageNumber, query.PageSize);
+        var mappedGames = games.Select(x => x.ToGameDto());
 
         return TypedResults.Ok(
             new GetTopRatedGamesResponse(
-                games,
+                mappedGames,
                 games.TotalItemCount,
                 games.PageCount,
                 games.IsLastPage

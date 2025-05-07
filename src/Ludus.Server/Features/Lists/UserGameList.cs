@@ -13,5 +13,5 @@ public record UserGameListDto(
     Guid Id,
     string Name,
     bool Public,
-    IEnumerable<GameEntryPreviewDto> GameEntries
+    IEnumerable<GameCollectionPreviewDto> GameEntries
 );

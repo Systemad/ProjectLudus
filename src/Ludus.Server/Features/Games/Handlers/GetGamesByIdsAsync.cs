@@ -10,10 +10,11 @@ public record GetGamesByIdsResult(IEnumerable<Game> Games);
 public static class GetGamesByIdsAsync
 {
     public static async Task<Results<Ok<GetGamesByIdsResult>, BadRequest<string>>> Handler(
-        [FromServices] IQuerySession session,
+        [FromServices] IGameStore store,
         [FromBody] List<long> ids
     )
     {
+        await using var session = store.QuerySession();
         if (ids.Count == 0)
             return TypedResults.BadRequest("You need to provide at least one ID");
 

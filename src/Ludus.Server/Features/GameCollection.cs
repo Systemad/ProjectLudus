@@ -3,7 +3,7 @@ using Ludus.Shared.Features.Games;
 
 namespace Ludus.Server.Features;
 
-public class GameEntry
+public class GameCollection
 {
     public Guid Id { get; set; }
 
@@ -19,7 +19,7 @@ public class GameEntry
     public string? Notes { get; set; }
 }
 
-public record GameEntryPreviewDto(
+public record GameCollectionPreviewDto(
     Guid Id,
     GameDTO Game,
     GameStatus Status,
@@ -30,7 +30,7 @@ public record GameEntryPreviewDto(
     string? Notes
 );
 
-public record GameEntryDto(
+public record GameCollectionDto(
     Guid Id,
     long GameId,
     GameStatus Status,

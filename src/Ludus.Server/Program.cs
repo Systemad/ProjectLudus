@@ -1,11 +1,12 @@
 using Ludus.Server.Configuration;
-using Ludus.Server.Features;
 using Ludus.Server.Features.Auth;
-using Ludus.Server.Features.GameEntries;
+using Ludus.Server.Features.Collection;
+using Ludus.Server.Features.Collection.Services;
 using Ludus.Server.Features.Games;
 using Ludus.Server.Features.Lists;
-using Ludus.Server.Features.Status;
+using Ludus.Server.Features.Lists.Services;
 using Ludus.Server.Features.User;
+using Marten;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
@@ -29,14 +30,16 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
-builder.Services.ConfigureOpenTelemetry(builder.Configuration);
+//builder.Services.ConfigureOpenTelemetry(builder.Configuration);
 
+builder.Services.AddSingleton<GameCollectionService>();
+builder.Services.AddSingleton<UserListService>();
 var app = builder.Build();
 
 /*
 using (var scope = app.Services.CreateScope())
 {
-    var store = scope.ServiceProvider.GetRequiredService<IUserStore>();
+    var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
 
     await store.Advanced.Clean.CompletelyRemoveAllAsync();
     await store.Advanced.Clean.DeleteAllDocumentsAsync();
@@ -64,18 +67,21 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 
-app.Map("/", () => Results.Redirect("/scalar/v1"));
+app.Map("/openapi", () => Results.Redirect("/scalar/v1"));
 
 // Endpoints
 app.MapAuthEndpoints();
-app.MapGameEndpoints();
-app.MapUserEndpoints();
+app.MapGameCollectionEndpoints();
 app.MapListEndpoints();
-app.MapGameEntryEndpoints();
+app.MapUserEndpoints();
+app.MapGameEndpoints();
 
 app.MapRazorPages();
+
 app.UseOutputCache();
+
 app.MapControllers();
+
 app.MapFallbackToFile("index.html");
 
 app.Run();

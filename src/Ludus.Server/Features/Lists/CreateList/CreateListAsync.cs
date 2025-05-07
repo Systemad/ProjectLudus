@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Ludus.Shared.Features.Games;
+using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ public record CreateListQuery(string Name, bool Public);
 public static class CreateListAsync
 {
     public static async Task<Created<UserGameListDto>> Handle(
-        IUserStore db,
+        IDocumentStore db,
         ClaimsPrincipal user,
         [FromBody] CreateListQuery query
     )
@@ -31,7 +32,7 @@ public static class CreateListAsync
             newItem.Id,
             newItem.Name,
             newItem.Public,
-            new List<GameEntryPreviewDto>()
+            new List<GameCollectionPreviewDto>()
         );
         return TypedResults.Created($"/user/list/{newItem.Id}", result);
     }

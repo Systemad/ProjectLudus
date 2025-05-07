@@ -3,17 +3,17 @@ using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ludus.Server.Features.Lists.Handlers;
+namespace Ludus.Server.Features.Lists.UpdateList;
 
-public record RemoveGameToListParameters(Guid Id, long GameId);
+public record UpdateListQuery(Guid Id, string Name, bool Public);
 
-public static class RemoveGameListAsync
+public static class UpdateListAsync
 {
-    public static async Task<Results<Ok, NotFound<string>>> Handle(
-        IUserStore db,
+    public static async Task<Created<UserGameList>> Handler(
+        IDocumentStore db,
         ClaimsPrincipal user,
         Guid listId,
-        [FromBody] RemoveGameToListParameters parameters
+        [FromBody] UpdateListQuery query
     )
     {
         var userId = Guid.Parse(user.Identity.Name);
@@ -22,11 +22,11 @@ public static class RemoveGameListAsync
             .Query<UserGameList>()
             .Where(x => x.UserId == userId)
             .FirstOrDefaultAsync(x => x.Id == listId);
-        var removed = updateList.GamesIds.Remove(parameters.GameId);
-        if (!removed)
-            return TypedResults.NotFound("Game is not in the list");
+        updateList.Id = query.Id;
+        updateList.Name = query.Name;
+        updateList.Public = query.Public;
         session.Store(updateList);
         await session.SaveChangesAsync();
-        return TypedResults.Ok();
+        return TypedResults.Created($"/user/list/{updateList.Id}", updateList);
     }
 }
