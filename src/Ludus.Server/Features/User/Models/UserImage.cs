@@ -7,5 +7,5 @@ public class UserImage
     public string Name { get; set; }
     public string ContentType { get; set; }
     public byte[] Content { get; set; }
-    public DateTime CreateDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 }

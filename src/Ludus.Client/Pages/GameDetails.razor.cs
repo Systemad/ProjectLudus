@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
-public partial class GamePage : ComponentBase
+public partial class GameDetails : ComponentBase
 {
     [Parameter]
     public long Id { get; set; }

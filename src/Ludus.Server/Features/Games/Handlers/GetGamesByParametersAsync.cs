@@ -54,7 +54,11 @@ public static class GetGamesByParametersAsync
 
         if (!string.IsNullOrWhiteSpace(query.Name))
         {
-            gameQuery = (IMartenQueryable<Game>)gameQuery.Where(x => x.Name.Contains(query.Name));
+            gameQuery =
+                (IMartenQueryable<Game>)
+                    gameQuery.Where(x =>
+                        x.Name.Contains(query.Name, StringComparison.CurrentCultureIgnoreCase)
+                    );
         }
 
         if (query.GenreId is not null && query.GenreId.Length > 0)

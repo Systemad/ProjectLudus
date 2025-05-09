@@ -22,7 +22,7 @@ namespace Ludus.Client.Api.Games.Search
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public SearchRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/search{?gamemodeid*,genreid*,name*,platformid*,pn*,ppsid*,ps*,themeid*}", pathParameters)
+        public SearchRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/search?pn={pn}&ps={ps}{&gamemodeid*,genreid*,name*,platformid*,ppsid*,themeid*}", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace Ludus.Client.Api.Games.Search
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public SearchRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/search{?gamemodeid*,genreid*,name*,platformid*,pn*,ppsid*,ps*,themeid*}", rawUrl)
+        public SearchRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/search?pn={pn}&ps={ps}{&gamemodeid*,genreid*,name*,platformid*,ppsid*,themeid*}", rawUrl)
         {
         }
         /// <returns>A <see cref="global::Ludus.Client.Models.GetSearchGamesResult"/></returns>

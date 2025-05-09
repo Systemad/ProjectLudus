@@ -39,19 +39,24 @@
                     </NotAuthorized>
     
                     <Authorized>
-                        
-                        <MudStack Row="true">
-                            <MudAvatar Size="Size.Large" Rounded="true">
-                                <MudImage Src="@GetImageSrc(@UserService.User.UserImage.ContentType, UserService.User.UserImage.Content)"></MudImage>
-                            </MudAvatar>
-                            <MudStack Justify="Justify.Center" Spacing="0">
-                                <MudText Typo="Typo.body1">@UserService.User.Name</MudText>
-                                <MudLink Href="/logout">Logout</MudLink>
-                            <!--
+                        @if (UserService.User is not null)
+                        {
+                            <MudStack Row="true">
+                                <MudAvatar Size="Size.Large" Rounded="true">
+                                <!--
+                                    <MudImage Src="@GetImageSrc(@UserService.User.UserImage.ContentType, UserService.User.UserImage.Content)"></MudImage>
+                                -->
+                                </MudAvatar>
+                                <MudStack Justify="Justify.Center" Spacing="0">
+                                    <MudText Typo="Typo.body1">@UserService.User.Name</MudText>
+                                    <MudLink Href="/logout">Logout</MudLink>
+                                    <!--
                                 <MudText Typo="Typo.body2">Logout</MudText>
                             -->
+                                </MudStack>
                             </MudStack>
-                        </MudStack>
+                        }
+
                     <!--
                         @context.User.FindFirst(ClaimTypes.NameIdentifier).Value
 

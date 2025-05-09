@@ -1,0 +1,100 @@
+﻿@page "/allgames"
+@using Ludus.Client.Models
+@using Ludus.Client.Features.Games.Components
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudStack>
+        <MudStack Row="true">
+            <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+            <MudButton Variant="Variant.Filled" Class="rounded-lg" DropShadow="false" OnClick="FetchGamesAsync">Search
+            </MudButton>
+        </MudStack>
+
+        <MudStack Row="true">
+            @if (Filters is not null)
+            {
+                if (Filters.Genres is not null)
+                {
+                    <MudSelect T="long" @bind-SelectedValues="_selectedGenreIds" Label="Genres" Variant="Variant.Filled"
+                               MultiSelection="true" MultiSelectionTextFunc="GetMultiSelectionText">
+                        @foreach (var genre in Filters.Genres)
+                        {
+                            <MudSelectItem T="long" Value="@genre.Id!.Value">@genre.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+
+                if (Filters.Themes is not null)
+                {
+                    <MudSelect T="long" @bind-SelectedValues="_selectedThemeIds" Label="Themes" Variant="Variant.Filled"
+                               MultiSelection="true" MultiSelectionTextFunc="GetMultiSelectionTextTheme">
+                        @foreach (var theme in Filters.Themes)
+                        {
+                            <MudSelectItem T="long" Value="@theme.Id!.Value">@theme.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+
+                if (Filters.Genres is not null)
+                {
+                    <MudSelect T="GenreFilter" @bind-SelectedValues="_selectedGenres" Label="Genres"
+                               Variant="Variant.Filled"
+                               MultiSelection="true"
+                               ToStringFunc="g => g.Name">
+                        @foreach (var gen in Filters.Genres)
+                        {
+                            <MudSelectItem T="GenreFilter" Value="@gen">@gen.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+            }
+        </MudStack>
+
+        
+        @if (FetchedGames is not null)
+        {
+            <MudGrid Justify="Justify.FlexStart" Spacing="4">
+                @if (FetchedGames.Games is not null)
+                {
+                    @foreach (var game in FetchedGames.Games)
+                    {
+                        <MudItem xs="12" md="4" lg="3" xl="2">
+                            <GameCard Game="@game"/>
+                        </MudItem>
+                    }
+
+                    <MudItem xs="12" Class="d-flex justify-center">
+                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary"
+                                   Size="Size.Large" Class="mt-4">
+                            Load more
+                        </MudButton>
+                    </MudItem>
+                }
+                else
+                {
+                    @for (int i = 0; i < 10; i++)
+                    {
+                        <MudItem xs="3">
+                            <MudCard Elevation="0" Class="rounded-lg"
+                                     Style="background: var(--mud-palette-background-gray); height: 100%">
+                                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
+                                <MudCardContent>
+                                    <MudSkeleton Width="30%" Height="42px;"/>
+                                    <MudSkeleton Width="80%"/>
+                                    <MudSkeleton Width="100%"/>
+                                </MudCardContent>
+                                <MudCardActions>
+                                    <MudSkeleton Width="64px" Height="40px" Class="ml-2"/>
+                                    <MudSkeleton Width="105px" Height="40px" Class="ml-3"/>
+                                </MudCardActions>
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
+
+            </MudGrid>
+            
+            <MudPagination Size="Size.Medium" DropShadow="false" Color="Color.Primary" Count="_pageCount" @bind-Selected="@_selectedPage"/>
+        }
+    </MudStack>
+</MudContainer>

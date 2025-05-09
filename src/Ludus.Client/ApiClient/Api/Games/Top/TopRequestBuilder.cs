@@ -22,7 +22,7 @@ namespace Ludus.Client.Api.Games.Top
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public TopRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/top{?p*,pn*}", pathParameters)
+        public TopRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/top?pn={pn}&ps={ps}", pathParameters)
         {
         }
         /// <summary>
@@ -30,23 +30,23 @@ namespace Ludus.Client.Api.Games.Top
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public TopRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/top{?p*,pn*}", rawUrl)
+        public TopRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/games/top?pn={pn}&ps={ps}", rawUrl)
         {
         }
-        /// <returns>A <see cref="global::Ludus.Client.Models.GetTopRatedGamesResult"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.GetTopRatedGamesResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<global::Ludus.Client.Models.GetTopRatedGamesResult?> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.Games.Top.TopRequestBuilder.TopRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.GetTopRatedGamesResponse?> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.Games.Top.TopRequestBuilder.TopRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<global::Ludus.Client.Models.GetTopRatedGamesResult> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.Games.Top.TopRequestBuilder.TopRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.GetTopRatedGamesResponse> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.Games.Top.TopRequestBuilder.TopRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.GetTopRatedGamesResult>(requestInfo, global::Ludus.Client.Models.GetTopRatedGamesResult.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.GetTopRatedGamesResponse>(requestInfo, global::Ludus.Client.Models.GetTopRatedGamesResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -78,10 +78,10 @@ namespace Ludus.Client.Api.Games.Top
         public partial class TopRequestBuilderGetQueryParameters 
         #pragma warning restore CS1591
         {
-            [QueryParameter("p")]
-            public int? P { get; set; }
             [QueryParameter("pn")]
             public int? Pn { get; set; }
+            [QueryParameter("ps")]
+            public int? Ps { get; set; }
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.

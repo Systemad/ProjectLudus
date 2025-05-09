@@ -9,7 +9,7 @@ public class User
     public Guid? AvatarImageId { get; set; }
 
     public UserImage? UserImage { get; set; }
-    public DateTime CreateDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     public string AvatarUrl() =>
         AvatarImageId.HasValue ? $"api/images/{AvatarImageId}" : "/img/profiles/default_avatar.png";

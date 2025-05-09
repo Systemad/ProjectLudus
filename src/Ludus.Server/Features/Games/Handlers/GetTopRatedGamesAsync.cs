@@ -1,6 +1,5 @@
 ﻿using Ludus.Server.Features.Shared;
 using Ludus.Shared.Features.Games;
-using Marten;
 using Marten.Pagination;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +15,11 @@ public record GetTopRatedGamesResponse(
 
 public class GetTopRatedGamesQuery : IPaginationParameters
 {
-    public int PageSize { get; } = 20;
-    public int PageNumber { get; } = 1;
+    [FromQuery(Name = "ps")]
+    public int PageSize { get; set; } = 20;
+
+    [FromQuery(Name = "pn")]
+    public int PageNumber { get; set; } = 1;
 }
 
 public static class GetTopRatedGamesAsync

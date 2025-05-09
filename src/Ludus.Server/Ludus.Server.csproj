@@ -32,13 +32,8 @@
     <PackageReference Include="Scalar.AspNetCore" Version="2.2.7" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ludus.Client\Ludus.Client.csproj" />
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="schema\Ludus.Server.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Schema\" />
   </ItemGroup>
   <!--
   <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">

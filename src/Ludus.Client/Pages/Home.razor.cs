@@ -18,7 +18,7 @@ public partial class Home : ComponentBase
         _expanded = !_expanded;
     }
 
-    public GetTopRatedGamesResult? RatedGames { get; set; }
+    public GetTopRatedGamesResponse? RatedGames { get; set; }
 
     [Inject]
     public LudusClient Client { get; set; }
@@ -27,7 +27,7 @@ public partial class Home : ComponentBase
     {
         var response = await Client.Api.Games.Top.GetAsync(param =>
         {
-            param.QueryParameters.P = 20;
+            param.QueryParameters.Ps = 20;
             param.QueryParameters.Pn = 1;
         });
         RatedGames = response;

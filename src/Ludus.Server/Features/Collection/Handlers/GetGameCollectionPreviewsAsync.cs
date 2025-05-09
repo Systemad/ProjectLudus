@@ -9,14 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Collection.Handlers;
 
-public record GetGameEntryPreviewResponse(
+public record GetGameCollectionPreviewsResponse(
     List<GameCollectionPreviewDto>? Entries,
     long TotalItemCount,
     long PageCount,
     bool IsLastPage
 ) : IPaginatedResponse;
 
-public class GetGameEntryPreviewQuery : IPaginationParameters
+public class GetGameCollectionPreviewsQuery : IPaginationParameters
 {
     [FromQuery(Name = "ps")]
     public int PageSize { get; } = 20;
@@ -25,15 +25,15 @@ public class GetGameEntryPreviewQuery : IPaginationParameters
     public int PageNumber { get; } = 1;
 }
 
-public static class GetGameGameEntriesPreviewsAsync
+public static class GetGameCollectionPreviewsAsync
 {
     public static async Task<
-        Results<Ok<GetGameEntryPreviewResponse>, UnauthorizedHttpResult>
+        Results<Ok<GetGameCollectionPreviewsResponse>, UnauthorizedHttpResult>
     > Handler(
         IGameStore gameDb,
         IDocumentStore db,
         ClaimsPrincipal user,
-        [AsParameters] GetGameEntryPreviewQuery query
+        [AsParameters] GetGameCollectionPreviewsQuery query
     )
     {
         var userId = Guid.Parse(user.Identity.Name);
@@ -55,7 +55,7 @@ public static class GetGameGameEntriesPreviewsAsync
             previews.Add(entry.ToGameEntryPreviewDto(game.ToGameDto()));
         }
 
-        var response = new GetGameEntryPreviewResponse(
+        var response = new GetGameCollectionPreviewsResponse(
             previews,
             gameEntry.TotalItemCount,
             gameEntry.PageCount,

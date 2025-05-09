@@ -18,7 +18,7 @@ public class SteamAuthProvider : AuthenticationStateProvider
         _httpClient = httpClient;
     }
 
-    private static IEnumerable<Claim> GetClaims(User userInfo)
+    private static IEnumerable<Claim> GetClaims(UserDto userInfo)
     {
         return new[]
         {
@@ -31,36 +31,37 @@ public class SteamAuthProvider : AuthenticationStateProvider
 
     public override Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        /*
-        authenticated = false;
-        var user = unauthenticated;
+        //ClaimsIdentity identity;
         try
         {
-             var userInfo = _httpClient.GetAsync("/api/me")
-
-             if (userInfo != null)
-             {
-                 
-             }
+            if (_userService.IsAuthenticated && _userService.User is not null)
+            {
+                IEnumerable<Claim> claims = GetClaims(_userService.User);
+                var identity = new ClaimsIdentity(claims, "Steam");
+                return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
+            }
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
             throw;
         }
-        */
-        ClaimsIdentity identity;
-        if (_userService.IsAuthenticated)
-        {
-            IEnumerable<Claim> claims = GetClaims(_userService.User);
-            identity = new(claims, "Steam");
-        }
-        else
-        {
-            identity = new ClaimsIdentity();
-        }
-        ClaimsPrincipal user = new(identity);
-        AuthenticationState authenticationState = new(user);
-        return Task.FromResult(authenticationState);
+        /*
+                else
+                {
+                        ClaimsPrincipal user = new(identity);
+                AuthenticationState authenticationState = new(user);
+                    identity = new ClaimsIdentity();
+                }
+                */
+        //ClaimsPrincipal user = new(identity);
+        //AuthenticationState authenticationState = new(user);
+        var u = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        return Task.FromResult(u);
+    }
+
+    public void NotifyUserChanged()
+    {
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
     }
 }

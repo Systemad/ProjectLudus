@@ -30,8 +30,8 @@ namespace Ludus.Client.Models
 #else
         public string ContentType { get; set; }
 #endif
-        /// <summary>The createDate property</summary>
-        public DateTimeOffset? CreateDate { get; set; }
+        /// <summary>The createdDate property</summary>
+        public DateTimeOffset? CreatedDate { get; set; }
         /// <summary>The id property</summary>
         public Guid? Id { get; set; }
         /// <summary>The name property</summary>
@@ -71,7 +71,7 @@ namespace Ludus.Client.Models
             {
                 { "content", n => { Content = n.GetByteArrayValue(); } },
                 { "contentType", n => { ContentType = n.GetStringValue(); } },
-                { "createDate", n => { CreateDate = n.GetDateTimeOffsetValue(); } },
+                { "createdDate", n => { CreatedDate = n.GetDateTimeOffsetValue(); } },
                 { "id", n => { Id = n.GetGuidValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "userId", n => { UserId = n.GetGuidValue(); } },
@@ -86,7 +86,7 @@ namespace Ludus.Client.Models
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteByteArrayValue("content", Content);
             writer.WriteStringValue("contentType", ContentType);
-            writer.WriteDateTimeOffsetValue("createDate", CreateDate);
+            writer.WriteDateTimeOffsetValue("createdDate", CreatedDate);
             writer.WriteGuidValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteGuidValue("userId", UserId);

@@ -5,52 +5,10 @@
 
 <MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraExtraLarge">
     <div class="d-flex gap-8">
-        <MudStack Class="d-flex flex-column" Style="width: 20%; min-width: 15%">
-            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0"
-                      Style="height: fit-content; background: var(--mud-palette-background-gray)">
-                <MudStack Row="true">
-                    <MudButton OnClick="OnExpandCollapseClick"
-                               Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
-                </MudStack>
-                <MudCollapse Expanded="_expanded">
-                    <MudList T="string" @bind-SelectedValues="SelectedValues"
-                             SelectionMode="SelectionMode.MultiSelection"
-                             ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
-                        <MudListSubheader>
-                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"></MudTextField>
-                        </MudListSubheader>
-                        <MudListItem Text="Milk"/>
-                        <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
-                    </MudList>
-                </MudCollapse>
-            </MudPaper>
-
-            <MudPaper Class="d-flex flex-column rounded-lg" Outlined="false" Elevation="0"
-                      Style="height: fit-content; background: var(--mud-palette-background-gray)">
-                <MudStack Row="true">
-                    <MudButton OnClick="OnExpandCollapseClick"
-                               Class="ml-auto">@(_expanded ? "Collapse" : "Expand")</MudButton>
-                </MudStack>
-                <MudCollapse Expanded="_expanded">
-                    <MudList T="string" @bind-SelectedValues="SelectedValues"
-                             SelectionMode="SelectionMode.MultiSelection"
-                             ReadOnly="@ReadOnly" CheckBoxColor="Color.Tertiary">
-                        <MudListSubheader>
-                            <MudTextField @bind-Value="TextValue" Label="Search" Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"></MudTextField>
-                        </MudListSubheader>
-                        <MudListItem Text="Milk"/>
-                        <MudListItem Text="Sparkling Water" Value='"Carbonated H²O"'/>
-                    </MudList>
-                </MudCollapse>
-            </MudPaper>
-        </MudStack>
-
 
         <MudPaper Class="d-flex pa-4" Width="80%" Elevation="0">
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
-                @if (RatedGames.Games is not null)
+                @if (RatedGames?.Games is not null)
                 {
                     @foreach (var game in RatedGames.Games)
                     {

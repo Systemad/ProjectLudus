@@ -1,9 +1,14 @@
-﻿<CascadingAuthenticationState>
+﻿@inject AuthenticatedUserService UserService
+@inject AuthenticationStateProvider AuthProvider
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
+    <!--
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+-->
         <NotFound>
             <PageTitle>Not found</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
@@ -12,3 +17,18 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UserService.InitializeAsync();
+        (AuthProvider as SteamAuthProvider)?.NotifyUserChanged();
+/*
+        ((CustomAuthStateProvider)AuthenticationStateProvider)
+            .AuthenticateUser(userIdentifier);
+  */
+        await base.OnInitializedAsync();
+    }
+
+}

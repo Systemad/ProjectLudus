@@ -58,7 +58,12 @@ public class ValidationHelper
             logger.LogError(e, "An exception occured when downloading player summary");
         }
 
-        user = new User.Models.User { SteamId = steamId, Role = RoleConstants.DefaultRoleId };
+        user = new User.Models.User
+        {
+            SteamId = steamId,
+            Role = RoleConstants.DefaultRoleId,
+            CreatedDate = DateTime.Today,
+        };
 
         if (playerSummary != null)
         {
@@ -75,6 +80,7 @@ public class ValidationHelper
                     UserId = user.Id,
                     Content = avatarContentBytes,
                     ContentType = "image/jpeg",
+                    CreatedDate = DateTime.UtcNow,
                 };
                 user.UserImage = img;
                 user.AvatarImageId = img.Id;

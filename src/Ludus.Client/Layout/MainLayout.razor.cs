@@ -17,17 +17,19 @@ public partial class MainLayout : LayoutComponentBase
         return $"data:{contentType};base64,{base64}";
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-
         _theme = new()
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties(),
         };
+        //await UserService.InitializeAsync();
+        await base.OnInitializedAsync();
     }
+
+    protected override void OnInitialized() { }
 
     private void DrawerToggle()
     {

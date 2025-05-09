@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Collection.Handlers;
 
-public static class GetGameEntryDetailAsync
+public static class GetGameCollectionDetailAsync
 {
     public static async Task<Results<Ok<GameCollectionDto>, NotFound<string>>> Handler(
         long gameId,
@@ -24,7 +24,7 @@ public static class GetGameEntryDetailAsync
             .FirstOrDefaultAsync();
 
         if (gameEntry is null)
-            return TypedResults.NotFound("GameEntry does not exist!");
+            return TypedResults.NotFound("Collection does not exist!");
 
         var dto = gameEntry.ToGameEntryDto();
         return TypedResults.Ok(dto);

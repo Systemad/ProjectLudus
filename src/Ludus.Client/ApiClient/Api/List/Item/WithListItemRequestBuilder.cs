@@ -34,7 +34,7 @@ namespace Ludus.Client.Api.List.Item
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public WithListItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/list/{listId}", pathParameters)
+        public WithListItemRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/list/{listId}{?preview*}", pathParameters)
         {
         }
         /// <summary>
@@ -42,50 +42,50 @@ namespace Ludus.Client.Api.List.Item
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public WithListItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/list/{listId}", rawUrl)
+        public WithListItemRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/list/{listId}{?preview*}", rawUrl)
         {
         }
-        /// <returns>A <see cref="global::Ludus.Client.Models.GetGamesOfUserListResult"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.UserGameListDto"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<global::Ludus.Client.Models.GetGamesOfUserListResult?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.UserGameListDto?> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder.WithListItemRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<global::Ludus.Client.Models.GetGamesOfUserListResult> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.UserGameListDto> GetAsync(Action<RequestConfiguration<global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder.WithListItemRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.GetGamesOfUserListResult>(requestInfo, global::Ludus.Client.Models.GetGamesOfUserListResult.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.UserGameListDto>(requestInfo, global::Ludus.Client.Models.UserGameListDto.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
-        /// <returns>A <see cref="global::Ludus.Client.Models.UpdateListResult"/></returns>
+        /// <returns>A <see cref="global::Ludus.Client.Models.UserGameList"/></returns>
         /// <param name="body">The request body</param>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<global::Ludus.Client.Models.UpdateListResult?> PutAsync(global::Ludus.Client.Models.UpdateListParameter body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.UserGameList?> PutAsync(global::Ludus.Client.Models.UpdateListQuery body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<global::Ludus.Client.Models.UpdateListResult> PutAsync(global::Ludus.Client.Models.UpdateListParameter body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Ludus.Client.Models.UserGameList> PutAsync(global::Ludus.Client.Models.UpdateListQuery body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             _ = body ?? throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPutRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.UpdateListResult>(requestInfo, global::Ludus.Client.Models.UpdateListResult.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Ludus.Client.Models.UserGameList>(requestInfo, global::Ludus.Client.Models.UserGameList.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder.WithListItemRequestBuilderGetQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder.WithListItemRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
             var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
@@ -98,11 +98,11 @@ namespace Ludus.Client.Api.List.Item
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public RequestInformation ToPutRequestInformation(global::Ludus.Client.Models.UpdateListParameter body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        public RequestInformation ToPutRequestInformation(global::Ludus.Client.Models.UpdateListQuery body, Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
         {
 #nullable restore
 #else
-        public RequestInformation ToPutRequestInformation(global::Ludus.Client.Models.UpdateListParameter body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        public RequestInformation ToPutRequestInformation(global::Ludus.Client.Models.UpdateListQuery body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
             _ = body ?? throw new ArgumentNullException(nameof(body));
@@ -121,12 +121,20 @@ namespace Ludus.Client.Api.List.Item
         {
             return new global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder(rawUrl, RequestAdapter);
         }
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        #pragma warning disable CS1591
+        public partial class WithListItemRequestBuilderGetQueryParameters 
+        #pragma warning restore CS1591
+        {
+            [QueryParameter("preview")]
+            public bool? Preview { get; set; }
+        }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class WithListItemRequestBuilderGetRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
+        public partial class WithListItemRequestBuilderGetRequestConfiguration : RequestConfiguration<global::Ludus.Client.Api.List.Item.WithListItemRequestBuilder.WithListItemRequestBuilderGetQueryParameters>
         {
         }
         /// <summary>

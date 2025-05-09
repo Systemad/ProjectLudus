@@ -7,7 +7,7 @@ namespace Ludus.Client.Features.Games.Components;
 public partial class GameCard : ComponentBase
 {
     [Parameter]
-    public Game Game { get; set; }
+    public GameDTO Game { get; set; }
 
     [Inject]
     public IDialogService DialogService { get; set; }

@@ -17,15 +17,17 @@ namespace Ludus.Client.Models
         /// <summary>The games property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Ludus.Client.Models.Game>? Games { get; set; }
+        public List<global::Ludus.Client.Models.GameDTO>? Games { get; set; }
 #nullable restore
 #else
-        public List<global::Ludus.Client.Models.Game> Games { get; set; }
+        public List<global::Ludus.Client.Models.GameDTO> Games { get; set; }
 #endif
-        /// <summary>The totalItems property</summary>
-        public long? TotalItems { get; set; }
-        /// <summary>The totalPages property</summary>
-        public long? TotalPages { get; set; }
+        /// <summary>The isLastPage property</summary>
+        public bool? IsLastPage { get; set; }
+        /// <summary>The pageCount property</summary>
+        public long? PageCount { get; set; }
+        /// <summary>The totalItemCount property</summary>
+        public long? TotalItemCount { get; set; }
         /// <summary>
         /// Instantiates a new <see cref="global::Ludus.Client.Models.GetSearchGamesResult"/> and sets the default values.
         /// </summary>
@@ -51,9 +53,10 @@ namespace Ludus.Client.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "games", n => { Games = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.Game>(global::Ludus.Client.Models.Game.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "totalItems", n => { TotalItems = n.GetLongValue(); } },
-                { "totalPages", n => { TotalPages = n.GetLongValue(); } },
+                { "games", n => { Games = n.GetCollectionOfObjectValues<global::Ludus.Client.Models.GameDTO>(global::Ludus.Client.Models.GameDTO.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "isLastPage", n => { IsLastPage = n.GetBoolValue(); } },
+                { "pageCount", n => { PageCount = n.GetLongValue(); } },
+                { "totalItemCount", n => { TotalItemCount = n.GetLongValue(); } },
             };
         }
         /// <summary>
@@ -63,9 +66,10 @@ namespace Ludus.Client.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.Game>("games", Games);
-            writer.WriteLongValue("totalItems", TotalItems);
-            writer.WriteLongValue("totalPages", TotalPages);
+            writer.WriteCollectionOfObjectValues<global::Ludus.Client.Models.GameDTO>("games", Games);
+            writer.WriteBoolValue("isLastPage", IsLastPage);
+            writer.WriteLongValue("pageCount", PageCount);
+            writer.WriteLongValue("totalItemCount", TotalItemCount);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

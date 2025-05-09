@@ -57,26 +57,27 @@ if (app.Environment.IsDevelopment())
 
     app.MapOpenApi();
     app.UseWebAssemblyDebugging();
+    //app.Map("/", () => Results.Redirect("/scalar/v1"));
 }
 
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapStaticAssets();
 app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 
-app.Map("/openapi", () => Results.Redirect("/scalar/v1"));
+app.MapRazorPages();
 
 // Endpoints
 app.MapAuthEndpoints();
+
 app.MapGameCollectionEndpoints();
 app.MapListEndpoints();
 app.MapUserEndpoints();
 app.MapGameEndpoints();
-
-app.MapRazorPages();
 
 app.UseOutputCache();
 

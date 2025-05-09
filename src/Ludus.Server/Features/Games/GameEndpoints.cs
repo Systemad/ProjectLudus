@@ -12,6 +12,10 @@ public static class GameEndpoints
         group.MapGet("/{id:long}", GetGameByIdAsync.Handler);
         group.MapGet("/top", GetTopRatedGamesAsync.Handler);
         group.MapGet("/search", GetGamesByParametersAsync.Handler);
+
+        group
+            .MapGet("/filters", GetFiltersAsync.Handler)
+            .Produces<GetFiltersResponse>(StatusCodes.Status200OK);
         return group;
     }
 }

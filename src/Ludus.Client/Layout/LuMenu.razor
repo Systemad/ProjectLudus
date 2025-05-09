@@ -1,24 +1,15 @@
-﻿<MudNavMenu Rounded="true" Class="pa-2">
+﻿@using Ludus.Client.Utilties
+<MudNavMenu Rounded="true" Class="pa-2">
     <MudTextM3 Typo="TypoM3.Title" Size="Size.Medium" Class="px-2">My Games</MudTextM3>
-    <MudNavLink Href="backlog" Match="NavLinkMatch.Prefix">
-        <MudStack Row="true">
-            <MudBadge Elevation="0" Bordered="false" Color="Color.Error" Origin="Origin.CenterLeft"/>
-            <MudText Typo="Typo.body2">Backlog</MudText>
-        </MudStack>
+    <MudNavLink Href="library" Match="NavLinkMatch.Prefix" Icon="@ExternalIcons.Library">
+        <MudText Typo="Typo.body2">
+            Library
+        </MudText>
     </MudNavLink>
-
-    <MudNavLink Href="playing" Match="NavLinkMatch.Prefix">
-        <MudStack Row="true">
-            <MudBadge Elevation="0" Bordered="false" Color="Color.Info" Origin="Origin.CenterLeft"/>
-            <MudText Typo="Typo.body2">Currently Playing</MudText>
-        </MudStack>
+    
+    <MudNavLink Href="collection" Match="NavLinkMatch.Prefix" Icon="@ExternalIcons.Library">
+        <MudText Typo="Typo.body2">
+            Collection
+        </MudText>
     </MudNavLink>
-
-    <MudNavLink Href="completed" Match="NavLinkMatch.Prefix">
-        <MudStack Row="true">
-            <MudBadge Elevation="0" Bordered="false" Color="Color.Success" Origin="Origin.CenterLeft"/>
-            <MudText Typo="Typo.body2">Completed</MudText>
-        </MudStack>
-    </MudNavLink>
-
 </MudNavMenu>

@@ -51,7 +51,7 @@ builder.Services.AddScoped<AuthenticatedUserService>();
 
 var host = builder.Build();
 
-var userService = host.Services.GetRequiredService<AuthenticatedUserService>();
-await userService.InitializeAsync();
+//var userService = host.Services.GetRequiredService<AuthenticatedUserService>();
+//await userService.InitializeAsync();
 
 await host.RunAsync();
