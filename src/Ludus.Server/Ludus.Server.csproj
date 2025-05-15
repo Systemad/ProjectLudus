@@ -9,6 +9,7 @@
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
     -->
+    <RefitterNoLogging>true</RefitterNoLogging>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
@@ -16,10 +17,10 @@
     <PackageReference Include="Marten.AspNetCore" Version="7.40.3" />
     <PackageReference
       Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
-      Version="9.0.4"
+      Version="9.0.5"
     />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.4">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -28,13 +29,23 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
+    <PackageReference Include="Refitter.MSBuild" Version="1.5.5" />
     <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.2.7" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ludus.Client\Ludus.Client.csproj" />
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
+  <Target Name="Refitter" BeforeTargets="BeforeBuild">
+    <RefitterGenerateTask
+      ProjectFileDirectory="$(MSBuildProjectDirectory)"
+      DisableLogging="$(RefitterNoLogging)"
+    />
+    <ItemGroup>
+      <Compile Include="**/*.cs" />
+    </ItemGroup>
+  </Target>
   <!--
   <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
     <Exec

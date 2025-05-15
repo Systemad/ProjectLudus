@@ -7,6 +7,7 @@ using Microsoft.Kiota.Http.HttpClientLibrary;
 using MudBlazor;
 using MudBlazor.Services;
 using MudExtensions.Services;
+using Refit;
 using TailwindMerge.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -31,8 +32,10 @@ builder.Services.AddScoped(sp => new HttpClient
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress),
 });
 builder.Services.AddAuthorizationCore();
+builder.Services.ConfigureRefitClients(builder.HostEnvironment.BaseAddress);
 
 // Register your ApiClient
+/*
 builder.Services.AddScoped(sp =>
 {
     var authProvider = new AnonymousAuthenticationProvider();
@@ -45,7 +48,7 @@ builder.Services.AddScoped(sp =>
 
     return new LudusClient(adapter);
 });
-
+*/
 builder.Services.AddScoped<AuthenticationStateProvider, SteamAuthProvider>();
 builder.Services.AddScoped<AuthenticatedUserService>();
 

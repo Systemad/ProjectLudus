@@ -1,5 +1,4 @@
-﻿using Ludus.Client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Ludus.Client.Features.Games.Components;

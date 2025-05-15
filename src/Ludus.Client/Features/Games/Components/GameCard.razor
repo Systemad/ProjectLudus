@@ -1,10 +1,11 @@
-﻿<MudCard Elevation="0" Class="rounded-lg cursor-pointer hover-card"
-         Style="background: var(--mud-palette-background-gray); height: 100%"
+﻿@using Ludus.Client.Utilties
+<MudCard Elevation="0" Class="rounded-lg cursor-pointer hover-card"
+         Style="background: var(--mud-palette-background-gray); height: 100%; "
          @onclick="NavigateToDetails"
 >
     <div class="relative hover-card">
         <div class="media-container">
-            <MudCardMedia Image="img/co7n02.jpeg" Height="250" Class="object-cover" />
+            <MudCardMedia Image="@ImageHelper.GetImageUrl(Game.CoverImageId, ImageHelper.ImageSize.HD1080)" Height="200" Class="object-cover" />
             <div class="media-overlay"></div>
         </div>
 

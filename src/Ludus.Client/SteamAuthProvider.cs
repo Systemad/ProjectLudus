@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Ludus.Client.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Ludus.Client;
@@ -7,18 +6,13 @@ namespace Ludus.Client;
 public class SteamAuthProvider : AuthenticationStateProvider
 {
     private readonly AuthenticatedUserService _userService;
-    private readonly HttpClient _httpClient;
-    private bool authenticated = false;
 
-    private readonly ClaimsPrincipal unauthenticated = new(new ClaimsIdentity());
-
-    public SteamAuthProvider(AuthenticatedUserService userService, HttpClient httpClient)
+    public SteamAuthProvider(AuthenticatedUserService userService)
     {
         _userService = userService;
-        _httpClient = httpClient;
     }
 
-    private static IEnumerable<Claim> GetClaims(UserDto userInfo)
+    private static IEnumerable<Claim> CreateClaimsPrincipal(UserDto userInfo)
     {
         return new[]
         {
@@ -29,39 +23,35 @@ public class SteamAuthProvider : AuthenticationStateProvider
         };
     }
 
-    public override Task<AuthenticationState> GetAuthenticationStateAsync()
+    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
-        //ClaimsIdentity identity;
+        if (_userService.User?.Claims.Count() > 0)
+            return new AuthenticationState(_userService.User);
+
+        ClaimsIdentity identity = new ClaimsIdentity();
         try
         {
-            if (_userService.IsAuthenticated && _userService.User is not null)
+            if (_userService.UserModel == null)
             {
-                IEnumerable<Claim> claims = GetClaims(_userService.User);
-                var identity = new ClaimsIdentity(claims, "Steam");
-                return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
+                await _userService.FetchUserModelAsync();
             }
+
+            if (_userService.UserModel == null)
+            {
+                _userService.User = new ClaimsPrincipal();
+                return new AuthenticationState(_userService.User);
+            }
+            Console.WriteLine("user mode != null");
+            IEnumerable<Claim> claims = CreateClaimsPrincipal(_userService.UserModel);
+            identity = new ClaimsIdentity(claims, "Steam");
         }
-        catch (Exception e)
+        catch (HttpRequestException e)
         {
             Console.WriteLine(e);
-            throw;
+            //throw;
         }
-        /*
-                else
-                {
-                        ClaimsPrincipal user = new(identity);
-                AuthenticationState authenticationState = new(user);
-                    identity = new ClaimsIdentity();
-                }
-                */
-        //ClaimsPrincipal user = new(identity);
-        //AuthenticationState authenticationState = new(user);
-        var u = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-        return Task.FromResult(u);
-    }
 
-    public void NotifyUserChanged()
-    {
-        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        _userService.User = new ClaimsPrincipal(identity);
+        return new AuthenticationState(_userService.User);
     }
 }

@@ -11,3 +11,5 @@ public record ThemeFilter(long Id, string Name);
 public record GameModeFilter(long Id, string Name);
 
 public record GameEngineFilter(long Id, string Name);
+
+public record PlayerPerspectiveFilter(long Id, string Name);

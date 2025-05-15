@@ -12,11 +12,18 @@ public static class MeAsync
         ClaimsPrincipal user
     )
     {
+        Console.WriteLine("Handler");
+
         if (user.Identity?.IsAuthenticated ?? false)
         {
+            Console.WriteLine("if (user.Identity?.IsAuthenticated ?? false)");
             var userId = Guid.Parse(user.Identity.Name);
             await using var session = db.QuerySession();
             var ludusUser = await session.LoadAsync<Models.User>(userId);
+            if (ludusUser is null)
+            {
+                return TypedResults.Unauthorized();
+            }
             var dto = new UserDto
             {
                 Id = ludusUser.Id,

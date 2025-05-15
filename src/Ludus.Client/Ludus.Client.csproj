@@ -6,14 +6,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="8.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.5" />
     <PackageReference
       Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
-      Version="9.0.4"
+      Version="9.0.5"
       PrivateAssets="all"
     />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.5.0" />
     <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.17.2" />
     <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.17.2" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.17.2" />
@@ -21,6 +22,8 @@
     <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" Version="1.17.2" />
     <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.17.2" />
     <PackageReference Include="MudBlazor" Version="8.6.0" />
+    <PackageReference Include="Refit" Version="8.0.0" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
     <PackageReference Include="TailwindMerge.NET" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -28,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Klient\kiota-lock.json" />
+    <_ContentIncludedByDefault Remove="ApiClient\kiota-lock.json" />
   </ItemGroup>
   <!--
 	<Target Name="InstallTailwindCSS" AfterTargets="Build" Condition="!Exists('tailwindcss-extra.exe')">

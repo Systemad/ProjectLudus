@@ -1,23 +1,30 @@
-﻿using Ludus.Client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
+
+public class SearchFilters
+{
+    public string TextValue { get; set; }
+    public IEnumerable<GenreFilter> _selectedGenres = new HashSet<GenreFilter>();
+    public IEnumerable<ThemeFilter> _selectedThemes = new HashSet<ThemeFilter>();
+    public IEnumerable<PlatformFilter> _selectedPlatforms = new HashSet<PlatformFilter>();
+    public IEnumerable<GameTypeFilter> _selectedGameTypes = new HashSet<GameTypeFilter>();
+    public IEnumerable<GameModeFilter> _selectedGameModes = new HashSet<GameModeFilter>();
+    public IEnumerable<GameEngineFilter> _selectedGameEngines = new HashSet<GameEngineFilter>();
+    public IEnumerable<PlayerPerspectiveFilter> _selectedPlayerPerspectives =
+        new HashSet<PlayerPerspectiveFilter>();
+}
 
 public partial class AllGames : ComponentBase
 {
     [Inject]
-    public LudusClient Client { get; set; }
-    public string TextValue { get; set; }
+    public IGamesApi GamesApi { get; set; }
+
+    public SearchFilters SearchFilters = new SearchFilters();
 
     public GetFiltersResponse? Filters = new GetFiltersResponse();
 
     public GetSearchGamesResult? FetchedGames = new GetSearchGamesResult();
-
-    public IEnumerable<long> _selectedGenreIds = new HashSet<long>();
-
-    public IEnumerable<long> _selectedThemeIds = new HashSet<long>();
-
-    public IEnumerable<GenreFilter> _selectedGenres = new HashSet<GenreFilter>();
 
     public string value { get; set; } = "Nothing selected";
 
@@ -26,51 +33,48 @@ public partial class AllGames : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var filers = await Client.Api.Games.Filters.GetAsync();
-        if (filers is not null)
-        {
-            Filters = filers;
-        }
+        var filers = await GamesApi.Filters(); //Client.Api.Games.Filters.GetAsync();
+        Filters = filers.Content;
+
+        await FetchGamesAsync();
         await base.OnInitializedAsync();
-    }
-
-    private string GetMultiSelectionText(List<string?>? selectedIds)
-    {
-        if (selectedIds == null || Filters.Genres == null)
-            return string.Empty;
-
-        var selectedNames = Filters
-            .Genres.Where(g => selectedIds.Contains(g.Id.ToString()))
-            .Select(g => g.Name)
-            .ToList();
-
-        return $"{string.Join(", ", selectedNames)}";
-    }
-
-    private string GetMultiSelectionTextTheme(List<string?>? selectedIds)
-    {
-        if (selectedIds == null || Filters.Themes == null)
-            return string.Empty;
-
-        var selectedNames = Filters
-            .Themes.Where(g => selectedIds.Contains(g.Id.ToString()))
-            .Select(g => g.Name)
-            .ToList();
-
-        return $"{string.Join(", ", selectedNames)}";
     }
 
     public async Task FetchGamesAsync()
     {
+        var defaultGameFilter = Filters?.GameTypes?.FirstOrDefault(x => x.Id == 1001);
+        SearchFilters._selectedGameTypes = new HashSet<GameTypeFilter> { defaultGameFilter };
+        var hey = await GamesApi.Search(
+            pn: 1,
+            ps: 20,
+            name: SearchFilters.TextValue,
+            genreid: SearchFilters._selectedGenres.Select(x => x.Id),
+            platformid: SearchFilters._selectedPlatforms.Select(x => x.Id),
+            themeid: SearchFilters._selectedThemes.Select(x => x.Id),
+            gamemodeid: SearchFilters._selectedGameModes.Select(x => x.Id),
+            ppsid: SearchFilters._selectedPlayerPerspectives.Select(x => x.Id)
+        );
+        /*
         var fetchedGames = await Client.Api.Games.Search.GetAsync(request =>
         {
             request.QueryParameters.Pn = 1;
             request.QueryParameters.Ps = 20;
-            request.QueryParameters.Name = TextValue;
-            request.QueryParameters.Genreid = _selectedGenres.Select(x => x.Id).ToArray();
+            request.QueryParameters.Name = SearchFilters.TextValue;
+            request.QueryParameters.Genreid = SearchFilters
+                ._selectedGenres.Select(x => x.Id)
+                .ToArray();
+            request.QueryParameters.Platformid = SearchFilters
+                ._selectedPlatforms.Select(x => x.Id)
+                .ToArray();
+            request.QueryParameters.Themeid = SearchFilters
+                ._selectedThemes.Select(x => x.Id)
+                .ToArray();
+            request.QueryParameters.Gamemodeid = SearchFilters
+                ._selectedGameModes.Select(x => x.Id)
+                .ToArray();
         });
-        Console.WriteLine(string.Join(", ", fetchedGames.Games.Select(x => x.Name)));
-        FetchedGames = fetchedGames;
+        */
+        FetchedGames = hey.Content;
         _pageCount = (int)FetchedGames.PageCount;
     }
 }

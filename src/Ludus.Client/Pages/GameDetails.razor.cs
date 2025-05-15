@@ -1,5 +1,4 @@
-﻿using Ludus.Client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
@@ -9,7 +8,7 @@ public partial class GameDetails : ComponentBase
     public long Id { get; set; }
 
     [Inject]
-    public LudusClient Client { get; set; }
+    public IGamesApi GamesApi { get; set; }
 
     public Game? Game { get; set; }
 
@@ -42,8 +41,8 @@ public partial class GameDetails : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await Client.Api.Games[Id].GetAsync();
-        Game = result;
+        var result = await GamesApi.GamesGET(Id); //Client.Api.Games[Id].GetAsync();
+        Game = result.Content;
         shouldRender = true;
         //await base.OnInitializedAsync();
     }

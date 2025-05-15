@@ -2,6 +2,7 @@ using Ludus.Server.Configuration;
 using Ludus.Server.Features.Auth;
 using Ludus.Server.Features.Collection;
 using Ludus.Server.Features.Collection.Services;
+using Ludus.Server.Features.Exceptions;
 using Ludus.Server.Features.Games;
 using Ludus.Server.Features.Lists;
 using Ludus.Server.Features.Lists.Services;
@@ -22,10 +23,11 @@ builder.Services.AddOutputCache(options =>
 {
     options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(30);
 });
-
+builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+builder.Services.AddProblemDetails();
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
@@ -60,6 +62,7 @@ if (app.Environment.IsDevelopment())
     //app.Map("/", () => Results.Redirect("/scalar/v1"));
 }
 
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapStaticAssets();
@@ -85,4 +88,5 @@ app.MapControllers();
 
 app.MapFallbackToFile("index.html");
 
+app.UseStatusCodePages();
 app.Run();

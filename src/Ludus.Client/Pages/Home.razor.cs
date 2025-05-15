@@ -1,5 +1,4 @@
-﻿using Ludus.Client.Models;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
@@ -21,16 +20,19 @@ public partial class Home : ComponentBase
     public GetTopRatedGamesResponse? RatedGames { get; set; }
 
     [Inject]
-    public LudusClient Client { get; set; }
+    public IGamesApi GamesApi { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        var response = await GamesApi.Top(ps: 20, pn: 1);
+        /*
         var response = await Client.Api.Games.Top.GetAsync(param =>
         {
             param.QueryParameters.Ps = 20;
             param.QueryParameters.Pn = 1;
         });
-        RatedGames = response;
+        */
+        RatedGames = response.Content;
         await base.OnInitializedAsync();
     }
 }

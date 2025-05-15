@@ -1,0 +1,15 @@
+﻿{
+    "openApiPath": "./Schema/Ludus.Server.json",
+    "namespace": "Ludus.Client",
+    "outputFolder": "../Ludus.Client/ApiClients",
+    "naming": {
+      "useOpenApiTitle": false, // Optional. Default=true
+       "interfaceName": "ApiClient"
+    },
+    "outputFilename": "RefitInterface.cs",
+    "generateMultipleFiles": true,
+    "multipleInterfaces": "ByTag",
+    "generateContracts": true,
+    "contractsOutputFolder": "../Ludus.Client/ApiClients/Contracts",
+    "returnIApiResponse": true
+}

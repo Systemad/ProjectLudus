@@ -1,55 +1,49 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using Ludus.Client.Models;
-using Ludus.Shared;
+﻿using System.Security.Claims;
 using Microsoft.Kiota.Abstractions;
 
 namespace Ludus.Client;
 
 public class AuthenticatedUserService
 {
-    private readonly HttpClient _httpClient;
-    private LudusClient _client;
+    private IUserApi _userApi;
+    public ClaimsPrincipal User { get; set; } = new(new ClaimsIdentity());
 
-    public AuthenticatedUserService(HttpClient httpClient, LudusClient client)
+    public AuthenticatedUserService(IUserApi userApi)
     {
-        _httpClient = httpClient;
-        _client = client;
+        _userApi = userApi;
     }
 
-    public UserDto User { get; private set; }
+    private UserDto? userModel; // { get; private set; }
+
+    public UserDto? UserModel
+    {
+        get { return userModel; }
+        set { userModel = value; }
+    }
 
     public async Task InitializeAsync()
     {
-        await UpdateUserInfoAsync();
+        Console.WriteLine("InitializeAsync");
+
+        await FetchUserModelAsync();
     }
 
-    private async Task UpdateUserInfoAsync()
+    public async Task<UserDto?> FetchUserModelAsync()
     {
         try
         {
-            var me = await _client.Api.User.Me.GetAsync();
-            User = me;
+            var me = await _userApi.Me();
+            if (me.IsSuccessful)
+                UserModel = me.Content;
+            return UserModel;
         }
         catch (ApiException e)
         {
-            if (e.ResponseStatusCode == 401) { }
+            return null;
         }
-        /*
-        //var me = await _client.Api.User.Me.GetAsync();
-        if (User is not null)
-        {
-            //User = me;
-        }
-        HttpResponseMessage response = await _httpClient.GetAsync("/api/user/me");
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            var userResponse = await response.Content.ReadFromJsonAsync<User>();
-            User = userResponse;
-        }*/
     }
 
-    public bool IsAuthenticated => User != null;
-    public Guid UserId => User?.Id ?? Guid.Empty;
-    public bool IsAdmin => User?.Role?.Equals(RoleConstants.AdminRoleId) ?? false;
+    //public bool IsAuthenticated => userModel != null;
+    //public Guid UserId => UserModel?.Id ?? Guid.Empty;
+    //public bool IsAdmin => UserModel?.Role?.Equals(RoleConstants.AdminRoleId) ?? false;
 }

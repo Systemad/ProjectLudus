@@ -10,11 +10,9 @@ public class GameCollection
     public Guid UserId { get; set; }
     public long GameId { get; set; }
     public GameStatus Status { get; set; }
-
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
+    public DateTimeOffset? StartDate { get; set; }
+    public DateTimeOffset? EndDate { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
     public int? Rating { get; set; }
     public string? Notes { get; set; }
 }
@@ -23,9 +21,9 @@ public record GameCollectionPreviewDto(
     Guid Id,
     GameDTO Game,
     GameStatus Status,
-    DateTime? StartDate,
-    DateTime? EndDate,
-    DateTime? UpdatedAt,
+    DateTimeOffset? StartDate,
+    DateTimeOffset? EndDate,
+    DateTimeOffset? UpdatedAt,
     int? Rating,
     string? Notes
 );
@@ -34,9 +32,9 @@ public record GameCollectionDto(
     Guid Id,
     long GameId,
     GameStatus Status,
-    DateTime? StartDate,
-    DateTime? EndDate,
-    DateTime? UpdatedAt,
+    DateTimeOffset? StartDate,
+    DateTimeOffset? EndDate,
+    DateTimeOffset? UpdatedAt,
     int? Rating,
     string? Notes
 );

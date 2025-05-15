@@ -1,6 +1,4 @@
-﻿using System.Net;
-using Ludus.Client.Models;
-using Ludus.Shared;
+﻿using Ludus.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Kiota.Abstractions;
 using MudBlazor;
@@ -18,7 +16,7 @@ public partial class GameCardActivityDialog : ComponentBase
     public GameCollectionDto Collection { get; set; }
 
     [Inject]
-    public LudusClient Client { get; set; }
+    public ICollectionApi CollectionApi { get; set; }
 
     private GameStatus selectedGameStatus = GameStatus.None;
 
@@ -32,8 +30,8 @@ public partial class GameCardActivityDialog : ComponentBase
         {
             try
             {
-                var collection = await Client.Api.Collection[330684].GetAsync();
-                Collection = collection;
+                var collection = await CollectionApi.CollectionGET2(id); //await Client.Api.Collection[330684].GetAsync();
+                Collection = collection.Content;
             }
             catch (ApiException e)
             {

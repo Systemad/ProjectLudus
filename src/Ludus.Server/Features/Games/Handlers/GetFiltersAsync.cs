@@ -11,7 +11,8 @@ public record GetFiltersResponse(
     IEnumerable<GameTypeFilter> GameTypes,
     IEnumerable<ThemeFilter> Themes,
     IEnumerable<GameModeFilter> GameModes,
-    IEnumerable<GameEngineFilter> GameEngines
+    IEnumerable<GameEngineFilter> GameEngines,
+    IEnumerable<PlayerPerspectiveFilter> PlayerPerspectives
 );
 
 public class GetFiltersAsync
@@ -32,16 +33,20 @@ public class GetFiltersAsync
             .Select(x => new GameTypeFilter(x.Id, x.Type))
             .ToListAsync();
         var themes = await session
-            .Query<ThemeFilter>()
+            .Query<Theme>()
             .Select(x => new ThemeFilter(x.Id, x.Name))
             .ToListAsync();
         var gameModes = await session
-            .Query<GameModeFilter>()
+            .Query<GameMode>()
             .Select(x => new GameModeFilter(x.Id, x.Name))
             .ToListAsync();
         var gameEngines = await session
             .Query<GameEngineFilter>()
             .Select(x => new GameEngineFilter(x.Id, x.Name))
+            .ToListAsync();
+        var playerPerspective = await session
+            .Query<PlayerPerspective>()
+            .Select(x => new PlayerPerspectiveFilter(x.Id, x.Name))
             .ToListAsync();
 
         var filters = new GetFiltersResponse(
@@ -50,7 +55,8 @@ public class GetFiltersAsync
             gameTypes,
             themes,
             gameModes,
-            gameEngines
+            gameEngines,
+            playerPerspective
         );
         return TypedResults.Ok(filters);
     }

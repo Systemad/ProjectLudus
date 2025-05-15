@@ -11,6 +11,7 @@ public static class AuthServices
             .AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //options.DefaultChallengeScheme = "Steam";
             })
             .AddCookie(options =>
             {
@@ -18,10 +19,18 @@ public static class AuthServices
                 options.LogoutPath = "/signout";
                 options.AccessDeniedPath = "/";
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
-                options.Events.OnSignedIn = ValidationHelper.SignIn;
-                options.Events.OnValidatePrincipal = ValidationHelper.Validate;
             })
             .AddSteam();
+        /*
+         
+                         //options.Events.OnSignedIn = ValidationHelper.SignIn;
+                //options.Events.OnValidatePrincipal = ValidationHelper.Validate;
+                
+        .AddSteam(options =>
+        {
+            //options.CallbackPath = "/signin-steam";
+        });
+        */
         return services;
     }
 }

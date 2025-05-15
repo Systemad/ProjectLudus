@@ -29,7 +29,6 @@ public class ValidationHelper
         ];
         var user = await db.Query<User.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
-
         if (user != null)
         {
             return;
@@ -58,43 +57,46 @@ public class ValidationHelper
             logger.LogError(e, "An exception occured when downloading player summary");
         }
 
+        if (playerSummary == null)
+        {
+            logger.LogWarning("Could not fetch Steam profile, user not created.");
+            return;
+        }
+
+        //user.Name = playerSummary.Nickname;
         user = new User.Models.User
         {
+            Name = playerSummary.Nickname,
             SteamId = steamId,
             Role = RoleConstants.DefaultRoleId,
             CreatedDate = DateTime.Today,
         };
-
-        if (playerSummary != null)
+        try
         {
-            user.Name = playerSummary.Nickname;
-
-            try
+            var avatarContentBytes = await httpClient.GetByteArrayAsync(
+                playerSummary.AvatarFullUrl
+            );
+            var img = new UserImage()
             {
-                var avatarContentBytes = await httpClient.GetByteArrayAsync(
-                    playerSummary.AvatarFullUrl
-                );
-                var img = new UserImage()
-                {
-                    Name = "steam_avatar.jpg",
-                    UserId = user.Id,
-                    Content = avatarContentBytes,
-                    ContentType = "image/jpeg",
-                    CreatedDate = DateTime.UtcNow,
-                };
-                user.UserImage = img;
-                user.AvatarImageId = img.Id;
-            }
-            catch (Exception e)
-            {
-                logger.LogError(
-                    e,
-                    $"An exception occured when fetching player data {playerSummary.SteamId}"
-                );
-            }
+                Name = "steam_avatar.jpg",
+                UserId = user.Id,
+                Content = avatarContentBytes,
+                ContentType = "image/jpeg",
+                CreatedDate = DateTime.UtcNow,
+            };
+            user.UserImage = img;
+            user.AvatarImageId = img.Id;
+        }
+        catch (Exception e)
+        {
+            logger.LogError(
+                e,
+                $"An exception occured when fetching player data {playerSummary.SteamId}"
+            );
         }
 
         db.Store(user);
+
         await db.SaveChangesAsync();
     }
 
@@ -108,6 +110,7 @@ public class ValidationHelper
         var userStore = services.GetRequiredService<IDocumentStore>();
         await using var db = userStore.LightweightSession();
 
+        Console.WriteLine("Validate");
         var user = await db.Query<User.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
         var claims = new List<Claim>

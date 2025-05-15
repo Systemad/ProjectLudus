@@ -1,4 +1,5 @@
 ﻿using Ludus.Server.Features.Collection.Handlers;
+using Ludus.Server.Features.Shared;
 using Marten;
 
 namespace Ludus.Server.Features.Collection.Services;
@@ -14,7 +15,10 @@ public class GameCollectionService
         GameDb = gameDb;
     }
 
-    public async Task<GameCollection> UpsertGameEntryAsync(Guid userId, GameEntryQuery query)
+    public async Task<GameCollection> UpsertGameEntryAsync(
+        Guid userId,
+        UpsertGameCollectionQuery query
+    )
     {
         await using var session = UserStore.LightweightSession();
         var gameEntry = await session
@@ -44,6 +48,9 @@ public class GameCollectionService
             gameEntry.EndDate = query.EndDate;
             gameEntry.Notes = query.Notes;
         }
+
+        if (query.Status == GameStatus.InProgress)
+            gameEntry.StartDate = new DateTimeOffset().UtcDateTime;
         session.Store(gameEntry);
         await session.SaveChangesAsync();
 

@@ -8,7 +8,7 @@ public class UserDto
     public string SteamId { get; set; }
     public Guid? AvatarImageId { get; set; }
 
-    public DateTime CreatedDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
 
     public string AvatarUrl() =>
         AvatarImageId.HasValue ? $"api/images/{AvatarImageId}" : "/img/profiles/default_avatar.png";

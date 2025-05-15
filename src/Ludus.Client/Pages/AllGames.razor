@@ -1,11 +1,10 @@
 ﻿@page "/allgames"
-@using Ludus.Client.Models
 @using Ludus.Client.Features.Games.Components
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+<MudContainer MaxWidth="MaxWidth.Large">
     <MudStack>
         <MudStack Row="true">
-            <MudTextField @bind-Value="TextValue" Label="Standard" Variant="Variant.Text"></MudTextField>
+            <MudTextField @bind-Value="SearchFilters.TextValue" Label="Game name" Variant="Variant.Text"></MudTextField>
             <MudButton Variant="Variant.Filled" Class="rounded-lg" DropShadow="false" OnClick="FetchGamesAsync">Search
             </MudButton>
         </MudStack>
@@ -13,31 +12,24 @@
         <MudStack Row="true">
             @if (Filters is not null)
             {
-                if (Filters.Genres is not null)
+                if (Filters.Platforms is not null)
                 {
-                    <MudSelect T="long" @bind-SelectedValues="_selectedGenreIds" Label="Genres" Variant="Variant.Filled"
-                               MultiSelection="true" MultiSelectionTextFunc="GetMultiSelectionText">
-                        @foreach (var genre in Filters.Genres)
+                    <MudSelect Margin="Margin.Dense" Class="rounded-lg" Dense="true" T="PlatformFilter" @bind-SelectedValues="@SearchFilters._selectedPlatforms"
+                               Label="Platforms"
+                               Variant="Variant.Filled"
+                               MultiSelection="true"
+                               ToStringFunc="g => g.Name">
+                        @foreach (var gen in Filters.Platforms)
                         {
-                            <MudSelectItem T="long" Value="@genre.Id!.Value">@genre.Name</MudSelectItem>
-                        }
-                    </MudSelect>
-                }
-
-                if (Filters.Themes is not null)
-                {
-                    <MudSelect T="long" @bind-SelectedValues="_selectedThemeIds" Label="Themes" Variant="Variant.Filled"
-                               MultiSelection="true" MultiSelectionTextFunc="GetMultiSelectionTextTheme">
-                        @foreach (var theme in Filters.Themes)
-                        {
-                            <MudSelectItem T="long" Value="@theme.Id!.Value">@theme.Name</MudSelectItem>
+                            <MudSelectItem T="PlatformFilter" Value="@gen">@gen.Name</MudSelectItem>
                         }
                     </MudSelect>
                 }
 
                 if (Filters.Genres is not null)
                 {
-                    <MudSelect T="GenreFilter" @bind-SelectedValues="_selectedGenres" Label="Genres"
+                    <MudSelect Margin="Margin.Dense"  Dense="true" T="GenreFilter" @bind-SelectedValues="@SearchFilters._selectedGenres"
+                               Label="Genres"
                                Variant="Variant.Filled"
                                MultiSelection="true"
                                ToStringFunc="g => g.Name">
@@ -47,10 +39,38 @@
                         }
                     </MudSelect>
                 }
+
+                if (Filters.GameModes is not null)
+                {
+                    <MudSelect Margin="Margin.Dense"  Dense="true" T="GameModeFilter" @bind-SelectedValues="@SearchFilters._selectedGameModes"
+                               Label="Game Modes"
+                               Variant="Variant.Filled"
+                               MultiSelection="true"
+                               ToStringFunc="g => g.Name">
+                        @foreach (var gen in Filters.GameModes)
+                        {
+                            <MudSelectItem T="GameModeFilter" Value="@gen">@gen.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+
+                if (Filters.Themes is not null)
+                {
+                    <MudSelect Margin="Margin.Dense"  Dense="true" T="ThemeFilter" @bind-SelectedValues="@SearchFilters._selectedThemes"
+                               Label="Themes"
+                               Variant="Variant.Filled"
+                               MultiSelection="true"
+                               ToStringFunc="g => g.Name">
+                        @foreach (var gen in Filters.Themes)
+                        {
+                            <MudSelectItem T="ThemeFilter" Value="@gen">@gen.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
             }
         </MudStack>
 
-        
+
         @if (FetchedGames is not null)
         {
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
@@ -58,7 +78,7 @@
                 {
                     @foreach (var game in FetchedGames.Games)
                     {
-                        <MudItem xs="12" md="4" lg="3" xl="2">
+                        <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
                             <GameCard Game="@game"/>
                         </MudItem>
                     }
@@ -93,8 +113,9 @@
                 }
 
             </MudGrid>
-            
-            <MudPagination Size="Size.Medium" DropShadow="false" Color="Color.Primary" Count="_pageCount" @bind-Selected="@_selectedPage"/>
+
+            <MudPagination Size="Size.Medium" DropShadow="false" Color="Color.Primary" Count="_pageCount"
+                           @bind-Selected="@_selectedPage"/>
         }
     </MudStack>
 </MudContainer>

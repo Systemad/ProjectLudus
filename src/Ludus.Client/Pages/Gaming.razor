@@ -1,0 +1,173 @@
+﻿@page "/gaming/{Id:long}"
+@using Ludus.Shared
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudGrid>
+        <!-- Left Column -->
+        <MudItem xs="12" md="3">
+            <MudStack Spacing="4">
+                <MudImage Src="img/co1ybn.jpg" Alt="Game Cover" ObjectFit="ObjectFit.Cover" Class="rounded-lg"/>
+
+                <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)" Elevation="0">
+                    <MudText Typo="Typo.h6" Class="mb-4">Your History</MudText>
+                    <MudStack Spacing="1">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudText>Started:</MudText>
+                            <MudText>Aug 12, 2024</MudText>
+                        </MudStack>
+
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudText>Ended:</MudText>
+                            <MudText>Aug 17, 2024</MudText>
+                        </MudStack>
+
+                        <MudStack Row="true" Justify="Justify.SpaceBetween">
+                            <MudText>Progress:</MudText>
+                            <MudText>0%</MudText>
+                        </MudStack>
+                    </MudStack>
+                </MudPaper>
+
+                <MudExpansionPanels Elevation="0" Class="rounded-lg">
+                    <MudExpansionPanel Expanded="true" Text="Status" Style="background: var(--mud-palette-background-gray)">
+                        <MudGrid>
+                            <MudItem xs="6">
+                                <MudSelect Dense="true" Value="@EditModel.Status" ValueChanged="HandleStatusSelectedValueChanged" Variant="Variant.Text" T="int" >
+                                    <MudSelectItem T="int" Value="0">NotStarted</MudSelectItem>
+                                    <MudSelectItem T="int" Value="1">InProgress</MudSelectItem>
+                                    <MudSelectItem T="int" Value="2">Completed</MudSelectItem>
+                                    <MudSelectItem T="int" Value="3">Abandoned</MudSelectItem>
+                                    <MudSelectItem T="int" Value="4">None</MudSelectItem>
+                                </MudSelect>
+                            </MudItem>
+                            <MudItem xs="6">
+                                <MudRating
+                                    Class="d-flex align-center justify-center mud-width-full py-2"
+                                    SelectedValue="@(EditModel.Rating ?? 0)"
+                                    MaxValue="5"
+                                    SelectedValueChanged="HandleSelectedValueChanged" />
+                            </MudItem>
+                            
+                            <MudItem xs="12">
+
+                                @if (Collection?.Status == 4)
+                                {
+                                    <MudText>Game not in progress</MudText>
+                                }
+                                @if (_startDate is not null && _endDate is not null)
+                                {
+                                    <MudDatePicker Label="Started" @bind-Date="_startDate"/>
+                                    <MudDatePicker Label="Finished" @bind-Date="_endDate"/>
+                                }
+
+                                <!--
+                                <MudDateRangePicker
+                                    @bind-DateRange="@_dateRange"
+                                    Margin="Margin.Dense"
+                                    ReadOnly="false"
+                                    Clearable="false"
+                                    PlaceholderStart="Start Date"
+                                    PlaceholderEnd="End Date"
+                                    Label="Range"/>
+                                    -->
+                            </MudItem>
+    
+                            <MudItem xs="12">
+                                <MudTextField Label="Notes" T="string" Lines="2" MaxLines="4" Variant="Variant.Filled">
+                                    
+                                </MudTextField>
+                            </MudItem>
+                        </MudGrid>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+                
+
+
+                <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)" Elevation="0">
+                    <MudText Typo="Typo.h6">Details</MudText>
+                    <MudStack Spacing="0">
+                        <MudText><b>Format:</b> Main game</MudText>
+                        <MudText><b>Release Date:</b> 1997-10-10</MudText>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-2"></MudDivider>
+                    <MudText Typo="Typo.h6">Themes</MudText>
+                    <MudStack Spacing="0">
+                        <MudText>Science fiction</MudText>
+                        <MudText>Survival</MudText>
+                        <MudText>Stealth</MudText>
+                        <MudText>Open world</MudText>
+                    </MudStack>
+                    <MudDivider DividerType="DividerType.Middle" Class="my-2"></MudDivider>
+
+                    <MudStack Spacing="0">
+                        <MudText Typo="Typo.h6">Platforms</MudText>
+                        <div class="d-flex flex-wrap">
+                            <MudTooltip Text="PlayStation">
+                                <MudIcon Icon="@Icons.Material.Filled.Favorite"></MudIcon>
+                            </MudTooltip>
+                            <MudTooltip Text="PlayStation">
+                                <MudIcon Icon="@Icons.Material.Filled.Favorite"></MudIcon>
+                            </MudTooltip>
+                            <MudTooltip Text="PlayStation">
+                                <MudIcon Icon="@Icons.Material.Filled.Favorite"></MudIcon>
+                            </MudTooltip>
+                            <MudTooltip Text="PlayStation">
+                                <MudIcon Icon="@Icons.Material.Filled.Favorite"></MudIcon>
+                            </MudTooltip>
+
+                        </div>
+                    </MudStack>
+                </MudPaper>
+            </MudStack>
+
+        </MudItem>
+
+        <!-- Right Column -->
+        <MudItem xs="12" md="9">
+            <MudPaper Class="pa-4 rounded-lg mb-4" Style="background: var(--mud-palette-background-gray)" Elevation="0">
+                <MudText Typo="Typo.h4">Game Title</MudText>
+                <MudChipSet T="Color">
+                    <MudChip Color="Color.Primary">Role-playing (RPG)</MudChip>
+                    <MudChip Color="Color.Secondary">Turn-based strategy (TBS)</MudChip>
+                </MudChipSet>
+
+                <MudText Class="mt-4">Game description goes here...</MudText>
+
+                <MudDivider Class="my-4" DividerType="DividerType.Middle"/>
+
+                <MudGrid>
+                    <MudItem xs="6">
+                        <MudText Typo="Typo.h6">IGDB SCORE</MudText>
+                        <MudRating ReadOnly="true" SelectedValue="4"/>
+                        <MudText>8.5/10 (587 votes)</MudText>
+                    </MudItem>
+                    <MudItem xs="6">
+                        <MudText Typo="Typo.h6">YOUR SCORE</MudText>
+                        <!--
+                            <MudRating @bind-SelectedValue="_userRating" />
+                            -->
+                        <MudText>Click to rate</MudText>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+
+            <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)" Elevation="0">
+                <MudText Typo="Typo.h6" Class="mb-4">Recommendations</MudText>
+                <MudGrid>
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+                            <MudCard Class="rounded-lg" Elevation="0">
+                                <MudCardMedia Image="img/co8ado.jpg" Height="225" Class="object-cover"/>
+                                <MudCardContent>
+                                    <MudText Typo="Typo.body2">Title</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudPaper>
+
+        </MudItem>
+    </MudGrid>
+</MudContainer>

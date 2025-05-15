@@ -7,7 +7,7 @@ namespace Ludus.Server.Features.Collection.Handlers;
 
 public static class GetGameCollectionDetailAsync
 {
-    public static async Task<Results<Ok<GameCollectionDto>, NotFound<string>>> Handler(
+    public static async Task<Results<Ok<GameCollectionDto>, ProblemHttpResult>> Handler(
         long gameId,
         [FromServices] IDocumentStore db,
         [FromServices] IGameStore gameStore,
@@ -24,7 +24,14 @@ public static class GetGameCollectionDetailAsync
             .FirstOrDefaultAsync();
 
         if (gameEntry is null)
-            return TypedResults.NotFound("Collection does not exist!");
+        {
+            return TypedResults.Problem(
+                type: "Not found",
+                title: "Game not found",
+                detail: "Game is not found by its ID",
+                statusCode: StatusCodes.Status404NotFound
+            );
+        }
 
         var dto = gameEntry.ToGameEntryDto();
         return TypedResults.Ok(dto);

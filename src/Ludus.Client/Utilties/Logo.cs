@@ -1,6 +1,6 @@
 ﻿namespace Ludus.Client.Utilties;
 
-public static class Logo
+public static class ExternalLogo
 {
     //  Xbox
     public static string XboxOriginal =
