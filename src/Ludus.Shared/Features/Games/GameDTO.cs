@@ -12,3 +12,5 @@ public class GameDTO
     public List<DateTime> ReleaseDates { get; set; }
     public string GameType { get; set; }
 }
+
+public record GameDetail(Game Game, IEnumerable<GameDTO> SimilarGames);

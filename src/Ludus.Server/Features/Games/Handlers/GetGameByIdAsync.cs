@@ -7,7 +7,7 @@ namespace Ludus.Server.Features.Games.Handlers;
 
 public static class GetGameByIdAsync
 {
-    public static async Task<Results<Ok<Game>, ProblemHttpResult>> Handler(
+    public static async Task<Results<Ok<GameDetail>, ProblemHttpResult>> Handler(
         [FromServices] IGameStore store,
         long id
     )
@@ -23,7 +23,16 @@ public static class GetGameByIdAsync
                 statusCode: StatusCodes.Status400BadRequest
             );
         }
+        var similarGames = new List<GameDTO>();
+        if (game.SimilarGames.Count > 0)
+        {
+            var simGames = await session
+                .Query<Game>()
+                .Where(x => x.Id.IsOneOf(game.SimilarGames.Select(s => s.Id).ToList()))
+                .ToListAsync();
+            similarGames = simGames.Select(x => x.ToGameDto()).ToList();
+        }
 
-        return TypedResults.Ok(game);
+        return TypedResults.Ok(new GameDetail(game, similarGames));
     }
 }

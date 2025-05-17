@@ -1,0 +1,36 @@
+﻿@page "/library"
+@using Ludus.Client.Utilties
+<PageTitle>Library</PageTitle>
+
+<MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraLarge">
+    <MudGrid>
+        @if (GameCollections is not null)
+        {
+            @if (GameCollections.Entries is not null)
+            {
+                @foreach (var collection in GameCollections.Entries)
+                {
+                    <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+                        <MudCard @onclick="() => NavigateToGame(collection.Game.Id)" Class="rounded-lg cursor-pointer" Style="background: var(--mud-palette-background-gray); height: 100%"
+                                 Elevation="0">
+                            <MudCardMedia
+                                Image="@ImageHelper.GetImageUrl(collection.Game.CoverImageId, ImageHelper.ImageSize.HD1080)"
+                                Height="225" Class="object-cover"/>
+                            <MudCardContent>
+                                <MudText Typo="Typo.body2">@collection.Game.Name</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <MudText> You dont have any added games to your library!</MudText>
+            }
+        }
+
+    </MudGrid>
+</MudContainer>
+
+
+

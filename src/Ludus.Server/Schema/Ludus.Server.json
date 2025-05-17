@@ -440,7 +440,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Game"
+                  "$ref": "#/components/schemas/GameDetail"
                 }
               }
             }
@@ -1144,6 +1144,24 @@
           "notes": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "GameDetail": {
+        "required": [
+          "game",
+          "similarGames"
+        ],
+        "type": "object",
+        "properties": {
+          "game": {
+            "$ref": "#/components/schemas/Game"
+          },
+          "similarGames": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameDTO"
+            }
           }
         }
       },

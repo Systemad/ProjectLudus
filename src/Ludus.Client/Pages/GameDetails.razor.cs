@@ -42,7 +42,7 @@ public partial class GameDetails : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         var result = await GamesApi.GamesGET(Id); //Client.Api.Games[Id].GetAsync();
-        Game = result.Content;
+        Game = result.Content.Game;
         shouldRender = true;
         //await base.OnInitializedAsync();
     }

@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Microsoft.Kiota.Abstractions;
+using Refit;
 
 namespace Ludus.Client;
 

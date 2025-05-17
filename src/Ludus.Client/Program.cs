@@ -1,18 +1,22 @@
+using System.Globalization;
 using Ludus.Client;
+using Ludus.Client.Features.Loading;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Kiota.Abstractions.Authentication;
-using Microsoft.Kiota.Http.HttpClientLibrary;
+using Microsoft.JSInterop;
 using MudBlazor;
 using MudBlazor.Services;
 using MudExtensions.Services;
-using Refit;
 using TailwindMerge.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddSingleton<LoadingService>();
+builder.Services.AddLocalization();
+
 builder.Services.AddTailwindMerge();
 builder.Services.AddMudServices(config =>
 {
@@ -34,27 +38,23 @@ builder.Services.AddScoped(sp => new HttpClient
 builder.Services.AddAuthorizationCore();
 builder.Services.ConfigureRefitClients(builder.HostEnvironment.BaseAddress);
 
-// Register your ApiClient
-/*
-builder.Services.AddScoped(sp =>
-{
-    var authProvider = new AnonymousAuthenticationProvider();
-    var httpClient = KiotaClientFactory.Create(new HttpClientHandler { AllowAutoRedirect = false });
-
-    var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient)
-    {
-        BaseUrl = builder.HostEnvironment.BaseAddress,
-    };
-
-    return new LudusClient(adapter);
-});
-*/
 builder.Services.AddScoped<AuthenticationStateProvider, SteamAuthProvider>();
 builder.Services.AddScoped<AuthenticatedUserService>();
 
 var host = builder.Build();
 
-//var userService = host.Services.GetRequiredService<AuthenticatedUserService>();
-//await userService.InitializeAsync();
+/*
+const string defaultCulture = "en-US";
+var js = host.Services.GetRequiredService<IJSRuntime>();
+var result = await js.InvokeAsync<string>("blazorCulture.get");
+var culture = CultureInfo.GetCultureInfo(result ?? defaultCulture);
 
+if (result == null)
+{
+    await js.InvokeVoidAsync("blazorCulture.set", defaultCulture);
+}
+
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
+*/
 await host.RunAsync();

@@ -1,7 +1,7 @@
 ﻿using System.Net;
+using Ludus.Client.Features.Loading;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Kiota.Abstractions;
-using MudBlazor;
+using Refit;
 
 namespace Ludus.Client.Pages;
 
@@ -16,55 +16,61 @@ public partial class Gaming : ComponentBase
     [Inject]
     public ICollectionApi CollectionApi { get; set; }
 
-    public Game? Game { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public LoadingService LoadingService { get; set; }
+
+    public GameDetail? GameDetail { get; set; }
 
     private UpsertGameCollectionQuery EditModel = new();
 
     public GameCollectionDto? Collection;
 
-    private DateTime? _startDate;
-    private DateTime? _endDate;
+    private bool GameNotStarted => Collection?.Status == 4;
+    private DateTime? _startDate = DateTime.UtcNow;
+    private DateTime? _endDate = DateTime.UtcNow;
     private bool isLoading = true;
+    private bool isDescriptionExpanded = false;
 
     private int selectedValueRating = 0;
 
-    protected override async Task OnInitializedAsync()
+    private bool _ratingOpen;
+
+    private void ToggleRatingOpenOpen() => _ratingOpen = !_ratingOpen;
+
+    protected override async Task OnParametersSetAsync()
     {
+        GameDetail = null;
+        Collection = null;
+        EditModel = new();
         EditModel.GameId = Id;
         var gameResponse = await GamesApi.GamesGET(Id);
-        Game = gameResponse.Content;
+        GameDetail = gameResponse.Content;
         var response = await CollectionApi.CollectionGET2(Id);
 
-        if (response.IsSuccessful)
+        try
         {
-            Collection = response.Content;
-            UpdateEditModel(response.Content);
+            if (response.IsSuccessful)
+            {
+                Collection = response.Content;
+                UpdateEditModel(response.Content);
+            }
         }
-        else
+        catch (Exception e)
         {
             if (response.StatusCode == HttpStatusCode.NotFound)
             {
                 Collection = null;
                 //Console.WriteLine(e);
             }
+            Console.WriteLine(e);
+            //throw;
         }
-        /*
-        try
-        {
-            var response = await CollectionApi.CollectionGET2(Id);
-            Collection = response;
-            UpdateEditModel(response);
-        }
-        catch (ApiException e)
-        {
-            if (e.ResponseStatusCode == (int)HttpStatusCode.NotFound)
-            {
-                Collection = null;
-                //Console.WriteLine(e);
-            }
-        }
-*/
+
         isLoading = false;
+        LoadingService.IsLoading = false;
         await base.OnInitializedAsync();
     }
 
@@ -73,6 +79,19 @@ public partial class Gaming : ComponentBase
         EditModel.Status = val;
         await HandleGameCollectionUpdateAsync();
     }
+
+    private int? activeVal;
+
+    private string LabelText =>
+        (activeVal ?? EditModel.Rating) switch
+        {
+            1 => "1",
+            2 => "2",
+            3 => "3",
+            4 => "4",
+            5 => "5",
+            _ => "",
+        };
 
     private async Task HandleSelectedValueChanged(int val)
     {
@@ -87,9 +106,8 @@ public partial class Gaming : ComponentBase
             var response = await CollectionApi.CollectionPUT(EditModel);
             if (response.IsSuccessful)
             {
+                Collection = response.Content;
                 UpdateEditModel(response.Content);
-
-                StateHasChanged();
             }
         }
         catch (ApiException e)
@@ -116,5 +134,11 @@ public partial class Gaming : ComponentBase
             _endDate = end.LocalDateTime;
         }
         StateHasChanged();
+    }
+
+    private void NavigateToGame(long id)
+    {
+        NavigationManager.NavigateTo($"/gaming/{id}", false);
+        LoadingService.IsLoading = false;
     }
 }

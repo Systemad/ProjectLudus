@@ -45,14 +45,23 @@ public static class GetGameCollectionPreviewsAsync
             .ToPagedListAsync(query.PageNumber, query.PageSize);
         var previews = new List<GameCollectionPreviewDto>();
 
-        foreach (var entry in gameEntry)
+        if (gameEntry.TotalItemCount > 0)
         {
-            var game = await session
-                .Query<Game>()
-                .Where(x => x.Id == entry.GameId)
-                .FirstOrDefaultAsync();
+            foreach (var entry in gameEntry)
+            {
+                if (entry.GameId == 0)
+                {
+                    Console.WriteLine("Skipping entry with GameId 0.");
+                    continue;
+                }
+                var game = await gameSession.LoadAsync<Game>(entry.GameId);
 
-            previews.Add(entry.ToGameEntryPreviewDto(game.ToGameDto()));
+                if (game is null)
+                    continue;
+
+                Console.WriteLine(game.Name);
+                previews.Add(entry.ToGameEntryPreviewDto(game.ToGameDto()));
+            }
         }
 
         var response = new GetGameCollectionPreviewsResponse(

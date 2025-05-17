@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Ludus.Client.Features.Loading;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
 namespace Ludus.Client.Layout;
@@ -7,6 +8,9 @@ public partial class MainLayout : LayoutComponentBase
 {
     [Inject]
     public AuthenticatedUserService UserService { get; set; }
+
+    [Inject]
+    public LoadingService LoadingService { get; set; }
     private bool _drawerOpen = true;
     private bool _isDarkMode = false;
     private MudTheme? _theme = null;
@@ -25,7 +29,12 @@ public partial class MainLayout : LayoutComponentBase
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties(),
         };
-        //await UserService.InitializeAsync();
+        // disposable?
+        LoadingService.PropertyChanged += (_, __) =>
+        {
+            //await Task.Delay(2000);
+            StateHasChanged();
+        };
         await base.OnInitializedAsync();
     }
 

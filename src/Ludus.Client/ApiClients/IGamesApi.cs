@@ -47,7 +47,7 @@ namespace Ludus.Client
         /// </returns>
         [Headers("Accept: application/json")]
         [Get("/api/games/{id}")]
-        Task<IApiResponse<Game>> GamesGET(long id);
+        Task<IApiResponse<GameDetail>> GamesGET(long id);
 
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:

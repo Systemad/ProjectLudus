@@ -1,7 +1,8 @@
-﻿using Ludus.Shared;
+﻿using System.Net;
+using Ludus.Shared;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Kiota.Abstractions;
 using MudBlazor;
+using Refit;
 
 namespace Ludus.Client.Features.Games.Components;
 
@@ -35,7 +36,7 @@ public partial class GameCardActivityDialog : ComponentBase
             }
             catch (ApiException e)
             {
-                if (e.ResponseStatusCode == 404)
+                if (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     Console.WriteLine("ITEM NOT FOUND");
                 }
