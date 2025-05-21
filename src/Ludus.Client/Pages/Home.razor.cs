@@ -1,38 +1,61 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Ludus.Client.Features.Loading;
+using Microsoft.AspNetCore.Components;
 
 namespace Ludus.Client.Pages;
 
 public partial class Home : ComponentBase
 {
-    public IReadOnlyCollection<string> SelectedValues = ["Milk", "Cafe Latte"];
-    public bool ReadOnly;
-
-    int _papers = 20;
-    public string TextValue { get; set; }
-
-    bool _expanded = true;
-
-    private void OnExpandCollapseClick()
-    {
-        _expanded = !_expanded;
-    }
-
-    public GetTopRatedGamesResponse? RatedGames { get; set; }
+    public GetTopRatedGamesResponse? FetchedGames { get; set; }
 
     [Inject]
     public IGamesApi GamesApi { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    private List<GameDTO> Games = new();
+    private int currentPage = 1;
+    private bool isLoading = false;
+
     protected override async Task OnInitializedAsync()
     {
-        var response = await GamesApi.Top(ps: 20, pn: 1);
-        /*
-        var response = await Client.Api.Games.Top.GetAsync(param =>
-        {
-            param.QueryParameters.Ps = 20;
-            param.QueryParameters.Pn = 1;
-        });
-        */
-        RatedGames = response.Content;
+        await FetchGamesAsync(1);
         await base.OnInitializedAsync();
+    }
+
+    public async Task LoadMoreGamesAsync()
+    {
+        if (FetchedGames is not null && !FetchedGames.IsLastPage)
+        {
+            await FetchGamesAsync((int)FetchedGames.PageNumer + 1);
+        }
+    }
+
+    public async Task FetchGamesAsync(int page)
+    {
+        var response = await GamesApi.Top(ps: 40, pn: page);
+
+        if (response.Content is not null)
+        {
+            if (page == 1)
+            {
+                Games = response.Content.Games.ToList();
+            }
+            else
+            {
+                Games.AddRange(response.Content.Games);
+            }
+
+            FetchedGames = response.Content;
+        }
+    }
+
+    [Inject]
+    public LoadingService LoadingService { get; set; }
+
+    private void NavigateToGame(long id)
+    {
+        NavigationManager.NavigateTo($"/games/{id}", false);
+        LoadingService.IsLoading = false;
     }
 }

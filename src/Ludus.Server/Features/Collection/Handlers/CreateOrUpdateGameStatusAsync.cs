@@ -12,7 +12,7 @@ public record UpsertGameCollectionQuery(
     GameStatus Status,
     DateTime? StartDate,
     DateTime? EndDate,
-    [Range(0, 5)] int? Rating,
+    [Range(0, 10)] int? Rating,
     string? Notes
 );
 

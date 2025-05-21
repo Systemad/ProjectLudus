@@ -24,7 +24,7 @@ public static class GetGameByIdAsync
             );
         }
         var similarGames = new List<GameDTO>();
-        if (game.SimilarGames.Count > 0)
+        if (game.SimilarGames is not null && game.SimilarGames.Count > 0)
         {
             var simGames = await session
                 .Query<Game>()

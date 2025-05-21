@@ -1,11 +1,11 @@
-﻿@page "/allgames"
+﻿@page "/games"
 @using Ludus.Client.Features.Games.Components
 
 <MudContainer MaxWidth="MaxWidth.Large">
     <MudStack>
         <MudStack Row="true">
             <MudTextField @bind-Value="SearchFilters.TextValue" Label="Game name" Variant="Variant.Text"></MudTextField>
-            <MudButton Variant="Variant.Filled" Class="rounded-lg" DropShadow="false" OnClick="FetchGamesAsync">Search
+            <MudButton Variant="Variant.Filled" Class="rounded-lg" DropShadow="false" OnClick="SearchGamesAsync">Search
             </MudButton>
         </MudStack>
 
@@ -14,7 +14,8 @@
             {
                 if (Filters.Platforms is not null)
                 {
-                    <MudSelect Margin="Margin.Dense" Class="rounded-lg" Dense="true" T="PlatformFilter" @bind-SelectedValues="@SearchFilters._selectedPlatforms"
+                    <MudSelect Margin="Margin.Dense" Class="rounded-lg" Dense="true" T="PlatformFilter"
+                               @bind-SelectedValues="@SearchFilters._selectedPlatforms"
                                Label="Platforms"
                                Variant="Variant.Filled"
                                MultiSelection="true"
@@ -28,7 +29,8 @@
 
                 if (Filters.Genres is not null)
                 {
-                    <MudSelect Margin="Margin.Dense"  Dense="true" T="GenreFilter" @bind-SelectedValues="@SearchFilters._selectedGenres"
+                    <MudSelect Margin="Margin.Dense" Dense="true" T="GenreFilter"
+                               @bind-SelectedValues="@SearchFilters._selectedGenres"
                                Label="Genres"
                                Variant="Variant.Filled"
                                MultiSelection="true"
@@ -40,9 +42,25 @@
                     </MudSelect>
                 }
 
+                if (Filters.GameTypes is not null)
+                {
+                    <MudSelect Margin="Margin.Dense" Dense="true" T="GameTypeFilter"
+                               @bind-SelectedValues="@SearchFilters._selectedGameTypes"
+                               Label="Game Type"
+                               Variant="Variant.Filled"
+                               MultiSelection="true"
+                               ToStringFunc="g => g.Name">
+                        @foreach (var gen in Filters.GameTypes)
+                        {
+                            <MudSelectItem T="GameTypeFilter" Value="@gen">@gen.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                }
+
                 if (Filters.GameModes is not null)
                 {
-                    <MudSelect Margin="Margin.Dense"  Dense="true" T="GameModeFilter" @bind-SelectedValues="@SearchFilters._selectedGameModes"
+                    <MudSelect Margin="Margin.Dense" Dense="true" T="GameModeFilter"
+                               @bind-SelectedValues="@SearchFilters._selectedGameModes"
                                Label="Game Modes"
                                Variant="Variant.Filled"
                                MultiSelection="true"
@@ -56,7 +74,8 @@
 
                 if (Filters.Themes is not null)
                 {
-                    <MudSelect Margin="Margin.Dense"  Dense="true" T="ThemeFilter" @bind-SelectedValues="@SearchFilters._selectedThemes"
+                    <MudSelect Margin="Margin.Dense" Dense="true" T="ThemeFilter"
+                               @bind-SelectedValues="@SearchFilters._selectedThemes"
                                Label="Themes"
                                Variant="Variant.Filled"
                                MultiSelection="true"
@@ -69,26 +88,31 @@
                 }
             }
         </MudStack>
-
-
         @if (FetchedGames is not null)
         {
             <MudGrid Justify="Justify.FlexStart" Spacing="4">
+
                 @if (FetchedGames.Games is not null)
                 {
-                    @foreach (var game in FetchedGames.Games)
+                    @foreach (var game in Games)
                     {
                         <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
                             <GameCard Game="@game"/>
                         </MudItem>
                     }
 
-                    <MudItem xs="12" Class="d-flex justify-center">
-                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary"
-                                   Size="Size.Large" Class="mt-4">
-                            Load more
-                        </MudButton>
-                    </MudItem>
+                    @if (FetchedGames.IsLastPage)
+                    {
+                        <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                            <MudText>All games have been loaded</MudText>
+                        </MudItem>
+                    }
+                    else
+                    {
+                        <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                            <MudButton FullWidth="true" Variant="Variant.Filled" OnClick="LoadMoreGamesAsync">Load more</MudButton>
+                        </MudItem>
+                    }
                 }
                 else
                 {
@@ -113,9 +137,7 @@
                 }
 
             </MudGrid>
-
-            <MudPagination Size="Size.Medium" DropShadow="false" Color="Color.Primary" Count="_pageCount"
-                           @bind-Selected="@_selectedPage"/>
         }
+
     </MudStack>
 </MudContainer>

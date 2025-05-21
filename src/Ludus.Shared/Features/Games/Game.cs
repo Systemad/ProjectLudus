@@ -22,11 +22,9 @@ public partial class Game
     [JsonPropertyName("created_at")]
     public long CreatedAt { get; set; }
 
-    // conver into long list
     [JsonPropertyName("dlcs")]
     public List<Dlc> Dlcs { get; set; }
 
-    // conver into long list
     [JsonPropertyName("expansions")]
     public List<Expansion> Expansions { get; set; }
 
@@ -75,7 +73,6 @@ public partial class Game
     [JsonPropertyName("screenshots")]
     public List<Screenshot> Screenshots { get; set; }
 
-    // conver into long list
     [JsonPropertyName("similar_games")]
     public List<SimilarGame> SimilarGames { get; set; }
 
@@ -392,6 +389,13 @@ public partial class GameType
     public long Id { get; set; }
 
     [JsonPropertyName("type")]
+    public string Type { get; set; }
+}
+
+public partial class InternalGameType
+{
+    public long Id { get; set; }
+    public long OriginalId { get; set; }
     public string Type { get; set; }
 }
 

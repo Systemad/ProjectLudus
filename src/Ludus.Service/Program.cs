@@ -1,5 +1,6 @@
 using Ludus.Service;
 using Ludus.Service.Twitch;
+using Ludus.Shared.Features.Games;
 using Marten;
 using Weasel.Core;
 
@@ -52,6 +53,9 @@ using (var scope = app.Services.CreateScope())
     var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
     await dataSeeder.Populate();
     */
+
+    await store.Advanced.Clean.CompletelyRemoveAsync(typeof(GameType));
+
     var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
     await using var session = store.LightweightSession();
     var gameTypes = await dataSeeder.FetchGamesTypesAsync();

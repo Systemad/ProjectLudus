@@ -1,4 +1,4 @@
-﻿@page "/gaming/{Id:long}"
+﻿@page "/games/{Id:long}"
 @using Humanizer
 @using Ludus.Client.Utilties
 @using Ludus.Shared
@@ -7,11 +7,11 @@
     @if (GameDetail is not null)
     {
         <MudGrid>
-            <!-- Left Column -->
             <MudItem xs="12" md="3">
                 <MudStack Spacing="4">
-                    <MudImage Src="@ImageHelper.GetImageUrl(GameDetail.Game.Cover.ImageId, ImageHelper.ImageSize.HD1080)"
-                              Alt="Game Cover" ObjectFit="ObjectFit.Cover" Class="rounded-lg"/>
+                    <MudImage
+                        Src="@ImageHelper.GetImageUrl(GameDetail.Game.Cover.ImageId, ImageHelper.ImageSize.HD1080)"
+                        Alt="Game Cover" ObjectFit="ObjectFit.Cover" Class="rounded-lg"/>
 
                     <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)"
                               Elevation="0">
@@ -57,7 +57,7 @@
                                 </MudItem>
 
                                 <MudItem xs="12">
-                                    <MudTextField Label="Notes" T="string" Lines="2" MaxLines="4"
+                                    <MudTextField Label="Notes" T="string" Lines="2" MaxLines="4" Class="rounded-lg"
                                                   Variant="Variant.Filled">
 
                                     </MudTextField>
@@ -79,10 +79,14 @@
                         <MudDivider DividerType="DividerType.Middle" Class="my-2"></MudDivider>
                         <MudText Typo="Typo.h6">Themes</MudText>
                         <MudStack Spacing="0">
-                            @foreach (var theme in GameDetail.Game.Themes)
+                            @if (GameDetail.Game.Themes is not null)
                             {
-                                <MudText>@theme.Name</MudText>
+                                @foreach (var theme in GameDetail.Game.Themes)
+                                {
+                                    <MudText>@theme.Name</MudText>
+                                }
                             }
+
                         </MudStack>
                         <MudDivider DividerType="DividerType.Middle" Class="my-2"></MudDivider>
 
@@ -107,13 +111,15 @@
                 <MudPaper Class="pa-4 rounded-lg mb-4" Style="background: var(--mud-palette-background-gray)"
                           Elevation="0">
                     <MudText Typo="Typo.h4">@GameDetail.Game.Name</MudText>
-                    <MudChipSet T="Color">
-                        @foreach (var genre in GameDetail.Game.Genres)
-                        {
-                            <MudChip Color="Color.Primary">@genre.Name</MudChip>
-                        }
-                    </MudChipSet>
-
+                    @if (GameDetail.Game.Genres is { Count: > 0 })
+                    {
+                        <MudChipSet T="Color">
+                            @foreach (var genre in GameDetail.Game.Genres)
+                            {
+                                <MudChip Color="Color.Primary">@genre.Name</MudChip>
+                            }
+                        </MudChipSet>
+                    }
 
                     <MudText Class="mt-4">@GameDetail.Game.Summary</MudText>
 
@@ -123,11 +129,15 @@
                         <MudPaper Class="pa-3 rounded-lg" Elevation="0">
                             <MudText Typo="Typo.body2">IGDB Score</MudText>
 
+                            <MudStack Spacing="1" Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                                <MudIcon Icon="@Icons.Material.Filled.Star"></MudIcon>
+                                <MudText Typo="Typo.body2">@($"{GameDetail.Game.Rating / 10:0.0} / 10")</MudText>
+                            </MudStack>
                         </MudPaper>
 
 
-                        <MudPaper Class="pa-3 rounded-lg"  Elevation="0" @onclick="@ToggleRatingOpenOpen">
-        
+                        <MudPaper Class="pa-3 rounded-lg" Elevation="0" @onclick="@ToggleRatingOpenOpen">
+
                             @if (Collection?.Rating is not null)
                             {
                                 <MudText Typo="Typo.body2">Your score</MudText>
@@ -141,19 +151,19 @@
                                 {
                                     <MudIcon Icon="@Icons.Material.Filled.Star"></MudIcon>
 
-                                    <MudText Typo="Typo.body2">@Collection?.Rating / 5</MudText>
+                                    <MudText Typo="Typo.body2">@Collection?.Rating / 10</MudText>
                                 }
                             </MudStack>
                             <MudText Typo="Typo.body2">Click to rate</MudText>
-      
+
                         </MudPaper>
-                        <MudPopover  Open="@_ratingOpen" AnchorOrigin="Origin.BottomLeft" Class="px-4 pt-4">
+                        <MudPopover Open="@_ratingOpen" AnchorOrigin="Origin.BottomLeft" Class="px-4 pt-4">
                             <MudStack AlignItems="AlignItems.Center">
                                 <MudText>@LabelText</MudText>
                                 <MudRating
                                     Class="d-flex align-center justify-center mud-width-full py-2"
                                     SelectedValue="@(EditModel.Rating ?? 0)"
-                                    MaxValue="5"
+                                    MaxValue="10"
                                     HoveredValueChanged="@(val => activeVal = val)"
                                     SelectedValueChanged="HandleSelectedValueChanged"/>
                             </MudStack>
@@ -162,23 +172,39 @@
                     </MudStack>
 
                 </MudPaper>
+                @if (GameDetail.SimilarGames is not null && GameDetail.SimilarGames.Count > 0)
+                {
+                    <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)"
+                              Elevation="0">
+                        <MudText Typo="Typo.h6" Class="mb-4">Recommendations</MudText>
 
-                <MudPaper Class="pa-4 rounded-lg" Style="background: var(--mud-palette-background-gray)" Elevation="0">
-                    <MudText Typo="Typo.h6" Class="mb-4">Recommendations</MudText>
-                    <MudGrid>
-                        @foreach(var sm in GameDetail.SimilarGames)
-                        {
-                            <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
-                                <MudCard @onclick="() => NavigateToGame(sm.Id)" Class="rounded-lg cursor-pointer" Elevation="0" Style="height: 100%">
-                                    <MudCardMedia Image="@ImageHelper.GetImageUrl(sm.CoverImageId, ImageHelper.ImageSize.HD1080)" Height="225" Class="object-cover"/>
-                                    <MudCardContent>
-                                        <MudText Typo="Typo.body2">@sm.Name</MudText>
-                                    </MudCardContent>
-                                </MudCard>
-                            </MudItem>
-                        }
-                    </MudGrid>
-                </MudPaper>
+                        <MudGrid>
+                            @foreach (var sm in GameDetail.SimilarGames)
+                            {
+                                <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+                                    <MudCard @onclick="() => NavigateToGame(sm.Id)" Class="rounded-lg cursor-pointer"
+                                             Elevation="0" Style="height: 100%">
+                                        <MudCardMedia
+                                            Image="@ImageHelper.GetImageUrl(sm.CoverImageId, ImageHelper.ImageSize.HD1080)"
+                                            Height="225" Class="object-cover"/>
+                                        <MudCardContent>
+                                            <MudText Typo="Typo.body2">@sm.Name</MudText>
+                                        </MudCardContent>
+                                    </MudCard>
+                                </MudItem>
+                            }
+                        </MudGrid>
+                    </MudPaper>
+                }
+                else
+                {
+                    <MudPaper Class="d-flex flex-column justify-center align-center pa-4 rounded-lg text-secondary"
+                              Style="background: var(--mud-palette-background-gray); height: 200px;" Elevation="0">
+                        <MudIcon Icon="@Icons.Material.Filled.SentimentDissatisfied" Size="Size.Large"/>
+                        <MudText Typo="Typo.h6">No recommendations found</MudText>
+                        <MudText Typo="Typo.subtitle2">Try browsing by genre or tags</MudText>
+                    </MudPaper>
+                }
 
             </MudItem>
         </MudGrid>

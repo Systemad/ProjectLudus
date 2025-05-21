@@ -1,60 +1,73 @@
 ﻿@page "/"
 @using Ludus.Client.Features.Games.Components
+@using Ludus.Client.Utilties
 
 <PageTitle>Home</PageTitle>
 
 <MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraExtraLarge">
-    <div class="d-flex gap-8">
+    @if (FetchedGames is not null)
+    {
+        <MudGrid Justify="Justify.FlexStart" Spacing="4">
 
-        <MudPaper Class="d-flex pa-4" Width="80%" Elevation="0">
-            <MudGrid Justify="Justify.FlexStart" Spacing="4">
-                @if (RatedGames?.Games is not null)
+            <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                <MudText Typo="Typo.h3"> Top rated games!</MudText>
+            </MudItem>
+            @if (FetchedGames.Games is not null)
+            {
+                @foreach (var game in FetchedGames.Games)
                 {
-                    @foreach (var game in RatedGames.Games)
-                    {
-                        <!-- 
-                        <MudItem xs="12" md="4" lg="3" xl="2">
-                        
-                        <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
-                        -->
-                        <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
-                            <GameCard Game="@game"/>
-                        </MudItem>
-                    }
+                    <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
+                        <MudCard @onclick="() => NavigateToGame(game.Id)" Class="rounded-lg cursor-pointer"
+                                 Elevation="0"
+                                 Style="background: var(--mud-palette-background-gray); height: 100%">
+                            <MudCardMedia
+                                Image="@ImageHelper.GetImageUrl(game.CoverImageId, ImageHelper.ImageSize.HD1080)"
+                                Height="225" Class="object-cover"/>
+                            <MudCardContent>
+                                <MudText Typo="Typo.body2">@game.Name</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
 
-                    <MudItem xs="12" Class="d-flex justify-center">
-                        <MudButton FullWidth="true" Variant="Variant.Filled" DropShadow="false" Color="Color.Primary"
-                                   Size="Size.Large" Class="mt-4">
-                            Load more
-                        </MudButton>
+                @if (FetchedGames.IsLastPage)
+                {
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                        <MudText>All games have been loaded</MudText>
                     </MudItem>
                 }
                 else
                 {
-                    @for (int i = 0; i < _papers; i++)
-                    {
-                        <MudItem xs="3">
-                            <MudCard Elevation="0" Class="rounded-lg"
-                                     Style="background: var(--mud-palette-background-gray); height: 100%">
-                                <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
-                                <MudCardContent>
-                                    <MudSkeleton Width="30%" Height="42px;"/>
-                                    <MudSkeleton Width="80%"/>
-                                    <MudSkeleton Width="100%"/>
-                                </MudCardContent>
-                                <MudCardActions>
-                                    <MudSkeleton Width="64px" Height="40px" Class="ml-2"/>
-                                    <MudSkeleton Width="105px" Height="40px" Class="ml-3"/>
-                                </MudCardActions>
-                            </MudCard>
-                        </MudItem>
-                    }
+                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                        <MudButton FullWidth="true" Variant="Variant.Filled" OnClick="LoadMoreGamesAsync">Load more
+                        </MudButton>
+                    </MudItem>
                 }
+            }
+            else
+            {
+                @for (int i = 0; i < 10; i++)
+                {
+                    <MudItem xs="3">
+                        <MudCard Elevation="0" Class="rounded-lg"
+                                 Style="background: var(--mud-palette-background-gray); height: 100%">
+                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
+                            <MudCardContent>
+                                <MudSkeleton Width="30%" Height="42px;"/>
+                                <MudSkeleton Width="80%"/>
+                                <MudSkeleton Width="100%"/>
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudSkeleton Width="64px" Height="40px" Class="ml-2"/>
+                                <MudSkeleton Width="105px" Height="40px" Class="ml-3"/>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
 
-            </MudGrid>
-        </MudPaper>
-
-    </div>
+        </MudGrid>
+    }
 </MudContainer>
 
 <!--

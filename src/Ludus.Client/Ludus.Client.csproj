@@ -10,6 +10,7 @@
     <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="8.2.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.5" />
     <PackageReference
@@ -28,7 +29,6 @@
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Klient\kiota-lock.json" />
     <_ContentIncludedByDefault Remove="ApiClient\kiota-lock.json" />
   </ItemGroup>
   <!--

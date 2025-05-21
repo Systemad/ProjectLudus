@@ -13,6 +13,7 @@ public record GetGameCollectionPreviewsResponse(
     List<GameCollectionPreviewDto>? Entries,
     long TotalItemCount,
     long PageCount,
+    long PageNumer,
     bool IsLastPage
 ) : IPaginatedResponse;
 
@@ -68,6 +69,7 @@ public static class GetGameCollectionPreviewsAsync
             previews,
             gameEntry.TotalItemCount,
             gameEntry.PageCount,
+            gameEntry.PageNumber,
             gameEntry.IsLastPage
         );
         return TypedResults.Ok(response);

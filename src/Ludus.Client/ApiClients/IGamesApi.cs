@@ -81,7 +81,7 @@ namespace Ludus.Client
         /// </returns>
         [Headers("Accept: application/json")]
         [Get("/api/games/search")]
-        Task<IApiResponse<GetSearchGamesResult>> Search([Query] int ps, [Query] int pn, [Query] string name, [Query(CollectionFormat.Multi)] IEnumerable<long> genreid, [Query(CollectionFormat.Multi)] IEnumerable<long> platformid, [Query(CollectionFormat.Multi)] IEnumerable<long> gamemodeid, [Query(CollectionFormat.Multi)] IEnumerable<long> themeid, [Query(CollectionFormat.Multi)] IEnumerable<long> ppsid);
+        Task<IApiResponse<GetSearchGamesResult>> Search([Query] int ps, [Query] int pn, [Query] string name, [Query(CollectionFormat.Multi)] IEnumerable<long> genreid, [Query(CollectionFormat.Multi)] IEnumerable<long> platformid, [Query(CollectionFormat.Multi)] IEnumerable<long> gamemodeid, [Query(CollectionFormat.Multi)] IEnumerable<long> themeid, [Query(CollectionFormat.Multi)] IEnumerable<long> gametypeid, [Query(CollectionFormat.Multi)] IEnumerable<long> ppsid);
 
         /// <returns>
         /// A <see cref="Task"/> representing the <see cref="IApiResponse"/> instance containing the result:

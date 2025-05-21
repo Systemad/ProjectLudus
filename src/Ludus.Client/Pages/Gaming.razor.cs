@@ -35,7 +35,6 @@ public partial class Gaming : ComponentBase
     private bool isDescriptionExpanded = false;
 
     private int selectedValueRating = 0;
-
     private bool _ratingOpen;
 
     private void ToggleRatingOpenOpen() => _ratingOpen = !_ratingOpen;
@@ -85,12 +84,17 @@ public partial class Gaming : ComponentBase
     private string LabelText =>
         (activeVal ?? EditModel.Rating) switch
         {
-            1 => "1",
-            2 => "2",
-            3 => "3",
-            4 => "4",
-            5 => "5",
-            _ => "",
+            1 => "Unplayable",
+            2 => "Terrible",
+            3 => "Bad",
+            4 => "Unimpressive",
+            5 => "Average",
+            6 => "Fair",
+            7 => "Good",
+            8 => "Great",
+            9 => "Excellent",
+            10 => "Masterpiece!",
+            _ => "Rate this game!",
         };
 
     private async Task HandleSelectedValueChanged(int val)
@@ -133,12 +137,11 @@ public partial class Gaming : ComponentBase
             _startDate = start.LocalDateTime;
             _endDate = end.LocalDateTime;
         }
-        StateHasChanged();
     }
 
     private void NavigateToGame(long id)
     {
-        NavigationManager.NavigateTo($"/gaming/{id}", false);
+        NavigationManager.NavigateTo($"/games/{id}", false);
         LoadingService.IsLoading = false;
     }
 }

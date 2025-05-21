@@ -563,6 +563,17 @@
             }
           },
           {
+            "name": "gametypeid",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
+          },
+          {
             "name": "ppsid",
             "in": "query",
             "schema": {
@@ -1419,6 +1430,7 @@
           "entries",
           "totalItemCount",
           "pageCount",
+          "pageNumer",
           "isLastPage"
         ],
         "type": "object",
@@ -1435,6 +1447,10 @@
             "format": "int64"
           },
           "pageCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumer": {
             "type": "integer",
             "format": "int64"
           },
@@ -1462,6 +1478,7 @@
           "games",
           "totalItemCount",
           "pageCount",
+          "pageNumer",
           "isLastPage"
         ],
         "type": "object",
@@ -1477,6 +1494,10 @@
             "format": "int64"
           },
           "pageCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumer": {
             "type": "integer",
             "format": "int64"
           },
@@ -1490,6 +1511,7 @@
           "games",
           "totalItemCount",
           "pageCount",
+          "pageNumer",
           "isLastPage"
         ],
         "type": "object",
@@ -1505,6 +1527,10 @@
             "format": "int64"
           },
           "pageCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumer": {
             "type": "integer",
             "format": "int64"
           },

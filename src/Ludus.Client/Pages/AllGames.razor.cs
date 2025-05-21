@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 
 namespace Ludus.Client.Pages;
 
@@ -26,55 +27,66 @@ public partial class AllGames : ComponentBase
 
     public GetSearchGamesResult? FetchedGames = new GetSearchGamesResult();
 
-    public string value { get; set; } = "Nothing selected";
-
-    private int _selectedPage = 1;
-    private int _pageCount = 1;
+    private List<GameDTO> Games = new();
+    private bool isLoading = false;
+    private const int PageSize = 40;
+    private int currentPage = 1;
 
     protected override async Task OnInitializedAsync()
     {
-        var filers = await GamesApi.Filters(); //Client.Api.Games.Filters.GetAsync();
+        var filers = await GamesApi.Filters();
         Filters = filers.Content;
 
-        await FetchGamesAsync();
+        var defaultGameFilter = Filters?.GameTypes?.FirstOrDefault(x => x.Id == 0);
+        SearchFilters._selectedGameTypes = new HashSet<GameTypeFilter> { defaultGameFilter };
+
+        await FetchGamesAsync(1);
         await base.OnInitializedAsync();
     }
 
-    public async Task FetchGamesAsync()
+    public async Task SearchGamesAsync()
     {
-        var defaultGameFilter = Filters?.GameTypes?.FirstOrDefault(x => x.Id == 1001);
-        SearchFilters._selectedGameTypes = new HashSet<GameTypeFilter> { defaultGameFilter };
-        var hey = await GamesApi.Search(
-            pn: 1,
-            ps: 20,
+        Games.Clear();
+        FetchedGames = null;
+        currentPage = 1;
+
+        await FetchGamesAsync(1);
+    }
+
+    public async Task LoadMoreGamesAsync()
+    {
+        if (FetchedGames is not null && !FetchedGames.IsLastPage)
+        {
+            await FetchGamesAsync((int)FetchedGames.PageNumer + 1);
+        }
+    }
+
+    public async Task FetchGamesAsync(int page)
+    {
+        var searchedResponse = await GamesApi.Search(
+            pn: page,
+            ps: 40,
             name: SearchFilters.TextValue,
             genreid: SearchFilters._selectedGenres.Select(x => x.Id),
             platformid: SearchFilters._selectedPlatforms.Select(x => x.Id),
             themeid: SearchFilters._selectedThemes.Select(x => x.Id),
             gamemodeid: SearchFilters._selectedGameModes.Select(x => x.Id),
+            gametypeid: SearchFilters._selectedGameModes.Select(x => x.Id),
             ppsid: SearchFilters._selectedPlayerPerspectives.Select(x => x.Id)
         );
-        /*
-        var fetchedGames = await Client.Api.Games.Search.GetAsync(request =>
+
+        if (searchedResponse.Content is not null)
         {
-            request.QueryParameters.Pn = 1;
-            request.QueryParameters.Ps = 20;
-            request.QueryParameters.Name = SearchFilters.TextValue;
-            request.QueryParameters.Genreid = SearchFilters
-                ._selectedGenres.Select(x => x.Id)
-                .ToArray();
-            request.QueryParameters.Platformid = SearchFilters
-                ._selectedPlatforms.Select(x => x.Id)
-                .ToArray();
-            request.QueryParameters.Themeid = SearchFilters
-                ._selectedThemes.Select(x => x.Id)
-                .ToArray();
-            request.QueryParameters.Gamemodeid = SearchFilters
-                ._selectedGameModes.Select(x => x.Id)
-                .ToArray();
-        });
-        */
-        FetchedGames = hey.Content;
-        _pageCount = (int)FetchedGames.PageCount;
+            if (page == 1)
+            {
+                Games = searchedResponse.Content.Games.ToList();
+            }
+            else
+            {
+                Games.AddRange(searchedResponse.Content.Games);
+            }
+
+            FetchedGames = searchedResponse.Content;
+        }
     }
 }

@@ -872,6 +872,9 @@ namespace Ludus.Client
         [System.Text.Json.Serialization.JsonPropertyName("pageCount")]
         public long PageCount { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("pageNumer")]
+        public long PageNumer { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("isLastPage")]
         public bool IsLastPage { get; set; }
 
@@ -919,6 +922,9 @@ namespace Ludus.Client
         [System.Text.Json.Serialization.JsonPropertyName("pageCount")]
         public long PageCount { get; set; }
 
+        [System.Text.Json.Serialization.JsonPropertyName("pageNumer")]
+        public long PageNumer { get; set; }
+
         [System.Text.Json.Serialization.JsonPropertyName("isLastPage")]
         public bool IsLastPage { get; set; }
 
@@ -946,6 +952,9 @@ namespace Ludus.Client
 
         [System.Text.Json.Serialization.JsonPropertyName("pageCount")]
         public long PageCount { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("pageNumer")]
+        public long PageNumer { get; set; }
 
         [System.Text.Json.Serialization.JsonPropertyName("isLastPage")]
         public bool IsLastPage { get; set; }

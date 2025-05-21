@@ -27,6 +27,6 @@ public static class UpdateListAsync
         updateList.Public = query.Public;
         session.Store(updateList);
         await session.SaveChangesAsync();
-        return TypedResults.Created($"/user/list/{updateList.Id}", updateList);
+        return TypedResults.Created($"/list/{updateList.Id}", updateList);
     }
 }

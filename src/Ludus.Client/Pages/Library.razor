@@ -3,15 +3,32 @@
 <PageTitle>Library</PageTitle>
 
 <MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraLarge">
-    <MudGrid>
+
+
+    
+    <MudGrid Justify="Justify.FlexStart">
         @if (GameCollections is not null)
         {
-            @if (GameCollections.Entries is not null)
+            @if (SortedList.Count > 0)
             {
-                @foreach (var collection in GameCollections.Entries)
+                <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                    <MudSelect Dense="true" Value="@SortedByStatus"
+                               ValueChanged="HandleStatusSelectedValueChanged" Variant="Variant.Text"
+                               T="int">
+                        <MudSelectItem T="int" Value="0">Not Started</MudSelectItem>
+                        <MudSelectItem T="int" Value="1">In Progress</MudSelectItem>
+                        <MudSelectItem T="int" Value="2">Completed</MudSelectItem>
+                        <MudSelectItem T="int" Value="3">Abandoned</MudSelectItem>
+                        <MudSelectItem T="int" Value="4">None</MudSelectItem>
+                    </MudSelect>
+                </MudItem>
+                
+                @foreach (var collection in SortedList)
                 {
                     <MudItem xs="12" sm="6" md="4" lg="3" xl="2">
-                        <MudCard @onclick="() => NavigateToGame(collection.Game.Id)" Class="rounded-lg cursor-pointer" Style="background: var(--mud-palette-background-gray); height: 100%"
+                        <MudCard @onclick="() => NavigateToGame(collection.Game.Id)"
+                                 Class="rounded-lg cursor-pointer"
+                                 Style="background: var(--mud-palette-background-gray); height: 100%"
                                  Elevation="0">
                             <MudCardMedia
                                 Image="@ImageHelper.GetImageUrl(collection.Game.CoverImageId, ImageHelper.ImageSize.HD1080)"

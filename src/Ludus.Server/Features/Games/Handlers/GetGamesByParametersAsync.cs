@@ -11,7 +11,7 @@ namespace Ludus.Server.Features.Games.Handlers;
 public class GameSearchQuery : IPaginationParameters
 {
     [FromQuery(Name = "ps")]
-    public int PageSize { get; set; } = 20;
+    public int PageSize { get; set; } = 40;
 
     [FromQuery(Name = "pn")]
     public int PageNumber { get; set; } = 1;
@@ -31,6 +31,9 @@ public class GameSearchQuery : IPaginationParameters
     [FromQuery(Name = "themeid")]
     public long[]? ThemeId { get; set; } = null;
 
+    [FromQuery(Name = "gametypeid")]
+    public long[]? GameTypeId { get; set; } = null;
+
     [FromQuery(Name = "ppsid")]
     public long[]? PlayerPerspectiveId { get; set; } = null;
 }
@@ -39,6 +42,7 @@ public record GetSearchGamesResult(
     IEnumerable<GameDTO> Games,
     long TotalItemCount,
     long PageCount,
+    long PageNumer,
     bool IsLastPage
 ) : IPaginatedResponse;
 
@@ -67,7 +71,12 @@ public static class GetGamesByParametersAsync
                 (IMartenQueryable<Game>)
                     gameQuery.Where(x => x.Genres.Any(g => query.GenreId.Contains(g.Id)));
         }
-
+        if (query.GameTypeId is not null && query.GameTypeId.Length > 0)
+        {
+            gameQuery =
+                (IMartenQueryable<Game>)
+                    gameQuery.Where(x => query.GameTypeId.Contains(x.GameType.Id));
+        }
         if (query.PlatformId is not null && query.PlatformId.Length > 0)
         {
             gameQuery =
@@ -105,6 +114,7 @@ public static class GetGamesByParametersAsync
                 mappedGames,
                 games.TotalItemCount,
                 games.PageCount,
+                games.PageNumber,
                 games.IsLastPage
             )
         );

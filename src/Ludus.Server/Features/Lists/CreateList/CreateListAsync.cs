@@ -34,6 +34,6 @@ public static class CreateListAsync
             newItem.Public,
             new List<GameCollectionPreviewDto>()
         );
-        return TypedResults.Created($"/user/list/{newItem.Id}", result);
+        return TypedResults.Created($"/list/{newItem.Id}", result);
     }
 }

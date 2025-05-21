@@ -10,13 +10,14 @@ public record GetTopRatedGamesResponse(
     IEnumerable<GameDTO> Games,
     long TotalItemCount,
     long PageCount,
+    long PageNumer,
     bool IsLastPage
 ) : IPaginatedResponse;
 
 public class GetTopRatedGamesQuery : IPaginationParameters
 {
     [FromQuery(Name = "ps")]
-    public int PageSize { get; set; } = 20;
+    public int PageSize { get; set; } = 40;
 
     [FromQuery(Name = "pn")]
     public int PageNumber { get; set; } = 1;
@@ -30,7 +31,10 @@ public static class GetTopRatedGamesAsync
     )
     {
         await using var session = store.QuerySession();
-        var games = await session.Query<Game>().ToPagedListAsync(query.PageNumber, query.PageSize);
+        var games = await session
+            .Query<Game>()
+            .Where(x => x.GameType.Id == 0)
+            .ToPagedListAsync(query.PageNumber, query.PageSize);
         var mappedGames = games.Select(x => x.ToGameDto());
 
         return TypedResults.Ok(
@@ -38,6 +42,7 @@ public static class GetTopRatedGamesAsync
                 mappedGames,
                 games.TotalItemCount,
                 games.PageCount,
+                games.PageNumber,
                 games.IsLastPage
             )
         );

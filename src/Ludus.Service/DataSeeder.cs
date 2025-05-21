@@ -36,7 +36,7 @@ public class DataSeeder
             "Client-ID",
             "i0s32q3oi8z074rvq0ljkaupnbkq98" /*options.ClientId*/
         );
-        _client.DefaultRequestHeaders.Add("Authorization", "Bearer x8hmb9ft7j8mohy6yjfdm9ano95abm");
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer REMOVED");
 
         var response = await _client.PostAsync("games/count", null);
         var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
@@ -86,15 +86,6 @@ public class DataSeeder
         var themes = GetDistinctEntities(games, g => g.Themes);
         var franchises = GetDistinctEntities(games, g => g.Franchises);
 
-        /*
-        var gameTypes = games
-            .Select(g => g.GameType)
-            .Where(gt => gt != null && gt.Id > 0)
-            .GroupBy(gt => gt.Id)
-            .Select(g => g.First())
-            .ToList();
-        */
-
         session.StoreObjects(gameModes);
         session.StoreObjects(genres);
         session.StoreObjects(involvedCompanies);
@@ -109,17 +100,13 @@ public class DataSeeder
 
         await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.OverwriteExisting);
         await session.SaveChangesAsync();
-        //await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.InsertsOnly);
     }
 
-    public async Task<List<GameType>> FetchGamesTypesAsync()
+    public async Task<IEnumerable<InternalGameType>> FetchGamesTypesAsync()
     {
         _client = _httpClientFactory.CreateClient("IGDB");
-        _client.DefaultRequestHeaders.Add(
-            "Client-ID",
-            "i0s32q3oi8z074rvq0ljkaupnbkq98" /*options.ClientId*/
-        );
-        _client.DefaultRequestHeaders.Add("Authorization", "Bearer x8hmb9ft7j8mohy6yjfdm9ano95abm");
+        _client.DefaultRequestHeaders.Add("Client-ID", "i0s32q3oi8z074rvq0ljkaupnbkq98");
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer REMOVED");
 
         var requestBody = $"fields type; limit 500;";
 
@@ -130,7 +117,12 @@ public class DataSeeder
         response.EnsureSuccessStatusCode();
 
         var gamesTypes = await response.Content.ReadFromJsonAsync<List<GameType>>();
-        return gamesTypes;
+        var mapped = gamesTypes.Select(x => new InternalGameType
+        {
+            OriginalId = x.Id,
+            Type = x.Type,
+        });
+        return mapped;
     }
 
     private static IList<T> GetDistinctEntities<T>(
@@ -146,19 +138,3 @@ public class DataSeeder
             .ToList();
     }
 }
-
-/*
- *         var gameModes = games.SelectMany(g => g.GameModes).DistinctBy(gm => gm.Id).ToList();
-        var genres = games.SelectMany(g => g.Genres).DistinctBy(gm => gm.Id).ToList();
-        var involvedCompanies = games
-            .SelectMany(g => g.InvolvedCompanies)
-            .DistinctBy(gm => gm.Id)
-            .ToList();
-        var platforms = games.SelectMany(g => g.Platforms).DistinctBy(gm => gm.Id).ToList();
-        var playerPerspectives = games
-            .SelectMany(g => g.PlayerPerspectives)
-            .DistinctBy(gm => gm.Id)
-            .ToList();
-        var gameEngines = games.SelectMany(g => g.GameEngines).DistinctBy(gm => gm.Id).ToList();
-        var franchise = games.SelectMany(g => g.Franchises).DistinctBy(gm => gm.Id).ToList();
- */

@@ -29,8 +29,8 @@ public class GetFiltersAsync
             .Select(x => new PlatformFilter(x.Id, x.Name))
             .ToListAsync();
         var gameTypes = await session
-            .Query<GameType>()
-            .Select(x => new GameTypeFilter(x.Id, x.Type))
+            .Query<InternalGameType>()
+            .Select(x => new GameTypeFilter(x.OriginalId, x.Type))
             .ToListAsync();
         var themes = await session
             .Query<Theme>()

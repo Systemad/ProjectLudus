@@ -13,6 +13,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Marten" Version="7.40.3" />
     <PackageReference Include="Marten.AspNetCore" Version="7.40.3" />
     <PackageReference
@@ -46,22 +47,4 @@
       <Compile Include="**/*.cs" />
     </ItemGroup>
   </Target>
-  <!--
-  <Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
-    <Exec
-      Command="kiota generate -l CSharp -o $(SolutionDir)Ludus.Client\ApiClient -n Ludus.Client -c LudusClient  -d $(ProjectDir)/schema/Ludus.Server.json"
-      WorkingDirectory="$(ProjectDir)"
-    />
-  </Target>
-  -->
-  <!--
-  <Target Name="GenerateClient" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
-    <Exec Command="kiota generate -l csharp -d $(ProjectDir)/schema/Ludus.Server.json -o $(SolutionDir)Ludus.Client\Klient" />
-  </Target>
-  -->
-  <!--
-  <Target Name="GenerateClient"  DependsOnTargets="GenerateOpenApiDocs" BeforeTargets="BeforeBuild">
-    <Exec Command="kiota generate -l csharp -d $(ProjectDir)/schema/Ludus.Server.json -o $(SolutionDir)Ludus.Client\Klient" />
-  </Target>
-  -->
 </Project>
