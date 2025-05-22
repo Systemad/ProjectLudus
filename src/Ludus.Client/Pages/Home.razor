@@ -5,66 +5,49 @@
 <PageTitle>Home</PageTitle>
 
 <MudContainer Class="mt-8" MaxWidth="MaxWidth.ExtraExtraLarge">
-    @if (FetchedGames is not null)
+    @if (Games.Count > 0)
     {
         <MudGrid Justify="Justify.FlexStart" Spacing="4">
 
-            <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+            <MudItem xs="12" sm="12" md="12" lg="12" xl="12" Class="mb-8">
                 <MudText Typo="Typo.h3"> Top rated games!</MudText>
             </MudItem>
-            @if (FetchedGames.Games is not null)
+            @foreach (var game in Games)
             {
-                @foreach (var game in FetchedGames.Games)
-                {
-                    <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
-                        <MudCard @onclick="() => NavigateToGame(game.Id)" Class="rounded-lg cursor-pointer"
-                                 Elevation="0"
-                                 Style="background: var(--mud-palette-background-gray); height: 100%">
-                            <MudCardMedia
-                                Image="@ImageHelper.GetImageUrl(game.CoverImageId, ImageHelper.ImageSize.HD1080)"
-                                Height="225" Class="object-cover"/>
-                            <MudCardContent>
-                                <MudText Typo="Typo.body2">@game.Name</MudText>
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
+                <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
+                    <MudCard @onclick="() => NavigateToGame(game.Id)" Class="rounded-lg cursor-pointer"
+                             Elevation="0"
+                             Style="background: var(--mud-palette-background-gray); height: 100%">
+                        <MudCardMedia
+                            Image="@ImageHelper.GetImageUrl(game.CoverImageId, ImageHelper.ImageSize.HD1080)"
+                            Height="225" Class="object-cover"/>
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2">@game.Name</MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
 
-                @if (FetchedGames.IsLastPage)
-                {
-                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
-                        <MudText>All games have been loaded</MudText>
-                    </MudItem>
-                }
-                else
-                {
-                    <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
-                        <MudButton FullWidth="true" Variant="Variant.Filled" OnClick="LoadMoreGamesAsync">Load more
-                        </MudButton>
-                    </MudItem>
-                }
+            <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                <MudButton DropShadow="false" FullWidth="true" Variant="Variant.Filled" OnClick="LoadMoreGamesAsync">
+                    Load more
+                </MudButton>
+            </MudItem>
+
+            <!--
+            @if (FetchedGames.IsLastPage)
+            {
+                <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+                    <MudText>All games have been loaded</MudText>
+                </MudItem>
             }
             else
             {
-                @for (int i = 0; i < 10; i++)
-                {
-                    <MudItem xs="3">
-                        <MudCard Elevation="0" Class="rounded-lg"
-                                 Style="background: var(--mud-palette-background-gray); height: 100%">
-                            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px"/>
-                            <MudCardContent>
-                                <MudSkeleton Width="30%" Height="42px;"/>
-                                <MudSkeleton Width="80%"/>
-                                <MudSkeleton Width="100%"/>
-                            </MudCardContent>
-                            <MudCardActions>
-                                <MudSkeleton Width="64px" Height="40px" Class="ml-2"/>
-                                <MudSkeleton Width="105px" Height="40px" Class="ml-3"/>
-                            </MudCardActions>
-                        </MudCard>
-                    </MudItem>
-                }
-            }
+            -->
+
+            <!--
+        }
+        -->
 
         </MudGrid>
     }

@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Ludus.Client.Features.Loading;
 using Microsoft.AspNetCore.Components;
+using MudBlazor;
 using Refit;
 
 namespace Ludus.Client.Pages;
@@ -22,6 +23,12 @@ public partial class Gaming : ComponentBase
     [Inject]
     public LoadingService LoadingService { get; set; }
 
+    [Inject]
+    public IDialogService DialogService { get; set; }
+
+    [Inject]
+    public IListApi ListApi { get; set; }
+
     public GameDetail? GameDetail { get; set; }
 
     private UpsertGameCollectionQuery EditModel = new();
@@ -38,6 +45,10 @@ public partial class Gaming : ComponentBase
     private bool _ratingOpen;
 
     private void ToggleRatingOpenOpen() => _ratingOpen = !_ratingOpen;
+
+    public List<UserGameListDto> FetchedList = new List<UserGameListDto>();
+    private HashSet<Guid> _listsWithGame = new();
+    private bool showAddToList = false;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -68,10 +79,39 @@ public partial class Gaming : ComponentBase
             //throw;
         }
 
+        var lists = await ListApi.ListAll(true);
+        if (lists.Content is not null)
+        {
+            FetchedList = lists.Content.ToList();
+            _listsWithGame = FetchedList
+                .Where(list => list.GameEntries.Any(e => e.Game.Id == Id))
+                .Select(list => list.Id)
+                .ToHashSet();
+        }
+
         isLoading = false;
         LoadingService.IsLoading = false;
         await base.OnInitializedAsync();
     }
+
+    private void ToggleAddToList()
+    {
+        showAddToList = !showAddToList;
+    }
+
+    private bool IsGameInList(UserGameListDto list) => list.GameEntries.Any(e => e.Game.Id == Id);
+
+    private async Task OnListCheckedChanged(UserGameListDto list, bool isChecked)
+    {
+        if (isChecked)
+            await AddGameToListAsync(list.Id, Id);
+        else
+            await RemoveGameFromListAsync(list.Id, Id);
+    }
+
+    private async Task AddGameToListAsync(Guid listId, long gameId) { }
+
+    private async Task RemoveGameFromListAsync(Guid listId, long gameId) { }
 
     private async Task HandleStatusSelectedValueChanged(int val)
     {
@@ -79,6 +119,9 @@ public partial class Gaming : ComponentBase
         await HandleGameCollectionUpdateAsync();
     }
 
+    private void Submit() => showAddToList = false;
+
+    private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
     private int? activeVal;
 
     private string LabelText =>

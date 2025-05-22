@@ -19,7 +19,7 @@
     -->
     <MudDrawer Anchor="Anchor.Left" @bind-open="@_drawerOpen" Variant="DrawerVariant.Persistent">
         <MudStack Class="mud-height-full">
-            <MudText Typo="Typo.h5" Class="pa-2 my-4">🔥 Your Logo</MudText>
+            <MudText Typo="Typo.h5" Class="pa-2 my-4">Ludus</MudText>
 
             <NavMenu/>
 
@@ -43,29 +43,16 @@
                         {
                             <MudStack Row="true">
                                 <MudAvatar Size="Size.Large" Rounded="true">
-                                    <!--
-                                        <MudImage Src="@GetImageSrc(@UserService.User.UserImage.ContentType, UserService.User.UserImage.Content)"></MudImage>
-                                    -->
+                                        <MudImage Src="@GetImageSrc(@UserService.UserModel.UserImage.ContentType, UserService.UserModel.UserImage.Content)"></MudImage>
                                 </MudAvatar>
                                 <MudStack Justify="Justify.Center" Spacing="0">
                                     <MudText Typo="Typo.body1">@UserService.UserModel.Name</MudText>
                                     <MudLink Href="/logout">Logout</MudLink>
-                                    <!--
-                                <MudText Typo="Typo.body2">Logout</MudText>
-                            -->
                                 </MudStack>
                             </MudStack>
                         }
-
-                        <!--
-                            @context.User.FindFirst(ClaimTypes.NameIdentifier).Value
-    
-                            <a href="/logout">Sign Out</a>
-    -->
                     </Authorized>
                 </AuthorizeView>
-
-
             </MudPaper>
         </MudStack>
     </MudDrawer>

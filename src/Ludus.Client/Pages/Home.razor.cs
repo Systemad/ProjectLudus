@@ -37,14 +37,7 @@ public partial class Home : ComponentBase
 
         if (response.Content is not null)
         {
-            if (page == 1)
-            {
-                Games = response.Content.Games.ToList();
-            }
-            else
-            {
-                Games.AddRange(response.Content.Games);
-            }
+            Games.AddRange(response.Content.Games);
 
             FetchedGames = response.Content;
         }

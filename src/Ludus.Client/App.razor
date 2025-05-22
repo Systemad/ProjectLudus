@@ -1,6 +1,4 @@
-﻿@inject AuthenticatedUserService UserService
-@inject AuthenticationStateProvider AuthProvider
-<CascadingAuthenticationState>
+﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
@@ -14,15 +12,3 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
-
-@code {
-
-    protected override async Task OnInitializedAsync()
-    {
-        //Console.WriteLine("App.razor; OnInitializedAsync");
-
-        //await UserService.InitializeAsync();
-        //(AuthProvider as SteamAuthProvider)?.NotifyUserChanged();
-        //await base.OnInitializedAsync();
-    }
-}

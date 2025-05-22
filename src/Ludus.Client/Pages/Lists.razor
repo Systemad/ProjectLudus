@@ -1,0 +1,106 @@
+﻿@page "/lists"
+@using Ludus.Client.Utilties
+
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    @if (FetchedList.Count > 0)
+    {
+        <MudGrid Justify="Justify.FlexStart" Spacing="4">
+            <MudItem xs="12" sm="12" md="12" lg="12" xl="12">
+            </MudItem>
+
+            @foreach (var item in FetchedList)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="2" xl="2">
+                    <MudCard @onclick="() => NavigateToList(item.Id)" Class="rounded-lg cursor-pointer"
+                             Elevation="0"
+                             Style="background: var(--mud-palette-background-gray); height: 100%">
+                        <MudGrid Spacing="0" Style="height: 225px;" Class="ml-0">
+                            @if (item.GameEntries.Count > 0)
+                            {
+                                @foreach (var game in item.GameEntries.Take(4))
+                                {
+                                    <MudItem xs="6" Class="p-0">
+                                        <MudImage
+                                            src="@ImageHelper.GetImageUrl(game.Game.CoverImageId, ImageHelper.ImageSize.HD1080)"
+                                            Class="object-cover"
+                                            style="width: 100%; height: 100%;"/>
+                                    </MudItem>
+                                }
+                            }
+                            else
+                            {
+                                <MudCardMedia
+                                    Image=""
+                                    Height="225" Class="object-cover"/>
+                            }
+
+                        </MudGrid>
+                        <!--
+                        <MudCardMedia
+                            Image=""
+                            Height="225" Class="object-cover"/>
+                        -->
+                        <MudCardContent>
+                            <MudText Typo="Typo.body2">@item.Name</MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+    else
+    {
+        <div class="d-flex justify-center align-center" style="height: 80vh;">
+            <MudPaper Class="d-flex flex-column justify-center align-center pa-6 rounded-xl text-secondary"
+                      Style="background: var(--mud-palette-background-gray); height: 300px; min-width: 360px;"
+                      Elevation="0">
+                <MudIcon Icon="@Icons.Material.Filled.SentimentDissatisfied" Size="Size.Large"/>
+                <MudText Typo="Typo.h5" Class="mt-2">No lists found</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mb-8">Create a list to get started!</MudText>
+                <MudButton OnClick="OpenDialog" FullWidth="true" Class="rounded-lg" Variant="Variant.Filled"
+                           DropShadow="false">Create list!
+                </MudButton>
+            </MudPaper>
+        </div>
+    }
+
+    <MudDialog @bind-Visible="_visible" Options="_dialogOptions">
+        <TitleContent>
+            <MudText Typo="Typo.h6">
+                <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3"/>
+                Create list!
+            </MudText>
+        </TitleContent>
+        <DialogContent>
+            <EditForm Model="@model" OnValidSubmit="OnValidSubmit1">
+                <DataAnnotationsValidator/>
+                <MudCard Elevation="0" Style="background: var(--mud-palette-background-gray);" Class="rounded-lg">
+
+                    <MudCardContent>
+                        <MudTextField Label="List name" HelperText="Min 1, Max. 20 characters"
+                                      @bind-Value="model.Name" For="@(() => model.Name)"/>
+                        <MudSwitch For="@(() => model.Public)" Color="Color.Primary"/>
+
+                    </MudCardContent>
+
+                    <MudCardActions>
+                        <MudButton ButtonType="ButtonType.Submit"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Tertiary"
+                                   DropShadow="false"
+                                   Class="ml-auto rounded-lg">
+                            Create
+                        </MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </EditForm>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Submit" DropShadow="false"
+                       Class="px-10 rounded-lg">
+                Close
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+</MudContainer>

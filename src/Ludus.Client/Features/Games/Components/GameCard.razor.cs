@@ -17,7 +17,7 @@ public partial class GameCard : ComponentBase
     void NavigateToDetails()
     {
         // Do navigation or some action
-        NavigationManager.NavigateTo($"/gaming/{Game.Id}", forceLoad: false);
+        NavigationManager.NavigateTo($"/games/{Game.Id}", forceLoad: false);
     }
 
     private bool _open;

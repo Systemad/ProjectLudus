@@ -157,6 +157,21 @@
                             <MudText Typo="Typo.body2">Click to rate</MudText>
 
                         </MudPaper>
+
+                        <!--
+                        <MudPaper Class="pa-3 rounded-lg" Elevation="0" @onclick="@ToggleAddToList">
+
+                            @if (FetchedList.Count > 0)
+                            {
+                                <MudStack Spacing="1" Row="true" AlignItems="AlignItems.Center"
+                                          Justify="Justify.Center">
+
+                                    <MudText Typo="Typo.body2">Add to list</MudText>
+                                </MudStack>
+                            }
+                        </MudPaper>
+                    -->
+
                         <MudPopover Open="@_ratingOpen" AnchorOrigin="Origin.BottomLeft" Class="px-4 pt-4">
                             <MudStack AlignItems="AlignItems.Center">
                                 <MudText>@LabelText</MudText>
@@ -208,6 +223,34 @@
 
             </MudItem>
         </MudGrid>
+
+<!--
+        <MudDialog @bind-Visible="showAddToList" Options="_dialogOptions">
+            <TitleContent>
+                <MudText Typo="Typo.h6">
+                    <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3"/>
+                    Edit rating
+                </MudText>
+            </TitleContent>
+            <DialogContent>
+                @if (FetchedList.Count > 0)
+                {
+                    @foreach (var list in FetchedList)
+                    {
+                        <MudCheckBox 
+                            @bind-Value="@IsGameInList(list)"
+                            Label="@list.Name"
+                            ValueChanged="@(checked => OnListCheckedChanged(list, checked))"/>
+                    }
+                }
+
+            </DialogContent>
+            <DialogActions>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit" Class="px-10">Close
+                </MudButton>
+            </DialogActions>
+        </MudDialog>
+        -->
     }
     else
     {

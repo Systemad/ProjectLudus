@@ -28,7 +28,6 @@ public class DataSeeder
         _client = client;
     }
 
-    // TODO: remove keys
     public async Task Populate()
     {
         _client = _httpClientFactory.CreateClient("IGDB");
