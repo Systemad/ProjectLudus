@@ -1,5 +1,6 @@
 ﻿using Ludus.Server.Features.Shared;
 using Ludus.Shared.Features.Games;
+using Marten;
 using Marten.Pagination;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,8 @@ public static class GetTopRatedGamesAsync
         var games = await session
             .Query<Game>()
             .Where(x => x.GameType.Id == 0)
+            .OrderByDescending(x => x.RatingCount)
+            .ThenByDescending(x => x.Rating)
             .ToPagedListAsync(query.PageNumber, query.PageSize);
         var mappedGames = games.Select(x => x.ToGameDto());
 

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Ludus.Server.Configuration;
 using Ludus.Server.Features.Auth;
 using Ludus.Server.Features.Collection;
@@ -8,6 +9,7 @@ using Ludus.Server.Features.Lists;
 using Ludus.Server.Features.Lists.Services;
 using Ludus.Server.Features.User;
 using Marten;
+using Microsoft.AspNetCore.Http.Features;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
@@ -27,7 +29,20 @@ builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddProblemDetails();
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+    {
+        context.ProblemDetails.Instance =
+            $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
+
+        context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
+
+        Activity? activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
+        context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
+    };
+});
+
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));

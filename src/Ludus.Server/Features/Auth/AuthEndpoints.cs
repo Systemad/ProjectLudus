@@ -51,8 +51,6 @@ public static class AuthEndpoints
             SteamIdStartIndex..
         ];
 
-        //var claims = new List<Claim>(authenticationResult.Principal.Claims);
-        //var steamIdClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
         await using var session = db.LightweightSession();
 
         var user = await session

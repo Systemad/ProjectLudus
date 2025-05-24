@@ -21,16 +21,6 @@ public static class AuthServices
                 options.ExpireTimeSpan = TimeSpan.FromDays(7);
             })
             .AddSteam();
-        /*
-         
-                         //options.Events.OnSignedIn = ValidationHelper.SignIn;
-                //options.Events.OnValidatePrincipal = ValidationHelper.Validate;
-                
-        .AddSteam(options =>
-        {
-            //options.CallbackPath = "/signin-steam";
-        });
-        */
         return services;
     }
 }
