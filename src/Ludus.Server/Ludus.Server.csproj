@@ -4,22 +4,21 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <SpaRoot>..\ludus.client</SpaRoot>
+    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
+    <SpaProxyServerUrl>https://localhost:51091</SpaProxyServerUrl>
     <OpenApiDocumentsDirectory>./Schema</OpenApiDocumentsDirectory>
     <!--
     <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
     <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
     -->
-    <RefitterNoLogging>true</RefitterNoLogging>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Marten" Version="7.40.3" />
     <PackageReference Include="Marten.AspNetCore" Version="7.40.3" />
-    <PackageReference
-      Include="Microsoft.AspNetCore.Components.WebAssembly.Server"
-      Version="9.0.5"
-    />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
     <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.5">
       <PrivateAssets>all</PrivateAssets>
@@ -30,21 +29,26 @@
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
-    <PackageReference Include="Refitter.MSBuild" Version="1.5.5" />
     <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.3.0" />
   </ItemGroup>
+  <!-- React SPA -->
   <ItemGroup>
-    <ProjectReference Include="..\Ludus.Client\Ludus.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+      <Version>9.*-*</Version>
+    </PackageReference>
+    <PackageReference
+      Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets"
+      Version="1.22.1-Preview.1"
+    />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ludus.client\ludus.client.esproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <!-- -->
+  <ItemGroup>
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
-  <Target Name="Refitter" BeforeTargets="BeforeBuild">
-    <RefitterGenerateTask
-      ProjectFileDirectory="$(MSBuildProjectDirectory)"
-      DisableLogging="$(RefitterNoLogging)"
-    />
-    <ItemGroup>
-      <Compile Include="**/*.cs" />
-    </ItemGroup>
-  </Target>
 </Project>

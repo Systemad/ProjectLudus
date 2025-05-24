@@ -27,8 +27,10 @@ builder.Services.AddOutputCache(options =>
 });
 builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+
+//builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages();
+builder.Services.AddControllers();
 builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>
@@ -73,25 +75,27 @@ if (app.Environment.IsDevelopment())
     });
 
     app.MapOpenApi();
-    app.UseWebAssemblyDebugging();
     //app.Map("/", () => Results.Redirect("/scalar/v1"));
 }
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.MapStaticAssets();
 
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
-app.MapStaticAssets();
-app.UseStaticFiles();
+
+//app.MapStaticAssets();
+//app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 
-app.MapRazorPages();
+//app.MapRazorPages();
 
 // Endpoints
 app.MapAuthEndpoints();
-
 app.MapGameCollectionEndpoints();
 app.MapListEndpoints();
 app.MapUserEndpoints();
@@ -100,8 +104,8 @@ app.MapGameEndpoints();
 app.UseOutputCache();
 
 app.MapControllers();
-
-app.MapFallbackToFile("index.html");
-
 app.UseStatusCodePages();
+
+app.MapFallbackToFile("/index.html");
+
 app.Run();

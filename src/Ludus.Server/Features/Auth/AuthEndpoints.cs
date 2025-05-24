@@ -26,7 +26,6 @@ public static class AuthEndpoints
 
     private static IResult SignIn(HttpContext httpContext)
     {
-        Console.WriteLine("Siginin");
         return Results.Challenge(
             new AuthenticationProperties
             {
