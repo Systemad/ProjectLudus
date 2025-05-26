@@ -1,0 +1,1 @@
+{"required":["id","name","public"],"type":"object","properties":{"id":{"type":"string","format":"uuid"},"name":{"type":"string"},"public":{"type":"boolean"}},"x-readme-ref-name":"UpdateListQuery"}
