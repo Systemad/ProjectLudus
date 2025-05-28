@@ -7,6 +7,7 @@ import path from "path";
 import child_process from "child_process";
 import { env } from "process";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== ""
@@ -61,6 +62,7 @@ export default defineConfig({
             quoteStyle: "single",
         }),
         react(),
+        tsconfigPaths(),
     ],
     resolve: {
         alias: {

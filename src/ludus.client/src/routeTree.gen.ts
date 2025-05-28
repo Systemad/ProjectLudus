@@ -15,6 +15,7 @@ import { Route as WeatherImport } from './routes/weather'
 import { Route as AboutImport } from './routes/about'
 import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
+import { Route as GamesGameIdImport } from './routes/games/$gameId'
 
 // Create/Update Routes
 
@@ -38,6 +39,12 @@ const AuthenticatedRoute = AuthenticatedImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GamesGameIdRoute = GamesGameIdImport.update({
+  id: '/games/$gameId',
+  path: '/games/$gameId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -73,6 +80,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WeatherImport
       parentRoute: typeof rootRoute
     }
+    '/games/$gameId': {
+      id: '/games/$gameId'
+      path: '/games/$gameId'
+      fullPath: '/games/$gameId'
+      preLoaderRoute: typeof GamesGameIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -83,6 +97,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRoute
   '/about': typeof AboutRoute
   '/weather': typeof WeatherRoute
+  '/games/$gameId': typeof GamesGameIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -90,6 +105,7 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRoute
   '/about': typeof AboutRoute
   '/weather': typeof WeatherRoute
+  '/games/$gameId': typeof GamesGameIdRoute
 }
 
 export interface FileRoutesById {
@@ -98,14 +114,21 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRoute
   '/about': typeof AboutRoute
   '/weather': typeof WeatherRoute
+  '/games/$gameId': typeof GamesGameIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/about' | '/weather'
+  fullPaths: '/' | '' | '/about' | '/weather' | '/games/$gameId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/about' | '/weather'
-  id: '__root__' | '/' | '/_authenticated' | '/about' | '/weather'
+  to: '/' | '' | '/about' | '/weather' | '/games/$gameId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/weather'
+    | '/games/$gameId'
   fileRoutesById: FileRoutesById
 }
 
@@ -114,6 +137,7 @@ export interface RootRouteChildren {
   AuthenticatedRoute: typeof AuthenticatedRoute
   AboutRoute: typeof AboutRoute
   WeatherRoute: typeof WeatherRoute
+  GamesGameIdRoute: typeof GamesGameIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -121,6 +145,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRoute: AuthenticatedRoute,
   AboutRoute: AboutRoute,
   WeatherRoute: WeatherRoute,
+  GamesGameIdRoute: GamesGameIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -136,7 +161,8 @@ export const routeTree = rootRoute
         "/",
         "/_authenticated",
         "/about",
-        "/weather"
+        "/weather",
+        "/games/$gameId"
       ]
     },
     "/": {
@@ -150,6 +176,9 @@ export const routeTree = rootRoute
     },
     "/weather": {
       "filePath": "weather.tsx"
+    },
+    "/games/$gameId": {
+      "filePath": "games/$gameId.tsx"
     }
   }
 }

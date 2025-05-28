@@ -1,0 +1,23 @@
+.card {
+    background-color: light-dark(
+        var(--mantine-color-gray-0),
+        var(--mantine-color-dark-6)
+    );
+}
+
+.title {
+    font-family: Outfit, var(--mantine-font-family);
+    font-weight: 500;
+}
+
+.item {
+    background-color: var(--mantine-color-body);
+    transition:
+        box-shadow 150ms ease,
+        transform 150ms ease;
+
+    @mixin hover {
+        box-shadow: var(--mantine-shadow-sm);
+        transform: scale(1.02);
+    }
+}

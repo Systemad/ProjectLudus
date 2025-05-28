@@ -3,7 +3,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 
-import { AppShell, Burger, Button, Container } from "@mantine/core";
+import { AppShell, Container } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 interface MyRouterContext {
@@ -19,8 +19,9 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
     const [opened, { toggle }] = useDisclosure();
     return (
-        <>
+        <div>
             <AppShell
+                padding="lg"
                 navbar={{
                     width: 200,
                     breakpoint: "sm",
@@ -30,7 +31,7 @@ function RootComponent() {
                 <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
 
                 <AppShell.Main>
-                    <Container fluid mt={"xs"}>
+                    <Container fluid mt={"lg"}>
                         <Outlet />
                     </Container>
                 </AppShell.Main>
@@ -38,6 +39,6 @@ function RootComponent() {
 
             <ReactQueryDevtools buttonPosition="top-right" />
             <TanStackRouterDevtools position="bottom-right" />
-        </>
+        </div>
     );
 }
