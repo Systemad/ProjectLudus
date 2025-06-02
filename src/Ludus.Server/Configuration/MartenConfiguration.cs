@@ -30,7 +30,7 @@ public static class MartenConfiguration
                 }
                 options.Schema.For<User>().Identity(x => x.Id);
                 options.Schema.For<UserImage>().Identity(x => x.Id);
-                options.Schema.For<GameCollection>().Identity(x => x.Id);
+                options.Schema.For<UserGameData>().Identity(x => x.Id);
                 options.Schema.For<UserGameList>().Identity(x => x.Id);
             })
             //.InitializeWith(new InitialData())

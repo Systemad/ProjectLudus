@@ -8,7 +8,7 @@ public static class GameEntryEndpoints
     {
         var group = routes.MapGroup("api/collection").WithTags("Collection").WithOpenApi();
 
-        group.MapGet("/", GetGameCollectionPreviewsAsync.Handler).RequireAuthorization();
+        group.MapGet("/", GetGameCollectionsAsync.Handler).RequireAuthorization();
 
         group.MapGet("/{gameId:long}", GetGameCollectionDetailAsync.Handler).RequireAuthorization();
 

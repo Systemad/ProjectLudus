@@ -1,7 +1,8 @@
 ﻿namespace Ludus.Server.Features.Shared;
 
-public interface IPaginatedResponse
+public interface IPaginatedResponse<T>
 {
+    IEnumerable<T> Items { get; }
     public long TotalItemCount { get; }
     public long PageCount { get; }
     public long PageNumer { get; }

@@ -15,19 +15,19 @@ public class GameCollectionService
         GameDb = gameDb;
     }
 
-    public async Task<GameCollection> UpsertGameEntryAsync(
+    public async Task<UserGameData> UpsertGameEntryAsync(
         Guid userId,
         UpsertGameCollectionQuery query
     )
     {
         await using var session = UserStore.LightweightSession();
         var gameEntry = await session
-            .Query<GameCollection>()
+            .Query<UserGameData>()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == query.GameId);
 
         if (gameEntry is null)
         {
-            gameEntry = new GameCollection
+            gameEntry = new UserGameData
             {
                 UserId = userId,
                 GameId = query.GameId,

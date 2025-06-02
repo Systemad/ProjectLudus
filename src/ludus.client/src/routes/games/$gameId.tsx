@@ -7,7 +7,7 @@ import {
     Divider,
     Title,
     Badge,
-    Transition,
+    SimpleGrid,
     Rating,
     Paper,
     Group,
@@ -15,6 +15,7 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { Surface } from "~/features/shared/components/Surface/Surface";
 import { useHover } from "@mantine/hooks";
+import { GameCard } from "~/features/components/GameCard/GameCard";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
@@ -104,7 +105,7 @@ function RouteComponent() {
                         </Text>
                         <Group>
                             <Paper radius="md" p="sm">
-                                <Stack>
+                                <Stack gap="xs">
                                     <Text ta="center">IGDB SCORE</Text>
                                     <Rating
                                         defaultValue={2}
@@ -114,7 +115,7 @@ function RouteComponent() {
                                 </Stack>
                             </Paper>
                             <Paper radius="md" p="sm">
-                                <Stack>
+                                <Stack gap="xs">
                                     <Text ta="center">YOUR SCORE</Text>
                                     <Rating defaultValue={2} count={10} />
                                 </Stack>
@@ -123,7 +124,20 @@ function RouteComponent() {
                     </Stack>
                 </Surface>
                 <Surface>
-                    <Text>Other stuff</Text>
+                    <Title order={3}>Recommended Games</Title>
+                    <SimpleGrid
+                        mt="md"
+                        cols={{ base: 1, sm: 2, lg: 5 }}
+                        spacing="lg"
+                    >
+                        {Array.from({ length: 10 }, (_, i) => (
+                            <GameCard
+                                height={175}
+                                key={i}
+                                Id={i.toString()}
+                            ></GameCard>
+                        ))}
+                    </SimpleGrid>
                 </Surface>
             </Stack>
         </Flex>

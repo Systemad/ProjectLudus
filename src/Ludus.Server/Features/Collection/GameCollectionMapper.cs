@@ -4,30 +4,27 @@ namespace Ludus.Server.Features.Collection;
 
 public static class GameCollectionMapper
 {
-    public static GameCollectionPreviewDto ToGameEntryPreviewDto(
-        this GameCollection gameCollection,
-        GameDTO game
-    ) =>
+    public static UserGameDataDto ToGameCollectionDto(this UserGameData userGameData) =>
         new(
-            gameCollection.Id,
-            game,
-            gameCollection.Status,
-            gameCollection.StartDate,
-            gameCollection.EndDate,
-            gameCollection.UpdatedAt,
-            gameCollection.Rating,
-            gameCollection.Notes
+            userGameData.Id,
+            userGameData.GameId,
+            userGameData.Status,
+            userGameData.StartDate,
+            userGameData.EndDate,
+            userGameData.UpdatedAt,
+            userGameData.Rating,
+            userGameData.Notes
         );
 
-    public static GameCollectionDto ToGameEntryDto(this GameCollection gameCollection) =>
+    public static UserGameDataDto ToGameEntryDto(this UserGameData userGameData) =>
         new(
-            gameCollection.Id,
-            gameCollection.GameId,
-            gameCollection.Status,
-            gameCollection.StartDate,
-            gameCollection.EndDate,
-            gameCollection.UpdatedAt,
-            gameCollection.Rating,
-            gameCollection.Notes
+            userGameData.Id,
+            userGameData.GameId,
+            userGameData.Status,
+            userGameData.StartDate,
+            userGameData.EndDate,
+            userGameData.UpdatedAt,
+            userGameData.Rating,
+            userGameData.Notes
         );
 }

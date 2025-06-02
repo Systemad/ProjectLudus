@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Collection.Handlers;
 
+// TODO: game logic to match GameCollectionPeviewAsync and GameDatailDto object
 public static class GetGameCollectionDetailAsync
 {
-    public static async Task<Results<Ok<GameCollectionDto>, ProblemHttpResult>> Handler(
+    public static async Task<Results<Ok<UserGameDataDto>, ProblemHttpResult>> Handler(
         long gameId,
         [FromServices] IDocumentStore db,
         [FromServices] IGameStore gameStore,
@@ -18,7 +19,7 @@ public static class GetGameCollectionDetailAsync
 
         await using var session = db.QuerySession();
         var gameEntry = await session
-            .Query<GameCollection>()
+            .Query<UserGameData>()
             .Where(g => g.GameId == gameId)
             .Where(x => x.UserId == userId)
             .FirstOrDefaultAsync();

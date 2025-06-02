@@ -1,6 +1,6 @@
-﻿using Ludus.Server.Features.Shared;
+﻿using System.Security.Claims;
+using Ludus.Server.Features.Shared;
 using Ludus.Shared.Features.Games;
-using Marten;
 using Marten.Linq;
 using Marten.Pagination;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -38,18 +38,20 @@ public class GameSearchQuery : IPaginationParameters
     public long[]? PlayerPerspectiveId { get; set; } = null;
 }
 
-public record GetSearchGamesResult(
-    IEnumerable<GameDTO> Games,
+public record GetSearchGamesResponse(
+    IEnumerable<GameDto> Items,
     long TotalItemCount,
     long PageCount,
     long PageNumer,
     bool IsLastPage
-) : IPaginatedResponse;
+) : IPaginatedResponse<GameDto>;
 
 public static class GetGamesByParametersAsync
 {
-    public static async Task<Ok<GetSearchGamesResult>> Handler(
+    public static async Task<Ok<GetSearchGamesResponse>> Handler(
         [FromServices] IGameStore store,
+        [FromServices] GameService gameService,
+        ClaimsPrincipal user,
         [AsParameters] GameSearchQuery query
     )
     {
@@ -108,10 +110,10 @@ public static class GetGamesByParametersAsync
         }
 
         var games = await gameQuery.ToPagedListAsync(query.PageNumber, query.PageSize);
-        var mappedGames = games.Select(x => x.ToGameDto());
+        var previews = await gameService.GetGameDtosAsync(user, games);
         return TypedResults.Ok(
-            new GetSearchGamesResult(
-                mappedGames,
+            new GetSearchGamesResponse(
+                previews,
                 games.TotalItemCount,
                 games.PageCount,
                 games.PageNumber,

@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Collection.Services;
+using Ludus.Server.Features.Lists.Services;
 using Ludus.Server.Features.Shared;
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -9,45 +10,38 @@ namespace Ludus.Server.Features.Lists.AddGameToList;
 
 public static class AddGameToListAsync
 {
-    public static async Task<Results<Ok, BadRequest<string>>> Handle(
+    public static async Task<Results<Ok, ProblemHttpResult>> Handler(
         IDocumentStore db,
-        [FromServices] GameCollectionService gameCollectionService,
+        [FromServices] IDocumentStore userStore,
         ClaimsPrincipal user,
         Guid listId,
         long gameId
     )
     {
+        await using var session = userStore.LightweightSession();
+
         var userId = Guid.Parse(user.Identity.Name);
-        await using var session = db.LightweightSession();
+
         var updateList = await session
             .Query<UserGameList>()
             .Where(x => x.UserId == userId)
             .FirstOrDefaultAsync(x => x.Id == listId);
 
         if (updateList is null)
-            return TypedResults.BadRequest("List doesn't exist!");
-        var gameEntry = await session
-            .Query<GameCollection>()
-            .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == gameId);
+            return TypedResults.Problem(
+                type: "https://example.com/problems/user-list-not-found",
+                title: "Game list not found",
+                detail: $"No list with ID {listId} found for the current user.",
+                statusCode: StatusCodes.Status404NotFound
+            );
 
-        if (gameEntry is null)
-        {
-            gameEntry = new GameCollection
-            {
-                Id = Guid.NewGuid(),
-                UserId = userId,
-                GameId = gameId,
-                Status = GameStatus.None,
-            };
-            session.Store(gameEntry);
-        }
+        if (updateList.Games.Contains(gameId))
+            return null;
 
-        if (updateList.GameEntryIds.Contains(gameEntry.Id))
-            return TypedResults.BadRequest("Game is already in the list");
-
-        updateList.GameEntryIds.Add(gameEntry.Id);
+        updateList.Games.Add(gameId);
         session.Store(updateList);
         await session.SaveChangesAsync();
+
         return TypedResults.Ok();
     }
 }

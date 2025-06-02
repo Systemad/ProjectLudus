@@ -18,7 +18,7 @@ public record UpsertGameCollectionQuery(
 
 public static class CreateOrUpdateGameStatusAsync
 {
-    public static async Task<Results<Ok<GameCollectionDto>, ProblemHttpResult>> Handler(
+    public static async Task<Results<Ok<UserGameDataDto>, ProblemHttpResult>> Handler(
         [FromServices] GameCollectionService gameCollectionService,
         ClaimsPrincipal user,
         //long gameId,

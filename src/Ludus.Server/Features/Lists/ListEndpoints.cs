@@ -21,7 +21,7 @@ public static class UserListEndpoints
         group.MapGet("/{listId:guid}", GetListAsync.Handle);
         group.MapPut("/{listId:guid}", UpdateListAsync.Handler);
 
-        group.MapPost("/{listId:guid}/add", AddGameToListAsync.Handle);
+        group.MapPost("/{listId:guid}/add", AddGameToListAsync.Handler);
         group.MapDelete("/{listId:guid}/delete/{gameId:long}", RemoveGameFromListAsync.Handle);
         return group;
     }

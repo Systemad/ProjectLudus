@@ -1,12 +1,12 @@
-﻿using Ludus.Server.Features.Shared;
+﻿using Ludus.Server.Features.Games;
+using Ludus.Server.Features.Shared;
 using Ludus.Shared.Features.Games;
 
 namespace Ludus.Server.Features;
 
-public class GameCollection
+public class UserGameData
 {
     public Guid Id { get; set; }
-
     public Guid UserId { get; set; }
     public long GameId { get; set; }
     public GameStatus Status { get; set; }
@@ -15,20 +15,17 @@ public class GameCollection
     public DateTimeOffset UpdatedAt { get; set; }
     public int? Rating { get; set; }
     public string? Notes { get; set; }
+    public bool IsWishlisted { get; set; } = false;
+    public bool IsFavorited { get; set; } = false;
 }
 
-public record GameCollectionPreviewDto(
-    Guid Id,
-    GameDTO Game,
-    GameStatus Status,
-    DateTimeOffset? StartDate,
-    DateTimeOffset? EndDate,
-    DateTimeOffset? UpdatedAt,
-    int? Rating,
-    string? Notes
-);
+public class GameDetailWithUserData
+{
+    public Game GameDetial { get; set; }
+    public IEnumerable<GameDto> SimilarGames { get; set; }
+}
 
-public record GameCollectionDto(
+public record UserGameDataDto(
     Guid Id,
     long GameId,
     GameStatus Status,

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Ludus.Server.Features.Games.Handlers;
 
+// TODO: FIX
 public record GetGamesByIdsResult(IEnumerable<Game> Games);
 
 public static class GetGamesByIdsAsync

@@ -22,13 +22,13 @@ public static class RemoveGameFromListAsync
         if (list is null)
             return TypedResults.NotFound("List doesn't exist!");
         var gameEntry = await session
-            .Query<GameCollection>()
+            .Query<UserGameData>()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == gameId);
 
         if (gameEntry is null)
             return TypedResults.NotFound("Game entry doesnt exist!");
 
-        if (!list.GameEntryIds.Remove(gameEntry.Id))
+        if (!list.Games.Remove(gameEntry.Id))
             return TypedResults.NotFound("Game is not in the list");
 
         session.Store(list);

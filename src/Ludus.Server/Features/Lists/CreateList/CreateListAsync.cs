@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Ludus.Server.Features.Games;
 using Ludus.Shared.Features.Games;
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -32,7 +33,7 @@ public static class CreateListAsync
             newItem.Id,
             newItem.Name,
             newItem.Public,
-            new List<GameCollectionPreviewDto>()
+            new List<GameDto>()
         );
         return TypedResults.Created($"/list/{newItem.Id}", result);
     }
