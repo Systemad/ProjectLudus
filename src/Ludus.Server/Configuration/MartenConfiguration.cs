@@ -1,6 +1,7 @@
 ﻿using Ludus.Server.Features;
+using Ludus.Server.Features.Common;
 using Ludus.Server.Features.Lists;
-using Ludus.Server.Features.User.Models;
+using Ludus.Server.Features.User.Common.Models;
 using Ludus.Shared.Features.Games;
 using Marten;
 using Marten.Services;
@@ -30,7 +31,7 @@ public static class MartenConfiguration
                 }
                 options.Schema.For<User>().Identity(x => x.Id);
                 options.Schema.For<UserImage>().Identity(x => x.Id);
-                options.Schema.For<UserGameData>().Identity(x => x.Id);
+                options.Schema.For<UserGameState>().Identity(x => x.Id);
                 options.Schema.For<UserGameList>().Identity(x => x.Id);
             })
             //.InitializeWith(new InitialData())

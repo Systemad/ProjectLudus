@@ -22,7 +22,7 @@ public static class RemoveGameFromListAsync
         if (list is null)
             return TypedResults.NotFound("List doesn't exist!");
         var gameEntry = await session
-            .Query<UserGameData>()
+            .Query<UserGameState>()
             .FirstOrDefaultAsync(x => x.UserId == userId && x.GameId == gameId);
 
         if (gameEntry is null)

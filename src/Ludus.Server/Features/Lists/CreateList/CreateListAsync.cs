@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Games;
+using Ludus.Server.Features.Games.Common;
 using Ludus.Shared.Features.Games;
 using Marten;
 using Microsoft.AspNetCore.Http.HttpResults;

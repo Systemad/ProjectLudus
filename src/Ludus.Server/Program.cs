@@ -1,37 +1,32 @@
-using System.Diagnostics;
+using FastEndpoints;
 using Ludus.Server.Configuration;
-using Ludus.Server.Features.Auth;
-using Ludus.Server.Features.Collection;
-using Ludus.Server.Features.Collection.Services;
-using Ludus.Server.Features.Exceptions;
-using Ludus.Server.Features.Games;
-using Ludus.Server.Features.Lists;
 using Ludus.Server.Features.Lists.Services;
-using Ludus.Server.Features.User;
-using Marten;
-using Microsoft.AspNetCore.Http.Features;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
-
 builder.Services.AddAuth();
+
+builder.Services.AddFastEndpoints();
+builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
 
 builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
 builder.Services.AddOutputCache(options =>
 {
-    options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(30);
+    options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(5);
 });
-builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
+
+//builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
 
 //builder.Services.AddControllersWithViews();
 //builder.Services.AddRazorPages();
 builder.Services.AddControllers();
-builder.Services.AddProblemDetails(options =>
+
+/*
+ builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>
     {
@@ -44,14 +39,13 @@ builder.Services.AddProblemDetails(options =>
         context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
     };
 });
-
+*/
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
 //builder.Services.ConfigureOpenTelemetry(builder.Configuration);
 
-builder.Services.AddSingleton<GameCollectionService>();
 builder.Services.AddSingleton<UserListService>();
 var app = builder.Build();
 
@@ -81,7 +75,7 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapStaticAssets();
 
-app.UseExceptionHandler();
+app.UseDefaultExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
 
@@ -91,15 +85,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
+app.UseFastEndpoints(x =>
+{
+    x.Errors.UseProblemDetails();
+});
 
 //app.MapRazorPages();
-
-// Endpoints
-app.MapAuthEndpoints();
-app.MapGameCollectionEndpoints();
-app.MapListEndpoints();
-app.MapUserEndpoints();
-app.MapGameEndpoints();
 
 app.UseOutputCache();
 

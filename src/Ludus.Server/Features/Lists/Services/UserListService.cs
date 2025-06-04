@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Collection;
+using Ludus.Server.Features.Common;
 using Ludus.Server.Features.Games;
+using Ludus.Server.Features.Games.Common.Services;
 using Ludus.Shared.Features.Games;
 using Marten;
 
@@ -44,7 +46,7 @@ public class UserListService : IUserListService
             .Query<Game>()
             .Where(g => gameIds.Contains(g.Id))
             .ToListAsync();
-        var items = await GameService.GetGameDtosAsync(user, games);
+        var items = await GameService.ConvertIntoGameDtoAsync(user, games);
         var preview = new UserGameListDto(list.Id, list.Name, list.Public, list.Games.Count, items);
         return preview;
     }

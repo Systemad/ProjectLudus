@@ -1,4 +1,5 @@
-﻿using Ludus.Server.Features.Auth;
+﻿using FastEndpoints.Security;
+using Ludus.Server.Features.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ludus.Server.Configuration;
@@ -8,6 +9,8 @@ public static class AuthServices
     public static IServiceCollection AddAuth(this IServiceCollection services)
     {
         services
+            .AddAuthorization()
+            .AddAuthenticationCookie(validFor: TimeSpan.FromDays(7))
             .AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

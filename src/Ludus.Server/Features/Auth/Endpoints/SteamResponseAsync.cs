@@ -1,56 +1,43 @@
 ﻿using System.Security.Claims;
+using FastEndpoints;
+using FastEndpoints.Security;
 using Ludus.Server.Features.User.Common.Models;
 using Ludus.Shared;
 using Marten;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc;
 using Steam.Models.SteamCommunity;
 using SteamWebAPI2.Interfaces;
 using SteamWebAPI2.Utilities;
 
-namespace Ludus.Server.Features.Auth;
+namespace Ludus.Server.Features.Auth.Endpoints;
 
-public static class AuthEndpoints
+public class SteamResponseAsync : EndpointWithoutRequest<IResult>
 {
     private const int SteamIdStartIndex = 37;
+    public IDocumentStore UserStore { get; set; }
 
-    public static IEndpointRouteBuilder MapAuthEndpoints(this IEndpointRouteBuilder routes)
+    public override void Configure()
     {
-        routes.MapGet("~/signout", SignOutAsync);
-        routes.MapGet("~/signin", SignIn);
-        routes.MapGet("/Auth/steamresponse", SteamResponse);
-
-        return routes;
+        Get("/Auth/steamresponse");
+        AuthSchemes(CookieAuthenticationDefaults.AuthenticationScheme);
+        AuthSchemes("Steam");
+        AllowAnonymous();
     }
 
-    private static IResult SignIn(HttpContext httpContext)
+    public override async Task HandleAsync(CancellationToken ct)
     {
-        return Results.Challenge(
-            new AuthenticationProperties
-            {
-                RedirectUri = "/Auth/steamresponse",
-                IsPersistent = false,
-                IssuedUtc = DateTime.Now,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7),
-            },
-            ["Steam"]
-        );
-    }
-
-    private static async Task<IResult> SteamResponse(IDocumentStore db, HttpContext context)
-    {
-        var authenticationResult = await context.AuthenticateAsync(
+        var authenticationResult = await HttpContext.AuthenticateAsync(
             CookieAuthenticationDefaults.AuthenticationScheme
         );
-        if (!authenticationResult.Succeeded)
-            return Results.Redirect("/");
 
+        if (!authenticationResult.Succeeded)
+            await SendRedirectAsync("/");
         var steamId = authenticationResult.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
 
-        await using var session = db.LightweightSession();
+        await using var session = UserStore.LightweightSession();
 
         var user = await session
             .Query<User.Common.Models.User>()
@@ -58,9 +45,9 @@ public static class AuthEndpoints
         if (user is not null)
         {
             var httpClientFactory =
-                context.RequestServices.GetRequiredService<IHttpClientFactory>();
+                HttpContext.RequestServices.GetRequiredService<IHttpClientFactory>();
             var steamFactory =
-                context.RequestServices.GetRequiredService<SteamWebInterfaceFactory>();
+                HttpContext.RequestServices.GetRequiredService<SteamWebInterfaceFactory>();
             var httpClient = httpClientFactory.CreateClient();
             httpClient.Timeout = TimeSpan.FromSeconds(3);
 
@@ -79,8 +66,9 @@ public static class AuthEndpoints
 
             if (playerSummary == null)
             {
+                await SendRedirectAsync("/");
                 //logger.LogWarning("Could not fetch Steam profile, user not created.");
-                return TypedResults.Redirect("/");
+                //Response = TypedResults.Redirect("/");
             }
 
             user = new User.Common.Models.User
@@ -122,35 +110,13 @@ public static class AuthEndpoints
             .Query<User.Common.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
-        var returnClaims = new List<Claim>
+        await CookieAuth.SignInAsync(u =>
         {
-            new Claim(ClaimTypes.NameIdentifier, newUser.SteamId),
-            new Claim(ClaimTypes.Name, newUser.Id.ToString()),
-            new Claim(ClaimTypes.Role, newUser.Role),
-        };
-        var claimsIdentity = new ClaimsIdentity(
-            returnClaims,
-            CookieAuthenticationDefaults.AuthenticationScheme
-        );
-        var authProperties = new AuthenticationProperties();
+            u.Claims.Add(new Claim(ClaimTypes.NameIdentifier, newUser.SteamId));
+            u.Claims.Add(new Claim(ClaimTypes.Name, newUser.Id.ToString()));
+            u.Claims.Add(new Claim(ClaimTypes.Role, newUser.Role));
+        });
 
-        await context.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            new ClaimsPrincipal(claimsIdentity),
-            authProperties
-        );
-        return Results.Redirect("/");
-    }
-
-    private static async Task<IResult> SignOutAsync(
-        HttpContext httpContext,
-        [FromQuery] string returnUrl = "/"
-    )
-    {
-        Console.WriteLine("SignOutAsync");
-
-        await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-        return Results.Redirect(returnUrl);
+        await SendRedirectAsync("/");
     }
 }
