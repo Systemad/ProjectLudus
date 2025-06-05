@@ -3,7 +3,7 @@ import { MantineProvider } from "@mantine/core";
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
 import { createFileRoute } from "@tanstack/react-router";
-import {useGetWeatherForecast, useGetWeatherForecastSuspense} from "../gen";
+import { useGetWeatherForecast, useGetWeatherForecastSuspense } from "~/gen";
 
 export const Route = createFileRoute("/weather")({
     component: Weather,

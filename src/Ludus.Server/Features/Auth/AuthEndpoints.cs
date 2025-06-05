@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.User.Common.Models;
+using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Shared;
 using Marten;
 using Microsoft.AspNetCore.Authentication;
@@ -53,7 +53,7 @@ public static class AuthEndpoints
         await using var session = db.LightweightSession();
 
         var user = await session
-            .Query<User.Common.Models.User>()
+            .Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
         if (user is not null)
         {
@@ -83,7 +83,7 @@ public static class AuthEndpoints
                 return TypedResults.Redirect("/");
             }
 
-            user = new User.Common.Models.User
+            user = new Common.Users.Models.User
             {
                 Name = playerSummary.Nickname,
                 SteamId = steamId,
@@ -119,7 +119,7 @@ public static class AuthEndpoints
         }
 
         var newUser = await session
-            .Query<User.Common.Models.User>()
+            .Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         var returnClaims = new List<Claim>

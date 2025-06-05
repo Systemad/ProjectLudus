@@ -1,10 +1,10 @@
 ﻿using Ludus.Server.Features;
 using Ludus.Server.Features.Common;
-using Ludus.Server.Features.Lists;
-using Ludus.Server.Features.User.Common.Models;
+using Ludus.Server.Features.Common.Games.Models;
+using Ludus.Server.Features.Common.Lists;
+using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Shared.Features.Games;
 using Marten;
-using Marten.Services;
 using Weasel.Core;
 
 namespace Ludus.Server.Configuration;

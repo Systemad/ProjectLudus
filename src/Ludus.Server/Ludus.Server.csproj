@@ -54,4 +54,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Ludus.Shared\Ludus.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Public\Lists\" />
+  </ItemGroup>
 </Project>

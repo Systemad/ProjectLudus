@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using FastEndpoints;
 using FastEndpoints.Security;
-using Ludus.Server.Features.User.Common.Models;
+using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Shared;
 using Marten;
 using Microsoft.AspNetCore.Authentication;
@@ -40,7 +40,7 @@ public class SteamResponseAsync : EndpointWithoutRequest<IResult>
         await using var session = UserStore.LightweightSession();
 
         var user = await session
-            .Query<User.Common.Models.User>()
+            .Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
         if (user is not null)
         {
@@ -71,7 +71,7 @@ public class SteamResponseAsync : EndpointWithoutRequest<IResult>
                 //Response = TypedResults.Redirect("/");
             }
 
-            user = new User.Common.Models.User
+            user = new Common.Users.Models.User
             {
                 Name = playerSummary.Nickname,
                 SteamId = steamId,
@@ -107,7 +107,7 @@ public class SteamResponseAsync : EndpointWithoutRequest<IResult>
         }
 
         var newUser = await session
-            .Query<User.Common.Models.User>()
+            .Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         await CookieAuth.SignInAsync(u =>

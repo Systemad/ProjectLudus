@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.User.Common.Models;
+using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Shared;
 using Marten;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -27,7 +27,7 @@ public class ValidationHelper
         var steamId = context.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
-        var user = await db.Query<User.Common.Models.User>()
+        var user = await db.Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
         if (user != null)
         {
@@ -64,7 +64,7 @@ public class ValidationHelper
         }
 
         //user.Name = playerSummary.Nickname;
-        user = new User.Common.Models.User
+        user = new Common.Users.Models.User
         {
             Name = playerSummary.Nickname,
             SteamId = steamId,
@@ -111,7 +111,7 @@ public class ValidationHelper
         await using var db = userStore.LightweightSession();
 
         Console.WriteLine("Validate");
-        var user = await db.Query<User.Common.Models.User>()
+        var user = await db.Query<Common.Users.Models.User>()
             .FirstOrDefaultAsync(x => x.SteamId == steamId);
         var claims = new List<Claim>
         {

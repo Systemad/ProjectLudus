@@ -1,6 +1,6 @@
 using FastEndpoints;
 using Ludus.Server.Configuration;
-using Ludus.Server.Features.Lists.Services;
+using Ludus.Server.Features.Common.Lists.Services;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
