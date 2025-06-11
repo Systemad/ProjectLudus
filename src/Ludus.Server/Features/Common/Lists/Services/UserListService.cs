@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Ludus.Server.Features.Public.Games.Common.Services;
+using Ludus.Server.Features.Common.Games.Services;
 using Ludus.Shared.Features.Games;
 using Marten;
 
@@ -30,6 +30,7 @@ public class UserListService : IUserListService
         var games = await gameSession
             .Query<Game>()
             .Where(g => gameIds.Contains(g.Id))
+            .Select(x => x.Id)
             .ToListAsync();
 
         var items = await GameService.CreateGameDtoAsync(user, games);

@@ -1,3 +1,3 @@
-﻿namespace Ludus.Server.Features.Me.Lists.Delete;
+﻿namespace Me.Lists.Delete;
 
 public class DeleteListHandler { }

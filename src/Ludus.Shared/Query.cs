@@ -89,6 +89,7 @@ public static class Query
         "release_dates.status",
         "release_dates.y",
         "release_dates.release_region.region",
+        "release_dates.platform.name",
         "screenshots.animated",
         "screenshots.url",
         "screenshots.image_id",

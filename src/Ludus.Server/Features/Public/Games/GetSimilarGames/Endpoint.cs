@@ -1,12 +1,11 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Common;
 using Ludus.Server.Features.Common.Games.Models;
-using Ludus.Server.Features.Public.Games.Common;
-using Ludus.Server.Features.Public.Games.Common.Services;
+using Ludus.Server.Features.Common.Games.Services;
 using Ludus.Shared.Features.Games;
 using Marten;
 
-namespace Ludus.Server.Features.Public.Games.GetSimilarGames;
+namespace Public.Games.GetSimilarGames;
 
 public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {
@@ -15,9 +14,9 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 
     public override void Configure()
     {
-        Get("/{{GameId}}");
-        AllowAnonymous();
+        Get("/similar-games/{GameId}");
         Group<GamesGroupEndpoint>();
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
@@ -34,11 +33,12 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
             var simGames = await session
                 .Query<Game>()
                 .Where(x => x.Id.IsOneOf(game.SimilarGames.Select(s => s.Id).ToList()))
+                .Select(x => x.Id)
                 .ToListAsync();
             var dtos = await GameService.CreateGameDtoAsync(User, simGames);
             response = dtos.ToList();
         }
 
-        await SendOkAsync(new GetSimilarGamesResponse(response));
+        await SendOkAsync(new GetSimilarGamesResponse { SimilarGames = response });
     }
 }

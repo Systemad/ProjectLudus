@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Common;
 
-namespace Ludus.Server.Features.Public.Games;
+namespace Public.Games;
 
 public class GamesGroupEndpoint : Group
 {

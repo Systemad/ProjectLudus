@@ -1,23 +1,22 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Common;
 using Ludus.Server.Features.Common.Games.Services;
-using Ludus.Server.Features.Public.Games.Common.Services;
 using Ludus.Shared.Features.Games;
 using Marten.Linq;
 using Marten.Pagination;
 
-namespace Ludus.Server.Features.Public.Games.GetGamesByParameters;
+namespace Public.Games.GetGamesByParameters;
 
 public class Endpoint : Endpoint<GameSearchRequest, GetSearchGamesResponse>
 {
     public IGameStore GameStore { get; set; }
-    public GameService GameService { get; set; }
+    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
-        Get("/search");
-        AllowAnonymous();
+        Post("/search");
         Group<GamesGroupEndpoint>();
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
@@ -77,7 +76,7 @@ public class Endpoint : Endpoint<GameSearchRequest, GetSearchGamesResponse>
         }
 
         var games = await gameQuery.ToPagedListAsync(req.PageNumber, req.PageSize);
-        var previews = await GameService.CreateGameDtoAsync(User, games);
+        var previews = await GameService.CreateGameDtoAsync(User, games.Select(x => x.Id));
         await SendOkAsync(
             new GetSearchGamesResponse(
                 previews,

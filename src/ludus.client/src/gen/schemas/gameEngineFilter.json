@@ -1,1 +1,0 @@
-{"required":["id","name"],"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"}},"x-readme-ref-name":"GameEngineFilter"}

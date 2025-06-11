@@ -542,6 +542,9 @@ public partial class ReleaseDate
     [JsonPropertyName("human")]
     public string Human { get; set; }
 
+    [JsonPropertyName("platform")]
+    public ReleasePlatform ReleasePlatforms { get; set; }
+
     [JsonPropertyName("y")]
     public long Y { get; set; }
 
@@ -553,6 +556,15 @@ public partial class ReleaseDate
 
     [JsonPropertyName("status")]
     public long? Status { get; set; }
+}
+
+public partial class ReleasePlatform
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 }
 
 public partial class ReleaseRegion

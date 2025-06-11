@@ -1,6 +1,6 @@
 ﻿using Ludus.Shared.Features.Games;
 
-namespace Ludus.Server.Features.Public.Games.GetGamesByIds;
+namespace Public.Games.GetGamesByIds;
 
 public class GetGameByIdsRequest
 {

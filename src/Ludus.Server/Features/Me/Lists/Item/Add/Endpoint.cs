@@ -3,9 +3,9 @@ using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Lists;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Lists.Item.Add;
+namespace Me.Lists.Item.Add;
 
-public class Endpoint : Endpoint<AddGameRequest>
+public class Endpoint : Endpoint<AddGameToListRequest>
 {
     public IDocumentStore UserStore { get; set; }
 
@@ -13,9 +13,11 @@ public class Endpoint : Endpoint<AddGameRequest>
     {
         Get("/add/{listId}/{gameId}");
         Group<MeListsGroup>();
+        // TODO: fix?
+        //PreProcessor<CheckGamePreProcessor>();
     }
 
-    public override async Task HandleAsync(AddGameRequest req, CancellationToken ct)
+    public override async Task HandleAsync(AddGameToListRequest req, CancellationToken ct)
     {
         await using var session = UserStore.LightweightSession();
         var userId = User.GetUserId();

@@ -1,1 +1,0 @@
-{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"image_id":{"type":"string"},"url":{"type":"string"},"animated":{"type":"boolean","nullable":true}},"x-readme-ref-name":"Screenshot"}

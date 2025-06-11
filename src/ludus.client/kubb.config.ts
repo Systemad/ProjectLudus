@@ -6,14 +6,16 @@ export default defineConfig(() => {
     return {
         root: ".",
         input: {
-            path: "../Ludus.Server/Schema/Ludus.Server.json",
+            //path: "openapi.json",
+            path: "http://localhost:5123/openapi/v1.json",
+            //path: "../Ludus.Server/Schema/Ludus.Server.json",
         },
         output: {
-            path: "./src/gen",
+            path: "./src/api",
         },
         plugins: [
             pluginOas(),
-            pluginTs(),
+            pluginTs({}),
             pluginReactQuery({
                 output: {
                     path: "./hooks",
@@ -30,9 +32,9 @@ export default defineConfig(() => {
                     methods: ["post", "put", "delete"],
                 },
                 infinite: {
-                    queryParam: "next_page",
-                    initialPageParam: 0,
-                    cursorParam: "nextCursor",
+                    queryParam: "pageNumber",
+                    initialPageParam: 1,
+                    cursorParam: "pageNumber",
                 },
                 query: {
                     methods: ["get"],

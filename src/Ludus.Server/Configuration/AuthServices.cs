@@ -9,8 +9,8 @@ public static class AuthServices
     public static IServiceCollection AddAuth(this IServiceCollection services)
     {
         services
-            .AddAuthorization()
             .AddAuthenticationCookie(validFor: TimeSpan.FromDays(7))
+            .AddAuthorization()
             .AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

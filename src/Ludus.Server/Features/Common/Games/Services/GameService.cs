@@ -1,8 +1,7 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common.Games.Mappers;
 using Ludus.Server.Features.Common.Games.Models;
-using Ludus.Server.Features.Public.Games.Common.Services;
+using Ludus.Server.Features.DataAccess;
 using Ludus.Shared.Features.Games;
 using Marten;
 
@@ -10,40 +9,57 @@ namespace Ludus.Server.Features.Common.Games.Services;
 
 public class GameService : IGameService
 {
-    private IDocumentStore _db;
-    private IGameStore _store;
+    private LudusContext _dbContext { get; set; }
+    private IGameStore _store { get; set; }
 
-    public GameService(IDocumentStore db, IGameStore store)
+    public GameService(IGameStore store, LudusContext dbContext)
     {
-        _db = db;
         _store = store;
+        _dbContext = dbContext;
     }
 
     public async Task<IEnumerable<GameDto>> CreateGameDtoAsync(
         ClaimsPrincipal user,
-        IEnumerable<Game> games
+        IEnumerable<long> gameIds
     )
     {
-        await using var session = _store.QuerySession();
-        await using var userSession = _db.QuerySession();
+        var userId = user.GetUserId();
 
-        var gamesList = games.ToList();
-        var previews = gamesList.Select(game => game.ToDto()).ToList();
-        if (user.Identity?.IsAuthenticated == true)
-        {
-            var userId = user.GetUserId();
+        var wishlistedGameIds = await _dbContext
+            .Wishlists.Where(w => w.UserId == userId)
+            .Select(w => w.GameId)
+            .ToListAsync();
 
-            var gamesId = gamesList.Select(x => x.Id).ToArray();
+        var hypedGamesIds = await _dbContext
+            .GameHypes.Where(f => f.UserId == userId)
+            .Select(f => f.GameId)
+            .ToListAsync();
 
-            var collections = await userSession
-                .Query<UserGameState>()
-                .Where(x => x.UserId == userId && gamesId.Contains(x.GameId))
-                .ToListAsync();
-            var collectionDict = collections.ToDictionary(x => x.GameId, x => x);
+        var wishlistedSet = wishlistedGameIds.ToHashSet();
+        var hypedSet = hypedGamesIds.ToHashSet();
 
-            previews = GameDtoMapper.MapUserGameData(previews, collectionDict);
-        }
+        await using var gameSession = _store.QuerySession();
+        var gameDto = await gameSession
+            .Query<Game>()
+            .Where(g => gameIds.Contains(g.Id))
+            .Select(g => new GameDto()
+            {
+                Id = g.Id,
+                Name = g.Name,
+                ArtworkImageId = g.Artworks.FirstOrDefault().ImageId,
+                CoverImageId = g.Cover.ImageId,
+                FirstReleaseDate = g.FirstReleaseDate,
+                Publisher = g.InvolvedCompanies.FirstOrDefault(ic => ic.Publisher).Company.Name,
+                Platforms = g.Platforms.Select(p => p.Name).ToList(),
+                ReleaseDates = g
+                    .ReleaseDates.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime)
+                    .ToList(),
+                GameType = g.GameType.Type,
+                IsWishlisted = wishlistedSet.Contains(g.Id),
+                IsHyped = hypedSet.Contains(g.Id),
+            })
+            .ToListAsync();
 
-        return previews;
+        return gameDto;
     }
 }

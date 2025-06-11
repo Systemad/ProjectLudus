@@ -1,10 +1,9 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common;
 using Ludus.Server.Features.Common.Users.Models;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Profile.Get;
+namespace Me.Profile.Get;
 
 public class Endpoint : EndpointWithoutRequest<GetMeResponse>
 {
@@ -12,7 +11,8 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
 
     public override void Configure()
     {
-        Get($"/{ApiRoutes.Users}/me");
+        Get("/me");
+        Group<MeProfileGroup>();
         //AllowAnonymous();
     }
 
@@ -22,7 +22,7 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
         {
             var userId = User.GetUserId();
             await using var session = UserStore.QuerySession();
-            var ludusUser = await session.LoadAsync<Features.Common.Users.Models.User>(userId);
+            var ludusUser = await session.LoadAsync<User>(userId);
             if (ludusUser is null)
             {
                 ThrowError("User doesn't exist!");
@@ -33,7 +33,6 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
                 Name = ludusUser.Name,
                 Role = ludusUser.Name,
                 SteamId = ludusUser.SteamId,
-                AvatarImageId = ludusUser.AvatarImageId,
                 CreatedDate = ludusUser.CreatedDate,
                 UserImage = ludusUser.UserImage,
             };

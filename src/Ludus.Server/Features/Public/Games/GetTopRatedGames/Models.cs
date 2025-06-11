@@ -1,8 +1,7 @@
 ﻿using Ludus.Server.Features.Common.Endpoints;
 using Ludus.Server.Features.Common.Games.Models;
-using Ludus.Server.Features.Public.Games.Common;
 
-namespace Ludus.Server.Features.Public.Games.GetTopRatedGames;
+namespace Public.Games.GetTopRatedGames;
 
 public record GetTopRatedGamesResponse(
     IEnumerable<GameDto> Items,

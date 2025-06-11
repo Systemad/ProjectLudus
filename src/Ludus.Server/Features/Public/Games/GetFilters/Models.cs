@@ -1,4 +1,4 @@
-﻿namespace Ludus.Server.Features.Public.Games.GetFilters;
+﻿namespace Public.Games.GetFilters;
 
 public record GenreFilter(long Id, string Name);
 

@@ -3,21 +3,21 @@ import { MantineProvider } from "@mantine/core";
 // All packages except `@mantine/hooks` require styles imports
 import "@mantine/core/styles.css";
 import { createFileRoute } from "@tanstack/react-router";
-import { useGetWeatherForecast, useGetWeatherForecastSuspense } from "~/gen";
+import { useWeatherForecastGet } from "~/api";
 
 export const Route = createFileRoute("/weather")({
     component: Weather,
 });
 
 function Weather() {
-    const { isPending, isError, data, error } = useGetWeatherForecastSuspense(); // useGetWeatherForecast();
+    const { isPending, isError, data, error } = useWeatherForecastGet(); // useGetWeatherForecast();
 
     if (isPending) {
         return <span>Loading...</span>;
     }
 
     if (isError) {
-        return <span>{error}</span>;
+        return <span>{error.response?.data.message}</span>;
     }
     return (
         <MantineProvider>

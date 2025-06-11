@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["id","name","video_id"],"properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"video_id":{"type":"string"}},"x-readme-ref-name":"Video"}

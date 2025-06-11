@@ -4,10 +4,10 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import "@mantine/core/styles.css";
 
-import { MantineProvider, colorsTuple, createTheme } from "@mantine/core";
+import { MantineProvider } from "@mantine/core";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { myTheme } from "./theme";
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const router = createRouter({ routeTree, context: { queryClient } });
 

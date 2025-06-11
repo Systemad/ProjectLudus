@@ -4,11 +4,11 @@ using Ludus.Server.Features.Common.Lists;
 using Ludus.Server.Features.Common.Lists.Services;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Lists.GetAll;
+namespace Me.Lists.GetAll;
 
 public class Endpoint : EndpointWithoutRequest<GetMyListsResponse>
 {
-    public UserListService ListService { get; set; }
+    public IUserListService ListService { get; set; }
     public IDocumentStore UserStore { get; set; }
 
     public override void Configure()

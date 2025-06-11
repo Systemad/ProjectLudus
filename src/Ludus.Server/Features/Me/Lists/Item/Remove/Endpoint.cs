@@ -3,7 +3,7 @@ using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Lists;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Lists.Item.Remove;
+namespace Me.Lists.Item.Remove;
 
 public class Endpoint : Endpoint<RemoveGameRequest>
 {

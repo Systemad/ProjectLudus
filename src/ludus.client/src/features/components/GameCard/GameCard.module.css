@@ -21,3 +21,25 @@
         transform: scale(1.02);
     }
 }
+
+.heart {
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+.heart:active {
+    transform: scale(1.2);
+}
+.pulse {
+    animation: pulse 0.5s 1;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

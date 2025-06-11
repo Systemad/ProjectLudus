@@ -1,4 +1,4 @@
-﻿namespace Ludus.Server.Features.Me.Lists.Item.Remove;
+﻿namespace Me.Lists.Item.Remove;
 
 public class RemoveGameRequest
 {

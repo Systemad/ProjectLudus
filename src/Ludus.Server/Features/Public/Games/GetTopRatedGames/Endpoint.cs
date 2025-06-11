@@ -1,10 +1,10 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Common;
-using Ludus.Server.Features.Public.Games.Common.Services;
+using Ludus.Server.Features.Common.Games.Services;
 using Ludus.Shared.Features.Games;
 using Marten.Pagination;
 
-namespace Ludus.Server.Features.Public.Games.GetTopRatedGames;
+namespace Public.Games.GetTopRatedGames;
 
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesResponse>
 {
@@ -14,8 +14,8 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesRespon
     public override void Configure()
     {
         Get("/top");
-        AllowAnonymous();
         Group<GamesGroupEndpoint>();
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetTopRatedGamesRequest req, CancellationToken ct)
@@ -28,7 +28,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesRespon
             .OrderByDescending(x => x.RatingCount)
             .ThenByDescending(x => x.Rating)
             .ToPagedListAsync(req.PageNumber, req.PageSize);
-        var previews = await GameService.CreateGameDtoAsync(User, games);
+        var previews = await GameService.CreateGameDtoAsync(User, games.Select(x => x.Id));
         await SendAsync(
             new GetTopRatedGamesResponse(
                 previews,

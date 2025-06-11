@@ -1,1 +1,0 @@
-{"required":["name","public"],"type":"object","properties":{"name":{"type":"string"},"public":{"type":"boolean"}},"x-readme-ref-name":"CreateListQuery"}

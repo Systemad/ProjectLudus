@@ -17,6 +17,7 @@ public static class MartenConfiguration
         IConfiguration config
     )
     {
+        /*
         services
             .AddMarten(options =>
             {
@@ -36,7 +37,7 @@ public static class MartenConfiguration
             })
             //.InitializeWith(new InitialData())
             .ApplyAllDatabaseChangesOnStartup();
-
+        */
         services
             .AddMartenStore<IGameStore>(options =>
             {

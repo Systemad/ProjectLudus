@@ -3,7 +3,7 @@ using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Lists;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Lists.Create;
+namespace Me.Lists.Create;
 
 public class Endpoint : Endpoint<CreateListRequest>
 {
@@ -17,11 +17,6 @@ public class Endpoint : Endpoint<CreateListRequest>
 
     public override async Task HandleAsync(CreateListRequest req, CancellationToken ct)
     {
-        if (req.Name.Length < 3)
-        {
-            ThrowError("Name must be longer than 3 characters!");
-        }
-
         var userId = User.GetUserId();
         await using var session = UserStore.LightweightSession();
         var list = new UserGameList

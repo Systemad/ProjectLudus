@@ -1,23 +1,53 @@
 using FastEndpoints;
+using FastEndpoints.Swagger;
 using Ludus.Server.Configuration;
+using Ludus.Server.Features.Auth.Extensions;
+using Ludus.Server.Features.Common.Games.Services;
 using Ludus.Server.Features.Common.Lists.Services;
+using Ludus.Server.Features.DataAccess;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuth();
+builder.Services.AddAuthenticationCookie(validFor: TimeSpan.FromDays(7)).AddAuthorization();
 
-builder.Services.AddFastEndpoints();
+builder
+    .Services.AddFastEndpoints()
+    .SwaggerDocument(options =>
+    {
+        options.DocumentSettings = s =>
+        {
+            s.Title = "Ludus API";
+            s.Version = "v1";
+        };
+        options.ShortSchemaNames = true;
+        options.DocumentSettings = s =>
+        {
+            s.MarkNonNullablePropsAsRequired();
+        };
+    });
+
+builder.Services.AddDbContextPool<LudusContext>(opt =>
+    opt.UseNpgsql(
+        builder.Configuration.GetConnectionString(
+            "host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1"
+        )
+    )
+);
+
 builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
 
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
+
+/*
 builder.Services.AddOutputCache(options =>
 {
     options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(5);
 });
-
+*/
 //builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
 
@@ -45,8 +75,8 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
 ));
 
 //builder.Services.ConfigureOpenTelemetry(builder.Configuration);
-
-builder.Services.AddSingleton<UserListService>();
+builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddSingleton<IUserListService, UserListService>();
 var app = builder.Build();
 
 /*
@@ -62,13 +92,10 @@ using (var scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapScalarApiReference(options =>
-    {
-        options.Servers = [];
-        //    options.Authentication = new() { PreferredSecurityScheme = IdentityConstants.BearerScheme };
-    });
+    app.UseOpenApi(c => c.Path = "/openapi/v1.json");
+    app.MapScalarApiReference();
 
-    app.MapOpenApi();
+    //app.MapOpenApi();
     //app.Map("/", () => Results.Redirect("/scalar/v1"));
 }
 app.UseDefaultFiles();
@@ -86,9 +113,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy();
 app.UseFastEndpoints(x =>
-{
-    x.Errors.UseProblemDetails();
-});
+    {
+        x.Errors.UseProblemDetails();
+        //x.Endpoints.ShortNames = true;
+    })
+    .UseSwaggerGen(c => { });
 
 //app.MapRazorPages();
 

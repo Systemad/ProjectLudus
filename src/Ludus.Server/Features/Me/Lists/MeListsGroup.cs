@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Common;
 
-namespace Ludus.Server.Features.Me.Lists;
+namespace Me.Lists;
 
 public class MeListsGroup : Group
 {

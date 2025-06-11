@@ -35,7 +35,7 @@ public class DataSeeder
             "Client-ID",
             "i0s32q3oi8z074rvq0ljkaupnbkq98" /*options.ClientId*/
         );
-        _client.DefaultRequestHeaders.Add("Authorization", "Bearer REMOVED");
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
 
         var response = await _client.PostAsync("games/count", null);
         var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
@@ -105,7 +105,7 @@ public class DataSeeder
     {
         _client = _httpClientFactory.CreateClient("IGDB");
         _client.DefaultRequestHeaders.Add("Client-ID", "i0s32q3oi8z074rvq0ljkaupnbkq98");
-        _client.DefaultRequestHeaders.Add("Authorization", "Bearer REMOVED");
+        _client.DefaultRequestHeaders.Add("Authorization", "Bearer ");
 
         var requestBody = $"fields type; limit 500;";
 

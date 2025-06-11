@@ -3,7 +3,7 @@ using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Lists;
 using Marten;
 
-namespace Ludus.Server.Features.Me.Lists.Update;
+namespace Me.Lists.Update;
 
 public class Endpoint : Endpoint<UpdateListRequest>
 {
@@ -17,6 +17,11 @@ public class Endpoint : Endpoint<UpdateListRequest>
 
     public override async Task HandleAsync(UpdateListRequest req, CancellationToken ct)
     {
+        if (req.Name.Length < 3)
+        {
+            ThrowError("Name must be longer than 3 characters!");
+        }
+
         var userId = User.GetUserId();
         await using var session = UserStore.LightweightSession();
         var updateList = await session
@@ -24,7 +29,7 @@ public class Endpoint : Endpoint<UpdateListRequest>
             .FirstOrDefaultAsync(x => x.Id == req.ListId && x.UserId == userId);
         if (updateList is null)
         {
-            ThrowError("List doesn't exist!");
+            ThrowError("List not found!");
         }
 
         updateList.Name = req.Name;

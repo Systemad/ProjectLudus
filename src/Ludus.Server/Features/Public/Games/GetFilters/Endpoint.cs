@@ -3,7 +3,7 @@ using Ludus.Server.Features.Common;
 using Ludus.Shared.Features.Games;
 using Marten;
 
-namespace Ludus.Server.Features.Public.Games.GetFilters;
+namespace Public.Games.GetFilters;
 
 public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
 {
@@ -12,8 +12,8 @@ public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
     public override void Configure()
     {
         Get("/filters");
-        AllowAnonymous();
         Group<GamesGroupEndpoint>();
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CancellationToken ct)

@@ -83,6 +83,29 @@ export default defineConfig({
                 target,
                 secure: false,
             },
+            // Secure routes (everything under /api/me)
+            "^/api/me(/|$)": {
+                target,
+                secure: false,
+                changeOrigin: false,
+            },
+
+            // Public or less strict routes
+            "^/api/games": {
+                target,
+                secure: false,
+                changeOrigin: false,
+            },
+            "^/api/users": {
+                target,
+                secure: false,
+                changeOrigin: false,
+            },
+            "^/api/collection": {
+                target,
+                secure: false,
+                changeOrigin: false,
+            },
         },
         port: parseInt(env.DEV_SERVER_PORT || "51091"),
         https: {

@@ -1,32 +1,67 @@
 import { HeartIcon } from "@phosphor-icons/react";
-import { Card, Image, Text, Group, ActionIcon } from "@mantine/core";
+import { Card, Text, Group, ActionIcon } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 import classes from "./GameCard.module.css";
+import { useMeFavoritesUpdateEndpoint, type GameDto } from "~/api";
+import { IGDBImage } from "../IGDBImage/IGDBImage";
+import { queryClient } from "~/main";
 
 type Props = {
-    Id: string;
+    Game: GameDto;
     height?: number;
+    fontSize?: "xs" | "sm" | "md" | "lg" | "xl";
+    iconSize?: number;
 };
-export function GameCard({ Id, height = 200 }: Props) {
+export function GameCard({
+    Game,
+    height = 200,
+    fontSize = "lg",
+    iconSize = 48,
+}: Props) {
+    const { mutate, isPending, isError, isSuccess } =
+        useMeFavoritesUpdateEndpoint({
+            mutation: {
+                onSuccess: (data) => {
+                    queryClient.invalidateQueries({
+                        queryKey: ["games"],
+                    });
+                },
+            },
+        });
+
+    const favoriteItem = () => {
+        console.log("favorting item");
+        mutate({ gameId: Game.id, data: { isFavorited: !Game.isFavorited } });
+    };
     return (
         <Card radius={"lg"} withBorder className={classes.item}>
             <Card.Section>
-                <Link to={"/games/$gameId"} params={{ gameId: Id }}>
-                    <Image
-                        src="https://images.unsplash.com/photo-1579227114347-15d08fc37cae?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2550&q=80"
+                <Link
+                    to={"/games/$gameId"}
+                    params={{ gameId: Game.id.toString() }}
+                >
+                    <IGDBImage
+                        fit="cover"
+                        size="1080p"
+                        imageId={Game.coverImageId}
                         h={height}
-                        alt="No way!"
                     />
                 </Link>
             </Card.Section>
 
-            <Group justify="space-between" mt="md">
-                <Text fw={500} size="lg">
-                    Game title
+            <Group justify="space-between" mt="md" wrap="nowrap">
+                <Text fw={500} size={fontSize}>
+                    {Game.name}
                 </Text>
 
                 <ActionIcon variant="transparent" aria-label="Favorite">
-                    <HeartIcon weight="fill" color="#904b40" size={48} />
+                    <HeartIcon
+                        className={`heart ${isSuccess ? classes.pulse : ""}`}
+                        weight={Game.isFavorited ? "fill" : "regular"}
+                        color="#904b40"
+                        size={iconSize}
+                        onClick={() => favoriteItem()}
+                    />
                 </ActionIcon>
             </Group>
         </Card>

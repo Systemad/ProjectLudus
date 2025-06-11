@@ -16,6 +16,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Surface } from "~/features/shared/components/Surface/Surface";
 import { useHover } from "@mantine/hooks";
 import { GameCard } from "~/features/components/GameCard/GameCard";
+import {
+    gameStatusEnum,
+    useMeCollectionsGetEndpoint,
+    usePublicGamesGetGamesByIdEndpoint,
+    usePublicGamesGetSimilarGamesEndpoint,
+    type UpdateUserGameDataRequest,
+} from "~/api";
+import { IGDBImage } from "~/features/components/IGDBImage/IGDBImage";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
@@ -23,7 +31,46 @@ export const Route = createFileRoute("/games/$gameId")({
 function RouteComponent() {
     const { gameId } = Route.useParams();
     const { hovered, ref } = useHover();
+    const id = Number(gameId);
+    const { isPending, isError, data, error } =
+        usePublicGamesGetGamesByIdEndpoint(id);
+
+    const {
+        isPending: isCollectionPending,
+        isError: isCollectionError,
+        data: collectionData,
+        error: collectionError,
+    } = useMeCollectionsGetEndpoint(id);
+
+    const {
+        isPending: isSimilarGamesPending,
+        isError: isSimilarGamesError,
+        data: similarGames,
+        error: similarGamesError,
+    } = usePublicGamesGetSimilarGamesEndpoint(id);
+
+    if (isPending) {
+        return <span>Loading...</span>;
+    }
+
+    if (isError) {
+        return <span>Error: {error.message}</span>;
+    }
+    const collectionDoesntExist = collectionError?.status === 404;
+    /*
+export type UpdateUserGameDataRequest = {
+  id: string
+  status: GameStatus
+  startDate?: string | null
+  endDate?: string | null
+  rating?: number | null
+  notes?: string | null
+}
+*/
+    //const updateGameItem: UpdateUserGameDataRequest = {};
     const expandText = hovered ? undefined : 4;
+    const scoreOutOf10 = data.data.game.rating / 10;
+    const truncatedScore = Math.floor(scoreOutOf10 * 1000) / 1000;
     return (
         <Flex
             mih={50}
@@ -34,46 +81,61 @@ function RouteComponent() {
         >
             <Box w={300}>
                 <Stack gap="md" align="stretch" justify="flex-start">
-                    <Image
+                    <IGDBImage
                         fit="cover"
-                        height={300}
-                        radius="md"
-                        src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-7.png"
+                        size="1080p"
+                        imageId={data.data.game.cover.image_id}
+                        h={300}
                     />
+
                     <Surface>
-                        <Stack gap="sm">
+                        <Stack gap="xs">
                             <Text size="lg" fw={700}>
                                 Game Details
                             </Text>
 
                             <Text size="sm">
-                                <strong>Format:</strong> Main game
+                                <strong>Format:</strong>{" "}
+                                {data.data.game.game_type.type}
                             </Text>
 
                             <Text size="sm">
-                                <strong>Release Date:</strong> 2009-02-26
+                                <strong>Release Date:</strong>{" "}
+                                {new Date(
+                                    data.data.game.first_release_date * 1000
+                                ).toLocaleDateString()}
                             </Text>
 
-                            <Divider
-                                label="Themes"
-                                labelPosition="center"
-                                my="xs"
-                            />
-                            <Stack gap={2}>
-                                <Text size="sm">Actions</Text>
-                                <Text size="sm">Drama</Text>
-                                <Text size="sm">Open World</Text>
+                            <Divider label="Themes" labelPosition="center" />
+                            <Stack gap={3}>
+                                {data.data.game.themes.map((item, index) => (
+                                    <Text key={index} size="sm">
+                                        {item.name}
+                                    </Text>
+                                ))}
                             </Stack>
 
-                            <Divider
-                                label="Platforms"
-                                labelPosition="center"
-                                my="xs"
-                            />
-                            <Stack gap={2}>
-                                <Text size="sm">PlayStation</Text>
-                                <Text size="sm">Xbox</Text>
-                                <Text size="sm">Open World</Text>
+                            <Divider label="Platforms" labelPosition="center" />
+                            <Stack gap={3}>
+                                {data.data.game.platforms.map((item, index) => (
+                                    <Group
+                                        justify="space-between"
+                                        wrap="nowrap"
+                                    >
+                                        <Text key={index} size="sm">
+                                            {item.name}
+                                        </Text>
+                                        <Text size="sm">
+                                            {
+                                                data.data.game.release_dates.find(
+                                                    (x) =>
+                                                        x.platform.name ==
+                                                        item.name
+                                                )?.human
+                                            }
+                                        </Text>
+                                    </Group>
+                                ))}
                             </Stack>
                         </Stack>
                     </Surface>
@@ -83,42 +145,37 @@ function RouteComponent() {
             <Stack gap="md" w="100%">
                 <Surface w="100%">
                     <Stack>
-                        <Title order={2}>Title</Title>
+                        <Title order={2}>{data.data.game.name}</Title>
                         <Flex wrap="wrap" gap="sm">
-                            <Badge size="lg">Hello</Badge>
-                            <Badge size="lg">World</Badge>
-                            <Badge size="lg">Responsive</Badge>
+                            {data.data.game.genres.map((item, index) => (
+                                <Badge key={index} size="lg">
+                                    {item.name}
+                                </Badge>
+                            ))}
                         </Flex>
 
                         <Text lineClamp={expandText} ref={ref}>
-                            From Bulbapedia: Bulbasaur is a small, quadrupedal
-                            Pokémon that has blue-green skin with darker
-                            patches. It has red eyes with white pupils, pointed,
-                            ear-like structures on top of its head, and a short,
-                            blunt snout with a wide mouth. A pair of small,
-                            pointed teeth are visible in the upper jaw when its
-                            mouth is open. Each of its thick legs ends with
-                            three sharp claws. On Bulbasaur's back is a green
-                            plant bulb, which is grown from a seed planted there
-                            at birth. The bulb also conceals two slender,
-                            tentacle-like vines and provides it with energy
+                            {data.data.game.storyline}
                         </Text>
                         <Group>
                             <Paper radius="md" p="sm">
                                 <Stack gap="xs">
                                     <Text ta="center">IGDB SCORE</Text>
                                     <Rating
-                                        defaultValue={2}
+                                        value={truncatedScore}
+                                        fractions={10}
                                         count={10}
                                         readOnly
                                     />
                                 </Stack>
                             </Paper>
                             <Paper radius="md" p="sm">
-                                <Stack gap="xs">
-                                    <Text ta="center">YOUR SCORE</Text>
-                                    <Rating defaultValue={2} count={10} />
-                                </Stack>
+                                {collectionDoesntExist && (
+                                    <Stack gap="xs">
+                                        <Text ta="center">YOUR SCORE</Text>
+                                        <Rating defaultValue={2} count={10} />
+                                    </Stack>
+                                )}
                             </Paper>
                         </Group>
                     </Stack>
@@ -130,11 +187,12 @@ function RouteComponent() {
                         cols={{ base: 1, sm: 2, lg: 5 }}
                         spacing="lg"
                     >
-                        {Array.from({ length: 10 }, (_, i) => (
+                        {similarGames?.data.similarGames.map((item, index) => (
                             <GameCard
+                                key={index}
+                                fontSize="md"
                                 height={175}
-                                key={i}
-                                Id={i.toString()}
+                                Game={item}
                             ></GameCard>
                         ))}
                     </SimpleGrid>

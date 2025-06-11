@@ -1,6 +1,6 @@
 ﻿using Ludus.Server.Features.Common.Lists;
 
-namespace Ludus.Server.Features.Me.Lists.Get;
+namespace Me.Lists.Get;
 
 public class GetListRequest
 {

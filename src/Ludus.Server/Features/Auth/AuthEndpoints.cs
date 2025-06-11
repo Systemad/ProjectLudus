@@ -105,7 +105,6 @@ public static class AuthEndpoints
                     CreatedDate = DateTime.UtcNow,
                 };
                 user.UserImage = img;
-                user.AvatarImageId = img.Id;
             }
             catch (Exception e)
             {
@@ -118,9 +117,7 @@ public static class AuthEndpoints
             await session.SaveChangesAsync();
         }
 
-        var newUser = await session
-            .Query<Common.Users.Models.User>()
-            .FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var newUser = await session.Query<User>().FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         var returnClaims = new List<Claim>
         {

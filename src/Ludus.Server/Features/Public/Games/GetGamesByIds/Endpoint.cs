@@ -2,7 +2,7 @@
 using Ludus.Server.Features.Common;
 using Ludus.Shared.Features.Games;
 
-namespace Ludus.Server.Features.Public.Games.GetGamesByIds;
+namespace Public.Games.GetGamesByIds;
 
 public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
 {
@@ -10,9 +10,9 @@ public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
 
     public override void Configure()
     {
-        Get();
-        AllowAnonymous();
+        Post("/by-ids");
         Group<GamesGroupEndpoint>();
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(GetGameByIdsRequest req, CancellationToken ct)
