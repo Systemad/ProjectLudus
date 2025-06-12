@@ -23,20 +23,24 @@ public class GameService : IGameService
         IEnumerable<long> gameIds
     )
     {
-        var userId = user.GetUserId();
+        HashSet<long> wishlistedSet = [];
+        HashSet<long> hypedSet = [];
+        if (user.Identity.IsAuthenticated)
+        {
+            var userId = user.GetUserId();
 
-        var wishlistedGameIds = await _dbContext
-            .Wishlists.Where(w => w.UserId == userId)
-            .Select(w => w.GameId)
-            .ToListAsync();
+            var wishlistedGameIds = await _dbContext
+                .Wishlists.Where(w => w.UserId == userId)
+                .Select(w => w.GameId)
+                .ToListAsync();
 
-        var hypedGamesIds = await _dbContext
-            .GameHypes.Where(f => f.UserId == userId)
-            .Select(f => f.GameId)
-            .ToListAsync();
-
-        var wishlistedSet = wishlistedGameIds.ToHashSet();
-        var hypedSet = hypedGamesIds.ToHashSet();
+            var hypedGamesIds = await _dbContext
+                .Hypes.Where(f => f.UserId == userId)
+                .Select(f => f.GameId)
+                .ToListAsync();
+            wishlistedSet = wishlistedGameIds.ToHashSet();
+            hypedSet = hypedGamesIds.ToHashSet();
+        }
 
         await using var gameSession = _store.QuerySession();
         var gameDto = await gameSession

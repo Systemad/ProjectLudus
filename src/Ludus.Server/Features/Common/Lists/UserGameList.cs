@@ -2,19 +2,11 @@
 
 namespace Ludus.Server.Features.Common.Lists;
 
-public class UserGameList
+public class GameListDto
 {
-    public Guid Id { get; set; } = Guid.NewGuid();
-    public Guid UserId { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; }
-    public bool Public { get; set; } = false;
-    public List<long> Games { get; set; } = new();
+    public bool Public { get; set; }
+    public int TotalItems { get; set; }
+    public IEnumerable<GameDto> Items { get; set; }
 }
-
-public record UserGameListDto(
-    Guid Id,
-    string Name,
-    bool Public,
-    int TotalItems,
-    IEnumerable<GameDto> Items
-);

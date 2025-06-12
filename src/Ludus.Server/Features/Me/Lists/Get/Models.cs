@@ -9,5 +9,5 @@ public class GetListRequest
 
 public class GetListResponse
 {
-    public UserGameListDto List { get; set; }
+    public GameListDto List { get; set; }
 }

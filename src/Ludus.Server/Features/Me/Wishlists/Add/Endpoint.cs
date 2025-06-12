@@ -2,7 +2,7 @@
 using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Server.Features.DataAccess;
-using Marten;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Wishlists.Add;
 

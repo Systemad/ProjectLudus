@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Common.Games.Models;
-using Ludus.Shared.Features.Games;
 
 namespace Ludus.Server.Features.Common.Games.Services;
 

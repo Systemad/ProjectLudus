@@ -6,12 +6,12 @@ public class User
     public string Name { get; set; }
     public string Role { get; set; }
     public string SteamId { get; set; }
-    public UserImage? UserImage { get; set; }
+    public UserImage UserImage { get; set; } = null!;
     public DateTimeOffset CreatedDate { get; set; }
 
     public ICollection<GameHype> Hypes { get; } = new List<GameHype>();
     public ICollection<GameWishlist> Wishlists { get; } = new List<GameWishlist>();
-    //public ICollection<GameFavorite> Favorites { get; } = new List<GameFavorite>();
+    public ICollection<GameList> Lists { get; } = new List<GameList>();
 }
 
 public class UserImage
@@ -28,6 +28,7 @@ public class UserImage
 
 public class GameWishlist
 {
+    public Guid Id { get; set; }
     public long GameId { get; set; }
     public DateTimeOffset WishlistedAt { get; set; }
 
@@ -37,6 +38,7 @@ public class GameWishlist
 
 public class GameHype
 {
+    public Guid Id { get; set; }
     public long GameId { get; set; }
     public DateTimeOffset HypeAt { get; set; }
 
@@ -46,9 +48,32 @@ public class GameHype
 
 public class GameFavorite
 {
+    public Guid Id { get; set; }
     public long GameId { get; set; }
     public DateTimeOffset FavoritedAt { get; set; }
 
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
+}
+
+public class GameList
+{
+    public Guid Id { get; set; }
+    public bool Public { get; set; }
+    public string Name { get; set; }
+
+    public ICollection<GameListItem> Games { get; set; } = new List<GameListItem>();
+
+    public Guid UserId { get; set; }
+    public User User { get; set; } = null!;
+}
+
+public class GameListItem
+{
+    public Guid Id { get; set; }
+    public long GameId { get; set; }
+    public DateTimeOffset AddedAt { get; set; }
+
+    public Guid GameListId { get; set; }
+    public GameList GameList { get; set; } = null!;
 }

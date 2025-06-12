@@ -2,7 +2,7 @@
 using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Server.Features.DataAccess;
-using Marten;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Hypes.Add;
 
@@ -20,14 +20,14 @@ public class Endpoint : Endpoint<AddHypedItem>
     {
         var userId = User.GetUserId();
 
-        var existing = await DBContext.GameHypes.FirstOrDefaultAsync(w =>
+        var existing = await DBContext.Hypes.FirstOrDefaultAsync(w =>
             w.UserId == userId && w.GameId == req.GameId
         );
 
         if (existing == null)
         {
             var newHypeItem = new GameHype() { UserId = userId, GameId = req.GameId };
-            DBContext.GameHypes.Add(newHypeItem);
+            DBContext.Hypes.Add(newHypeItem);
             await DBContext.SaveChangesAsync();
         }
 

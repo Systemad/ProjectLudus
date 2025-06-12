@@ -2,9 +2,9 @@
 using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Games.Services;
 using Ludus.Server.Features.DataAccess;
-using Marten;
 using Me.Hypes;
 using Me.Hypes.GetAll;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Hyped.GetAll;
 
@@ -23,7 +23,7 @@ public class Endpoint : EndpointWithoutRequest<GetHypesGamesResponse>
     {
         var userId = User.GetUserId();
         var hypedGamesIds = await DBContext
-            .GameHypes.Where(x => x.UserId == userId)
+            .Hypes.Where(x => x.UserId == userId)
             .Select(w => w.GameId)
             .ToListAsync();
 

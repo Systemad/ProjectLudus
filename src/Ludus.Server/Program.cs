@@ -31,10 +31,14 @@ builder
 
 builder.Services.AddDbContextPool<LudusContext>(opt =>
     opt.UseNpgsql(
+            "host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1"
+        /*
         builder.Configuration.GetConnectionString(
             "host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1"
         )
-    )
+        */
+        )
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 );
 
 builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);

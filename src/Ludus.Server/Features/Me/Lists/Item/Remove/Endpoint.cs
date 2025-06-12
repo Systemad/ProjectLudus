@@ -1,13 +1,13 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common.Lists;
-using Marten;
+using Ludus.Server.Features.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Lists.Item.Remove;
 
 public class Endpoint : Endpoint<RemoveGameRequest>
 {
-    public IDocumentStore UserStore { get; set; }
+    public LudusContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -17,27 +17,20 @@ public class Endpoint : Endpoint<RemoveGameRequest>
 
     public override async Task HandleAsync(RemoveGameRequest req, CancellationToken ct)
     {
-        await using var session = UserStore.LightweightSession();
         var userId = User.GetUserId();
 
-        var list = await session
-            .Query<UserGameList>()
-            .FirstOrDefaultAsync(x => x.Id == req.ListId && x.UserId == userId);
-
-        if (list is null)
+        var listExists = await DbContext.Lists.AnyAsync(x =>
+            x.Id == req.ListId && x.UserId == userId
+        );
+        if (!listExists)
         {
             ThrowError("List doesn't exist!");
         }
 
-        if (list.Games.Contains(req.GameId))
-        {
-            ThrowError("Game is already added to list!");
-        }
+        var rowsAffected = await DbContext
+            .ListItems.Where(gli => gli.GameListId == req.ListId && gli.GameId == req.GameId)
+            .ExecuteDeleteAsync(ct);
 
-        list.Games.Remove(req.GameId);
-        session.Store(list);
-        await session.SaveChangesAsync();
-
-        await SendOkAsync();
+        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
     }
 }

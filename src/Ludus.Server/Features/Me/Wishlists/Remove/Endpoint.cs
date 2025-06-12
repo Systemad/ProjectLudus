@@ -1,8 +1,7 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Server.Features.DataAccess;
-using Marten;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Wishlists.Remove;
 
@@ -20,16 +19,10 @@ public class Endpoint : Endpoint<RemoveWishlistItem>
     {
         var userId = User.GetUserId();
 
-        var existing = await DBContext.Wishlists.FirstOrDefaultAsync(w =>
-            w.UserId == userId && w.GameId == req.GameId
-        );
+        var rowsAffected = await DBContext
+            .Wishlists.Where(w => w.UserId == userId && w.GameId == req.GameId)
+            .ExecuteDeleteAsync();
 
-        if (existing != null)
-        {
-            DBContext.Remove(existing);
-            await DBContext.SaveChangesAsync();
-        }
-
-        await SendOkAsync();
+        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
     }
 }

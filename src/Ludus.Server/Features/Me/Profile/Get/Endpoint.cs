@@ -1,13 +1,14 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Users.Models;
-using Marten;
+using Ludus.Server.Features.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Profile.Get;
 
 public class Endpoint : EndpointWithoutRequest<GetMeResponse>
 {
-    public IDocumentStore UserStore { get; set; }
+    public LudusContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -21,8 +22,7 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
         if (User.Identity?.IsAuthenticated ?? false)
         {
             var userId = User.GetUserId();
-            await using var session = UserStore.QuerySession();
-            var ludusUser = await session.LoadAsync<User>(userId);
+            var ludusUser = await DbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (ludusUser is null)
             {
                 ThrowError("User doesn't exist!");

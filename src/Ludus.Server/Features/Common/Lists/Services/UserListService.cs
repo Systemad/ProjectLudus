@@ -1,39 +1,33 @@
 ﻿using System.Security.Claims;
 using Ludus.Server.Features.Common.Games.Services;
-using Ludus.Shared.Features.Games;
-using Marten;
+using Ludus.Server.Features.Common.Users.Models;
 
 namespace Ludus.Server.Features.Common.Lists.Services;
 
 public interface IUserListService
 {
-    Task<UserGameListDto> ToPreviewDtoAsync(UserGameList list, ClaimsPrincipal user);
+    Task<GameListDto> ToPreviewDtoAsync(GameList list, ClaimsPrincipal user);
 }
 
 public class UserListService : IUserListService
 {
-    private IDocumentStore UserStore { get; set; }
-    private IGameStore GameStore { get; set; }
     private IGameService GameService { get; set; }
 
-    public UserListService(IDocumentStore userStore, IGameStore gameStore)
+    public UserListService(IGameService gameService)
     {
-        UserStore = userStore;
-        GameStore = gameStore;
+        GameService = gameService;
     }
 
-    public async Task<UserGameListDto> ToPreviewDtoAsync(UserGameList list, ClaimsPrincipal user)
+    public async Task<GameListDto> ToPreviewDtoAsync(GameList list, ClaimsPrincipal user)
     {
-        await using var gameSession = GameStore.LightweightSession();
-        var gameIds = list.Games.Take(4).ToList();
-
-        var games = await gameSession
-            .Query<Game>()
-            .Where(g => gameIds.Contains(g.Id))
-            .Select(x => x.Id)
-            .ToListAsync();
-
-        var items = await GameService.CreateGameDtoAsync(user, games);
-        return new UserGameListDto(list.Id, list.Name, list.Public, list.Games.Count, items);
+        var items = await GameService.CreateGameDtoAsync(user, list.Games.Select(x => x.GameId));
+        return new GameListDto
+        {
+            Id = list.Id,
+            Name = list.Name,
+            Public = list.Public,
+            TotalItems = list.Games.Count,
+            Items = items,
+        };
     }
 }

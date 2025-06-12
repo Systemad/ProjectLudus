@@ -1,13 +1,13 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common.Lists;
-using Marten;
+using Ludus.Server.Features.Common.Users.Models;
+using Ludus.Server.Features.DataAccess;
 
 namespace Me.Lists.Create;
 
 public class Endpoint : Endpoint<CreateListRequest>
 {
-    public IDocumentStore UserStore { get; set; }
+    public LudusContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -18,17 +18,16 @@ public class Endpoint : Endpoint<CreateListRequest>
     public override async Task HandleAsync(CreateListRequest req, CancellationToken ct)
     {
         var userId = User.GetUserId();
-        await using var session = UserStore.LightweightSession();
-        var list = new UserGameList
+
+        var list = new GameList
         {
             Id = Guid.NewGuid(),
             UserId = userId,
             Name = req.Name,
             Public = req.Public,
         };
-        session.Store(list);
-        await session.SaveChangesAsync();
-
+        DbContext.Lists.Add(list);
+        await DbContext.SaveChangesAsync();
         await SendCreatedAtAsync($"/{list.Id}");
     }
 }

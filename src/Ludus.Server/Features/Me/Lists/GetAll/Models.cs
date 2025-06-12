@@ -4,5 +4,5 @@ namespace Me.Lists.GetAll;
 
 public class GetMyListsResponse
 {
-    public List<UserGameListDto> Lists { get; set; }
+    public GameListDto[] Lists { get; set; }
 }

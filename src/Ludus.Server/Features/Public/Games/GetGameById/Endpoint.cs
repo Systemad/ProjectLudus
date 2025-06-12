@@ -2,7 +2,7 @@
 using Ludus.Server.Features.Common;
 using Ludus.Shared.Features.Games;
 
-namespace Public.Games.GetGamesById;
+namespace Public.Games.GetGameById;
 
 public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 {

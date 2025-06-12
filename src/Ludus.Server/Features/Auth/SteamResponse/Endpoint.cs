@@ -4,9 +4,9 @@ using FastEndpoints.Security;
 using Ludus.Server.Features.Common.Users.Models;
 using Ludus.Server.Features.DataAccess;
 using Ludus.Shared;
-using Marten;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using Steam.Models.SteamCommunity;
 using SteamWebAPI2.Interfaces;
 using SteamWebAPI2.Utilities;
@@ -38,7 +38,9 @@ public class Endpoint : EndpointWithoutRequest<IResult>
             SteamIdStartIndex..
         ];
 
-        var user = await DbContext.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var user = await DbContext
+            .Users.AsTracking()
+            .FirstOrDefaultAsync(x => x.SteamId == steamId);
 
         if (user is null)
         {

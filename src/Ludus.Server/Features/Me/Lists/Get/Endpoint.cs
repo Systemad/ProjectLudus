@@ -1,13 +1,14 @@
 ﻿using FastEndpoints;
-using Ludus.Server.Features.Common.Lists;
+using Ludus.Server.Features.Auth.Extensions;
 using Ludus.Server.Features.Common.Lists.Services;
-using Marten;
+using Ludus.Server.Features.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Lists.Get;
 
 public class Endpoint : Endpoint<GetListRequest, GetListResponse>
 {
-    public IDocumentStore UserStore { get; set; }
+    public LudusContext DbContext { get; set; }
     public IUserListService ListService { get; set; }
 
     public override void Configure()
@@ -18,12 +19,15 @@ public class Endpoint : Endpoint<GetListRequest, GetListResponse>
 
     public override async Task HandleAsync(GetListRequest req, CancellationToken ct)
     {
-        await using var session = UserStore.LightweightSession();
-        var list = await session.LoadAsync<UserGameList>(req.ListId);
+        var userId = User.GetUserId();
+        var list = await DbContext.Lists.FirstOrDefaultAsync(x =>
+            x.Id == req.ListId && x.UserId == userId
+        );
         if (list is null)
         {
             ThrowError("List doesn't exist!");
         }
+
         var listPreview = await ListService.ToPreviewDtoAsync(list, User);
         await SendOkAsync(new GetListResponse { List = listPreview });
     }

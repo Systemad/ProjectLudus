@@ -1,13 +1,13 @@
 ﻿using FastEndpoints;
 using Ludus.Server.Features.Auth.Extensions;
-using Ludus.Server.Features.Common.Lists;
-using Marten;
+using Ludus.Server.Features.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace Me.Lists.Update;
 
 public class Endpoint : Endpoint<UpdateListRequest>
 {
-    public IDocumentStore UserStore { get; set; }
+    public LudusContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -17,25 +17,14 @@ public class Endpoint : Endpoint<UpdateListRequest>
 
     public override async Task HandleAsync(UpdateListRequest req, CancellationToken ct)
     {
-        if (req.Name.Length < 3)
-        {
-            ThrowError("Name must be longer than 3 characters!");
-        }
-
         var userId = User.GetUserId();
-        await using var session = UserStore.LightweightSession();
-        var updateList = await session
-            .Query<UserGameList>()
-            .FirstOrDefaultAsync(x => x.Id == req.ListId && x.UserId == userId);
-        if (updateList is null)
-        {
-            ThrowError("List not found!");
-        }
 
-        updateList.Name = req.Name;
-        updateList.Public = req.Public;
-        session.Store(updateList);
-        await session.SaveChangesAsync();
-        await SendOkAsync();
+        var rowsAffected = await DbContext
+            .Lists.Where(x => x.Id == req.ListId && x.UserId == userId)
+            .ExecuteUpdateAsync(updates =>
+                updates.SetProperty(t => t.Name, req.Name).SetProperty(t => t.Public, req.Public)
+            );
+
+        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
     }
 }
