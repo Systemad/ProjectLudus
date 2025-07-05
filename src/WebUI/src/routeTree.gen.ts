@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesGameRouteImport } from './routes/games/$game'
 
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GamesGameRoute = GamesGameRouteImport.update({
   id: '/games/$game',
   path: '/games/$game',
@@ -18,29 +24,40 @@ const GamesGameRoute = GamesGameRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/games/$game': typeof GamesGameRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/games/$game': typeof GamesGameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/games/$game': typeof GamesGameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/games/$game'
+  fullPaths: '/' | '/games/$game'
   fileRoutesByTo: FileRoutesByTo
-  to: '/games/$game'
-  id: '__root__' | '/games/$game'
+  to: '/' | '/games/$game'
+  id: '__root__' | '/' | '/games/$game'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   GamesGameRoute: typeof GamesGameRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/games/$game': {
       id: '/games/$game'
       path: '/games/$game'
@@ -52,6 +69,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   GamesGameRoute: GamesGameRoute,
 }
 export const routeTree = rootRouteImport

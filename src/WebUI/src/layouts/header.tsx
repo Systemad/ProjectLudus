@@ -64,7 +64,7 @@ export const Header = memo(
                     w="full"
                     {...rest}
                 >
-                    <Center maxW="8xl" px={{ base: "lg", lg: "0" }} w="full">
+                    <Center maxW="10xl" px={{ base: "lg", lg: "0" }} w="full">
                         <VStack
                             backdropBlur="10px"
                             backdropFilter="auto"

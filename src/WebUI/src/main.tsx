@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Loading, UIProvider } from "@yamada-ui/react";
 
 export const queryClient = new QueryClient();
-
+// bg={["blackAlpha.50", "whiteAlpha.100"]}
 const router = createRouter({
     routeTree,
     context: { queryClient },
