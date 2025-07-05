@@ -1,1 +1,0 @@
-{"type":"object","additionalProperties":false,"required":["isWishlisted"],"properties":{"isWishlisted":{"type":"boolean"}},"x-readme-ref-name":"UpdateGameWishlistItem"}

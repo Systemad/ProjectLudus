@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Server", "Ludus.Server\Ludus.Server.csproj", "{BABD5183-0022-4BFC-BB58-676E6680FAAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{BABD5183-0022-4BFC-BB58-676E6680FAAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Shared", "Ludus.Shared\Ludus.Shared.csproj", "{C83A8B65-AAEB-4F8A-B894-938038EC50B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{C83A8B65-AAEB-4F8A-B894-938038EC50B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ludus.Service", "Ludus.Service\Ludus.Service.csproj", "{C3F450C3-40A3-4EA6-8069-3EA281441AC6}"
-EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ludus.client", "ludus.client\ludus.client.esproj", "{7688A530-CAB5-4F44-B41A-5E9FFF95E3AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IGDBService", "IGDBService\IGDBService.csproj", "{C3F450C3-40A3-4EA6-8069-3EA281441AC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

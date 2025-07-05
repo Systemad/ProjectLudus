@@ -1,1 +1,0 @@
-{"type":"object","additionalProperties":false,"required":["isFavorited"],"properties":{"isFavorited":{"type":"boolean"}},"x-readme-ref-name":"UpdateGameFavorite"}

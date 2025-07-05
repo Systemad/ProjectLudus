@@ -1,1 +1,0 @@
-{"type":"integer","description":"","x-enumNames":["NotStarted","InProgress","Completed","Abandoned","None"],"enum":[0,1,2,3,4],"x-readme-ref-name":"GameStatus"}

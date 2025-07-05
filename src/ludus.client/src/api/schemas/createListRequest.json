@@ -1,1 +1,0 @@
-{"type":"object","additionalProperties":false,"required":["name","public"],"properties":{"name":{"type":"string","minLength":5,"nullable":false},"public":{"type":"boolean","minLength":1,"nullable":false}},"x-readme-ref-name":"CreateListRequest"}
