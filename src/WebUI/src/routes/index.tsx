@@ -29,9 +29,9 @@ function RouteComponent() {
             </Box>
 
             <SimpleGrid columns={{ base: 5, md: 2, lg: 3, xl: 4 }} gap="lg">
-                {Array.from({ length: 25 }).map((index, i) => (
+                {Array.from({ length: 25 }, (_, i) => i).map((i) => (
                     <GridItem key={i}>
-                        <HoverGameCard key={i} />
+                        <HoverGameCard id={i} />
                     </GridItem>
                 ))}
             </SimpleGrid>

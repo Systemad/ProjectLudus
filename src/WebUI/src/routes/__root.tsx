@@ -22,6 +22,7 @@ export const Route = createRootRouteWithContext<{
         );
     },
 });
+
 function RootComponent() {
     return (
         <div>
@@ -29,7 +30,7 @@ function RootComponent() {
 
             <Container
                 as="main"
-                maxW="9xl"
+                maxW={{ base: "105rem" }}
                 w="full"
                 px={{ base: "lg", md: "md" }}
                 mx="auto"
