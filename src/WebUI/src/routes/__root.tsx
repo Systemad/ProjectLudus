@@ -6,7 +6,7 @@ import {
     Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Center, HStack, VStack } from "@yamada-ui/react";
+import { Container } from "@yamada-ui/react";
 import { Header } from "~/layouts/header";
 
 export const Route = createRootRouteWithContext<{
@@ -27,6 +27,23 @@ function RootComponent() {
         <div>
             <Header />
 
+            <Container
+                as="main"
+                maxW="9xl"
+                w="full"
+                px={{ base: "lg", md: "md" }}
+                mx="auto"
+            >
+                <Outlet />
+            </Container>
+
+            <ReactQueryDevtools buttonPosition="top-right" />
+            <TanStackRouterDevtools position="bottom-right" />
+        </div>
+    );
+}
+
+/*
             <Center>
                 <HStack
                     alignItems="flex-start"
@@ -41,9 +58,4 @@ function RootComponent() {
                     </VStack>
                 </HStack>
             </Center>
-
-            <ReactQueryDevtools buttonPosition="top-right" />
-            <TanStackRouterDevtools position="bottom-right" />
-        </div>
-    );
-}
+*/

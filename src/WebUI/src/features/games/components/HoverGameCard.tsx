@@ -1,4 +1,5 @@
 import { BookmarkSimpleIcon, HeartIcon } from "@phosphor-icons/react";
+import { Link as TanstackLink } from "@tanstack/react-router";
 import {
     Card,
     CardBody,
@@ -9,22 +10,49 @@ import {
     IconButton,
     HStack,
     Flex,
+    LinkBox,
+    LinkOverlay,
 } from "@yamada-ui/react";
+import { CustomLinkOverlay } from "~/layouts/CustomLink/CustomLinkOverlay";
 // https://images.igdb.com/igdb/image/upload/t_original/co4jni.jpg
 
-export const HoverGameCard = () => {
+/*
+                <LinkOverlay
+                    as={TanstackLink}
+                    to="/games/$gameId"
+                    params={{ gameId: "a" }}
+                >
+                    <TanstackLink
+                        to="/games/$gameId"
+                        params={{ gameId: "a" }}
+                    ></TanstackLink>
+                </LinkOverlay>
+*/
+type Props = {
+    key: number;
+};
+export const HoverGameCard = ({ key }: Props) => {
     return (
         <Motion whileHover={{ scale: 1.025 }}>
-            <Card variant="outline" breakInside="avoid" h="xl" rounded="xl">
+            <Card
+                as={LinkBox}
+                h="md"
+                variant="outline"
+                breakInside="avoid"
+                rounded="xl"
+            >
+                <CustomLinkOverlay
+                    to="/games/$gameId"
+                    params={{ gameId: "10" }}
+                ></CustomLinkOverlay>
                 <CardHeader
                     as={Image}
                     src="https://images.igdb.com/igdb/image/upload/t_original/co4jni.jpg"
-                    h="md"
                     objectFit="cover"
                     overflow="hidden"
                     p="0"
                     roundedTop="xl"
-                />
+                ></CardHeader>
 
                 <CardBody gap="xs">
                     <Flex w="100%" align="center" justify="space-between">
@@ -35,20 +63,23 @@ export const HoverGameCard = () => {
                             <IconButton
                                 colorScheme="primary"
                                 variant="primary"
+                                size="xs"
                                 icon={
                                     <BookmarkSimpleIcon
-                                        size={24}
+                                        size="full"
                                         weight="fill"
-                                        color="var(--ui-colors-warning-500)"
+                                        color="var(--ui-colors-yellow-500)"
                                     />
                                 }
                             />
                             <IconButton
                                 colorScheme="primary"
                                 variant="primary"
+                                size="xs"
+                                onClick={(e) => e.stopPropagation()}
                                 icon={
                                     <HeartIcon
-                                        size={24}
+                                        size="full"
                                         weight="fill"
                                         color="var(--ui-colors-red-500)"
                                     />
@@ -61,5 +92,3 @@ export const HoverGameCard = () => {
         </Motion>
     );
 };
-
-HoverGameCard.displayName = "HoverGameCard";
