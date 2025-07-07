@@ -30,7 +30,7 @@ function RootComponent() {
 
             <Container
                 as="main"
-                maxW={{ base: "105rem" }}
+                maxW={{ base: "92rem" }}
                 w="full"
                 px={{ base: "lg", md: "md" }}
                 mx="auto"
