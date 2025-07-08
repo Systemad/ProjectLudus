@@ -7,7 +7,6 @@ import {
     AccordionItem,
     SimpleGrid,
     Card,
-    HStack,
     Box,
     Image,
 } from "@yamada-ui/react";

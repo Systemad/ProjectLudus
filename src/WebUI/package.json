@@ -9,7 +9,8 @@
         "lint": "eslint .",
         "preview": "vite preview",
         "generate": "kubb generate",
-        "theme": "pnpm yamada-cli theme ./src/theme/theme.ts"
+        "theme": "pnpm yamada-cli theme ./src/theme/theme.ts",
+        "theme-tokens": "yamada-cli tokens ./src/theme/src"
     },
     "dependencies": {
         "@phosphor-icons/react": "^2.1.10",
