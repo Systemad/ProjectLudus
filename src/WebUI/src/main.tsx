@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Loading, UIProvider } from "@yamada-ui/react";
+import { Loading, UIProvider, extendConfig } from "@yamada-ui/react";
 
 export const queryClient = new QueryClient();
 // bg={["blackAlpha.50", "whiteAlpha.100"]}
@@ -26,9 +26,11 @@ declare module "@tanstack/react-router" {
     }
 }
 
+const customConfig = extendConfig({ breakpoint: { direction: "up" } });
+
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <UIProvider>
+        <UIProvider config={customConfig}>
             <QueryClientProvider client={queryClient}>
                 <RouterProvider router={router} />
             </QueryClientProvider>

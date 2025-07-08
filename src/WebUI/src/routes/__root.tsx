@@ -6,7 +6,7 @@ import {
     Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Container } from "@yamada-ui/react";
+import { Box, Container, useBreakpoint } from "@yamada-ui/react";
 import { Header } from "~/layouts/header";
 
 export const Route = createRootRouteWithContext<{
@@ -24,9 +24,27 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
+    const breakpoint = useBreakpoint();
     return (
         <div>
             <Header />
+
+            <Box
+                bg={{
+                    base: "red.500",
+                    xl: "blue.500",
+                    lg: "green.500",
+                    md: "yellow.500",
+                    sm: "purple.500",
+                }}
+                p="md"
+                rounded="md"
+                color="white"
+                transitionProperty="all"
+                transitionDuration="slower"
+            >
+                The current breakpoint is "{breakpoint}"
+            </Box>
 
             <Container
                 as="main"
