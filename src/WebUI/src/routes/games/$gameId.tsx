@@ -10,7 +10,6 @@ import {
     Box,
     Image,
     Text,
-    HStack,
     VStack,
     Flex,
     Tag,
@@ -18,47 +17,16 @@ import {
     Heading,
     ButtonGroup,
     Wrap,
+    Rating,
 } from "@yamada-ui/react";
-import {
-    Carousel,
-    CarouselSlide,
-    CarouselIndicators,
-} from "@yamada-ui/carousel";
+import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
 import { useState } from "react";
 import Steam2 from "~/icons/SteamIcon2";
+import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
 
-/*
-
-                <Carousel rounded="xl" gap={4} autoplay withControls={false}>
-                    <CarouselSlide as={Center} bg="primary" rounded="xl">
-                        1
-                    </CarouselSlide>
-                    <CarouselSlide as={Center} bg="secondary" rounded="xl">
-                        2
-                    </CarouselSlide>
-                    <CarouselSlide as={Center} bg="warning" rounded="xl">
-                        3
-                    </CarouselSlide>
-                    <CarouselSlide as={Center} bg="danger" rounded="xl">
-                        4
-                    </CarouselSlide>
-
-                    <CarouselIndicators
-                        sx={{
-                            "& > *": {
-                                w: "4",
-                                _selected: { w: "12" },
-                                transitionProperty: "width",
-                                transitionDuration: "slower",
-                            },
-                        }}
-                    />
-                </Carousel>
-
-*/
 function RouteComponent() {
     const [index, onChange] = useState<number>(0);
 
@@ -85,7 +53,7 @@ function RouteComponent() {
                 <Flex
                     gap="md"
                     p="md"
-                    justify="flex-end"
+                    justify="space-between"
                     direction={"column"}
                     w="full"
                     bg={["blackAlpha.50", "whiteAlpha.100"]}
@@ -93,15 +61,49 @@ function RouteComponent() {
                     shadow="none"
                 >
                     <Flex direction={"column"} gap="md">
-                        <Heading>Elden Ring</Heading>
-                        <Tag w="fit-content" size="lg" rounded={"xl"}>
-                            Rank #1
-                        </Tag>
+                        <Wrap gap={6} alignItems={"center"}>
+                            <Heading>Elden Ring</Heading>
+                            <Tag w="fit-content" size="lg" rounded={"xl"}>
+                                Rank #1
+                            </Tag>
+                            <Rating
+                                readOnly
+                                fractions={4}
+                                items={10}
+                                size={"lg"}
+                                defaultValue={3}
+                            />
+                        </Wrap>
                     </Flex>
-
+                    <VStack gap="xs">
+                        <Text fontSize={"lg"}>
+                            <Text fontWeight={"bold"} as={"span"}>
+                                Developer
+                            </Text>
+                            : Namco
+                        </Text>
+                        <Text fontSize={"lg"}>
+                            <Text fontWeight={"bold"} as={"span"}>
+                                Publisher
+                            </Text>
+                            : Namco
+                        </Text>
+                        <Text fontSize={"lg"}>
+                            <Text fontWeight={"bold"} as={"span"}>
+                                Age rating
+                            </Text>
+                            : Namco
+                        </Text>
+                        <Text fontSize={"lg"}>
+                            <Text fontWeight={"bold"} as={"span"}>
+                                IGDB Rating
+                            </Text>
+                            :
+                        </Text>
+                    </VStack>
                     <Flex justifyContent={"space-between"}>
                         <Wrap gap="sm">
-                            <ButtonGroup gap="sm">
+                            <ButtonGroup size={"lg"} gap="sm">
                                 <Button
                                     rounded="xl"
                                     alignSelf={"start"}
@@ -128,6 +130,7 @@ function RouteComponent() {
                         </Wrap>
                         <Flex>
                             <Button
+                                size={"lg"}
                                 rounded="xl"
                                 alignSelf={"start"}
                                 variant="solid"
@@ -153,14 +156,15 @@ function RouteComponent() {
                 <GridItem
                     colSpan={{ sm: 1, md: 4, lg: 4, xl: 4, "2xl": 4 }}
                     w="full"
-                    minH="4xs"
                     rounded="xl"
+                    overflow="hidden"
                 >
                     <Carousel
                         rounded="xl"
                         gap={4}
-                        autoplay
+                        height={"xl"}
                         withControls={true}
+                        withIndicators={false}
                         index={index}
                         onChange={onChange}
                     >
@@ -174,29 +178,19 @@ function RouteComponent() {
                                 {i}
                             </CarouselSlide>
                         ))}
-
-                        <CarouselIndicators
-                            sx={{
-                                "& > *": {
-                                    w: "4",
-                                    _selected: { w: "12" },
-                                    transitionProperty: "width",
-                                    transitionDuration: "slower",
-                                },
-                            }}
-                        />
                     </Carousel>
                     <Box
                         w="auto"
                         rounded="xl"
-                        mt="2"
+                        mt="sm"
+                        overflow="hidden"
                         bg={["blackAlpha.50", "whiteAlpha.100"]}
                     >
                         <Carousel
                             index={index}
                             containScroll="trimSnaps"
-                            slideSize="18%"
-                            align="start"
+                            slideSize="15%"
+                            align="center"
                             dragFree
                             h="4xs"
                             loop={false}
@@ -209,7 +203,6 @@ function RouteComponent() {
                                     <CarouselSlide
                                         key={i}
                                         bg={index === i ? "red" : "primary"}
-                                        borderWidth={5}
                                         onClick={() => onChange(i)}
                                         as={Center}
                                         rounded="xl"
@@ -221,7 +214,7 @@ function RouteComponent() {
                         </Carousel>
                     </Box>
                     <Box
-                        mt="2"
+                        mt="md"
                         w="auto"
                         borderRadius={"lg"}
                         bg={["blackAlpha.50", "whiteAlpha.100"]}
@@ -241,6 +234,28 @@ function RouteComponent() {
                             and seek to restore the Elden Ring to become the
                             Elden Lord.
                         </Text>
+                    </Box>
+
+                    <Box
+                        mt="md"
+                        w="auto"
+                        borderRadius={"lg"}
+                        bg={["blackAlpha.50", "whiteAlpha.100"]}
+                        shadow="none"
+                        p="md"
+                    >
+                        <Heading as={"h3"}> Recommended Games</Heading>
+                        <SimpleGrid
+                            mt="sm"
+                            columns={{ base: 5, md: 2, lg: 3, xl: 4 }}
+                            gap="lg"
+                        >
+                            {Array.from({ length: 8 }, (_, i) => i).map((i) => (
+                                <GridItem key={i}>
+                                    <HoverGameCard height="xs" id={i} />
+                                </GridItem>
+                            ))}
+                        </SimpleGrid>
                     </Box>
                 </GridItem>
 
@@ -321,48 +336,3 @@ function RouteComponent() {
         </VStack>
     );
 }
-
-/*
-                        <Card
-                            key={i}
-                            flexShrink={0}
-                            w="3xs"
-                            borderRadius={"lg"}
-                            bg={["blackAlpha.50", "whiteAlpha.100"]}
-                            shadow="none"
-                            h="4xs"
-                        ></Card>
-
-
-
-
-
-
-
-
-                                        <HStack
-                    wrap="nowrap"
-                    w={{ base: "auto", sm: "full" }}
-                    gap={{ base: "md", sm: "sm" }}
-                    overflowX="auto"
-                    bg="blue.200"
-                >
-                    {Array.from({ length: 25 }, (_, i) => i).map((i) => (
-                        <Box
-                            key={i}
-                            h="4xs"
-                            w="3xs"
-                            overflow="hidden"
-                            position="relative"
-                            rounded="md"
-                            flexShrink={0}
-                        >
-                            <Image
-                                objectFit="cover"
-                                sizes="100%"
-                                src="https://images.igdb.com/igdb/image/upload/t_720p/scsodz.webp"
-                            />
-                        </Box>
-                    ))}
-                </HStack>
-*/

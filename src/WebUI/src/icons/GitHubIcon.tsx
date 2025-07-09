@@ -1,10 +1,15 @@
-import { Icon } from "@yamada-ui/react";
-const GitHub = () => (
+import { Icon, type IconProps } from "@yamada-ui/react";
+const GitHub = ({
+    //colorScheme = "neutral",
+    boxSize = "1.5rem",
+    ...rest
+}: IconProps) => (
     <Icon
-        boxSize="1.5em"
+        boxSize={boxSize}
         viewBox="0 0 1024 1024"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"
+        {...rest}
     >
         <path
             fillRule="evenodd"

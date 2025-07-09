@@ -16,13 +16,19 @@ import { CustomLinkOverlay } from "~/layouts/CustomLink/CustomLinkOverlay";
 
 type Props = {
     id: number;
+    height?: "4xs" | "3xs" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl";
+    iconSize?: "xs" | "sm" | "md" | "lg";
 };
-export const HoverGameCard = ({ id }: Props) => {
+export const HoverGameCard = ({
+    id,
+    height = "md",
+    iconSize = "xs",
+}: Props) => {
     return (
         <Motion whileHover={{ scale: 1.025 }} whileTap={{ scale: 1 }}>
             <Card
                 as={LinkBox}
-                h="md"
+                height={height}
                 variant="outline"
                 breakInside="avoid"
                 rounded="xl"
@@ -38,7 +44,7 @@ export const HoverGameCard = ({ id }: Props) => {
                     overflow="hidden"
                     p="0"
                     roundedTop="xl"
-                ></CardHeader>
+                />
 
                 <CardBody gap="xs">
                     <Flex w="100%" align="center" justify="space-between">
@@ -49,7 +55,7 @@ export const HoverGameCard = ({ id }: Props) => {
                             <IconButton
                                 colorScheme="primary"
                                 variant="primary"
-                                size="xs"
+                                size={iconSize}
                                 icon={
                                     <BookmarkSimpleIcon
                                         size="full"
@@ -61,7 +67,7 @@ export const HoverGameCard = ({ id }: Props) => {
                             <IconButton
                                 colorScheme="primary"
                                 variant="primary"
-                                size="xs"
+                                size={iconSize}
                                 icon={
                                     <HeartIcon
                                         size="full"
