@@ -18,20 +18,29 @@ import {
     ButtonGroup,
     Wrap,
     Rating,
+    useDisclosure,
 } from "@yamada-ui/react";
 import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
 import { useState } from "react";
 import Steam2 from "~/icons/SteamIcon2";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
+import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const [index, onChange] = useState<number>(0);
+    const { gameId } = Route.useParams();
 
+    const [index, onChange] = useState<number>(0);
+    const { open, onOpen, onClose } = useDisclosure();
     return (
         <VStack>
+            <ManageGameListsDialog
+                gameId={gameId}
+                open={open}
+                onClose={onClose}
+            />
             <Flex
                 flex={1}
                 w="full"
@@ -105,6 +114,7 @@ function RouteComponent() {
                         <Wrap gap="sm">
                             <ButtonGroup size={"lg"} gap="sm">
                                 <Button
+                                    onClick={onOpen}
                                     rounded="xl"
                                     alignSelf={"start"}
                                     variant="subtle"
