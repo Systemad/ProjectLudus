@@ -22,9 +22,16 @@ import {
 } from "@yamada-ui/react";
 import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
 import { useState } from "react";
-import Steam2 from "~/icons/SteamIcon2";
+import Steam2 from "~/icons/Launchers/SteamIcon2";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
+import XboxIcon from "~/icons/Consoles/XboxIcon";
+import PlaystationIcon from "~/icons/Consoles/PlaystationIcon";
+import UbisoftIcon from "~/icons/Launchers/UbisoftIcon";
+import EpicGamesIcon from "~/icons/Launchers/EpicGamesIcon";
+import UnrealEngineIcon from "~/icons/GameEngines/UnrealEngineIcon";
+import EAIcon from "~/icons/Launchers/EAIcon";
+import GodotEngineIcon from "~/icons/GameEngines/GodotEngineIcon";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
@@ -82,6 +89,13 @@ function RouteComponent() {
                                 size={"lg"}
                                 defaultValue={3}
                             />
+                            <XboxIcon />
+                            <PlaystationIcon />
+                            <UbisoftIcon />
+                            <EpicGamesIcon />
+                            <UnrealEngineIcon />
+                            <EAIcon />
+                            <GodotEngineIcon />
                         </Wrap>
                     </Flex>
                     <VStack gap="xs">
@@ -102,12 +116,6 @@ function RouteComponent() {
                                 Age rating
                             </Text>
                             : Namco
-                        </Text>
-                        <Text fontSize={"lg"}>
-                            <Text fontWeight={"bold"} as={"span"}>
-                                IGDB Rating
-                            </Text>
-                            :
                         </Text>
                     </VStack>
                     <Flex justifyContent={"space-between"}>
@@ -254,7 +262,7 @@ function RouteComponent() {
                         shadow="none"
                         p="md"
                     >
-                        <Heading as={"h3"}> Recommended Games</Heading>
+                        <Heading as={"h3"}>Recommended Games</Heading>
                         <SimpleGrid
                             mt="sm"
                             columns={{ base: 5, md: 2, lg: 3, xl: 4 }}
@@ -263,6 +271,29 @@ function RouteComponent() {
                             {Array.from({ length: 8 }, (_, i) => i).map((i) => (
                                 <GridItem key={i}>
                                     <HoverGameCard height="xs" id={i} />
+                                </GridItem>
+                            ))}
+                        </SimpleGrid>
+                    </Box>
+
+                    <Box
+                        mt="md"
+                        w="auto"
+                        borderRadius={"lg"}
+                        bg={["blackAlpha.50", "whiteAlpha.100"]}
+                        shadow="none"
+                        p="md"
+                    >
+                        <Heading as={"h3"}>Genres</Heading>
+                        <SimpleGrid columns={{ base: 3 }} gap="md">
+                            {Array.from({ length: 6 }, (_, i) => i).map((i) => (
+                                <GridItem key={i}>
+                                    <Card
+                                        borderRadius={"lg"}
+                                        bg={["blackAlpha.50", "whiteAlpha.100"]}
+                                        shadow="none"
+                                        h="5xs"
+                                    ></Card>
                                 </GridItem>
                             ))}
                         </SimpleGrid>
@@ -301,7 +332,7 @@ function RouteComponent() {
                             </SimpleGrid>
                         </AccordionItem>
 
-                        <AccordionItem rounded="xl" label="Genres">
+                        <AccordionItem rounded="xl" label="Game Launchers">
                             <SimpleGrid columns={{ base: 3 }} gap="md" p="2">
                                 {Array.from({ length: 6 }, (_, i) => i).map(
                                     (i) => (

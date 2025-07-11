@@ -1,19 +1,9 @@
 import {
     Dialog,
     DialogOverlay,
-    DialogCloseButton,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-    Button,
     Text,
     CheckboxCard,
-    CheckboxCardAddon,
-    CheckboxCardDescription,
     CheckboxCardGroup,
-    CheckboxCardLabel,
-    ZStack,
-    Box,
     Image,
     Flex,
 } from "@yamada-ui/react";
@@ -34,6 +24,7 @@ export const ManageGameListsDialog = ({
 }: Props) => {
     return (
         <Dialog
+            rounded="xl"
             size="3xl"
             open={open}
             onClose={onClose}
