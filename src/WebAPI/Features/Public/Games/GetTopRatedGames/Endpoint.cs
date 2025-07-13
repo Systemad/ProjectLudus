@@ -28,6 +28,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesRespon
             .OrderByDescending(x => x.RatingCount)
             .ThenByDescending(x => x.Rating)
             .ToPagedListAsync(req.PageNumber, req.PageSize);
+
         var previews = await GameService.CreateGameDtoAsync(User, games.Select(x => x.Id));
         await SendAsync(
             new GetTopRatedGamesResponse(

@@ -11,6 +11,8 @@ using WebAPI.Features.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services.AddAuthenticationCookie(validFor: TimeSpan.FromDays(7)).AddAuthorization();
 
 builder
@@ -29,10 +31,26 @@ builder
         };
     });
 
+/*
 builder.Services.AddDbContextPool<LudusContext>(opt =>
     opt.UseNpgsql("host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1")
         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 );
+builder.AddNpgsqlDbContext<LudusContext>(connectionName: "pgdb");
+
+*/
+builder.Services.AddDbContext<LudusContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("pgdb")
+            ?? throw new InvalidOperationException("Connection string 'pgdb' not found.")
+    )
+);
+
+builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
+{
+    settings.DisableRetry = false;
+    settings.CommandTimeout = 30;
+});
 
 builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
 
@@ -53,8 +71,9 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
-builder.Services.AddSingleton<IGameService, GameService>();
-builder.Services.AddSingleton<IUserListService, UserListService>();
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserListService, UserListService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -84,11 +103,15 @@ app.UseFastEndpoints(x =>
     })
     .UseSwaggerGen(c => { });
 
-app.UseOutputCache();
+//app.UseOutputCache();
 
 //app.MapControllers();
 app.UseStatusCodePages();
 
 //app.MapFallbackToFile("/index.html");
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<LudusContext>();
+await dbContext.Database.MigrateAsync();
 
 app.Run();
