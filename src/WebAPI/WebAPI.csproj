@@ -5,9 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <SpaRoot>..\ludus.client</SpaRoot>
-    <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>
-    <SpaProxyServerUrl>https://localhost:51091</SpaProxyServerUrl>
     <NoWarn>$(NoWarn);CA2016</NoWarn>
     <!--
     <OpenApiDocumentsDirectory>./Schema</OpenApiDocumentsDirectory>
@@ -43,22 +40,6 @@
     <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.3.0" />
   </ItemGroup>
-  <!-- React SPA -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
-      <Version>9.*-*</Version>
-    </PackageReference>
-    <PackageReference
-      Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets"
-      Version="1.22.1-Preview.1"
-    />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ludus.client\ludus.client.esproj">
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-  </ItemGroup>
-  <!-- -->
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
