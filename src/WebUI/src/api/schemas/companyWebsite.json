@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["id","url","type"],"properties":{"id":{"type":"integer","format":"int64"},"url":{"type":"string"},"type":{"type":"integer","format":"int64"}},"x-readme-ref-name":"CompanyWebsite"}

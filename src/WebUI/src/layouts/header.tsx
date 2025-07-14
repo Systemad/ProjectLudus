@@ -28,13 +28,13 @@ import {
     useScroll,
     VStack,
     Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
+    ButtonGroup as YButtonGroup,
     Link as YamadaLink,
 } from "@yamada-ui/react";
 import { memo, useEffect, useRef, useState } from "react";
 import GithubIcon from "~/icons/GitHubIcon";
+import { Link } from "@tanstack/react-router";
+import { CustomYamadaLink } from "./CustomLink/CustomYamadaLink";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HeaderProps extends CenterProps {}
@@ -80,35 +80,30 @@ export const Header = memo(
                             w="full"
                         >
                             <HStack gap={{ base: "md", sm: "sm" }}>
-                                <Menu>
-                                    <MenuButton
-                                        as={IconButton}
-                                        rounded="xl"
-                                        variant="outline"
-                                        icon={<MenuIcon fontSize="2xl" />}
-                                    />
-
-                                    <MenuList>
-                                        <MenuItem icon={<GithubIcon />}>
-                                            <YamadaLink
-                                                href="https://github.com/ValveSoftware/counter-strike_regional_standings"
-                                                external
-                                                aria-label="Valve Regional Standing GitHub"
-                                                rounded="md"
-                                                transitionDuration="slower"
-                                                transitionProperty="opacity"
-                                                _focus={{ outline: "none" }}
-                                                _focusVisible={{
-                                                    boxShadow: "outline",
-                                                }}
-                                                _hover={{ opacity: 0.7 }}
-                                            >
-                                                Valve Regions Ranking
-                                            </YamadaLink>
-                                        </MenuItem>
-                                    </MenuList>
-                                </Menu>
-
+                                <Link to="/">Ludus</Link>
+                                <YButtonGroup
+                                    as="nav"
+                                    size="sm"
+                                    fontWeight="normal"
+                                    gap="xs"
+                                    variant="ghost"
+                                >
+                                    <CustomYamadaLink to="/games" rounded="lg">
+                                        Games
+                                    </CustomYamadaLink>
+                                    <CustomYamadaLink
+                                        to="/calendar"
+                                        rounded="lg"
+                                    >
+                                        Calender
+                                    </CustomYamadaLink>
+                                    <CustomYamadaLink
+                                        to="/popular"
+                                        rounded="lg"
+                                    >
+                                        Popular
+                                    </CustomYamadaLink>
+                                </YButtonGroup>
                                 <Spacer />
 
                                 <ButtonGroup {...menuControls} />
@@ -126,7 +121,7 @@ export const Header = memo(
         );
     })
 );
-
+// external={href.startsWith("https://")}
 interface ButtonGroupProps extends Partial<UseDisclosureReturn> {
     isMobile?: boolean;
 }

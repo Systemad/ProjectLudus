@@ -1,12 +1,14 @@
-﻿using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Models;
+﻿using FastEndpoints;
+using WebAPI.Features.Common.Endpoints;
 
 namespace Public.Games.GetGamesByParameters;
 
 public class GameSearchRequest : IPaginationParameters
 {
+    [QueryParam]
     public int PageSize { get; set; } = 40;
 
+    [QueryParam]
     public int PageNumber { get; set; } = 1;
 
     public string? Name { get; set; } = null;
@@ -23,11 +25,3 @@ public class GameSearchRequest : IPaginationParameters
 
     public long[]? PlayerPerspectiveId { get; set; } = null;
 }
-
-public record GetSearchGamesResponse(
-    IEnumerable<GameDto> Items,
-    long TotalItemCount,
-    long PageCount,
-    long PageNumer,
-    bool IsLastPage
-) : IPaginatedResponse<GameDto>;

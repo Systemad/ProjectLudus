@@ -1,18 +1,16 @@
-﻿using WebAPI.Features.Common.Endpoints;
+﻿using FastEndpoints;
+using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Models;
 
 namespace Public.Games.GetTopRatedGames;
 
-public record GetTopRatedGamesResponse(
-    IEnumerable<GameDto> Items,
-    long TotalItemCount,
-    long PageCount,
-    long PageNumer,
-    bool IsLastPage
-) : IPaginatedResponse<GameDto>;
+public record GetTopRatedGamesResponse(PaginatedResponse<GameDto> Data);
 
 public class GetTopRatedGamesRequest : IPaginationParameters
 {
+    [QueryParam]
     public int PageSize { get; set; } = 40;
+
+    [QueryParam]
     public int PageNumber { get; set; } = 1;
 }

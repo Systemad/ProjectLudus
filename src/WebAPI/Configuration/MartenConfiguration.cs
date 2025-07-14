@@ -19,27 +19,6 @@ public static class MartenConfiguration
         IConfiguration config
     )
     {
-        /*
-        services
-            .AddMarten(options =>
-            {
-                options.Connection(
-                    "host=localhost:5432;database=userdb;password=Compaq2009;username=dan1"
-                );
-                //options.OpenTelemetry.TrackConnections = TrackLevel.Normal;
-                options.UseSystemTextJsonForSerialization();
-                if (env.IsDevelopment())
-                {
-                    options.AutoCreateSchemaObjects = AutoCreate.All;
-                }
-                options.Schema.For<User>().Identity(x => x.Id);
-                options.Schema.For<UserImage>().Identity(x => x.Id);
-                options.Schema.For<UserGameState>().Identity(x => x.Id);
-                options.Schema.For<UserGameList>().Identity(x => x.Id);
-            })
-            //.InitializeWith(new InitialData())
-            .ApplyAllDatabaseChangesOnStartup();
-        */
         services
             .AddMartenStore<IGameStore>(options =>
             {

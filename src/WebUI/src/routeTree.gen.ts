@@ -10,11 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PopularIndexRouteImport } from './routes/popular/index'
+import { Route as GamesIndexRouteImport } from './routes/games/index'
+import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PopularIndexRoute = PopularIndexRouteImport.update({
+  id: '/popular/',
+  path: '/popular/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesIndexRoute = GamesIndexRouteImport.update({
+  id: '/games/',
+  path: '/games/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarIndexRoute = CalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GamesGameIdRoute = GamesGameIdRouteImport.update({
@@ -26,27 +44,45 @@ const GamesGameIdRoute = GamesGameIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/calendar': typeof CalendarIndexRoute
+  '/games': typeof GamesIndexRoute
+  '/popular': typeof PopularIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/calendar': typeof CalendarIndexRoute
+  '/games': typeof GamesIndexRoute
+  '/popular': typeof PopularIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/calendar/': typeof CalendarIndexRoute
+  '/games/': typeof GamesIndexRoute
+  '/popular/': typeof PopularIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/games/$gameId'
+  fullPaths: '/' | '/games/$gameId' | '/calendar' | '/games' | '/popular'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/games/$gameId'
-  id: '__root__' | '/' | '/games/$gameId'
+  to: '/' | '/games/$gameId' | '/calendar' | '/games' | '/popular'
+  id:
+    | '__root__'
+    | '/'
+    | '/games/$gameId'
+    | '/calendar/'
+    | '/games/'
+    | '/popular/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
+  CalendarIndexRoute: typeof CalendarIndexRoute
+  GamesIndexRoute: typeof GamesIndexRoute
+  PopularIndexRoute: typeof PopularIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -56,6 +92,27 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/popular/': {
+      id: '/popular/'
+      path: '/popular'
+      fullPath: '/popular'
+      preLoaderRoute: typeof PopularIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games/': {
+      id: '/games/'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar/': {
+      id: '/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/games/$gameId': {
@@ -71,6 +128,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GamesGameIdRoute: GamesGameIdRoute,
+  CalendarIndexRoute: CalendarIndexRoute,
+  GamesIndexRoute: GamesIndexRoute,
+  PopularIndexRoute: PopularIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

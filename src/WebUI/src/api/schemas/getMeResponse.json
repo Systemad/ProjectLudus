@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["user"],"properties":{"user":{"$ref":"#/components/schemas/UserDto"}},"x-readme-ref-name":"GetMeResponse"}

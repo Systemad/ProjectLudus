@@ -1,4 +1,5 @@
-﻿using WebAPI.Features.Common.Games.Models;
+﻿using WebAPI.Features.Common.Endpoints;
+using WebAPI.Features.Common.Games.Models;
 
 namespace WebAPI.Features.Common.Lists;
 
@@ -8,5 +9,5 @@ public class GameListDto
     public string Name { get; set; }
     public bool Public { get; set; }
     public int TotalItems { get; set; }
-    public IEnumerable<GameDto> Items { get; set; }
+    public PaginatedResponse<GameDto> Page { get; set; }
 }

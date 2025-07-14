@@ -7,7 +7,7 @@ export default defineConfig(() => {
         root: ".",
         input: {
             // TODO: Change to correct port
-            path: "http://localhost:5222/openapi/v1.json",
+            path: "http://localhost:5123/openapi/v1.json",
         },
         output: {
             path: "./src/api",

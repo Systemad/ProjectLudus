@@ -17,16 +17,17 @@ const YamadaLinkComponent = React.forwardRef<
 
 const CreatedLinkComponent = createLink(YamadaLinkComponent);
 
-export const CustomLink: LinkComponent<typeof YamadaLinkComponent> = (
+export const CustomYamadaLink: LinkComponent<typeof YamadaLinkComponent> = (
     props
 ) => {
-    return (
+    return <CreatedLinkComponent preload={"intent"} {...props} />;
+};
+
+/*
         <CreatedLinkComponent
             textDecoration={"underline"}
             _hover={{ textDecoration: "none" }}
             _focus={{ textDecoration: "none" }}
             preload={"intent"}
             {...props}
-        />
-    );
-};
+*/

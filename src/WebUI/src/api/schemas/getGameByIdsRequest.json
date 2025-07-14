@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["gameIds"],"properties":{"gameIds":{"type":"array","items":{"type":"integer","format":"int64"}}},"x-readme-ref-name":"GetGameByIdsRequest"}

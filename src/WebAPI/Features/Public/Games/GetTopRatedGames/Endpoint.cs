@@ -1,15 +1,21 @@
 ﻿using FastEndpoints;
 using Marten.Pagination;
+using Me.Hypes.Helpers;
+using Me.Wishlists.Helpers;
 using Shared.Features.Games;
+using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common;
-using WebAPI.Features.Common.Games.Services;
+using WebAPI.Features.Common.Endpoints;
+using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games.Models;
+using WebAPI.Features.DataAccess;
 
 namespace Public.Games.GetTopRatedGames;
 
-public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesResponse>
+public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
     public IGameStore Store { get; set; }
-    public IGameService GameService { get; set; }
+    public LudusContext _context { get; set; }
 
     public override void Configure()
     {
@@ -29,12 +35,24 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, GetTopRatedGamesRespon
             .ThenByDescending(x => x.Rating)
             .ToPagedListAsync(req.PageNumber, req.PageSize);
 
-        var previews = await GameService.CreateGameDtoAsync(User, games.Select(x => x.Id));
+        HashSet<long> hypedGames = [];
+        HashSet<long> wishlistedGames = [];
+
+        if (User.Identity.IsAuthenticated)
+        {
+            var userId = User.GetUserId();
+
+            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId);
+            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+        }
+
+        var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
         await SendAsync(
-            new GetTopRatedGamesResponse(
+            new PaginatedResponse<GameDto>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,
+                games.PageSize,
                 games.PageNumber,
                 games.IsLastPage
             )

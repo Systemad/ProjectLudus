@@ -5,8 +5,6 @@ using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 using WebAPI.Configuration;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games.Services;
-using WebAPI.Features.Common.Lists.Services;
 using WebAPI.Features.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,9 +69,6 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
-builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<IUserListService, UserListService>();
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -109,9 +104,9 @@ app.UseFastEndpoints(x =>
 app.UseStatusCodePages();
 
 //app.MapFallbackToFile("/index.html");
-
+/*
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<LudusContext>();
 await dbContext.Database.MigrateAsync();
-
+*/
 app.Run();

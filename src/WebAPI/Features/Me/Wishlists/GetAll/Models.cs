@@ -1,8 +1,13 @@
-﻿using WebAPI.Features.Common.Games.Models;
+﻿using FastEndpoints;
+using WebAPI.Features.Common.Endpoints;
 
 namespace Me.Wishlists.GetAll;
 
-public class GetWishlistedGamesResponse
+public class GetWishlistedGamesRequest : IPaginationParameters
 {
-    public List<GameDto> Games { get; set; }
+    [QueryParam]
+    public int PageSize { get; set; } = 40;
+
+    [QueryParam]
+    public int PageNumber { get; set; } = 1;
 }

@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["id","name","slug","url"],"properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"slug":{"type":"string"},"url":{"type":"string"}},"x-readme-ref-name":"GameMode"}

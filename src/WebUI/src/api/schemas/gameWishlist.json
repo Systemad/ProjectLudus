@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["id","gameId","wishlistedAt","userId","user"],"properties":{"id":{"type":"string","format":"guid"},"gameId":{"type":"integer","format":"int64"},"wishlistedAt":{"type":"string","format":"date-time"},"userId":{"type":"string","format":"guid"},"user":{"$ref":"#/components/schemas/User"}},"x-readme-ref-name":"GameWishlist"}

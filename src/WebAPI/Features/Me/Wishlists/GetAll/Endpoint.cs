@@ -1,15 +1,21 @@
 ﻿using FastEndpoints;
-using Microsoft.EntityFrameworkCore;
+using Marten.Pagination;
+using Me.Hypes.Helpers;
+using Me.Wishlists.Helpers;
+using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games.Services;
+using WebAPI.Features.Common;
+using WebAPI.Features.Common.Endpoints;
+using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Me.Wishlists.GetAll;
 
-public class Endpoint : EndpointWithoutRequest<GetWishlistedGamesResponse>
+public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<GameDto>>
 {
-    public IGameService GameService { get; set; }
-    public LudusContext DBContext { get; set; }
+    public LudusContext _context { get; set; }
+    public IGameStore Store { get; set; }
 
     public override void Configure()
     {
@@ -17,17 +23,38 @@ public class Endpoint : EndpointWithoutRequest<GetWishlistedGamesResponse>
         Group<MeWishlistGroup>();
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(GetWishlistedGamesRequest req, CancellationToken ct)
     {
+        await using var session = Store.QuerySession();
         var userId = User.GetUserId();
-        var wishlistedGamesIds = await DBContext
-            .Wishlists.Where(x => x.UserId == userId)
-            .Select(w => w.GameId)
-            .ToListAsync();
 
-        var previews = await GameService.CreateGameDtoAsync(User, wishlistedGamesIds);
+        HashSet<long> wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(
+            _context,
+            userId
+        );
 
-        var response = new GetWishlistedGamesResponse() { Games = previews.ToList() };
-        await SendAsync(response);
+        HashSet<long> hypedGames = await HypesHelper.GetHypedGamesByIdsAsync(
+            _context,
+            userId,
+            wishlistedGames
+        );
+
+        var games = await session
+            .Query<Game>()
+            .Where(g => hypedGames.Contains(g.Id))
+            .ToPagedListAsync(req.PageNumber, req.PageSize);
+
+        var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+
+        await SendAsync(
+            new PaginatedResponse<GameDto>(
+                previews,
+                games.TotalItemCount,
+                games.PageCount,
+                games.PageSize,
+                games.PageNumber,
+                games.IsLastPage
+            )
+        );
     }
 }
