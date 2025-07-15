@@ -63,6 +63,7 @@ export type { GameHype } from './types/GameHype.ts'
 export type { GameList } from './types/GameList.ts'
 export type { GameListDto } from './types/GameListDto.ts'
 export type { GameListItem } from './types/GameListItem.ts'
+export type { GameListPreviewDto } from './types/GameListPreviewDto.ts'
 export type { GameMode } from './types/GameMode.ts'
 export type { GameModeFilter } from './types/GameModeFilter.ts'
 export type { GameSearchRequest } from './types/GameSearchRequest.ts'
@@ -78,17 +79,12 @@ export type { GetGameByIdsRequest } from './types/GetGameByIdsRequest.ts'
 export type { GetGamesByIdResponse } from './types/GetGamesByIdResponse.ts'
 export type { GetGamesByIdsResponse } from './types/GetGamesByIdsResponse.ts'
 export type { GetHypesGamesRequest } from './types/GetHypesGamesRequest.ts'
-export type { GetHypesGamesResponse } from './types/GetHypesGamesResponse.ts'
 export type { GetListRequest } from './types/GetListRequest.ts'
-export type { GetListResponse } from './types/GetListResponse.ts'
 export type { GetMeResponse } from './types/GetMeResponse.ts'
-export type { GetMyListsResponse } from './types/GetMyListsResponse.ts'
-export type { GetSearchGamesResponse } from './types/GetSearchGamesResponse.ts'
 export type { GetSimilarGamesRequest } from './types/GetSimilarGamesRequest.ts'
 export type { GetSimilarGamesResponse } from './types/GetSimilarGamesResponse.ts'
 export type { GetTopRatedGamesRequest } from './types/GetTopRatedGamesRequest.ts'
 export type { GetWishlistedGamesRequest } from './types/GetWishlistedGamesRequest.ts'
-export type { GetWishlistedGamesResponse } from './types/GetWishlistedGamesResponse.ts'
 export type { InvolvedCompany } from './types/InvolvedCompany.ts'
 export type { Keyword } from './types/Keyword.ts'
 export type { Language } from './types/Language.ts'
@@ -132,6 +128,7 @@ export type {
 } from './types/MeListsGetAllEndpoint.ts'
 export type {
   MeListsGetEndpointPathParams,
+  MeListsGetEndpointQueryParams,
   MeListsGetEndpoint200,
   MeListsGetEndpoint401,
   MeListsGetEndpointQueryResponse,
@@ -214,6 +211,7 @@ export type {
   PublicGamesGetGamesByIdsEndpointMutation,
 } from './types/PublicGamesGetGamesByIdsEndpoint.ts'
 export type {
+  PublicGamesGetGamesByParametersEndpointQueryParams,
   PublicGamesGetGamesByParametersEndpoint200,
   PublicGamesGetGamesByParametersEndpointMutationRequest,
   PublicGamesGetGamesByParametersEndpointMutationResponse,

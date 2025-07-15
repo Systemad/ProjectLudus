@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { GetHypesGamesResponse } from './GetHypesGamesResponse.ts'
+import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
 
 export type MeHypedGetAllEndpointQueryParams = {
   /**
@@ -19,7 +19,7 @@ export type MeHypedGetAllEndpointQueryParams = {
 /**
  * @description Success
  */
-export type MeHypedGetAllEndpoint200 = GetHypesGamesResponse
+export type MeHypedGetAllEndpoint200 = PaginatedResponseOfGameDto
 
 /**
  * @description Unauthorized

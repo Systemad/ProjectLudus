@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { GetListResponse } from './GetListResponse.ts'
+import type { GameListDto } from './GameListDto.ts'
 
 export type MeListsGetEndpointPathParams = {
   /**
@@ -12,10 +12,21 @@ export type MeListsGetEndpointPathParams = {
   listId: string
 }
 
+export type MeListsGetEndpointQueryParams = {
+  /**
+   * @type integer, int32
+   */
+  pageSize: number
+  /**
+   * @type integer, int32
+   */
+  pageNumber: number
+}
+
 /**
  * @description Success
  */
-export type MeListsGetEndpoint200 = GetListResponse
+export type MeListsGetEndpoint200 = GameListDto
 
 /**
  * @description Unauthorized
@@ -27,5 +38,6 @@ export type MeListsGetEndpointQueryResponse = MeListsGetEndpoint200
 export type MeListsGetEndpointQuery = {
   Response: MeListsGetEndpoint200
   PathParams: MeListsGetEndpointPathParams
+  QueryParams: MeListsGetEndpointQueryParams
   Errors: MeListsGetEndpoint401
 }

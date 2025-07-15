@@ -4,12 +4,23 @@
  */
 
 import type { GameSearchRequest } from './GameSearchRequest.ts'
-import type { GetSearchGamesResponse } from './GetSearchGamesResponse.ts'
+import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
+
+export type PublicGamesGetGamesByParametersEndpointQueryParams = {
+  /**
+   * @type integer, int32
+   */
+  pageSize: number
+  /**
+   * @type integer, int32
+   */
+  pageNumber: number
+}
 
 /**
  * @description Success
  */
-export type PublicGamesGetGamesByParametersEndpoint200 = GetSearchGamesResponse
+export type PublicGamesGetGamesByParametersEndpoint200 = PaginatedResponseOfGameDto
 
 export type PublicGamesGetGamesByParametersEndpointMutationRequest = GameSearchRequest
 
@@ -18,5 +29,6 @@ export type PublicGamesGetGamesByParametersEndpointMutationResponse = PublicGame
 export type PublicGamesGetGamesByParametersEndpointMutation = {
   Response: PublicGamesGetGamesByParametersEndpoint200
   Request: PublicGamesGetGamesByParametersEndpointMutationRequest
+  QueryParams: PublicGamesGetGamesByParametersEndpointQueryParams
   Errors: any
 }

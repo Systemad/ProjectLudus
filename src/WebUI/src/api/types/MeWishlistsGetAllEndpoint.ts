@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { GetWishlistedGamesResponse } from './GetWishlistedGamesResponse.ts'
+import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
 
 export type MeWishlistsGetAllEndpointQueryParams = {
   /**
@@ -19,7 +19,7 @@ export type MeWishlistsGetAllEndpointQueryParams = {
 /**
  * @description Success
  */
-export type MeWishlistsGetAllEndpoint200 = GetWishlistedGamesResponse
+export type MeWishlistsGetAllEndpoint200 = PaginatedResponseOfGameDto
 
 /**
  * @description Unauthorized

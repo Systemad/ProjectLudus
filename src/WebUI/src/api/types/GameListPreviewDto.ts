@@ -3,9 +3,9 @@
  * Do not edit manually.
  */
 
-import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
+import type { GameDto } from './GameDto.ts'
 
-export type GameListDto = {
+export type GameListPreviewDto = {
   /**
    * @type string, guid
    */
@@ -23,7 +23,7 @@ export type GameListDto = {
    */
   totalItems: number
   /**
-   * @type object
+   * @type array
    */
-  page: PaginatedResponseOfGameDto
+  previewItems: GameDto[]
 }

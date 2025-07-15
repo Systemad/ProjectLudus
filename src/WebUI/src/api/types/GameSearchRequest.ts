@@ -5,14 +5,6 @@
 
 export type GameSearchRequest = {
   /**
-   * @type integer, int32
-   */
-  pageSize: number
-  /**
-   * @type integer, int32
-   */
-  pageNumber: number
-  /**
    * @type string
    */
   name?: string | null

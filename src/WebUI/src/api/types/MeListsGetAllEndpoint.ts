@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { GetMyListsResponse } from './GetMyListsResponse.ts'
+import type { GameListPreviewDto } from './GameListPreviewDto.ts'
 
 export type MeListsGetAllEndpointPathParams = {
   /**
@@ -15,7 +15,7 @@ export type MeListsGetAllEndpointPathParams = {
 /**
  * @description Success
  */
-export type MeListsGetAllEndpoint200 = GetMyListsResponse
+export type MeListsGetAllEndpoint200 = GameListPreviewDto[]
 
 /**
  * @description Unauthorized

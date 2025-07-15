@@ -6,11 +6,16 @@
 import fetch from '@kubb/plugin-client/clients/axios'
 import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
-import type { MeListsGetEndpointQueryResponse, MeListsGetEndpointPathParams, MeListsGetEndpoint401 } from '../../types/MeListsGetEndpoint.ts'
+import type {
+  MeListsGetEndpointQueryResponse,
+  MeListsGetEndpointPathParams,
+  MeListsGetEndpointQueryParams,
+  MeListsGetEndpoint401,
+} from '../../types/MeListsGetEndpoint.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 
-export const meListsGetEndpointSuspenseQueryKey = (listId: MeListsGetEndpointPathParams['listId']) =>
-  [{ url: '/api/me/lists/:listId', params: { listId: listId } }] as const
+export const meListsGetEndpointSuspenseQueryKey = (listId: MeListsGetEndpointPathParams['listId'], params: MeListsGetEndpointQueryParams) =>
+  [{ url: '/api/me/lists/:listId', params: { listId: listId } }, ...(params ? [params] : [])] as const
 
 export type MeListsGetEndpointSuspenseQueryKey = ReturnType<typeof meListsGetEndpointSuspenseQueryKey>
 
@@ -19,6 +24,7 @@ export type MeListsGetEndpointSuspenseQueryKey = ReturnType<typeof meListsGetEnd
  */
 export async function meListsGetEndpointSuspense(
   listId: MeListsGetEndpointPathParams['listId'],
+  params: MeListsGetEndpointQueryParams,
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -26,6 +32,7 @@ export async function meListsGetEndpointSuspense(
   const res = await request<MeListsGetEndpointQueryResponse, ResponseErrorConfig<MeListsGetEndpoint401>, unknown>({
     method: 'GET',
     url: `/api/me/lists/${listId}`,
+    params,
     ...requestConfig,
   })
   return res.data
@@ -33,15 +40,16 @@ export async function meListsGetEndpointSuspense(
 
 export function meListsGetEndpointSuspenseQueryOptions(
   listId: MeListsGetEndpointPathParams['listId'],
+  params: MeListsGetEndpointQueryParams,
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
-  const queryKey = meListsGetEndpointSuspenseQueryKey(listId)
+  const queryKey = meListsGetEndpointSuspenseQueryKey(listId, params)
   return queryOptions<MeListsGetEndpointQueryResponse, ResponseErrorConfig<MeListsGetEndpoint401>, MeListsGetEndpointQueryResponse, typeof queryKey>({
-    enabled: !!listId,
+    enabled: !!(listId && params),
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meListsGetEndpointSuspense(listId, config)
+      return meListsGetEndpointSuspense(listId, params, config)
     },
   })
 }
@@ -51,6 +59,7 @@ export function meListsGetEndpointSuspenseQueryOptions(
  */
 export function useMeListsGetEndpointSuspense<TData = MeListsGetEndpointQueryResponse, TQueryKey extends QueryKey = MeListsGetEndpointSuspenseQueryKey>(
   listId: MeListsGetEndpointPathParams['listId'],
+  params: MeListsGetEndpointQueryParams,
   options: {
     query?: Partial<UseSuspenseQueryOptions<MeListsGetEndpointQueryResponse, ResponseErrorConfig<MeListsGetEndpoint401>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -59,11 +68,11 @@ export function useMeListsGetEndpointSuspense<TData = MeListsGetEndpointQueryRes
   } = {},
 ) {
   const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? meListsGetEndpointSuspenseQueryKey(listId)
+  const queryKey = queryOptions?.queryKey ?? meListsGetEndpointSuspenseQueryKey(listId, params)
 
   const query = useSuspenseQuery(
     {
-      ...meListsGetEndpointSuspenseQueryOptions(listId, config),
+      ...meListsGetEndpointSuspenseQueryOptions(listId, params, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

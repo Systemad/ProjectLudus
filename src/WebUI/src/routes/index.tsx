@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
     const { data, isPending } = usePublicGamesGetTopRatedGamesEndpoint({
         pageNumber: 1,
-        pageSize: 20,
+        pageSize: 40,
     });
 
     if (isPending) {

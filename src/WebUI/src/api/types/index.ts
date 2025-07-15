@@ -24,6 +24,7 @@ export type { GameHype } from './GameHype.ts'
 export type { GameList } from './GameList.ts'
 export type { GameListDto } from './GameListDto.ts'
 export type { GameListItem } from './GameListItem.ts'
+export type { GameListPreviewDto } from './GameListPreviewDto.ts'
 export type { GameMode } from './GameMode.ts'
 export type { GameModeFilter } from './GameModeFilter.ts'
 export type { GameSearchRequest } from './GameSearchRequest.ts'
@@ -39,17 +40,12 @@ export type { GetGameByIdsRequest } from './GetGameByIdsRequest.ts'
 export type { GetGamesByIdResponse } from './GetGamesByIdResponse.ts'
 export type { GetGamesByIdsResponse } from './GetGamesByIdsResponse.ts'
 export type { GetHypesGamesRequest } from './GetHypesGamesRequest.ts'
-export type { GetHypesGamesResponse } from './GetHypesGamesResponse.ts'
 export type { GetListRequest } from './GetListRequest.ts'
-export type { GetListResponse } from './GetListResponse.ts'
 export type { GetMeResponse } from './GetMeResponse.ts'
-export type { GetMyListsResponse } from './GetMyListsResponse.ts'
-export type { GetSearchGamesResponse } from './GetSearchGamesResponse.ts'
 export type { GetSimilarGamesRequest } from './GetSimilarGamesRequest.ts'
 export type { GetSimilarGamesResponse } from './GetSimilarGamesResponse.ts'
 export type { GetTopRatedGamesRequest } from './GetTopRatedGamesRequest.ts'
 export type { GetWishlistedGamesRequest } from './GetWishlistedGamesRequest.ts'
-export type { GetWishlistedGamesResponse } from './GetWishlistedGamesResponse.ts'
 export type { InvolvedCompany } from './InvolvedCompany.ts'
 export type { Keyword } from './Keyword.ts'
 export type { Language } from './Language.ts'
@@ -93,6 +89,7 @@ export type {
 } from './MeListsGetAllEndpoint.ts'
 export type {
   MeListsGetEndpointPathParams,
+  MeListsGetEndpointQueryParams,
   MeListsGetEndpoint200,
   MeListsGetEndpoint401,
   MeListsGetEndpointQueryResponse,
@@ -170,6 +167,7 @@ export type {
   PublicGamesGetGamesByIdsEndpointMutation,
 } from './PublicGamesGetGamesByIdsEndpoint.ts'
 export type {
+  PublicGamesGetGamesByParametersEndpointQueryParams,
   PublicGamesGetGamesByParametersEndpoint200,
   PublicGamesGetGamesByParametersEndpointMutationRequest,
   PublicGamesGetGamesByParametersEndpointMutationResponse,

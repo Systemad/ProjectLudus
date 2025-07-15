@@ -9,6 +9,7 @@ import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
 import type {
   PublicGamesGetGamesByParametersEndpointMutationRequest,
   PublicGamesGetGamesByParametersEndpointMutationResponse,
+  PublicGamesGetGamesByParametersEndpointQueryParams,
 } from '../../types/PublicGamesGetGamesByParametersEndpoint.ts'
 import { useMutation } from '@tanstack/react-query'
 
@@ -20,7 +21,8 @@ export type PublicGamesGetGamesByParametersEndpointMutationKey = ReturnType<type
  * {@link /api/games/search}
  */
 export async function publicGamesGetGamesByParametersEndpoint(
-  data: PublicGamesGetGamesByParametersEndpointMutationRequest,
+  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  data?: PublicGamesGetGamesByParametersEndpointMutationRequest,
   config: Partial<RequestConfig<PublicGamesGetGamesByParametersEndpointMutationRequest>> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -30,7 +32,7 @@ export async function publicGamesGetGamesByParametersEndpoint(
     PublicGamesGetGamesByParametersEndpointMutationResponse,
     ResponseErrorConfig<Error>,
     PublicGamesGetGamesByParametersEndpointMutationRequest
-  >({ method: 'POST', url: `/api/games/search`, data: requestData, ...requestConfig })
+  >({ method: 'POST', url: `/api/games/search`, params, data: requestData, ...requestConfig })
   return res.data
 }
 
@@ -42,7 +44,7 @@ export function usePublicGamesGetGamesByParametersEndpoint<TContext>(
     mutation?: UseMutationOptions<
       PublicGamesGetGamesByParametersEndpointMutationResponse,
       ResponseErrorConfig<Error>,
-      { data: PublicGamesGetGamesByParametersEndpointMutationRequest },
+      { params: PublicGamesGetGamesByParametersEndpointQueryParams; data?: PublicGamesGetGamesByParametersEndpointMutationRequest },
       TContext
     > & { client?: QueryClient }
     client?: Partial<RequestConfig<PublicGamesGetGamesByParametersEndpointMutationRequest>> & { client?: typeof fetch }
@@ -55,12 +57,12 @@ export function usePublicGamesGetGamesByParametersEndpoint<TContext>(
   return useMutation<
     PublicGamesGetGamesByParametersEndpointMutationResponse,
     ResponseErrorConfig<Error>,
-    { data: PublicGamesGetGamesByParametersEndpointMutationRequest },
+    { params: PublicGamesGetGamesByParametersEndpointQueryParams; data?: PublicGamesGetGamesByParametersEndpointMutationRequest },
     TContext
   >(
     {
-      mutationFn: async ({ data }) => {
-        return publicGamesGetGamesByParametersEndpoint(data, config)
+      mutationFn: async ({ params, data }) => {
+        return publicGamesGetGamesByParametersEndpoint(params, data, config)
       },
       mutationKey,
       ...mutationOptions,

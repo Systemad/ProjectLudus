@@ -21,6 +21,10 @@ export type PaginatedResponseOfGameDto = {
   /**
    * @type integer, int64
    */
+  pageSize: number
+  /**
+   * @type integer, int64
+   */
   pageNumber: number
   /**
    * @type boolean
