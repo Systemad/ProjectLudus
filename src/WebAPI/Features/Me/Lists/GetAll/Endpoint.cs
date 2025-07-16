@@ -4,10 +4,10 @@ using Me.Wishlists.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
+using MartenExt = Marten;
 
 namespace Me.Lists.GetAll;
 
@@ -23,7 +23,7 @@ public class GameListPreviewDto
 public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
 {
     public LudusContext _context { get; set; }
-    public IGameStore Store { get; set; }
+    public MartenExt.IDocumentStore Store { get; set; }
 
     public override void Configure()
     {

@@ -1,10 +1,10 @@
 ﻿using FastEndpoints;
+using Marten;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common;
 using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
@@ -14,7 +14,7 @@ namespace Public.Games.GetTopRatedGames;
 
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
-    public IGameStore Store { get; set; }
+    public IDocumentStore Store { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()
@@ -26,15 +26,14 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
 
     public override async Task HandleAsync(GetTopRatedGamesRequest req, CancellationToken ct)
     {
-        await using var session = Store.QuerySession();
+        await using var session = Store.LightweightSession();
 
         var games = await session
             .Query<Game>()
             .Where(x => x.GameType.Id == 0)
             .OrderByDescending(x => x.RatingCount)
             .ThenByDescending(x => x.Rating)
-            .ToPagedListAsync(req.PageNumber, req.PageSize);
-
+            .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
         HashSet<long> hypedGames = [];
         HashSet<long> wishlistedGames = [];
 
@@ -55,7 +54,8 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
                 games.PageSize,
                 games.PageNumber,
                 games.IsLastPage
-            )
+            ),
+            cancellation: ct
         );
     }
 }

@@ -7,7 +7,7 @@ namespace Public.Games.GetFilters;
 
 public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
 {
-    public IGameStore GameStore { get; set; }
+    public IDocumentStore GameStore { get; set; }
 
     public override void Configure()
     {

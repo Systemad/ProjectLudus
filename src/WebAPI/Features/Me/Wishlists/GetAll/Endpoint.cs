@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using Marten;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
@@ -15,7 +16,7 @@ namespace Me.Wishlists.GetAll;
 public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<GameDto>>
 {
     public LudusContext _context { get; set; }
-    public IGameStore Store { get; set; }
+    public IDocumentStore Store { get; set; }
 
     public override void Configure()
     {

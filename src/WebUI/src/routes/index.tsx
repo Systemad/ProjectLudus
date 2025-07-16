@@ -19,19 +19,9 @@ function RouteComponent() {
         <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 4 }} gap="lg">
             {data?.items.map((item) => (
                 <GridItem key={item.id}>
-                    <HoverGameCard id={item.id} />
+                    <HoverGameCard item={item} />
                 </GridItem>
             ))}
         </SimpleGrid>
     );
 }
-
-/*
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 4 }} gap="lg">
-            {Array.from({ length: 25 }, (_, i) => i).map((i) => (
-                <GridItem key={i}>
-                    <HoverGameCard id={i} />
-                </GridItem>
-            ))}
-        </SimpleGrid>
-*/

@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using Marten;
 using Marten.Linq;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
@@ -15,7 +16,7 @@ namespace Public.Games.GetGamesByParameters;
 
 public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
-    public IGameStore GameStore { get; set; }
+    public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()

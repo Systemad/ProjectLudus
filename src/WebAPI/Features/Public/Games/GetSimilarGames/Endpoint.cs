@@ -13,7 +13,7 @@ namespace Public.Games.GetSimilarGames;
 
 public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {
-    public IGameStore GameStore { get; set; }
+    public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()

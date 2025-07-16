@@ -8,7 +8,6 @@ import {
     SimpleGrid,
     Card,
     Box,
-    Image,
     Text,
     VStack,
     Flex,
@@ -25,13 +24,12 @@ import { useState } from "react";
 import Steam2 from "~/icons/Launchers/SteamIcon2";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
-import XboxIcon from "~/icons/Consoles/XboxIcon";
-import PlaystationIcon from "~/icons/Consoles/PlaystationIcon";
-import UbisoftIcon from "~/icons/Launchers/UbisoftIcon";
-import EpicGamesIcon from "~/icons/Launchers/EpicGamesIcon";
-import UnrealEngineIcon from "~/icons/GameEngines/UnrealEngineIcon";
-import EAIcon from "~/icons/Launchers/EAIcon";
-import GodotEngineIcon from "~/icons/GameEngines/GodotEngineIcon";
+
+import { IGDBImage } from "~/features/games/components/IGDBImage";
+import {
+    usePublicGamesGetGameByIdEndpoint,
+    usePublicGamesGetSimilarGamesEndpoint,
+} from "~/api";
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
@@ -41,6 +39,24 @@ function RouteComponent() {
 
     const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
+    const id = parseInt(gameId);
+    const { isPending, isError, data, error } =
+        usePublicGamesGetGameByIdEndpoint(id);
+
+    const {
+        isPending: simGamesPending,
+        isError: isSimGamesError,
+        data: simGamesData,
+    } = usePublicGamesGetSimilarGamesEndpoint(id);
+
+    if (isPending) {
+        return <span>Loading...</span>;
+    }
+
+    if (isError) {
+        return <span>Error: {error.message}</span>;
+    }
+
     return (
         <VStack>
             <ManageGameListsDialog
@@ -58,12 +74,12 @@ function RouteComponent() {
                 h={{ sm: "xs", md: "2xs", xl: "xs", "2xl": "md" }}
             >
                 <Flex h="full">
-                    <Image
-                        borderRadius={"lg"}
-                        bg={"red"}
+                    <IGDBImage
+                        imageId={data?.game.cover.image_id}
                         shadow="none"
-                        src="https://images.igdb.com/igdb/image/upload/t_cover_big/co4jni.webp"
-                    ></Image>
+                        size="cover_big"
+                        borderRadius={"lg"}
+                    ></IGDBImage>
                 </Flex>
 
                 <Flex
@@ -89,13 +105,6 @@ function RouteComponent() {
                                 size={"lg"}
                                 defaultValue={3}
                             />
-                            <XboxIcon />
-                            <PlaystationIcon />
-                            <UbisoftIcon />
-                            <EpicGamesIcon />
-                            <UnrealEngineIcon />
-                            <EAIcon />
-                            <GodotEngineIcon />
                         </Wrap>
                     </Flex>
                     <VStack gap="xs">
@@ -103,19 +112,23 @@ function RouteComponent() {
                             <Text fontWeight={"bold"} as={"span"}>
                                 Developer
                             </Text>
-                            : Namco
+                            :
+                            {
+                                data.game.involved_companies.find(
+                                    (x) => x.developer == true
+                                )?.company.name
+                            }
                         </Text>
                         <Text fontSize={"lg"}>
                             <Text fontWeight={"bold"} as={"span"}>
                                 Publisher
                             </Text>
-                            : Namco
-                        </Text>
-                        <Text fontSize={"lg"}>
-                            <Text fontWeight={"bold"} as={"span"}>
-                                Age rating
-                            </Text>
-                            : Namco
+                            :
+                            {
+                                data.game.involved_companies.find(
+                                    (x) => x.publisher == true
+                                )?.company.name
+                            }
                         </Text>
                     </VStack>
                     <Flex justifyContent={"space-between"}>
@@ -239,19 +252,9 @@ function RouteComponent() {
                         shadow="none"
                         p="md"
                     >
-                        <Text>
-                            Elden Ring is an action RPG developed by
-                            FromSoftware and published by Bandai Namco
-                            Entertainment, released in February 2022. Directed
-                            by Hidetaka Miyazaki, with world-building
-                            contributions from novelist George R. R. Martin, the
-                            game features an expansive open world called the
-                            Lands Between. Players assume the role of a
-                            customisable character known as the Tarnished, who
-                            must explore this world, battle formidable enemies,
-                            and seek to restore the Elden Ring to become the
-                            Elden Lord.
-                        </Text>
+                        <Text>{data.game.summary}</Text>
+                        <br></br>
+                        <Text>{data.game.storyline}</Text>
                     </Box>
 
                     <Box
@@ -263,17 +266,23 @@ function RouteComponent() {
                         p="md"
                     >
                         <Heading as={"h3"}>Recommended Games</Heading>
-                        <SimpleGrid
-                            mt="sm"
-                            columns={{ base: 5, md: 2, lg: 3, xl: 4 }}
-                            gap="lg"
-                        >
-                            {Array.from({ length: 8 }, (_, i) => i).map((i) => (
-                                <GridItem key={i}>
-                                    <HoverGameCard height="xs" id={i} />
-                                </GridItem>
-                            ))}
-                        </SimpleGrid>
+                        {isSimGamesError ? (
+                            <>Could not load games</>
+                        ) : simGamesPending ? (
+                            <>Loading</>
+                        ) : (
+                            <SimpleGrid
+                                mt="sm"
+                                columns={{ base: 5, md: 2, lg: 3, xl: 4 }}
+                                gap="lg"
+                            >
+                                {simGamesData?.similarGames.map((i) => (
+                                    <GridItem key={i.id}>
+                                        <HoverGameCard height="xs" item={i} />
+                                    </GridItem>
+                                ))}
+                            </SimpleGrid>
+                        )}
                     </Box>
 
                     <Box

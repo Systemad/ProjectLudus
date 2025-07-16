@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using Marten;
 using Marten.Pagination;
 using Me.Hypes;
 using Me.Hypes.GetAll;
@@ -17,7 +18,7 @@ namespace Me.Hyped.GetAll;
 public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto>>
 {
     public LudusContext _context { get; set; }
-    public IGameStore Store { get; set; }
+    public IDocumentStore Store { get; set; }
 
     public override void Configure()
     {
@@ -41,7 +42,7 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
 
         var games = await session
             .Query<Game>()
-            .Where(g => hypedGames.Contains(g.Id))
+            .Where(g => g.Id.IsOneOf(hypedGames.ToArray()))
             .ToPagedListAsync(req.PageNumber, req.PageSize);
 
         var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);

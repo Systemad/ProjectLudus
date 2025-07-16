@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using Marten;
 using Shared.Features.Games;
 using WebAPI.Features.Common;
 
@@ -6,7 +7,7 @@ namespace Public.Games.GetGameById;
 
 public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 {
-    public IGameStore GameStore { get; set; }
+    public IDocumentStore GameStore { get; set; }
 
     public override void Configure()
     {
