@@ -4,9 +4,9 @@ import EpicGamesIcon from "~/icons/Launchers/EpicGamesIcon";
 import SteamIcon from "~/icons/Launchers/SteamIcon";
 
 export const platformIconMap: Record<string, React.ReactNode> = {
-    Steam: <SteamIcon />,
-    Xbox: <XboxIcon />,
-    Playstation: <PlaystationIcon />,
-    Epic: <EpicGamesIcon />,
+    steam: <SteamIcon />,
+    xbox: <XboxIcon />,
+    playstation: <PlaystationIcon />,
+    epic: <EpicGamesIcon />,
     // Add other platforms as needed
 };

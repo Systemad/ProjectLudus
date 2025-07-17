@@ -6,7 +6,7 @@ interface PlatformIconProps {
 }
 
 export function PlatformIcon({ type }: PlatformIconProps) {
-    const icon = platformIconMap[type];
+    const icon = platformIconMap[type.toLocaleLowerCase()];
     if (!icon) return null;
 
     return (

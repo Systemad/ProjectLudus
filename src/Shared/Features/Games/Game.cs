@@ -597,5 +597,14 @@ public partial class GameWebsite
     public string Url { get; set; }
 
     [JsonPropertyName("type")]
-    public long Type { get; set; }
+    public GameWebsiteType Type { get; set; }
+}
+
+public partial class GameWebsiteType
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 }

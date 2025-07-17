@@ -108,7 +108,7 @@ public static class Query
         "version_title",
         "videos.name",
         "videos.video_id",
-        "websites.type.type,",
+        "websites.type.type",
         "websites.url",
     };
 }

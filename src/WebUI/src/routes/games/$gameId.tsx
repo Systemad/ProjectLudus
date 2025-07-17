@@ -30,6 +30,8 @@ import {
     usePublicGamesGetGameByIdEndpoint,
     usePublicGamesGetSimilarGamesEndpoint,
 } from "~/api";
+import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
+
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
 });
@@ -322,22 +324,14 @@ function RouteComponent() {
                         variant="card"
                     >
                         <AccordionItem rounded="xl" label="Platforms">
-                            <SimpleGrid columns={{ base: 3 }} gap="md" p="2">
-                                {Array.from({ length: 6 }, (_, i) => i).map(
-                                    (i) => (
-                                        <GridItem key={i}>
-                                            <Card
-                                                borderRadius={"lg"}
-                                                bg={[
-                                                    "blackAlpha.50",
-                                                    "whiteAlpha.100",
-                                                ]}
-                                                shadow="none"
-                                                h="5xs"
-                                            ></Card>
-                                        </GridItem>
-                                    )
-                                )}
+                            <SimpleGrid columns={{ base: 2 }} gap="md" p="2">
+                                {data.game.platforms.map((platform) => (
+                                    <GridItem key={platform.id}>
+                                        <PlatformAccordionCardItem
+                                            text={platform.name}
+                                        />
+                                    </GridItem>
+                                ))}
                             </SimpleGrid>
                         </AccordionItem>
 
