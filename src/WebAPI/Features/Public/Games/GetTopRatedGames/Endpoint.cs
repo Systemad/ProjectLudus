@@ -29,7 +29,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
         await using var session = Store.LightweightSession();
 
         var games = await session
-            .Query<Game>()
+            .Query<RawGame>()
             .Where(x => x.GameType.Id == 0)
             .OrderByDescending(x => x.RatingCount)
             .ThenByDescending(x => x.Rating)
@@ -41,8 +41,8 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
         {
             var userId = User.GetUserId();
 
-            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId);
-            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId, ct);
+            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
         var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);

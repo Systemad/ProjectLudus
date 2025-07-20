@@ -7,4 +7,4 @@ public class GetGameByIdsRequest
     public long[] GameIds { get; set; }
 }
 
-public record GetGamesByIdsResponse(List<Game> Games);
+public record GetGamesByIdsResponse(List<RawGame> Games);

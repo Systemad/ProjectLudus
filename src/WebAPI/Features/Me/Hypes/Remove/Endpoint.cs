@@ -21,8 +21,8 @@ public class Endpoint : Endpoint<RemoveHypedItem>
 
         var rowsAffected = await DBContext
             .Hypes.Where(w => w.UserId == userId && w.GameId == req.GameId)
-            .ExecuteDeleteAsync();
+            .ExecuteDeleteAsync(cancellationToken: ct);
 
-        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
+        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
     }
 }

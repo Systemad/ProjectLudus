@@ -25,12 +25,12 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
         }
 
         await using var session = GameStore.QuerySession();
-        var game = await session.LoadAsync<Game>(req.GameId);
+        var game = await session.LoadAsync<RawGame>(req.GameId, ct);
         if (game is null)
         {
-            await SendNotFoundAsync();
+            await SendNotFoundAsync(ct);
             return;
         }
-        await SendOkAsync(new GetGamesByIdResponse(game));
+        await SendOkAsync(new GetGamesByIdResponse(game), ct);
     }
 }

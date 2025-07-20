@@ -21,10 +21,14 @@ public class Endpoint : Endpoint<UpdateListRequest>
 
         var rowsAffected = await DbContext
             .Lists.Where(x => x.Id == req.ListId && x.UserId == userId)
-            .ExecuteUpdateAsync(updates =>
-                updates.SetProperty(t => t.Name, req.Name).SetProperty(t => t.Public, req.Public)
+            .ExecuteUpdateAsync(
+                updates =>
+                    updates
+                        .SetProperty(t => t.Name, req.Name)
+                        .SetProperty(t => t.Public, req.Public),
+                cancellationToken: ct
             );
 
-        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
+        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
     }
 }

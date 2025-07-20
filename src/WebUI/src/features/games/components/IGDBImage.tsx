@@ -7,19 +7,19 @@ import {
 
 type Props = {
     imageId: string;
-    size?: ImageSize;
+    imageSize?: ImageSize;
     retina?: boolean;
 };
 
 export function IGDBImage({
     imageId,
-    size = "thumb",
+    imageSize = "thumb",
     retina = false,
     ...rest
 }: Props & ImageProps) {
     const { ...other } = rest;
 
-    const url = getIGDBImageUrl(imageId, size, retina);
+    const url = getIGDBImageUrl(imageId, imageSize, retina);
 
     return <Image src={url} radius={"lg"} {...other}></Image>;
 }

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Games;
+namespace Shared.Features.Games;
 
-internal partial class Game
+public partial class RawGame
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

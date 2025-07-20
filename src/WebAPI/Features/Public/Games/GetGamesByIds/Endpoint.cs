@@ -25,7 +25,7 @@ public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
         }
 
         await using var session = GameStore.QuerySession();
-        var games = await session.LoadManyAsync<Game>(req.GameIds);
+        var games = await session.LoadManyAsync<RawGame>(req.GameIds);
         await SendOkAsync(new GetGamesByIdsResponse(games.ToList()));
     }
 }

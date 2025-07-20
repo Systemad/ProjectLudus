@@ -27,7 +27,7 @@ public class Endpoint : Endpoint<CreateListRequest>
             Public = req.Public,
         };
         DbContext.Lists.Add(list);
-        await DbContext.SaveChangesAsync();
-        await SendCreatedAtAsync($"/{list.Id}");
+        await DbContext.SaveChangesAsync(ct);
+        await SendCreatedAtAsync($"/{list.Id}", cancellation: ct);
     }
 }

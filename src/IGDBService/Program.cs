@@ -15,8 +15,9 @@ builder.Services.AddHttpClient(
         httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     }
 );
-builder.Services.AddSingleton<ITwitchAccessTokenService, TwitchAccessTokenService>();
-builder.Services.AddScoped<DataSeeder>();
+
+//builder.Services.AddSingleton<ITwitchAccessTokenService, TwitchAccessTokenService>();
+builder.Services.AddScoped<Seeder>();
 
 builder.Services.AddMarten(options =>
 {
@@ -31,7 +32,6 @@ builder.Services.AddMarten(options =>
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
     /*
         await store.Advanced.Clean.CompletelyRemoveAllAsync();
         await store.Advanced.Clean.DeleteAllDocumentsAsync();
@@ -40,12 +40,5 @@ using (var scope = app.Services.CreateScope())
         var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
         await dataSeeder.Populate();
     */
-    await store.Advanced.Clean.CompletelyRemoveAsync(typeof(GameType));
-
-    var dataSeeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
-    await using var session = store.LightweightSession();
-    var gameTypes = await dataSeeder.FetchGamesTypesAsync();
-    session.StoreObjects(gameTypes);
-    await session.SaveChangesAsync();
 }
 app.Run();

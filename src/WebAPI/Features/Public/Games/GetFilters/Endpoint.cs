@@ -58,6 +58,6 @@ public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
             playerPerspective
         );
 
-        await SendAsync(response);
+        await SendAsync(response, cancellation: ct);
     }
 }

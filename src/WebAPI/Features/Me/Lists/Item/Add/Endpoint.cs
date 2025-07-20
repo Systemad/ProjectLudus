@@ -22,7 +22,10 @@ public class Endpoint : Endpoint<AddGameToListRequest>
     {
         var userId = User.GetUserId();
 
-        var list = await DbContext.Lists.AnyAsync(x => x.Id == req.ListId && x.UserId == userId);
+        var list = await DbContext.Lists.AnyAsync(
+            x => x.Id == req.ListId && x.UserId == userId,
+            cancellationToken: ct
+        );
 
         if (!list)
         {
@@ -47,7 +50,7 @@ public class Endpoint : Endpoint<AddGameToListRequest>
                 GameListId = req.ListId,
             }
         );
-        await DbContext.SaveChangesAsync();
-        await SendOkAsync();
+        await DbContext.SaveChangesAsync(ct);
+        await SendOkAsync(ct);
     }
 }

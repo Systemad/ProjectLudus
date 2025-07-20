@@ -37,7 +37,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
         var lists = await _context
             .Lists.Where(x => x.Id == userId)
             .Include(l => l.Games)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: ct);
 
         var previewGameIds = lists
             .SelectMany(l => l.Games.OrderBy(i => i.AddedAt).Take(4).Select(i => i.GameId))
@@ -47,15 +47,20 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
         await using var session = Store.QuerySession();
 
         var previewGames = await session
-            .Query<Game>()
+            .Query<RawGame>()
             .Where(g => previewGameIds.Contains(g.Id))
             .ToListAsync(ct);
 
         HashSet<long> hypedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(
             _context,
-            userId
+            userId,
+            ct
         );
-        HashSet<long> wishlistedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+        HashSet<long> wishlistedGames = await HypesHelper.GetHypedGameIdsAsync(
+            _context,
+            userId,
+            ct
+        );
 
         var gameDtoMap = GameDtoMapper
             .MapGamesToDto(previewGames, wishlistedGames, hypedGames)
@@ -86,6 +91,6 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             })
             .ToList();
 
-        await SendOkAsync(response);
+        await SendOkAsync(response, ct);
     }
 }

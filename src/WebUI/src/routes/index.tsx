@@ -16,7 +16,7 @@ function RouteComponent() {
         return "loading";
     }
     return (
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 4 }} gap="lg">
+        <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 5 }} gap="lg">
             {data?.items.map((item) => (
                 <GridItem key={item.id}>
                     <HoverGameCard item={item} />

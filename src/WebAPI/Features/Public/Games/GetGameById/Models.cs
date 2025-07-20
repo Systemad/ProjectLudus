@@ -7,4 +7,4 @@ public class GetGameByIdRequest
     public long GameId { get; set; }
 }
 
-public record GetGamesByIdResponse(Game Game);
+public record GetGamesByIdResponse(RawGame RawGame);

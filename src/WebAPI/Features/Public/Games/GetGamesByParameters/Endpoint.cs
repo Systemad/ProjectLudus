@@ -29,12 +29,12 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var gameQuery = session.Query<Game>();
+        var gameQuery = session.Query<RawGame>();
 
         if (!string.IsNullOrWhiteSpace(req.Name))
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x =>
                         x.Name.Contains(req.Name, StringComparison.CurrentCultureIgnoreCase)
                     );
@@ -43,46 +43,46 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
         if (req.GenreId is not null && req.GenreId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x => x.Genres.Any(g => req.GenreId.Contains(g.Id)));
         }
         if (req.GameTypeId is not null && req.GameTypeId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x => req.GameTypeId.Contains(x.GameType.Id));
         }
         if (req.PlatformId is not null && req.PlatformId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x => x.Platforms.Any(g => req.PlatformId.Contains(g.Id)));
         }
 
         if (req.GameModeId is not null && req.GameModeId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x => x.GameModes.Any(g => req.GameModeId.Contains(g.Id)));
         }
 
         if (req.ThemeId is not null && req.ThemeId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x => x.Themes.Any(g => req.ThemeId.Contains(g.Id)));
         }
 
         if (req.PlayerPerspectiveId is not null && req.PlayerPerspectiveId.Length > 0)
         {
             gameQuery =
-                (IMartenQueryable<Game>)
+                (IMartenQueryable<RawGame>)
                     gameQuery.Where(x =>
                         x.PlayerPerspectives.Any(g => req.PlayerPerspectiveId.Contains(g.Id))
                     );
         }
 
-        var games = await gameQuery.ToPagedListAsync(req.PageNumber, req.PageSize);
+        var games = await gameQuery.ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         HashSet<long> hypedGames = [];
         HashSet<long> wishlistedGames = [];
@@ -90,8 +90,8 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
         if (User.Identity.IsAuthenticated)
         {
             var userId = User.GetUserId();
-            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId);
-            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId, ct);
+            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
         var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
 
@@ -103,7 +103,8 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
                 games.PageSize,
                 games.PageNumber,
                 games.IsLastPage
-            )
+            ),
+            cancellation: ct
         );
     }
 }

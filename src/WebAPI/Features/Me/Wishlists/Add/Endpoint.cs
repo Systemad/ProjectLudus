@@ -20,15 +20,16 @@ public class Endpoint : Endpoint<AddWishlistItem>
     {
         var userId = User.GetUserId();
 
-        var existing = await DBContext.Wishlists.FirstOrDefaultAsync(w =>
-            w.UserId == userId && w.GameId == req.GameId
+        var existing = await DBContext.Wishlists.FirstOrDefaultAsync(
+            w => w.UserId == userId && w.GameId == req.GameId,
+            cancellationToken: ct
         );
 
         if (existing == null)
         {
             var newWishlistItem = new GameWishlist() { UserId = userId, GameId = req.GameId };
             DBContext.Wishlists.Add(newWishlistItem);
-            await DBContext.SaveChangesAsync();
+            await DBContext.SaveChangesAsync(ct);
         }
 
         await SendOkAsync();

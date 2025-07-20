@@ -34,7 +34,8 @@ import {
 import { memo, useEffect, useRef, useState } from "react";
 import GithubIcon from "~/icons/GitHubIcon";
 import { Link } from "@tanstack/react-router";
-import { CustomYamadaLink } from "./CustomLink/CustomYamadaLink";
+import { CustomYamadaLink } from "../CustomLink/CustomYamadaLink";
+import { HeaderSearchbar } from "./Searchbar";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HeaderProps extends CenterProps {}
@@ -62,18 +63,19 @@ export const Header = memo(
                     right="0"
                     top="0"
                     w="full"
+                    zIndex="yamcha"
                     {...rest}
                 >
                     <Center maxW="10xl" px={{ base: "lg", lg: "0" }} w="full">
                         <VStack
                             backdropBlur="10px"
                             backdropFilter="auto"
-                            backdropSaturate="180%"
+                            backdropSaturate="120%"
                             bg={["blackAlpha.50", "whiteAlpha.100"]}
                             gap="0"
                             px={{ base: "lg", lg: "md" }}
                             py="3"
-                            roundedBottom="2xl"
+                            //roundedBottom="2xl"
                             shadow={isScroll ? ["base", "dark-sm"] : undefined}
                             transitionDuration="slower"
                             transitionProperty="common"
@@ -106,6 +108,7 @@ export const Header = memo(
                                 </YButtonGroup>
                                 <Spacer />
 
+                                <HeaderSearchbar />
                                 <ButtonGroup {...menuControls} />
                             </HStack>
 

@@ -22,7 +22,9 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
         if (User.Identity?.IsAuthenticated ?? false)
         {
             var userId = User.GetUserId();
-            var ludusUser = await DbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            var ludusUser = await DbContext
+                .Users.Include(user => user.UserImage)
+                .FirstOrDefaultAsync(x => x.Id == userId, cancellationToken: ct);
             if (ludusUser is null)
             {
                 ThrowError("User doesn't exist!");
@@ -36,9 +38,9 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
                 CreatedDate = ludusUser.CreatedDate,
                 UserImage = ludusUser.UserImage,
             };
-            await SendOkAsync(new GetMeResponse(userDto));
+            await SendOkAsync(new GetMeResponse(userDto), ct);
         }
 
-        await SendUnauthorizedAsync();
+        await SendUnauthorizedAsync(ct);
     }
 }

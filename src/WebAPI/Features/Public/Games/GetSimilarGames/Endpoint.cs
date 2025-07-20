@@ -26,7 +26,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var game = await session.Query<Game>().FirstOrDefaultAsync(g => g.Id == req.GameId);
+        var game = await session.LoadAsync<RawGame>(req.GameId, ct);
         if (game is null)
         {
             ThrowError("Game doesn't exist!");
@@ -35,9 +35,9 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
         if (game.SimilarGames.Count > 0)
         {
             var simGames = await session
-                .Query<Game>()
+                .Query<RawGame>()
                 .Where(x => x.Id.IsOneOf(game.SimilarGames.Select(s => s.Id).ToList()))
-                .ToListAsync();
+                .ToListAsync(token: ct);
 
             HashSet<long> hypedGames = [];
             HashSet<long> wishlistedGames = [];
@@ -46,14 +46,18 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
             {
                 var userId = User.GetUserId();
 
-                wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId);
-                hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+                wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(
+                    _context,
+                    userId,
+                    ct
+                );
+                hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
             }
 
             var previews = GameDtoMapper.MapGamesToDto(simGames, wishlistedGames, hypedGames);
             response = previews.ToList();
         }
 
-        await SendOkAsync(new GetSimilarGamesResponse { SimilarGames = response });
+        await SendOkAsync(new GetSimilarGamesResponse { SimilarGames = response }, ct);
     }
 }

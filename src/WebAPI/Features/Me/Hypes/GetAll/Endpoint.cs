@@ -32,18 +32,19 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
 
         var userId = User.GetUserId();
 
-        HashSet<long> hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId);
+        HashSet<long> hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
 
         HashSet<long> wishlistedGames = await WishlistsHelper.GetWishlistedGamesByIdsAsync(
             _context,
             userId,
-            hypedGames
+            hypedGames,
+            ct
         );
 
         var games = await session
-            .Query<Game>()
+            .Query<RawGame>()
             .Where(g => g.Id.IsOneOf(hypedGames.ToArray()))
-            .ToPagedListAsync(req.PageNumber, req.PageSize);
+            .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
 
@@ -55,7 +56,8 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
                 games.PageSize,
                 games.PageNumber,
                 games.IsLastPage
-            )
+            ),
+            cancellation: ct
         );
     }
 }

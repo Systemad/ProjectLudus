@@ -20,17 +20,18 @@ public class Endpoint : Endpoint<AddHypedItem>
     {
         var userId = User.GetUserId();
 
-        var existing = await DBContext.Hypes.FirstOrDefaultAsync(w =>
-            w.UserId == userId && w.GameId == req.GameId
+        var existing = await DBContext.Hypes.FirstOrDefaultAsync(
+            w => w.UserId == userId && w.GameId == req.GameId,
+            cancellationToken: ct
         );
 
         if (existing == null)
         {
             var newHypeItem = new GameHype() { UserId = userId, GameId = req.GameId };
             DBContext.Hypes.Add(newHypeItem);
-            await DBContext.SaveChangesAsync();
+            await DBContext.SaveChangesAsync(ct);
         }
 
-        await SendOkAsync();
+        await SendOkAsync(ct);
     }
 }

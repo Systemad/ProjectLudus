@@ -33,24 +33,24 @@ public static class MartenConfiguration
                     options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
                 }
 
-                options.Schema.For<Game>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
+                options.Schema.For<RawGame>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
 
                 options
-                    .Schema.For<Game>()
+                    .Schema.For<RawGame>()
                     .Duplicate(x => x.TotalRating)
                     .Duplicate(x => x.Rating)
                     .Duplicate(x => x.RatingCount)
                     .Duplicate(x => x.CreatedAt)
                     .Duplicate(x => x.FirstReleaseDate)
-                    .Duplicate(x => x.GameType.Id)
-                    /*
-                    .Duplicate(x => x.Genres.Select(genre => genre.Id).ToArray())
-                    .Duplicate(x => x.Platforms.Select(platform => platform.Id).ToArray())
-                    .Duplicate(x => x.Themes.Select(theme => theme.Id).ToArray())
-                    .Duplicate(x => x.GameModes.Select(gameMode => gameMode.Id).ToArray())
-                    .Duplicate(x => x.GameEngines.Select(gameEngine => gameEngine.Id).ToArray())
-                    .Duplicate(x => x.PlayerPerspectives.Select(pps => pps.Id).ToArray())
-                    */
+                    .Duplicate(x => x.GameType.Id);
+                /*
+                .Duplicate(x => x.Genres.Select(genre => genre.Id).ToArray())
+                .Duplicate(x => x.Platforms.Select(platform => platform.Id).ToArray())
+                .Duplicate(x => x.Themes.Select(theme => theme.Id).ToArray())
+                .Duplicate(x => x.GameModes.Select(gameMode => gameMode.Id).ToArray())
+                .Duplicate(x => x.GameEngines.Select(gameEngine => gameEngine.Id).ToArray())
+                .Duplicate(x => x.PlayerPerspectives.Select(pps => pps.Id).ToArray())
+                */
                 ;
 
                 //.Duplicate(x => x.Slug)

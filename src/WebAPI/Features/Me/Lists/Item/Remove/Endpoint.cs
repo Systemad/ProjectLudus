@@ -19,8 +19,9 @@ public class Endpoint : Endpoint<RemoveGameRequest>
     {
         var userId = User.GetUserId();
 
-        var listExists = await DbContext.Lists.AnyAsync(x =>
-            x.Id == req.ListId && x.UserId == userId
+        var listExists = await DbContext.Lists.AnyAsync(
+            x => x.Id == req.ListId && x.UserId == userId,
+            cancellationToken: ct
         );
         if (!listExists)
         {
@@ -31,6 +32,6 @@ public class Endpoint : Endpoint<RemoveGameRequest>
             .ListItems.Where(gli => gli.GameListId == req.ListId && gli.GameId == req.GameId)
             .ExecuteDeleteAsync(ct);
 
-        await (rowsAffected == 0 ? SendNotFoundAsync() : SendOkAsync());
+        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
     }
 }

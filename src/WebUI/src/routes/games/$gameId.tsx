@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import {
     Grid,
     GridItem,
-    Center,
     Accordion,
     AccordionItem,
     SimpleGrid,
@@ -79,7 +78,7 @@ function RouteComponent() {
                     <IGDBImage
                         imageId={data?.game.cover.image_id}
                         shadow="none"
-                        size="cover_big"
+                        imageSize="cover_big"
                         borderRadius={"lg"}
                     ></IGDBImage>
                 </Flex>
@@ -201,15 +200,15 @@ function RouteComponent() {
                         index={index}
                         onChange={onChange}
                     >
-                        {Array.from({ length: 10 }, (_, i) => i).map((i) => (
+                        {data.game.artworks.map((i) => (
                             <CarouselSlide
-                                key={i}
-                                as={Center}
+                                key={i.id}
+                                as={IGDBImage}
+                                imageId={i.image_id}
                                 bg="primary"
                                 rounded="xl"
-                            >
-                                {i}
-                            </CarouselSlide>
+                                imageSize="1080p"
+                            ></CarouselSlide>
                         ))}
                     </Carousel>
                     <Box
@@ -231,19 +230,17 @@ function RouteComponent() {
                             withIndicators={false}
                             withControls={false}
                         >
-                            {Array.from({ length: 10 }, (_, i) => i).map(
-                                (i) => (
-                                    <CarouselSlide
-                                        key={i}
-                                        bg={index === i ? "red" : "primary"}
-                                        onClick={() => onChange(i)}
-                                        as={Center}
-                                        rounded="xl"
-                                    >
-                                        {i}
-                                    </CarouselSlide>
-                                )
-                            )}
+                            {data.game.artworks.map((i, idx) => (
+                                <CarouselSlide
+                                    key={i.id}
+                                    as={IGDBImage}
+                                    onClick={() => onChange(idx)}
+                                    imageId={i.image_id}
+                                    rounded="xl"
+                                    imageSize="cover_big"
+                                    borderRadius={"lg"}
+                                ></CarouselSlide>
+                            ))}
                         </Carousel>
                     </Box>
                     <Box
