@@ -4,7 +4,6 @@ using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
@@ -36,7 +35,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
         {
             var simGames = await session
                 .Query<RawGame>()
-                .Where(x => x.Id.IsOneOf(game.SimilarGames.Select(s => s.Id).ToList()))
+                .Where(x => x.Id.IsOneOf(game.SimilarGames))
                 .ToListAsync(token: ct);
 
             HashSet<long> hypedGames = [];

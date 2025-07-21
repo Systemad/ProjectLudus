@@ -27,7 +27,8 @@ public static class GameDtoMapper
             ArtworkImageId = g.Artworks.FirstOrDefault().ImageId,
             CoverImageId = g.Cover.ImageId,
             FirstReleaseDate = g.FirstReleaseDate,
-            Publisher = g.InvolvedCompanies.FirstOrDefault(ic => ic.Publisher).Company.Name,
+            Publisher =
+                g.InvolvedCompanies?.FirstOrDefault(ic => ic.Publisher)?.Company?.Name ?? "",
             Platforms = g.Platforms.Select(p => p.Name).ToList(),
             ReleaseDates = g
                 .ReleaseDates.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime)

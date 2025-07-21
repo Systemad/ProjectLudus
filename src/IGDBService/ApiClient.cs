@@ -1,8 +1,11 @@
 ﻿using System.Text;
+using IGDBService.Queries;
+using IGDBService.Responses;
 using IGDBService.Twitch;
 using Microsoft.Extensions.Options;
-using Shared;
 using Shared.Features.Games;
+using Shared.Features.Games.Common;
+using InternalGameType = Shared.Features.Games.InternalGameType;
 
 namespace IGDBService;
 
@@ -34,9 +37,9 @@ public class ApiClient
     {
         _client = _httpClientFactory.CreateClient("IGDB");
         _client.DefaultRequestHeaders.Add("Client-ID", $"{_twithOptions.ClientId}");
-        _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_twithOptions.ClientSecret} ");
+        _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_twithOptions.ClientSecret}");
 
-        var response = await _client.PostAsync("games/count", null);
+        var response = await _client.PostAsync(GameQuery.Count, null);
         var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
         if (countResponse is null)
             throw new ArgumentException("Count response is null!");
@@ -44,12 +47,50 @@ public class ApiClient
         return countResponse;
     }
 
+    public async Task<CountResponse> FetchGamesCountGeneric(string url)
+    {
+        _client = _httpClientFactory.CreateClient("IGDB");
+        _client.DefaultRequestHeaders.Add("Client-ID", $"{_twithOptions.ClientId}");
+        _client.DefaultRequestHeaders.Add("Authorization", $"Bearer {_twithOptions.ClientSecret}");
+
+        var response = await _client.PostAsync($"{url}/count", null);
+        var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
+        if (countResponse is null)
+            throw new ArgumentException("Count response is null!");
+
+        return countResponse;
+    }
+
+    public async Task<List<T>> FetchBatchAsyncGeneric<T>(
+        string url,
+        List<string> fields,
+        long itemsToTake,
+        long offset
+    )
+    {
+        var requestBody =
+            $"fields {string.Join(",", fields)}; limit {itemsToTake}; offset {offset};";
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
+
+        var response = await _client.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        var batch = await response.Content.ReadFromJsonAsync<List<T>>();
+
+        if (batch == null || batch.Count == 0)
+            throw new ArgumentException("Items are null");
+
+        return batch;
+    }
+
     public async Task<List<RawGame>> FetchBatchAsync(long itemsToTake, long offset)
     {
         var requestBody =
-            $"fields {string.Join(",", Query.Fields)}; limit {itemsToTake}; offset {offset};";
+            $"fields {string.Join(",", GameQuery.Fields)}; limit {itemsToTake}; offset {offset};";
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, "games");
+        using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
         var response = await _client.SendAsync(request);

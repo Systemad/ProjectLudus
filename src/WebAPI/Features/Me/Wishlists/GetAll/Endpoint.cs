@@ -5,7 +5,6 @@ using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common;
 using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;

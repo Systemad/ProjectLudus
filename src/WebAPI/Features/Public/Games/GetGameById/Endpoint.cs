@@ -1,7 +1,6 @@
 ﻿using FastEndpoints;
 using Marten;
 using Shared.Features.Games;
-using WebAPI.Features.Common;
 
 namespace Public.Games.GetGameById;
 

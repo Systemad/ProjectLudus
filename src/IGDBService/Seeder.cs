@@ -1,7 +1,5 @@
-﻿using System.Text;
-using IGDBService.Twitch;
+﻿using IGDBService.Queries;
 using Marten;
-using Shared;
 using Shared.Features.Games;
 
 namespace IGDBService;
@@ -17,7 +15,7 @@ public class Seeder
         _apiClient = apiClient;
     }
 
-    public async Task PopulateDatabase()
+    public async Task PopulateGamesAsync()
     {
         var countResponse = await _apiClient.FetchGamesCountAsync();
 
@@ -33,7 +31,7 @@ public class Seeder
             long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
 
             Console.WriteLine($"Fetching {itemsToTake} items!");
-            await PopulateBatch(itemsToTake, offset);
+            await InsertGamesBatchAsync(itemsToTake, offset);
             await Task.Delay(300);
         }
 
@@ -43,7 +41,44 @@ public class Seeder
         await Task.CompletedTask;
     }
 
-    private async Task PopulateBatch(long itemsToTake, long offset)
+    public async Task PopulateCompaniesAsync()
+    {
+        var countResponse = await _apiClient.FetchGamesCountGeneric(CompanyQuery.Count);
+
+        int maxItemsPerIteration = 500;
+        long totalItems = countResponse.Count;
+        long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
+
+        await using var session = _store.LightweightSession();
+
+        for (long i = 0; i < iterations; i++)
+        {
+            long offset = i * maxItemsPerIteration;
+            long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
+
+            Console.WriteLine($"Fetching {itemsToTake} items!");
+            await InsertCompanyBatchAsync(itemsToTake, offset);
+            await Task.Delay(300);
+        }
+
+        await Task.CompletedTask;
+    }
+
+    private async Task InsertCompanyBatchAsync(long itemsToTake, long offset)
+    {
+        await using var session = _store.LightweightSession();
+        var companies = await _apiClient.FetchBatchAsyncGeneric<RawCompany>(
+            CompanyQuery.Url,
+            CompanyQuery.Fields,
+            itemsToTake,
+            offset
+        );
+
+        await session.DocumentStore.BulkInsertAsync(companies, BulkInsertMode.OverwriteExisting);
+        await session.SaveChangesAsync();
+    }
+
+    private async Task InsertGamesBatchAsync(long itemsToTake, long offset)
     {
         await using var session = _store.LightweightSession();
         var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
@@ -72,13 +107,13 @@ public class Seeder
         {
             session.Store(item.GameModes);
             session.Store(item.Genres);
-            session.Store(item.InvolvedCompanies);
             session.Store(item.Platforms);
             session.Store(item.PlayerPerspectives);
             session.Store(item.Themes);
             session.Store(item.GameEngines);
             session.Store(item.Themes);
             session.Store(item.Franchises);
+            session.Store(item.Keywords);
         }
 
         await session.DocumentStore.BulkInsertAsync(games, BulkInsertMode.OverwriteExisting);

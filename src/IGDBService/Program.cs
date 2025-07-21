@@ -1,7 +1,6 @@
 using IGDBService;
 using IGDBService.Twitch;
 using Marten;
-using Shared.Features.Games;
 using Weasel.Core;
 
 var builder = WebApplication.CreateBuilder(args);

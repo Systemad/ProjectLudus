@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Marten;
 using Shared.Features.Games;
-using WebAPI.Features.Common;
+using Shared.Features.Games.Common;
 
 namespace Public.Games.GetFilters;
 

@@ -1,8 +1,10 @@
-﻿namespace Shared;
+﻿namespace IGDBService.Queries;
 
-public static class Query
+public static class GameQuery
 {
-    public static List<string> Fields = new List<string>()
+    public static string Url = "games";
+    public static string Count = "games/count";
+    public static List<string> Fields = new()
     {
         "age_ratings.content_descriptions.description",
         "age_ratings.organization.name",
@@ -21,9 +23,9 @@ public static class Query
         "cover.image_id",
         "cover.url",
         "created_at",
-        "dlcs.id",
-        "expanded_games.id",
-        "expansions.id",
+        "dlcs",
+        "expanded_games",
+        "expansions",
         "first_release_date",
         //"franchise.name",
         //"franchise.slug",
@@ -93,7 +95,7 @@ public static class Query
         "screenshots.animated",
         "screenshots.url",
         "screenshots.image_id",
-        "similar_games.id",
+        "similar_games",
         "standalone_expansions.id",
         "slug",
         "storyline",
