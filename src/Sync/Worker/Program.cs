@@ -1,3 +1,4 @@
+using IGDBService;
 using Marten;
 using Shared.Twitch;
 using Weasel.Core;
@@ -24,6 +25,8 @@ builder.Services.AddHttpClient(
     }
 );
 
+builder.Services.AddScoped<ApiClient>();
+builder.Services.AddScoped<SeederService>();
 
 builder.Services.AddMarten(options =>
 {
@@ -38,13 +41,7 @@ builder.Services.AddMarten(options =>
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    /*
-    var store = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
-
-    await store.Advanced.Clean.CompletelyRemoveAllAsync();
-    await store.Advanced.Clean.DeleteAllDocumentsAsync();
-    await store.Advanced.Clean.DeleteAllEventDataAsync();
-*/
-
+    var seeder = scope.ServiceProvider.GetRequiredService<SeederService>();
+    await seeder.PopulateGamesAsync(true, true);
 }
 app.Run();

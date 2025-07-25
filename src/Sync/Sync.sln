@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seeder", "Seeder\Seeder.csproj", "{A486DE2C-2F83-471B-9484-EE869A1BB723}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "Worker\Worker.csproj", "{EB9119CE-3BE0-4FDB-9B78-F264D3B70AF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "..\Shared\Shared.csproj", "{793AE5FB-D231-42DF-86E3-A4FB9473AB8C}"
@@ -12,10 +10,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A486DE2C-2F83-471B-9484-EE869A1BB723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A486DE2C-2F83-471B-9484-EE869A1BB723}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A486DE2C-2F83-471B-9484-EE869A1BB723}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A486DE2C-2F83-471B-9484-EE869A1BB723}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB9119CE-3BE0-4FDB-9B78-F264D3B70AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB9119CE-3BE0-4FDB-9B78-F264D3B70AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB9119CE-3BE0-4FDB-9B78-F264D3B70AF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
