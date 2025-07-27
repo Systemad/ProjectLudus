@@ -20,4 +20,8 @@ export type Franchise = {
    * @type string
    */
   url: string
+  /**
+   * @type array
+   */
+  games: number[]
 }

@@ -12,6 +12,7 @@ public class Endpoint : Endpoint<RemoveHypedItem>
     public override void Configure()
     {
         Post("/remove/{GameId}");
+        Description(x => x.Accepts<RemoveHypedItem>(), clearDefaults: true);
         Group<MeHypesGroup>();
     }
 

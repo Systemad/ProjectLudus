@@ -1,0 +1,1 @@
+{"type":"object","additionalProperties":false,"required":["id","name","contentType","content","createdDate"],"properties":{"id":{"type":"integer","format":"int32"},"name":{"type":"string"},"contentType":{"type":"string"},"content":{"type":"string","format":"byte"},"createdDate":{"type":"string","format":"date-time"}},"x-readme-ref-name":"UserImageDto"}

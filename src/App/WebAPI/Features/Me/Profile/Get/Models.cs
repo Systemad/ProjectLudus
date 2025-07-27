@@ -1,4 +1,5 @@
-﻿using WebAPI.Features.Common.Users.Models;
+﻿
+using WebAPI.Features.Common.Users.DTO;
 
 namespace Me.Profile.Get;
 

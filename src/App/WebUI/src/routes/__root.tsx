@@ -7,10 +7,12 @@ import {
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Box, Container, useBreakpoint } from "@yamada-ui/react";
+import type { AuthContext } from "~/features/auth/AuthContext";
 import { Header } from "~/layouts/Header/header";
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient;
+    auth: AuthContext;
 }>()({
     component: RootComponent,
     notFoundComponent: () => {
@@ -56,7 +58,7 @@ function RootComponent() {
                 <Outlet />
             </Container>
 
-            <ReactQueryDevtools buttonPosition="top-right" />
+            <ReactQueryDevtools buttonPosition="bottom-left" />
             <TanStackRouterDevtools position="bottom-right" />
         </div>
     );

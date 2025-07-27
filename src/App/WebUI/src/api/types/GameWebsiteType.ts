@@ -3,9 +3,13 @@
  * Do not edit manually.
  */
 
-export type SimilarGame = {
+export type GameWebsiteType = {
   /**
    * @type integer, int64
    */
   id: number
+  /**
+   * @type string
+   */
+  type: string
 }

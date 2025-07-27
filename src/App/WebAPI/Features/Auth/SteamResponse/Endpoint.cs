@@ -40,7 +40,7 @@ public class Endpoint : EndpointWithoutRequest<IResult>
 
         var user = await DbContext
             .Users.AsTracking()
-            .FirstOrDefaultAsync(x => x.SteamId == steamId);
+            .FirstOrDefaultAsync(x => x.SteamId == steamId, cancellationToken: ct);
 
         if (user is null)
         {
@@ -76,14 +76,13 @@ public class Endpoint : EndpointWithoutRequest<IResult>
                 Name = playerSummary.Nickname,
                 SteamId = steamId,
                 Role = RoleConstants.DefaultRoleId,
-                CreatedDate = DateTime.Today,
+                CreatedDate = DateTime.UtcNow,
             };
 
             try
             {
                 var avatarContentBytes = await httpClient.GetByteArrayAsync(
-                    playerSummary.AvatarFullUrl
-                );
+                    playerSummary.AvatarFullUrl, ct);
                 var img = new UserImage()
                 {
                     Name = "steam_avatar.jpg",
@@ -103,10 +102,10 @@ public class Endpoint : EndpointWithoutRequest<IResult>
             }
 
             DbContext.Users.Add(user);
-            await DbContext.SaveChangesAsync();
+            await DbContext.SaveChangesAsync(ct);
         }
 
-        var newUser = await DbContext.Users.FirstOrDefaultAsync(x => x.SteamId == steamId);
+        var newUser = await DbContext.Users.FirstOrDefaultAsync(x => x.SteamId == steamId, cancellationToken: ct);
 
         await CookieAuth.SignInAsync(u =>
         {

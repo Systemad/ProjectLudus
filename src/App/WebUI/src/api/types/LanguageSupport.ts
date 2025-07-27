@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import type { AlternativeName } from './AlternativeName.ts'
 import type { Language } from './Language.ts'
+import type { LanguageSupportType } from './LanguageSupportType.ts'
 
 export type LanguageSupport = {
   /**
@@ -18,5 +18,5 @@ export type LanguageSupport = {
   /**
    * @type object
    */
-  language_support_type: AlternativeName
+  language_support_type: LanguageSupportType
 }

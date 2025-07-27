@@ -3,6 +3,8 @@
  * Do not edit manually.
  */
 
+import type { GameWebsiteType } from './GameWebsiteType.ts'
+
 export type GameWebsite = {
   /**
    * @type integer, int64
@@ -13,7 +15,7 @@ export type GameWebsite = {
    */
   url: string
   /**
-   * @type integer, int64
+   * @type object
    */
-  type: number
+  type: GameWebsiteType
 }

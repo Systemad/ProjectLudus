@@ -3,4 +3,4 @@
  * Do not edit manually.
  */
 
-export type AddHypedItem = object
+export type AddHypedItemRequest = object

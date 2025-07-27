@@ -3,9 +3,13 @@
  * Do not edit manually.
  */
 
-export type Dlc = {
+export type LanguageSupportType = {
   /**
    * @type integer, int64
    */
   id: number
+  /**
+   * @type string
+   */
+  name: string
 }

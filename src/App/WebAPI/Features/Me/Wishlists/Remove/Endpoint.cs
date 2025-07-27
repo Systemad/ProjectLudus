@@ -12,6 +12,7 @@ public class Endpoint : Endpoint<RemoveWishlistItem>
     public override void Configure()
     {
         Post("/remove/{GameId}");
+        Description(x => x.Accepts<RemoveWishlistItem>(), clearDefaults: true);
         Group<MeWishlistGroup>();
     }
 

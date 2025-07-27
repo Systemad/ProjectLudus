@@ -3,9 +3,7 @@
  * Do not edit manually.
  */
 
-import type { User } from './User.ts'
-
-export type UserImage = {
+export type UserImageDto = {
   /**
    * @type integer, int32
    */
@@ -26,12 +24,4 @@ export type UserImage = {
    * @type string, date-time
    */
   createdDate: string
-  /**
-   * @type string, guid
-   */
-  userId: string
-  /**
-   * @type object
-   */
-  user: User
 }

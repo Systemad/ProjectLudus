@@ -6,17 +6,18 @@ using WebAPI.Features.DataAccess;
 
 namespace Me.Hypes.Add;
 
-public class Endpoint : Endpoint<AddHypedItem>
+public class Endpoint : Endpoint<AddHypedItemRequest>
 {
     public LudusContext DBContext { get; set; }
 
     public override void Configure()
     {
         Post("/add/{GameId}");
+        Description(x => x.Accepts<AddHypedItemRequest>(), clearDefaults: true);
         Group<MeHypesGroup>();
     }
 
-    public override async Task HandleAsync(AddHypedItem req, CancellationToken ct)
+    public override async Task HandleAsync(AddHypedItemRequest req, CancellationToken ct)
     {
         var userId = User.GetUserId();
 
@@ -31,7 +32,7 @@ public class Endpoint : Endpoint<AddHypedItem>
             DBContext.Hypes.Add(newHypeItem);
             await DBContext.SaveChangesAsync(ct);
         }
-
+        
         await SendOkAsync(ct);
     }
 }

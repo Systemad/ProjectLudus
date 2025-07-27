@@ -13,6 +13,7 @@ public class Endpoint : Endpoint<AddWishlistItem>
     public override void Configure()
     {
         Post("/add/{GameId}");
+        Description(x => x.Accepts<AddWishlistItem>(), clearDefaults: true);
         Group<MeWishlistGroup>();
     }
 

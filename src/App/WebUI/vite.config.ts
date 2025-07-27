@@ -54,22 +54,23 @@ export default defineConfig({
         proxy: {
             "/api": {
                 target: target,
-                //    process.env.services__apiservice__https__0 ||
-                //    process.env.services__apiservice__http__0,
                 changeOrigin: true,
                 secure: false,
                 //pathRewrite: { "^/api": "" },
                 //rewrite: (path) => path.replace(/^\/api/, ""),
+                rewrite: (path) => path.replace("^/api", ""),
+            },
+            "^/(api|signin|signout)": {
+                target: target,
+                changeOrigin: true,
+                secure: false,
             },
         },
     },
     build: {
         outDir: "build",
-    },
-});
-
-/*
         rollupOptions: {
             input: ".index.html",
         },
-*/
+    },
+});

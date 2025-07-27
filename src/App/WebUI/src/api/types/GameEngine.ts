@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { Logo } from './Logo.ts'
+import type { GameEngineLogo } from './GameEngineLogo.ts'
 
 export type GameEngine = {
   /**
@@ -13,7 +13,7 @@ export type GameEngine = {
   /**
    * @type object
    */
-  logo: Logo
+  logo: GameEngineLogo
   /**
    * @type string
    */

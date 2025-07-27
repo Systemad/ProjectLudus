@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { UserImage } from './UserImage.ts'
+import type { UserImageDto } from './UserImageDto.ts'
 
 export type UserDto = {
   /**
@@ -26,8 +26,5 @@ export type UserDto = {
    * @type string, date-time
    */
   createdDate: string
-  /**
-   * @type object
-   */
-  userImage: UserImage
+  userImage?: UserImageDto | null
 }

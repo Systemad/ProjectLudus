@@ -26,30 +26,40 @@ import { ManageGameListsDialog } from "~/features/games/components/Dialogs/Manag
 
 import { IGDBImage } from "~/features/games/components/IGDBImage";
 import {
-    usePublicGamesGetGameByIdEndpoint,
+    publicGamesGetGameByIdEndpointQueryOptions,
     usePublicGamesGetSimilarGamesEndpoint,
 } from "~/api";
 import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
+    loader: ({ context: { queryClient }, params: { gameId } }) => {
+        const id = parseInt(gameId);
+        return queryClient.ensureQueryData(
+            publicGamesGetGameByIdEndpointQueryOptions(id)
+        );
+    },
 });
 
 function RouteComponent() {
     const { gameId } = Route.useParams();
+    const { game: game } = Route.useLoaderData();
 
+    const id = parseInt(gameId);
     const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
+    /*
     const id = parseInt(gameId);
     const { isPending, isError, data, error } =
         usePublicGamesGetGameByIdEndpoint(id);
-
+*/
     const {
         isPending: simGamesPending,
         isError: isSimGamesError,
         data: simGamesData,
     } = usePublicGamesGetSimilarGamesEndpoint(id);
 
+    /*
     if (isPending) {
         return <span>Loading...</span>;
     }
@@ -57,7 +67,7 @@ function RouteComponent() {
     if (isError) {
         return <span>Error: {error.message}</span>;
     }
-
+*/
     return (
         <VStack>
             <ManageGameListsDialog
@@ -76,7 +86,7 @@ function RouteComponent() {
             >
                 <Flex h="full">
                     <IGDBImage
-                        imageId={data?.game.cover.image_id}
+                        imageId={game?.cover.image_id}
                         shadow="none"
                         imageSize="cover_big"
                         borderRadius={"lg"}
@@ -95,7 +105,7 @@ function RouteComponent() {
                 >
                     <Flex direction={"column"} gap="md">
                         <Wrap gap={6} alignItems={"center"}>
-                            <Heading>Elden Ring</Heading>
+                            <Heading>{game?.name}</Heading>
                             <Tag w="fit-content" size="lg" rounded={"xl"}>
                                 Rank #1
                             </Tag>
@@ -115,7 +125,7 @@ function RouteComponent() {
                             </Text>
                             :
                             {
-                                data.game.involved_companies.find(
+                                game?.involved_companies.find(
                                     (x) => x.developer == true
                                 )?.company.name
                             }
@@ -126,7 +136,7 @@ function RouteComponent() {
                             </Text>
                             :
                             {
-                                data.game.involved_companies.find(
+                                game?.involved_companies.find(
                                     (x) => x.publisher == true
                                 )?.company.name
                             }
@@ -200,7 +210,7 @@ function RouteComponent() {
                         index={index}
                         onChange={onChange}
                     >
-                        {data.game.artworks.map((i) => (
+                        {game?.artworks.map((i) => (
                             <CarouselSlide
                                 key={i.id}
                                 as={IGDBImage}
@@ -230,7 +240,7 @@ function RouteComponent() {
                             withIndicators={false}
                             withControls={false}
                         >
-                            {data.game.artworks.map((i, idx) => (
+                            {game?.artworks.map((i, idx) => (
                                 <CarouselSlide
                                     key={i.id}
                                     as={IGDBImage}
@@ -251,9 +261,9 @@ function RouteComponent() {
                         shadow="none"
                         p="md"
                     >
-                        <Text>{data.game.summary}</Text>
+                        <Text>{game?.summary}</Text>
                         <br></br>
-                        <Text>{data.game.storyline}</Text>
+                        <Text>{game?.storyline}</Text>
                     </Box>
 
                     <Box
@@ -322,7 +332,7 @@ function RouteComponent() {
                     >
                         <AccordionItem rounded="xl" label="Platforms">
                             <SimpleGrid columns={{ base: 2 }} gap="md" p="2">
-                                {data.game.platforms.map((platform) => (
+                                {game?.platforms.map((platform) => (
                                     <GridItem key={platform.id}>
                                         <PlatformAccordionCardItem
                                             text={platform.name}

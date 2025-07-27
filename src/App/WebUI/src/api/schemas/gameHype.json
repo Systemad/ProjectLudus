@@ -1,1 +1,0 @@
-{"type":"object","additionalProperties":false,"required":["id","gameId","hypeAt","userId","user"],"properties":{"id":{"type":"string","format":"guid"},"gameId":{"type":"integer","format":"int64"},"hypeAt":{"type":"string","format":"date-time"},"userId":{"type":"string","format":"guid"},"user":{"$ref":"#/components/schemas/User"}},"x-readme-ref-name":"GameHype"}

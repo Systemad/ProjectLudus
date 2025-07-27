@@ -7,7 +7,7 @@ public class User
     public string Role { get; set; }
     public string SteamId { get; set; }
     public UserImage UserImage { get; set; } = null!;
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     public ICollection<GameHype> Hypes { get; } = new List<GameHype>();
     public ICollection<GameWishlist> Wishlists { get; } = new List<GameWishlist>();

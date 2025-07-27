@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { Logo } from './Logo.ts'
+import type { PlatformLogo } from './PlatformLogo.ts'
 
 export type Platform = {
   /**
@@ -25,7 +25,7 @@ export type Platform = {
   /**
    * @type object
    */
-  platform_logo: Logo
+  platform_logo: PlatformLogo
   /**
    * @type string
    */

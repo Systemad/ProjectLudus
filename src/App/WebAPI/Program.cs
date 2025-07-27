@@ -23,25 +23,18 @@ builder
             s.Version = "v1";
         };
         options.ShortSchemaNames = true;
-        options.DocumentSettings = s =>
-        {
-            s.MarkNonNullablePropsAsRequired();
-        };
+        options.DocumentSettings = s => { s.MarkNonNullablePropsAsRequired(); };
     });
 
-/*
-builder.Services.AddDbContextPool<LudusContext>(opt =>
-    opt.UseNpgsql("host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1")
-        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-);
-builder.AddNpgsqlDbContext<LudusContext>(connectionName: "pgdb");
 
-*/
 builder.Services.AddDbContext<LudusContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("pgdb")
-            ?? throw new InvalidOperationException("Connection string 'pgdb' not found.")
-    )
+    {
+        options.UseNpgsql(
+            builder.Configuration.GetConnectionString("pgdb")
+            ?? throw new InvalidOperationException("Connection string 'pgdb' not found.") //, optionsBuilder => optionsBuilder.UseNodaTime() 
+        );
+        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    }
 );
 
 builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
@@ -60,7 +53,6 @@ builder.Services.AddOutputCache(options =>
     options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(5);
 });
 */
-//builder.Services.AddExceptionHandler<GlobalExceptionsHandler>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
@@ -77,7 +69,7 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference();
 
     //app.MapOpenApi();
-    //app.Map("/", () => Results.Redirect("/scalar/v1"));
+    app.Map("/scalar", () => Results.Redirect("/scalar/v1"));
 }
 
 //app.UseDefaultFiles();

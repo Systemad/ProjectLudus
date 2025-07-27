@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-export type Logo = {
+export type PlatformLogo = {
   /**
    * @type integer, int64
    */

@@ -3,9 +3,17 @@
  * Do not edit manually.
  */
 
-export type Expansion = {
+export type GameEngineLogo = {
   /**
    * @type integer, int64
    */
   id: number
+  /**
+   * @type string
+   */
+  image_id: string
+  /**
+   * @type string
+   */
+  url: string
 }

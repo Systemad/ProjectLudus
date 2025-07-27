@@ -3,11 +3,11 @@
  * Do not edit manually.
  */
 
-import type { Game } from './Game.ts'
+import type { IGDBGame } from './IGDBGame.ts'
 
 export type GetGamesByIdsResponse = {
   /**
    * @type array
    */
-  games: Game[]
+  games: IGDBGame[]
 }

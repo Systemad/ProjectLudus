@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Users.Models;
+using WebAPI.Features.Common.Users.DTO;
 using WebAPI.Features.DataAccess;
 
 namespace Me.Profile.Get;
@@ -36,9 +36,17 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
                 Role = ludusUser.Name,
                 SteamId = ludusUser.SteamId,
                 CreatedDate = ludusUser.CreatedDate,
-                UserImage = ludusUser.UserImage,
+                UserImage = new UserImageDto
+                {
+                    Id = ludusUser.UserImage.Id,
+                    Name =  ludusUser.UserImage.Name,
+                    ContentType =  ludusUser.UserImage.ContentType,
+                    Content =  ludusUser.UserImage.Content,
+                    CreatedDate =  ludusUser.UserImage.CreatedDate
+                },
             };
             await SendOkAsync(new GetMeResponse(userDto), ct);
+            return;
         }
 
         await SendUnauthorizedAsync(ct);

@@ -14,7 +14,7 @@ export default defineConfig(() => {
         },
         plugins: [
             pluginOas(),
-            pluginTs({}),
+            pluginTs(),
             pluginReactQuery({
                 output: {
                     path: "./hooks",

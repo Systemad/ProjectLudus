@@ -1,6 +1,6 @@
 ﻿namespace Me.Hypes.Add;
 
-public class AddHypedItem
+public class AddHypedItemRequest
 {
     public long GameId { get; set; }
 }

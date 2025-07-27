@@ -8,8 +8,6 @@ import type { AlternativeName } from './AlternativeName.ts'
 import type { Artwork } from './Artwork.ts'
 import type { Collection } from './Collection.ts'
 import type { Cover } from './Cover.ts'
-import type { Dlc } from './Dlc.ts'
-import type { Expansion } from './Expansion.ts'
 import type { Franchise } from './Franchise.ts'
 import type { GameEngine } from './GameEngine.ts'
 import type { GameMode } from './GameMode.ts'
@@ -24,11 +22,10 @@ import type { Platform } from './Platform.ts'
 import type { PlayerPerspective } from './PlayerPerspective.ts'
 import type { ReleaseDate } from './ReleaseDate.ts'
 import type { Screenshot } from './Screenshot.ts'
-import type { SimilarGame } from './SimilarGame.ts'
 import type { Theme } from './Theme.ts'
 import type { Video } from './Video.ts'
 
-export type Game = {
+export type IGDBGame = {
   /**
    * @type integer, int64
    */
@@ -56,11 +53,11 @@ export type Game = {
   /**
    * @type array
    */
-  dlcs: Dlc[]
+  dlcs: number[]
   /**
    * @type array
    */
-  expansions: Expansion[]
+  expansions: number[]
   /**
    * @type integer, int64
    */
@@ -124,7 +121,7 @@ export type Game = {
   /**
    * @type array
    */
-  similar_games: SimilarGame[]
+  similar_games: number[]
   /**
    * @type string
    */

@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-import type { AlternativeName } from './AlternativeName.ts'
+import type { CompanyStatus } from './CompanyStatus.ts'
 import type { CompanyWebsite } from './CompanyWebsite.ts'
 
 export type Company = {
@@ -30,5 +30,5 @@ export type Company = {
   /**
    * @type object
    */
-  status: AlternativeName
+  status: CompanyStatus
 }

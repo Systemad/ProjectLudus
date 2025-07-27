@@ -36,6 +36,7 @@ import GithubIcon from "~/icons/GitHubIcon";
 import { Link } from "@tanstack/react-router";
 import { CustomYamadaLink } from "../CustomLink/CustomYamadaLink";
 import { HeaderSearchbar } from "./Searchbar";
+import { AuthButton } from "~/features/auth/AuthButton";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HeaderProps extends CenterProps {}
@@ -61,12 +62,17 @@ export const Header = memo(
                     left="0"
                     position="sticky"
                     right="0"
-                    top="0"
+                    top="3"
                     w="full"
                     zIndex="yamcha"
                     {...rest}
                 >
-                    <Center maxW="10xl" px={{ base: "lg", lg: "0" }} w="full">
+                    <Center
+                        maxW="7xl"
+                        rounded="3xl"
+                        px={{ base: "lg", lg: "0" }}
+                        w="full"
+                    >
                         <VStack
                             backdropBlur="10px"
                             backdropFilter="auto"
@@ -75,7 +81,7 @@ export const Header = memo(
                             gap="0"
                             px={{ base: "lg", lg: "md" }}
                             py="3"
-                            //roundedBottom="2xl"
+                            rounded="3xl"
                             shadow={isScroll ? ["base", "dark-sm"] : undefined}
                             transitionDuration="slower"
                             transitionProperty="common"
@@ -107,9 +113,11 @@ export const Header = memo(
                                     </CustomYamadaLink>
                                 </YButtonGroup>
                                 <Spacer />
-
                                 <HeaderSearchbar />
-                                <ButtonGroup {...menuControls} />
+                                <AuthButton />
+                                {/*
+                                    <ButtonGroup {...menuControls} />                            
+                                */}
                             </HStack>
 
                             <Collapse open={searchControls.open}>
