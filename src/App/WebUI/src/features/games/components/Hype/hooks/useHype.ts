@@ -1,16 +1,15 @@
 import { useNotice } from "@yamada-ui/react";
 import {
-    useMeWishlistsAddEndpointHook,
-    useMeWishlistsRemoveEndpointHook,
+    useMeHypesAddEndpointHook,
+    useMeHypesRemoveEndpointHook,
     type GameDto,
 } from "~/gen";
 import { useAuth } from "~/features/auth/useAuth";
 import { queryClient } from "~/queryClient";
-
-export function useWishlist() {
+export function useHype() {
     const { isAuthenticated } = useAuth();
     const notice = useNotice({ limit: 3, placement: "bottom-right" });
-    const mutateAddHype = useMeWishlistsAddEndpointHook({
+    const mutateAddHype = useMeHypesAddEndpointHook({
         mutation: {
             onMutate: async (newHype) => {
                 //queryClient.cancelQueries({ queryKey: ["games", newHype] });
@@ -20,7 +19,7 @@ export function useWishlist() {
                 }>(["games"]);
 
                 queryClient.setQueryData<{ items: GameDto[] }>(
-                    ["games"],
+                    ["games", "similar"],
                     (oldData) => {
                         if (!oldData) return oldData;
 
@@ -28,7 +27,7 @@ export function useWishlist() {
                             ...oldData,
                             items: oldData.items.map((game) =>
                                 game.id === newHype.gameId
-                                    ? { ...game, isWishlisted: true }
+                                    ? { ...game, isHyped: true }
                                     : game
                             ),
                         };
@@ -41,13 +40,12 @@ export function useWishlist() {
             },
             onSettled: () => {
                 queryClient.invalidateQueries({
-                    //queryKey: ["games", newHype?.id],
                     queryKey: ["games"],
                 });
             },
         },
     });
-    const mutateRemoveHype = useMeWishlistsRemoveEndpointHook({
+    const mutateRemoveHype = useMeHypesRemoveEndpointHook({
         mutation: {
             onMutate: async (newHype) => {
                 //queryClient.cancelQueries({ queryKey: ["games", newHype] });
@@ -57,7 +55,7 @@ export function useWishlist() {
                 }>(["games"]);
 
                 queryClient.setQueryData<{ items: GameDto[] }>(
-                    ["games"],
+                    ["games", "similar"],
                     (oldData) => {
                         if (!oldData) return oldData;
 
@@ -65,7 +63,7 @@ export function useWishlist() {
                             ...oldData,
                             items: oldData.items.map((game) =>
                                 game.id === newHype.gameId
-                                    ? { ...game, isWishlisted: false }
+                                    ? { ...game, isHyped: false }
                                     : game
                             ),
                         };
@@ -76,15 +74,15 @@ export function useWishlist() {
             onError: (err, newHype, context) => {
                 queryClient.setQueryData(["games"], context?.newHype.gameId);
             },
-            onSettled: (newHype) => {
+            onSettled: () => {
                 queryClient.invalidateQueries({
-                    queryKey: ["games", newHype?.id],
+                    queryKey: ["games"],
                 });
             },
         },
     });
 
-    const toggleWishlist = (game: GameDto, isCurrentlyWishlisted: boolean) => {
+    const toggleHype = (game: GameDto, isCurrentlyHyped: boolean) => {
         if (!isAuthenticated) {
             notice({
                 title: "Authentication error",
@@ -95,29 +93,22 @@ export function useWishlist() {
             return;
         }
 
-        console.log(
-            queryClient
-                .getQueryCache()
-                .getAll()
-                .map((q) => q.queryKey)
-        );
-
-        if (isCurrentlyWishlisted) {
+        if (isCurrentlyHyped) {
             mutateRemoveHype.mutate(
                 { gameId: game.id },
                 {
                     onSuccess: () => {
                         notice({
                             title: `${game.name}`,
-                            description: "Game wishlist removed successfully!",
+                            description: "Game hype removed successfully!",
                             status: "info",
                         });
-                        queryClient.invalidateQueries({ queryKey: ["games"] });
+                        //queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({
                             title: "Error",
-                            description: "Failed to remove wishlist.",
+                            description: "Failed to remove hype.",
                             status: "error",
                         });
                     },
@@ -130,15 +121,15 @@ export function useWishlist() {
                     onSuccess: () => {
                         notice({
                             title: `${game.name}`,
-                            description: "Game wishlisted successfully!",
+                            description: "Game hype hyped successfully!",
                             status: "success",
                         });
-                        queryClient.invalidateQueries({ queryKey: ["games"] });
+                        //queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({
                             title: "Error",
-                            description: "Failed to add wishlist.",
+                            description: "Failed to add hype.",
                             status: "error",
                         });
                     },
@@ -148,7 +139,7 @@ export function useWishlist() {
     };
 
     return {
-        toggleWishlist,
+        toggleHype,
         isLoading: mutateAddHype.isPending || mutateRemoveHype.isPaused,
     };
 }

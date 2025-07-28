@@ -1,4 +1,4 @@
-import { BookmarkSimpleIcon, HeartIcon } from "@phosphor-icons/react";
+import { BookmarkSimpleIcon, FlameIcon } from "@phosphor-icons/react";
 import {
     Card,
     CardBody,
@@ -12,8 +12,8 @@ import {
 } from "@yamada-ui/react";
 import { getIGDBImageUrl } from "~/features/utilities/ImageHelper";
 import { CustomLinkOverlay } from "~/layouts/CustomLink/CustomLinkOverlay";
-import { useHype } from "../hooks/useHype";
-import { useWishlist } from "../hooks/useWishlist";
+import { useHype } from "./Hype/hooks/useHype";
+import { useWishlist } from "./Wishlist/hooks/useWishlist";
 import type { GameDto } from "~/gen";
 
 type Props = {
@@ -82,7 +82,7 @@ export const HoverGameCard = ({
                             variant="primary"
                             size={iconSize}
                             icon={
-                                <HeartIcon
+                                <FlameIcon
                                     size="full"
                                     weight={item.isHyped ? "fill" : "regular"}
                                     color="var(--ui-colors-red-500)"

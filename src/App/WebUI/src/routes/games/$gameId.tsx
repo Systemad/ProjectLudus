@@ -23,9 +23,7 @@ import { useState } from "react";
 import Steam2 from "~/icons/Launchers/SteamIcon2";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
-
 import { IGDBImage } from "~/features/games/components/IGDBImage";
-
 import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
 import {
     publicGamesGetGameByIdEndpointHook,
@@ -55,7 +53,10 @@ function RouteComponent() {
         isPending: simGamesPending,
         isError: isSimGamesError,
         data: simGamesData,
-    } = usePublicGamesGetSimilarGamesEndpointHook({ gameId: id });
+    } = usePublicGamesGetSimilarGamesEndpointHook(
+        { gameId: id },
+        { query: { queryKey: ["games", "similar"] } }
+    );
 
     /*
     if (isPending) {
