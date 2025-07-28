@@ -10,11 +10,11 @@ import {
     Flex,
     LinkBox,
 } from "@yamada-ui/react";
-import { type GameDto } from "~/api";
 import { getIGDBImageUrl } from "~/features/utilities/ImageHelper";
 import { CustomLinkOverlay } from "~/layouts/CustomLink/CustomLinkOverlay";
 import { useHype } from "../hooks/useHype";
 import { useWishlist } from "../hooks/useWishlist";
+import type { GameDto } from "~/gen";
 
 type Props = {
     item: GameDto;
@@ -28,8 +28,8 @@ export const HoverGameCard = ({
     iconSize = "xs",
 }: Props) => {
     const url = getIGDBImageUrl(item.coverImageId, "1080p", false);
-    const { toggleHype, isLoading: hypeLoading } = useHype();
-    const { toggleWishlist, isLoading: wishlistLoading } = useWishlist();
+    const { toggleHype } = useHype();
+    const { toggleWishlist } = useWishlist();
     return (
         <Card
             _hover={{ transform: "scale(1.025)" }}
@@ -63,7 +63,6 @@ export const HoverGameCard = ({
                             onClick={() =>
                                 toggleWishlist(item, item.isWishlisted)
                             }
-                            loading={wishlistLoading}
                             colorScheme="primary"
                             variant="primary"
                             size={iconSize}
@@ -79,7 +78,6 @@ export const HoverGameCard = ({
                         />
                         <IconButton
                             onClick={() => toggleHype(item, item.isHyped)}
-                            loading={hypeLoading}
                             colorScheme="primary"
                             variant="primary"
                             size={iconSize}

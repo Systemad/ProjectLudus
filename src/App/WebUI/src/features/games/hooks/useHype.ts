@@ -1,22 +1,92 @@
 import { useNotice } from "@yamada-ui/react";
 import {
-    useMeHypesAddEndpoint,
-    useMeHypesRemoveEndpoint,
+    useMeHypesAddEndpointHook,
+    useMeHypesRemoveEndpointHook,
     type GameDto,
-} from "~/api";
+} from "~/gen";
 import { useAuth } from "~/features/auth/useAuth";
 import { queryClient } from "~/queryClient";
 export function useHype() {
     const { isAuthenticated } = useAuth();
     const notice = useNotice({ limit: 3, placement: "bottom-right" });
-    const mutateAddHype = useMeHypesAddEndpoint();
-    const mutateRemoveHype = useMeHypesRemoveEndpoint();
+    const mutateAddHype = useMeHypesAddEndpointHook({
+        mutation: {
+            onMutate: async (newHype) => {
+                //queryClient.cancelQueries({ queryKey: ["games", newHype] });
+                queryClient.cancelQueries({ queryKey: ["games"] });
+                const previousGames = queryClient.getQueryData<{
+                    items: GameDto[];
+                }>(["games"]);
+
+                queryClient.setQueryData<{ items: GameDto[] }>(
+                    ["games"],
+                    (oldData) => {
+                        if (!oldData) return oldData;
+
+                        return {
+                            ...oldData,
+                            items: oldData.items.map((game) =>
+                                game.id === newHype.gameId
+                                    ? { ...game, isHyped: true }
+                                    : game
+                            ),
+                        };
+                    }
+                );
+                return { previousGames, newHype };
+            },
+            onError: (err, newHype, context) => {
+                queryClient.setQueryData(["games"], context?.newHype.gameId);
+            },
+            onSettled: (newHype) => {
+                queryClient.invalidateQueries({
+                    queryKey: ["games", newHype?.id],
+                });
+            },
+        },
+    });
+    const mutateRemoveHype = useMeHypesRemoveEndpointHook({
+        mutation: {
+            onMutate: async (newHype) => {
+                //queryClient.cancelQueries({ queryKey: ["games", newHype] });
+                queryClient.cancelQueries({ queryKey: ["games"] });
+                const previousGames = queryClient.getQueryData<{
+                    items: GameDto[];
+                }>(["games"]);
+
+                queryClient.setQueryData<{ items: GameDto[] }>(
+                    ["games"],
+                    (oldData) => {
+                        if (!oldData) return oldData;
+
+                        return {
+                            ...oldData,
+                            items: oldData.items.map((game) =>
+                                game.id === newHype.gameId
+                                    ? { ...game, isHyped: false }
+                                    : game
+                            ),
+                        };
+                    }
+                );
+                return { previousGames, newHype };
+            },
+            onError: (err, newHype, context) => {
+                queryClient.setQueryData(["games"], context?.newHype.gameId);
+            },
+            onSettled: (newHype) => {
+                queryClient.invalidateQueries({
+                    queryKey: ["games", newHype?.id],
+                });
+            },
+        },
+    });
 
     const toggleHype = (game: GameDto, isCurrentlyHyped: boolean) => {
         if (!isAuthenticated) {
             notice({
-                title: "Notification",
-                description: "This is description.",
+                title: "Authentication error",
+                description: "You need to be signed in to hype games!",
                 status: "error",
                 placement: "bottom-right",
             });
@@ -33,12 +103,7 @@ export function useHype() {
                             description: "Game hype removed successfully!",
                             status: "info",
                         });
-
-                        // TODO: look over this, maybe invalidate all queries related to "api/games"
-                        queryClient.invalidateQueries({
-                            queryKey: [{ url: "/api/games/top" }],
-                            exact: false,
-                        });
+                        queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({
@@ -59,10 +124,7 @@ export function useHype() {
                             description: "Game hype hyped successfully!",
                             status: "success",
                         });
-                        queryClient.invalidateQueries({
-                            queryKey: [{ url: "/api/games/top" }],
-                            exact: false,
-                        });
+                        queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({

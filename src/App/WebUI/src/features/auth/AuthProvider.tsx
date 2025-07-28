@@ -1,10 +1,10 @@
 import React from "react";
-import { useMeProfileGetEndpoint } from "~/api";
+import { useMeProfileGetEndpointHook } from "~/gen";
 import { AuthContext } from "./AuthContext";
 
 //const key = "tanstack.auth.user";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-    const { data, isLoading, isError } = useMeProfileGetEndpoint({
+    const { data, isLoading, isError } = useMeProfileGetEndpointHook({
         query: { staleTime: 60 * 1000 },
     });
 

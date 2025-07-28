@@ -25,19 +25,21 @@ import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
 
 import { IGDBImage } from "~/features/games/components/IGDBImage";
-import {
-    publicGamesGetGameByIdEndpointQueryOptions,
-    usePublicGamesGetSimilarGamesEndpoint,
-} from "~/api";
+
 import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
+import {
+    publicGamesGetGameByIdEndpointHook,
+    usePublicGamesGetSimilarGamesEndpointHook,
+} from "~/gen";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
     loader: ({ context: { queryClient }, params: { gameId } }) => {
         const id = parseInt(gameId);
-        return queryClient.ensureQueryData(
-            publicGamesGetGameByIdEndpointQueryOptions(id)
-        );
+        return queryClient.ensureQueryData({
+            queryKey: ["games", id],
+            queryFn: () => publicGamesGetGameByIdEndpointHook({ gameId: id }),
+        });
     },
 });
 
@@ -48,16 +50,12 @@ function RouteComponent() {
     const id = parseInt(gameId);
     const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
-    /*
-    const id = parseInt(gameId);
-    const { isPending, isError, data, error } =
-        usePublicGamesGetGameByIdEndpoint(id);
-*/
+
     const {
         isPending: simGamesPending,
         isError: isSimGamesError,
         data: simGamesData,
-    } = usePublicGamesGetSimilarGamesEndpoint(id);
+    } = usePublicGamesGetSimilarGamesEndpointHook({ gameId: id });
 
     /*
     if (isPending) {

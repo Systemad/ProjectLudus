@@ -1,1 +1,0 @@
-{"type":"object","additionalProperties":false,"required":["id","name","locale"],"properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"locale":{"type":"string"}},"x-readme-ref-name":"Language"}

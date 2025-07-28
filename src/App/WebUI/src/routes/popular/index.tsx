@@ -1,12 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useWeatherForecastGet } from "~/api";
+import { useWeatherForecastGetHook } from "~/gen";
 
 export const Route = createFileRoute("/popular/")({
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const { data } = useWeatherForecastGet();
+    const { data } = useWeatherForecastGetHook();
     return (
         <div>
             {data?.map((forecast) => (

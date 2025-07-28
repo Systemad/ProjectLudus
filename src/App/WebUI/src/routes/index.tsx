@@ -1,16 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SimpleGrid, GridItem } from "@yamada-ui/react";
-import { usePublicGamesGetTopRatedGamesEndpoint } from "~/api";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
+import { usePublicGamesGetTopRatedGamesEndpointHook } from "~/gen";
 export const Route = createFileRoute("/")({
     component: RouteComponent,
 });
 
 function RouteComponent() {
-    const { data, isPending } = usePublicGamesGetTopRatedGamesEndpoint({
-        pageNumber: 1,
-        pageSize: 40,
-    });
+    const { data, isPending } = usePublicGamesGetTopRatedGamesEndpointHook(
+        {
+            pageNumber: 1,
+            pageSize: 40,
+        },
+        { query: { queryKey: ["games"] } }
+    );
 
     if (isPending) {
         return "loading";

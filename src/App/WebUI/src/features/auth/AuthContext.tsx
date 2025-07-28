@@ -1,5 +1,5 @@
 import React from "react";
-import type { UserDto } from "~/api";
+import type { UserDto } from "~/gen";
 
 export interface AuthContext {
     isAuthenticated: boolean;
