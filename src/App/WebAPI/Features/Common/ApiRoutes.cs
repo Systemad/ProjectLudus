@@ -12,5 +12,6 @@ public static class ApiRoutes
         public const string Favorites = $"{Me}/favorites";
         public const string Wishlist = $"{Me}/wishlist";
         public const string Hypes = $"{Me}/hypes";
+        public const string GameMetadata = $"{Me}/metadata";
     }
 }

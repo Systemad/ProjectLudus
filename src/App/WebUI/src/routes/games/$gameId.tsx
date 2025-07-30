@@ -17,6 +17,8 @@ import {
     Wrap,
     Rating,
     useDisclosure,
+    Spacer,
+    IconButton,
 } from "@yamada-ui/react";
 import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
 import { useState } from "react";
@@ -27,8 +29,12 @@ import { IGDBImage } from "~/features/games/components/IGDBImage";
 import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
 import {
     publicGamesGetGameByIdEndpointHook,
+    useMeGameMetadataGetEndpointHook,
     usePublicGamesGetSimilarGamesEndpointHook,
 } from "~/gen";
+import { useHype } from "~/features/games/components/Hype/hooks/useHype";
+import { useWishlist } from "~/features/games/components/Wishlist/hooks/useWishlist";
+import { BookmarkSimpleIcon, FlameIcon } from "@phosphor-icons/react";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
@@ -49,24 +55,21 @@ function RouteComponent() {
     const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
 
+    const { data: metadata } = useMeGameMetadataGetEndpointHook(
+        { gameId: id },
+        { query: { queryKey: ["games", "metadata", id] } }
+    );
+    const { toggleHype } = useHype();
+    const { toggleWishlist } = useWishlist();
     const {
         isPending: simGamesPending,
         isError: isSimGamesError,
         data: simGamesData,
     } = usePublicGamesGetSimilarGamesEndpointHook(
         { gameId: id },
-        { query: { queryKey: ["games", "similar"] } }
+        { query: { queryKey: ["games", "similar", id] } }
     );
 
-    /*
-    if (isPending) {
-        return <span>Loading...</span>;
-    }
-
-    if (isError) {
-        return <span>Error: {error.message}</span>;
-    }
-*/
     return (
         <VStack>
             <ManageGameListsDialog
@@ -115,6 +118,58 @@ function RouteComponent() {
                                 size={"lg"}
                                 defaultValue={3}
                             />
+                            <Spacer />
+
+                            {metadata && (
+                                <>
+                                    <IconButton
+                                        onClick={() =>
+                                            toggleWishlist(
+                                                game.id,
+                                                metadata.isWishlisted,
+                                                game.name
+                                            )
+                                        }
+                                        colorScheme="primary"
+                                        variant="primary"
+                                        size="lg"
+                                        icon={
+                                            <BookmarkSimpleIcon
+                                                size="full"
+                                                weight={
+                                                    metadata.isWishlisted
+                                                        ? "fill"
+                                                        : "regular"
+                                                }
+                                                color="var(--ui-colors-yellow-500)"
+                                            />
+                                        }
+                                    />
+                                    <IconButton
+                                        onClick={() =>
+                                            toggleHype(
+                                                game.id,
+                                                metadata.isHyped,
+                                                game.name
+                                            )
+                                        }
+                                        colorScheme="primary"
+                                        variant="primary"
+                                        size="lg"
+                                        icon={
+                                            <FlameIcon
+                                                size="full"
+                                                weight={
+                                                    metadata.isHyped
+                                                        ? "fill"
+                                                        : "regular"
+                                                }
+                                                color="var(--ui-colors-red-500)"
+                                            />
+                                        }
+                                    />
+                                </>
+                            )}
                         </Wrap>
                     </Flex>
                     <VStack gap="xs">

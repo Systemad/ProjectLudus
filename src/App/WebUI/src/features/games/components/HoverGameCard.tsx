@@ -61,7 +61,11 @@ export const HoverGameCard = ({
                     <HStack gap={"xs"}>
                         <IconButton
                             onClick={() =>
-                                toggleWishlist(item, item.isWishlisted)
+                                toggleWishlist(
+                                    item.id,
+                                    item.isWishlisted,
+                                    item.name
+                                )
                             }
                             colorScheme="primary"
                             variant="primary"
@@ -77,7 +81,9 @@ export const HoverGameCard = ({
                             }
                         />
                         <IconButton
-                            onClick={() => toggleHype(item, item.isHyped)}
+                            onClick={() =>
+                                toggleHype(item.id, item.isHyped, item.name)
+                            }
                             colorScheme="primary"
                             variant="primary"
                             size={iconSize}

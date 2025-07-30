@@ -14,10 +14,14 @@ public static class MartenConfiguration
         IConfiguration config
     )
     {
-        //string key = "host=localhost:5432;database=gamingdb;password=Compaq2009;username=dan1";
-        string key =
-            "host=localhost:5432;database=gamingdb;CommandTimeout=500;password=Compaq2009;username=dan1";
-        services.AddNpgsqlDataSource(key);
+        var connectionString = config["IGDB_DB"];
+
+        if (connectionString == null)
+        {
+            throw new ArgumentException("ConnectionString cannot be null!");
+        }
+        
+        services.AddNpgsqlDataSource(connectionString);
 
         services
             .AddMarten(options =>

@@ -12,7 +12,7 @@ export function useWishlist() {
     const notice = useNotice({ limit: 3, placement: "bottom-right" });
     const mutateAddHype = useMeWishlistsAddEndpointHook({
         mutation: {
-            onMutate: async (newHype) => {
+            onMutate: async (newWishlist) => {
                 //queryClient.cancelQueries({ queryKey: ["games", newHype] });
                 queryClient.cancelQueries({ queryKey: ["games"] });
                 const previousGames = queryClient.getQueryData<{
@@ -27,18 +27,23 @@ export function useWishlist() {
                         return {
                             ...oldData,
                             items: oldData.items.map((game) =>
-                                game.id === newHype.gameId
-                                    ? { ...game, isWishlisted: true }
+                                game.id === newWishlist.gameId
+                                    ? {
+                                          ...game,
+                                          isWishlisted: !game.isWishlisted,
+                                      }
                                     : game
                             ),
                         };
                     }
                 );
-                return { previousGames, newHype };
+                return { previousGames, newWishlist };
             },
+            /*
             onError: (err, newHype, context) => {
                 queryClient.setQueryData(["games"], context?.newHype.gameId);
             },
+            */
             onSettled: () => {
                 queryClient.invalidateQueries({
                     //queryKey: ["games", newHype?.id],
@@ -49,8 +54,7 @@ export function useWishlist() {
     });
     const mutateRemoveHype = useMeWishlistsRemoveEndpointHook({
         mutation: {
-            onMutate: async (newHype) => {
-                //queryClient.cancelQueries({ queryKey: ["games", newHype] });
+            onMutate: async (newWishlist) => {
                 queryClient.cancelQueries({ queryKey: ["games"] });
                 const previousGames = queryClient.getQueryData<{
                     items: GameDto[];
@@ -64,27 +68,31 @@ export function useWishlist() {
                         return {
                             ...oldData,
                             items: oldData.items.map((game) =>
-                                game.id === newHype.gameId
-                                    ? { ...game, isWishlisted: false }
+                                game.id === newWishlist.gameId
+                                    ? {
+                                          ...game,
+                                          isWishlisted: !game.isWishlisted,
+                                      }
                                     : game
                             ),
                         };
                     }
                 );
-                return { previousGames, newHype };
+                return { previousGames, newWishlist };
             },
-            onError: (err, newHype, context) => {
-                queryClient.setQueryData(["games"], context?.newHype.gameId);
-            },
-            onSettled: (newHype) => {
+            onSettled: () => {
                 queryClient.invalidateQueries({
-                    queryKey: ["games", newHype?.id],
+                    queryKey: ["games"],
                 });
             },
         },
     });
 
-    const toggleWishlist = (game: GameDto, isCurrentlyWishlisted: boolean) => {
+    const toggleWishlist = (
+        gameId: number,
+        isWishlisted: boolean,
+        gameName: string
+    ) => {
         if (!isAuthenticated) {
             notice({
                 title: "Authentication error",
@@ -95,20 +103,13 @@ export function useWishlist() {
             return;
         }
 
-        console.log(
-            queryClient
-                .getQueryCache()
-                .getAll()
-                .map((q) => q.queryKey)
-        );
-
-        if (isCurrentlyWishlisted) {
+        if (isWishlisted) {
             mutateRemoveHype.mutate(
-                { gameId: game.id },
+                { gameId: gameId },
                 {
                     onSuccess: () => {
                         notice({
-                            title: `${game.name}`,
+                            title: `${gameName}`,
                             description: "Game wishlist removed successfully!",
                             status: "info",
                         });
@@ -125,11 +126,11 @@ export function useWishlist() {
             );
         } else {
             mutateAddHype.mutate(
-                { gameId: game.id },
+                { gameId: gameId },
                 {
                     onSuccess: () => {
                         notice({
-                            title: `${game.name}`,
+                            title: `${gameName}`,
                             description: "Game wishlisted successfully!",
                             status: "success",
                         });

@@ -12,14 +12,13 @@ export function useHype() {
     const mutateAddHype = useMeHypesAddEndpointHook({
         mutation: {
             onMutate: async (newHype) => {
-                //queryClient.cancelQueries({ queryKey: ["games", newHype] });
                 queryClient.cancelQueries({ queryKey: ["games"] });
                 const previousGames = queryClient.getQueryData<{
                     items: GameDto[];
                 }>(["games"]);
 
                 queryClient.setQueryData<{ items: GameDto[] }>(
-                    ["games", "similar"],
+                    ["games"],
                     (oldData) => {
                         if (!oldData) return oldData;
 
@@ -27,7 +26,7 @@ export function useHype() {
                             ...oldData,
                             items: oldData.items.map((game) =>
                                 game.id === newHype.gameId
-                                    ? { ...game, isHyped: true }
+                                    ? { ...game, isHyped: !game.isHyped }
                                     : game
                             ),
                         };
@@ -35,9 +34,11 @@ export function useHype() {
                 );
                 return { previousGames, newHype };
             },
+            /*
             onError: (err, newHype, context) => {
                 queryClient.setQueryData(["games"], context?.newHype.gameId);
             },
+            */
             onSettled: () => {
                 queryClient.invalidateQueries({
                     queryKey: ["games"],
@@ -48,14 +49,13 @@ export function useHype() {
     const mutateRemoveHype = useMeHypesRemoveEndpointHook({
         mutation: {
             onMutate: async (newHype) => {
-                //queryClient.cancelQueries({ queryKey: ["games", newHype] });
                 queryClient.cancelQueries({ queryKey: ["games"] });
                 const previousGames = queryClient.getQueryData<{
                     items: GameDto[];
                 }>(["games"]);
 
                 queryClient.setQueryData<{ items: GameDto[] }>(
-                    ["games", "similar"],
+                    ["games"],
                     (oldData) => {
                         if (!oldData) return oldData;
 
@@ -63,7 +63,7 @@ export function useHype() {
                             ...oldData,
                             items: oldData.items.map((game) =>
                                 game.id === newHype.gameId
-                                    ? { ...game, isHyped: false }
+                                    ? { ...game, isHyped: !game.isHyped }
                                     : game
                             ),
                         };
@@ -71,9 +71,7 @@ export function useHype() {
                 );
                 return { previousGames, newHype };
             },
-            onError: (err, newHype, context) => {
-                queryClient.setQueryData(["games"], context?.newHype.gameId);
-            },
+
             onSettled: () => {
                 queryClient.invalidateQueries({
                     queryKey: ["games"],
@@ -82,7 +80,7 @@ export function useHype() {
         },
     });
 
-    const toggleHype = (game: GameDto, isCurrentlyHyped: boolean) => {
+    const toggleHype = (gameId: number, isHyped: boolean, gameName: string) => {
         if (!isAuthenticated) {
             notice({
                 title: "Authentication error",
@@ -93,17 +91,16 @@ export function useHype() {
             return;
         }
 
-        if (isCurrentlyHyped) {
+        if (isHyped) {
             mutateRemoveHype.mutate(
-                { gameId: game.id },
+                { gameId: gameId },
                 {
                     onSuccess: () => {
                         notice({
-                            title: `${game.name}`,
+                            title: `${gameName}`,
                             description: "Game hype removed successfully!",
                             status: "info",
                         });
-                        //queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({
@@ -116,15 +113,14 @@ export function useHype() {
             );
         } else {
             mutateAddHype.mutate(
-                { gameId: game.id },
+                { gameId: gameId },
                 {
                     onSuccess: () => {
                         notice({
-                            title: `${game.name}`,
+                            title: `${gameName}`,
                             description: "Game hype hyped successfully!",
                             status: "success",
                         });
-                        //queryClient.invalidateQueries({ queryKey: ["games"] });
                     },
                     onError: () => {
                         notice({

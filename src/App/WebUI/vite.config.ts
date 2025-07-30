@@ -25,9 +25,6 @@ function injectScript(): Plugin {
 //const target = process.env.BACKEND_URL;
 //const port = process.env.PORT ? parseInt(process.env.PORT) : undefined;
 
-const target =
-    process.env.services__apiservice__https__0 ||
-    process.env.services__apiservice__http__0;
 // https://vite.dev/config/
 export default defineConfig({
     plugins: [
@@ -53,24 +50,29 @@ export default defineConfig({
         //port: port,
         proxy: {
             "/api": {
-                target: target,
+                target:
+                    process.env.services__apiservice__https__0 ||
+                    process.env.services__apiservice__http__0,
                 changeOrigin: true,
                 secure: false,
                 //pathRewrite: { "^/api": "" },
                 //rewrite: (path) => path.replace(/^\/api/, ""),
-                rewrite: (path) => path.replace("^/api", ""),
+                //rewrite: (path) => path.replace(/^\/api/, ""),
             },
             "^/(api|signin|signout)": {
-                target: target,
+                target:
+                    process.env.services__apiservice__https__0 ||
+                    process.env.services__apiservice__http__0,
                 changeOrigin: true,
                 secure: false,
+                //rewrite: (path) => path.replace(/^\/api/, ""),
             },
         },
     },
     build: {
-        outDir: "build",
+        outDir: "dist",
         rollupOptions: {
-            input: ".index.html",
+            input: "./index.html",
         },
     },
 });

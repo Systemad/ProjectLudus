@@ -1,48 +1,112 @@
+export type { MeGameMetadataGetAllEndpointQueryKey } from './api/useMeGameMetadataGetAllEndpointHook.ts'
+export type { MeGameMetadataGetAllEndpointInfiniteQueryKey } from './api/useMeGameMetadataGetAllEndpointInfiniteHook.ts'
+export type { MeGameMetadataGetAllEndpointSuspenseQueryKey } from './api/useMeGameMetadataGetAllEndpointSuspenseHook.ts'
+export type { MeGameMetadataGetEndpointQueryKey } from './api/useMeGameMetadataGetEndpointHook.ts'
+export type { MeGameMetadataGetEndpointInfiniteQueryKey } from './api/useMeGameMetadataGetEndpointInfiniteHook.ts'
+export type { MeGameMetadataGetEndpointSuspenseQueryKey } from './api/useMeGameMetadataGetEndpointSuspenseHook.ts'
 export type { MeHypedGetAllEndpointQueryKey } from './api/useMeHypedGetAllEndpointHook.ts'
+export type { MeHypedGetAllEndpointInfiniteQueryKey } from './api/useMeHypedGetAllEndpointInfiniteHook.ts'
 export type { MeHypedGetAllEndpointSuspenseQueryKey } from './api/useMeHypedGetAllEndpointSuspenseHook.ts'
 export type { MeHypesAddEndpointMutationKey } from './api/useMeHypesAddEndpointHook.ts'
 export type { MeHypesRemoveEndpointMutationKey } from './api/useMeHypesRemoveEndpointHook.ts'
 export type { MeListsCreateEndpointMutationKey } from './api/useMeListsCreateEndpointHook.ts'
 export type { MeListsGetAllEndpointQueryKey } from './api/useMeListsGetAllEndpointHook.ts'
+export type { MeListsGetAllEndpointInfiniteQueryKey } from './api/useMeListsGetAllEndpointInfiniteHook.ts'
 export type { MeListsGetAllEndpointSuspenseQueryKey } from './api/useMeListsGetAllEndpointSuspenseHook.ts'
 export type { MeListsGetEndpointQueryKey } from './api/useMeListsGetEndpointHook.ts'
+export type { MeListsGetEndpointInfiniteQueryKey } from './api/useMeListsGetEndpointInfiniteHook.ts'
 export type { MeListsGetEndpointSuspenseQueryKey } from './api/useMeListsGetEndpointSuspenseHook.ts'
 export type { MeListsItemAddEndpointQueryKey } from './api/useMeListsItemAddEndpointHook.ts'
+export type { MeListsItemAddEndpointInfiniteQueryKey } from './api/useMeListsItemAddEndpointInfiniteHook.ts'
 export type { MeListsItemAddEndpointSuspenseQueryKey } from './api/useMeListsItemAddEndpointSuspenseHook.ts'
 export type { MeListsItemRemoveEndpointQueryKey } from './api/useMeListsItemRemoveEndpointHook.ts'
+export type { MeListsItemRemoveEndpointInfiniteQueryKey } from './api/useMeListsItemRemoveEndpointInfiniteHook.ts'
 export type { MeListsItemRemoveEndpointSuspenseQueryKey } from './api/useMeListsItemRemoveEndpointSuspenseHook.ts'
 export type { MeListsUpdateEndpointQueryKey } from './api/useMeListsUpdateEndpointHook.ts'
+export type { MeListsUpdateEndpointInfiniteQueryKey } from './api/useMeListsUpdateEndpointInfiniteHook.ts'
 export type { MeListsUpdateEndpointSuspenseQueryKey } from './api/useMeListsUpdateEndpointSuspenseHook.ts'
 export type { MeProfileGetEndpointQueryKey } from './api/useMeProfileGetEndpointHook.ts'
+export type { MeProfileGetEndpointInfiniteQueryKey } from './api/useMeProfileGetEndpointInfiniteHook.ts'
 export type { MeProfileGetEndpointSuspenseQueryKey } from './api/useMeProfileGetEndpointSuspenseHook.ts'
 export type { MeWishlistsAddEndpointMutationKey } from './api/useMeWishlistsAddEndpointHook.ts'
 export type { MeWishlistsGetAllEndpointQueryKey } from './api/useMeWishlistsGetAllEndpointHook.ts'
+export type { MeWishlistsGetAllEndpointInfiniteQueryKey } from './api/useMeWishlistsGetAllEndpointInfiniteHook.ts'
 export type { MeWishlistsGetAllEndpointSuspenseQueryKey } from './api/useMeWishlistsGetAllEndpointSuspenseHook.ts'
 export type { MeWishlistsRemoveEndpointMutationKey } from './api/useMeWishlistsRemoveEndpointHook.ts'
 export type { PublicGamesGetFiltersEndpointQueryKey } from './api/usePublicGamesGetFiltersEndpointHook.ts'
+export type { PublicGamesGetFiltersEndpointInfiniteQueryKey } from './api/usePublicGamesGetFiltersEndpointInfiniteHook.ts'
 export type { PublicGamesGetFiltersEndpointSuspenseQueryKey } from './api/usePublicGamesGetFiltersEndpointSuspenseHook.ts'
 export type { PublicGamesGetGameByIdEndpointQueryKey } from './api/usePublicGamesGetGameByIdEndpointHook.ts'
+export type { PublicGamesGetGameByIdEndpointInfiniteQueryKey } from './api/usePublicGamesGetGameByIdEndpointInfiniteHook.ts'
 export type { PublicGamesGetGameByIdEndpointSuspenseQueryKey } from './api/usePublicGamesGetGameByIdEndpointSuspenseHook.ts'
 export type { PublicGamesGetGamesByIdsEndpointMutationKey } from './api/usePublicGamesGetGamesByIdsEndpointHook.ts'
 export type { PublicGamesGetGamesByParametersEndpointMutationKey } from './api/usePublicGamesGetGamesByParametersEndpointHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointHook.ts'
+export type { PublicGamesGetSimilarGamesEndpointInfiniteQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointInfiniteHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointSuspenseQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointSuspenseHook.ts'
 export type { PublicGamesGetTopRatedGamesEndpointQueryKey } from './api/usePublicGamesGetTopRatedGamesEndpointHook.ts'
+export type { PublicGamesGetTopRatedGamesEndpointInfiniteQueryKey } from './api/usePublicGamesGetTopRatedGamesEndpointInfiniteHook.ts'
 export type { PublicGamesGetTopRatedGamesEndpointSuspenseQueryKey } from './api/usePublicGamesGetTopRatedGamesEndpointSuspenseHook.ts'
 export type { WeatherForecastGetQueryKey } from './api/useWeatherForecastGetHook.ts'
+export type { WeatherForecastGetInfiniteQueryKey } from './api/useWeatherForecastGetInfiniteHook.ts'
 export type { WeatherForecastGetSuspenseQueryKey } from './api/useWeatherForecastGetSuspenseHook.ts'
 export type { AuthSteamResponseEndpointQueryKey } from './Auth/useAuthSteamResponseEndpointHook.ts'
+export type { AuthSteamResponseEndpointInfiniteQueryKey } from './Auth/useAuthSteamResponseEndpointInfiniteHook.ts'
 export type { AuthSteamResponseEndpointSuspenseQueryKey } from './Auth/useAuthSteamResponseEndpointSuspenseHook.ts'
 export type { AuthLoginEndpointQueryKey } from './signin/useAuthLoginEndpointHook.ts'
+export type { AuthLoginEndpointInfiniteQueryKey } from './signin/useAuthLoginEndpointInfiniteHook.ts'
 export type { AuthLoginEndpointSuspenseQueryKey } from './signin/useAuthLoginEndpointSuspenseHook.ts'
 export type { AuthLogoutEndpointQueryKey } from './signout/useAuthLogoutEndpointHook.ts'
+export type { AuthLogoutEndpointInfiniteQueryKey } from './signout/useAuthLogoutEndpointInfiniteHook.ts'
 export type { AuthLogoutEndpointSuspenseQueryKey } from './signout/useAuthLogoutEndpointSuspenseHook.ts'
+export {
+  meGameMetadataGetAllEndpointQueryKey,
+  meGameMetadataGetAllEndpointHook,
+  meGameMetadataGetAllEndpointQueryOptionsHook,
+  useMeGameMetadataGetAllEndpointHook,
+} from './api/useMeGameMetadataGetAllEndpointHook.ts'
+export {
+  meGameMetadataGetAllEndpointInfiniteQueryKey,
+  meGameMetadataGetAllEndpointInfiniteHook,
+  meGameMetadataGetAllEndpointInfiniteQueryOptionsHook,
+  useMeGameMetadataGetAllEndpointInfiniteHook,
+} from './api/useMeGameMetadataGetAllEndpointInfiniteHook.ts'
+export {
+  meGameMetadataGetAllEndpointSuspenseQueryKey,
+  meGameMetadataGetAllEndpointSuspenseHook,
+  meGameMetadataGetAllEndpointSuspenseQueryOptionsHook,
+  useMeGameMetadataGetAllEndpointSuspenseHook,
+} from './api/useMeGameMetadataGetAllEndpointSuspenseHook.ts'
+export {
+  meGameMetadataGetEndpointQueryKey,
+  meGameMetadataGetEndpointHook,
+  meGameMetadataGetEndpointQueryOptionsHook,
+  useMeGameMetadataGetEndpointHook,
+} from './api/useMeGameMetadataGetEndpointHook.ts'
+export {
+  meGameMetadataGetEndpointInfiniteQueryKey,
+  meGameMetadataGetEndpointInfiniteHook,
+  meGameMetadataGetEndpointInfiniteQueryOptionsHook,
+  useMeGameMetadataGetEndpointInfiniteHook,
+} from './api/useMeGameMetadataGetEndpointInfiniteHook.ts'
+export {
+  meGameMetadataGetEndpointSuspenseQueryKey,
+  meGameMetadataGetEndpointSuspenseHook,
+  meGameMetadataGetEndpointSuspenseQueryOptionsHook,
+  useMeGameMetadataGetEndpointSuspenseHook,
+} from './api/useMeGameMetadataGetEndpointSuspenseHook.ts'
 export {
   meHypedGetAllEndpointQueryKey,
   meHypedGetAllEndpointHook,
   meHypedGetAllEndpointQueryOptionsHook,
   useMeHypedGetAllEndpointHook,
 } from './api/useMeHypedGetAllEndpointHook.ts'
+export {
+  meHypedGetAllEndpointInfiniteQueryKey,
+  meHypedGetAllEndpointInfiniteHook,
+  meHypedGetAllEndpointInfiniteQueryOptionsHook,
+  useMeHypedGetAllEndpointInfiniteHook,
+} from './api/useMeHypedGetAllEndpointInfiniteHook.ts'
 export {
   meHypedGetAllEndpointSuspenseQueryKey,
   meHypedGetAllEndpointSuspenseHook,
@@ -59,6 +123,12 @@ export {
   useMeListsGetAllEndpointHook,
 } from './api/useMeListsGetAllEndpointHook.ts'
 export {
+  meListsGetAllEndpointInfiniteQueryKey,
+  meListsGetAllEndpointInfiniteHook,
+  meListsGetAllEndpointInfiniteQueryOptionsHook,
+  useMeListsGetAllEndpointInfiniteHook,
+} from './api/useMeListsGetAllEndpointInfiniteHook.ts'
+export {
   meListsGetAllEndpointSuspenseQueryKey,
   meListsGetAllEndpointSuspenseHook,
   meListsGetAllEndpointSuspenseQueryOptionsHook,
@@ -70,6 +140,12 @@ export {
   meListsGetEndpointQueryOptionsHook,
   useMeListsGetEndpointHook,
 } from './api/useMeListsGetEndpointHook.ts'
+export {
+  meListsGetEndpointInfiniteQueryKey,
+  meListsGetEndpointInfiniteHook,
+  meListsGetEndpointInfiniteQueryOptionsHook,
+  useMeListsGetEndpointInfiniteHook,
+} from './api/useMeListsGetEndpointInfiniteHook.ts'
 export {
   meListsGetEndpointSuspenseQueryKey,
   meListsGetEndpointSuspenseHook,
@@ -83,6 +159,12 @@ export {
   useMeListsItemAddEndpointHook,
 } from './api/useMeListsItemAddEndpointHook.ts'
 export {
+  meListsItemAddEndpointInfiniteQueryKey,
+  meListsItemAddEndpointInfiniteHook,
+  meListsItemAddEndpointInfiniteQueryOptionsHook,
+  useMeListsItemAddEndpointInfiniteHook,
+} from './api/useMeListsItemAddEndpointInfiniteHook.ts'
+export {
   meListsItemAddEndpointSuspenseQueryKey,
   meListsItemAddEndpointSuspenseHook,
   meListsItemAddEndpointSuspenseQueryOptionsHook,
@@ -94,6 +176,12 @@ export {
   meListsItemRemoveEndpointQueryOptionsHook,
   useMeListsItemRemoveEndpointHook,
 } from './api/useMeListsItemRemoveEndpointHook.ts'
+export {
+  meListsItemRemoveEndpointInfiniteQueryKey,
+  meListsItemRemoveEndpointInfiniteHook,
+  meListsItemRemoveEndpointInfiniteQueryOptionsHook,
+  useMeListsItemRemoveEndpointInfiniteHook,
+} from './api/useMeListsItemRemoveEndpointInfiniteHook.ts'
 export {
   meListsItemRemoveEndpointSuspenseQueryKey,
   meListsItemRemoveEndpointSuspenseHook,
@@ -107,6 +195,12 @@ export {
   useMeListsUpdateEndpointHook,
 } from './api/useMeListsUpdateEndpointHook.ts'
 export {
+  meListsUpdateEndpointInfiniteQueryKey,
+  meListsUpdateEndpointInfiniteHook,
+  meListsUpdateEndpointInfiniteQueryOptionsHook,
+  useMeListsUpdateEndpointInfiniteHook,
+} from './api/useMeListsUpdateEndpointInfiniteHook.ts'
+export {
   meListsUpdateEndpointSuspenseQueryKey,
   meListsUpdateEndpointSuspenseHook,
   meListsUpdateEndpointSuspenseQueryOptionsHook,
@@ -118,6 +212,12 @@ export {
   meProfileGetEndpointQueryOptionsHook,
   useMeProfileGetEndpointHook,
 } from './api/useMeProfileGetEndpointHook.ts'
+export {
+  meProfileGetEndpointInfiniteQueryKey,
+  meProfileGetEndpointInfiniteHook,
+  meProfileGetEndpointInfiniteQueryOptionsHook,
+  useMeProfileGetEndpointInfiniteHook,
+} from './api/useMeProfileGetEndpointInfiniteHook.ts'
 export {
   meProfileGetEndpointSuspenseQueryKey,
   meProfileGetEndpointSuspenseHook,
@@ -131,6 +231,12 @@ export {
   meWishlistsGetAllEndpointQueryOptionsHook,
   useMeWishlistsGetAllEndpointHook,
 } from './api/useMeWishlistsGetAllEndpointHook.ts'
+export {
+  meWishlistsGetAllEndpointInfiniteQueryKey,
+  meWishlistsGetAllEndpointInfiniteHook,
+  meWishlistsGetAllEndpointInfiniteQueryOptionsHook,
+  useMeWishlistsGetAllEndpointInfiniteHook,
+} from './api/useMeWishlistsGetAllEndpointInfiniteHook.ts'
 export {
   meWishlistsGetAllEndpointSuspenseQueryKey,
   meWishlistsGetAllEndpointSuspenseHook,
@@ -149,6 +255,12 @@ export {
   usePublicGamesGetFiltersEndpointHook,
 } from './api/usePublicGamesGetFiltersEndpointHook.ts'
 export {
+  publicGamesGetFiltersEndpointInfiniteQueryKey,
+  publicGamesGetFiltersEndpointInfiniteHook,
+  publicGamesGetFiltersEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetFiltersEndpointInfiniteHook,
+} from './api/usePublicGamesGetFiltersEndpointInfiniteHook.ts'
+export {
   publicGamesGetFiltersEndpointSuspenseQueryKey,
   publicGamesGetFiltersEndpointSuspenseHook,
   publicGamesGetFiltersEndpointSuspenseQueryOptionsHook,
@@ -160,6 +272,12 @@ export {
   publicGamesGetGameByIdEndpointQueryOptionsHook,
   usePublicGamesGetGameByIdEndpointHook,
 } from './api/usePublicGamesGetGameByIdEndpointHook.ts'
+export {
+  publicGamesGetGameByIdEndpointInfiniteQueryKey,
+  publicGamesGetGameByIdEndpointInfiniteHook,
+  publicGamesGetGameByIdEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetGameByIdEndpointInfiniteHook,
+} from './api/usePublicGamesGetGameByIdEndpointInfiniteHook.ts'
 export {
   publicGamesGetGameByIdEndpointSuspenseQueryKey,
   publicGamesGetGameByIdEndpointSuspenseHook,
@@ -183,6 +301,12 @@ export {
   usePublicGamesGetSimilarGamesEndpointHook,
 } from './api/usePublicGamesGetSimilarGamesEndpointHook.ts'
 export {
+  publicGamesGetSimilarGamesEndpointInfiniteQueryKey,
+  publicGamesGetSimilarGamesEndpointInfiniteHook,
+  publicGamesGetSimilarGamesEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetSimilarGamesEndpointInfiniteHook,
+} from './api/usePublicGamesGetSimilarGamesEndpointInfiniteHook.ts'
+export {
   publicGamesGetSimilarGamesEndpointSuspenseQueryKey,
   publicGamesGetSimilarGamesEndpointSuspenseHook,
   publicGamesGetSimilarGamesEndpointSuspenseQueryOptionsHook,
@@ -194,6 +318,12 @@ export {
   publicGamesGetTopRatedGamesEndpointQueryOptionsHook,
   usePublicGamesGetTopRatedGamesEndpointHook,
 } from './api/usePublicGamesGetTopRatedGamesEndpointHook.ts'
+export {
+  publicGamesGetTopRatedGamesEndpointInfiniteQueryKey,
+  publicGamesGetTopRatedGamesEndpointInfiniteHook,
+  publicGamesGetTopRatedGamesEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetTopRatedGamesEndpointInfiniteHook,
+} from './api/usePublicGamesGetTopRatedGamesEndpointInfiniteHook.ts'
 export {
   publicGamesGetTopRatedGamesEndpointSuspenseQueryKey,
   publicGamesGetTopRatedGamesEndpointSuspenseHook,
@@ -207,6 +337,12 @@ export {
   useWeatherForecastGetHook,
 } from './api/useWeatherForecastGetHook.ts'
 export {
+  weatherForecastGetInfiniteQueryKey,
+  weatherForecastGetInfiniteHook,
+  weatherForecastGetInfiniteQueryOptionsHook,
+  useWeatherForecastGetInfiniteHook,
+} from './api/useWeatherForecastGetInfiniteHook.ts'
+export {
   weatherForecastGetSuspenseQueryKey,
   weatherForecastGetSuspenseHook,
   weatherForecastGetSuspenseQueryOptionsHook,
@@ -218,6 +354,12 @@ export {
   authSteamResponseEndpointQueryOptionsHook,
   useAuthSteamResponseEndpointHook,
 } from './Auth/useAuthSteamResponseEndpointHook.ts'
+export {
+  authSteamResponseEndpointInfiniteQueryKey,
+  authSteamResponseEndpointInfiniteHook,
+  authSteamResponseEndpointInfiniteQueryOptionsHook,
+  useAuthSteamResponseEndpointInfiniteHook,
+} from './Auth/useAuthSteamResponseEndpointInfiniteHook.ts'
 export {
   authSteamResponseEndpointSuspenseQueryKey,
   authSteamResponseEndpointSuspenseHook,
@@ -231,6 +373,12 @@ export {
   useAuthLoginEndpointHook,
 } from './signin/useAuthLoginEndpointHook.ts'
 export {
+  authLoginEndpointInfiniteQueryKey,
+  authLoginEndpointInfiniteHook,
+  authLoginEndpointInfiniteQueryOptionsHook,
+  useAuthLoginEndpointInfiniteHook,
+} from './signin/useAuthLoginEndpointInfiniteHook.ts'
+export {
   authLoginEndpointSuspenseQueryKey,
   authLoginEndpointSuspenseHook,
   authLoginEndpointSuspenseQueryOptionsHook,
@@ -242,6 +390,12 @@ export {
   authLogoutEndpointQueryOptionsHook,
   useAuthLogoutEndpointHook,
 } from './signout/useAuthLogoutEndpointHook.ts'
+export {
+  authLogoutEndpointInfiniteQueryKey,
+  authLogoutEndpointInfiniteHook,
+  authLogoutEndpointInfiniteQueryOptionsHook,
+  useAuthLogoutEndpointInfiniteHook,
+} from './signout/useAuthLogoutEndpointInfiniteHook.ts'
 export {
   authLogoutEndpointSuspenseQueryKey,
   authLogoutEndpointSuspenseHook,

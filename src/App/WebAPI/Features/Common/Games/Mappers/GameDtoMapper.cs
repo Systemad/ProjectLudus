@@ -16,7 +16,7 @@ public static class GameDtoMapper
             .ToList();
 
         return gameDtos;
-    }
+    }   
 
     public static GameDto MapToGameDto(IGDBGame g, bool isWishlisted, bool isHyped)
     {
@@ -24,7 +24,7 @@ public static class GameDtoMapper
         {
             Id = g.Id,
             Name = g.Name,
-            ArtworkImageId = g.Artworks.FirstOrDefault().ImageId,
+            ArtworkImageId = g.Artworks?.FirstOrDefault()?.ImageId ?? "",
             CoverImageId = g.Cover.ImageId,
             FirstReleaseDate = g.FirstReleaseDate,
             Publisher =

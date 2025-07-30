@@ -41,7 +41,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
             HashSet<long> hypedGames = [];
             HashSet<long> wishlistedGames = [];
 
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated ?? false)
             {
                 var userId = User.GetUserId();
 

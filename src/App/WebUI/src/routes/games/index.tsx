@@ -1,5 +1,17 @@
+import { MagnifyingGlassIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Accordion, AccordionItem, Flex } from "@yamada-ui/react";
+import {
+    Accordion,
+    AccordionItem,
+    Flex,
+    Input,
+    InputGroup,
+    InputLeftAddon,
+    InputLeftElement,
+    ScrollArea,
+    VStack,
+} from "@yamada-ui/react";
+import { usePublicGamesGetFiltersEndpointHook } from "~/gen";
 
 export const Route = createFileRoute("/games/")({
     component: RouteComponent,
@@ -26,6 +38,8 @@ const { data, isLoading } = useQuery({
 // then use onChange to handle API call to server
 function RouteComponent() {
     //const searchQuuery =
+
+    const { data: filters } = usePublicGamesGetFiltersEndpointHook();
     return (
         <>
             <Flex direction="column" w="full">
@@ -62,10 +76,23 @@ function RouteComponent() {
                             multiple={true}
                             variant="card"
                         >
-                            <AccordionItem
-                                rounded="xl"
-                                label="Platforms"
-                            ></AccordionItem>
+                            <AccordionItem rounded="xl" label="Platforms">
+                                <InputGroup mt="xs">
+                                    <InputLeftElement>
+                                        <MagnifyingGlassIcon />
+                                    </InputLeftElement>
+                                    <Input
+                                        borderWidth={"thin"}
+                                        variant={"filled"}
+                                        rounded="xl"
+                                        placeholder="Search"
+                                    />
+                                </InputGroup>
+                                <ScrollArea
+                                    h="2xs"
+                                    innerProps={{ as: VStack, gap: "md" }}
+                                ></ScrollArea>
+                            </AccordionItem>
 
                             <AccordionItem
                                 rounded="xl"
@@ -81,7 +108,7 @@ function RouteComponent() {
                     {/* Right Side: 3/4 width */}
                     <Flex
                         borderRadius={"xl"}
-                        flex="3"
+                        flex="4"
                         bg={["blackAlpha.50", "whiteAlpha.100"]}
                         p="4"
                     >

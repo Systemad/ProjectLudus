@@ -23,6 +23,7 @@ export type { GameEngineFilter } from './GameEngineFilter.ts'
 export type { GameEngineLogo } from './GameEngineLogo.ts'
 export type { GameListDto } from './GameListDto.ts'
 export type { GameListPreviewDto } from './GameListPreviewDto.ts'
+export type { GameMetadataDto } from './GameMetadataDto.ts'
 export type { GameMode } from './GameMode.ts'
 export type { GameModeFilter } from './GameModeFilter.ts'
 export type { GameSearchRequest } from './GameSearchRequest.ts'
@@ -30,6 +31,8 @@ export type { GameType } from './GameType.ts'
 export type { GameTypeFilter } from './GameTypeFilter.ts'
 export type { GameWebsite } from './GameWebsite.ts'
 export type { GameWebsiteType } from './GameWebsiteType.ts'
+export type { GeGameMetadataRequest2 } from './GeGameMetadataRequest2.ts'
+export type { GeGameMetadataRequest } from './GeGameMetadataRequest.ts'
 export type { Genre } from './Genre.ts'
 export type { GenreFilter } from './GenreFilter.ts'
 export type { GetFiltersResponse } from './GetFiltersResponse.ts'
@@ -50,6 +53,20 @@ export type { Keyword } from './Keyword.ts'
 export type { Language } from './Language.ts'
 export type { LanguageSupport } from './LanguageSupport.ts'
 export type { LanguageSupportType } from './LanguageSupportType.ts'
+export type {
+  MeGameMetadataGetAllEndpointQueryParams,
+  MeGameMetadataGetAllEndpoint200,
+  MeGameMetadataGetAllEndpoint401,
+  MeGameMetadataGetAllEndpointQueryResponse,
+  MeGameMetadataGetAllEndpointQuery,
+} from './MeGameMetadataGetAllEndpoint.ts'
+export type {
+  MeGameMetadataGetEndpointPathParams,
+  MeGameMetadataGetEndpoint200,
+  MeGameMetadataGetEndpoint401,
+  MeGameMetadataGetEndpointQueryResponse,
+  MeGameMetadataGetEndpointQuery,
+} from './MeGameMetadataGetEndpoint.ts'
 export type {
   MeHypedGetAllEndpointQueryParams,
   MeHypedGetAllEndpoint200,
@@ -138,6 +155,7 @@ export type {
 export type { MultiplayerMode } from './MultiplayerMode.ts'
 export type { Organization } from './Organization.ts'
 export type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
+export type { PaginatedResponseOfGameMetadataDto } from './PaginatedResponseOfGameMetadataDto.ts'
 export type { Platform } from './Platform.ts'
 export type { PlatformFilter } from './PlatformFilter.ts'
 export type { PlatformLogo } from './PlatformLogo.ts'

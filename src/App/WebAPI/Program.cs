@@ -70,6 +70,7 @@ if (app.Environment.IsDevelopment())
 
     //app.MapOpenApi();
     app.Map("/scalar", () => Results.Redirect("/scalar/v1"));
+    app.Map("/redirectweb", () => Results.Redirect("http://webui/"));
 }
 
 //app.UseDefaultFiles();
