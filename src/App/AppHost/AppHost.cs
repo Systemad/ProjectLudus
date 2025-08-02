@@ -17,6 +17,56 @@ var connectionString = builder.AddConnectionString("gamingdb");
 
 var apiService = builder.AddProject<Projects.WebAPI>("apiservice").WithReference(postgresdb)
     .WithEnvironment("IGDB_DB", connectionString); //.WithReference(connectionString);
+
+var resource =
+    builder.AddPnpmApp(
+        name: "webui",
+        workingDirectory: "../WebUI",
+        scriptName: "dev"
+    );
+
+resource
+    .WithPnpmPackageInstallation()
+    //.WithHttpsEndpoint(env: "PORT")
+    .WithHttpEndpoint(env: "PORT")
+    .WithHttpHealthCheck()
+    .WithExternalHttpEndpoints()
+    .WithOtlpExporter()
+    .WithArgs(ctx =>
+    {
+        var targetEndpoint = resource.GetEndpoint("http");
+        ctx.Args.Add("--port");
+        ctx.Args.Add(targetEndpoint.Property(EndpointProperty.TargetPort));
+    })
+    .WithEnvironment("BROWSER", "none")
+    .WithEnvironment(context =>
+    {
+        if (context.ExecutionContext.IsRunMode)
+        {
+        }
+    })
+    .WithReference(apiService)
+    .WaitFor(apiService);
+
+/*
+ *
+ *     public static IResourceBuilder<NodeAppResource> AddViteApp(this IDistributedApplicationBuilder builder, [ResourceName] string name, string? workingDirectory = null, string packageManager = "npm", bool useHttps = false)
+    {
+
+        return resource.WithArgs(ctx =>
+        {
+            if (packageManager == "npm")
+            {
+                ctx.Args.Add("--");
+            }
+
+            var targetEndpoint = resource.Resource.GetEndpoint(useHttps ? "https" : "http");
+            ctx.Args.Add("--port");
+            ctx.Args.Add(targetEndpoint.Property(EndpointProperty.TargetPort));
+        });
+    }
+ */
+/*
 var webui = builder
     .AddViteApp(
         name: "webui",
@@ -38,11 +88,12 @@ var webui = builder
     })
     .WithReference(apiService)
     .WaitFor(apiService);
+*/
 
 //var webEndppint = webui.Resource.GetEndpoint("http");
 //apiService.WithEnvironment("WEBUI__ENDPOINT", webEndppint);
 
-apiService.WithReference(webui);
+//apiService.WithReference(webui);
 
 /*
 builder.AddPnpmApp("webui", "../WebUI", "dev")

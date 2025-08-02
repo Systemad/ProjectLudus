@@ -20,7 +20,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 
     public override void Configure()
     {
-        Post("/search");
+        Get("/search");
         Group<GamesGroupEndpoint>();
         AllowAnonymous();
     }
@@ -28,57 +28,47 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var gameQuery = session.Query<IGDBGame>();
+        //var gameQuery = session.Query<IGDBGame>();
+
+        IQueryable<IGDBGame> gameQuery = session.Query<IGDBGame>();
 
         if (!string.IsNullOrWhiteSpace(req.Name))
         {
             gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x =>
-                        x.Name.Contains(req.Name, StringComparison.CurrentCultureIgnoreCase)
-                    );
+                gameQuery.Where(x =>
+                    x.Name.Contains(req.Name, StringComparison.CurrentCultureIgnoreCase)
+                );
         }
 
-        if (req.GenreId is not null && req.GenreId.Length > 0)
+        if (req.Genres?.Length > 0)
         {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x => x.Genres.Any(g => req.GenreId.Contains(g.Id)));
-        }
-        if (req.GameTypeId is not null && req.GameTypeId.Length > 0)
-        {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x => req.GameTypeId.Contains(x.GameType.Id));
-        }
-        if (req.PlatformId is not null && req.PlatformId.Length > 0)
-        {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x => x.Platforms.Any(g => req.PlatformId.Contains(g.Id)));
+            gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g.Id)));
         }
 
-        if (req.GameModeId is not null && req.GameModeId.Length > 0)
+        if (req.GameTypes?.Length > 0)
         {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x => x.GameModes.Any(g => req.GameModeId.Contains(g.Id)));
+            gameQuery = gameQuery.Where(x => x.GameType != null && req.GameTypes.Contains(x.GameType.Id));
         }
 
-        if (req.ThemeId is not null && req.ThemeId.Length > 0)
+        if (req.Platforms?.Length > 0)
         {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x => x.Themes.Any(g => req.ThemeId.Contains(g.Id)));
+            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g.Id)));
         }
 
-        if (req.PlayerPerspectiveId is not null && req.PlayerPerspectiveId.Length > 0)
+        if (req.GameModes?.Length > 0)
         {
-            gameQuery =
-                (IMartenQueryable<IGDBGame>)
-                    gameQuery.Where(x =>
-                        x.PlayerPerspectives.Any(g => req.PlayerPerspectiveId.Contains(g.Id))
-                    );
+            gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g.Id)));
+        }
+
+        if (req.Themes?.Length > 0)
+        {
+            gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g.Id)));
+        }
+
+        if (req.PlayerPerspectives?.Length > 0)
+        {
+            gameQuery = gameQuery.Where(x =>
+                x.PlayerPerspectives != null && x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g.Id)));
         }
 
         var games = await gameQuery.ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
@@ -92,6 +82,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId, ct);
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
+
         var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
 
         await SendAsync(

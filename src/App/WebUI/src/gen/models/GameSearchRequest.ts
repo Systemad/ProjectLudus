@@ -4,33 +4,4 @@
  * Do not edit manually.
  */
 
-export type GameSearchRequest = {
-  /**
-   * @type string
-   */
-  name?: string | null
-  /**
-   * @type array
-   */
-  genreId?: number[] | null
-  /**
-   * @type array
-   */
-  platformId?: number[] | null
-  /**
-   * @type array
-   */
-  gameModeId?: number[] | null
-  /**
-   * @type array
-   */
-  themeId?: number[] | null
-  /**
-   * @type array
-   */
-  gameTypeId?: number[] | null
-  /**
-   * @type array
-   */
-  playerPerspectiveId?: number[] | null
-}
+export type GameSearchRequest = object

@@ -40,7 +40,9 @@ export type { PublicGamesGetGameByIdEndpointQueryKey } from './hooks/api/usePubl
 export type { PublicGamesGetGameByIdEndpointInfiniteQueryKey } from './hooks/api/usePublicGamesGetGameByIdEndpointInfiniteHook.ts'
 export type { PublicGamesGetGameByIdEndpointSuspenseQueryKey } from './hooks/api/usePublicGamesGetGameByIdEndpointSuspenseHook.ts'
 export type { PublicGamesGetGamesByIdsEndpointMutationKey } from './hooks/api/usePublicGamesGetGamesByIdsEndpointHook.ts'
-export type { PublicGamesGetGamesByParametersEndpointMutationKey } from './hooks/api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointQueryKey } from './hooks/api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointInfiniteQueryKey } from './hooks/api/usePublicGamesGetGamesByParametersEndpointInfiniteHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointSuspenseQueryKey } from './hooks/api/usePublicGamesGetGamesByParametersEndpointSuspenseHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointQueryKey } from './hooks/api/usePublicGamesGetSimilarGamesEndpointHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointInfiniteQueryKey } from './hooks/api/usePublicGamesGetSimilarGamesEndpointInfiniteHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointSuspenseQueryKey } from './hooks/api/usePublicGamesGetSimilarGamesEndpointSuspenseHook.ts'
@@ -81,25 +83,22 @@ export type { ContentDescription } from './models/ContentDescription.ts'
 export type { Cover } from './models/Cover.ts'
 export type { CreateListRequest } from './models/CreateListRequest.ts'
 export type { Exception } from './models/Exception.ts'
+export type { FilterItem } from './models/FilterItem.ts'
 export type { Franchise } from './models/Franchise.ts'
 export type { GameDto } from './models/GameDto.ts'
 export type { GameEngine } from './models/GameEngine.ts'
-export type { GameEngineFilter } from './models/GameEngineFilter.ts'
 export type { GameEngineLogo } from './models/GameEngineLogo.ts'
 export type { GameListDto } from './models/GameListDto.ts'
 export type { GameListPreviewDto } from './models/GameListPreviewDto.ts'
 export type { GameMetadataDto } from './models/GameMetadataDto.ts'
 export type { GameMode } from './models/GameMode.ts'
-export type { GameModeFilter } from './models/GameModeFilter.ts'
 export type { GameSearchRequest } from './models/GameSearchRequest.ts'
 export type { GameType } from './models/GameType.ts'
-export type { GameTypeFilter } from './models/GameTypeFilter.ts'
 export type { GameWebsite } from './models/GameWebsite.ts'
 export type { GameWebsiteType } from './models/GameWebsiteType.ts'
 export type { GeGameMetadataRequest2 } from './models/GeGameMetadataRequest2.ts'
 export type { GeGameMetadataRequest } from './models/GeGameMetadataRequest.ts'
 export type { Genre } from './models/Genre.ts'
-export type { GenreFilter } from './models/GenreFilter.ts'
 export type { GetFiltersResponse } from './models/GetFiltersResponse.ts'
 export type { GetGameByIdRequest } from './models/GetGameByIdRequest.ts'
 export type { GetGameByIdsRequest } from './models/GetGameByIdsRequest.ts'
@@ -227,10 +226,8 @@ export type { Organization } from './models/Organization.ts'
 export type { PaginatedResponseOfGameDto } from './models/PaginatedResponseOfGameDto.ts'
 export type { PaginatedResponseOfGameMetadataDto } from './models/PaginatedResponseOfGameMetadataDto.ts'
 export type { Platform } from './models/Platform.ts'
-export type { PlatformFilter } from './models/PlatformFilter.ts'
 export type { PlatformLogo } from './models/PlatformLogo.ts'
 export type { PlayerPerspective } from './models/PlayerPerspective.ts'
-export type { PlayerPerspectiveFilter } from './models/PlayerPerspectiveFilter.ts'
 export type { ProblemDetails } from './models/ProblemDetails.ts'
 export type { ProblemDetailsError } from './models/ProblemDetailsError.ts'
 export type {
@@ -253,9 +250,8 @@ export type {
 export type {
   PublicGamesGetGamesByParametersEndpointQueryParams,
   PublicGamesGetGamesByParametersEndpoint200,
-  PublicGamesGetGamesByParametersEndpointMutationRequest,
-  PublicGamesGetGamesByParametersEndpointMutationResponse,
-  PublicGamesGetGamesByParametersEndpointMutation,
+  PublicGamesGetGamesByParametersEndpointQueryResponse,
+  PublicGamesGetGamesByParametersEndpointQuery,
 } from './models/PublicGamesGetGamesByParametersEndpoint.ts'
 export type {
   PublicGamesGetSimilarGamesEndpointPathParams,
@@ -282,7 +278,6 @@ export type { Task } from './models/Task.ts'
 export type { TaskCreationOptionsEnum, TaskCreationOptions } from './models/TaskCreationOptions.ts'
 export type { TaskStatusEnum, TaskStatus } from './models/TaskStatus.ts'
 export type { Theme } from './models/Theme.ts'
-export type { ThemeFilter } from './models/ThemeFilter.ts'
 export type { UpdateListRequest } from './models/UpdateListRequest.ts'
 export type { UserDto } from './models/UserDto.ts'
 export type { UserImageDto } from './models/UserImageDto.ts'
@@ -520,10 +515,23 @@ export {
   usePublicGamesGetGamesByIdsEndpointHook,
 } from './hooks/api/usePublicGamesGetGamesByIdsEndpointHook.ts'
 export {
-  publicGamesGetGamesByParametersEndpointMutationKey,
+  publicGamesGetGamesByParametersEndpointQueryKey,
   publicGamesGetGamesByParametersEndpointHook,
+  publicGamesGetGamesByParametersEndpointQueryOptionsHook,
   usePublicGamesGetGamesByParametersEndpointHook,
 } from './hooks/api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export {
+  publicGamesGetGamesByParametersEndpointInfiniteQueryKey,
+  publicGamesGetGamesByParametersEndpointInfiniteHook,
+  publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetGamesByParametersEndpointInfiniteHook,
+} from './hooks/api/usePublicGamesGetGamesByParametersEndpointInfiniteHook.ts'
+export {
+  publicGamesGetGamesByParametersEndpointSuspenseQueryKey,
+  publicGamesGetGamesByParametersEndpointSuspenseHook,
+  publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook,
+  usePublicGamesGetGamesByParametersEndpointSuspenseHook,
+} from './hooks/api/usePublicGamesGetGamesByParametersEndpointSuspenseHook.ts'
 export {
   publicGamesGetSimilarGamesEndpointQueryKey,
   publicGamesGetSimilarGamesEndpointHook,

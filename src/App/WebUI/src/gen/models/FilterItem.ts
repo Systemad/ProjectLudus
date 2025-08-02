@@ -4,7 +4,7 @@
  * Do not edit manually.
  */
 
-export type GameTypeFilter = {
+export type FilterItem = {
   /**
    * @type integer, int64
    */

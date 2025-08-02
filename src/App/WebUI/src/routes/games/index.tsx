@@ -1,45 +1,145 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { createFileRoute } from "@tanstack/react-router";
+import {
+    createFileRoute,
+    useNavigate,
+    useSearch,
+} from "@tanstack/react-router";
 import {
     Accordion,
     AccordionItem,
+    Checkbox,
+    CheckboxGroup,
     Flex,
+    GridItem,
     Input,
     InputGroup,
-    InputLeftAddon,
     InputLeftElement,
     ScrollArea,
+    SimpleGrid,
     VStack,
 } from "@yamada-ui/react";
-import { usePublicGamesGetFiltersEndpointHook } from "~/gen";
+import { useMemo, useState } from "react";
+import { FilterAccordion } from "~/features/games/components/Accordion/FilterAccordionItem";
+import { z } from "zod";
+
+import {
+    publicGamesGetGamesByParametersEndpointHook,
+    usePublicGamesGetFiltersEndpointHook,
+} from "~/gen";
+import { useDebouncedState } from "@mantine/hooks";
+import { HoverGameCard } from "~/features/games/components/HoverGameCard";
+
+const commaSeparatedNumberArray = z.preprocess((val) => {
+    if (typeof val === "string") {
+        return val
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+            .map(Number);
+    }
+    return val;
+}, z.array(z.number()));
+
+const gameSearchSchema = z.object({
+    page: z.coerce.number().catch(1),
+    query: z.coerce.string().optional().catch(""),
+    genres: commaSeparatedNumberArray.optional(),
+    platforms: commaSeparatedNumberArray.optional(),
+    gameModes: commaSeparatedNumberArray.optional(),
+    themes: commaSeparatedNumberArray.optional(),
+    gameType: commaSeparatedNumberArray.optional(),
+    playerPerspectives: commaSeparatedNumberArray.optional(),
+});
+
+type GameSearch = z.infer<typeof gameSearchSchema>;
 
 export const Route = createFileRoute("/games/")({
     component: RouteComponent,
+    validateSearch: gameSearchSchema,
+    loaderDeps: ({ search }) => ({ ...search }),
+
+    loader: ({
+        context: { queryClient },
+        deps: {
+            page,
+            query,
+            genres,
+            platforms,
+            gameModes,
+            themes,
+            gameType,
+            playerPerspectives,
+        },
+    }) => {
+        return queryClient.ensureQueryData({
+            queryKey: [
+                "games",
+                "search",
+                page,
+                query,
+                genres,
+                platforms,
+                gameModes,
+                themes,
+                gameType,
+                playerPerspectives,
+            ],
+            queryFn: () =>
+                publicGamesGetGamesByParametersEndpointHook({
+                    pageNumber: page,
+                    pageSize: 40,
+                    name: query,
+                    platforms,
+                }),
+        });
+    },
 });
 
 /*
-const [search, setSearch] = useState('');
-const [selectedGenres, setSelectedGenres] = useState([]);
-const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-
-const queryKey = [
-  'games',
-  { search, genres: selectedGenres, platforms: selectedPlatforms }
-];
-
-const { data, isLoading } = useQuery({
-  queryKey,
-  queryFn: () => fetchGames({ search, genres: selectedGenres, platforms: selectedPlatforms }),
-});
+    const { data, isPending, isPlaceholderData, isFetching } =
+        usePublicGamesGetTopRatedGamesEndpointHook(
+            {
+                pageNumber: page,
+                pageSize: 40,
+            },
+            {
+                query: {
+                    queryKey: ["games", page],
+                    placeholderData: keepPreviousData,
+                },
+            }
+        );
 */
-
-// TODO: Get Platforms etc for filters
-// when clicking a checkbox, just add the ID to use state
-// then use onChange to handle API call to server
 function RouteComponent() {
-    //const searchQuuery =
-
     const { data: filters } = usePublicGamesGetFiltersEndpointHook();
+
+    const {
+        page,
+        query,
+        genres,
+        platforms,
+        gameModes,
+        themes,
+        gameType,
+        playerPerspectives,
+    } = Route.useSearch();
+    const navigate = useNavigate({ from: Route.fullPath });
+
+    const updateFilters = (
+        name: keyof GameSearch,
+        value: number[] | undefined
+    ) => {
+        navigate({
+            search: (prev) => ({
+                ...prev,
+                [name]: value ? value.join(",") : undefined,
+                page: 1,
+            }),
+            replace: true,
+        });
+    };
+
+    const data = Route.useLoaderData();
     return (
         <>
             <Flex direction="column" w="full">
@@ -52,6 +152,12 @@ function RouteComponent() {
                     align="center"
                     justify="center"
                 >
+                    <Input
+                        value={query}
+                        onChange={(e) => {
+                            updateFilters("query", e.target.value);
+                        }}
+                    />
                     {/* Top bar content here */}
                 </Flex>
 
@@ -76,6 +182,53 @@ function RouteComponent() {
                             multiple={true}
                             variant="card"
                         >
+                            {filters && (
+                                <>
+                                    <AccordionItem rounded="xl" label={"title"}>
+                                        <ScrollArea
+                                            h="2xs"
+                                            innerProps={{
+                                                as: VStack,
+                                                gap: "md",
+                                            }}
+                                        >
+                                            {filters && (
+                                                <>
+                                                    <CheckboxGroup
+                                                        value={platforms?.map(
+                                                            (id) => id
+                                                        )}
+                                                        onChange={(e) => {
+                                                            updateFilters(
+                                                                "platforms",
+                                                                e
+                                                            );
+                                                        }}
+                                                    >
+                                                        {filters.platforms.map(
+                                                            (filter) => (
+                                                                <Checkbox
+                                                                    key={
+                                                                        filter.id
+                                                                    }
+                                                                    value={
+                                                                        filter.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        filter.name
+                                                                    }
+                                                                </Checkbox>
+                                                            )
+                                                        )}
+                                                    </CheckboxGroup>
+                                                </>
+                                            )}
+                                        </ScrollArea>
+                                    </AccordionItem>
+                                </>
+                            )}
+
                             <AccordionItem rounded="xl" label="Platforms">
                                 <InputGroup mt="xs">
                                     <InputLeftElement>
@@ -112,7 +265,34 @@ function RouteComponent() {
                         bg={["blackAlpha.50", "whiteAlpha.100"]}
                         p="4"
                     >
-                        {/* Right content */}
+                        {data && (
+                            <Flex
+                                direction={"column"}
+                                alignItems={"center"}
+                                gap={"xl"}
+                            >
+                                <Flex
+                                    justifyContent="flex-start"
+                                    w="full"
+                                ></Flex>
+                                <SimpleGrid
+                                    columns={{
+                                        base: 1,
+                                        sm: 2,
+                                        md: 2,
+                                        lg: 3,
+                                        xl: 5,
+                                    }}
+                                    gap="lg"
+                                >
+                                    {data?.items.map((item) => (
+                                        <GridItem key={item.id}>
+                                            <HoverGameCard item={item} />
+                                        </GridItem>
+                                    ))}
+                                </SimpleGrid>
+                            </Flex>
+                        )}
                     </Flex>
                 </Flex>
             </Flex>

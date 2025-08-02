@@ -57,7 +57,6 @@ export default defineConfig({
                 secure: false,
                 //pathRewrite: { "^/api": "" },
                 //rewrite: (path) => path.replace(/^\/api/, ""),
-                //rewrite: (path) => path.replace(/^\/api/, ""),
             },
             "^/(api|signin|signout)": {
                 target:
@@ -65,7 +64,6 @@ export default defineConfig({
                     process.env.services__apiservice__http__0,
                 changeOrigin: true,
                 secure: false,
-                //rewrite: (path) => path.replace(/^\/api/, ""),
             },
         },
     },

@@ -5,22 +5,22 @@
 
 import fetch from '@kubb/plugin-client/clients/axios'
 import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type {
   PublicGamesGetGamesByParametersEndpointQueryResponse,
   PublicGamesGetGamesByParametersEndpointQueryParams,
 } from '../../models/PublicGamesGetGamesByParametersEndpoint.ts'
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 
-export const publicGamesGetGamesByParametersEndpointQueryKey = (params: PublicGamesGetGamesByParametersEndpointQueryParams) =>
+export const publicGamesGetGamesByParametersEndpointSuspenseQueryKey = (params: PublicGamesGetGamesByParametersEndpointQueryParams) =>
   ['v1', { url: '/api/games/search' }, ...(params ? [params] : [])] as const
 
-export type PublicGamesGetGamesByParametersEndpointQueryKey = ReturnType<typeof publicGamesGetGamesByParametersEndpointQueryKey>
+export type PublicGamesGetGamesByParametersEndpointSuspenseQueryKey = ReturnType<typeof publicGamesGetGamesByParametersEndpointSuspenseQueryKey>
 
 /**
  * {@link /api/games/search}
  */
-export async function publicGamesGetGamesByParametersEndpointHook(
+export async function publicGamesGetGamesByParametersEndpointSuspenseHook(
   params: PublicGamesGetGamesByParametersEndpointQueryParams,
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
@@ -35,11 +35,11 @@ export async function publicGamesGetGamesByParametersEndpointHook(
   return res.data
 }
 
-export function publicGamesGetGamesByParametersEndpointQueryOptionsHook(
+export function publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook(
   params: PublicGamesGetGamesByParametersEndpointQueryParams,
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
-  const queryKey = publicGamesGetGamesByParametersEndpointQueryKey(params)
+  const queryKey = publicGamesGetGamesByParametersEndpointSuspenseQueryKey(params)
   return queryOptions<
     PublicGamesGetGamesByParametersEndpointQueryResponse,
     ResponseErrorConfig<Error>,
@@ -50,7 +50,7 @@ export function publicGamesGetGamesByParametersEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return publicGamesGetGamesByParametersEndpointHook(params, config)
+      return publicGamesGetGamesByParametersEndpointSuspenseHook(params, config)
     },
   })
 }
@@ -58,30 +58,29 @@ export function publicGamesGetGamesByParametersEndpointQueryOptionsHook(
 /**
  * {@link /api/games/search}
  */
-export function usePublicGamesGetGamesByParametersEndpointHook<
+export function usePublicGamesGetGamesByParametersEndpointSuspenseHook<
   TData = PublicGamesGetGamesByParametersEndpointQueryResponse,
-  TQueryData = PublicGamesGetGamesByParametersEndpointQueryResponse,
-  TQueryKey extends QueryKey = PublicGamesGetGamesByParametersEndpointQueryKey,
+  TQueryKey extends QueryKey = PublicGamesGetGamesByParametersEndpointSuspenseQueryKey,
 >(
   params: PublicGamesGetGamesByParametersEndpointQueryParams,
   options: {
-    query?: Partial<QueryObserverOptions<PublicGamesGetGamesByParametersEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
+    query?: Partial<UseSuspenseQueryOptions<PublicGamesGetGamesByParametersEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
       client?: QueryClient
     }
     client?: Partial<RequestConfig> & { client?: typeof fetch }
   } = {},
 ) {
   const { query: { client: queryClient, ...queryOptions } = {}, client: config = {} } = options ?? {}
-  const queryKey = queryOptions?.queryKey ?? publicGamesGetGamesByParametersEndpointQueryKey(params)
+  const queryKey = queryOptions?.queryKey ?? publicGamesGetGamesByParametersEndpointSuspenseQueryKey(params)
 
-  const query = useQuery(
+  const query = useSuspenseQuery(
     {
-      ...publicGamesGetGamesByParametersEndpointQueryOptionsHook(params, config),
+      ...publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook(params, config),
       queryKey,
       ...queryOptions,
-    } as unknown as QueryObserverOptions,
+    } as unknown as UseSuspenseQueryOptions,
     queryClient,
-  ) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  ) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
 
   query.queryKey = queryKey as TQueryKey
 

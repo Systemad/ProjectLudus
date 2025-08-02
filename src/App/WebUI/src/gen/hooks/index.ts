@@ -40,7 +40,9 @@ export type { PublicGamesGetGameByIdEndpointQueryKey } from './api/usePublicGame
 export type { PublicGamesGetGameByIdEndpointInfiniteQueryKey } from './api/usePublicGamesGetGameByIdEndpointInfiniteHook.ts'
 export type { PublicGamesGetGameByIdEndpointSuspenseQueryKey } from './api/usePublicGamesGetGameByIdEndpointSuspenseHook.ts'
 export type { PublicGamesGetGamesByIdsEndpointMutationKey } from './api/usePublicGamesGetGamesByIdsEndpointHook.ts'
-export type { PublicGamesGetGamesByParametersEndpointMutationKey } from './api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointQueryKey } from './api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointInfiniteQueryKey } from './api/usePublicGamesGetGamesByParametersEndpointInfiniteHook.ts'
+export type { PublicGamesGetGamesByParametersEndpointSuspenseQueryKey } from './api/usePublicGamesGetGamesByParametersEndpointSuspenseHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointInfiniteQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointInfiniteHook.ts'
 export type { PublicGamesGetSimilarGamesEndpointSuspenseQueryKey } from './api/usePublicGamesGetSimilarGamesEndpointSuspenseHook.ts'
@@ -290,10 +292,23 @@ export {
   usePublicGamesGetGamesByIdsEndpointHook,
 } from './api/usePublicGamesGetGamesByIdsEndpointHook.ts'
 export {
-  publicGamesGetGamesByParametersEndpointMutationKey,
+  publicGamesGetGamesByParametersEndpointQueryKey,
   publicGamesGetGamesByParametersEndpointHook,
+  publicGamesGetGamesByParametersEndpointQueryOptionsHook,
   usePublicGamesGetGamesByParametersEndpointHook,
 } from './api/usePublicGamesGetGamesByParametersEndpointHook.ts'
+export {
+  publicGamesGetGamesByParametersEndpointInfiniteQueryKey,
+  publicGamesGetGamesByParametersEndpointInfiniteHook,
+  publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook,
+  usePublicGamesGetGamesByParametersEndpointInfiniteHook,
+} from './api/usePublicGamesGetGamesByParametersEndpointInfiniteHook.ts'
+export {
+  publicGamesGetGamesByParametersEndpointSuspenseQueryKey,
+  publicGamesGetGamesByParametersEndpointSuspenseHook,
+  publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook,
+  usePublicGamesGetGamesByParametersEndpointSuspenseHook,
+} from './api/usePublicGamesGetGamesByParametersEndpointSuspenseHook.ts'
 export {
   publicGamesGetSimilarGamesEndpointQueryKey,
   publicGamesGetSimilarGamesEndpointHook,

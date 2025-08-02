@@ -3,6 +3,7 @@ import { pluginOas } from "@kubb/plugin-oas";
 import { pluginReactQuery } from "@kubb/plugin-react-query";
 import { QueryKey } from "@kubb/plugin-react-query/components";
 import { pluginTs } from "@kubb/plugin-ts";
+
 export default defineConfig(() => {
     return {
         root: ".",
@@ -30,6 +31,21 @@ export default defineConfig(() => {
                     },
                 },
             }),
+            /*
+            pluginZod({
+                output: {
+                    path: "./zod",
+                },
+                typed: true,
+                transformers: {
+                    name: (name, type) =>
+                        type === "file" ? `${name}.gen` : name,
+                },
+                //operations: true,
+                //importPath: "zod",
+                //inferred: true,
+            }),
+            */
             pluginReactQuery({
                 transformers: {
                     name: (name, type) => {

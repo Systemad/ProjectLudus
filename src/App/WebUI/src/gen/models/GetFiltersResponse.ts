@@ -4,41 +4,35 @@
  * Do not edit manually.
  */
 
-import type { GameEngineFilter } from './GameEngineFilter.ts'
-import type { GameModeFilter } from './GameModeFilter.ts'
-import type { GameTypeFilter } from './GameTypeFilter.ts'
-import type { GenreFilter } from './GenreFilter.ts'
-import type { PlatformFilter } from './PlatformFilter.ts'
-import type { PlayerPerspectiveFilter } from './PlayerPerspectiveFilter.ts'
-import type { ThemeFilter } from './ThemeFilter.ts'
+import type { FilterItem } from './FilterItem.ts'
 
 export type GetFiltersResponse = {
   /**
    * @type array
    */
-  genres: GenreFilter[]
+  genres: FilterItem[]
   /**
    * @type array
    */
-  platforms: PlatformFilter[]
+  platforms: FilterItem[]
   /**
    * @type array
    */
-  gameTypes: GameTypeFilter[]
+  gameTypes: FilterItem[]
   /**
    * @type array
    */
-  themes: ThemeFilter[]
+  themes: FilterItem[]
   /**
    * @type array
    */
-  gameModes: GameModeFilter[]
+  gameModes: FilterItem[]
   /**
    * @type array
    */
-  gameEngines: GameEngineFilter[]
+  gameEngines: FilterItem[]
   /**
    * @type array
    */
-  playerPerspectives: PlayerPerspectiveFilter[]
+  playerPerspectives: FilterItem[]
 }

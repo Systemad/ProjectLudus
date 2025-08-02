@@ -11,13 +11,16 @@ public static class GameDtoMapper
         HashSet<long> hypedSet
     )
     {
+        Console.WriteLine("AAAAAAAAAAAAAAA");
         var gameDtos = games
+            .Where(g => g != null) 
             .Select(g => MapToGameDto(g, wishlistedSet.Contains(g.Id), hypedSet.Contains(g.Id)))
             .ToList();
 
         return gameDtos;
     }   
 
+    
     public static GameDto MapToGameDto(IGDBGame g, bool isWishlisted, bool isHyped)
     {
         return new GameDto()
@@ -25,15 +28,14 @@ public static class GameDtoMapper
             Id = g.Id,
             Name = g.Name,
             ArtworkImageId = g.Artworks?.FirstOrDefault()?.ImageId ?? "",
-            CoverImageId = g.Cover.ImageId,
+            CoverImageId = g.Cover?.ImageId ?? "",
             FirstReleaseDate = g.FirstReleaseDate,
             Publisher =
                 g.InvolvedCompanies?.FirstOrDefault(ic => ic.Publisher)?.Company?.Name ?? "",
-            Platforms = g.Platforms.Select(p => p.Name).ToList(),
-            ReleaseDates = g
-                .ReleaseDates.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime)
-                .ToList(),
-            GameType = g.GameType.Type,
+            Platforms = g.Platforms?.Select(p => p.Name).ToList() ?? [],
+            ReleaseDates = g.ReleaseDates?.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime).ToList() ??
+                           [],
+            GameType = g.GameType?.Type ?? "",
             IsWishlisted = isWishlisted,
             IsHyped = isHyped,
         };

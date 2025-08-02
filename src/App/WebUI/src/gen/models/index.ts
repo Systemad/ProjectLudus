@@ -16,25 +16,22 @@ export type { ContentDescription } from './ContentDescription.ts'
 export type { Cover } from './Cover.ts'
 export type { CreateListRequest } from './CreateListRequest.ts'
 export type { Exception } from './Exception.ts'
+export type { FilterItem } from './FilterItem.ts'
 export type { Franchise } from './Franchise.ts'
 export type { GameDto } from './GameDto.ts'
 export type { GameEngine } from './GameEngine.ts'
-export type { GameEngineFilter } from './GameEngineFilter.ts'
 export type { GameEngineLogo } from './GameEngineLogo.ts'
 export type { GameListDto } from './GameListDto.ts'
 export type { GameListPreviewDto } from './GameListPreviewDto.ts'
 export type { GameMetadataDto } from './GameMetadataDto.ts'
 export type { GameMode } from './GameMode.ts'
-export type { GameModeFilter } from './GameModeFilter.ts'
 export type { GameSearchRequest } from './GameSearchRequest.ts'
 export type { GameType } from './GameType.ts'
-export type { GameTypeFilter } from './GameTypeFilter.ts'
 export type { GameWebsite } from './GameWebsite.ts'
 export type { GameWebsiteType } from './GameWebsiteType.ts'
 export type { GeGameMetadataRequest2 } from './GeGameMetadataRequest2.ts'
 export type { GeGameMetadataRequest } from './GeGameMetadataRequest.ts'
 export type { Genre } from './Genre.ts'
-export type { GenreFilter } from './GenreFilter.ts'
 export type { GetFiltersResponse } from './GetFiltersResponse.ts'
 export type { GetGameByIdRequest } from './GetGameByIdRequest.ts'
 export type { GetGameByIdsRequest } from './GetGameByIdsRequest.ts'
@@ -157,10 +154,8 @@ export type { Organization } from './Organization.ts'
 export type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
 export type { PaginatedResponseOfGameMetadataDto } from './PaginatedResponseOfGameMetadataDto.ts'
 export type { Platform } from './Platform.ts'
-export type { PlatformFilter } from './PlatformFilter.ts'
 export type { PlatformLogo } from './PlatformLogo.ts'
 export type { PlayerPerspective } from './PlayerPerspective.ts'
-export type { PlayerPerspectiveFilter } from './PlayerPerspectiveFilter.ts'
 export type { ProblemDetails } from './ProblemDetails.ts'
 export type { ProblemDetailsError } from './ProblemDetailsError.ts'
 export type {
@@ -183,9 +178,8 @@ export type {
 export type {
   PublicGamesGetGamesByParametersEndpointQueryParams,
   PublicGamesGetGamesByParametersEndpoint200,
-  PublicGamesGetGamesByParametersEndpointMutationRequest,
-  PublicGamesGetGamesByParametersEndpointMutationResponse,
-  PublicGamesGetGamesByParametersEndpointMutation,
+  PublicGamesGetGamesByParametersEndpointQueryResponse,
+  PublicGamesGetGamesByParametersEndpointQuery,
 } from './PublicGamesGetGamesByParametersEndpoint.ts'
 export type {
   PublicGamesGetSimilarGamesEndpointPathParams,
@@ -212,7 +206,6 @@ export type { Task } from './Task.ts'
 export type { TaskCreationOptionsEnum, TaskCreationOptions } from './TaskCreationOptions.ts'
 export type { TaskStatusEnum, TaskStatus } from './TaskStatus.ts'
 export type { Theme } from './Theme.ts'
-export type { ThemeFilter } from './ThemeFilter.ts'
 export type { UpdateListRequest } from './UpdateListRequest.ts'
 export type { UserDto } from './UserDto.ts'
 export type { UserImageDto } from './UserImageDto.ts'

@@ -4,7 +4,6 @@
  * Do not edit manually.
  */
 
-import type { GameSearchRequest } from './GameSearchRequest.ts'
 import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts'
 
 export type PublicGamesGetGamesByParametersEndpointQueryParams = {
@@ -16,6 +15,34 @@ export type PublicGamesGetGamesByParametersEndpointQueryParams = {
    * @type integer, int32
    */
   pageNumber: number
+  /**
+   * @type string
+   */
+  name?: string | null
+  /**
+   * @type array
+   */
+  genres?: number[] | null
+  /**
+   * @type array
+   */
+  platforms?: number[] | null
+  /**
+   * @type array
+   */
+  gameModes?: number[] | null
+  /**
+   * @type array
+   */
+  themes?: number[] | null
+  /**
+   * @type array
+   */
+  gameTypes?: number[] | null
+  /**
+   * @type array
+   */
+  playerPerspectives?: number[] | null
 }
 
 /**
@@ -23,13 +50,10 @@ export type PublicGamesGetGamesByParametersEndpointQueryParams = {
  */
 export type PublicGamesGetGamesByParametersEndpoint200 = PaginatedResponseOfGameDto
 
-export type PublicGamesGetGamesByParametersEndpointMutationRequest = GameSearchRequest
+export type PublicGamesGetGamesByParametersEndpointQueryResponse = PublicGamesGetGamesByParametersEndpoint200
 
-export type PublicGamesGetGamesByParametersEndpointMutationResponse = PublicGamesGetGamesByParametersEndpoint200
-
-export type PublicGamesGetGamesByParametersEndpointMutation = {
+export type PublicGamesGetGamesByParametersEndpointQuery = {
   Response: PublicGamesGetGamesByParametersEndpoint200
-  Request: PublicGamesGetGamesByParametersEndpointMutationRequest
   QueryParams: PublicGamesGetGamesByParametersEndpointQueryParams
   Errors: any
 }

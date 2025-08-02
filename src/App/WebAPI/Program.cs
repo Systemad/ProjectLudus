@@ -15,6 +15,7 @@ builder.Services.AddAuthenticationCookie(validFor: TimeSpan.FromDays(7)).AddAuth
 
 builder
     .Services.AddFastEndpoints()
+    //.AddIdempotency()
     .SwaggerDocument(options =>
     {
         options.DocumentSettings = s =>
