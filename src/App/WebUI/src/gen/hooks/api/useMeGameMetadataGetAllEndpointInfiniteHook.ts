@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type {
   MeGameMetadataGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeGameMetadataGetAllEndpointInfiniteQueryKey = ReturnType<typeof meG
  * {@link /api/me/metadata/all}
  */
 export async function meGameMetadataGetAllEndpointInfiniteHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meGameMetadataGetAllEndpointInfiniteHook(
 }
 
 export function meGameMetadataGetAllEndpointInfiniteQueryOptionsHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meGameMetadataGetAllEndpointInfiniteQueryKey(params)
@@ -56,11 +56,11 @@ export function meGameMetadataGetAllEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as MeGameMetadataGetAllEndpointQueryParams['pageNumber']
       }
-      return meGameMetadataGetAllEndpointInfiniteHook(params, config)
+      return meGameMetadataGetAllEndpointInfiniteHook({ params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -72,7 +72,7 @@ export function useMeGameMetadataGetAllEndpointInfiniteHook<
   TQueryData = MeGameMetadataGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeGameMetadataGetAllEndpointInfiniteQueryKey,
 >(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   options: {
     query?: Partial<
       InfiniteQueryObserverOptions<MeGameMetadataGetAllEndpointQueryResponse, ResponseErrorConfig<MeGameMetadataGetAllEndpoint401>, TData, TQueryKey>
@@ -85,7 +85,7 @@ export function useMeGameMetadataGetAllEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...meGameMetadataGetAllEndpointInfiniteQueryOptionsHook(params, config),
+      ...meGameMetadataGetAllEndpointInfiniteQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

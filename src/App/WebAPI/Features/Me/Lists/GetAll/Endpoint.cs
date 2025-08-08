@@ -2,6 +2,7 @@
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Microsoft.EntityFrameworkCore;
+using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Games.Mappers;
@@ -24,6 +25,8 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
 {
     public LudusContext _context { get; set; }
     public MartenExt.IDocumentStore Store { get; set; }
+    public GameDtoMapper GameMapper { get; set; }
+    
 
     public override void Configure()
     {
@@ -47,7 +50,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
         await using var session = Store.QuerySession();
 
         var previewGames = await session
-            .Query<IGDBGame>()
+            .Query<InsertIGDBGame>()
             .Where(g => previewGameIds.Contains(g.Id))
             .ToListAsync(ct);
 
@@ -62,7 +65,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             ct
         );
 
-        var gameDtoMap = GameDtoMapper
+        var gameDtoMap = GameMapper
             .MapGamesToDto(previewGames, wishlistedGames, hypedGames)
             .ToDictionary(dto => dto.Id);
 
@@ -91,6 +94,6 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             })
             .ToList();
 
-        await SendOkAsync(response, ct);
+        await Send.OkAsync(response, ct);
     }
 }

@@ -1,13 +1,19 @@
 ﻿using JasperFx;
+using JasperFx.CodeGeneration;
 using Marten;
+using Shared;
 using Shared.Features.Games;
-using Weasel.Postgresql.Tables;
-using WebAPI.Features.Common;
 
 namespace WebAPI.Configuration;
 
 public static class MartenConfiguration
 {
+    public static long ToUnixTimestamp(int year, int month, int day)
+    {
+        var dt = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
+        return new DateTimeOffset(dt).ToUnixTimeSeconds();
+    }
+    
     public static IServiceCollection AddMartenDatabases(
         this IServiceCollection services,
         IHostEnvironment env,
@@ -23,61 +29,25 @@ public static class MartenConfiguration
         
         services.AddNpgsqlDataSource(connectionString);
 
+        
         services
             .AddMarten(options =>
             {
                 options.UseSystemTextJsonForSerialization();
-
-                if (env.IsDevelopment())
-                {
-                    options.AutoCreateSchemaObjects = AutoCreate.All;
-                }
-                else
-                {
-                    options.AutoCreateSchemaObjects = AutoCreate.CreateOrUpdate;
-                }
-
-                options.Schema.For<IGDBGame>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
-
-                options
-                    .Schema.For<IGDBGame>()
-                    .Duplicate(x => x.TotalRating)
-                    .Duplicate(x => x.Rating)
-                    .Duplicate(x => x.RatingCount)
-                    .Duplicate(x => x.CreatedAt)
-                    .Duplicate(x => x.FirstReleaseDate)
-                    .Duplicate(x => x.GameType.Id);
-                /*
-                .Duplicate(x => x.Genres.Select(genre => genre.Id).ToArray())
-                .Duplicate(x => x.Platforms.Select(platform => platform.Id).ToArray())
-                .Duplicate(x => x.Themes.Select(theme => theme.Id).ToArray())
-                .Duplicate(x => x.GameModes.Select(gameMode => gameMode.Id).ToArray())
-                .Duplicate(x => x.GameEngines.Select(gameEngine => gameEngine.Id).ToArray())
-                .Duplicate(x => x.PlayerPerspectives.Select(pps => pps.Id).ToArray())
-                */
-                ;
-
-                //.Duplicate(x => x.Slug)
-                //.Duplicate(x => x.Name)
-                /*
-                options.Schema.For<Game>().FullTextIndex(x => x.Name);
-                options.Schema.For<Game>().Index(x => x.GameType.Id);
-
-                options
-                    .Schema.For<Game>()
-                    .Index(
-                        x => x.Rating,
-                        x =>
-                        {
-                            x.SortOrder = SortOrder.Desc;
-                        }
-                    );
-                */
+                options.AutoCreateSchemaObjects = AutoCreate.None;
+                
+                MartenSchema.Configure(options);
             })
             .UseLightweightSessions()
-            .UseNpgsqlDataSource()
-            .ApplyAllDatabaseChangesOnStartup();
+            .UseNpgsqlDataSource();
 
+        /*
+        services.CritterStackDefaults(x =>
+        {
+            x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+            x.Production.ResourceAutoCreate = AutoCreate.None;
+        });
+        */
         return services;
     }
 }

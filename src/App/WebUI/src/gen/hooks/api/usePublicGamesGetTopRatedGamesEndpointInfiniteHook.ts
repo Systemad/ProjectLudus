@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type {
   PublicGamesGetTopRatedGamesEndpointQueryResponse,
@@ -21,7 +21,7 @@ export type PublicGamesGetTopRatedGamesEndpointInfiniteQueryKey = ReturnType<typ
  * {@link /api/games/top}
  */
 export async function publicGamesGetTopRatedGamesEndpointInfiniteHook(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -36,7 +36,7 @@ export async function publicGamesGetTopRatedGamesEndpointInfiniteHook(
 }
 
 export function publicGamesGetTopRatedGamesEndpointInfiniteQueryOptionsHook(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = publicGamesGetTopRatedGamesEndpointInfiniteQueryKey(params)
@@ -55,11 +55,11 @@ export function publicGamesGetTopRatedGamesEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as PublicGamesGetTopRatedGamesEndpointQueryParams['pageNumber']
       }
-      return publicGamesGetTopRatedGamesEndpointInfiniteHook(params, config)
+      return publicGamesGetTopRatedGamesEndpointInfiniteHook({ params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -71,7 +71,7 @@ export function usePublicGamesGetTopRatedGamesEndpointInfiniteHook<
   TQueryData = PublicGamesGetTopRatedGamesEndpointQueryResponse,
   TQueryKey extends QueryKey = PublicGamesGetTopRatedGamesEndpointInfiniteQueryKey,
 >(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   options: {
     query?: Partial<InfiniteQueryObserverOptions<PublicGamesGetTopRatedGamesEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -84,7 +84,7 @@ export function usePublicGamesGetTopRatedGamesEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...publicGamesGetTopRatedGamesEndpointInfiniteQueryOptionsHook(params, config),
+      ...publicGamesGetTopRatedGamesEndpointInfiniteQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

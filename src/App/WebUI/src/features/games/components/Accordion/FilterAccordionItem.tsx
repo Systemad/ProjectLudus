@@ -11,24 +11,20 @@ import {
 } from "@yamada-ui/react";
 import { useDebouncedState } from "@mantine/hooks";
 import { useMemo } from "react";
-import React from "react";
+import type { FilterItem } from "~/gen";
 
-type BaseFilterItem = {
-    id: number;
-    name: string;
-};
-type FilterAccordionProps<T extends BaseFilterItem> = {
+type FilterAccordionProps = {
     title: string;
-    items: T[];
-    selectedItems: number[];
-    onChange?: (items: number[]) => void;
+    items: FilterItem[];
+    selected: number[];
+    onChange: (value: number[]) => void;
 };
-export function FilterAccordion<T extends BaseFilterItem>({
+export function FilterAccordion({
     title,
     items,
-    selectedItems,
+    selected,
     onChange,
-}: FilterAccordionProps<T>) {
+}: FilterAccordionProps) {
     const [value, setValue] = useDebouncedState<string>("", 200, {
         leading: true,
     });
@@ -38,14 +34,6 @@ export function FilterAccordion<T extends BaseFilterItem>({
         return items.filter((item) => item.name.toLowerCase().includes(lower));
     }, [value, items]);
 
-    const MemoCheckboxItem = React.memo(
-        ({ id, name }: { id: string; name: string }) => (
-            <Checkbox key={id} value={id}>
-                {name}
-            </Checkbox>
-        )
-    );
-
     return (
         <AccordionItem rounded="xl" label={title}>
             <InputGroup mt="xs">
@@ -53,31 +41,24 @@ export function FilterAccordion<T extends BaseFilterItem>({
                     <MagnifyingGlassIcon />
                 </InputLeftElement>
                 <Input
-                    onChange={(ev) => setValue(ev.target.value)}
-                    borderWidth={"thin"}
-                    variant={"filled"}
-                    rounded="xl"
                     placeholder="Search"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                 />
             </InputGroup>
-            <ScrollArea h="2xs" innerProps={{ as: VStack, gap: "md" }}>
+
+            <ScrollArea
+                h="2xs"
+                innerProps={{
+                    as: VStack,
+                    gap: "md",
+                }}
+            >
                 {filteredItems && (
                     <>
-                        <CheckboxGroup
-                            value={selectedItems.map((id) => id.toString())}
-                            onChange={(valueStrings) => {
-                                if (onChange) {
-                                    onChange(
-                                        valueStrings.map((v) => Number(v))
-                                    );
-                                }
-                            }}
-                        >
+                        <CheckboxGroup value={selected} onChange={onChange}>
                             {filteredItems.map((filter) => (
-                                <Checkbox
-                                    key={filter.id}
-                                    value={filter.id.toString()}
-                                >
+                                <Checkbox key={filter.id} value={filter.id}>
                                     {filter.name}
                                 </Checkbox>
                             ))}

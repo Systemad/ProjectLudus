@@ -2,6 +2,7 @@
 using Marten;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
+using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Games.Mappers;
@@ -14,6 +15,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
+    public GameDtoMapper Mapper { get; set; }
 
     public override void Configure()
     {
@@ -25,7 +27,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var game = await session.LoadAsync<IGDBGame>(req.GameId, ct);
+        var game = await session.LoadAsync<InsertIGDBGame>(req.GameId, ct);
         if (game is null)
         {
             ThrowError("Game doesn't exist!");
@@ -34,7 +36,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
         if (game.SimilarGames.Count > 0)
         {
             var simGames = await session
-                .Query<IGDBGame>()
+                .Query<InsertIGDBGame>()
                 .Where(x => x.Id.IsOneOf(game.SimilarGames))
                 .ToListAsync(token: ct);
 
@@ -53,10 +55,10 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
                 hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
             }
 
-            var previews = GameDtoMapper.MapGamesToDto(simGames, wishlistedGames, hypedGames);
+            var previews = Mapper.MapGamesToDto(simGames, wishlistedGames, hypedGames);
             response = previews.ToList();
         }
 
-        await SendOkAsync(new GetSimilarGamesResponse { SimilarGames = response }, ct);
+        await Send.OkAsync(new GetSimilarGamesResponse { SimilarGames = response }, ct);
     }
 }

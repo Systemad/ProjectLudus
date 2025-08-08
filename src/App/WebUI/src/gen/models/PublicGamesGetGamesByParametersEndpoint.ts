@@ -8,14 +8,6 @@ import type { PaginatedResponseOfGameDto } from './PaginatedResponseOfGameDto.ts
 
 export type PublicGamesGetGamesByParametersEndpointQueryParams = {
   /**
-   * @type integer, int32
-   */
-  pageSize: number
-  /**
-   * @type integer, int32
-   */
-  pageNumber: number
-  /**
    * @type string
    */
   name?: string | null
@@ -30,7 +22,7 @@ export type PublicGamesGetGamesByParametersEndpointQueryParams = {
   /**
    * @type array
    */
-  gameModes?: number[] | null
+  gamemodes?: number[] | null
   /**
    * @type array
    */
@@ -38,11 +30,19 @@ export type PublicGamesGetGamesByParametersEndpointQueryParams = {
   /**
    * @type array
    */
-  gameTypes?: number[] | null
+  gametypes?: number[] | null
   /**
    * @type array
    */
-  playerPerspectives?: number[] | null
+  pps?: number[] | null
+  /**
+   * @type integer, int32
+   */
+  pageSize?: number | null
+  /**
+   * @type integer, int32
+   */
+  pageNumber?: number | null
 }
 
 /**

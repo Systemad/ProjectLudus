@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { MeHypedGetAllEndpointQueryResponse, MeHypedGetAllEndpointQueryParams, MeHypedGetAllEndpoint401 } from '../../models/MeHypedGetAllEndpoint.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
@@ -18,7 +18,7 @@ export type MeHypedGetAllEndpointSuspenseQueryKey = ReturnType<typeof meHypedGet
  * {@link /api/me/hypes/all}
  */
 export async function meHypedGetAllEndpointSuspenseHook(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -33,7 +33,7 @@ export async function meHypedGetAllEndpointSuspenseHook(
 }
 
 export function meHypedGetAllEndpointSuspenseQueryOptionsHook(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meHypedGetAllEndpointSuspenseQueryKey(params)
@@ -42,7 +42,7 @@ export function meHypedGetAllEndpointSuspenseQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meHypedGetAllEndpointSuspenseHook(params, config)
+      return meHypedGetAllEndpointSuspenseHook({ params }, config)
     },
   })
 }
@@ -54,7 +54,7 @@ export function useMeHypedGetAllEndpointSuspenseHook<
   TData = MeHypedGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeHypedGetAllEndpointSuspenseQueryKey,
 >(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   options: {
     query?: Partial<UseSuspenseQueryOptions<MeHypedGetAllEndpointQueryResponse, ResponseErrorConfig<MeHypedGetAllEndpoint401>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -67,7 +67,7 @@ export function useMeHypedGetAllEndpointSuspenseHook<
 
   const query = useSuspenseQuery(
     {
-      ...meHypedGetAllEndpointSuspenseQueryOptionsHook(params, config),
+      ...meHypedGetAllEndpointSuspenseQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

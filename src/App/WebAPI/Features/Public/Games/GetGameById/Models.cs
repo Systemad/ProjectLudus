@@ -1,4 +1,4 @@
-﻿using Shared.Features.Games;
+﻿using Shared.Features;
 
 namespace Public.Games.GetGameById;
 

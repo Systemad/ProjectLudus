@@ -51,6 +51,6 @@ public class Endpoint : Endpoint<AddGameToListRequest>
             }
         );
         await DbContext.SaveChangesAsync(ct);
-        await SendOkAsync(ct);
+        await Send.OkAsync(cancellation: ct);
     }
 }

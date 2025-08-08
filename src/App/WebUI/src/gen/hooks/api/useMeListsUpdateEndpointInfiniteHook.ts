@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type {
   MeListsUpdateEndpointQueryResponse,
@@ -26,8 +26,7 @@ export type MeListsUpdateEndpointInfiniteQueryKey = ReturnType<typeof meListsUpd
  * {@link /api/me/lists/update/:listId}
  */
 export async function meListsUpdateEndpointInfiniteHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +41,7 @@ export async function meListsUpdateEndpointInfiniteHook(
 }
 
 export function meListsUpdateEndpointInfiniteQueryOptionsHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meListsUpdateEndpointInfiniteQueryKey({ listId }, params)
@@ -62,11 +60,11 @@ export function meListsUpdateEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as MeListsUpdateEndpointQueryParams['pageNumber']
       }
-      return meListsUpdateEndpointInfiniteHook({ listId }, params, config)
+      return meListsUpdateEndpointInfiniteHook({ listId, params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -78,8 +76,7 @@ export function useMeListsUpdateEndpointInfiniteHook<
   TQueryData = MeListsUpdateEndpointQueryResponse,
   TQueryKey extends QueryKey = MeListsUpdateEndpointInfiniteQueryKey,
 >(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   options: {
     query?: Partial<
       InfiniteQueryObserverOptions<
@@ -97,7 +94,7 @@ export function useMeListsUpdateEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...meListsUpdateEndpointInfiniteQueryOptionsHook({ listId }, params, config),
+      ...meListsUpdateEndpointInfiniteQueryOptionsHook({ listId, params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

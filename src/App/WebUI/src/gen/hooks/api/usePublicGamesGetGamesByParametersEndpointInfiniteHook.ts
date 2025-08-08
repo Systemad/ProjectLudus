@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type {
   PublicGamesGetGamesByParametersEndpointQueryResponse,
@@ -12,7 +12,7 @@ import type {
 } from '../../models/PublicGamesGetGamesByParametersEndpoint.ts'
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
 
-export const publicGamesGetGamesByParametersEndpointInfiniteQueryKey = (params: PublicGamesGetGamesByParametersEndpointQueryParams) =>
+export const publicGamesGetGamesByParametersEndpointInfiniteQueryKey = (params?: PublicGamesGetGamesByParametersEndpointQueryParams) =>
   ['v1', { url: '/api/games/search' }, ...(params ? [params] : [])] as const
 
 export type PublicGamesGetGamesByParametersEndpointInfiniteQueryKey = ReturnType<typeof publicGamesGetGamesByParametersEndpointInfiniteQueryKey>
@@ -21,7 +21,7 @@ export type PublicGamesGetGamesByParametersEndpointInfiniteQueryKey = ReturnType
  * {@link /api/games/search}
  */
 export async function publicGamesGetGamesByParametersEndpointInfiniteHook(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -36,7 +36,7 @@ export async function publicGamesGetGamesByParametersEndpointInfiniteHook(
 }
 
 export function publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = publicGamesGetGamesByParametersEndpointInfiniteQueryKey(params)
@@ -47,7 +47,6 @@ export function publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook(
     typeof queryKey,
     number
   >({
-    enabled: !!params,
     queryKey,
     queryFn: async ({ signal, pageParam }) => {
       config.signal = signal
@@ -55,11 +54,11 @@ export function publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as PublicGamesGetGamesByParametersEndpointQueryParams['pageNumber']
       }
-      return publicGamesGetGamesByParametersEndpointInfiniteHook(params, config)
+      return publicGamesGetGamesByParametersEndpointInfiniteHook({ params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -71,7 +70,7 @@ export function usePublicGamesGetGamesByParametersEndpointInfiniteHook<
   TQueryData = PublicGamesGetGamesByParametersEndpointQueryResponse,
   TQueryKey extends QueryKey = PublicGamesGetGamesByParametersEndpointInfiniteQueryKey,
 >(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   options: {
     query?: Partial<InfiniteQueryObserverOptions<PublicGamesGetGamesByParametersEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -84,7 +83,7 @@ export function usePublicGamesGetGamesByParametersEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook(params, config),
+      ...publicGamesGetGamesByParametersEndpointInfiniteQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

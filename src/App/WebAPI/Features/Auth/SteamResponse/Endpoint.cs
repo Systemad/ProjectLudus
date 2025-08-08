@@ -33,7 +33,7 @@ public class Endpoint : EndpointWithoutRequest<IResult>
         );
 
         if (!authenticationResult.Succeeded)
-            await SendRedirectAsync("/");
+            await Send.RedirectAsync("/");
         var steamId = authenticationResult.Principal.FindFirst(ClaimTypes.NameIdentifier).Value[
             SteamIdStartIndex..
         ];
@@ -66,7 +66,7 @@ public class Endpoint : EndpointWithoutRequest<IResult>
 
             if (playerSummary == null)
             {
-                await SendRedirectAsync("/");
+                 await Send.RedirectAsync("/");
                 //logger.LogWarning("Could not fetch Steam profile, user not created.");
                 //Response = TypedResults.Redirect("/");
             }
@@ -114,6 +114,6 @@ public class Endpoint : EndpointWithoutRequest<IResult>
             u.Claims.Add(new Claim(ClaimTypes.Role, newUser.Role));
         });
 
-        await SendRedirectAsync("/");
+        await Send.RedirectAsync("/");
     }
 }

@@ -28,6 +28,6 @@ public class Endpoint : Endpoint<CreateListRequest>
         };
         DbContext.Lists.Add(list);
         await DbContext.SaveChangesAsync(ct);
-        await SendCreatedAtAsync($"/{list.Id}", cancellation: ct);
+        await Send.CreatedAtAsync($"/{list.Id}", cancellation: ct);
     }
 }

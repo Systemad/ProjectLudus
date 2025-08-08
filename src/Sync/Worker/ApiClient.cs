@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Microsoft.Extensions.Options;
+using Shared.Features;
 using Shared.Features.Games;
 using Shared.Queries;
 using Shared.Twitch;

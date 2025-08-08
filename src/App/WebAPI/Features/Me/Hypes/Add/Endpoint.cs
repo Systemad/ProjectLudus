@@ -32,7 +32,7 @@ public class Endpoint : Endpoint<AddHypedItemRequest>
             DBContext.Hypes.Add(newHypeItem);
             await DBContext.SaveChangesAsync(ct);
         }
-        
-        await SendOkAsync(ct);
+
+        await Send.OkAsync(cancellation: ct);
     }
 }

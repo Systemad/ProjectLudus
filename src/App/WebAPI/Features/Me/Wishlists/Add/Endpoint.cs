@@ -33,6 +33,6 @@ public class Endpoint : Endpoint<AddWishlistItem>
             await DBContext.SaveChangesAsync(ct);
         }
 
-        await SendOkAsync();
+        await Send.OkAsync(cancellation: ct);
     }
 }

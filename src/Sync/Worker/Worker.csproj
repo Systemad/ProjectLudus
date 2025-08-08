@@ -1,29 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>696f31a6-b46a-47e0-b35a-385e9e205a05</UserSecretsId>
-    <RootNamespace>IGDBService</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Marten" Version="7.40.3" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0-preview.6.25358.103" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.6.25358.103" />
-    <PackageReference
-      Include="Microsoft.EntityFrameworkCore"
-      Version="10.0.0-preview.6.25358.103"
-    />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\Shared.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cache\" />
-  </ItemGroup>
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>696f31a6-b46a-47e0-b35a-385e9e205a05</UserSecretsId>
+        <RootNamespace>IGDBService</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Marten" Version="8.6.0" />
+        <PackageReference Include="Marten.AspNetCore" Version="8.6.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0-preview.6.25358.103"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.6.25358.103"/>
+        <PackageReference
+                Include="Microsoft.EntityFrameworkCore"
+                Version="10.0.0-preview.6.25358.103"
+        />
+        <PackageReference Include="Npgsql.DependencyInjection" Version="9.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Shared\Shared.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Content Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
 </Project>

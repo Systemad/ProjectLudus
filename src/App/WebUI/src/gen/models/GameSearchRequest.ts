@@ -4,4 +4,6 @@
  * Do not edit manually.
  */
 
-export type GameSearchRequest = object
+import type { PaginationRequest } from './PaginationRequest.ts'
+
+export type GameSearchRequest = PaginationRequest & object

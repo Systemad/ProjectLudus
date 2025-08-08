@@ -24,6 +24,6 @@ public class Endpoint : Endpoint<RemoveWishlistItem>
             .Wishlists.Where(w => w.UserId == userId && w.GameId == req.GameId)
             .ExecuteDeleteAsync(cancellationToken: ct);
 
-        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
+        await (rowsAffected == 0 ? Send.NotFoundAsync(ct) : Send.OkAsync(cancellation: ct));
     }
 }

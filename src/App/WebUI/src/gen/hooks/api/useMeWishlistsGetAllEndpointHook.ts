@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type {
   MeWishlistsGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeWishlistsGetAllEndpointQueryKey = ReturnType<typeof meWishlistsGet
  * {@link /api/me/wishlist/all}
  */
 export async function meWishlistsGetAllEndpointHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meWishlistsGetAllEndpointHook(
 }
 
 export function meWishlistsGetAllEndpointQueryOptionsHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meWishlistsGetAllEndpointQueryKey(params)
@@ -51,7 +51,7 @@ export function meWishlistsGetAllEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meWishlistsGetAllEndpointHook(params, config)
+      return meWishlistsGetAllEndpointHook({ params }, config)
     },
   })
 }
@@ -64,7 +64,7 @@ export function useMeWishlistsGetAllEndpointHook<
   TQueryData = MeWishlistsGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeWishlistsGetAllEndpointQueryKey,
 >(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   options: {
     query?: Partial<
       QueryObserverOptions<MeWishlistsGetAllEndpointQueryResponse, ResponseErrorConfig<MeWishlistsGetAllEndpoint401>, TData, TQueryData, TQueryKey>
@@ -77,7 +77,7 @@ export function useMeWishlistsGetAllEndpointHook<
 
   const query = useQuery(
     {
-      ...meWishlistsGetAllEndpointQueryOptionsHook(params, config),
+      ...meWishlistsGetAllEndpointQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

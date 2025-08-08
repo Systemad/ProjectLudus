@@ -8,7 +8,6 @@ export default defineConfig(() => {
     return {
         root: ".",
         input: {
-            // TODO: Change to correct port
             path: "http://localhost:5123/openapi/v1.json",
         },
         output: {
@@ -16,13 +15,9 @@ export default defineConfig(() => {
             clean: true,
             defaultBanner: "simple",
         },
-        /*
-            hooks: {
-                done: ['npm run typecheck', 'biome format --write ./', 'biome lint --fix --unsafe ./src'],
-            },
-        */
+
         plugins: [
-            pluginOas({ generators: [] }),
+            pluginOas({ generators: [], validate: true }),
             pluginTs({
                 output: {
                     path: "models",
@@ -31,21 +26,6 @@ export default defineConfig(() => {
                     },
                 },
             }),
-            /*
-            pluginZod({
-                output: {
-                    path: "./zod",
-                },
-                typed: true,
-                transformers: {
-                    name: (name, type) =>
-                        type === "file" ? `${name}.gen` : name,
-                },
-                //operations: true,
-                //importPath: "zod",
-                //inferred: true,
-            }),
-            */
             pluginReactQuery({
                 transformers: {
                     name: (name, type) => {
@@ -67,6 +47,7 @@ export default defineConfig(() => {
                 },
                 client: {
                     dataReturnType: "data",
+                    importPath: "../../../client.ts",
                     baseURL: "",
                 },
                 mutation: {
@@ -75,9 +56,9 @@ export default defineConfig(() => {
                 infinite: {
                     queryParam: "pageNumber",
                     initialPageParam: 1,
-                    cursorParam: "undefined",
+                    //cursorParam: "undefined",
                 },
-                paramsType: "inline",
+                paramsType: "object",
                 pathParamsType: "object",
                 suspense: {},
                 query: {
@@ -88,3 +69,26 @@ export default defineConfig(() => {
         ],
     };
 });
+
+// https://github.com/kubb-labs/kubb/issues/1632
+/*
+            hooks: {
+                done: ['npm run typecheck', 'biome format --write ./', 'biome lint --fix --unsafe ./src'],
+            },
+        */
+
+/*
+            pluginZod({
+                output: {
+                    path: "./zod",
+                },
+                typed: true,
+                transformers: {
+                    name: (name, type) =>
+                        type === "file" ? `${name}.gen` : name,
+                },
+                //operations: true,
+                //importPath: "zod",
+                //inferred: true,
+            }),
+*/

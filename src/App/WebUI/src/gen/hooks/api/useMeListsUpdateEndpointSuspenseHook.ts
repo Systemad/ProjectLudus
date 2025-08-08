@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type {
   MeListsUpdateEndpointQueryResponse,
@@ -26,8 +26,7 @@ export type MeListsUpdateEndpointSuspenseQueryKey = ReturnType<typeof meListsUpd
  * {@link /api/me/lists/update/:listId}
  */
 export async function meListsUpdateEndpointSuspenseHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -42,8 +41,7 @@ export async function meListsUpdateEndpointSuspenseHook(
 }
 
 export function meListsUpdateEndpointSuspenseQueryOptionsHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meListsUpdateEndpointSuspenseQueryKey({ listId }, params)
@@ -57,7 +55,7 @@ export function meListsUpdateEndpointSuspenseQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meListsUpdateEndpointSuspenseHook({ listId }, params, config)
+      return meListsUpdateEndpointSuspenseHook({ listId, params }, config)
     },
   })
 }
@@ -69,8 +67,7 @@ export function useMeListsUpdateEndpointSuspenseHook<
   TData = MeListsUpdateEndpointQueryResponse,
   TQueryKey extends QueryKey = MeListsUpdateEndpointSuspenseQueryKey,
 >(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<MeListsUpdateEndpointQueryResponse, ResponseErrorConfig<MeListsUpdateEndpoint400 | MeListsUpdateEndpoint401>, TData, TQueryKey>
@@ -83,7 +80,7 @@ export function useMeListsUpdateEndpointSuspenseHook<
 
   const query = useSuspenseQuery(
     {
-      ...meListsUpdateEndpointSuspenseQueryOptionsHook({ listId }, params, config),
+      ...meListsUpdateEndpointSuspenseQueryOptionsHook({ listId, params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

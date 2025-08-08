@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type {
   PublicGamesGetTopRatedGamesEndpointQueryResponse,
@@ -21,7 +21,7 @@ export type PublicGamesGetTopRatedGamesEndpointQueryKey = ReturnType<typeof publ
  * {@link /api/games/top}
  */
 export async function publicGamesGetTopRatedGamesEndpointHook(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -36,7 +36,7 @@ export async function publicGamesGetTopRatedGamesEndpointHook(
 }
 
 export function publicGamesGetTopRatedGamesEndpointQueryOptionsHook(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = publicGamesGetTopRatedGamesEndpointQueryKey(params)
@@ -50,7 +50,7 @@ export function publicGamesGetTopRatedGamesEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return publicGamesGetTopRatedGamesEndpointHook(params, config)
+      return publicGamesGetTopRatedGamesEndpointHook({ params }, config)
     },
   })
 }
@@ -63,7 +63,7 @@ export function usePublicGamesGetTopRatedGamesEndpointHook<
   TQueryData = PublicGamesGetTopRatedGamesEndpointQueryResponse,
   TQueryKey extends QueryKey = PublicGamesGetTopRatedGamesEndpointQueryKey,
 >(
-  params: PublicGamesGetTopRatedGamesEndpointQueryParams,
+  { params }: { params: PublicGamesGetTopRatedGamesEndpointQueryParams },
   options: {
     query?: Partial<QueryObserverOptions<PublicGamesGetTopRatedGamesEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & {
       client?: QueryClient
@@ -76,7 +76,7 @@ export function usePublicGamesGetTopRatedGamesEndpointHook<
 
   const query = useQuery(
     {
-      ...publicGamesGetTopRatedGamesEndpointQueryOptionsHook(params, config),
+      ...publicGamesGetTopRatedGamesEndpointQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

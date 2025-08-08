@@ -1,0 +1,28 @@
+﻿using System.Text.Json.Serialization;
+
+namespace Shared.Features.Games;
+
+public partial class InvolvedCompanyEntity
+{
+    [JsonPropertyName("id")] public long Id { get; set; }
+
+    [JsonPropertyName("company")] public long Company { get; set; }
+
+    [JsonPropertyName("developer")] public bool Developer { get; set; }
+
+    [JsonPropertyName("porting")] public bool Porting { get; set; }
+
+    [JsonPropertyName("publisher")] public bool Publisher { get; set; }
+
+    [JsonPropertyName("supporting")] public bool Supporting { get; set; }
+}
+
+public partial class InvolvedCompany
+{
+    public long Id { get; set; }
+    public Company Company { get; set; }
+    public bool Developer { get; set; }
+    public bool Porting { get; set; }
+    public bool Publisher { get; set; }
+    public bool Supporting { get; set; }
+}

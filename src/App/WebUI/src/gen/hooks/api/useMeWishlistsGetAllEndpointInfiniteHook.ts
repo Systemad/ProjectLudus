@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type {
   MeWishlistsGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeWishlistsGetAllEndpointInfiniteQueryKey = ReturnType<typeof meWish
  * {@link /api/me/wishlist/all}
  */
 export async function meWishlistsGetAllEndpointInfiniteHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meWishlistsGetAllEndpointInfiniteHook(
 }
 
 export function meWishlistsGetAllEndpointInfiniteQueryOptionsHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meWishlistsGetAllEndpointInfiniteQueryKey(params)
@@ -56,11 +56,11 @@ export function meWishlistsGetAllEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as MeWishlistsGetAllEndpointQueryParams['pageNumber']
       }
-      return meWishlistsGetAllEndpointInfiniteHook(params, config)
+      return meWishlistsGetAllEndpointInfiniteHook({ params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -72,7 +72,7 @@ export function useMeWishlistsGetAllEndpointInfiniteHook<
   TQueryData = MeWishlistsGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeWishlistsGetAllEndpointInfiniteQueryKey,
 >(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   options: {
     query?: Partial<
       InfiniteQueryObserverOptions<MeWishlistsGetAllEndpointQueryResponse, ResponseErrorConfig<MeWishlistsGetAllEndpoint401>, TData, TQueryKey>
@@ -85,7 +85,7 @@ export function useMeWishlistsGetAllEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...meWishlistsGetAllEndpointInfiniteQueryOptionsHook(params, config),
+      ...meWishlistsGetAllEndpointInfiniteQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

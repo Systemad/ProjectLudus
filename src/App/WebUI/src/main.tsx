@@ -1,12 +1,18 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import {
+    RouterProvider,
+    createRouter,
+    parseSearchWith,
+    stringifySearchWith,
+} from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Loading, UIProvider, extendConfig } from "@yamada-ui/react";
 import { AuthProvider } from "./features/auth/AuthProvider";
 import { useAuth } from "./features/auth/useAuth";
 import { queryClient } from "./queryClient";
+import qs from "query-string";
 
 // bg={["blackAlpha.50", "whiteAlpha.100"]}
 const router = createRouter({
@@ -14,12 +20,31 @@ const router = createRouter({
     context: { queryClient, auth: undefined! },
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
-    //defaultPreloadStaleTime: 0,
+    defaultStructuralSharing: true,
+    defaultPendingMinMs: 0,
+    defaultPendingMs: 100,
+    //parseSearch: parseSearchWith(JSON.parse),
+    //stringifySearch: stringifySearchWith(JSON.stringify),
+    /*
+    stringifySearch: stringifySearchWith((value) =>
+        qs.stringify(value, {
+            arrayFormat: "comma", // ✅ valid for query-string
+            skipNull: true,
+            skipEmptyString: true,
+        })
+    ),
+    parseSearch: parseSearchWith((value) =>
+        qs.parse(value, {
+            arrayFormat: "bracket",
+            parseNumbers: true, // ✅ turns "1" into 1
+            parseBooleans: true,
+        })
+    ),
+    */
     scrollRestoration: true,
     defaultPendingComponent: () => (
         <Loading variant="puff" colorScheme="emerald" />
     ),
-    defaultPendingMinMs: 1500,
 });
 
 export function AppInitializer() {

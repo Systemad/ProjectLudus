@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type { AuthLogoutEndpointQueryResponse, AuthLogoutEndpoint401, AuthLogoutEndpoint403 } from '../../models/AuthLogoutEndpoint.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using Marten;
-using Shared.Features.Games;
+using Shared.Features;
 using Shared.Queries;
 
 namespace IGDBService;
@@ -66,8 +66,8 @@ public class SeederService
     {
         var inserData = new InsertData();
         var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
-        await _store.BulkInsertAsync(games, BulkInsertMode.OverwriteExisting);
-
+        var flattened = games.FlattenGames();
+        await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
 
         // item.GameModes
         inserData.GameModes.AddRange(GetDistinctEntities(games, g => g.GameModes));
@@ -111,10 +111,10 @@ public class SeederService
         await _store.BulkInsertAsync(insertData.Keywords, BulkInsertMode.OverwriteExisting);
     }
 
-    private async Task WriteToJsonCacheAsync(List<IGDBGame> games)
+    private static async Task WriteToJsonCacheAsync(List<IGDBGame> games)
     {
         await using var stream = new StreamWriter(gameFile, append: true);
-        var options = new JsonSerializerOptions { WriteIndented = true };
+        var options = new JsonSerializerOptions { WriteIndented = false };
         foreach (var game in games)
         {
             string json = JsonSerializer.Serialize(game, options);

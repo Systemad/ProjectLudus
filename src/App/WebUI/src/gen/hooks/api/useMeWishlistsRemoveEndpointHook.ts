@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
 import type { MeWishlistsRemoveEndpointMutationResponse, MeWishlistsRemoveEndpointPathParams } from '../../models/MeWishlistsRemoveEndpoint.ts'
 import { useMutation } from '@tanstack/react-query'

@@ -16,7 +16,7 @@ public class Endpoint : EndpointWithoutRequest<IResult>
 
     public override async Task HandleAsync(CancellationToken ct)
     {
-        await SendResultAsync(
+        await Send.ResultAsync(
             Results.Challenge(
                 new AuthenticationProperties
                 {

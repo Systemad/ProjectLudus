@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type {
   PublicGamesGetGamesByParametersEndpointQueryResponse,
@@ -12,7 +12,7 @@ import type {
 } from '../../models/PublicGamesGetGamesByParametersEndpoint.ts'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 
-export const publicGamesGetGamesByParametersEndpointSuspenseQueryKey = (params: PublicGamesGetGamesByParametersEndpointQueryParams) =>
+export const publicGamesGetGamesByParametersEndpointSuspenseQueryKey = (params?: PublicGamesGetGamesByParametersEndpointQueryParams) =>
   ['v1', { url: '/api/games/search' }, ...(params ? [params] : [])] as const
 
 export type PublicGamesGetGamesByParametersEndpointSuspenseQueryKey = ReturnType<typeof publicGamesGetGamesByParametersEndpointSuspenseQueryKey>
@@ -21,7 +21,7 @@ export type PublicGamesGetGamesByParametersEndpointSuspenseQueryKey = ReturnType
  * {@link /api/games/search}
  */
 export async function publicGamesGetGamesByParametersEndpointSuspenseHook(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -36,7 +36,7 @@ export async function publicGamesGetGamesByParametersEndpointSuspenseHook(
 }
 
 export function publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = publicGamesGetGamesByParametersEndpointSuspenseQueryKey(params)
@@ -46,11 +46,10 @@ export function publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook(
     PublicGamesGetGamesByParametersEndpointQueryResponse,
     typeof queryKey
   >({
-    enabled: !!params,
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return publicGamesGetGamesByParametersEndpointSuspenseHook(params, config)
+      return publicGamesGetGamesByParametersEndpointSuspenseHook({ params }, config)
     },
   })
 }
@@ -62,7 +61,7 @@ export function usePublicGamesGetGamesByParametersEndpointSuspenseHook<
   TData = PublicGamesGetGamesByParametersEndpointQueryResponse,
   TQueryKey extends QueryKey = PublicGamesGetGamesByParametersEndpointSuspenseQueryKey,
 >(
-  params: PublicGamesGetGamesByParametersEndpointQueryParams,
+  { params }: { params?: PublicGamesGetGamesByParametersEndpointQueryParams },
   options: {
     query?: Partial<UseSuspenseQueryOptions<PublicGamesGetGamesByParametersEndpointQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -75,7 +74,7 @@ export function usePublicGamesGetGamesByParametersEndpointSuspenseHook<
 
   const query = useSuspenseQuery(
     {
-      ...publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook(params, config),
+      ...publicGamesGetGamesByParametersEndpointSuspenseQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

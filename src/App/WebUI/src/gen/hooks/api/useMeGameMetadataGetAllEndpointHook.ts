@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type {
   MeGameMetadataGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeGameMetadataGetAllEndpointQueryKey = ReturnType<typeof meGameMetad
  * {@link /api/me/metadata/all}
  */
 export async function meGameMetadataGetAllEndpointHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meGameMetadataGetAllEndpointHook(
 }
 
 export function meGameMetadataGetAllEndpointQueryOptionsHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meGameMetadataGetAllEndpointQueryKey(params)
@@ -51,7 +51,7 @@ export function meGameMetadataGetAllEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meGameMetadataGetAllEndpointHook(params, config)
+      return meGameMetadataGetAllEndpointHook({ params }, config)
     },
   })
 }
@@ -64,7 +64,7 @@ export function useMeGameMetadataGetAllEndpointHook<
   TQueryData = MeGameMetadataGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeGameMetadataGetAllEndpointQueryKey,
 >(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   options: {
     query?: Partial<
       QueryObserverOptions<MeGameMetadataGetAllEndpointQueryResponse, ResponseErrorConfig<MeGameMetadataGetAllEndpoint401>, TData, TQueryData, TQueryKey>
@@ -77,7 +77,7 @@ export function useMeGameMetadataGetAllEndpointHook<
 
   const query = useQuery(
     {
-      ...meGameMetadataGetAllEndpointQueryOptionsHook(params, config),
+      ...meGameMetadataGetAllEndpointQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

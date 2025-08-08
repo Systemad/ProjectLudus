@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions, UseInfiniteQueryResult } from '@tanstack/react-query'
 import type { MeHypedGetAllEndpointQueryResponse, MeHypedGetAllEndpointQueryParams, MeHypedGetAllEndpoint401 } from '../../models/MeHypedGetAllEndpoint.ts'
 import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query'
@@ -18,7 +18,7 @@ export type MeHypedGetAllEndpointInfiniteQueryKey = ReturnType<typeof meHypedGet
  * {@link /api/me/hypes/all}
  */
 export async function meHypedGetAllEndpointInfiniteHook(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -33,7 +33,7 @@ export async function meHypedGetAllEndpointInfiniteHook(
 }
 
 export function meHypedGetAllEndpointInfiniteQueryOptionsHook(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meHypedGetAllEndpointInfiniteQueryKey(params)
@@ -52,11 +52,11 @@ export function meHypedGetAllEndpointInfiniteQueryOptionsHook(
       if (params) {
         params['pageNumber'] = pageParam as unknown as MeHypedGetAllEndpointQueryParams['pageNumber']
       }
-      return meHypedGetAllEndpointInfiniteHook(params, config)
+      return meHypedGetAllEndpointInfiniteHook({ params }, config)
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage['undefined'],
-    getPreviousPageParam: (firstPage) => firstPage['undefined'],
+    getNextPageParam: (lastPage, _allPages, lastPageParam) => (Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1),
+    getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => (firstPageParam <= 1 ? undefined : firstPageParam - 1),
   })
 }
 
@@ -68,7 +68,7 @@ export function useMeHypedGetAllEndpointInfiniteHook<
   TQueryData = MeHypedGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeHypedGetAllEndpointInfiniteQueryKey,
 >(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   options: {
     query?: Partial<InfiniteQueryObserverOptions<MeHypedGetAllEndpointQueryResponse, ResponseErrorConfig<MeHypedGetAllEndpoint401>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -81,7 +81,7 @@ export function useMeHypedGetAllEndpointInfiniteHook<
 
   const query = useInfiniteQuery(
     {
-      ...meHypedGetAllEndpointInfiniteQueryOptionsHook(params, config),
+      ...meHypedGetAllEndpointInfiniteQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as InfiniteQueryObserverOptions,

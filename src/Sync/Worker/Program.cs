@@ -1,20 +1,12 @@
 using IGDBService;
+using JasperFx;
 using Marten;
+
 using Shared.Twitch;
-using Weasel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/*
-long count = 0;
 
-await foreach (var _ in File.ReadLinesAsync("Cache/gamefile.json"))
-{
-    count++;
-}
-
-Console.WriteLine($"Total entries: {count}");
-*/
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
 builder.Services.AddHttpClient(
     "IGDB",
@@ -28,20 +20,26 @@ builder.Services.AddHttpClient(
 builder.Services.AddScoped<ApiClient>();
 builder.Services.AddScoped<SeederService>();
 
+var connection = Utils.GetConnectionString();
+builder.Services.AddNpgsqlDataSource(connection!);
 builder.Services.AddMarten(options =>
-{
-    options.Connection("host=localhost:5432;database=gamingdb;password=Compaq2009;username=dan1");
-    options.UseSystemTextJsonForSerialization();
-    if (builder.Environment.IsDevelopment())
     {
+       
+        options.Connection(connection!);
+        
+        options.UseSystemTextJsonForSerialization();
         options.AutoCreateSchemaObjects = AutoCreate.All;
-    }
-});
+        
+        //MartenSchema.Configure(options);
+    })
+    .UseNpgsqlDataSource()
+    .ApplyAllDatabaseChangesOnStartup();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var seeder = scope.ServiceProvider.GetRequiredService<SeederService>();
-    await seeder.PopulateGamesAsync(true, true);
+    //var seeder = scope.ServiceProvider.GetRequiredService<SeederService>();
+    //await seeder.PopulateGamesAsync(true, true);
 }
+
 app.Run();

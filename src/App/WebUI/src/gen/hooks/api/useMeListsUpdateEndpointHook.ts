@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type {
   MeListsUpdateEndpointQueryResponse,
@@ -24,8 +24,7 @@ export type MeListsUpdateEndpointQueryKey = ReturnType<typeof meListsUpdateEndpo
  * {@link /api/me/lists/update/:listId}
  */
 export async function meListsUpdateEndpointHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -40,8 +39,7 @@ export async function meListsUpdateEndpointHook(
 }
 
 export function meListsUpdateEndpointQueryOptionsHook(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meListsUpdateEndpointQueryKey({ listId }, params)
@@ -55,7 +53,7 @@ export function meListsUpdateEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meListsUpdateEndpointHook({ listId }, params, config)
+      return meListsUpdateEndpointHook({ listId, params }, config)
     },
   })
 }
@@ -68,8 +66,7 @@ export function useMeListsUpdateEndpointHook<
   TQueryData = MeListsUpdateEndpointQueryResponse,
   TQueryKey extends QueryKey = MeListsUpdateEndpointQueryKey,
 >(
-  { listId }: { listId: MeListsUpdateEndpointPathParams['listId'] },
-  params: MeListsUpdateEndpointQueryParams,
+  { listId, params }: { listId: MeListsUpdateEndpointPathParams['listId']; params: MeListsUpdateEndpointQueryParams },
   options: {
     query?: Partial<
       QueryObserverOptions<
@@ -88,7 +85,7 @@ export function useMeListsUpdateEndpointHook<
 
   const query = useQuery(
     {
-      ...meListsUpdateEndpointQueryOptionsHook({ listId }, params, config),
+      ...meListsUpdateEndpointQueryOptionsHook({ listId, params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

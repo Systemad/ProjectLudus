@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Shared.Features.Games;
 
-namespace Shared.Features.Games;
+namespace Shared.Features;
 
 public partial class IGDBGame
 {
@@ -17,10 +18,10 @@ public partial class IGDBGame
     public List<Artwork> Artworks { get; set; } = new();
 
     [JsonPropertyName("cover")]
-    public Cover Cover { get; set; }
+    public Cover? Cover { get; set; }
 
     [JsonPropertyName("created_at")]
-    public long CreatedAt { get; set; }
+    public required long CreatedAt { get; set; }
 
     [JsonPropertyName("dlcs")]
     public List<long> Dlcs { get; set; } = new();
@@ -41,8 +42,8 @@ public partial class IGDBGame
     public List<GameMode> GameModes { get; set; } = new();
 
     [JsonPropertyName("genres")]
-    public List<Genre> Genres { get; set; }
-
+    public List<Genre> Genres { get; set; } = new();
+    
     [JsonPropertyName("hypes")]
     public long? Hypes { get; set; }
 
@@ -53,7 +54,7 @@ public partial class IGDBGame
     public List<Keyword> Keywords { get; set; } = new();
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [JsonPropertyName("platforms")]
     public List<Platform> Platforms { get; set; } = new();
@@ -62,10 +63,10 @@ public partial class IGDBGame
     public List<PlayerPerspective> PlayerPerspectives { get; set; } = new();
 
     [JsonPropertyName("rating")]
-    public double Rating { get; set; }
+    public double? Rating { get; set; }
 
     [JsonPropertyName("rating_count")]
-    public long RatingCount { get; set; }
+    public long? RatingCount { get; set; }
 
     [JsonPropertyName("release_dates")]
     public List<ReleaseDate> ReleaseDates { get; set; } = new();
@@ -77,28 +78,28 @@ public partial class IGDBGame
     public List<long> SimilarGames { get; set; } = new();
 
     [JsonPropertyName("slug")]
-    public string Slug { get; set; }
+    public string? Slug { get; set; }
 
     [JsonPropertyName("storyline")]
-    public string Storyline { get; set; }
+    public string? Storyline { get; set; }
 
     [JsonPropertyName("summary")]
-    public string Summary { get; set; }
+    public string? Summary { get; set; }
 
     [JsonPropertyName("themes")]
     public List<Theme> Themes { get; set; } = new();
 
     [JsonPropertyName("total_rating")]
-    public double TotalRating { get; set; }
+    public double? TotalRating { get; set; }
 
     [JsonPropertyName("total_rating_count")]
-    public long TotalRatingCount { get; set; }
+    public long? TotalRatingCount { get; set; }
 
     [JsonPropertyName("updated_at")]
-    public long UpdatedAt { get; set; }
+    public long? UpdatedAt { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     [JsonPropertyName("videos")]
     public List<Video> Videos { get; set; } = new();
@@ -107,7 +108,7 @@ public partial class IGDBGame
     public List<GameWebsite> Websites { get; set; } = new();
 
     [JsonPropertyName("checksum")]
-    public string Checksum { get; set; }
+    public required string Checksum { get; set; }
 
     [JsonPropertyName("language_supports")]
     public List<LanguageSupport> LanguageSupports { get; set; } = new();
@@ -116,7 +117,7 @@ public partial class IGDBGame
     public List<Collection> Collections { get; set; } = new();
 
     [JsonPropertyName("game_type")]
-    public GameType GameType { get; set; }
+    public GameType? GameType { get; set; }
 
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();

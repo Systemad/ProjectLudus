@@ -19,8 +19,10 @@ function RouteComponent() {
     const { data, isPending, isPlaceholderData, isFetching } =
         usePublicGamesGetTopRatedGamesEndpointHook(
             {
-                pageNumber: page,
-                pageSize: 40,
+                params: {
+                    pageNumber: page,
+                    pageSize: 40,
+                },
             },
             {
                 query: {

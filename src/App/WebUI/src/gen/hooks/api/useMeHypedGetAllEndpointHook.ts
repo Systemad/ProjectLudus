@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type { MeHypedGetAllEndpointQueryResponse, MeHypedGetAllEndpointQueryParams, MeHypedGetAllEndpoint401 } from '../../models/MeHypedGetAllEndpoint.ts'
 import { queryOptions, useQuery } from '@tanstack/react-query'
@@ -17,7 +17,10 @@ export type MeHypedGetAllEndpointQueryKey = ReturnType<typeof meHypedGetAllEndpo
 /**
  * {@link /api/me/hypes/all}
  */
-export async function meHypedGetAllEndpointHook(params: MeHypedGetAllEndpointQueryParams, config: Partial<RequestConfig> & { client?: typeof fetch } = {}) {
+export async function meHypedGetAllEndpointHook(
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
+  config: Partial<RequestConfig> & { client?: typeof fetch } = {},
+) {
   const { client: request = fetch, ...requestConfig } = config
 
   const res = await request<MeHypedGetAllEndpointQueryResponse, ResponseErrorConfig<MeHypedGetAllEndpoint401>, unknown>({
@@ -30,7 +33,7 @@ export async function meHypedGetAllEndpointHook(params: MeHypedGetAllEndpointQue
 }
 
 export function meHypedGetAllEndpointQueryOptionsHook(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meHypedGetAllEndpointQueryKey(params)
@@ -39,7 +42,7 @@ export function meHypedGetAllEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meHypedGetAllEndpointHook(params, config)
+      return meHypedGetAllEndpointHook({ params }, config)
     },
   })
 }
@@ -52,7 +55,7 @@ export function useMeHypedGetAllEndpointHook<
   TQueryData = MeHypedGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeHypedGetAllEndpointQueryKey,
 >(
-  params: MeHypedGetAllEndpointQueryParams,
+  { params }: { params: MeHypedGetAllEndpointQueryParams },
   options: {
     query?: Partial<QueryObserverOptions<MeHypedGetAllEndpointQueryResponse, ResponseErrorConfig<MeHypedGetAllEndpoint401>, TData, TQueryData, TQueryKey>> & {
       client?: QueryClient
@@ -65,7 +68,7 @@ export function useMeHypedGetAllEndpointHook<
 
   const query = useQuery(
     {
-      ...meHypedGetAllEndpointQueryOptionsHook(params, config),
+      ...meHypedGetAllEndpointQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

@@ -32,6 +32,6 @@ public class Endpoint : Endpoint<RemoveGameRequest>
             .ListItems.Where(gli => gli.GameListId == req.ListId && gli.GameId == req.GameId)
             .ExecuteDeleteAsync(ct);
 
-        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
+        await (rowsAffected == 0 ? Send.NotFoundAsync(ct) : Send.OkAsync(cancellation: ct));
     }
 }

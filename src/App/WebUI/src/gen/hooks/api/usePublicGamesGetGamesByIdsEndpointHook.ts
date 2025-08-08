@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
 import type {
   PublicGamesGetGamesByIdsEndpointMutationRequest,
@@ -20,7 +20,7 @@ export type PublicGamesGetGamesByIdsEndpointMutationKey = ReturnType<typeof publ
  * {@link /api/games/by-ids}
  */
 export async function publicGamesGetGamesByIdsEndpointHook(
-  data: PublicGamesGetGamesByIdsEndpointMutationRequest,
+  { data }: { data: PublicGamesGetGamesByIdsEndpointMutationRequest },
   config: Partial<RequestConfig<PublicGamesGetGamesByIdsEndpointMutationRequest>> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -61,7 +61,7 @@ export function usePublicGamesGetGamesByIdsEndpointHook<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return publicGamesGetGamesByIdsEndpointHook(data, config)
+        return publicGamesGetGamesByIdsEndpointHook({ data }, config)
       },
       mutationKey,
       ...mutationOptions,

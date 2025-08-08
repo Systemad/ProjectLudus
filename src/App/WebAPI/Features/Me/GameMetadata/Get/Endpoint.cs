@@ -30,7 +30,7 @@ public class Endpoint : Endpoint<GeGameMetadataRequest, GameMetadataDto>
 
         var metadata = GameMetadataMapper.MapToGameMetadata(req.GameId, wishlisted, hyped);
 
-        await SendAsync(
+        await Send.OkAsync(
             metadata,
             cancellation: ct
         );

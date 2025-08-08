@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
 import type {
   MeListsGetEndpointQueryResponse,
@@ -23,8 +23,7 @@ export type MeListsGetEndpointQueryKey = ReturnType<typeof meListsGetEndpointQue
  * {@link /api/me/lists/:listId}
  */
 export async function meListsGetEndpointHook(
-  { listId }: { listId: MeListsGetEndpointPathParams['listId'] },
-  params: MeListsGetEndpointQueryParams,
+  { listId, params }: { listId: MeListsGetEndpointPathParams['listId']; params: MeListsGetEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -39,8 +38,7 @@ export async function meListsGetEndpointHook(
 }
 
 export function meListsGetEndpointQueryOptionsHook(
-  { listId }: { listId: MeListsGetEndpointPathParams['listId'] },
-  params: MeListsGetEndpointQueryParams,
+  { listId, params }: { listId: MeListsGetEndpointPathParams['listId']; params: MeListsGetEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meListsGetEndpointQueryKey({ listId }, params)
@@ -49,7 +47,7 @@ export function meListsGetEndpointQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meListsGetEndpointHook({ listId }, params, config)
+      return meListsGetEndpointHook({ listId, params }, config)
     },
   })
 }
@@ -62,8 +60,7 @@ export function useMeListsGetEndpointHook<
   TQueryData = MeListsGetEndpointQueryResponse,
   TQueryKey extends QueryKey = MeListsGetEndpointQueryKey,
 >(
-  { listId }: { listId: MeListsGetEndpointPathParams['listId'] },
-  params: MeListsGetEndpointQueryParams,
+  { listId, params }: { listId: MeListsGetEndpointPathParams['listId']; params: MeListsGetEndpointQueryParams },
   options: {
     query?: Partial<QueryObserverOptions<MeListsGetEndpointQueryResponse, ResponseErrorConfig<MeListsGetEndpoint401>, TData, TQueryData, TQueryKey>> & {
       client?: QueryClient
@@ -76,7 +73,7 @@ export function useMeListsGetEndpointHook<
 
   const query = useQuery(
     {
-      ...meListsGetEndpointQueryOptionsHook({ listId }, params, config),
+      ...meListsGetEndpointQueryOptionsHook({ listId, params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as QueryObserverOptions,

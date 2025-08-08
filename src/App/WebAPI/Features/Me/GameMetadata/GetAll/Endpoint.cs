@@ -3,7 +3,7 @@ using Marten;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
-using Shared.Features.Games;
+using Shared.Features;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Mappers;
@@ -47,7 +47,7 @@ public class Endpoint : Endpoint<GeGameMetadataRequest, PaginatedResponse<GameMe
 
         var previews = GameMetadataMapper.MapGamesToMetadatas(games.Select(x => x.Id), wishlistedGames, hypedGames);
 
-        await SendAsync(
+        await Send.OkAsync(
             new PaginatedResponse<GameMetadataDto>(
                 previews,
                 games.TotalItemCount,

@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type {
   MeWishlistsGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeWishlistsGetAllEndpointSuspenseQueryKey = ReturnType<typeof meWish
  * {@link /api/me/wishlist/all}
  */
 export async function meWishlistsGetAllEndpointSuspenseHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meWishlistsGetAllEndpointSuspenseHook(
 }
 
 export function meWishlistsGetAllEndpointSuspenseQueryOptionsHook(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meWishlistsGetAllEndpointSuspenseQueryKey(params)
@@ -51,7 +51,7 @@ export function meWishlistsGetAllEndpointSuspenseQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meWishlistsGetAllEndpointSuspenseHook(params, config)
+      return meWishlistsGetAllEndpointSuspenseHook({ params }, config)
     },
   })
 }
@@ -63,7 +63,7 @@ export function useMeWishlistsGetAllEndpointSuspenseHook<
   TData = MeWishlistsGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeWishlistsGetAllEndpointSuspenseQueryKey,
 >(
-  params: MeWishlistsGetAllEndpointQueryParams,
+  { params }: { params: MeWishlistsGetAllEndpointQueryParams },
   options: {
     query?: Partial<UseSuspenseQueryOptions<MeWishlistsGetAllEndpointQueryResponse, ResponseErrorConfig<MeWishlistsGetAllEndpoint401>, TData, TQueryKey>> & {
       client?: QueryClient
@@ -76,7 +76,7 @@ export function useMeWishlistsGetAllEndpointSuspenseHook<
 
   const query = useSuspenseQuery(
     {
-      ...meWishlistsGetAllEndpointSuspenseQueryOptionsHook(params, config),
+      ...meWishlistsGetAllEndpointSuspenseQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

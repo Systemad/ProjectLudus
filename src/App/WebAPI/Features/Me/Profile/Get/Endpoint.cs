@@ -45,10 +45,10 @@ public class Endpoint : EndpointWithoutRequest<GetMeResponse>
                     CreatedDate =  ludusUser.UserImage.CreatedDate
                 },
             };
-            await SendOkAsync(new GetMeResponse(userDto), ct);
+            await Send.OkAsync(new GetMeResponse(userDto), ct);
             return;
         }
 
-        await SendUnauthorizedAsync(ct);
+        await Send.UnauthorizedAsync(ct);
     }
 }

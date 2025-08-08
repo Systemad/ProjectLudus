@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type {
   MeGameMetadataGetAllEndpointQueryResponse,
@@ -22,7 +22,7 @@ export type MeGameMetadataGetAllEndpointSuspenseQueryKey = ReturnType<typeof meG
  * {@link /api/me/metadata/all}
  */
 export async function meGameMetadataGetAllEndpointSuspenseHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -37,7 +37,7 @@ export async function meGameMetadataGetAllEndpointSuspenseHook(
 }
 
 export function meGameMetadataGetAllEndpointSuspenseQueryOptionsHook(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   config: Partial<RequestConfig> & { client?: typeof fetch } = {},
 ) {
   const queryKey = meGameMetadataGetAllEndpointSuspenseQueryKey(params)
@@ -51,7 +51,7 @@ export function meGameMetadataGetAllEndpointSuspenseQueryOptionsHook(
     queryKey,
     queryFn: async ({ signal }) => {
       config.signal = signal
-      return meGameMetadataGetAllEndpointSuspenseHook(params, config)
+      return meGameMetadataGetAllEndpointSuspenseHook({ params }, config)
     },
   })
 }
@@ -63,7 +63,7 @@ export function useMeGameMetadataGetAllEndpointSuspenseHook<
   TData = MeGameMetadataGetAllEndpointQueryResponse,
   TQueryKey extends QueryKey = MeGameMetadataGetAllEndpointSuspenseQueryKey,
 >(
-  params: MeGameMetadataGetAllEndpointQueryParams,
+  { params }: { params: MeGameMetadataGetAllEndpointQueryParams },
   options: {
     query?: Partial<
       UseSuspenseQueryOptions<MeGameMetadataGetAllEndpointQueryResponse, ResponseErrorConfig<MeGameMetadataGetAllEndpoint401>, TData, TQueryKey>
@@ -76,7 +76,7 @@ export function useMeGameMetadataGetAllEndpointSuspenseHook<
 
   const query = useSuspenseQuery(
     {
-      ...meGameMetadataGetAllEndpointSuspenseQueryOptionsHook(params, config),
+      ...meGameMetadataGetAllEndpointSuspenseQueryOptionsHook({ params }, config),
       queryKey,
       ...queryOptions,
     } as unknown as UseSuspenseQueryOptions,

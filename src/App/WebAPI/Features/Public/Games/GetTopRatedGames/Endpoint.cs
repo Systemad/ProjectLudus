@@ -3,6 +3,7 @@ using Marten;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
+using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
@@ -15,6 +16,7 @@ namespace Public.Games.GetTopRatedGames;
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
     public IDocumentStore Store { get; set; }
+    public GameDtoMapper Mapper { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()
@@ -29,7 +31,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
         await using var session = Store.LightweightSession();
 
         var games = await session
-            .Query<IGDBGame>()
+            .Query<InsertIGDBGame>()
             .Where(x => x.GameType.Id == 0)
             .OrderByDescending(x => x.RatingCount)
             .ThenByDescending(x => x.Rating)
@@ -46,8 +48,8 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
-        await SendAsync(
+        var previews = Mapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+        await Send.OkAsync(
             new PaginatedResponse<GameDto>(
                 previews,
                 games.TotalItemCount,

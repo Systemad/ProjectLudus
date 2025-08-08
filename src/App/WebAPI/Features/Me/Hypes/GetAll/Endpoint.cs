@@ -5,6 +5,7 @@ using Me.Hypes;
 using Me.Hypes.GetAll;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
+using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
@@ -18,6 +19,7 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
 {
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
+    public GameDtoMapper GameMapper { get; set; }
 
     public override void Configure()
     {
@@ -41,13 +43,13 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
         );
 
         var games = await session
-            .Query<IGDBGame>()
+            .Query<InsertIGDBGame>()
             .Where(g => g.Id.IsOneOf(hypedGames.ToArray()))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = GameMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
 
-        await SendAsync(
+        await Send.OkAsync(
             new PaginatedResponse<GameDto>(
                 previews,
                 games.TotalItemCount,

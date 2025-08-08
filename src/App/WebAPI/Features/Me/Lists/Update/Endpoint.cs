@@ -29,6 +29,6 @@ public class Endpoint : Endpoint<UpdateListRequest>
                 cancellationToken: ct
             );
 
-        await (rowsAffected == 0 ? SendNotFoundAsync(ct) : SendOkAsync(ct));
+        await (rowsAffected == 0 ?  Send.NotFoundAsync(ct) : Send.OkAsync(cancellation: ct));
     }
 }

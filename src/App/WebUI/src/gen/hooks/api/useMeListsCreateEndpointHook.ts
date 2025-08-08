@@ -3,8 +3,8 @@
  * Do not edit manually.
  */
 
-import fetch from '@kubb/plugin-client/clients/axios'
-import type { RequestConfig, ResponseErrorConfig } from '@kubb/plugin-client/clients/axios'
+import fetch from '../../../client.ts'
+import type { RequestConfig, ResponseErrorConfig } from '../../../client.ts'
 import type { UseMutationOptions, QueryClient } from '@tanstack/react-query'
 import type {
   MeListsCreateEndpointMutationRequest,
@@ -22,7 +22,7 @@ export type MeListsCreateEndpointMutationKey = ReturnType<typeof meListsCreateEn
  * {@link /api/me/lists/create}
  */
 export async function meListsCreateEndpointHook(
-  data: MeListsCreateEndpointMutationRequest,
+  { data }: { data: MeListsCreateEndpointMutationRequest },
   config: Partial<RequestConfig<MeListsCreateEndpointMutationRequest>> & { client?: typeof fetch } = {},
 ) {
   const { client: request = fetch, ...requestConfig } = config
@@ -62,7 +62,7 @@ export function useMeListsCreateEndpointHook<TContext>(
   >(
     {
       mutationFn: async ({ data }) => {
-        return meListsCreateEndpointHook(data, config)
+        return meListsCreateEndpointHook({ data }, config)
       },
       mutationKey,
       ...mutationOptions,

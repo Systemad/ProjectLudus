@@ -3,6 +3,7 @@ using Marten;
 using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
+using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
@@ -17,6 +18,8 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
 
+    public GameDtoMapper GameMapper { get; set; }
+    
     public override void Configure()
     {
         Get("/all");
@@ -42,13 +45,13 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
         );
 
         var games = await session
-            .Query<IGDBGame>()
+            .Query<InsertIGDBGame>()
             .Where(g => hypedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = GameDtoMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = GameMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
 
-        await SendAsync(
+        await Send.OkAsync(
             new PaginatedResponse<GameDto>(
                 previews,
                 games.TotalItemCount,
