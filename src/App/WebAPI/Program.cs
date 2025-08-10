@@ -5,6 +5,7 @@ using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 using WebAPI.Configuration;
 using WebAPI.Features.Auth.Extensions;
+using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,14 +47,10 @@ builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
 
 builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddHttpClient();
 
-/*
-builder.Services.AddOutputCache(options =>
-{
-    options.DefaultExpirationTimeSpan = TimeSpan.FromSeconds(5);
-});
-*/
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
@@ -61,6 +58,11 @@ builder.Services.AddControllers();
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
+
+builder.Services.AddFusionCache();
+
+builder.Services.AddSingleton<IGameHydrator, GameHydrator>();
+
 
 var app = builder.Build();
 

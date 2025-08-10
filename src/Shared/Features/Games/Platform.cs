@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class Platform
+public class Platform : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

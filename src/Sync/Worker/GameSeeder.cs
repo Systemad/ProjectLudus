@@ -1,19 +1,19 @@
 ﻿using System.Text.Json;
 using Marten;
 using Shared.Features;
+using Shared.Features.Games;
 using Shared.Queries;
 
 namespace IGDBService;
 
-public class SeederService
+public class GameSeeder
 {
     private readonly IDocumentStore _store;
     private ApiClient _apiClient;
 
     private const string gameFile = "Cache/gamefile.json";
-    private const string companyFile = "Cache/companies.json";
 
-    public SeederService(IDocumentStore store, ApiClient apiClient)
+    public GameSeeder(IDocumentStore store, ApiClient apiClient)
     {
         _store = store;
         _apiClient = apiClient;
@@ -55,8 +55,6 @@ public class SeederService
         {
             await WriteToJsonCacheAsync(allGames);
         }
-
-        await Task.CompletedTask;
     }
 
     private async Task<List<IGDBGame>> InsertGamesBatchAsync(
@@ -69,28 +67,13 @@ public class SeederService
         var flattened = games.FlattenGames();
         await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
 
-        // item.GameModes
         inserData.GameModes.AddRange(GetDistinctEntities(games, g => g.GameModes));
-
-        //inserData.Genres.AddRange(item.Genres);
         inserData.Genres.AddRange(GetDistinctEntities(games, g => g.Genres));
-
-        //inserData.Platforms.AddRange(item.Platforms);
         inserData.Platforms.AddRange(GetDistinctEntities(games, g => g.Platforms));
-
-        //inserData.PlayerPerspectives.AddRange(item.PlayerPerspectives);
         inserData.PlayerPerspectives.AddRange(GetDistinctEntities(games, g => g.PlayerPerspectives));
-
-        //inserData.GameEngines.AddRange(item.GameEngines);
         inserData.GameEngines.AddRange(GetDistinctEntities(games, g => g.GameEngines));
-
-        //inserData.Themes.AddRange(item.Themes);
         inserData.Themes.AddRange(GetDistinctEntities(games, g => g.Themes));
-
-        //inserData.Franchises.AddRange(item.Franchises);
         inserData.Franchises.AddRange(GetDistinctEntities(games, g => g.Franchises));
-
-        //inserData.Keywords.AddRange(item.Keywords);
         inserData.Keywords.AddRange(GetDistinctEntities(games, g => g.Keywords));
         await InserDataAsync(inserData);
         return games;
@@ -122,41 +105,6 @@ public class SeederService
         }
     }
 
-    public async Task PopulateCompaniesAsync()
-    {
-        var countResponse = await _apiClient.FetchGamesCountGeneric(CompanyQuery.Count);
-
-        int maxItemsPerIteration = 500;
-        long totalItems = countResponse.Count;
-        long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
-
-        for (long i = 0; i < iterations; i++)
-        {
-            long offset = i * maxItemsPerIteration;
-            long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
-
-            Console.WriteLine($"Fetching {itemsToTake} items!");
-            await InsertCompanyBatchAsync(itemsToTake, offset);
-            await Task.Delay(300);
-        }
-
-        await Task.CompletedTask;
-    }
-
-    private async Task InsertCompanyBatchAsync(long itemsToTake, long offset)
-    {
-        await using var session = _store.LightweightSession();
-        var companies = await _apiClient.FetchBatchAsyncGeneric<RawCompany>(
-            CompanyQuery.Url,
-            CompanyQuery.Fields,
-            itemsToTake,
-            offset
-        );
-
-        await session.DocumentStore.BulkInsertAsync(companies, BulkInsertMode.OverwriteExisting);
-        await session.SaveChangesAsync();
-    }
-
     private static List<T> GetDistinctEntities<T>(
         IEnumerable<IGDBGame> games,
         Func<IGDBGame, IEnumerable<T>> selector
@@ -177,23 +125,3 @@ public class SeederService
             .ToList();
     }
 }
-
-/*
-var gameModes = GetDistinctEntities(games, g => g.GameModes);
-var genres = GetDistinctEntities(games, g => g.Genres);
-var involvedCompanies = GetDistinctEntities(games, g => g.InvolvedCompanies);
-var platforms = GetDistinctEntities(games, g => g.Platforms);
-var playerPerspectives = GetDistinctEntities(games, g => g.PlayerPerspectives);
-var gameEngines = GetDistinctEntities(games, g => g.GameEngines);
-var themes = GetDistinctEntities(games, g => g.Themes);
-var franchises = GetDistinctEntities(games, g => g.Franchises);
-
-session.StoreObjects(gameModes);
-session.StoreObjects(genres);
-session.StoreObjects(involvedCompanies);
-session.StoreObjects(platforms);
-session.StoreObjects(playerPerspectives);
-session.StoreObjects(gameEngines);
-session.StoreObjects(themes);
-session.StoreObjects(franchises);
-*/

@@ -9,7 +9,7 @@ public class MartenSchema
 {
     public static void Configure(StoreOptions options)
     {
-        options.Schema.For<InsertIGDBGame>().GinIndexJsonData();
+        //options.Schema.For<InsertIGDBGame>().GinIndexJsonData();
         options.Schema.For<InsertIGDBGame>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
         options.Schema.For<InsertIGDBGame>()
             .Duplicate(x => x.Genres)
@@ -18,7 +18,11 @@ public class MartenSchema
             .Duplicate(x => x.GameEngines)
             .Duplicate(x => x.Keywords)
             .Duplicate(x => x.Themes)
-            .Duplicate(x => x.PlayerPerspectives)
-            .Duplicate(x => x.MultiplayerModes);
+            .Duplicate(x => x.PlayerPerspectives);
+
+        //options.Schema.For<Platform>().FullTextIndex(x => x.Name, x => x.Slug);
+        options.Schema.For<Platform>().Duplicate(x => x.Name);
+        //options.Schema.For<Company>().Duplicate(x => x.Id);
+        //.Duplicate(x => x.MultiplayerModes);
     }
 }

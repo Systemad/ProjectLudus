@@ -25,7 +25,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
 {
     public LudusContext _context { get; set; }
     public MartenExt.IDocumentStore Store { get; set; }
-    public GameDtoMapper GameMapper { get; set; }
+    public IGameMapperService GameMapperService { get; set; }
     
 
     public override void Configure()
@@ -65,7 +65,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             ct
         );
 
-        var gameDtoMap = GameMapper
+        var gameDtoMap = GameMapperService
             .MapGamesToDto(previewGames, wishlistedGames, hypedGames)
             .ToDictionary(dto => dto.Id);
 

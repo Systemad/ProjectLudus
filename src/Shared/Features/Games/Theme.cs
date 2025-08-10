@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class Theme
+public class Theme : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

@@ -17,7 +17,7 @@ public partial class InvolvedCompanyEntity
     [JsonPropertyName("supporting")] public bool Supporting { get; set; }
 }
 
-public partial class InvolvedCompany
+public class InvolvedCompany : IIdentifiable
 {
     public long Id { get; set; }
     public Company Company { get; set; }

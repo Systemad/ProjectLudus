@@ -78,7 +78,6 @@ export type {
 export type { Collection } from './models/Collection.ts'
 export type { Company } from './models/Company.ts'
 export type { CompanyStatus } from './models/CompanyStatus.ts'
-export type { CompanyWebsite } from './models/CompanyWebsite.ts'
 export type { ContentDescription } from './models/ContentDescription.ts'
 export type { Cover } from './models/Cover.ts'
 export type { CreateListRequest } from './models/CreateListRequest.ts'
@@ -117,6 +116,7 @@ export type { Keyword } from './models/Keyword.ts'
 export type { Language } from './models/Language.ts'
 export type { LanguageSupport } from './models/LanguageSupport.ts'
 export type { LanguageSupportType } from './models/LanguageSupportType.ts'
+export type { Logo } from './models/Logo.ts'
 export type {
   MeGameMetadataGetAllEndpointQueryParams,
   MeGameMetadataGetAllEndpoint200,
@@ -275,16 +275,19 @@ export type { RemoveGameRequest } from './models/RemoveGameRequest.ts'
 export type { RemoveHypedItem } from './models/RemoveHypedItem.ts'
 export type { RemoveWishlistItem } from './models/RemoveWishlistItem.ts'
 export type { Screenshot } from './models/Screenshot.ts'
+export type { StartDateFormat } from './models/StartDateFormat.ts'
 export type { Task } from './models/Task.ts'
 export type { TaskCreationOptionsEnum, TaskCreationOptions } from './models/TaskCreationOptions.ts'
 export type { TaskStatusEnum, TaskStatus } from './models/TaskStatus.ts'
 export type { Theme } from './models/Theme.ts'
+export type { TypeClass } from './models/TypeClass.ts'
 export type { UpdateListRequest } from './models/UpdateListRequest.ts'
 export type { UserDto } from './models/UserDto.ts'
 export type { UserImageDto } from './models/UserImageDto.ts'
 export type { Video } from './models/Video.ts'
 export type { WeatherForecast } from './models/WeatherForecast.ts'
 export type { WeatherForecastGet200, WeatherForecastGetQueryResponse, WeatherForecastGetQuery } from './models/WeatherForecastGet.ts'
+export type { Website } from './models/Website.ts'
 export {
   meGameMetadataGetAllEndpointQueryKey,
   meGameMetadataGetAllEndpointHook,

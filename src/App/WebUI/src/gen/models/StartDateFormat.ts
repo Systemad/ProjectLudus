@@ -4,7 +4,7 @@
  * Do not edit manually.
  */
 
-export type CompanyWebsite = {
+export type StartDateFormat = {
   /**
    * @type integer, int64
    */
@@ -12,9 +12,5 @@ export type CompanyWebsite = {
   /**
    * @type string
    */
-  url: string
-  /**
-   * @type integer, int64
-   */
-  type: number
+  format: string
 }

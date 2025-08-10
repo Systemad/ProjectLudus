@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class GameEngine
+public partial class GameEngine : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

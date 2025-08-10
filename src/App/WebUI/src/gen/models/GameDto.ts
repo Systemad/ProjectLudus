@@ -4,6 +4,9 @@
  * Do not edit manually.
  */
 
+import type { GameType } from './GameType.ts'
+import type { Platform } from './Platform.ts'
+
 export type GameDto = {
   /**
    * @type integer, int64
@@ -26,21 +29,14 @@ export type GameDto = {
    */
   firstReleaseDate: number
   /**
-   * @type string
-   */
-  publisher: string
-  /**
    * @type array
    */
-  platforms: string[]
+  platforms: Platform[]
   /**
    * @type array
    */
   releaseDates: string[]
-  /**
-   * @type string
-   */
-  gameType: string
+  gameType?: GameType | null
   /**
    * @type boolean
    */

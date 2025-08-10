@@ -43,10 +43,7 @@ export type IGDBGame = {
    * @type array
    */
   artworks: Artwork[]
-  /**
-   * @type object
-   */
-  cover: Cover
+  cover?: Cover | null
   /**
    * @type integer, int64
    */
@@ -106,11 +103,11 @@ export type IGDBGame = {
   /**
    * @type number, double
    */
-  rating: number
+  rating?: number | null
   /**
    * @type integer, int64
    */
-  rating_count: number
+  rating_count?: number | null
   /**
    * @type array
    */
@@ -126,15 +123,15 @@ export type IGDBGame = {
   /**
    * @type string
    */
-  slug: string
+  slug?: string | null
   /**
    * @type string
    */
-  storyline: string
+  storyline?: string | null
   /**
    * @type string
    */
-  summary: string
+  summary?: string | null
   /**
    * @type array
    */
@@ -142,19 +139,19 @@ export type IGDBGame = {
   /**
    * @type number, double
    */
-  total_rating: number
+  total_rating?: number | null
   /**
    * @type integer, int64
    */
-  total_rating_count: number
+  total_rating_count?: number | null
   /**
    * @type integer, int64
    */
-  updated_at: number
+  updated_at?: number | null
   /**
    * @type string
    */
-  url: string
+  url?: string | null
   /**
    * @type array
    */
@@ -175,10 +172,7 @@ export type IGDBGame = {
    * @type array
    */
   collections: Collection[]
-  /**
-   * @type object
-   */
-  game_type: GameType
+  game_type?: GameType | null
   /**
    * @type array
    */

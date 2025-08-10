@@ -48,7 +48,7 @@ public class ApiClient
         return countResponse;
     }
 
-    public async Task<CountResponse> FetchGamesCountGeneric(string url)
+    public async Task<CountResponse> FetchCountAsync(string url)
     {
         _client = _httpClientFactory.CreateClient("IGDB");
         _client.DefaultRequestHeaders.Add("Client-ID", $"{_twithOptions.ClientId}");

@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class PlayerPerspective
+public class PlayerPerspective : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

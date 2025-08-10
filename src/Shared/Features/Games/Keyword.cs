@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class Keyword
+public class Keyword : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

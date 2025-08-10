@@ -18,7 +18,7 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
 
-    public GameDtoMapper GameMapper { get; set; }
+    public IGameMapperService GameMapperService { get; set; }
     
     public override void Configure()
     {
@@ -49,7 +49,7 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
             .Where(g => hypedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = GameMapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = GameMapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
 
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(

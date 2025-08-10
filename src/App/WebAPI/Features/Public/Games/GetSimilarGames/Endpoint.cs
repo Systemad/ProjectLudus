@@ -15,7 +15,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
-    public GameDtoMapper Mapper { get; set; }
+    public IGameMapperService MapperService { get; set; }
 
     public override void Configure()
     {
@@ -55,7 +55,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
                 hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
             }
 
-            var previews = Mapper.MapGamesToDto(simGames, wishlistedGames, hypedGames);
+            var previews = MapperService.MapGamesToDto(simGames, wishlistedGames, hypedGames);
             response = previews.ToList();
         }
 

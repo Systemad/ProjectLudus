@@ -1,7 +1,7 @@
 using IGDBService;
 using JasperFx;
 using Marten;
-
+using Shared;
 using Shared.Twitch;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +18,8 @@ builder.Services.AddHttpClient(
 );
 
 builder.Services.AddScoped<ApiClient>();
-builder.Services.AddScoped<SeederService>();
+builder.Services.AddScoped<GameSeeder>();
+builder.Services.AddScoped<CompanySeeder>();
 
 var connection = Utils.GetConnectionString();
 builder.Services.AddNpgsqlDataSource(connection!);
@@ -30,7 +31,7 @@ builder.Services.AddMarten(options =>
         options.UseSystemTextJsonForSerialization();
         options.AutoCreateSchemaObjects = AutoCreate.All;
         
-        //MartenSchema.Configure(options);
+        MartenSchema.Configure(options);
     })
     .UseNpgsqlDataSource()
     .ApplyAllDatabaseChangesOnStartup();
@@ -40,6 +41,8 @@ using (var scope = app.Services.CreateScope())
 {
     //var seeder = scope.ServiceProvider.GetRequiredService<SeederService>();
     //await seeder.PopulateGamesAsync(true, true);
+    //var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
+    //await seeder.PopulateCompaniesAsync(true, false);
 }
 
 app.Run();

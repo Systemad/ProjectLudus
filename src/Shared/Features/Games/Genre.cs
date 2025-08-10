@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class Genre
+public class Genre : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

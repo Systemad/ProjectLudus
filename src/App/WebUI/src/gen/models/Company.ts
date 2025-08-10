@@ -5,7 +5,9 @@
  */
 
 import type { CompanyStatus } from './CompanyStatus.ts'
-import type { CompanyWebsite } from './CompanyWebsite.ts'
+import type { Logo } from './Logo.ts'
+import type { StartDateFormat } from './StartDateFormat.ts'
+import type { Website } from './Website.ts'
 
 export type Company = {
   /**
@@ -15,7 +17,23 @@ export type Company = {
   /**
    * @type integer, int64
    */
+  changed_company_id?: number | null
+  /**
+   * @type integer, int64
+   */
   country: number
+  /**
+   * @type integer, int64
+   */
+  created_at: number
+  /**
+   * @type string
+   */
+  description: string
+  /**
+   * @type object
+   */
+  logo: Logo
   /**
    * @type string
    */
@@ -25,11 +43,39 @@ export type Company = {
    */
   slug: string
   /**
+   * @type integer, int64
+   */
+  start_date?: number | null
+  /**
+   * @type integer, int64
+   */
+  updated_at: number
+  /**
+   * @type string
+   */
+  url: string
+  /**
    * @type array
    */
-  websites: CompanyWebsite[]
+  websites: Website[]
+  /**
+   * @type string, guid
+   */
+  checksum: string
   /**
    * @type object
    */
   status: CompanyStatus
+  /**
+   * @type object
+   */
+  start_date_format: StartDateFormat
+  /**
+   * @type integer, int64
+   */
+  change_date?: number | null
+  /**
+   * @type integer, int64
+   */
+  parent?: number | null
 }

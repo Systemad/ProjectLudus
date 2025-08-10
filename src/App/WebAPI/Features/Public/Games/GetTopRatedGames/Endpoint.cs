@@ -16,7 +16,7 @@ namespace Public.Games.GetTopRatedGames;
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
     public IDocumentStore Store { get; set; }
-    public GameDtoMapper Mapper { get; set; }
+    public IGameMapperService MapperService { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()
@@ -48,7 +48,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = Mapper.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = MapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(
                 previews,
