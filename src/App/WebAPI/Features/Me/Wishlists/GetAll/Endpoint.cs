@@ -7,6 +7,7 @@ using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
@@ -18,7 +19,7 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
 
-    public IGameMapperService GameMapperService { get; set; }
+    public IGameService GameService { get; set; }
     
     public override void Configure()
     {
@@ -49,7 +50,7 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
             .Where(g => hypedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = GameMapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
 
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(

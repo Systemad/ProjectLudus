@@ -25,28 +25,28 @@ public class InsertIGDBGame
     public List<Franchise> Franchises { get; set; } = new();
 
     // TODO: 
-    public List<long> GameEngines { get; set; } = new();
+    public long[] GameEngines { get; set; } = [];
 
     // TODO: 
-    public List<long> GameModes { get; set; } = new();
+    public long[] GameModes { get; set; } = [];
 
     // TODO: 
-    public List<long> Genres { get; set; } = new();
+    public long[] Genres { get; set; } = [];
 
     public long? Hypes { get; set; }
 
     public List<InvolvedCompanyEntity> InvolvedCompanies { get; set; } = new();
 
     // TODO: 
-    public List<long> Keywords { get; set; } = new();
+    public long[] Keywords { get; set; } = [];
 
     public required string Name { get; set; }
 
     // TODO: 
-    public List<long> Platforms { get; set; } = [];
+    public long[] Platforms { get; set; } = [];
 
     // TODO: 
-    public List<long> PlayerPerspectives { get; set; } = new();
+    public long[] PlayerPerspectives { get; set; } = [];
 
     public double? Rating { get; set; }
 
@@ -65,7 +65,7 @@ public class InsertIGDBGame
     public string? Summary { get; set; }
 
     // TODO: 
-    public List<long> Themes { get; set; } = new();
+    public long[] Themes { get; set; } = [];
 
     public double? TotalRating { get; set; }
 
@@ -85,7 +85,7 @@ public class InsertIGDBGame
 
     public List<Collection> Collections { get; set; } = new();
 
-    public GameType? GameType { get; set; }
+    public required GameType GameType { get; set; }
 
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
 }

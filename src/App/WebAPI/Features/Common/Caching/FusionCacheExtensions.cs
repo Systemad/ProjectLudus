@@ -24,7 +24,7 @@ public static partial class FusionCacheExtensions
     /// <typeparam name="T">The type of the value in the cache</typeparam>
     /// <returns> The values in the cache, grouped as <see cref="IDictionary{TKey,TValue}"/>,
     /// combined with already there and generated values using the provided factory</returns>
-    public static async Task<IDictionary<string, T>> GetOrSetBatchAsync<T>(
+    public static async Task<IDictionary<string, T>>    GetOrSetBatchAsync<T>(
         this IFusionCache cache, 
         string[] keys, 
         Func<string[], CancellationToken, Task<IDictionary<string,T>>> factory, 

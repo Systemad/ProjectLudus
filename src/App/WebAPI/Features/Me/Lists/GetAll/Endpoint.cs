@@ -3,9 +3,8 @@ using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shared.Features;
-using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 using MartenExt = Marten;
@@ -25,9 +24,8 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
 {
     public LudusContext _context { get; set; }
     public MartenExt.IDocumentStore Store { get; set; }
-    public IGameMapperService GameMapperService { get; set; }
+    public IGameService GameService { get; set; }
     
-
     public override void Configure()
     {
         Get("/{all}");
@@ -65,9 +63,8 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             ct
         );
 
-        var gameDtoMap = GameMapperService
-            .MapGamesToDto(previewGames, wishlistedGames, hypedGames)
-            .ToDictionary(dto => dto.Id);
+        var gamesDto = await GameService.HydrateGamesAsync(previewGames, wishlistedGames, hypedGames);
+        var dictTo = gamesDto.ToDictionary(x => x.Id);
 
         var response = lists
             .Select(list =>
@@ -79,8 +76,8 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
                     .ToList();
 
                 var previewItems = previewIds
-                    .Where(id => gameDtoMap.ContainsKey(id))
-                    .Select(id => gameDtoMap[id])
+                    .Where(id => dictTo.ContainsKey(id))
+                    .Select(id => dictTo[id])
                     .ToList();
 
                 return new GameListPreviewDto

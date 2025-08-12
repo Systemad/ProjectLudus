@@ -28,16 +28,17 @@ public static class MartenConfiguration
         }
         
         services.AddNpgsqlDataSource(connectionString);
-
+        services.AddLogging();
         
         services
             .AddMarten(options =>
             {
                 options.UseSystemTextJsonForSerialization();
-                options.AutoCreateSchemaObjects = AutoCreate.None;
+                options.AutoCreateSchemaObjects = AutoCreate.All;
                 
                 MartenSchema.Configure(options);
             })
+            .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .UseNpgsqlDataSource();
 

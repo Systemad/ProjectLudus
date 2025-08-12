@@ -3,9 +3,8 @@ using Marten;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
-using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
@@ -15,7 +14,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
-    public IGameMapperService MapperService { get; set; }
+    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -55,7 +54,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
                 hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
             }
 
-            var previews = MapperService.MapGamesToDto(simGames, wishlistedGames, hypedGames);
+            var previews = await GameService.HydrateGamesAsync(simGames, wishlistedGames, hypedGames);
             response = previews.ToList();
         }
 

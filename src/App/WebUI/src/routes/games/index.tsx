@@ -26,7 +26,7 @@ import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 
 const gameSearchSchema = z.object({
     page: z.coerce.number().optional().catch(1),
-    query: z.string().optional().catch(""),
+    //query: z.string().optional().catch(""),
     genres: z.array(z.coerce.number()).optional(),
     platforms: z.array(z.coerce.number()).optional(),
 });
@@ -40,16 +40,16 @@ export const Route = createFileRoute("/games/")({
 
     loader: ({
         context: { queryClient },
-        deps: { page, query, genres, platforms },
+        deps: { page, /* query,*/ genres, platforms },
     }) => {
         return queryClient.ensureQueryData({
-            queryKey: ["games", "search", page, query, genres, platforms],
+            queryKey: ["games", "search", page, /* query,*/ genres, platforms],
             queryFn: () =>
                 publicGamesGetGamesByParametersEndpointHook({
                     params: {
                         pageNumber: page,
                         pageSize: 40,
-                        name: query,
+                        //name: query,
                         genres: genres,
                         platforms: platforms,
                     },
@@ -61,22 +61,16 @@ export const Route = createFileRoute("/games/")({
 function RouteComponent() {
     const { data: filters } = usePublicGamesGetFiltersEndpointHook();
 
-    const { page, query, genres, platforms } = Route.useSearch();
+    const { page, /* query,*/ genres, platforms } = Route.useSearch();
     const navigate = useNavigate({ from: Route.fullPath });
 
     const updateFilters = (name: keyof GameSearch, value: unknown) => {
         navigate({
-            search: (prev) => ({ ...prev, [name]: value, page: 1 }),
+            search: (prev) => ({ ...prev, [name]: value, page: page }),
             replace: true,
         });
     };
 
-    const [value, setValue] = useState("");
-    const [debounced] = useDebouncedValue(value, 200);
-
-    useEffect(() => {
-        updateFilters("query", debounced);
-    }, [debounced]);
     /*
 
                               <FilterAccordion
@@ -96,6 +90,15 @@ function RouteComponent() {
                         }}
                     />
     */
+    /*
+                    <Input
+                        value={query}
+                        onChange={(e) => {
+                            //updateFilters("query", e.target.value);
+                            setValue(e.currentTarget.value);
+                        }}
+                    />
+   */
     const data = Route.useLoaderData();
     return (
         <>
@@ -110,13 +113,6 @@ function RouteComponent() {
                     align="center"
                     justify="center"
                 >
-                    <Input
-                        value={query}
-                        onChange={(e) => {
-                            //updateFilters("query", e.target.value);
-                            setValue(e.currentTarget.value);
-                        }}
-                    />
                     {/* Top bar content here */}
                 </Flex>
 

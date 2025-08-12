@@ -1,14 +1,14 @@
 ﻿using FastEndpoints;
 using Marten;
 using Shared.Features;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 
 namespace Public.Games.GetGameById;
 
 public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 {
     public IDocumentStore GameStore { get; set; }
-    public IGameHydrator GameHydrator { get; set; }
+    public IGameService GameService { get; set; }
     public override void Configure()
     {
         Get("/{GameId}");
@@ -32,7 +32,8 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
             return;
         }
 
-        var hydrated = await GameHydrator.HydrateGameAsync(game);
+        var hydrated = await GameService.HydrateGameDetailAsync(game);
+        
         await Send.OkAsync(new GetGamesByIdResponse(hydrated), ct);
     }
 }

@@ -15,9 +15,12 @@ public static partial class FusionCacheExtensions
             async (batchKeys, ct) =>
             {
                 var extractedIds = batchKeys.Select(k => long.Parse(k.Split(':')[1])).ToList();
+                var platforms = await session.LoadManyAsync<T>(ct, extractedIds);
+                /*
                 var platforms = await session.Query<T>()
                     .Where(p =>  extractedIds.Contains(p.Id))
                     .ToListAsync(ct);
+                */
                 return platforms.ToDictionary(p => $"{keyPrefix}:{p.Id}", p => p);
             },
             entry =>

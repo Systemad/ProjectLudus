@@ -5,10 +5,9 @@ using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shared.Features;
-using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.Common.Lists;
 using WebAPI.Features.DataAccess;
@@ -19,7 +18,7 @@ public class Endpoint : Endpoint<GetListRequest, GameListDto>
 {
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
-    public IGameMapperService GameMapperService { get; set; }
+    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -61,7 +60,7 @@ public class Endpoint : Endpoint<GetListRequest, GameListDto>
             .Where(g => gameIds.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = GameMapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
 
         var page = new PaginatedResponse<GameDto>(
             previews,

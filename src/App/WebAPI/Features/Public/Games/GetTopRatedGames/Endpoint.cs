@@ -4,10 +4,9 @@ using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
-using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
@@ -16,7 +15,7 @@ namespace Public.Games.GetTopRatedGames;
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
     public IDocumentStore Store { get; set; }
-    public IGameMapperService MapperService { get; set; }
+    public IGameService GameService { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()
@@ -32,9 +31,9 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
 
         var games = await session
             .Query<InsertIGDBGame>()
-            .Where(x => x.GameType.Id == 0)
-            .OrderByDescending(x => x.RatingCount)
-            .ThenByDescending(x => x.Rating)
+            .Where(x => x.GameType.Id == 0 && x.TotalRatingCount >= 90)
+            .OrderByDescending(x => x.TotalRating)
+            .ThenByDescending(x => x.TotalRatingCount)
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         HashSet<long> hypedGames = [];
@@ -48,7 +47,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = MapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(
                 previews,

@@ -1,14 +1,14 @@
 ﻿using FastEndpoints;
 using Marten;
 using Shared.Features;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 
 namespace Public.Games.GetGamesByIds;
 
 public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
 {
     public IDocumentStore GameStore { get; set; }
-    public IGameHydrator Hydrator { get; set; }
+    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -27,9 +27,8 @@ public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
 
         await using var session = GameStore.QuerySession();
         var games = await session.LoadManyAsync<InsertIGDBGame>(ct, req.GameIds);
-        //var hydratedGames = games.Select(g => await Hydrator.HydrateGameAsync(g));
         var hydratedGames = await Task.WhenAll(
-            games.Select(g => Hydrator.HydrateGameAsync(g))
+            games.Select(g => GameService.HydrateGameDetailAsync(g))
         );
         await Send.OkAsync(new GetGamesByIdsResponse(hydratedGames.ToList()), ct);
     }

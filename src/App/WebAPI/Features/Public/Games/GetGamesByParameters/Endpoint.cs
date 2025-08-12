@@ -4,10 +4,9 @@ using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
-using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
@@ -17,7 +16,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
-    public IGameMapperService MapperService { get; set; }
+    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -40,37 +39,40 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
                 );
         }
 
-        if (req.Genres?.Count > 0)
+        if (req.Genres?.Length > 0)
         {
             gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.IsOneOf(req.Genres));
+
+            //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.IsOneOf(req.Genres));
             //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g)));
         }
 
-        if (req.GameTypes?.Count > 0)
+        if (req.GameTypes?.Length > 0)
         {
             gameQuery = gameQuery.Where(x => x.GameType != null && req.GameTypes.Contains(x.GameType.Id));
         }
 
-        if (req.Platforms?.Count > 0)
+        if (req.Platforms?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.IsOneOf(req.Platforms));
+            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.IsSubsetOf(req.Platforms));
 
             //gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
         }
 
-        if (req.GameModes?.Count > 0)
+
+        if (req.GameModes?.Length > 0)
         {
             gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.IsOneOf(req.GameModes));
             //gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
         }
 
-        if (req.Themes?.Count > 0)
+        if (req.Themes?.Length > 0)
         {
             //gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g)));
             gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.IsOneOf(req.Themes));
         }
 
-        if (req.PlayerPerspectives?.Count > 0)
+        if (req.PlayerPerspectives?.Length > 0)
         {
             //gameQuery = gameQuery.Where(x =>
             //x.PlayerPerspectives != null && x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
@@ -78,7 +80,10 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
                 x.PlayerPerspectives != null && x.PlayerPerspectives.IsOneOf(req.PlayerPerspectives));
         }
 
-        var games = await gameQuery.ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
+        var games =
+            await gameQuery.OrderByDescending(x => x.TotalRatingCount)
+                .ThenBy(x => x.TotalRating)
+                .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         HashSet<long> hypedGames = [];
         HashSet<long> wishlistedGames = [];
@@ -90,7 +95,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = MapperService.MapGamesToDto(games, wishlistedGames, hypedGames);
+        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
 
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(

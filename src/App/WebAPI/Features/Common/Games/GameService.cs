@@ -10,11 +10,13 @@ namespace WebAPI.Features.Common.Games;
 
 public interface IGameService
 {
-    Task<IEnumerable<GameDto>> HydrateGameDtoAsync(
+    Task<IEnumerable<GameDto>> HydrateGamesAsync(
         IEnumerable<InsertIGDBGame> games,
         HashSet<long> wishlistedSet,
         HashSet<long> hypedSet
     );
+
+    Task<IGDBGame> HydrateGameDetailAsync(InsertIGDBGame game);
 }
 
 public class GameService : IGameService
@@ -22,12 +24,13 @@ public class GameService : IGameService
     private readonly IFusionCache _cache;
     private readonly IDocumentStore _store;
 
-    public GameService(IFusionCache cache)
+    public GameService(IFusionCache cache, IDocumentStore store)
     {
         _cache = cache;
+        _store = store;
     }
 
-    public async Task<IEnumerable<GameDto>> HydrateGameDtoAsync(
+    public async Task<IEnumerable<GameDto>> HydrateGamesAsync(
         IEnumerable<InsertIGDBGame> games,
         HashSet<long> wishlistedSet,
         HashSet<long> hypedSet
@@ -47,35 +50,40 @@ public class GameService : IGameService
         return hydratedGames;
     }
 
-    public async Task<IGDBGame> HydrateGameAsync(InsertIGDBGame game)
+    public async Task<IGDBGame> HydrateGameDetailAsync(InsertIGDBGame game)
     {
         await using var session = _store.LightweightSession();
-        var involvedCompanies = await _cache.GetOrLoadBatchAsync<InvolvedCompany>(session,
+        var involvedCompanies = _cache.GetOrLoadBatchAsync<InvolvedCompany>(session,
             game.InvolvedCompanies.Select(x => x.Id), CacheKeys.Company);
-        var gameEngines = await _cache.GetOrLoadBatchAsync<GameEngine>(session,
+        var gameEngines = _cache.GetOrLoadBatchAsync<GameEngine>(session,
             game.GameEngines, CacheKeys.GameEngine);
-        var gameModes = await _cache.GetOrLoadBatchAsync<GameMode>(session,
+        var gameModes = _cache.GetOrLoadBatchAsync<GameMode>(session,
             game.GameModes, CacheKeys.GameMode);
-        var genres = await _cache.GetOrLoadBatchAsync<Genre>(session,
+        var genres = _cache.GetOrLoadBatchAsync<Genre>(session,
             game.Genres, CacheKeys.Genre);
-        var keywords = await _cache.GetOrLoadBatchAsync<Keyword>(session,
+        var keywords = _cache.GetOrLoadBatchAsync<Keyword>(session,
             game.Keywords, CacheKeys.Keyword);
-        var platforms = await _cache.GetOrLoadBatchAsync<Platform>(session,
+        var platforms = _cache.GetOrLoadBatchAsync<Platform>(session,
             game.Platforms, CacheKeys.Platform);
-        var playerPerspectives = await _cache.GetOrLoadBatchAsync<PlayerPerspective>(session,
+        var playerPerspectives = _cache.GetOrLoadBatchAsync<PlayerPerspective>(session,
             game.PlayerPerspectives, CacheKeys.PlayerPerspective);
-        var themes = await _cache.GetOrLoadBatchAsync<Theme>(session,
+        var themes = _cache.GetOrLoadBatchAsync<Theme>(session,
             game.Themes, CacheKeys.Theme);
 
+        await Task.WhenAll(
+            involvedCompanies, gameEngines, gameModes,
+            genres, keywords, platforms,
+            playerPerspectives, themes);
+
         return game.MapToGame(
-            gameEngines,
-            gameModes,
-            genres,
-            involvedCompanies,
-            keywords,
-            platforms,
-            playerPerspectives,
-            themes);
+            await gameEngines,
+            await gameModes,
+            await genres,
+            await involvedCompanies,
+            await keywords,
+            await platforms,
+            await playerPerspectives,
+            await themes);
     }
 }
 

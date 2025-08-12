@@ -5,12 +5,14 @@ using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 using WebAPI.Configuration;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games.Mappers;
+using WebAPI.Features.Common.Games;
 using WebAPI.Features.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+
+builder.Logging.AddConsole();
 
 builder.Services.AddAuthenticationCookie(validFor: TimeSpan.FromDays(7)).AddAuthorization();
 
@@ -59,10 +61,10 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
+builder.Services.AddMemoryCache();
 builder.Services.AddFusionCache();
 
-builder.Services.AddSingleton<IGameHydrator, GameHydrator>();
-
+builder.Services.AddSingleton<IGameService, GameService>();
 
 var app = builder.Build();
 
