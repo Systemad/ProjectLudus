@@ -9,8 +9,7 @@ import {
     ScrollArea,
     VStack,
 } from "@yamada-ui/react";
-import { useDebouncedState } from "@mantine/hooks";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import type { FilterItem } from "~/gen";
 
 type FilterAccordionProps = {
@@ -25,14 +24,12 @@ export function FilterAccordion({
     selected,
     onChange,
 }: FilterAccordionProps) {
-    const [value, setValue] = useDebouncedState<string>("", 200, {
-        leading: true,
-    });
+    const [value, setValue] = useState("");
 
     const filteredItems = useMemo(() => {
         const lower = value.toLocaleLowerCase();
         return items.filter((item) => item.name.toLowerCase().includes(lower));
-    }, [value, items]);
+    }, [items, value]);
 
     return (
         <AccordionItem rounded="xl" label={title}>
@@ -43,11 +40,12 @@ export function FilterAccordion({
                 <Input
                     placeholder="Search"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={(e) => setValue(e.currentTarget.value)}
                 />
             </InputGroup>
 
             <ScrollArea
+                mt="2"
                 h="2xs"
                 innerProps={{
                     as: VStack,

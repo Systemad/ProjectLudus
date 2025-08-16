@@ -2,7 +2,7 @@
 
 namespace Shared.Features;
 
-public class InsertIGDBGame
+public class InsertIgdbGame
 {
     public long Id { get; set; }
 
@@ -23,29 +23,20 @@ public class InsertIGDBGame
     public long FirstReleaseDate { get; set; }
 
     public List<Franchise> Franchises { get; set; } = new();
-
-    // TODO: 
     public long[] GameEngines { get; set; } = [];
-
-    // TODO: 
     public long[] GameModes { get; set; } = [];
-
-    // TODO: 
-    public long[] Genres { get; set; } = [];
+    public long[]? Genres { get; set; } = [];
 
     public long? Hypes { get; set; }
 
     public List<InvolvedCompanyEntity> InvolvedCompanies { get; set; } = new();
 
-    // TODO: 
     public long[] Keywords { get; set; } = [];
 
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
-    // TODO: 
     public long[] Platforms { get; set; } = [];
 
-    // TODO: 
     public long[] PlayerPerspectives { get; set; } = [];
 
     public double? Rating { get; set; }
@@ -64,7 +55,6 @@ public class InsertIGDBGame
 
     public string? Summary { get; set; }
 
-    // TODO: 
     public long[] Themes { get; set; } = [];
 
     public double? TotalRating { get; set; }

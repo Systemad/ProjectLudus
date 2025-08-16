@@ -30,7 +30,7 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
         await using var session = Store.LightweightSession();
 
         var games = await session
-            .Query<InsertIGDBGame>()
+            .Query<InsertIgdbGame>()
             .Where(x => x.GameType.Id == 0 && x.TotalRatingCount >= 90)
             .OrderByDescending(x => x.TotalRating)
             .ThenByDescending(x => x.TotalRatingCount)

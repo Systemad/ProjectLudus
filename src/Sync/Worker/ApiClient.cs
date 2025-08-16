@@ -5,7 +5,7 @@ using Shared.Features.Games;
 using Shared.Queries;
 using Shared.Twitch;
 
-namespace IGDBService;
+namespace Worker;
 
 public class ApiClient
 {
@@ -86,7 +86,7 @@ public class ApiClient
         return batch;
     }
 
-    public async Task<List<IGDBGame>> FetchBatchAsync(long itemsToTake, long offset)
+    public async Task<List<IgdbGame>> FetchBatchAsync(long itemsToTake, long offset)
     {
         var requestBody =
             $"fields {string.Join(",", GameQuery.Fields)}; limit {itemsToTake}; offset {offset};";
@@ -97,7 +97,7 @@ public class ApiClient
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var games = await response.Content.ReadFromJsonAsync<List<IGDBGame>>();
+        var games = await response.Content.ReadFromJsonAsync<List<IgdbGame>>();
 
         if (games == null || games.Count == 0)
             throw new ArgumentException("Games is null");

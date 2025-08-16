@@ -13,11 +13,3 @@ public class GameSearchRequest : PaginationRequest
     [QueryParam, BindFrom("gametypes")] public long[]? GameTypes { get; set; }
     [QueryParam, BindFrom("pps")] public long[]? PlayerPerspectives { get; set; }
 }
-
-/*
-    [QueryParam, BindFrom("pageSize")]
-    public int? _pageSize { get; set; }
-
-    [QueryParam, BindFrom("pageNumber")]
-    public int? _pageNumber { get; set; }
-*/

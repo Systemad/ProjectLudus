@@ -1,11 +1,13 @@
-using IGDBService;
 using JasperFx;
+using JasperFx.CodeGeneration;
 using Marten;
 using Shared;
 using Shared.Twitch;
+using Worker;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.ApplyJasperFxExtensions();
 
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
 builder.Services.AddHttpClient(
@@ -20,29 +22,44 @@ builder.Services.AddHttpClient(
 builder.Services.AddScoped<ApiClient>();
 builder.Services.AddScoped<GameSeeder>();
 builder.Services.AddScoped<CompanySeeder>();
+builder.Services.AddScoped<JsonSeederService>();
 
-var connection = Utils.GetConnectionString();
+var connection = Utilities.GetConnectionString();
 builder.Services.AddNpgsqlDataSource(connection!);
 builder.Services.AddMarten(options =>
     {
-       
         options.Connection(connection!);
-        
+        options.Logger(new ConsoleMartenLogger());
         options.UseSystemTextJsonForSerialization();
-        options.AutoCreateSchemaObjects = AutoCreate.All;
-        
         MartenSchema.Configure(options);
     })
     .UseNpgsqlDataSource()
     .ApplyAllDatabaseChangesOnStartup();
 
+builder.Services.CritterStackDefaults(x =>
+{
+    x.Production.GeneratedCodeMode = TypeLoadMode.Static;
+    x.Production.ResourceAutoCreate = AutoCreate.None;
+});
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    //var seeder = scope.ServiceProvider.GetRequiredService<SeederService>();
+    //var seeder = scope.ServiceProvider.GetRequiredService<JsonSeederService>();
+    //await seeder.SeedAsync(reset: true);
+
+    //var seeder = scope.ServiceProvider.GetRequiredService<IDocumentStore>();
+    //await seeder.Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+    //await seeder.Storage.Database.AssertDatabaseMatchesConfigurationAsync();
+
+    //await seeder.Storage.WriteCreationScriptToFile("my_database.sql");
+
+    //await seeder.Storage.Database.AssertDatabaseMatchesConfigurationAsync();
+    //var seeder = scope.ServiceProvider.GetRequiredService<GameSeeder>();
     //await seeder.PopulateGamesAsync(true, true);
     //var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
     //await seeder.PopulateCompaniesAsync(true, false);
 }
 
-app.Run();
+return await app.RunJasperFxCommands(args);
+//app.Run();

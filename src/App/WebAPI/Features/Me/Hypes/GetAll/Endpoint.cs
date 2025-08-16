@@ -42,7 +42,7 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GameDto
         );
 
         var games = await session
-            .Query<InsertIGDBGame>()
+            .Query<InsertIgdbGame>()
             .Where(g => g.Id.IsOneOf(hypedGames.ToArray()))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 

@@ -26,7 +26,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var game = await session.LoadAsync<InsertIGDBGame>(req.GameId, ct);
+        var game = await session.LoadAsync<InsertIgdbGame>(req.GameId, ct);
         if (game is null)
         {
             ThrowError("Game doesn't exist!");
@@ -35,7 +35,7 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
         if (game.SimilarGames.Count > 0)
         {
             var simGames = await session
-                .Query<InsertIGDBGame>()
+                .Query<InsertIgdbGame>()
                 .Where(x => x.Id.IsOneOf(game.SimilarGames))
                 .ToListAsync(token: ct);
 

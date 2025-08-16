@@ -11,12 +11,12 @@ namespace WebAPI.Features.Common.Games;
 public interface IGameService
 {
     Task<IEnumerable<GameDto>> HydrateGamesAsync(
-        IEnumerable<InsertIGDBGame> games,
+        IEnumerable<InsertIgdbGame> games,
         HashSet<long> wishlistedSet,
         HashSet<long> hypedSet
     );
 
-    Task<IGDBGame> HydrateGameDetailAsync(InsertIGDBGame game);
+    Task<IgdbGame> HydrateGameDetailAsync(InsertIgdbGame game);
 }
 
 public class GameService : IGameService
@@ -31,7 +31,7 @@ public class GameService : IGameService
     }
 
     public async Task<IEnumerable<GameDto>> HydrateGamesAsync(
-        IEnumerable<InsertIGDBGame> games,
+        IEnumerable<InsertIgdbGame> games,
         HashSet<long> wishlistedSet,
         HashSet<long> hypedSet
     )
@@ -50,7 +50,7 @@ public class GameService : IGameService
         return hydratedGames;
     }
 
-    public async Task<IGDBGame> HydrateGameDetailAsync(InsertIGDBGame game)
+    public async Task<IgdbGame> HydrateGameDetailAsync(InsertIgdbGame game)
     {
         await using var session = _store.LightweightSession();
         var involvedCompanies = _cache.GetOrLoadBatchAsync<InvolvedCompany>(session,

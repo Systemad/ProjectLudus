@@ -4,14 +4,14 @@ namespace Shared.Features;
 
 public static class GameMapper
 {
-    public static List<InsertIGDBGame> FlattenGames(this List<IGDBGame> game)
+    public static List<InsertIgdbGame> FlattenGames(this List<IgdbGame> game)
     {
-        return new List<InsertIGDBGame>(game.Select(x => x.FlattenGameEntity()));
+        return new List<InsertIgdbGame>(game.Select(x => x.FlattenGameEntity()));
     }
     
-    public static InsertIGDBGame FlattenGameEntity(this IGDBGame game)
+    public static InsertIgdbGame FlattenGameEntity(this IgdbGame game)
     {
-        return new InsertIGDBGame
+        return new InsertIgdbGame
         {
             Id = game.Id,
             AgeRatings = game.AgeRatings,
@@ -23,9 +23,9 @@ public static class GameMapper
             Expansions = game.Expansions,
             FirstReleaseDate = game.FirstReleaseDate,
             Franchises = game.Franchises,
-            GameEngines = game.GameEngines?.Select(x => x.Id).ToArray() ?? [],
-            GameModes = game.GameModes?.Select(x => x.Id).ToArray() ?? [],
-            Genres = game.Genres?.Select(x => x.Id).ToArray() ?? [],
+            GameEngines = game.GameEngines.Select(x => x.Id).ToArray(),
+            GameModes = game.GameModes.Select(x => x.Id).ToArray(),
+            Genres = game.Genres.Select(x => x.Id).ToArray(),
             Hypes = game.Hypes,
             InvolvedCompanies = game.InvolvedCompanies?
                 .Select(ic => new InvolvedCompanyEntity
@@ -38,10 +38,10 @@ public static class GameMapper
                     Supporting = ic.Supporting
                 })
                 .ToList() ?? new List<InvolvedCompanyEntity>(),
-            Keywords = game.Keywords?.Select(x => x.Id).ToArray() ?? [],
+            Keywords = game.Keywords.Select(x => x.Id).ToArray(),
             Name = game.Name,
-            Platforms = game.Platforms?.Select(x => x.Id).ToArray() ?? [],
-            PlayerPerspectives = game.PlayerPerspectives?.Select(x => x.Id).ToArray() ?? [],
+            Platforms = game.Platforms.Select(x => x.Id).ToArray(),
+            PlayerPerspectives = game.PlayerPerspectives.Select(x => x.Id).ToArray(),
             Rating = game.Rating,
             RatingCount = game.RatingCount,
             ReleaseDates = game.ReleaseDates,
@@ -50,7 +50,7 @@ public static class GameMapper
             Slug = game.Slug,
             Storyline = game.Storyline,
             Summary = game.Summary,
-            Themes = game.Themes?.Select(x => x.Id).ToArray() ?? [],
+            Themes = game.Themes.Select(x => x.Id).ToArray(),
             TotalRating = game.TotalRating,
             TotalRatingCount = game.TotalRatingCount,
             UpdatedAt = game.UpdatedAt,

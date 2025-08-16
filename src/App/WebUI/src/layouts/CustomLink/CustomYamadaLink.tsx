@@ -12,7 +12,19 @@ const YamadaLinkComponent = React.forwardRef<
     HTMLAnchorElement,
     YamadaLinkProps
 >((props, ref) => {
-    return <Link ref={ref} {...props} />;
+    return (
+        <Link
+            ref={ref}
+            variant={{
+                base: "ghost",
+                // Remove default blue color by setting color explicitly
+                color: "inherit",
+                _hover: { color: "gray.700" },
+                _current: { bg: "red", color: "white" },
+            }}
+            {...props}
+        />
+    );
 });
 
 const CreatedLinkComponent = createLink(YamadaLinkComponent);
@@ -20,14 +32,12 @@ const CreatedLinkComponent = createLink(YamadaLinkComponent);
 export const CustomYamadaLink: LinkComponent<typeof YamadaLinkComponent> = (
     props
 ) => {
-    return <CreatedLinkComponent preload={"intent"} {...props} />;
-};
-
-/*
+    return (
         <CreatedLinkComponent
-            textDecoration={"underline"}
-            _hover={{ textDecoration: "none" }}
-            _focus={{ textDecoration: "none" }}
+            activeOptions={{ exact: true }}
+            activeProps={{ style: { color: "red" } }}
             preload={"intent"}
             {...props}
-*/
+        />
+    );
+};

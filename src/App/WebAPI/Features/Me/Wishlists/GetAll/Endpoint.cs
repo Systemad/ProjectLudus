@@ -46,7 +46,7 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
         );
 
         var games = await session
-            .Query<InsertIGDBGame>()
+            .Query<InsertIgdbGame>()
             .Where(g => hypedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 

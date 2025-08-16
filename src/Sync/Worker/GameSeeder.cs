@@ -1,10 +1,8 @@
 ﻿using System.Text.Json;
 using Marten;
 using Shared.Features;
-using Shared.Features.Games;
-using Shared.Queries;
 
-namespace IGDBService;
+namespace Worker;
 
 public class GameSeeder
 {
@@ -34,7 +32,7 @@ public class GameSeeder
         long totalItems = countResponse.Count;
         long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
 
-        var allGames = new List<IGDBGame>();
+        var allGames = new List<IgdbGame>();
 
         for (long i = 0; i < iterations; i++)
         {
@@ -44,9 +42,9 @@ public class GameSeeder
             var games = await InsertGamesBatchAsync(itemsToTake, offset);
             allGames.AddRange(games);
             Console.WriteLine(
-                $"Batch {i + 1}/{iterations} — Fetched and stored {games.Count} games."
+                $"Batch {i + 1}/{iterations} — Fetched and stored {games.Count} games. Items: {itemsToTake}, Offset: {offset}"
             );
-            await Task.Delay(100);
+            await Task.Delay(200);
         }
 
         //var gameTypes = await _apiClient.FetchGamesTypesAsync();
@@ -57,7 +55,7 @@ public class GameSeeder
         }
     }
 
-    private async Task<List<IGDBGame>> InsertGamesBatchAsync(
+    private async Task<List<IgdbGame>> InsertGamesBatchAsync(
         long itemsToTake,
         long offset
     )
@@ -67,19 +65,19 @@ public class GameSeeder
         var flattened = games.FlattenGames();
         await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
 
-        inserData.GameModes.AddRange(GetDistinctEntities(games, g => g.GameModes));
-        inserData.Genres.AddRange(GetDistinctEntities(games, g => g.Genres));
-        inserData.Platforms.AddRange(GetDistinctEntities(games, g => g.Platforms));
-        inserData.PlayerPerspectives.AddRange(GetDistinctEntities(games, g => g.PlayerPerspectives));
-        inserData.GameEngines.AddRange(GetDistinctEntities(games, g => g.GameEngines));
-        inserData.Themes.AddRange(GetDistinctEntities(games, g => g.Themes));
-        inserData.Franchises.AddRange(GetDistinctEntities(games, g => g.Franchises));
-        inserData.Keywords.AddRange(GetDistinctEntities(games, g => g.Keywords));
-        await InserDataAsync(inserData);
+        inserData.GameModes.AddRange(Utilities.GetDistinctEntities(games, g => g.GameModes));
+        inserData.Genres.AddRange(Utilities.GetDistinctEntities(games, g => g.Genres));
+        inserData.Platforms.AddRange(Utilities.GetDistinctEntities(games, g => g.Platforms));
+        inserData.PlayerPerspectives.AddRange(Utilities.GetDistinctEntities(games, g => g.PlayerPerspectives));
+        inserData.GameEngines.AddRange(Utilities.GetDistinctEntities(games, g => g.GameEngines));
+        inserData.Themes.AddRange(Utilities.GetDistinctEntities(games, g => g.Themes));
+        inserData.Franchises.AddRange(Utilities.GetDistinctEntities(games, g => g.Franchises));
+        inserData.Keywords.AddRange(Utilities.GetDistinctEntities(games, g => g.Keywords));
+        await InsertDataAsync(inserData);
         return games;
     }
 
-    private async Task InserDataAsync(InsertData insertData)
+    private async Task InsertDataAsync(InsertData insertData)
     {
         await _store.BulkInsertAsync(insertData.GameModes, BulkInsertMode.OverwriteExisting);
         await _store.BulkInsertAsync(insertData.Genres, BulkInsertMode.OverwriteExisting);
@@ -94,7 +92,7 @@ public class GameSeeder
         await _store.BulkInsertAsync(insertData.Keywords, BulkInsertMode.OverwriteExisting);
     }
 
-    private static async Task WriteToJsonCacheAsync(List<IGDBGame> games)
+    private static async Task WriteToJsonCacheAsync(List<IgdbGame> games)
     {
         await using var stream = new StreamWriter(gameFile, append: true);
         var options = new JsonSerializerOptions { WriteIndented = false };
@@ -105,18 +103,6 @@ public class GameSeeder
         }
     }
 
-    private static List<T> GetDistinctEntities<T>(
-        IEnumerable<IGDBGame> games,
-        Func<IGDBGame, IEnumerable<T>> selector
-    )
-        where T : class
-    {
-        return games
-            .SelectMany(g => selector(g) ?? Enumerable.Empty<T>())
-            //.SelectMany(selector)
-            .DistinctBy<T, long>(e => (e as dynamic).Id) // assuming Id is int
-            .ToList();
-    }
 
     private static List<T> GetDistinctEntities2<T>(IEnumerable<T> items) where T : class
     {

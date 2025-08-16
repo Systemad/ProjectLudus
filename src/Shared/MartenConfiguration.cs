@@ -1,43 +1,41 @@
-﻿using System.Linq.Expressions;
-using Marten;
-using NpgsqlTypes;
+﻿using Marten;
 using Shared.Features;
-using Shared.Features.Games;
 using Weasel.Postgresql.Tables;
 
 namespace Shared;
 
-public class MartenSchema
+public static class MartenSchema
 {
     public static void Configure(StoreOptions options)
     {
-        options.Schema.For<InsertIGDBGame>()
-            .Index(x => x.Id, configure: idx => { idx.IsUnique = true; })
-            .Index(x => x.Name)
-            .Index(x => x.Slug)
-            .Index(x => x.FirstReleaseDate)
+        options.Schema.For<InsertIgdbGame>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
+
+        options.Schema.For<InsertIgdbGame>()
+            .Index(x => x.Id)
+            .Index(x => new
+            {
+                x.GameType.Id, x.TotalRatingCount, x.TotalRating
+            }, idx => { idx.Name = "idx_default_filter"; })
             .Duplicate(x => x.TotalRating, configure: idx =>
             {
-                idx.Method = IndexMethod.btree;
+                idx.SortOrder = SortOrder.Desc;
             })
             .Duplicate(x => x.TotalRatingCount, configure: idx =>
             {
-                idx.Method = IndexMethod.btree;
+                idx.SortOrder = SortOrder.Desc;
             })
-            .Duplicate(x => x.GameType.Id, configure: idx =>
+            .Duplicate(x => x.GameType.Id)
+            .Index(x => x.GameModes, configure: idx =>
             {
-                idx.Method = IndexMethod.btree;
+                idx.Method = IndexMethod.gin;
             })
-            .Index(x => x.UpdatedAt)
-            .Duplicate(x => x.Genres)
-            .Duplicate(x => x.Platforms)
-            .Duplicate(x => x.GameModes)
-            .Index(x => new
-                {
-                    x.GameType.Id, x.TotalRatingCount, x.TotalRating
-                }, idx =>
+            .Index(x => x.Genres, configure: idx =>
             {
-                idx.Name = "idx_gametype_totalratingcount_totalrating";
+                idx.Method = IndexMethod.gin;
+            })
+            .Index(x => x.Platforms, configure: idx =>
+            {
+                idx.Method = IndexMethod.gin;
             });
     }
 }

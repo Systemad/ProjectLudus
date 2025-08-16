@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class AgeRating
+public class AgeRating
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

@@ -48,7 +48,7 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
         await using var session = Store.QuerySession();
 
         var previewGames = await session
-            .Query<InsertIGDBGame>()
+            .Query<InsertIgdbGame>()
             .Where(g => previewGameIds.Contains(g.Id))
             .ToListAsync(ct);
 

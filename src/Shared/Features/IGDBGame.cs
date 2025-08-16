@@ -3,7 +3,7 @@ using Shared.Features.Games;
 
 namespace Shared.Features;
 
-public partial class IGDBGame
+public class IgdbGame
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -117,7 +117,7 @@ public partial class IGDBGame
     public List<Collection> Collections { get; set; } = new();
 
     [JsonPropertyName("game_type")]
-    public GameType? GameType { get; set; }
+    public required GameType GameType { get; set; }
 
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();

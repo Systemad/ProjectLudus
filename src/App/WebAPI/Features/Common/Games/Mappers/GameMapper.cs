@@ -6,7 +6,7 @@ namespace WebAPI.Features.Common.Games.Mappers;
 
 public static class GameMapper
 {
-    public static GameDto MapToGameDto(this InsertIGDBGame game, List<Platform> platforms, bool isWishlisted,
+    public static GameDto MapToGameDto(this InsertIgdbGame game, List<Platform> platforms, bool isWishlisted,
         bool isHyped)
     {
         return new GameDto()
@@ -27,11 +27,11 @@ public static class GameMapper
         };
     }
 
-    public static IGDBGame MapToGame(this InsertIGDBGame game, List<GameEngine> gameEngines, List<GameMode> gameModes,
+    public static IgdbGame MapToGame(this InsertIgdbGame game, List<GameEngine> gameEngines, List<GameMode> gameModes,
         List<Genre> genres, List<InvolvedCompany> involvedCompanies, List<Keyword> keywords, List<Platform> platforms,
         List<PlayerPerspective> playerPerspectives, List<Theme> themes)
     {
-        return new IGDBGame
+        return new IgdbGame
         {
             Id = game.Id,
             AgeRatings = game.AgeRatings,

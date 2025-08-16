@@ -1,34 +1,40 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+    createFileRoute,
+    useNavigate,
+    stripSearchParams,
+} from "@tanstack/react-router";
 import {
     Accordion,
-    AccordionItem,
-    Checkbox,
-    CheckboxGroup,
+    Button,
     Flex,
     GridItem,
     Input,
     InputGroup,
     InputLeftElement,
-    ScrollArea,
     SimpleGrid,
-    VStack,
 } from "@yamada-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { FilterAccordion } from "~/features/games/components/Accordion/FilterAccordionItem";
 import { z } from "zod";
 import {
     publicGamesGetGamesByParametersEndpointHook,
     usePublicGamesGetFiltersEndpointHook,
 } from "~/gen";
-import { useDebouncedState, useDebouncedValue } from "@mantine/hooks";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 
+const defaultValues = {
+    page: 1,
+    query: "",
+    genres: [],
+    platforms: [],
+};
+
 const gameSearchSchema = z.object({
-    page: z.coerce.number().optional().catch(1),
-    //query: z.string().optional().catch(""),
-    genres: z.array(z.coerce.number()).optional(),
-    platforms: z.array(z.coerce.number()).optional(),
+    page: z.coerce.number().optional().catch(1).default(1),
+    query: z.string().optional().catch("").default(""),
+    genres: z.array(z.coerce.number()).optional().default([]),
+    platforms: z.array(z.coerce.number()).optional().default([]),
 });
 
 type GameSearch = z.infer<typeof gameSearchSchema>;
@@ -36,20 +42,24 @@ type GameSearch = z.infer<typeof gameSearchSchema>;
 export const Route = createFileRoute("/games/")({
     component: RouteComponent,
     validateSearch: gameSearchSchema,
+    search: {
+        middlewares: [stripSearchParams(defaultValues)],
+    },
     loaderDeps: ({ search }) => ({ ...search }),
 
     loader: ({
         context: { queryClient },
-        deps: { page, /* query,*/ genres, platforms },
+        deps: { page, query, genres, platforms },
     }) => {
         return queryClient.ensureQueryData({
-            queryKey: ["games", "search", page, /* query,*/ genres, platforms],
-            queryFn: () =>
-                publicGamesGetGamesByParametersEndpointHook({
+            queryKey: ["games", "search", page, query, genres, platforms],
+
+            queryFn: async () =>
+                await publicGamesGetGamesByParametersEndpointHook({
                     params: {
                         pageNumber: page,
                         pageSize: 40,
-                        //name: query,
+                        name: query,
                         genres: genres,
                         platforms: platforms,
                     },
@@ -61,8 +71,10 @@ export const Route = createFileRoute("/games/")({
 function RouteComponent() {
     const { data: filters } = usePublicGamesGetFiltersEndpointHook();
 
-    const { page, /* query,*/ genres, platforms } = Route.useSearch();
+    const { page, query, genres, platforms } = Route.useSearch();
     const navigate = useNavigate({ from: Route.fullPath });
+
+    const [value, setValue] = useState<string>(query ?? "");
 
     const updateFilters = (name: keyof GameSearch, value: unknown) => {
         navigate({
@@ -71,48 +83,48 @@ function RouteComponent() {
         });
     };
 
-    /*
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
+    };
 
-                              <FilterAccordion
-                                        title={"Genres"}
-                                        items={filters.genres}
-                                        selected={genres ?? []}
-                                        onChange={(e) =>
-                                            updateFilters2("genres", e)
-                                        }
-                                    />
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") updateFilters("query", value);
+    };
 
-                                    
-                   <Input
-                        value={query}
-                        onChange={(e) => {
-                            updateSearchQuery("query", e.target.value);
-                        }}
-                    />
-    */
-    /*
-                    <Input
-                        value={query}
-                        onChange={(e) => {
-                            //updateFilters("query", e.target.value);
-                            setValue(e.currentTarget.value);
-                        }}
-                    />
-   */
+    const handleSearch = () => {
+        updateFilters("query", value);
+    };
+
     const data = Route.useLoaderData();
     return (
         <>
-            <Flex direction="column" w="full">
+            <Flex direction="column" gap="0" w="full">
                 {/* Top Bar */}
                 <Flex
-                    px="md"
                     borderRadius={"xl"}
-                    w="md"
-                    bg={["blackAlpha.50", "whiteAlpha.100"]}
+                    w="full"
                     h="5xs"
+                    p="0"
+                    gap="md"
                     align="center"
                     justify="center"
                 >
+                    <InputGroup>
+                        <InputLeftElement>
+                            <MagnifyingGlassIcon />
+                        </InputLeftElement>
+                        <Input
+                            placeholder="Search games"
+                            value={value}
+                            onKeyDown={handleKeyDown}
+                            onChange={handleChange}
+                        />
+                    </InputGroup>
+
+                    <Button colorScheme={"emerald"} onClick={handleSearch}>
+                        Search
+                    </Button>
+
                     {/* Top bar content here */}
                 </Flex>
 
@@ -120,18 +132,13 @@ function RouteComponent() {
                 <Flex
                     borderRadius={"xl"}
                     gap="md"
-                    mt="4"
+                    mt="2"
                     w="full"
                     minH="md"
                     h="full"
                 >
                     {/* Left Side: 1/4 width */}
-                    <Flex
-                        borderRadius={"xl"}
-                        flex="1"
-                        bg={["blackAlpha.50", "whiteAlpha.100"]}
-                        p="4"
-                    >
+                    <Flex borderRadius={"xl"} flex="1" p="0">
                         <Accordion
                             defaultIndex={[0, 1, 2]}
                             multiple={true}
@@ -158,34 +165,6 @@ function RouteComponent() {
                                     />
                                 </>
                             )}
-
-                            <AccordionItem rounded="xl" label="Platforms">
-                                <InputGroup mt="xs">
-                                    <InputLeftElement>
-                                        <MagnifyingGlassIcon />
-                                    </InputLeftElement>
-                                    <Input
-                                        borderWidth={"thin"}
-                                        variant={"filled"}
-                                        rounded="xl"
-                                        placeholder="Search"
-                                    />
-                                </InputGroup>
-                                <ScrollArea
-                                    h="2xs"
-                                    innerProps={{ as: VStack, gap: "md" }}
-                                ></ScrollArea>
-                            </AccordionItem>
-
-                            <AccordionItem
-                                rounded="xl"
-                                label="Game Launchers"
-                            ></AccordionItem>
-
-                            <AccordionItem
-                                rounded="xl"
-                                label="Release dates"
-                            ></AccordionItem>
                         </Accordion>
                     </Flex>
                     {/* Right Side: 3/4 width */}
@@ -193,14 +172,10 @@ function RouteComponent() {
                         borderRadius={"xl"}
                         flex="4"
                         bg={["blackAlpha.50", "whiteAlpha.100"]}
-                        p="4"
+                        p="2"
                     >
                         {data && (
-                            <Flex
-                                direction={"column"}
-                                alignItems={"center"}
-                                gap={"xl"}
-                            >
+                            <Flex direction={"column"} alignItems={"center"}>
                                 <Flex
                                     justifyContent="flex-start"
                                     w="full"

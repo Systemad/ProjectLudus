@@ -56,7 +56,7 @@ public class Endpoint : Endpoint<GetListRequest, GameListDto>
         await using var session = Store.QuerySession();
 
         var games = await session
-            .Query<InsertIGDBGame>()
+            .Query<InsertIgdbGame>()
             .Where(g => gameIds.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 

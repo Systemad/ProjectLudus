@@ -23,24 +23,6 @@ const router = createRouter({
     defaultStructuralSharing: true,
     defaultPendingMinMs: 0,
     defaultPendingMs: 100,
-    //parseSearch: parseSearchWith(JSON.parse),
-    //stringifySearch: stringifySearchWith(JSON.stringify),
-    /*
-    stringifySearch: stringifySearchWith((value) =>
-        qs.stringify(value, {
-            arrayFormat: "comma", // ✅ valid for query-string
-            skipNull: true,
-            skipEmptyString: true,
-        })
-    ),
-    parseSearch: parseSearchWith((value) =>
-        qs.parse(value, {
-            arrayFormat: "bracket",
-            parseNumbers: true, // ✅ turns "1" into 1
-            parseBooleans: true,
-        })
-    ),
-    */
     scrollRestoration: true,
     defaultPendingComponent: () => (
         <Loading variant="puff" colorScheme="emerald" />

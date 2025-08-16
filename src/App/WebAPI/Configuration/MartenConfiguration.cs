@@ -34,21 +34,17 @@ public static class MartenConfiguration
             .AddMarten(options =>
             {
                 options.UseSystemTextJsonForSerialization();
-                options.AutoCreateSchemaObjects = AutoCreate.All;
-                
                 MartenSchema.Configure(options);
             })
             .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .UseNpgsqlDataSource();
 
-        /*
         services.CritterStackDefaults(x =>
         {
             x.Production.GeneratedCodeMode = TypeLoadMode.Static;
             x.Production.ResourceAutoCreate = AutoCreate.None;
         });
-        */
         return services;
     }
 }

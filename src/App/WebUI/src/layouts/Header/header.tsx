@@ -93,7 +93,7 @@ export const Header = memo(
                                     as="nav"
                                     size="sm"
                                     fontWeight="normal"
-                                    gap="xs"
+                                    gap="md"
                                     variant="ghost"
                                 >
                                     <CustomYamadaLink to="/games" rounded="lg">

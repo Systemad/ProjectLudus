@@ -25,7 +25,7 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
         }
 
         await using var session = GameStore.QuerySession();
-        var game = await session.LoadAsync<InsertIGDBGame>(req.GameId, ct);
+        var game = await session.LoadAsync<InsertIgdbGame>(req.GameId, ct);
         if (game is null)
         {
             await Send.NotFoundAsync(ct);

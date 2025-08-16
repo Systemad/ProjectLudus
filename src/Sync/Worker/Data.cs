@@ -1,6 +1,6 @@
 ﻿using Shared.Features.Games;
 
-namespace IGDBService;
+namespace Worker;
 
 public class InsertData
 {

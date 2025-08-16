@@ -29,22 +29,19 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
     {
         await using var session = GameStore.LightweightSession();
 
-        IQueryable<InsertIGDBGame> gameQuery = session.Query<InsertIGDBGame>();
+        IQueryable<InsertIgdbGame> gameQuery = session.Query<InsertIgdbGame>();
 
         if (!string.IsNullOrWhiteSpace(req.Name))
         {
             gameQuery =
                 gameQuery.Where(x =>
-                    x.Name.Contains(req.Name, StringComparison.CurrentCultureIgnoreCase)
+                    x.WebStyleSearch(req.Name)
                 );
         }
 
         if (req.Genres?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.IsOneOf(req.Genres));
-
-            //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.IsOneOf(req.Genres));
-            //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g)));
+            gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g)));
         }
 
         if (req.GameTypes?.Length > 0)
@@ -54,35 +51,29 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 
         if (req.Platforms?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.IsSubsetOf(req.Platforms));
-
-            //gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
+            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
         }
-
 
         if (req.GameModes?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.IsOneOf(req.GameModes));
-            //gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
+            gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
         }
 
         if (req.Themes?.Length > 0)
         {
-            //gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g)));
-            gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.IsOneOf(req.Themes));
+            gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g)));
         }
 
         if (req.PlayerPerspectives?.Length > 0)
         {
-            //gameQuery = gameQuery.Where(x =>
-            //x.PlayerPerspectives != null && x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
-            gameQuery = gameQuery.Where(x =>
-                x.PlayerPerspectives != null && x.PlayerPerspectives.IsOneOf(req.PlayerPerspectives));
+            gameQuery = gameQuery.Where(x => x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
         }
 
+
         var games =
-            await gameQuery.OrderByDescending(x => x.TotalRatingCount)
-                .ThenBy(x => x.TotalRating)
+            await gameQuery
+                .Where(x => x.GameType.Id == 0)
+                .OrderBySql(Sorting.SortFilerOne)
                 .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         HashSet<long> hypedGames = [];

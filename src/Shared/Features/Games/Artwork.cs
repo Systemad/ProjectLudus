@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class Artwork
+public class Artwork
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

@@ -41,7 +41,7 @@ public class Endpoint : Endpoint<GeGameMetadataRequest, PaginatedResponse<GameMe
         hypedGames.UnionWith(wishlistedGames);
         
         var games = await session
-            .Query<IGDBGame>()
+            .Query<IgdbGame>()
             .Where(g => g.Id.IsOneOf(hypedGames.ToArray()))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 

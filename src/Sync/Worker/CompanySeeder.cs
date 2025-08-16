@@ -3,7 +3,7 @@ using Marten;
 using Shared.Features.Games;
 using Shared.Queries;
 
-namespace IGDBService;
+namespace Worker;
 
 public class CompanySeeder
 {

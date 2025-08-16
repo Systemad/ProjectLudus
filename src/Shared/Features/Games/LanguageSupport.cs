@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public partial class LanguageSupport
+public class LanguageSupport
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
