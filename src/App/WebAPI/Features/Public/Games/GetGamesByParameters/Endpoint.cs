@@ -4,19 +4,19 @@ using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
+using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games;
+using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Public.Games.GetGamesByParameters;
 
-public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
+public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GamePreviewDto>>
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
-    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -29,7 +29,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
     {
         await using var session = GameStore.LightweightSession();
 
-        IQueryable<InsertIgdbGame> gameQuery = session.Query<InsertIgdbGame>();
+        IQueryable<IGDBGameFlat> gameQuery = session.Query<IGDBGameFlat>();
 
         if (!string.IsNullOrWhiteSpace(req.Name))
         {
@@ -69,10 +69,11 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             gameQuery = gameQuery.Where(x => x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
         }
 
-
+        var platformDict = new Dictionary<long, Platform>();
         var games =
             await gameQuery
                 .Where(x => x.GameType.Id == 0)
+                .Include(platformDict).On(x => x.Platforms)
                 .OrderBySql(Sorting.SortFilerOne)
                 .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
@@ -86,10 +87,15 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
+        var previews = games.Select(item =>
+                item.ToGamePreviewDto(
+                    platformDict,
+                    wishlistedGames.Contains(item.Id),
+                    hypedGames.Contains(item.Id)))
+            .ToList();
 
         await Send.OkAsync(
-            new PaginatedResponse<GameDto>(
+            new PaginatedResponse<GamePreviewDto>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,

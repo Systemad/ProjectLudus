@@ -2,16 +2,16 @@
 
 namespace Shared.Features;
 
-public static class GameMapper
+public static class NormalizedGameMapper
 {
-    public static List<InsertIgdbGame> FlattenGames(this List<IgdbGame> game)
+    public static List<IGDBGameFlat> NormalizeGames(this List<IGDBGameRaw> game)
     {
-        return new List<InsertIgdbGame>(game.Select(x => x.FlattenGameEntity()));
+        return new List<IGDBGameFlat>(game.Select(x => x.NormalizeGame()));
     }
     
-    public static InsertIgdbGame FlattenGameEntity(this IgdbGame game)
+    public static IGDBGameFlat NormalizeGame(this IGDBGameRaw game)
     {
-        return new InsertIgdbGame
+        return new IGDBGameFlat
         {
             Id = game.Id,
             AgeRatings = game.AgeRatings,
@@ -27,17 +27,7 @@ public static class GameMapper
             GameModes = game.GameModes.Select(x => x.Id).ToArray(),
             Genres = game.Genres.Select(x => x.Id).ToArray(),
             Hypes = game.Hypes,
-            InvolvedCompanies = game.InvolvedCompanies?
-                .Select(ic => new InvolvedCompanyEntity
-                {
-                    Id = ic.Id,
-                    Company = ic.Company.Id,
-                    Developer = ic.Developer,
-                    Porting = ic.Porting,
-                    Publisher = ic.Publisher,
-                    Supporting = ic.Supporting
-                })
-                .ToList() ?? new List<InvolvedCompanyEntity>(),
+            InvolvedCompanies = game.InvolvedCompanies,
             Keywords = game.Keywords.Select(x => x.Id).ToArray(),
             Name = game.Name,
             Platforms = game.Platforms.Select(x => x.Id).ToArray(),

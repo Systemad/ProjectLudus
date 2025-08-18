@@ -7,19 +7,16 @@ using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Me.Wishlists.GetAll;
 
-public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<GameDto>>
+public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<GamePreviewDto>>
 {
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
-
-    public IGameService GameService { get; set; }
     
     public override void Configure()
     {
@@ -45,15 +42,23 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
             ct
         );
 
+        var platformDict = new Dictionary<long, Platform>();
+        
         var games = await session
-            .Query<InsertIgdbGame>()
+            .Query<IGDBGameFlat>()
+            .Include(platformDict).On(x => x.Platforms)
             .Where(g => hypedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
+        var previews = games.Select(item =>
+                item.ToGamePreviewDto(
+                    platformDict,
+                    wishlistedGames.Contains(item.Id),
+                    hypedGames.Contains(item.Id)))
+            .ToList();
 
         await Send.OkAsync(
-            new PaginatedResponse<GameDto>(
+            new PaginatedResponse<GamePreviewDto>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,

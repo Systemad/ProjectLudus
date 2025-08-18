@@ -25,10 +25,9 @@ export const AuthButton = () => {
                         </MenuButton>
 
                         <MenuList>
-                            <MenuGroup label="Account">
-                                <MenuItem>Wishlist</MenuItem>
-                                <MenuItem>Hypes</MenuItem>
-                                <MenuItem>Preferences</MenuItem>
+                            <MenuGroup>
+                                <MenuItem>Profile</MenuItem>
+                                <MenuItem>Settings</MenuItem>
                             </MenuGroup>
 
                             <MenuSeparator />

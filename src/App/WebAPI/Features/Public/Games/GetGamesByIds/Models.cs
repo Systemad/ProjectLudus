@@ -7,4 +7,4 @@ public class GetGameByIdsRequest
     public long[] GameIds { get; set; }
 }
 
-public record GetGamesByIdsResponse(List<IgdbGame> Games);
+public record GetGamesByIdsResponse(List<IgdbGameDto> Games);

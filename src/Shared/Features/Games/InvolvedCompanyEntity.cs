@@ -4,17 +4,29 @@ namespace Shared.Features.Games;
 
 public class InvolvedCompanyEntity
 {
-    [JsonPropertyName("id")] public long Id { get; set; }
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
 
-    [JsonPropertyName("company")] public long Company { get; set; }
+    [JsonPropertyName("company")]
+    public InvolvedCompanyIdEntity Company { get; set; }
 
-    [JsonPropertyName("developer")] public bool Developer { get; set; }
+    [JsonPropertyName("developer")]
+    public bool Developer { get; set; }
 
-    [JsonPropertyName("porting")] public bool Porting { get; set; }
+    [JsonPropertyName("porting")]
+    public bool Porting { get; set; }
 
-    [JsonPropertyName("publisher")] public bool Publisher { get; set; }
+    [JsonPropertyName("publisher")]
+    public bool Publisher { get; set; }
 
-    [JsonPropertyName("supporting")] public bool Supporting { get; set; }
+    [JsonPropertyName("supporting")]
+    public bool Supporting { get; set; }
+}
+
+public class InvolvedCompanyIdEntity
+{
+    [JsonPropertyName("id")]
+    public long Id { get; set; }
 }
 
 public class InvolvedCompany : IIdentifiable

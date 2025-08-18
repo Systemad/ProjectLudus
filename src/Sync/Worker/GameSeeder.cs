@@ -32,7 +32,7 @@ public class GameSeeder
         long totalItems = countResponse.Count;
         long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
 
-        var allGames = new List<IgdbGame>();
+        var allGames = new List<IGDBGameRaw>();
 
         for (long i = 0; i < iterations; i++)
         {
@@ -55,14 +55,14 @@ public class GameSeeder
         }
     }
 
-    private async Task<List<IgdbGame>> InsertGamesBatchAsync(
+    private async Task<List<IGDBGameRaw>> InsertGamesBatchAsync(
         long itemsToTake,
         long offset
     )
     {
         var inserData = new InsertData();
         var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
-        var flattened = games.FlattenGames();
+        var flattened = games.NormalizeGames();
         await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
 
         inserData.GameModes.AddRange(Utilities.GetDistinctEntities(games, g => g.GameModes));
@@ -92,7 +92,7 @@ public class GameSeeder
         await _store.BulkInsertAsync(insertData.Keywords, BulkInsertMode.OverwriteExisting);
     }
 
-    private static async Task WriteToJsonCacheAsync(List<IgdbGame> games)
+    private static async Task WriteToJsonCacheAsync(List<IGDBGameRaw> games)
     {
         await using var stream = new StreamWriter(gameFile, append: true);
         var options = new JsonSerializerOptions { WriteIndented = false };

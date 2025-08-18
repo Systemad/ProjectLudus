@@ -9,5 +9,5 @@ public class GameListDto
     public string Name { get; set; }
     public bool Public { get; set; }
     public int TotalItems { get; set; }
-    public PaginatedResponse<GameDto> Page { get; set; }
+    public PaginatedResponse<Games.Models.GamePreviewDto> Page { get; set; }
 }

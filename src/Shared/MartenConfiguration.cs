@@ -8,9 +8,9 @@ public static class MartenSchema
 {
     public static void Configure(StoreOptions options)
     {
-        options.Schema.For<InsertIgdbGame>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
+        options.Schema.For<IGDBGameFlat>().FullTextIndex(x => x.Name, x => x.AlternativeNames);
 
-        options.Schema.For<InsertIgdbGame>()
+        options.Schema.For<IGDBGameFlat>()
             .Index(x => x.Id)
             .Index(x => new
             {

@@ -3,8 +3,9 @@ using Marten;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
+using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games;
+using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
@@ -14,7 +15,6 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 {
     public IDocumentStore GameStore { get; set; }
     public LudusContext _context { get; set; }
-    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -26,17 +26,24 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         await using var session = GameStore.QuerySession();
-        var game = await session.LoadAsync<InsertIgdbGame>(req.GameId, ct);
-        if (game is null)
+        var similarGames = await session.Query<IGDBGameFlat>()
+            .Where(x => x.Id == req.GameId)
+            .Select(s => s.SimilarGames)
+            .FirstOrDefaultAsync(token: ct);
+        if (similarGames is null)
         {
             ThrowError("Game doesn't exist!");
         }
-        var response = new List<GameDto>();
-        if (game.SimilarGames.Count > 0)
+
+        var response = new List<GamePreviewDto>();
+        if (similarGames.Count > 0)
         {
+            var platformDict = new Dictionary<long, Platform>();
+            
             var simGames = await session
-                .Query<InsertIgdbGame>()
-                .Where(x => x.Id.IsOneOf(game.SimilarGames))
+                .Query<IGDBGameFlat>()
+                .Include(platformDict).On(x => x.Platforms)
+                .Where(x => x.Id.IsOneOf(similarGames))
                 .ToListAsync(token: ct);
 
             HashSet<long> hypedGames = [];
@@ -54,8 +61,14 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
                 hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
             }
 
-            var previews = await GameService.HydrateGamesAsync(simGames, wishlistedGames, hypedGames);
-            response = previews.ToList();
+            var prev = simGames.Select(item =>
+                    item.ToGamePreviewDto(
+                        platformDict,
+                        wishlistedGames.Contains(item.Id),
+                        hypedGames.Contains(item.Id)))
+                .ToList();
+            
+            response = prev.ToList();
         }
 
         await Send.OkAsync(new GetSimilarGamesResponse { SimilarGames = response }, ct);

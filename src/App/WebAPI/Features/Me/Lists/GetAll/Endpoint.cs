@@ -3,8 +3,9 @@ using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Shared.Features;
+using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games;
+using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 using MartenExt = Marten;
@@ -17,15 +18,14 @@ public class GameListPreviewDto
     public string Name { get; set; }
     public bool Public { get; set; }
     public int TotalItems { get; set; }
-    public List<GameDto> PreviewItems { get; set; }
+    public List<GamePreviewDto> PreviewItems { get; set; }
 }
 
 public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
 {
     public LudusContext _context { get; set; }
     public MartenExt.IDocumentStore Store { get; set; }
-    public IGameService GameService { get; set; }
-    
+
     public override void Configure()
     {
         Get("/{all}");
@@ -46,9 +46,10 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             .ToList();
 
         await using var session = Store.QuerySession();
-
+        var platformDict = new Dictionary<long, Platform>();
         var previewGames = await session
-            .Query<InsertIgdbGame>()
+            .Query<IGDBGameFlat>()
+            .Include(platformDict).On(x => x.Platforms)
             .Where(g => previewGameIds.Contains(g.Id))
             .ToListAsync(ct);
 
@@ -63,7 +64,12 @@ public class Endpoint : EndpointWithoutRequest<List<GameListPreviewDto>>
             ct
         );
 
-        var gamesDto = await GameService.HydrateGamesAsync(previewGames, wishlistedGames, hypedGames);
+        var gamesDto = previewGames.Select(item =>
+                item.ToGamePreviewDto(
+                    platformDict,
+                    wishlistedGames.Contains(item.Id),
+                    hypedGames.Contains(item.Id)))
+            .ToList();
         var dictTo = gamesDto.ToDictionary(x => x.Id);
 
         var response = lists

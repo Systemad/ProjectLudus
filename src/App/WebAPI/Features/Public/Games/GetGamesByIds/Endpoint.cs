@@ -26,7 +26,7 @@ public class Endpoint : Endpoint<GetGameByIdsRequest, GetGamesByIdsResponse>
         }
 
         await using var session = GameStore.QuerySession();
-        var games = await session.LoadManyAsync<InsertIgdbGame>(ct, req.GameIds);
+        var games = await session.LoadManyAsync<IGDBGameFlat>(ct, req.GameIds);
         var hydratedGames = await Task.WhenAll(
             games.Select(g => GameService.HydrateGameDetailAsync(g))
         );

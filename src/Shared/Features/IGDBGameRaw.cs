@@ -3,7 +3,7 @@ using Shared.Features.Games;
 
 namespace Shared.Features;
 
-public class IgdbGame
+public partial class IGDBGameRaw
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -48,7 +48,7 @@ public class IgdbGame
     public long? Hypes { get; set; }
 
     [JsonPropertyName("involved_companies")]
-    public List<InvolvedCompany> InvolvedCompanies { get; set; } = new();
+    public List<InvolvedCompanyEntity> InvolvedCompanies { get; set; } = new();
 
     [JsonPropertyName("keywords")]
     public List<Keyword> Keywords { get; set; } = new();

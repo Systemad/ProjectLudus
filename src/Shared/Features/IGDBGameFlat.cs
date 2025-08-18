@@ -2,7 +2,7 @@
 
 namespace Shared.Features;
 
-public class InsertIgdbGame
+public class IGDBGameFlat
 {
     public long Id { get; set; }
 
@@ -25,7 +25,7 @@ public class InsertIgdbGame
     public List<Franchise> Franchises { get; set; } = new();
     public long[] GameEngines { get; set; } = [];
     public long[] GameModes { get; set; } = [];
-    public long[]? Genres { get; set; } = [];
+    public long[] Genres { get; set; } = [];
 
     public long? Hypes { get; set; }
 

@@ -28,7 +28,7 @@ public class JsonSeederService
         var games = await OptimizedList.ReadFromStreamAsync(fs);
 
         var batchSize = 500;
-        var batch = new List<IgdbGame>(batchSize);
+        var batch = new List<IGDBGameRaw>(batchSize);
 
         foreach (var game in games)
         {
@@ -46,11 +46,11 @@ public class JsonSeederService
     }
 
     private async Task InsertGamesBatchAsync(
-        List<IgdbGame> games
+        List<IGDBGameRaw> games
     )
     {
         var inserData = new InsertData();
-        var flattened = games.FlattenGames();
+        var flattened = games.NormalizeGames();
         await _store.BulkInsertAsync(flattened, BulkInsertMode.IgnoreDuplicates);
 
         inserData.GameModes.AddRange(Utilities.GetDistinctEntities(games, g => g.GameModes));

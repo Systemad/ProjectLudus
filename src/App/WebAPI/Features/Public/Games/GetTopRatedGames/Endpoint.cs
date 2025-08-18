@@ -4,18 +4,18 @@ using Marten.Pagination;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
+using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games;
+using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Public.Games.GetTopRatedGames;
 
-public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
+public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GamePreviewDto>>
 {
     public IDocumentStore Store { get; set; }
-    public IGameService GameService { get; set; }
     public LudusContext _context { get; set; }
 
     public override void Configure()
@@ -29,8 +29,10 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
     {
         await using var session = Store.LightweightSession();
 
+        var platformDict = new Dictionary<long, Platform>();
         var games = await session
-            .Query<InsertIgdbGame>()
+            .Query<IGDBGameFlat>()
+            .Include(platformDict).On(x => x.Platforms)
             .Where(x => x.GameType.Id == 0 && x.TotalRatingCount >= 90)
             .OrderByDescending(x => x.TotalRating)
             .ThenByDescending(x => x.TotalRatingCount)
@@ -47,10 +49,16 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
             hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
         }
 
-        var previews = await GameService.HydrateGamesAsync(games, wishlistedGames, hypedGames);
+        var prev = games.Select(item =>
+                item.ToGamePreviewDto(
+                    platformDict,
+                    wishlistedGames.Contains(item.Id),
+                    hypedGames.Contains(item.Id)))
+            .ToList();
+
         await Send.OkAsync(
-            new PaginatedResponse<GameDto>(
-                previews,
+            new PaginatedResponse<GamePreviewDto>(
+                prev,
                 games.TotalItemCount,
                 games.PageCount,
                 games.PageSize,

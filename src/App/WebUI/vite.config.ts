@@ -49,6 +49,7 @@ export default defineConfig({
         //open: true,
         //port: port,
         proxy: {
+            /*
             "/api": {
                 target:
                     process.env.services__apiservice__https__0 ||
@@ -58,6 +59,7 @@ export default defineConfig({
                 //pathRewrite: { "^/api": "" },
                 //rewrite: (path) => path.replace(/^\/api/, ""),
             },
+            */
             "^/(api|signin|signout)": {
                 target:
                     process.env.services__apiservice__https__0 ||

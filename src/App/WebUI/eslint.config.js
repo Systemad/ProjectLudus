@@ -12,12 +12,7 @@ export default tseslint.config(
     ...pluginRouter.configs["flat/recommended"],
     ...pluginQuery.configs["flat/recommended"],
     {
-        ignores: [
-            "dist",
-            "**/routeTree.gen.ts",
-            "**/routeTree.gen.ts",
-            "**/gen/**",
-        ],
+        ignores: ["dist", "**/routeTree.gen.ts", "**/gen/**"],
     },
     {
         extends: [js.configs.recommended, ...tseslint.configs.recommended],

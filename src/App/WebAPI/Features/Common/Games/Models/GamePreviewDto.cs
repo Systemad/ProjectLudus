@@ -2,7 +2,7 @@
 
 namespace WebAPI.Features.Common.Games.Models;
 
-public class GameDto
+public class GamePreviewDto
 {
     public long Id { get; set; }
     public string Name { get; set; }

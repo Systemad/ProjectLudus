@@ -29,8 +29,8 @@ import { IGDBImage } from "~/features/games/components/IGDBImage";
 import { PlatformAccordionCardItem } from "~/features/games/components/Accordion/PlatformAccordionCardItem";
 import {
     publicGamesGetGameByIdEndpointHook,
-    useMeGameMetadataGetEndpointHook,
-    usePublicGamesGetSimilarGamesEndpointHook,
+    useMeGameMetadataGetEndpointSuspenseHook,
+    usePublicGamesGetSimilarGamesEndpointSuspenseHook,
 } from "~/gen";
 import { useHype } from "~/features/games/components/Hype/hooks/useHype";
 import { useWishlist } from "~/features/games/components/Wishlist/hooks/useWishlist";
@@ -55,7 +55,7 @@ function RouteComponent() {
     const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
 
-    const { data: metadata } = useMeGameMetadataGetEndpointHook(
+    const { data: metadata } = useMeGameMetadataGetEndpointSuspenseHook(
         { gameId: id },
         { query: { queryKey: ["games", "metadata", id] } }
     );
@@ -65,7 +65,7 @@ function RouteComponent() {
         isPending: simGamesPending,
         isError: isSimGamesError,
         data: simGamesData,
-    } = usePublicGamesGetSimilarGamesEndpointHook(
+    } = usePublicGamesGetSimilarGamesEndpointSuspenseHook(
         { gameId: id },
         { query: { queryKey: ["games", "similar", id] } }
     );
@@ -88,7 +88,7 @@ function RouteComponent() {
             >
                 <Flex h="full">
                     <IGDBImage
-                        imageId={game?.cover.image_id}
+                        imageId={game?.cover?.image_id ?? ""}
                         shadow="none"
                         imageSize="cover_big"
                         borderRadius={"lg"}

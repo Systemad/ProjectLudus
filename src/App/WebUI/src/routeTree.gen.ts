@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as PopularIndexRouteImport } from './routes/popular/index'
 import { Route as GamesIndexRouteImport } from './routes/games/index'
 import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
@@ -18,6 +19,11 @@ import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileIndexRoute = ProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PopularIndexRoute = PopularIndexRouteImport.update({
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarIndexRoute
   '/games': typeof GamesIndexRoute
   '/popular': typeof PopularIndexRoute
+  '/profile': typeof ProfileIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/calendar': typeof CalendarIndexRoute
   '/games': typeof GamesIndexRoute
   '/popular': typeof PopularIndexRoute
+  '/profile': typeof ProfileIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +70,19 @@ export interface FileRoutesById {
   '/calendar/': typeof CalendarIndexRoute
   '/games/': typeof GamesIndexRoute
   '/popular/': typeof PopularIndexRoute
+  '/profile/': typeof ProfileIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/games/$gameId' | '/calendar' | '/games' | '/popular'
+  fullPaths:
+    | '/'
+    | '/games/$gameId'
+    | '/calendar'
+    | '/games'
+    | '/popular'
+    | '/profile'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/games/$gameId' | '/calendar' | '/games' | '/popular'
+  to: '/' | '/games/$gameId' | '/calendar' | '/games' | '/popular' | '/profile'
   id:
     | '__root__'
     | '/'
@@ -75,6 +90,7 @@ export interface FileRouteTypes {
     | '/calendar/'
     | '/games/'
     | '/popular/'
+    | '/profile/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +99,7 @@ export interface RootRouteChildren {
   CalendarIndexRoute: typeof CalendarIndexRoute
   GamesIndexRoute: typeof GamesIndexRoute
   PopularIndexRoute: typeof PopularIndexRoute
+  ProfileIndexRoute: typeof ProfileIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -92,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/': {
+      id: '/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/popular/': {
@@ -131,6 +155,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarIndexRoute: CalendarIndexRoute,
   GamesIndexRoute: GamesIndexRoute,
   PopularIndexRoute: PopularIndexRoute,
+  ProfileIndexRoute: ProfileIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
