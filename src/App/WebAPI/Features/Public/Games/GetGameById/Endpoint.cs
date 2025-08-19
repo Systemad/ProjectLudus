@@ -2,7 +2,6 @@
 using Marten;
 using Shared.Features;
 using Shared.Features.Games;
-using WebAPI.Features.Common.Games;
 using WebAPI.Features.Common.Games.Mappers;
 
 namespace Public.Games.GetGameById;
@@ -10,7 +9,6 @@ namespace Public.Games.GetGameById;
 public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 {
     public IDocumentStore GameStore { get; set; }
-    public IGameService GameService { get; set; }
 
     public override void Configure()
     {
@@ -29,8 +27,7 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 
         await using var session = GameStore.QuerySession();
 
-        var involvedCompaniesDict = new Dictionary<long, InvolvedCompany>();
-        var gameEnginesDict = new Dictionary<long, GameEngine>();
+        var gameEnginesDict =  new Dictionary<long, GameEngine>();
         var gameModesDict = new Dictionary<long, GameMode>();
         var genresDict = new Dictionary<long, Genre>();
         var keywordsDict = new Dictionary<long, Keyword>();
@@ -46,7 +43,7 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
             .Include(playerPerspectivesDict).On(x => x.PlayerPerspectives)
             .Include(platformsDict).On(x => x.Platforms)
             .Include(themesDict).On(x => x.Themes)
-            .FirstOrDefaultAsync(token: ct);
+            .FirstOrDefaultAsync(x => x.Id == req.GameId ,token: ct);
 
 
         if (game is null)
@@ -55,18 +52,32 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
             return;
         }
 
-
-        var denorm = game.ToGameDto(
+        var companyIds = game.InvolvedCompanies.Select(x => x.CompanyId).Distinct().ToArray();
+        var companies = await session.LoadManyAsync<Company>(companyIds);
+        var companiesDict = companies.ToDictionary(x => x.Id, x => x);
+        var involvedCompanies = game.InvolvedCompanies.Select(c =>
+        {
+            var company = companiesDict[c.CompanyId];
+            return new InvolvedCompany
+            {
+                Id = c.Id,               
+                Developer = c.Developer,
+                Porting = c.Porting,
+                Publisher = c.Publisher,
+                Supporting = c.Supporting,
+                Company = company                
+            };
+        }).ToList();
+        var dto = game.ToGameDto(
             gameEnginesDict.Values.ToList(),
             gameModesDict.Values.ToList(),
-            genresDict.Values.ToList(),
-            new List<InvolvedCompany>(), // TODO: fix
+            genresDict.Values.ToList(), 
+            involvedCompanies, 
             keywordsDict.Values.ToList(),
             platformsDict.Values.ToList(),
             playerPerspectivesDict.Values.ToList(),
             themesDict.Values.ToList());
-        var hydrated = await GameService.HydrateGameDetailAsync(game);
 
-        await Send.OkAsync(new GetGamesByIdResponse(hydrated), ct);
+        await Send.OkAsync(new GetGamesByIdResponse(dto), ct);
     }
 }

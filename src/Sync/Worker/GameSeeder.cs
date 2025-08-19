@@ -10,6 +10,7 @@ public class GameSeeder
     private ApiClient _apiClient;
 
     private const string gameFile = "Cache/gamefile.json";
+    private const string JsonFilePath = "Cache/gamefile.json";
 
     public GameSeeder(IDocumentStore store, ApiClient apiClient)
     {
@@ -17,7 +18,7 @@ public class GameSeeder
         _apiClient = apiClient;
     }
 
-    public async Task PopulateGamesAsync(bool writeToCache = false, bool reset = false)
+    public async Task PopulateGamesAsync(bool reset = false, bool useCaching = false, bool writeCache = false)
     {
         if (reset)
         {
@@ -26,6 +27,40 @@ public class GameSeeder
             await _store.Advanced.Clean.DeleteAllEventDataAsync();
         }
 
+        if (useCaching)
+        {
+            await SeedFromCacheAsync();
+        }
+        else
+        {
+            await SeedFromIGDBAsync(writeCache);
+        }
+    }
+    public async Task SeedFromCacheAsync()
+    {
+        await using var fs = File.OpenRead(JsonFilePath);
+
+        var games = await OptimizedList.ReadFromStreamAsync(fs);
+
+        var batchSize = 500;
+        var batch = new List<IGDBGameRaw>(batchSize);
+
+        foreach (var game in games)
+        {
+            batch.Add(game);
+
+            if (batch.Count >= batchSize)
+            {
+                await InsertGamesBatchAsync(batch);
+                batch.Clear();
+            }
+        }
+
+        if (batch.Count > 0)
+            await InsertGamesBatchAsync(batch);
+    }
+    public async Task SeedFromIGDBAsync(bool writeToCache = false)
+    {
         var countResponse = await _apiClient.FetchGamesCountAsync();
 
         int maxItemsPerIteration = 500;
@@ -39,7 +74,9 @@ public class GameSeeder
             long offset = i * maxItemsPerIteration;
             long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
 
-            var games = await InsertGamesBatchAsync(itemsToTake, offset);
+            var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
+            await InsertGamesBatchAsync(games);
+            //var games = await InsertGamesBatchAsync(itemsToTake, offset);
             allGames.AddRange(games);
             Console.WriteLine(
                 $"Batch {i + 1}/{iterations} — Fetched and stored {games.Count} games. Items: {itemsToTake}, Offset: {offset}"
@@ -47,21 +84,18 @@ public class GameSeeder
             await Task.Delay(200);
         }
 
-        //var gameTypes = await _apiClient.FetchGamesTypesAsync();
-        //session.StoreObjects(gameTypes);
         if (writeToCache)
         {
             await WriteToJsonCacheAsync(allGames);
         }
     }
 
-    private async Task<List<IGDBGameRaw>> InsertGamesBatchAsync(
-        long itemsToTake,
-        long offset
+    
+    private async Task InsertGamesBatchAsync(
+        List<IGDBGameRaw> games
     )
     {
         var inserData = new InsertData();
-        var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
         var flattened = games.NormalizeGames();
         await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
 
@@ -74,7 +108,15 @@ public class GameSeeder
         inserData.Franchises.AddRange(Utilities.GetDistinctEntities(games, g => g.Franchises));
         inserData.Keywords.AddRange(Utilities.GetDistinctEntities(games, g => g.Keywords));
         await InsertDataAsync(inserData);
-        return games;
+        
+        inserData.GameModes.Clear();
+        inserData.Genres.Clear();
+        inserData.Platforms.Clear();
+        inserData.PlayerPerspectives.Clear();
+        inserData.GameEngines.Clear();
+        inserData.Themes.Clear();
+        inserData.Franchises.Clear();
+        inserData.Keywords.Clear();
     }
 
     private async Task InsertDataAsync(InsertData insertData)

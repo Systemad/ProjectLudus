@@ -48,7 +48,7 @@ public partial class IGDBGameRaw
     public long? Hypes { get; set; }
 
     [JsonPropertyName("involved_companies")]
-    public List<InvolvedCompanyEntity> InvolvedCompanies { get; set; } = new();
+    public List<InvolvedCompanyRaw> InvolvedCompanies { get; set; } = new();
 
     [JsonPropertyName("keywords")]
     public List<Keyword> Keywords { get; set; } = new();

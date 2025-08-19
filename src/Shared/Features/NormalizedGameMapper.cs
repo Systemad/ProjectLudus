@@ -27,7 +27,17 @@ public static class NormalizedGameMapper
             GameModes = game.GameModes.Select(x => x.Id).ToArray(),
             Genres = game.Genres.Select(x => x.Id).ToArray(),
             Hypes = game.Hypes,
-            InvolvedCompanies = game.InvolvedCompanies,
+            InvolvedCompanies = game.InvolvedCompanies
+                .Select(x => new InvolvedCompanyFlat
+                {
+                    Id = x.Id,
+                    CompanyId = x.Company.Id,
+                    Developer = x.Developer,
+                    Porting = x.Porting,
+                    Publisher = x.Publisher,
+                    Supporting = x.Supporting
+                })
+                .ToList(),
             Keywords = game.Keywords.Select(x => x.Id).ToArray(),
             Name = game.Name,
             Platforms = game.Platforms.Select(x => x.Id).ToArray(),

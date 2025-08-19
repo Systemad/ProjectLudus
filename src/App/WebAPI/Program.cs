@@ -5,7 +5,6 @@ using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
 using WebAPI.Configuration;
 using WebAPI.Features.Auth.Extensions;
-using WebAPI.Features.Common.Games;
 using WebAPI.Features.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,8 +62,6 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
 
 builder.Services.AddMemoryCache();
 builder.Services.AddFusionCache();
-
-builder.Services.AddSingleton<IGameService, GameService>();
 
 var app = builder.Build();
 

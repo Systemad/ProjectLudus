@@ -29,7 +29,7 @@ public class IGDBGameFlat
 
     public long? Hypes { get; set; }
 
-    public List<InvolvedCompanyEntity> InvolvedCompanies { get; set; } = new();
+    public List<InvolvedCompanyFlat> InvolvedCompanies { get; set; } = new();
 
     public long[] Keywords { get; set; } = [];
 

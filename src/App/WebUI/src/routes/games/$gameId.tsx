@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import {
     Grid,
     GridItem,
@@ -20,8 +20,7 @@ import {
     Spacer,
     IconButton,
 } from "@yamada-ui/react";
-import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
-import { useState } from "react";
+
 import Steam2 from "~/icons/Launchers/SteamIcon2";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
 import { ManageGameListsDialog } from "~/features/games/components/Dialogs/ManageGameListsDialog";
@@ -35,6 +34,10 @@ import {
 import { useHype } from "~/features/games/components/Hype/hooks/useHype";
 import { useWishlist } from "~/features/games/components/Wishlist/hooks/useWishlist";
 import { BookmarkSimpleIcon, FlameIcon } from "@phosphor-icons/react";
+import {
+    GameCarousel,
+    type MediaItem,
+} from "~/features/games/components/Carousel/GameCarousel";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
@@ -52,7 +55,6 @@ function RouteComponent() {
     const { game: game } = Route.useLoaderData();
 
     const id = parseInt(gameId);
-    const [index, onChange] = useState<number>(0);
     const { open, onOpen, onClose } = useDisclosure();
 
     const { data: metadata } = useMeGameMetadataGetEndpointSuspenseHook(
@@ -69,6 +71,25 @@ function RouteComponent() {
         { gameId: id },
         { query: { queryKey: ["games", "similar", id] } }
     );
+
+    const items: MediaItem[] = [
+        ...game.screenshots.slice(0, 2).map((s) => ({
+            type: "screenshot" as const,
+            id: s.id,
+            imageId: s.image_id,
+        })),
+        ...game.artworks.slice(0, 2).map((a) => ({
+            type: "artwork" as const,
+            id: a.id,
+            imageId: a.image_id,
+        })),
+        ...game.videos.slice(0, 2).map((v) => ({
+            type: "video" as const,
+            id: v.id,
+            videoId: v.video_id,
+            thumbnail: `https://i.ytimg.com/vi/${v.video_id}/hqdefault.jpg`,
+        })),
+    ];
 
     return (
         <VStack>
@@ -116,6 +137,7 @@ function RouteComponent() {
                                 fractions={4}
                                 items={10}
                                 size={"lg"}
+                                value={game.totalRating ?? 0}
                                 defaultValue={3}
                             />
                             <Spacer />
@@ -175,25 +197,49 @@ function RouteComponent() {
                     <VStack gap="xs">
                         <Text fontSize={"lg"}>
                             <Text fontWeight={"bold"} as={"span"}>
-                                Developer
+                                Developers
                             </Text>
                             :
-                            {
-                                game?.involved_companies.find(
-                                    (x) => x.developer == true
-                                )?.company.name
-                            }
+                            <Wrap gap="xs" direction="row">
+                                {game?.involvedCompanies
+                                    .filter((x) => x.developer)
+                                    .map((company, i, arr) => (
+                                        <Link
+                                            key={company.company.id}
+                                            to={"/company/$companyId"}
+                                            params={{
+                                                companyId:
+                                                    company.company.id.toString(),
+                                            }}
+                                        >
+                                            {company.company.name}
+                                            {i < arr.length - 1 ? ", " : ""}
+                                        </Link>
+                                    ))}
+                            </Wrap>
                         </Text>
                         <Text fontSize={"lg"}>
                             <Text fontWeight={"bold"} as={"span"}>
-                                Publisher
+                                Publishers
                             </Text>
                             :
-                            {
-                                game?.involved_companies.find(
-                                    (x) => x.publisher == true
-                                )?.company.name
-                            }
+                            <Wrap gap="xs" direction="row">
+                                {game?.involvedCompanies
+                                    .filter((x) => x.publisher)
+                                    .map((company, i, arr) => (
+                                        <Link
+                                            key={company.company.id}
+                                            to={"/company/$companyId"}
+                                            params={{
+                                                companyId:
+                                                    company.company.id.toString(),
+                                            }}
+                                        >
+                                            {company.company.name}
+                                            {i < arr.length - 1 ? ", " : ""}
+                                        </Link>
+                                    ))}
+                            </Wrap>
                         </Text>
                     </VStack>
                     <Flex justifyContent={"space-between"}>
@@ -255,58 +301,7 @@ function RouteComponent() {
                     rounded="xl"
                     overflow="hidden"
                 >
-                    <Carousel
-                        rounded="xl"
-                        gap={4}
-                        height={"xl"}
-                        withControls={true}
-                        withIndicators={false}
-                        index={index}
-                        onChange={onChange}
-                    >
-                        {game?.artworks.map((i) => (
-                            <CarouselSlide
-                                key={i.id}
-                                as={IGDBImage}
-                                imageId={i.image_id}
-                                bg="primary"
-                                rounded="xl"
-                                imageSize="1080p"
-                            ></CarouselSlide>
-                        ))}
-                    </Carousel>
-                    <Box
-                        w="auto"
-                        rounded="xl"
-                        mt="sm"
-                        overflow="hidden"
-                        bg={["blackAlpha.50", "whiteAlpha.100"]}
-                    >
-                        <Carousel
-                            index={index}
-                            containScroll="trimSnaps"
-                            slideSize="15%"
-                            align="center"
-                            dragFree
-                            h="4xs"
-                            loop={false}
-                            gap={2}
-                            withIndicators={false}
-                            withControls={false}
-                        >
-                            {game?.artworks.map((i, idx) => (
-                                <CarouselSlide
-                                    key={i.id}
-                                    as={IGDBImage}
-                                    onClick={() => onChange(idx)}
-                                    imageId={i.image_id}
-                                    rounded="xl"
-                                    imageSize="cover_big"
-                                    borderRadius={"lg"}
-                                ></CarouselSlide>
-                            ))}
-                        </Carousel>
-                    </Box>
+                    <GameCarousel items={items} />
                     <Box
                         mt="md"
                         w="auto"

@@ -1,8 +1,22 @@
 #:property LangVersion=preview
 #:project ./src/Shared/Shared.csproj
-#:package Marten@7.40.3
-// #:package System.Net.Http@4.3.4
-#:package Microsoft.Extensions.Http@10.0.0-preview.6.25358.103
+#:project ./src/Sync/Worker/Worker.csproj
+#:package Marten@8.7.0
+
+#:property UserSecretsId=696f31a6-b46a-47e0-b35a-385e9e205a05
+using Marten;
+using Shared;
+
+string url = "host=localhost:5432;database=ludustest;CommandTimeout=500;password=Compaq2009;username=postgres";
+
+var store = DocumentStore
+    .For(options =>
+    {
+        options.Connection(url);
+        options.UseSystemTextJsonForSerialization();
+        MartenSchema.Configure(options);
+    });
+    //.UseNpgsqlDataSource();
 
 Console.WriteLine("From [CallerFilePath] attribute:");
 Console.WriteLine($" - Entry-point path: {Path.EntryPointFilePath()}");
@@ -11,6 +25,15 @@ Console.WriteLine($" - Entry-point directory: {Path.EntryPointFileDirectoryPath(
 Console.WriteLine("From AppContext data:");
 Console.WriteLine($" - Entry-point path: {AppContext.EntryPointFilePath()}");
 Console.WriteLine($" - Entry-point directory: {AppContext.EntryPointFileDirectoryPath()}");
+
+var apiClient = new ApiClient("YOUR_IGDB_KEY");
+var seeder = new GameSeeder(store, apiClient);
+
+var config = new ConfigurationBuilder()
+    .AddUserSecrets()  // This will use the ID above
+    .Build();
+
+
 
 static class PathEntryPointExtensions
 {
