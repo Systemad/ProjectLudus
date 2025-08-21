@@ -14,10 +14,10 @@ import { getIGDBImageUrl } from "~/features/utilities/ImageHelper";
 import { CustomLinkOverlay } from "~/layouts/CustomLink/CustomLinkOverlay";
 import { useHype } from "./Hype/hooks/useHype";
 import { useWishlist } from "./Wishlist/hooks/useWishlist";
-import type { GameDto } from "~/gen";
+import type { GamePreviewDto } from "~/gen";
 
 type Props = {
-    item: GameDto;
+    item: GamePreviewDto;
     height?: "4xs" | "3xs" | "2xs" | "xs" | "sm" | "md" | "lg" | "xl";
     iconSize?: "xs" | "sm" | "md" | "lg";
 };

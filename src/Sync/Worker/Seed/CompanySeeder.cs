@@ -3,7 +3,7 @@ using Marten;
 using Shared.Features.Games;
 using Shared.Queries;
 
-namespace Worker;
+namespace Worker.Seed;
 
 public class CompanySeeder
 {

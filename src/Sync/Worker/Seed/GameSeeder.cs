@@ -2,7 +2,7 @@
 using Marten;
 using Shared.Features;
 
-namespace Worker;
+namespace Worker.Seed;
 
 public class GameSeeder
 {

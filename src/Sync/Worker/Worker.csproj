@@ -4,6 +4,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>696f31a6-b46a-47e0-b35a-385e9e205a05</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Marten" Version="8.7.0" />
@@ -12,11 +13,18 @@
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.7.25380.108"/>
         -->
         <PackageReference Include="Npgsql.DependencyInjection" Version="9.0.3" />
+        <PackageReference Include="TickerQ" Version="2.5.1" />
+        <PackageReference Include="TickerQ.Dashboard" Version="2.5.1" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Shared\Shared.csproj"/>
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Cache\" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 </Project>

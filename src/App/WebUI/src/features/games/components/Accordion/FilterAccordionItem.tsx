@@ -67,4 +67,3 @@ export function FilterAccordion({
         </AccordionItem>
     );
 }
-//                             value={selectedIds.map((id) => id.toString())}

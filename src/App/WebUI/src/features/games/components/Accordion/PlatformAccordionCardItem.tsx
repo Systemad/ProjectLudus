@@ -1,4 +1,4 @@
-import { Box, Flex } from "@yamada-ui/react";
+import { Box, Flex, Text } from "@yamada-ui/react";
 import AppleIcon from "~/icons/Consoles/AppleIcon";
 import LinuxIcon from "~/icons/Consoles/LinuxIcons";
 import PlaystationIcon from "~/icons/Consoles/PlaystationIcon";
@@ -34,7 +34,7 @@ export const PlatformAccordionCardItem = ({ text }: Props) => {
             <Box position={"absolute"} inset={0} opacity={0}></Box>
             <Flex h="full" gap="sm" padding={4} alignItems={"center"}>
                 {icon}
-                {text}
+                <Text lineClamp={2}>{text}</Text>
             </Flex>
         </AccordionCardItemCard>
     );

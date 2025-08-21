@@ -2,6 +2,8 @@ import { IGDBImage } from "../IGDBImage";
 import { Box } from "@yamada-ui/react";
 import { Carousel, CarouselSlide } from "@yamada-ui/carousel";
 import { useState } from "react";
+import { VideCarouselSlide } from "./VideCarouselSlide";
+
 export type MediaItem =
     | { type: "screenshot"; id: number; imageId: string }
     | { type: "artwork"; id: number; imageId: string }
@@ -20,11 +22,12 @@ export function GameCarousel({ items }: CarouselProps) {
 
     return (
         <>
-            {/* Main carousel */}
             <Carousel
                 rounded="xl"
                 gap={4}
                 height={"xl"}
+                containScroll={"keepSnaps"}
+                dragFree={true}
                 withControls
                 withIndicators={false}
                 index={index}
@@ -45,40 +48,17 @@ export function GameCarousel({ items }: CarouselProps) {
                     } else if (item.type === "video") {
                         return (
                             <CarouselSlide key={item.id}>
-                                <div
-                                    className="relative w-full h-full cursor-pointer flex items-center justify-center bg-black"
-                                    onClick={() =>
-                                        window.open(
-                                            `https://youtu.be/${item.videoId}`,
-                                            "_blank"
-                                        )
-                                    }
-                                >
-                                    <img
-                                        src={item.thumbnail}
-                                        alt="Video thumbnail"
-                                        className="object-cover w-full h-full rounded-xl"
-                                    />
-                                    <div className="absolute flex items-center justify-center">
-                                        <div className="rounded bg-black bg-opacity-50 p-2">
-                                            ▶
-                                        </div>
-                                    </div>
-                                </div>
+                                <VideCarouselSlide
+                                    iconSize={"5xs"}
+                                    url={item.thumbnail}
+                                />
                             </CarouselSlide>
                         );
                     }
                 })}
             </Carousel>
 
-            {/* Thumbnail carousel */}
-            <Box
-                w="auto"
-                rounded="xl"
-                mt="sm"
-                overflow="hidden"
-                bg={["blackAlpha.50", "whiteAlpha.100"]}
-            >
+            <Box w="auto" rounded="xl" mt="sm" overflow="hidden">
                 <Carousel
                     index={index}
                     containScroll="trimSnaps"
@@ -113,30 +93,7 @@ export function GameCarousel({ items }: CarouselProps) {
                                     key={item.id}
                                     onClick={() => handleThumbnailClick(idx)}
                                 >
-                                    <Box
-                                        position="relative"
-                                        w="full"
-                                        h="200px"
-                                        bg="gray.200"
-                                    >
-                                        {/* This could be the "background" content */}
-                                        <Box w="full" h="full" bg="blue.300" />
-
-                                        {/* Small box in the center on top */}
-                                        <Box
-                                            position="absolute"
-                                            top="50%"
-                                            left="50%"
-                                            transform="translate(-50%, -50%)"
-                                            zIndex={10} // ensures it's on top
-                                            w="100px"
-                                            h="100px"
-                                            bg="red.500"
-                                            borderRadius="md"
-                                        >
-                                            Center Box
-                                        </Box>
-                                    </Box>
+                                    <VideCarouselSlide url={item.thumbnail} />
                                 </CarouselSlide>
                             );
                         }

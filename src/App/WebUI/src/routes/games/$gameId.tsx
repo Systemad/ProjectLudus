@@ -38,6 +38,7 @@ import {
     GameCarousel,
     type MediaItem,
 } from "~/features/games/components/Carousel/GameCarousel";
+import { ReleaseDateAccordionItem } from "~/features/games/components/Accordion/ReleaseDateAccordionItem";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: RouteComponent,
@@ -102,10 +103,10 @@ function RouteComponent() {
                 flex={1}
                 w="full"
                 gap="md"
-                direction={{ sm: "row", md: "row", xl: "row", "2xl": "row" }}
-                borderRadius={"xl"}
+                direction={{ base: "column", md: "row" }}
+                borderRadius="xl"
                 shadow="none"
-                h={{ sm: "xs", md: "2xs", xl: "xs", "2xl": "md" }}
+                h={{ base: "auto", md: "md" }}
             >
                 <Flex h="full">
                     <IGDBImage
@@ -195,18 +196,18 @@ function RouteComponent() {
                         </Wrap>
                     </Flex>
                     <VStack gap="xs">
-                        <Text fontSize={"lg"}>
-                            <Text fontWeight={"bold"} as={"span"}>
+                        <Text fontSize="lg" as="div">
+                            <Text fontWeight="bold" as="span">
                                 Developers
                             </Text>
-                            :
-                            <Wrap gap="xs" direction="row">
+                            :{" "}
+                            <Wrap gap="xs" direction="row" as="span">
                                 {game?.involvedCompanies
                                     .filter((x) => x.developer)
                                     .map((company, i, arr) => (
                                         <Link
                                             key={company.company.id}
-                                            to={"/company/$companyId"}
+                                            to="/company/$companyId"
                                             params={{
                                                 companyId:
                                                     company.company.id.toString(),
@@ -218,18 +219,19 @@ function RouteComponent() {
                                     ))}
                             </Wrap>
                         </Text>
-                        <Text fontSize={"lg"}>
-                            <Text fontWeight={"bold"} as={"span"}>
-                                Publishers
+
+                        <Text fontSize="lg" as="div">
+                            <Text fontWeight="bold" as="span">
+                                Developers
                             </Text>
                             :
-                            <Wrap gap="xs" direction="row">
+                            <Wrap gap="xs" direction="row" as="span">
                                 {game?.involvedCompanies
-                                    .filter((x) => x.publisher)
+                                    .filter((x) => x.developer)
                                     .map((company, i, arr) => (
                                         <Link
                                             key={company.company.id}
-                                            to={"/company/$companyId"}
+                                            to="/company/$companyId"
                                             params={{
                                                 companyId:
                                                     company.company.id.toString(),
@@ -242,7 +244,11 @@ function RouteComponent() {
                             </Wrap>
                         </Text>
                     </VStack>
-                    <Flex justifyContent={"space-between"}>
+                    <Flex
+                        justify="space-between"
+                        wrap={{ base: "wrap", md: "nowrap" }}
+                        gap="sm"
+                    >
                         <Wrap gap="sm">
                             <ButtonGroup size={"lg"} gap="sm">
                                 <Button
@@ -391,43 +397,15 @@ function RouteComponent() {
                             </SimpleGrid>
                         </AccordionItem>
 
-                        <AccordionItem rounded="xl" label="Game Launchers">
-                            <SimpleGrid columns={{ base: 3 }} gap="md" p="2">
-                                {Array.from({ length: 6 }, (_, i) => i).map(
-                                    (i) => (
-                                        <GridItem key={i}>
-                                            <Card
-                                                borderRadius={"lg"}
-                                                bg={[
-                                                    "blackAlpha.50",
-                                                    "whiteAlpha.100",
-                                                ]}
-                                                shadow="none"
-                                                h="5xs"
-                                            ></Card>
-                                        </GridItem>
-                                    )
-                                )}
-                            </SimpleGrid>
-                        </AccordionItem>
-
                         <AccordionItem rounded="xl" label="Release dates">
-                            <SimpleGrid columns={{ base: 3 }} gap="md" p="2">
-                                {Array.from({ length: 6 }, (_, i) => i).map(
-                                    (i) => (
-                                        <GridItem key={i}>
-                                            <Card
-                                                borderRadius={"lg"}
-                                                bg={[
-                                                    "blackAlpha.50",
-                                                    "whiteAlpha.100",
-                                                ]}
-                                                shadow="none"
-                                                h="5xs"
-                                            ></Card>
-                                        </GridItem>
-                                    )
-                                )}
+                            <SimpleGrid columns={{ base: 2 }} gap="md" p="2">
+                                {game?.releaseDates.map((release) => (
+                                    <GridItem key={release.id}>
+                                        <ReleaseDateAccordionItem
+                                            releaseDate={release}
+                                        />
+                                    </GridItem>
+                                ))}
                             </SimpleGrid>
                         </AccordionItem>
                     </Accordion>
