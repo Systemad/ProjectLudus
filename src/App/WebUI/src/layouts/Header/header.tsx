@@ -114,6 +114,7 @@ export const Header = memo(
                                 </YButtonGroup>
                                 <Spacer />
                                 <HeaderSearchbar />
+                                <ColorModeButton />
                                 <AuthButton />
                                 {/*
                                     <ButtonGroup {...menuControls} />                            

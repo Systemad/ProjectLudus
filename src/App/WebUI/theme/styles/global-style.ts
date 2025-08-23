@@ -1,0 +1,37 @@
+import type { UIStyle } from "@yamada-ui/react";
+
+export const globalStyle: UIStyle = {
+    "*, *::before, *::after": {
+        borderColor: "border",
+        borderStyle: "solid",
+        borderWidth: "0",
+        wordWrap: "break-word",
+    },
+    "*::placeholder, *[data-placeholder]": {
+        color: "blackAlpha.600",
+    },
+    body: {
+        bg: ["white", "black"],
+        color: ["black", "white"],
+        fontFamily: "body",
+        lineHeight: "base",
+        overflowX: "hidden",
+        transitionDuration: "normal",
+        transitionProperty: "background-color",
+        textWrap: "pretty",
+    },
+    main: {
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        minH: { base: "xl", lg: "3xl" },
+        pt: { base: "sm", md: "md", lg: "2xl" },
+        pb: { base: "lg", md: "2xl" },
+    },
+    _dark: {
+        "*::placeholder, *[data-placeholder]": {
+            color: "whiteAlpha.400",
+        },
+    },
+};

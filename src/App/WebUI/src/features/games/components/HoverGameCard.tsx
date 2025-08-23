@@ -36,7 +36,7 @@ export const HoverGameCard = ({
             transition="transform 0.2s cubic-bezier(.4,1,.4,1)"
             as={LinkBox}
             height={height}
-            variant="outline"
+            variant="subtle"
             breakInside="avoid"
             rounded="xl"
         >

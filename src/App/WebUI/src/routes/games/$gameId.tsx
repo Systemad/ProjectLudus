@@ -159,6 +159,7 @@ function RouteComponent() {
                                         icon={
                                             <BookmarkSimpleIcon
                                                 size="full"
+                                                strokeWidth={"4px"}
                                                 weight={
                                                     metadata.isWishlisted
                                                         ? "fill"
@@ -250,7 +251,7 @@ function RouteComponent() {
                         gap="sm"
                     >
                         <Wrap gap="sm">
-                            <ButtonGroup size={"lg"} gap="sm">
+                            <ButtonGroup size={"md"} gap="sm">
                                 <Button
                                     onClick={onOpen}
                                     rounded="xl"

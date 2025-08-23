@@ -42,7 +42,7 @@ public class InvolvedCompanyIdRaw
 public class InvolvedCompany : IIdentifiable
 {
     public long Id { get; set; }
-    public Company? Company { get; set; }
+    public Company Company { get; set; }
     public bool Developer { get; set; }
     public bool Porting { get; set; }
     public bool Publisher { get; set; }

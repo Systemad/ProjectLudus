@@ -6,7 +6,7 @@ import {
     Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Box, Container, useBreakpoint } from "@yamada-ui/react";
+import { Container, VStack } from "@yamada-ui/react";
 import type { AuthContext } from "~/features/auth/AuthContext";
 import { Header } from "~/layouts/Header/header";
 
@@ -26,41 +26,17 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
-    const breakpoint = useBreakpoint();
     return (
-        <div>
+        <VStack as="main">
             <Header />
 
-            <Box
-                bg={{
-                    base: "red.500",
-                    xl: "blue.500",
-                    lg: "green.500",
-                    md: "yellow.500",
-                    sm: "purple.500",
-                }}
-                p="md"
-                rounded="md"
-                color="white"
-                transitionProperty="all"
-                transitionDuration="slower"
-            >
-                The current breakpoint is "{breakpoint}"
-            </Box>
-
-            <Container
-                as="main"
-                maxW={{ base: "92rem" }}
-                w="full"
-                px={{ base: "lg", md: "md" }}
-                mx="auto"
-            >
+            <Container centerContent>
                 <Outlet />
             </Container>
 
             <ReactQueryDevtools buttonPosition="bottom-left" />
             <TanStackRouterDevtools position="bottom-right" />
-        </div>
+        </VStack>
     );
 }
 
@@ -79,4 +55,23 @@ function RootComponent() {
                     </VStack>
                 </HStack>
             </Center>
+*/
+
+/*
+            <Box
+                bg={{
+                    base: "red.500",
+                    xl: "blue.500",
+                    lg: "green.500",
+                    md: "yellow.500",
+                    sm: "purple.500",
+                }}
+                p="md"
+                rounded="md"
+                color="white"
+                transitionProperty="all"
+                transitionDuration="slower"
+            >
+                The current breakpoint is "{breakpoint}"
+            </Box>
 */

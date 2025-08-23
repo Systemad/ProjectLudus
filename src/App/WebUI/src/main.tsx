@@ -3,12 +3,12 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Loading, UIProvider, extendConfig } from "@yamada-ui/react";
+import { Loading, UIProvider } from "@yamada-ui/react";
 import { AuthProvider } from "./features/auth/AuthProvider";
 import { useAuth } from "./features/auth/useAuth";
 import { queryClient } from "./queryClient";
+import { config, theme } from "../theme/index.ts";
 
-// bg={["blackAlpha.50", "whiteAlpha.100"]}
 const router = createRouter({
     routeTree,
     context: { queryClient, auth: undefined! },
@@ -34,11 +34,9 @@ declare module "@tanstack/react-router" {
     }
 }
 
-const customConfig = extendConfig({ breakpoint: { direction: "up" } });
-
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <UIProvider config={customConfig}>
+        <UIProvider config={config} theme={theme}>
             <QueryClientProvider client={queryClient}>
                 <AuthProvider>
                     <AppInitializer />
