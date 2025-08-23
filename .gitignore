@@ -16,9 +16,40 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+**/.tanstack
+
+vite.config.timestamp-*
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+vite.config.timestamp_*
+vite.config.js.timestamp_*
+vite.config.ts.timestamp_*
+
+
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.next
+
+
+.vite
+
 # Mono auto generated files
 mono_crash.*
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -192,6 +223,8 @@ publish/
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
+
+companies.json
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
 # checkin your Azure Web App publish settings, but sensitive information contained
