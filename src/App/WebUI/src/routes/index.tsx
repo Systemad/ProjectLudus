@@ -5,6 +5,7 @@ import {
     Pagination,
     Flex,
     Heading,
+    Container,
 } from "@yamada-ui/react";
 import { useState } from "react";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
@@ -30,28 +31,35 @@ function RouteComponent() {
     );
 
     return (
-        <Flex direction={"column"} alignItems={"center"} gap={"xl"}>
-            <Flex justifyContent="flex-start" w="full">
-                <Heading>Most popular games</Heading>
+        <Container
+            centerContent
+            layerStyle="container"
+            zIndex="nappa"
+            maxW={"9xl"}
+        >
+            <Flex direction={"column"} alignItems={"center"} gap={"xl"}>
+                <Flex justifyContent="flex-start" w="full">
+                    <Heading>Most popular games</Heading>
+                </Flex>
+                <SimpleGrid
+                    columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 5 }}
+                    gap="lg"
+                >
+                    {data.items.map((item) => (
+                        <GridItem key={item.id}>
+                            <HoverGameCard item={item} />
+                        </GridItem>
+                    ))}
+                </SimpleGrid>
+                <Pagination
+                    size="md"
+                    alignSelf={"center"}
+                    siblings={2}
+                    page={data.pageNumber}
+                    total={data.pageCount}
+                    onChange={onChange}
+                />
             </Flex>
-            <SimpleGrid
-                columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 5 }}
-                gap="lg"
-            >
-                {data.items.map((item) => (
-                    <GridItem key={item.id}>
-                        <HoverGameCard item={item} />
-                    </GridItem>
-                ))}
-            </SimpleGrid>
-            <Pagination
-                size="md"
-                alignSelf={"center"}
-                siblings={2}
-                page={data.pageNumber}
-                total={data.pageCount}
-                onChange={onChange}
-            />
-        </Flex>
+        </Container>
     );
 }

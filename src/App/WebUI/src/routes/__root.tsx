@@ -8,7 +8,7 @@ import {
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Container, VStack } from "@yamada-ui/react";
 import type { AuthContext } from "~/features/auth/AuthContext";
-import { Header } from "~/layouts/Header/header";
+import { NavigationBar } from "~/layouts/NavigationBar/NavigationBar";
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient;
@@ -27,16 +27,16 @@ export const Route = createRootRouteWithContext<{
 
 function RootComponent() {
     return (
-        <VStack as="main">
-            <Header />
-
-            <Container centerContent>
-                <Outlet />
-            </Container>
-
+        <>
+            <NavigationBar />
+            <VStack as="main">
+                <Container centerContent>
+                    <Outlet />
+                </Container>
+            </VStack>
             <ReactQueryDevtools buttonPosition="bottom-left" />
             <TanStackRouterDevtools position="bottom-right" />
-        </VStack>
+        </>
     );
 }
 

@@ -41,7 +41,7 @@ import { AuthButton } from "~/features/auth/AuthButton";
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface HeaderProps extends CenterProps {}
 
-export const Header = memo(
+export const OldNavigationBarDesktop = memo(
     forwardRef<HeaderProps, "div">(({ ...rest }, ref) => {
         const headerRef = useRef<HTMLHeadingElement>(null);
         const { scrollY } = useScroll();
