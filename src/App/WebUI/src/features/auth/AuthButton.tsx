@@ -17,7 +17,7 @@ export const AuthButton = () => {
         <>
             {isAuthenticated ? (
                 <>
-                    <Menu>
+                    <Menu placement={"bottom-end"}>
                         <MenuButton as={Button} p="0" rounded="full" size="lg">
                             <Avatar
                                 src={`data:image/png;base64,${user?.userImage?.content}`}

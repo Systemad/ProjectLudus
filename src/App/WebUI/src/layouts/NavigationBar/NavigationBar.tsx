@@ -8,10 +8,9 @@ export type NavBarItem = {
 };
 
 const navItems: NavBarItem[] = [
-    { label: "Home", url: "/" },
-    { label: "Games", url: "games" },
-    { label: "Calendar", url: "games" },
-    { label: "Popular", url: "Popular" },
+    { label: "Games", url: "/games" },
+    { label: "Calendar", url: "/calender" },
+    { label: "Popular", url: "/popular" },
 ];
 
 export const NavigationBar = () => {

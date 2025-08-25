@@ -17,7 +17,6 @@ const YamadaLinkComponent = React.forwardRef<
             ref={ref}
             variant={{
                 base: "ghost",
-                // Remove default blue color by setting color explicitly
                 color: "inherit",
                 _hover: { color: "gray.700" },
                 _current: { bg: "red", color: "white" },
