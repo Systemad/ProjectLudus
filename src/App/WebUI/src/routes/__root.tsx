@@ -6,7 +6,7 @@ import {
     Outlet,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { Container, VStack } from "@yamada-ui/react";
+import { Box, Center, Container, Flex, HStack, VStack } from "@yamada-ui/react";
 import type { AuthContext } from "~/features/auth/AuthContext";
 import { NavigationBar } from "~/layouts/NavigationBar/NavigationBar";
 
@@ -29,6 +29,21 @@ function RootComponent() {
     return (
         <>
             <NavigationBar />
+            <Flex as="main" justify="center">
+                <Box flex="1" maxW="9xl" w="full" minW="0">
+                    <Outlet />
+                </Box>
+            </Flex>
+            <ReactQueryDevtools buttonPosition="bottom-left" />
+            <TanStackRouterDevtools position="bottom-right" />
+        </>
+    );
+}
+
+/*
+
+        <>
+            <NavigationBar />
             <VStack as="main">
                 <Container centerContent>
                     <Outlet />
@@ -37,9 +52,7 @@ function RootComponent() {
             <ReactQueryDevtools buttonPosition="bottom-left" />
             <TanStackRouterDevtools position="bottom-right" />
         </>
-    );
-}
-
+*/
 /*
             <Center>
                 <HStack

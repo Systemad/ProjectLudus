@@ -24,7 +24,7 @@ type Props = {
 
 export const HoverGameCard = ({
     item,
-    height = "md",
+    height = "sm",
     iconSize = "xs",
 }: Props) => {
     const url = getIGDBImageUrl(item.coverImageId, "1080p", false);
@@ -35,7 +35,6 @@ export const HoverGameCard = ({
             _hover={{ transform: "scale(1.025)" }}
             transition="transform 0.2s cubic-bezier(.4,1,.4,1)"
             as={LinkBox}
-            height={height}
             variant="subtle"
             breakInside="avoid"
             rounded="xl"
@@ -46,6 +45,7 @@ export const HoverGameCard = ({
             ></CustomLinkOverlay>
             <CardHeader
                 as={Image}
+                height={height}
                 src={url}
                 objectFit="cover"
                 overflow="hidden"

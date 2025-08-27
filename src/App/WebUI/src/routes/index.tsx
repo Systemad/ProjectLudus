@@ -20,7 +20,7 @@ function RouteComponent() {
         {
             params: {
                 pageNumber: page,
-                pageSize: 40,
+                pageSize: 20,
             },
         },
         {
@@ -31,35 +31,28 @@ function RouteComponent() {
     );
 
     return (
-        <Container
-            centerContent
-            layerStyle="container"
-            zIndex="nappa"
-            maxW={"9xl"}
-        >
-            <Flex direction={"column"} alignItems={"center"} gap={"xl"}>
-                <Flex justifyContent="flex-start" w="full">
-                    <Heading>Most popular games</Heading>
-                </Flex>
-                <SimpleGrid
-                    columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 5 }}
-                    gap="lg"
-                >
-                    {data.items.map((item) => (
-                        <GridItem key={item.id}>
-                            <HoverGameCard item={item} />
-                        </GridItem>
-                    ))}
-                </SimpleGrid>
-                <Pagination
-                    size="md"
-                    alignSelf={"center"}
-                    siblings={2}
-                    page={data.pageNumber}
-                    total={data.pageCount}
-                    onChange={onChange}
-                />
+        <Flex direction={"column"} alignItems={"center"} gap={"xl"}>
+            <Flex justifyContent="flex-start" w="full">
+                <Heading>Most popular games</Heading>
             </Flex>
-        </Container>
+            <SimpleGrid
+                columns={{ base: 1, sm: 2, md: 2, lg: 3, xl: 4 }}
+                gap="lg"
+            >
+                {data.items.map((item) => (
+                    <GridItem key={item.id}>
+                        <HoverGameCard item={item} />
+                    </GridItem>
+                ))}
+            </SimpleGrid>
+            <Pagination
+                size="md"
+                alignSelf={"center"}
+                siblings={2}
+                page={data.pageNumber}
+                total={data.pageCount}
+                onChange={onChange}
+            />
+        </Flex>
     );
 }

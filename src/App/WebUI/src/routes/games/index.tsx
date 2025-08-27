@@ -1,4 +1,4 @@
-import { MagnifyingGlassIcon } from "@phosphor-icons/react";
+import { FileIcon, MagnifyingGlassIcon } from "@phosphor-icons/react";
 import {
     createFileRoute,
     useNavigate,
@@ -7,6 +7,11 @@ import {
 import {
     Accordion,
     Button,
+    Center,
+    EmptyState,
+    EmptyStateDescription,
+    EmptyStateIndicator,
+    EmptyStateTitle,
     Flex,
     GridItem,
     Input,
@@ -14,15 +19,21 @@ import {
     InputLeftElement,
     SimpleGrid,
 } from "@yamada-ui/react";
-import { useState } from "react";
+import { Suspense, useCallback, useDeferredValue, useState } from "react";
 import { FilterAccordion } from "~/features/games/components/Accordion/FilterAccordionItem";
 import { z } from "zod";
 import {
-    publicGamesGetGamesByParametersEndpointHook,
-    usePublicGamesGetFiltersEndpointHook,
+    publicGamesGetFiltersEndpointSuspenseQueryOptionsHook,
+    publicGamesGetGamesByParametersEndpointQueryOptionsHook,
+    usePublicGamesGetFiltersEndpointSuspenseHook,
+    usePublicGamesGetGamesByParametersEndpointHook,
+    type GamePreviewDto,
 } from "~/gen";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
-
+import { useDebouncedValue } from "@mantine/hooks";
+import { keepPreviousData, useSuspenseQueries } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import { FiltersPanel } from "~/features/games/components/Filters/FilterMenu";
 const defaultValues = {
     page: 1,
     query: "",
@@ -45,57 +56,90 @@ export const Route = createFileRoute("/games/")({
     search: {
         middlewares: [stripSearchParams(defaultValues)],
     },
-    loaderDeps: ({ search }) => ({ ...search }),
-
-    loader: ({
-        context: { queryClient },
-        deps: { page, query, genres, platforms },
-    }) => {
-        return queryClient.ensureQueryData({
-            queryKey: ["games", "search", page, query, genres, platforms],
-
-            queryFn: async () =>
-                await publicGamesGetGamesByParametersEndpointHook({
-                    params: {
-                        pageNumber: page,
-                        pageSize: 40,
-                        name: query,
-                        genres: genres,
-                        platforms: platforms,
-                    },
-                }),
-        });
+    loader: async ({ context: { queryClient } }) => {
+        queryClient.prefetchQuery(
+            publicGamesGetFiltersEndpointSuspenseQueryOptionsHook()
+        );
+        await queryClient.ensureQueryData(
+            publicGamesGetGamesByParametersEndpointQueryOptionsHook({})
+        );
     },
 });
 
 function RouteComponent() {
-    const { data: filters } = usePublicGamesGetFiltersEndpointHook();
-
+    const { data: filters } = usePublicGamesGetFiltersEndpointSuspenseHook();
     const { page, query, genres, platforms } = Route.useSearch();
+    const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+        usePublicGamesGetGamesByParametersEndpointHook(
+            {
+                params: {
+                    pageNumber: page,
+                    pageSize: 40,
+                    name: query,
+                    genres: genres,
+                    platforms: platforms,
+                },
+            },
+            { query: { placeholderData: keepPreviousData } }
+        );
+
     const navigate = useNavigate({ from: Route.fullPath });
 
     const [value, setValue] = useState<string>(query ?? "");
 
-    const updateFilters = (name: keyof GameSearch, value: unknown) => {
-        navigate({
-            search: (prev) => ({ ...prev, [name]: value, page: page }),
-            replace: true,
-        });
-    };
+    const updateSearchParam = useCallback(
+        (updates: Partial<z.infer<typeof gameSearchSchema>>) => {
+            navigate({
+                search: (prev: z.infer<typeof gameSearchSchema>) => ({
+                    ...prev,
+                    ...updates,
+                }),
+                replace: true,
+            });
+        },
+        [navigate]
+    );
+
+    const updateSearchQueryFilter = useCallback(
+        (searchString: string) => {
+            updateSearchParam({
+                query: searchString as z.infer<
+                    typeof gameSearchSchema
+                >["query"],
+            });
+        },
+        [navigate]
+    );
+
+    const updatePlatformFilter = useCallback(
+        (ids: number[]) => {
+            updateSearchParam({
+                platforms: ids as z.infer<typeof gameSearchSchema>["platforms"],
+            });
+        },
+        [navigate]
+    );
+
+    const updateGenreFilter = useCallback(
+        (ids: number[]) => {
+            updateSearchParam({
+                genres: ids as z.infer<typeof gameSearchSchema>["genres"],
+            });
+        },
+        [navigate]
+    );
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
     };
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") updateFilters("query", value);
+        if (e.key === "Enter") updateSearchQueryFilter(value);
     };
-
     const handleSearch = () => {
-        updateFilters("query", value);
+        updateSearchQueryFilter(value);
     };
 
-    const data = Route.useLoaderData();
+    //const data = Route.useLoaderData();
     return (
         <>
             <Flex direction="column" gap="0" w="full">
@@ -146,57 +190,54 @@ function RouteComponent() {
                         >
                             {filters && (
                                 <>
-                                    <FilterAccordion
-                                        title={"Platforms"}
-                                        items={filters.platforms}
-                                        selected={platforms ?? []}
-                                        onChange={(e) =>
-                                            updateFilters("platforms", e)
-                                        }
-                                    />
-
-                                    <FilterAccordion
-                                        title={"Genres"}
-                                        items={filters.genres}
-                                        selected={genres ?? []}
-                                        onChange={(e) =>
-                                            updateFilters("genres", e)
-                                        }
+                                    <FiltersPanel
+                                        filters={filters}
+                                        selectedPlatforms={platforms ?? []}
+                                        selectedGenres={genres ?? []}
+                                        onPlatformsChange={updatePlatformFilter}
+                                        onGenresChange={updateGenreFilter}
                                     />
                                 </>
                             )}
                         </Accordion>
                     </Flex>
                     {/* Right Side: 3/4 width */}
-                    <Flex
-                        borderRadius={"xl"}
-                        flex="4"
-                        bg={["blackAlpha.50", "whiteAlpha.100"]}
-                        p="2"
-                    >
-                        {data && (
-                            <Flex direction={"column"} alignItems={"center"}>
-                                <Flex
-                                    justifyContent="flex-start"
-                                    w="full"
-                                ></Flex>
-                                <SimpleGrid
-                                    columns={{
-                                        base: 1,
-                                        sm: 2,
-                                        md: 2,
-                                        lg: 3,
-                                        xl: 5,
-                                    }}
-                                    gap="lg"
-                                >
-                                    {data?.items.map((item) => (
-                                        <GridItem key={item.id}>
-                                            <HoverGameCard item={item} />
-                                        </GridItem>
-                                    ))}
-                                </SimpleGrid>
-                            </Flex>
+                    <Flex flex="4" p="2">
+                        {isPending ? (
+                            <div>Loading...</div>
+                        ) : isError ? (
+                            <div>Error: {error.message}</div>
+                        ) : (
+                            <div>
+                                {data.items.length > 0 ? (
+                                    <SimpleGrid
+                                        columns={{
+                                            base: 1,
+                                            sm: 2,
+                                            md: 2,
+                                            lg: 3,
+                                            xl: 5,
+                                        }}
+                                        gap="lg"
+                                    >
+                                        <SearchResult items={data.items} />
+                                    </SimpleGrid>
+                                ) : (
+                                    <Center h="full" w="full">
+                                        <EmptyState>
+                                            <EmptyStateIndicator>
+                                                <FileIcon />
+                                            </EmptyStateIndicator>
+                                            <EmptyStateTitle>
+                                                No results found
+                                            </EmptyStateTitle>
+                                            <EmptyStateDescription>
+                                                Try searching for something else
+                                            </EmptyStateDescription>
+                                        </EmptyState>
+                                    </Center>
+                                )}
+                            </div>
                         )}
                     </Flex>
                 </Flex>
@@ -204,3 +245,19 @@ function RouteComponent() {
         </>
     );
 }
+
+type SearchResultProps = {
+    items: GamePreviewDto[];
+};
+
+const SearchResult = ({ items }: SearchResultProps) => {
+    return (
+        <>
+            {items.map((item) => (
+                <GridItem key={item.id}>
+                    <HoverGameCard item={item} height="sm" />
+                </GridItem>
+            ))}
+        </>
+    );
+};

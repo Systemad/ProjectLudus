@@ -8,9 +8,8 @@ import { AuthProvider } from "./features/auth/AuthProvider";
 import { useAuth } from "./features/auth/useAuth";
 import { queryClient } from "./queryClient";
 import { config, theme } from "../theme/index.ts";
-import { NavigationBar } from "./layouts/NavigationBar/NavigationBar.tsx";
 
-const router = createRouter({
+export const router = createRouter({
     routeTree,
     context: { queryClient, auth: undefined! },
     defaultPreload: "intent",

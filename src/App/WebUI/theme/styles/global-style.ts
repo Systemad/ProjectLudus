@@ -19,8 +19,6 @@ export const globalStyle: UIStyle = {
         transitionProperty: "background-color",
         textWrap: "pretty",
         display: "grid",
-        gridTemplateColumns: "1fr",
-        gridTemplateRows: "auto 1fr auto",
         minH: { base: "100dvh", lg: "max(100dvh, 9xl)" },
         overflowX: "clip",
     },
