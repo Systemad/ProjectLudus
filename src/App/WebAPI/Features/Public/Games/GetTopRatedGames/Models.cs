@@ -4,7 +4,7 @@ using WebAPI.Features.Common.Games.Models;
 
 namespace Public.Games.GetTopRatedGames;
 
-public record GetTopRatedGamesResponse(PaginatedResponse<GamePreviewDto> Data);
+public record GetTopRatedGamesResponse(PaginatedResponse<GameDto> Data);
 
 public class GetTopRatedGamesRequest : IPaginationParameters
 {

@@ -61,7 +61,7 @@ public class GameList
     public Guid Id { get; set; }
     public bool Public { get; set; }
     public string Name { get; set; }
-
+    public DateTimeOffset CreatedAt { get; set; }
     public ICollection<GameListItem> Games { get; set; } = new List<GameListItem>();
 
     public Guid UserId { get; set; }

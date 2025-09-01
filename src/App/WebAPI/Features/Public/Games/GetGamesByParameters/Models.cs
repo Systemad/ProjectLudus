@@ -5,7 +5,7 @@ namespace Public.Games.GetGamesByParameters;
 
 public class GameSearchRequest : PaginationRequest
 {
-    [QueryParam, BindFrom("name")] public string? Name { get; set; }
+    [QueryParam, BindFrom("name")] public string? Query { get; set; }
     [QueryParam, BindFrom("genres")] public long[]? Genres { get; set; }
     [QueryParam, BindFrom("platforms")] public long[]? Platforms { get; set; }
     [QueryParam, BindFrom("gamemodes")] public long[]? GameModes { get; set; }

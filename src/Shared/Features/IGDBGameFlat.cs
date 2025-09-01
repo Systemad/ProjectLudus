@@ -23,21 +23,21 @@ public class IGDBGameFlat
     public long FirstReleaseDate { get; set; }
 
     public List<Franchise> Franchises { get; set; } = new();
-    public long[] GameEngines { get; set; } = [];
-    public long[] GameModes { get; set; } = [];
-    public long[] Genres { get; set; } = [];
+    public List<long> GameEngines { get; set; } = new();
+    public List<long> GameModes { get; set; } = new();
+    public List<long> Genres { get; set; } = new();
 
     public long? Hypes { get; set; }
 
     public List<InvolvedCompanyFlat> InvolvedCompanies { get; set; } = new();
 
-    public long[] Keywords { get; set; } = [];
+    public List<long> Keywords { get; set; } = new();
 
     public string Name { get; set; }
 
-    public long[] Platforms { get; set; } = [];
+    public List<long> Platforms { get; set; } = new();
 
-    public long[] PlayerPerspectives { get; set; } = [];
+    public List<long> PlayerPerspectives { get; set; } = new();
 
     public double? Rating { get; set; }
 
@@ -55,7 +55,7 @@ public class IGDBGameFlat
 
     public string? Summary { get; set; }
 
-    public long[] Themes { get; set; } = [];
+    public List<long> Themes { get; set; } = new();
 
     public double? TotalRating { get; set; }
 
@@ -75,7 +75,8 @@ public class IGDBGameFlat
 
     public List<Collection> Collections { get; set; } = new();
 
-    public required GameType GameType { get; set; }
+    public GameType GameType { get; set; } = new();
 
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
+    public string SearchField => $"{Name}"; // {string.Join(" ", AlternativeNames)}";
 }

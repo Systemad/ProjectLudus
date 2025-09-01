@@ -2,19 +2,11 @@
 using JasperFx.CodeGeneration;
 using Marten;
 using Shared;
-using Shared.Features.Games;
-
 namespace WebAPI.Configuration;
 
-public static class MartenConfiguration
+public static class MartenExtension
 {
-    public static long ToUnixTimestamp(int year, int month, int day)
-    {
-        var dt = new DateTime(year, month, day, 0, 0, 0, DateTimeKind.Utc);
-        return new DateTimeOffset(dt).ToUnixTimeSeconds();
-    }
-    
-    public static IServiceCollection AddMartenDatabases(
+    public static IServiceCollection RegisterMarten(
         this IServiceCollection services,
         IHostEnvironment env,
         IConfiguration config
@@ -31,11 +23,7 @@ public static class MartenConfiguration
         services.AddLogging();
         
         services
-            .AddMarten(options =>
-            {
-                options.UseSystemTextJsonForSerialization();
-                MartenSchema.Configure(options);
-            })
+            .AddMarten(MartenSchema.Configure)
             .ApplyAllDatabaseChangesOnStartup()
             .UseLightweightSessions()
             .UseNpgsqlDataSource();

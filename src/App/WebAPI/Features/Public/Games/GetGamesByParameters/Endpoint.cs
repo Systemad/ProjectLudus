@@ -1,22 +1,17 @@
 ﻿using FastEndpoints;
 using Marten;
 using Marten.Pagination;
-using Me.Hypes.Helpers;
-using Me.Wishlists.Helpers;
 using Shared.Features;
 using Shared.Features.Games;
-using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
-using WebAPI.Features.DataAccess;
 
 namespace Public.Games.GetGamesByParameters;
 
-public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GamePreviewDto>>
+public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
     public IDocumentStore GameStore { get; set; }
-    public LudusContext _context { get; set; }
 
     public override void Configure()
     {
@@ -31,11 +26,11 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GamePrevie
 
         IQueryable<IGDBGameFlat> gameQuery = session.Query<IGDBGameFlat>();
 
-        if (!string.IsNullOrWhiteSpace(req.Name))
+        if (!string.IsNullOrWhiteSpace(req.Query))
         {
             gameQuery =
                 gameQuery.Where(x =>
-                    x.WebStyleSearch(req.Name)
+                    x.SearchField.NgramSearch(req.Query)
                 );
         }
 
@@ -77,25 +72,13 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GamePrevie
                 .OrderBySql(Sorting.SortFilerOne)
                 .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
-        HashSet<long> hypedGames = [];
-        HashSet<long> wishlistedGames = [];
-
-        if (User.Identity.IsAuthenticated)
-        {
-            var userId = User.GetUserId();
-            wishlistedGames = await WishlistsHelper.GetWishlistedGameIdsAsync(_context, userId, ct);
-            hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
-        }
-
         var previews = games.Select(item =>
-                item.ToGamePreviewDto(
-                    platformDict,
-                    wishlistedGames.Contains(item.Id),
-                    hypedGames.Contains(item.Id)))
+                item.MapToGameDto(
+                    platformDict))
             .ToList();
 
         await Send.OkAsync(
-            new PaginatedResponse<GamePreviewDto>(
+            new PaginatedResponse<GameDto>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,

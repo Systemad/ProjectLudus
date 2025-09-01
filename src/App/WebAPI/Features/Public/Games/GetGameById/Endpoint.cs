@@ -68,7 +68,7 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
                 Company = company                
             };
         }).ToList();
-        var dto = game.ToGameDto(
+        var dto = game.MapToIgdbGameDto(
             gameEnginesDict.Values.ToList(),
             gameModesDict.Values.ToList(),
             genresDict.Values.ToList(), 

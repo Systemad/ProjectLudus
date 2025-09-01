@@ -78,7 +78,7 @@ public class IgdbGameDto
 
     public List<Collection> Collections { get; set; } = new();
 
-    public required GameType GameType { get; set; }
+    public GameType GameType { get; set; } = new();
 
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
 }

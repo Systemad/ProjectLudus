@@ -9,5 +9,5 @@ public class GetSimilarGamesRequest
 
 public class GetSimilarGamesResponse
 {
-    public List<GamePreviewDto> SimilarGames { get; set; }
+    public List<GameDto> SimilarGames { get; set; }
 }

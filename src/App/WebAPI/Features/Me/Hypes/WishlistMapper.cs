@@ -1,15 +1,13 @@
 ﻿using Shared.Features;
 using Shared.Features.Games;
-using WebAPI.Features.Common.Games.Models;
 
-namespace WebAPI.Features.Common.Games.Mappers;
+namespace Me.Hypes;
 
-public static class GamePreviewMapper
+public static class HypedMapper
 {
-    public static GamePreviewDto ToGamePreviewDto(this IGDBGameFlat game, Dictionary<long, Platform> platformDict, bool isWishlisted,
-        bool isHyped)
+    public static HypedItem ToDto(this IGDBGameFlat game, Dictionary<long, Platform> platformDict, bool isHyped)
     {
-        return new GamePreviewDto()
+        return new HypedItem()
         {
             Id = game.Id,
             Name = game.Name,
@@ -22,8 +20,7 @@ public static class GamePreviewMapper
                 game.ReleaseDates?.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime).ToList() ??
                 [],
             GameType = game.GameType,
-            IsWishlisted = isWishlisted,
-            IsHyped = isHyped,
+            IsHyped = isHyped
         };
     }
 }

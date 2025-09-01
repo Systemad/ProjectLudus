@@ -3,9 +3,9 @@ using Shared.Features.Games;
 
 namespace WebAPI.Features.Common.Games.Mappers;
 
-public static class GameDtoMapper
+public static partial class GameMappingExtensions
 {
-    public static IgdbGameDto ToGameDto(
+    public static IgdbGameDto MapToIgdbGameDto(
         this IGDBGameFlat igdbGameFlat,
         List<GameEngine> gameEngines,
         List<GameMode> gameModes,

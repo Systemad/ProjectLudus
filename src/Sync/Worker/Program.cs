@@ -2,11 +2,14 @@ using JasperFx;
 using JasperFx.CodeGeneration;
 using Marten;
 using Shared;
+using Shared.Features;
+using Shared.Features.Games;
 using Shared.Twitch;
 using TickerQ.Dashboard.DependencyInjection;
 using TickerQ.DependencyInjection;
 using TickerQ.Utilities.Enums;
 using TickerQ.Utilities.Interfaces;
+using Weasel.Postgresql.Tables;
 using Worker;
 using Worker.Seed;
 
@@ -28,14 +31,13 @@ builder.Services.AddScoped<ApiClient>();
 builder.Services.AddScoped<GameSeeder>();
 builder.Services.AddScoped<CompanySeeder>();
 
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine(connection);
+var connection = builder.Configuration.GetConnectionString("ludustest");
 builder.Services.AddNpgsqlDataSource(connection!);
 builder.Services.AddMarten(options =>
     {
         options.Connection(connection!);
-        options.Logger(new ConsoleMartenLogger());
         options.UseSystemTextJsonForSerialization();
+        options.Logger(new ConsoleMartenLogger());
         MartenSchema.Configure(options);
     })
     .UseNpgsqlDataSource()
@@ -59,9 +61,9 @@ using (var scope = app.Services.CreateScope())
 {
 
     //var seeder = scope.ServiceProvider.GetRequiredService<GameSeeder>();
-    //await seeder.PopulateGamesAsync(true, false, true);
-    //var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
-    //await seeder.PopulateCompaniesAsync(true, false);
+    //await seeder.PopulateGamesAsync(true, false, false);
+    var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
+    await seeder.PopulateCompaniesAsync(true, false);
 }
 
 app.MapPost("/webhooks/igdb", async (string payload, string handler) =>
@@ -70,7 +72,7 @@ app.MapPost("/webhooks/igdb", async (string payload, string handler) =>
     return Results.Ok();
 });
 
-app.UseTickerQ(TickerQStartMode.Manual);
+//app.UseTickerQ(TickerQStartMode.Manual);
 //ITickerHost tickerHost = app.Services.GetRequiredService<ITickerHost>(); 
 //tickerHost.Start();
 return await app.RunJasperFxCommands(args);

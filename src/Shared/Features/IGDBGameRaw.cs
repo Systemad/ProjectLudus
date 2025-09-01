@@ -116,8 +116,7 @@ public partial class IGDBGameRaw
     [JsonPropertyName("collections")]
     public List<Collection> Collections { get; set; } = new();
 
-    [JsonPropertyName("game_type")]
-    public required GameType GameType { get; set; }
+    [JsonPropertyName("game_type")] public GameType GameType { get; set; } = new();
 
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();

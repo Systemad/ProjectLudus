@@ -15,7 +15,7 @@ using WebAPI.Features.DataAccess;
 
 namespace Me.Hyped.GetAll;
 
-public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GamePreviewDto>>
+public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<HypedItem>>
 {
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
@@ -33,13 +33,6 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GamePre
 
         HashSet<long> hypedGames = await HypesHelper.GetHypedGameIdsAsync(_context, userId, ct);
 
-        HashSet<long> wishlistedGames = await WishlistsHelper.GetWishlistedGamesByIdsAsync(
-            _context,
-            userId,
-            hypedGames,
-            ct
-        );
-
         var platformDict = new Dictionary<long, Platform>();
         var games = await session
             .Query<IGDBGameFlat>()
@@ -48,14 +41,13 @@ public class Endpoint : Endpoint<GetHypesGamesRequest, PaginatedResponse<GamePre
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         var previews = games.Select(item =>
-                item.ToGamePreviewDto(
+                item.ToDto(
                     platformDict,
-                    wishlistedGames.Contains(item.Id),
                     hypedGames.Contains(item.Id)))
             .ToList();
 
         await Send.OkAsync(
-            new PaginatedResponse<GamePreviewDto>(
+            new PaginatedResponse<HypedItem>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,

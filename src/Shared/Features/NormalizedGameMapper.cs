@@ -23,9 +23,9 @@ public static class NormalizedGameMapper
             Expansions = game.Expansions,
             FirstReleaseDate = game.FirstReleaseDate,
             Franchises = game.Franchises,
-            GameEngines = game.GameEngines.Select(x => x.Id).ToArray(),
-            GameModes = game.GameModes.Select(x => x.Id).ToArray(),
-            Genres = game.Genres.Select(x => x.Id).ToArray(),
+            GameEngines = game.GameEngines.Select(x => x.Id).ToList(),
+            GameModes = game.GameModes.Select(x => x.Id).ToList(),
+            Genres = game.Genres.Select(x => x.Id).ToList(),
             Hypes = game.Hypes,
             InvolvedCompanies = game.InvolvedCompanies
                 .Select(x => new InvolvedCompanyFlat
@@ -38,10 +38,10 @@ public static class NormalizedGameMapper
                     Supporting = x.Supporting
                 })
                 .ToList(),
-            Keywords = game.Keywords.Select(x => x.Id).ToArray(),
+            Keywords = game.Keywords.Select(x => x.Id).ToList(),
             Name = game.Name,
-            Platforms = game.Platforms.Select(x => x.Id).ToArray(),
-            PlayerPerspectives = game.PlayerPerspectives.Select(x => x.Id).ToArray(),
+            Platforms = game.Platforms.Select(x => x.Id).ToList(),
+            PlayerPerspectives = game.PlayerPerspectives.Select(x => x.Id).ToList(),
             Rating = game.Rating,
             RatingCount = game.RatingCount,
             ReleaseDates = game.ReleaseDates,
@@ -50,7 +50,7 @@ public static class NormalizedGameMapper
             Slug = game.Slug,
             Storyline = game.Storyline,
             Summary = game.Summary,
-            Themes = game.Themes.Select(x => x.Id).ToArray(),
+            Themes = game.Themes.Select(x => x.Id).ToList(),
             TotalRating = game.TotalRating,
             TotalRatingCount = game.TotalRatingCount,
             UpdatedAt = game.UpdatedAt,

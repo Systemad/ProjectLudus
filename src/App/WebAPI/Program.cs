@@ -46,7 +46,7 @@ builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
     settings.CommandTimeout = 30;
 });
 
-builder.Services.AddMartenDatabases(builder.Environment, builder.Configuration);
+builder.Services.RegisterMarten(builder.Environment, builder.Configuration);
 
 builder.Services.AddMemoryCache();
 

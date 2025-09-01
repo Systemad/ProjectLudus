@@ -19,8 +19,7 @@ import {
     InputLeftElement,
     SimpleGrid,
 } from "@yamada-ui/react";
-import { Suspense, useCallback, useDeferredValue, useState } from "react";
-import { FilterAccordion } from "~/features/games/components/Accordion/FilterAccordionItem";
+import { memo, Suspense, useCallback, useState } from "react";
 import { z } from "zod";
 import {
     publicGamesGetFiltersEndpointSuspenseQueryOptionsHook,
@@ -30,10 +29,11 @@ import {
     type GamePreviewDto,
 } from "~/gen";
 import { HoverGameCard } from "~/features/games/components/HoverGameCard";
-import { useDebouncedValue } from "@mantine/hooks";
-import { keepPreviousData, useSuspenseQueries } from "@tanstack/react-query";
+import { useDebouncedCallback } from "@mantine/hooks";
+import { keepPreviousData } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { FiltersPanel } from "~/features/games/components/Filters/FilterMenu";
+import { GameSearchBox } from "~/features/games/components/Search/GameSearchBox";
 const defaultValues = {
     page: 1,
     query: "",
@@ -60,7 +60,7 @@ export const Route = createFileRoute("/games/")({
         queryClient.prefetchQuery(
             publicGamesGetFiltersEndpointSuspenseQueryOptionsHook()
         );
-        await queryClient.ensureQueryData(
+        queryClient.ensureQueryData(
             publicGamesGetGamesByParametersEndpointQueryOptionsHook({})
         );
     },
@@ -80,12 +80,17 @@ function RouteComponent() {
                     platforms: platforms,
                 },
             },
-            { query: { placeholderData: keepPreviousData } }
+            {
+                query: {
+                    placeholderData: keepPreviousData,
+                    queryKey: ["games", page, query, genres, platforms],
+                },
+            }
         );
 
     const navigate = useNavigate({ from: Route.fullPath });
 
-    const [value, setValue] = useState<string>(query ?? "");
+    const [search, setSearch] = useState<string>("");
 
     const updateSearchParam = useCallback(
         (updates: Partial<z.infer<typeof gameSearchSchema>>) => {
@@ -95,17 +100,6 @@ function RouteComponent() {
                     ...updates,
                 }),
                 replace: true,
-            });
-        },
-        [navigate]
-    );
-
-    const updateSearchQueryFilter = useCallback(
-        (searchString: string) => {
-            updateSearchParam({
-                query: searchString as z.infer<
-                    typeof gameSearchSchema
-                >["query"],
             });
         },
         [navigate]
@@ -129,16 +123,29 @@ function RouteComponent() {
         [navigate]
     );
 
+    const handleSearch = useDebouncedCallback(
+        (next: string) => {
+            updateSearchParam({
+                query: next as z.infer<typeof gameSearchSchema>["query"],
+            });
+        },
+        { delay: 500, leading: false }
+    );
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") updateSearchQueryFilter(value);
-    };
-    const handleSearch = () => {
-        updateSearchQueryFilter(value);
+        const next = e.currentTarget.value;
+        setSearch(next);
+        handleSearch(next);
     };
 
+    /*                             <GameSearchBox
+                            query={query}
+                            onSearch={(next) =>
+                                updateSearchParam({ query: next })
+                            }
+                        />
+
+    */
     //const data = Route.useLoaderData();
     return (
         <>
@@ -159,15 +166,13 @@ function RouteComponent() {
                         </InputLeftElement>
                         <Input
                             placeholder="Search games"
-                            value={value}
-                            onKeyDown={handleKeyDown}
+                            defaultValue={query}
+                            value={search}
                             onChange={handleChange}
                         />
                     </InputGroup>
 
-                    <Button colorScheme={"emerald"} onClick={handleSearch}>
-                        Search
-                    </Button>
+                    <Button colorScheme={"emerald"}>Sort by</Button>
 
                     {/* Top bar content here */}
                 </Flex>
@@ -250,7 +255,7 @@ type SearchResultProps = {
     items: GamePreviewDto[];
 };
 
-const SearchResult = ({ items }: SearchResultProps) => {
+const SearchResult = memo(({ items }: SearchResultProps) => {
     return (
         <>
             {items.map((item) => (
@@ -260,4 +265,4 @@ const SearchResult = ({ items }: SearchResultProps) => {
             ))}
         </>
     );
-};
+});

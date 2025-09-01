@@ -33,7 +33,7 @@ public class GameSeeder
         }
         else
         {
-            await SeedFromIGDBAsync(writeCache);
+            await SeedFromIgdbAsync(writeCache);
         }
     }
     public async Task SeedFromCacheAsync()
@@ -59,7 +59,7 @@ public class GameSeeder
         if (batch.Count > 0)
             await InsertGamesBatchAsync(batch);
     }
-    public async Task SeedFromIGDBAsync(bool writeToCache = false)
+    public async Task SeedFromIgdbAsync(bool writeToCache = false)
     {
         var countResponse = await _apiClient.FetchGamesCountAsync();
 

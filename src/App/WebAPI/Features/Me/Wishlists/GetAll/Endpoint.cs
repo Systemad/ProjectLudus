@@ -1,19 +1,16 @@
 ﻿using FastEndpoints;
 using Marten;
 using Marten.Pagination;
-using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using Shared.Features;
 using Shared.Features.Games;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
-using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Me.Wishlists.GetAll;
 
-public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<GamePreviewDto>>
+public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<WishlistItem>>
 {
     public LudusContext _context { get; set; }
     public IDocumentStore Store { get; set; }
@@ -35,30 +32,22 @@ public class Endpoint : Endpoint<GetWishlistedGamesRequest, PaginatedResponse<Ga
             ct
         );
 
-        HashSet<long> hypedGames = await HypesHelper.GetHypedGamesByIdsAsync(
-            _context,
-            userId,
-            wishlistedGames,
-            ct
-        );
-
         var platformDict = new Dictionary<long, Platform>();
         
         var games = await session
             .Query<IGDBGameFlat>()
             .Include(platformDict).On(x => x.Platforms)
-            .Where(g => hypedGames.Contains(g.Id))
+            .Where(g => wishlistedGames.Contains(g.Id))
             .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
 
         var previews = games.Select(item =>
-                item.ToGamePreviewDto(
+                item.ToDto(
                     platformDict,
-                    wishlistedGames.Contains(item.Id),
-                    hypedGames.Contains(item.Id)))
+                    wishlistedGames.Contains(item.Id)))
             .ToList();
 
         await Send.OkAsync(
-            new PaginatedResponse<GamePreviewDto>(
+            new PaginatedResponse<WishlistItem>(
                 previews,
                 games.TotalItemCount,
                 games.PageCount,
