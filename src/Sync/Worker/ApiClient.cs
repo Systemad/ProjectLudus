@@ -87,7 +87,7 @@ public class ApiClient
         return batch;
     }
 
-    public async Task<List<IGDBGameRaw>> FetchBatchAsync(long itemsToTake, long offset)
+    public async Task<List<IGDBGame>> FetchBatchAsync(long itemsToTake, long offset)
     {
         var requestBody =
             $"fields {string.Join(",", GameQuery.Fields)}; limit {itemsToTake}; offset {offset};";
@@ -98,7 +98,7 @@ public class ApiClient
         var response = await _client.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var games = await response.Content.ReadFromJsonAsync<List<IGDBGameRaw>>();
+        var games = await response.Content.ReadFromJsonAsync<List<IGDBGame>>();
 
         if (games == null || games.Count == 0)
             throw new ArgumentException("Games is null");

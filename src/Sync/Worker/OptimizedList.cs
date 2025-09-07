@@ -7,12 +7,12 @@ namespace Worker;
 // https://danielwoodward.dev/posts/csharp/how-to-efficiently-read-ndjson-in-dotnet-with-pipes
 public static class OptimizedList
 {
-    public static async Task<List<IGDBGameRaw>> ReadFromStreamAsync(
+    public static async Task<List<IGDBGame>> ReadFromStreamAsync(
         Stream stream, CancellationToken cancellationToken = default)
     {
         var reader = PipeReader.Create(stream);
  
-        var containers = new List<IGDBGameRaw>();
+        var containers = new List<IGDBGame>();
         while (true)
         {
             var result = await reader.ReadAsync(cancellationToken);
@@ -58,10 +58,10 @@ public static class OptimizedList
             return false;
         }
  
-        static IGDBGameRaw DeserializeJsonData(ReadOnlySequence<byte> jsonData)
+        static IGDBGame DeserializeJsonData(ReadOnlySequence<byte> jsonData)
         {
             var jsonReader = new Utf8JsonReader(jsonData);
-            return JsonSerializer.Deserialize<IGDBGameRaw>(ref jsonReader) ?? throw new InvalidOperationException();
+            return JsonSerializer.Deserialize<IGDBGame>(ref jsonReader) ?? throw new InvalidOperationException();
         }
     }
 }

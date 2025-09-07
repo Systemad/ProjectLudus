@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Marten;
 using Shared.Features.Games;
 using Shared.Queries;
 
@@ -7,14 +6,13 @@ namespace Worker.Seed;
 
 public class CompanySeeder
 {
-    private readonly IDocumentStore _store;
+
     private ApiClient _apiClient;
 
     private const string companyFile = "Cache/companies.json";
     
-    public CompanySeeder(IDocumentStore store, ApiClient apiClient)
+    public CompanySeeder(ApiClient apiClient)
     {
-        _store = store;
         _apiClient = apiClient;
     }
     
@@ -23,7 +21,6 @@ public class CompanySeeder
         
         if (reset)
         {
-            await _store.Advanced.Clean.CompletelyRemoveAsync(typeof(Company));
         }
         
         var countResponse = await _apiClient.FetchCountAsync(CompanyQuery.Url);
@@ -52,7 +49,6 @@ public class CompanySeeder
     
     private async Task InsertCompanyBatchAsync(long itemsToTake, long offset)
     {
-        await using var session = _store.LightweightSession();
         var companies = await _apiClient.FetchBatchAsyncGeneric<Company>(
             CompanyQuery.Url,
             CompanyQuery.Fields,
@@ -60,8 +56,7 @@ public class CompanySeeder
             offset
         );
 
-        await session.DocumentStore.BulkInsertAsync(companies, BulkInsertMode.OverwriteExisting);
-        await session.SaveChangesAsync();
+
     }
     
     private static async Task WriteToJsonCacheCompanyAsync(List<Company> companies)

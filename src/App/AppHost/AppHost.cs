@@ -7,16 +7,14 @@ builder
  * host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1
  *
  */
-var postgres = builder.AddPostgres("postgres"); //.WithInitFiles("./postgres-init");
+var postgres = builder.AddPostgres("postgres");
 var postgresdb = postgres.AddDatabase("maindb");
+var connectionString = builder.AddConnectionString("gamingdb");
+var apiService = builder.AddProject<Projects.WebAPI>("apiservice").WithReference(postgresdb)
+    .WithEnvironment("IGDB_DB", connectionString);
 
 //var apiUrl = builder.AddParameter("postgresl");
 //var externalDb = builder.AddExternalService("external-db", apiUrl);
-
-var connectionString = builder.AddConnectionString("gamingdb");
-
-var apiService = builder.AddProject<Projects.WebAPI>("apiservice").WithReference(postgresdb)
-    .WithEnvironment("IGDB_DB", connectionString); //.WithReference(connectionString);
 
 var resource =
     builder.AddPnpmApp(

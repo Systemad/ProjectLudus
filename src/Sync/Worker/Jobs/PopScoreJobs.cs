@@ -1,21 +1,15 @@
-﻿
-using Marten;
-using Shared.Features.PopScore;
+﻿using Shared.Features.PopScore;
 using TickerQ.Utilities.Base;
 
-
-namespace Worker;
-
+namespace Worker.Jobs;
 
 public class PopScoreJobs
 {
     private ApiClient _apiClient;
-    private readonly IDocumentStore _store;
 
-    public PopScoreJobs(ApiClient apiClient, IDocumentStore store)
+    public PopScoreJobs(ApiClient apiClient)
     {
         _apiClient = apiClient;
-        _store = store;
     }
 
     [TickerFunction(functionName: "PopScoreFetch", cronExpression: "55 23 * * *")]
@@ -29,8 +23,6 @@ public class PopScoreJobs
             popscoreGames.AddRange(items);
         }
 
-        await using var session = _store.LightweightSession();
-        session.StoreObjects(popscoreGames);
-        await session.SaveChangesAsync();
+   
     }
 }

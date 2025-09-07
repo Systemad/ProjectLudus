@@ -1,30 +1,31 @@
 ﻿using System.Text.Json;
-using Marten;
+using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using PhenX.EntityFrameworkCore.BulkInsert.Extensions;
+using PhenX.EntityFrameworkCore.BulkInsert.Options;
 using Shared.Features;
+using Worker.Data;
 
 namespace Worker.Seed;
 
 public class GameSeeder
 {
-    private readonly IDocumentStore _store;
     private ApiClient _apiClient;
 
     private const string gameFile = "Cache/gamefile.json";
     private const string JsonFilePath = "Cache/gamefile.json";
+    private AppDbContext _context;
 
-    public GameSeeder(IDocumentStore store, ApiClient apiClient)
+    public GameSeeder(ApiClient apiClient, AppDbContext context)
     {
-        _store = store;
         _apiClient = apiClient;
+        _context = context;
     }
 
     public async Task PopulateGamesAsync(bool reset = false, bool useCaching = false, bool writeCache = false)
     {
         if (reset)
         {
-            await _store.Advanced.Clean.CompletelyRemoveAllAsync();
-            await _store.Advanced.Clean.DeleteAllDocumentsAsync();
-            await _store.Advanced.Clean.DeleteAllEventDataAsync();
         }
 
         if (useCaching)
@@ -36,29 +37,17 @@ public class GameSeeder
             await SeedFromIgdbAsync(writeCache);
         }
     }
-    public async Task SeedFromCacheAsync()
+
+    private async Task SeedFromCacheAsync()
     {
         await using var fs = File.OpenRead(JsonFilePath);
-
         var games = await OptimizedList.ReadFromStreamAsync(fs);
+        await InsertGameBatchAsync(games);
+        await InsertFiltersAsync(games);
 
-        var batchSize = 500;
-        var batch = new List<IGDBGameRaw>(batchSize);
-
-        foreach (var game in games)
-        {
-            batch.Add(game);
-
-            if (batch.Count >= batchSize)
-            {
-                await InsertGamesBatchAsync(batch);
-                batch.Clear();
-            }
-        }
-
-        if (batch.Count > 0)
-            await InsertGamesBatchAsync(batch);
+        await _context.SaveChangesAsync();
     }
+    
     public async Task SeedFromIgdbAsync(bool writeToCache = false)
     {
         var countResponse = await _apiClient.FetchGamesCountAsync();
@@ -67,7 +56,7 @@ public class GameSeeder
         long totalItems = countResponse.Count;
         long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
 
-        var allGames = new List<IGDBGameRaw>();
+        var allGames = new List<IGDBGame>();
 
         for (long i = 0; i < iterations; i++)
         {
@@ -75,7 +64,7 @@ public class GameSeeder
             long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
 
             var games = await _apiClient.FetchBatchAsync(itemsToTake, offset);
-            await InsertGamesBatchAsync(games);
+            await InsertGameBatchAsync(games);
             //var games = await InsertGamesBatchAsync(itemsToTake, offset);
             allGames.AddRange(games);
             Console.WriteLine(
@@ -84,21 +73,44 @@ public class GameSeeder
             await Task.Delay(200);
         }
 
+        await InsertFiltersAsync(allGames);
+
         if (writeToCache)
         {
             await WriteToJsonCacheAsync(allGames);
         }
     }
 
+
+    private async Task InsertGameBatchAsync(List<IGDBGame> games)
+    {
+        var entities = games.Select(g => new GameEntity
+        {
+            Id = 0,
+            Name = g.Name,
+            ReleaseDate = Instant.FromUnixTimeSeconds(g.FirstReleaseDate),
+            GameType = g.GameType.Id,
+            Platforms = g.Platforms?.Select(x => x.Id).ToArray() ?? [],
+            GameEngines = g.GameEngines?.Select(x => x.Id).ToArray() ?? [],
+            Genres = g.Genres?.Select(x => x.Id).ToArray() ?? [],
+            Themes = g.Themes?.Select(x => x.Id).ToArray() ?? [],
+            Rating = g.Rating ?? 0,
+            RatingCount = g.RatingCount ?? 0,
+            TotalRating = g.TotalRating ?? 0,
+            TotalRatingCount = g.TotalRatingCount ?? 0,
+            UpdatedAt = g.UpdatedAt,
+            RawData = g
+        }).ToList();
+
+        await _context.Games.ExecuteBulkInsertAsync(entities);
+    }
     
-    private async Task InsertGamesBatchAsync(
-        List<IGDBGameRaw> games
+
+    private async Task InsertFiltersAsync(
+        List<IGDBGame> games
     )
     {
         var inserData = new InsertData();
-        var flattened = games.NormalizeGames();
-        await _store.BulkInsertAsync(flattened, BulkInsertMode.OverwriteExisting);
-
         inserData.GameModes.AddRange(Utilities.GetDistinctEntities(games, g => g.GameModes));
         inserData.Genres.AddRange(Utilities.GetDistinctEntities(games, g => g.Genres));
         inserData.Platforms.AddRange(Utilities.GetDistinctEntities(games, g => g.Platforms));
@@ -107,40 +119,38 @@ public class GameSeeder
         inserData.Themes.AddRange(Utilities.GetDistinctEntities(games, g => g.Themes));
         inserData.Franchises.AddRange(Utilities.GetDistinctEntities(games, g => g.Franchises));
         inserData.Keywords.AddRange(Utilities.GetDistinctEntities(games, g => g.Keywords));
-        await InsertDataAsync(inserData);
         
-        inserData.GameModes.Clear();
-        inserData.Genres.Clear();
-        inserData.Platforms.Clear();
-        inserData.PlayerPerspectives.Clear();
-        inserData.GameEngines.Clear();
-        inserData.Themes.Clear();
-        inserData.Franchises.Clear();
-        inserData.Keywords.Clear();
+        await BulkInsertInBatchesAsync(inserData.GameModes, _context.GameModes);
+        await BulkInsertInBatchesAsync(inserData.Genres, _context.Genres);
+        await BulkInsertInBatchesAsync(inserData.Platforms, _context.Platforms);
+        await BulkInsertInBatchesAsync(inserData.PlayerPerspectives, _context.PlayerPerspectives);
+        await BulkInsertInBatchesAsync(inserData.GameEngines, _context.GameEngines);
+        await BulkInsertInBatchesAsync(inserData.Themes, _context.Themes);
+        await BulkInsertInBatchesAsync(inserData.Franchises, _context.Franchises);
+        await BulkInsertInBatchesAsync(inserData.Keywords, _context.Keywords);
+        
     }
 
-    private async Task InsertDataAsync(InsertData insertData)
+
+    private async Task BulkInsertInBatchesAsync<T>(
+        IEnumerable<T> items,
+        DbSet<T> dbSet,
+        int batchSize = 10_000
+    ) where T : class
     {
-        await _store.BulkInsertAsync(insertData.GameModes, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(insertData.Genres, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(insertData.Platforms, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(
-            insertData.PlayerPerspectives,
-            BulkInsertMode.OverwriteExisting
-        );
-        await _store.BulkInsertAsync(insertData.GameEngines, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(insertData.Themes, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(insertData.Franchises, BulkInsertMode.OverwriteExisting);
-        await _store.BulkInsertAsync(insertData.Keywords, BulkInsertMode.OverwriteExisting);
+        foreach (var batch in items.Chunk(batchSize))
+        {
+            await dbSet.ExecuteBulkInsertAsync(batch);
+        }
     }
 
-    private static async Task WriteToJsonCacheAsync(List<IGDBGameRaw> games)
+    
+    private static async Task WriteToJsonCacheAsync(List<IGDBGame> games)
     {
         await using var stream = new StreamWriter(gameFile, append: true);
         var options = new JsonSerializerOptions { WriteIndented = false };
-        foreach (var game in games)
+        foreach (var json in games.Select(game => JsonSerializer.Serialize(game, options)))
         {
-            string json = JsonSerializer.Serialize(game, options);
             await stream.WriteLineAsync(json);
         }
     }

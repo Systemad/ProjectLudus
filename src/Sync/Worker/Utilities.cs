@@ -23,8 +23,8 @@ public static class Utilities
     }
     
     public static List<T> GetDistinctEntities<T>(
-        IEnumerable<IGDBGameRaw> games,
-        Func<IGDBGameRaw, IEnumerable<T>> selector
+        IEnumerable<IGDBGame> games,
+        Func<IGDBGame, IEnumerable<T>> selector
     )
         where T : class
     {

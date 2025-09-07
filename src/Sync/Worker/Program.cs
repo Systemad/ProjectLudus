@@ -1,21 +1,15 @@
-using JasperFx;
-using JasperFx.CodeGeneration;
-using Marten;
-using Shared;
-using Shared.Features;
-using Shared.Features.Games;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
+using PhenX.EntityFrameworkCore.BulkInsert.PostgreSql;
 using Shared.Twitch;
 using TickerQ.Dashboard.DependencyInjection;
 using TickerQ.DependencyInjection;
-using TickerQ.Utilities.Enums;
-using TickerQ.Utilities.Interfaces;
-using Weasel.Postgresql.Tables;
 using Worker;
+using Worker.Data;
 using Worker.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ApplyJasperFxExtensions();
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
 
 builder.Services.AddHttpClient(
@@ -30,24 +24,45 @@ builder.Services.AddHttpClient(
 builder.Services.AddScoped<ApiClient>();
 builder.Services.AddScoped<GameSeeder>();
 builder.Services.AddScoped<CompanySeeder>();
+builder.Logging.AddConsole();
 
-var connection = builder.Configuration.GetConnectionString("ludustest");
-builder.Services.AddNpgsqlDataSource(connection!);
-builder.Services.AddMarten(options =>
-    {
-        options.Connection(connection!);
-        options.UseSystemTextJsonForSerialization();
-        options.Logger(new ConsoleMartenLogger());
-        MartenSchema.Configure(options);
-    })
-    .UseNpgsqlDataSource()
-    .ApplyAllDatabaseChangesOnStartup();
+var connectionString = "Host=localhost;Port=5433;Username=myuser;Password=mypassword;Database=ludusmain";
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
-builder.Services.CritterStackDefaults(x =>
+dataSourceBuilder.EnableParameterLogging();
+//var loggerFactory = LoggerFactory.Create(log => log.AddConsole());
+//options.UseLoggerFactory(loggerFactory);
+dataSourceBuilder.UseNodaTime();
+dataSourceBuilder.EnableDynamicJson();
+var dataSource = dataSourceBuilder.Build();
+builder.Services.AddDbContextPool<AppDbContext>(opt =>
+    opt.UseNpgsql(dataSource, o =>
+        {
+            o.SetPostgresVersion(17, 0);
+            o.UseNodaTime();
+        })
+        .UseSnakeCaseNamingConvention()
+        .UseBulkInsertPostgreSql()
+);
+/*
+builder.Services.AddNpgsqlDataSource(connectionString, options =>
 {
-    x.Production.GeneratedCodeMode = TypeLoadMode.Static;
-    x.Production.ResourceAutoCreate = AutoCreate.None;
+    options.EnableParameterLogging();
+    //var loggerFactory = LoggerFactory.Create(log => log.AddConsole());
+    //options.UseLoggerFactory(loggerFactory);
+    options.UseNodaTime();
+    options.EnableDynamicJson();
 });
+*/
+//var connection = builder.Configuration.GetConnectionString("ludustest");
+//var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+//dataSourceBuilder.UseNodaTime();
+//dataSourceBuilder.EnableDynamicJson();
+//await using var dataSource = dataSourceBuilder.Build();
+
+
+//builder.Services.AddNpgsqlDataSource(connection!);
+
 
 builder.Services.AddTickerQ(options =>
 {
@@ -59,20 +74,29 @@ builder.Services.AddTickerQ(options =>
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-
-    //var seeder = scope.ServiceProvider.GetRequiredService<GameSeeder>();
-    //await seeder.PopulateGamesAsync(true, false, false);
-    var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
-    await seeder.PopulateCompaniesAsync(true, false);
+    var seeder = scope.ServiceProvider.GetRequiredService<GameSeeder>();
+    await seeder.PopulateGamesAsync(false, true, false);
+    //var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
+    //await seeder.PopulateCompaniesAsync(true, false);
 }
 
-app.MapPost("/webhooks/igdb", async (string payload, string handler) =>
+// 7077
+app.MapPost("/webhooks/ganes", async (string payload) =>
 {
     //await handler.ProcessAsync(payload);
     return Results.Ok();
 });
 
+
+app.MapGet("/", async (NpgsqlConnection connection) =>
+{
+    await connection.OpenAsync();
+    await using var command = new NpgsqlCommand("SELECT number FROM data LIMIT 1", connection);
+    return "Hello World: " + await command.ExecuteScalarAsync();
+});
+
 //app.UseTickerQ(TickerQStartMode.Manual);
 //ITickerHost tickerHost = app.Services.GetRequiredService<ITickerHost>(); 
 //tickerHost.Start();
-return await app.RunJasperFxCommands(args);
+
+await app.RunAsync();
