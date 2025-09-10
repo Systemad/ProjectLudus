@@ -3,7 +3,6 @@ using FastEndpoints.Swagger;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 using SteamWebAPI2.Utilities;
-using WebAPI.Configuration;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.DataAccess;
 
@@ -46,7 +45,6 @@ builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
     settings.CommandTimeout = 30;
 });
 
-builder.Services.RegisterMarten(builder.Environment, builder.Configuration);
 
 builder.Services.AddMemoryCache();
 
@@ -61,7 +59,6 @@ builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
 ));
 
 builder.Services.AddMemoryCache();
-builder.Services.AddFusionCache();
 
 var app = builder.Build();
 

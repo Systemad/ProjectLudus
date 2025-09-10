@@ -1,6 +1,7 @@
 ﻿<Solution>
-  <Project Path="..\Shared\Shared.csproj" Type="Classic C#" />
   <Project Path="AppHost\AppHost.csproj" Type="Classic C#" />
   <Project Path="ServiceDefaults\ServiceDefaults.csproj" Type="Classic C#" />
+  <Project Path="Shared\Shared.csproj" Type="Classic C#" />
+  <Project Path="SyncService\SyncService.csproj" Type="Classic C#" />
   <Project Path="WebAPI\WebAPI.csproj" Type="Classic C#" />
 </Solution>

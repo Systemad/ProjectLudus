@@ -8,11 +8,11 @@
     <UserSecretsId>34b29cf0-8ea0-436c-abb8-6aeca2dd36c8</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.1" />
-    <PackageReference Include="Aspire.Hosting.Docker" Version="9.4.1-preview.1.25408.4" />
-    <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.4.1" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.1" />
-    <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.7.1" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.Docker" Version="9.4.2-preview.1.25428.12" />
+    <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.2" />
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.8.0-beta.376" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />

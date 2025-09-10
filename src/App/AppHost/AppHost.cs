@@ -5,11 +5,15 @@ builder
     .ConfigureComposeFile(file => { file.Name = "ludus-web"; });
 /*
  * host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1
- *
  */
 var postgres = builder.AddPostgres("postgres");
+
 var postgresdb = postgres.AddDatabase("maindb");
+
+// SHOULD NOT ADD DB DIRECTLY, REFERENCE WORKER PROJECT
 var connectionString = builder.AddConnectionString("gamingdb");
+
+
 var apiService = builder.AddProject<Projects.WebAPI>("apiservice").WithReference(postgresdb)
     .WithEnvironment("IGDB_DB", connectionString);
 
