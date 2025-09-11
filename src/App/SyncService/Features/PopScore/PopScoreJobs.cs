@@ -4,7 +4,7 @@ using Shared.Features.PopScore;
 using SyncService.Data;
 using TickerQ.Utilities.Base;
 
-namespace SyncService.Jobs;
+namespace SyncService.Features.PopScore;
 
 public class PopScoreJobs
 {
@@ -28,7 +28,7 @@ public class PopScoreJobs
             popscoreGames.AddRange(items);
         }
 
-        await _dbContext.PopScoreGames.ExecuteBulkInsertAsync(popscoreGames, options => { options.BatchSize = 250; },
+        await _dbContext.PopScoreGames.ExecuteBulkInsertAsync(popscoreGames, options => { options.BatchSize = 500; },
             onConflict: new OnConflictOptions<PopScoreGame>
             {
                 Match = e => new

@@ -15,8 +15,9 @@ public class SyncWorker(
     {
         while (!cancellationToken.IsCancellationRequested)
         {
-            var startTime = DateTimeOffset.UtcNow;
-            logger.LogInformation("Starting SyncWorker at {Time}", startTime);
+            //var startTime = DateTimeOffset.UtcNow;
+            Log.StartingSyncWorker(logger, DateTimeOffset.UtcNow);
+            //logger.LogInformation("Starting SyncWorker at {Time}", startTime);
 
             using var scope = serviceProvider.CreateScope();
             var gameSeedingOrch = scope.ServiceProvider.GetRequiredService<GameSeedingSeedingOrchestrator>();
@@ -24,20 +25,24 @@ public class SyncWorker(
             {
                 if (!await DatabaseHasDataAsync(scope))
                 {
-                    logger.LogInformation("Database empty; running initial seeding");
+                    Log.InitialSeeding(logger);
+                    //logger.LogInformation("Database empty: running initial seeding");
                     await gameSeedingOrch.RunInitialSeedingAsync();
                 }
                 else
                 {
-                    logger.LogInformation("Database already seeded; running catchup seeding");
+                    Log.CatchupSeeding(logger);
+                    //logger.LogInformation("Database already seeded; running catchup seeding");
                     await gameSeedingOrch.RunCatchupSeedingAsync();
                 }
 
-                logger.LogInformation("Database seeding successful, {time}", DateTimeOffset.UtcNow);
+                Log.DatabaseSeedSuccessful(logger, DateTimeOffset.UtcNow);
+                //logger.LogInformation("Database seeding successful, {time}", DateTimeOffset.UtcNow);
             }
             catch (Exception e)
             {
-                logger.LogInformation("Syncing database failed, {time}: {exception}", DateTimeOffset.UtcNow, e);
+                Log.DatabaseSeedingFailed(logger, DateTimeOffset.UtcNow, e.Message);
+                //logger.LogError("Syncing database failed, {time}: {exception}", DateTimeOffset.UtcNow, e);
             }
 
             break;

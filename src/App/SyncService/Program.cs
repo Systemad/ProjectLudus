@@ -5,26 +5,26 @@ using PhenX.EntityFrameworkCore.BulkInsert.PostgreSql;
 using Shared.Twitch;
 using TickerQ.Dashboard.DependencyInjection;
 using TickerQ.DependencyInjection;
-using SyncService;
 using SyncService.Data;
+using SyncService.Features;
 using SyncService.Features.Company;
 using SyncService.Features.Games;
+using TickerQ.Utilities.Enums;
+using TickerQ.Utilities.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
 
-builder.Services.AddHttpClient(
-    "IGDB",
-    httpClient =>
+builder.Services.AddScoped<ApiClient>();
+builder.Services.AddHttpClient<ApiClient>(httpClient =>
     {
         httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
         httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     }
 );
 
-builder.Services.AddScoped<ApiClient>();
 builder.Services.AddScoped<CompanyDatabaseService>();
 builder.Services.AddScoped<GameDatabaseService>();
 
@@ -39,8 +39,6 @@ var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
 // TODO: disable in production
 dataSourceBuilder.EnableParameterLogging();
-//var loggerFactory = LoggerFactory.Create(log => log.AddConsole());
-//options.UseLoggerFactory(loggerFactory);
 dataSourceBuilder.UseNodaTime();
 dataSourceBuilder.EnableDynamicJson();
 var dataSource = dataSourceBuilder.Build();
@@ -62,13 +60,6 @@ builder.Services.AddTickerQ(options =>
 });
 
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    //var seeder = scope.ServiceProvider.GetRequiredService<GameSeeder>();
-    //await seeder.PopulateGamesAsync(false, true, false);
-    //var seeder = scope.ServiceProvider.GetRequiredService<CompanySeeder>();
-    //await seeder.PopulateCompaniesAsync(true, false);
-}
 
 // 7077
 app.MapPost("/webhooks/games", async (string payload) =>
@@ -85,8 +76,8 @@ app.MapGet("/", async ([FromServices] NpgsqlConnection connection) =>
     return "Hello World: " + await command.ExecuteScalarAsync();
 });
 
-//app.UseTickerQ(TickerQStartMode.Manual);
-//ITickerHost tickerHost = app.Services.GetRequiredService<ITickerHost>(); 
-//tickerHost.Start();
+app.UseTickerQ(TickerQStartMode.Immediate);
+ITickerHost tickerHost = app.Services.GetRequiredService<ITickerHost>(); 
+tickerHost.Start();
 
 await app.RunAsync();
