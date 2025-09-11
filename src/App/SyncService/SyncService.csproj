@@ -29,8 +29,10 @@
     <ItemGroup>
         <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
         <ProjectReference Include="..\Shared\Shared.csproj" />
+        <ProjectReference Include="..\SyncService.Data\SyncService.Data.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Data\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
 

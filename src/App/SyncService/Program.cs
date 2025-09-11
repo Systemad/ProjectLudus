@@ -42,7 +42,7 @@ dataSourceBuilder.EnableParameterLogging();
 dataSourceBuilder.UseNodaTime();
 dataSourceBuilder.EnableDynamicJson();
 var dataSource = dataSourceBuilder.Build();
-builder.Services.AddDbContextPool<AppDbContext>(opt =>
+builder.Services.AddDbContextPool<SyncDbContext>(opt =>
     opt.UseNpgsql(dataSource, o =>
         {
             o.SetPostgresVersion(17, 0);

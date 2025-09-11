@@ -9,9 +9,9 @@ namespace SyncService.Features.Games;
 
 public class GameDatabaseService
 {
-    private AppDbContext _context;
+    private SyncDbContext _context;
 
-    public GameDatabaseService(AppDbContext context)
+    public GameDatabaseService(SyncDbContext context)
     {
         _context = context;
     }

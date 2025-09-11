@@ -1,17 +1,43 @@
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using SyncService.Data;
+
 namespace SyncService.MigrationService;
 
-public class Worker(ILogger<Worker> logger) : BackgroundService
+public class Worker(
+    IServiceProvider serviceProvider,
+    IHostApplicationLifetime hostApplicationLifetime) : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            if (logger.IsEnabled(LogLevel.Information))
-            {
-                logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            }
+    public const string ActivitySourceName = "Migrations";
+    private static readonly ActivitySource s_activitySource = new(ActivitySourceName);
 
-            await Task.Delay(1000, stoppingToken);
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    {
+        using var activity = s_activitySource.StartActivity("Migrating database", ActivityKind.Client);
+
+        try
+        {
+            using var scope = serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<SyncDbContext>();
+
+            await RunMigrationAsync(dbContext, cancellationToken);
         }
+        catch (Exception ex)
+        {
+            activity?.AddException(ex);
+            throw;
+        }
+
+        hostApplicationLifetime.StopApplication();
+    }
+
+    private static async Task RunMigrationAsync(SyncDbContext dbContext, CancellationToken cancellationToken)
+    {
+        var strategy = dbContext.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            // Run migration in a transaction to avoid partial migration if it fails.
+            await dbContext.Database.MigrateAsync(cancellationToken);
+        });
     }
 }

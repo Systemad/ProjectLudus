@@ -3,24 +3,25 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder
     .AddDockerComposeEnvironment("env")
     .ConfigureComposeFile(file => { file.Name = "ludus-web"; });
-/*
- * host=localhost:5432;database=ludusdb;password=Compaq2009;username=dan1
- */
-var postgres = builder.AddPostgres("postgres").WithDataVolume().WithPgAdmin().WithPgWeb();
 
-var postgresdb = postgres.AddDatabase("maindb");
+// isolate sync service completely!
+var syncPostgres = builder.AddPostgres("syncPostgres").WithDataVolume(); //.WithPgAdmin().WithPgWeb();
 
-// SHOULD NOT ADD DB DIRECTLY, REFERENCE WORKER PROJECT
-//var connectionString = builder.AddConnectionString("gamingdb");
+var syncWorkerDatabase = syncPostgres.AddDatabase("syncdb");
+var syncWorkerMigrations = builder
+    .AddProject<Projects.SyncService_MigrationService>("syncMigrations")
+    .WithReference(syncWorkerDatabase).WaitFor(syncWorkerDatabase);
+var syncService = builder
+    .AddProject<Projects.SyncService>("syncService")
+    .WithReference(syncWorkerMigrations)
+    .WaitForCompletion(syncWorkerMigrations);
 
 
+// TODO: CREATE MIGRATION PROJECT AND DATA HERE AS WELL? OR JUST ASS SERVICE INTO PROJECT
+var mainPostgres = builder.AddPostgres("mainPostgres").WithDataVolume(); //.WithPgAdmin().WithPgWeb();
+var apiServiceDatabase = mainPostgres.AddDatabase("maindb");
 var apiService = builder.AddProject<Projects.WebAPI>("apiservice")
-    .WithReference(postgresdb);
-    
-    //.WithEnvironment("IGDB_DB", connectionString);
-
-//var apiUrl = builder.AddParameter("postgresl");
-//var externalDb = builder.AddExternalService("external-db", apiUrl);
+    .WithReference(apiServiceDatabase);
 
 var resource =
     builder.AddPnpmApp(

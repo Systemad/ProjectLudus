@@ -5,7 +5,7 @@ using Shared.Features.PopScore;
 
 namespace SyncService.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(options)
 {
     public DbSet<PopScoreGame> PopScoreGames { get; set; }
     public DbSet<GameEntity> Games { get; set; }

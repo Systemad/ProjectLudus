@@ -16,5 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
+
+      <ProjectReference Include="..\SyncService\SyncService.csproj" />
+      <ProjectReference Include="..\SyncService.MigrationService\SyncService.MigrationService.csproj" />
   </ItemGroup>
 </Project>

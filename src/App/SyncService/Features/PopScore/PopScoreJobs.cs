@@ -9,9 +9,9 @@ namespace SyncService.Features.PopScore;
 public class PopScoreJobs
 {
     private ApiClient _apiClient;
-    private AppDbContext _dbContext;
+    private SyncDbContext _dbContext;
 
-    public PopScoreJobs(ApiClient apiClient, AppDbContext dbContext)
+    public PopScoreJobs(ApiClient apiClient, SyncDbContext dbContext)
     {
         _apiClient = apiClient;
         _dbContext = dbContext;

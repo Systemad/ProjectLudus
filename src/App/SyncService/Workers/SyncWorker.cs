@@ -51,7 +51,7 @@ public class SyncWorker(
 
     private static async Task<bool> DatabaseHasDataAsync(IServiceScope scope)
     {
-        /*await using*/ var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        /*await using*/ var db = scope.ServiceProvider.GetRequiredService<SyncDbContext>();
         return await db.Games.AnyAsync();
     }
 

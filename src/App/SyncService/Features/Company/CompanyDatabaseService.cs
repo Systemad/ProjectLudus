@@ -5,7 +5,7 @@ using SyncService.Data;
 
 namespace SyncService.Features.Company;
 
-public class CompanyDatabaseService(AppDbContext context)
+public class CompanyDatabaseService(SyncDbContext context)
 {
     public async Task InsertCompaniesAsync(List<Shared.Features.Games.Company> companies)
     {
