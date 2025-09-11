@@ -2,7 +2,6 @@
 using Shared.Features;
 using Shared.Features.Games;
 using Shared.Features.PopScore;
-using SyncService.Seed;
 
 namespace SyncService.Data;
 

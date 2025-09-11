@@ -5,7 +5,7 @@ using Shared.Features;
 using SyncService.Data;
 using SyncService.Utilities;
 
-namespace SyncService.Services;
+namespace SyncService.Features.Games;
 
 public class GameDatabaseService
 {

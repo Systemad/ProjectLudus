@@ -3,11 +3,11 @@ using PhenX.EntityFrameworkCore.BulkInsert.Options;
 using Shared.Features.Games;
 using SyncService.Data;
 
-namespace SyncService.Services;
+namespace SyncService.Features.Company;
 
 public class CompanyDatabaseService(AppDbContext context)
 {
-    public async Task InsertCompaniesAsync(List<Company> companies)
+    public async Task InsertCompaniesAsync(List<Shared.Features.Games.Company> companies)
     {
         var entities = companies.Select(company => new CompanyEntity
         {

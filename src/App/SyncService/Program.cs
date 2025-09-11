@@ -7,10 +7,12 @@ using TickerQ.Dashboard.DependencyInjection;
 using TickerQ.DependencyInjection;
 using SyncService;
 using SyncService.Data;
-using SyncService.Seed;
+using SyncService.Features.Company;
+using SyncService.Features.Games;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
 
 builder.Services.AddHttpClient(
@@ -23,12 +25,19 @@ builder.Services.AddHttpClient(
 );
 
 builder.Services.AddScoped<ApiClient>();
-builder.Services.AddScoped<CompanySeeder>();
+builder.Services.AddScoped<CompanyDatabaseService>();
+builder.Services.AddScoped<GameDatabaseService>();
+
+builder.Services.AddScoped<GameWebhookService>();
+
+builder.Services.AddScoped<GameSeedingSeedingOrchestrator>();
+builder.Services.AddScoped<CompanySeedingSeedingOrchestrator>();
 builder.Logging.AddConsole();
 
 var connectionString = "Host=localhost;Port=5433;Username=myuser;Password=mypassword;Database=ludusmain";
 var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
 
+// TODO: disable in production
 dataSourceBuilder.EnableParameterLogging();
 //var loggerFactory = LoggerFactory.Create(log => log.AddConsole());
 //options.UseLoggerFactory(loggerFactory);

@@ -1,16 +1,16 @@
 ﻿using Microsoft.Extensions.Options;
 using Shared.Twitch;
 
-namespace SyncService.Webhook;
+namespace SyncService.Features.Games;
 
-public class WebhookService
+public class GameWebhookService
 {
     private HttpClient _client;
     private readonly IHttpClientFactory _httpClientFactory;
 
     private TwitchOptions _twithOptions;
 
-    public WebhookService(
+    public GameWebhookService(
         HttpClient client,
         IHttpClientFactory httpClientFactory,
         IOptions<TwitchOptions> options
