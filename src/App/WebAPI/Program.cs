@@ -28,30 +28,15 @@ builder
         options.DocumentSettings = s => { s.MarkNonNullablePropsAsRequired(); };
     });
 
-
-builder.Services.AddDbContext<LudusContext>(options =>
-    {
-        options.UseNpgsql(
-            builder.Configuration.GetConnectionString("pgdb")
-            ?? throw new InvalidOperationException("Connection string 'pgdb' not found.") //, optionsBuilder => optionsBuilder.UseNodaTime() 
-        );
-        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    }
-);
-
-builder.EnrichNpgsqlDbContext<LudusContext>(configureSettings: settings =>
+builder.AddNpgsqlDbContext<LudusContext>(connectionName: "maindb", configureDbContextOptions: (optionsBuilder) =>
 {
-    settings.DisableRetry = false;
-    settings.CommandTimeout = 30;
+    optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    
 });
 
-
 builder.Services.AddMemoryCache();
-
 builder.Services.AddHttpClient();
-
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddControllers();
 
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(

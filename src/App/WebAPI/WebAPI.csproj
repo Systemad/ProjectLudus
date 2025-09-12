@@ -1,57 +1,38 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <NoWarn>$(NoWarn);CA2016</NoWarn>
-    <!--
-    <OpenApiDocumentsDirectory>./Schema</OpenApiDocumentsDirectory>
-    <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
-    <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
-    -->
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.4.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.8">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="AspNet.Security.OpenId.Steam" Version="9.0.0" />
-    <PackageReference Include="FastEndpoints" Version="7.0.1" />
-    <PackageReference Include="FastEndpoints.Security" Version="7.0.1" />
-    <PackageReference Include="FastEndpoints.Swagger" Version="7.0.1" />
-    <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.8" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0-rc.1" />
-    <!--
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-    -->
-    <!--
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Server" Version="9.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    -->
-      <!--
-    <PackageReference Include="OpenTelemetry" Version="1.12.0" />
-    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
-    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
-      -->
-    <PackageReference Include="SteamWebAPI2" Version="4.4.1" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.8.0" />
-      <!--
-        <PackageReference Include="ZiggyCreatures.FusionCache" Version="2.4.0" />
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>43f61129-ebe9-43a6-bf2f-4dd6a2a6c412</UserSecretsId>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <NoWarn>$(NoWarn);CA2016</NoWarn>
+        <!--
+        <OpenApiDocumentsDirectory>./Schema</OpenApiDocumentsDirectory>
+        <OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+        <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
         -->
-  </ItemGroup>
-    
-  <ItemGroup>
-    <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
-    
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="AspNet.Security.OpenId.Steam"/>
+        <PackageReference Include="FastEndpoints"/>
+        <PackageReference Include="FastEndpoints.Security"/>
+        <PackageReference Include="FastEndpoints.Swagger"/>
+        <PackageReference Include="JetBrains.Annotations"/>
+        <PackageReference Include="Microsoft.Extensions.Caching.Memory"/>
+
+        <PackageReference Include="SteamWebAPI2"/>
+        <PackageReference Include="Scalar.AspNetCore"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj"/>
+        <ProjectReference Include="..\Shared\Shared.csproj"/>
+    </ItemGroup>
+
 </Project>

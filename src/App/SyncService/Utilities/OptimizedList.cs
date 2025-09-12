@@ -1,9 +1,9 @@
-﻿using Shared.Features;
-using System.Buffers;
+﻿using System.Buffers;
 using System.IO.Pipelines;
 using System.Text.Json;
- 
-namespace SyncService;
+using Shared.Features;
+
+namespace SyncService.Utilities;
 // https://danielwoodward.dev/posts/csharp/how-to-efficiently-read-ndjson-in-dotnet-with-pipes
 public static class OptimizedList
 {

@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using Shared.Features;
-using SyncService.Cache;
 
 namespace SyncService.Utilities;
 
@@ -18,12 +17,12 @@ public static class CommonUtilities
             .DistinctBy<T, long>(e => (e as dynamic).Id) // assuming Id is int
             .ToList();
     }
-    
-    private static async Task WriteToJsonCacheAsync(List<IGDBGame> games)
+
+    private static async Task WriteToJsonCacheAsync<T>(List<T> entities, string path)
     {
-        await using var stream = new StreamWriter(FilePath.GAMES, append: true);
+        await using var stream = new StreamWriter(path, append: true);
         var options = new JsonSerializerOptions { WriteIndented = false };
-        foreach (var json in games.Select(game => JsonSerializer.Serialize(game, options)))
+        foreach (var json in entities.Select(entity => JsonSerializer.Serialize(entity, options)))
         {
             await stream.WriteLineAsync(json);
         }

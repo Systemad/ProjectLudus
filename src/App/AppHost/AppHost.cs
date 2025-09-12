@@ -4,15 +4,28 @@ builder
     .AddDockerComposeEnvironment("env")
     .ConfigureComposeFile(file => { file.Name = "ludus-web"; });
 
+/*
+ * Alter migration??
+ *             migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:vector", ",,");
+ */
 // isolate sync service completely!
-var syncPostgres = builder.AddPostgres("syncPostgres").WithDataVolume(); //.WithPgAdmin().WithPgWeb();
-
+//  postgresql-17-pg-search_0.18.2-1PARADEDB-noble_amd64.deb 
+var syncPostgres =
+    builder.AddPostgres("syncPostgres")
+        .WithImage(image: "paradedb/paradedb", tag: "v0.18.2-pg17")
+        //.WithAnnotation(new ContainerImageAnnotation() { Image = "paradedb/paradedb", Tag = "v0.18.2-pg17" })
+        .WithLifetime(ContainerLifetime.Persistent)
+        .WithImageTag("17")
+        .WithDataVolume(isReadOnly: false);
 var syncWorkerDatabase = syncPostgres.AddDatabase("syncdb");
 var syncWorkerMigrations = builder
     .AddProject<Projects.SyncService_MigrationService>("syncMigrations")
     .WithReference(syncWorkerDatabase).WaitFor(syncWorkerDatabase);
+
 var syncService = builder
     .AddProject<Projects.SyncService>("syncService")
+    .WithReference(syncWorkerDatabase)
     .WithReference(syncWorkerMigrations)
     .WaitForCompletion(syncWorkerMigrations);
 

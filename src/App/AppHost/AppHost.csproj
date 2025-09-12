@@ -1,23 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="Aspire.AppHost.Sdk" Version="9.4.1" />
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <UserSecretsId>34b29cf0-8ea0-436c-abb8-6aeca2dd36c8</UserSecretsId>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2" />
-    <PackageReference Include="Aspire.Hosting.Docker" Version="9.4.2-preview.1.25428.12" />
-    <PackageReference Include="Aspire.Hosting.NodeJs" Version="9.4.2" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.2" />
-    <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" Version="9.8.0-beta.376" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WebAPI\WebAPI.csproj" />
-
-      <ProjectReference Include="..\SyncService\SyncService.csproj" />
-      <ProjectReference Include="..\SyncService.MigrationService\SyncService.MigrationService.csproj" />
-  </ItemGroup>
+    <Sdk Name="Aspire.AppHost.Sdk" Version="9.4.2"/>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <UserSecretsId>34b29cf0-8ea0-436c-abb8-6aeca2dd36c8</UserSecretsId>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost"/>
+        <PackageReference Include="Aspire.Hosting.Docker"/>
+        <PackageReference Include="Aspire.Hosting.NodeJs"/>
+        <PackageReference Include="Aspire.Hosting.PostgreSQL"/>
+        <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\WebAPI\WebAPI.csproj"/>
+        <ProjectReference Include="..\SyncService\SyncService.csproj"/>
+        <ProjectReference Include="..\SyncService.MigrationService\SyncService.MigrationService.csproj"/>
+    </ItemGroup>
 </Project>

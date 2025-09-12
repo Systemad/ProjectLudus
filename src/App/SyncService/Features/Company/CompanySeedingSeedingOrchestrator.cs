@@ -1,5 +1,5 @@
 ﻿using Shared.Queries;
-using SyncService.Cache;
+using SyncService.Utilities;
 
 namespace SyncService.Features.Company;
 
@@ -34,11 +34,6 @@ public class CompanySeedingSeedingOrchestrator(ApiClient apiClient, CompanyDatab
         }
 
         await companyDatabaseService.InsertCompaniesAsync(allCompanies);
-        if (writeToCache)
-        {
-            await OptimizedList.WriteToCacheFileAsync(allCompanies, FilePath.COMPANIES);
-            //await WriteToJsonCacheCompanyAsync(allCompanies);
-        }
     }
 
 }
