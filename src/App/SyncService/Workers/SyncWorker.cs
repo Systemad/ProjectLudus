@@ -17,7 +17,7 @@ public class SyncWorker(
         {
             Log.StartingSyncWorker(logger, DateTimeOffset.UtcNow);
             using var scope = serviceProvider.CreateScope();
-            var gameSeedingOrch = scope.ServiceProvider.GetRequiredService<GameSeedingSeedingOrchestrator>();
+            var gameSeedingOrch = scope.ServiceProvider.GetRequiredService<GameSeedingSeedingController>();
             try
             {
                 if (!await DatabaseHasDataAsync(scope))

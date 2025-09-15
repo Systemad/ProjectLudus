@@ -1,7 +1,6 @@
 ﻿<Solution>
   <Folder Name="/SyncService/">
     <Project Path="SyncService.Data\SyncService.Data.csproj" Type="Classic C#" />
-    <Project Path="SyncService.MigrationService\SyncService.MigrationService.csproj" Type="Classic C#" />
     <Project Path="SyncService\SyncService.csproj" Type="Classic C#" />
   </Folder>
   <Project Path="AppHost\AppHost.csproj" Type="Classic C#" />

@@ -7,15 +7,8 @@ using SyncService.Utilities;
 
 namespace SyncService.Features.Games;
 
-public class GameDatabaseService
+public class GameDatabaseService(SyncDbContext context)
 {
-    private SyncDbContext _context;
-
-    public GameDatabaseService(SyncDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task InsertGameBatchAsync(List<IGDBGame> games)
     {
         var entities = games.ToMultipleEntities();
@@ -24,7 +17,7 @@ public class GameDatabaseService
             .Select(g => g.OrderByDescending(x => x.UpdatedAt).First())
             .ToList();
 
-        await _context.Games.ExecuteBulkInsertAsync(dedupedGames, options =>
+        await context.Games.ExecuteBulkInsertAsync(dedupedGames, options =>
         {
             options.BatchSize = 10_000;
             options.OnProgress = rowsCopied => { Console.WriteLine($"Copied {rowsCopied} rows so far..."); };
@@ -54,36 +47,41 @@ public class GameDatabaseService
         inserData.Franchises.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Franchises));
         inserData.Keywords.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Keywords));
 
-        await BulkInsertInBatchesAsync(inserData.GameModes, _context.GameModes);
-        await BulkInsertInBatchesAsync(inserData.Genres, _context.Genres);
-        await BulkInsertInBatchesAsync(inserData.Platforms, _context.Platforms);
-        await BulkInsertInBatchesAsync(inserData.PlayerPerspectives, _context.PlayerPerspectives);
-        await BulkInsertInBatchesAsync(inserData.GameEngines, _context.GameEngines);
-        await BulkInsertInBatchesAsync(inserData.Themes, _context.Themes);
-        await BulkInsertInBatchesAsync(inserData.Franchises, _context.Franchises);
-        await BulkInsertInBatchesAsync(inserData.Keywords, _context.Keywords);
+        await BulkInsertInBatchesAsync(inserData.GameModes, context.GameModes);
+        await BulkInsertInBatchesAsync(inserData.Genres, context.Genres);
+        await BulkInsertInBatchesAsync(inserData.Platforms, context.Platforms);
+        await BulkInsertInBatchesAsync(inserData.PlayerPerspectives, context.PlayerPerspectives);
+        await BulkInsertInBatchesAsync(inserData.GameEngines, context.GameEngines);
+        await BulkInsertInBatchesAsync(inserData.Themes, context.Themes);
+        await BulkInsertInBatchesAsync(inserData.Franchises, context.Franchises);
+        await BulkInsertInBatchesAsync(inserData.Keywords, context.Keywords);
     }
 
-    public async Task AddOrUpdateRangeAsync(
-        IEnumerable<GameEntity> games,
-        CancellationToken cancellationToken)
+    public async Task UpdateGameAsync(
+        GameEntity game)
     {
-        foreach (var game in games)
+        var existingGame = await context.Games.FindAsync(game.Id);
+        if (existingGame == null)
         {
-            var existingGame = await _context.Games.FindAsync([game.Id], cancellationToken);
-            if (existingGame == null)
-            {
-                _context.Games.Add(game);
-            }
-            else
-            {
-                _context.Entry(existingGame).CurrentValues.SetValues(game);
-            }
+            context.Games.Add(game);
+        }
+        else
+        {
+            context.Entry(existingGame).CurrentValues.SetValues(game);
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync();
     }
-    
+
+
+    public async Task DeleteGameAsync(
+        long id)
+    {
+        var rowsAffected = await context
+            .Games.Where(g => g.Id == id)
+            .ExecuteDeleteAsync();
+    }
+
     private async Task BulkInsertInBatchesAsync<T>(
         IEnumerable<T> items,
         DbSet<T> dbSet,

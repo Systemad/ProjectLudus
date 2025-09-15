@@ -2,15 +2,16 @@
 using Shared.Features;
 using Shared.Features.Games;
 using Shared.Features.PopScore;
+using Shared.Features.Webhooks;
 
 namespace SyncService.Data;
 
 public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(options)
 {
+    public DbSet<ActiveWebhook> ActiveWebhooks { get; set; }
     public DbSet<PopScoreGame> PopScoreGames { get; set; }
     public DbSet<GameEntity> Games { get; set; }
-    public DbSet<CompanyEntity> Copmanies { get; set; }
-
+    public DbSet<CompanyEntity> Companies { get; set; }
     public DbSet<GameMode> GameModes { get; set; }
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Platform> Platforms { get; set; }
@@ -20,9 +21,16 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
     public DbSet<Keyword> Keywords { get; set; }
     public DbSet<Franchise> Franchises { get; set; }
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.HasPostgresExtension("pg_search");
+        modelBuilder.HasPostgresExtension("vector");
+        modelBuilder.HasPostgresExtension("postgis");
+        modelBuilder.HasPostgresExtension("pg_ivm");
+        modelBuilder.HasPostgresExtension("pg_cron");
+        
         modelBuilder.Entity<PopScoreGame>()
             .Property(g => g.Id)
             .ValueGeneratedNever();
@@ -79,6 +87,5 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
             .Property(p => p.Logo)
             .HasColumnType("jsonb");
 
-        base.OnModelCreating(modelBuilder);
     }
 }

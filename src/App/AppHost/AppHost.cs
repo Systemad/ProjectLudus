@@ -18,20 +18,15 @@ var syncPostgres =
         .WithLifetime(ContainerLifetime.Persistent)
         .WithImageTag("17")
         .WithDataVolume(isReadOnly: false);
-var syncWorkerDatabase = syncPostgres.AddDatabase("syncdb");
-var syncWorkerMigrations = builder
-    .AddProject<Projects.SyncService_MigrationService>("syncMigrations")
-    .WithReference(syncWorkerDatabase).WaitFor(syncWorkerDatabase);
 
+var syncWorkerDatabase = syncPostgres.AddDatabase("syncdb");
 var syncService = builder
     .AddProject<Projects.SyncService>("syncService")
     .WithReference(syncWorkerDatabase)
-    .WithReference(syncWorkerMigrations)
-    .WaitForCompletion(syncWorkerMigrations);
+    .WaitFor(syncWorkerDatabase);
 
-
-// TODO: CREATE MIGRATION PROJECT AND DATA HERE AS WELL? OR JUST ASS SERVICE INTO PROJECT
-var mainPostgres = builder.AddPostgres("mainPostgres").WithDataVolume(); //.WithPgAdmin().WithPgWeb();
+var mainPostgres = builder.AddPostgres("mainPostgres").WithLifetime(ContainerLifetime.Persistent)
+    .WithDataVolume(isReadOnly: false); //.WithPgAdmin().WithPgWeb();
 var apiServiceDatabase = mainPostgres.AddDatabase("maindb");
 var apiService = builder.AddProject<Projects.WebAPI>("apiservice")
     .WithReference(apiServiceDatabase);

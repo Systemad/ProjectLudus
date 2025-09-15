@@ -23,7 +23,7 @@ public class CompanyDatabaseService(SyncDbContext context)
             .Select(g => g.OrderByDescending(x => x.RawData.UpdatedAt).First())
             .ToList();
         
-        await context.Copmanies.ExecuteBulkInsertAsync(dedupedCompanies, options =>
+        await context.Companies.ExecuteBulkInsertAsync(dedupedCompanies, options =>
         {
             options.BatchSize = 10_000;
             options.OnProgress = rowsCopied => { Console.WriteLine($"Copied {rowsCopied} rows so far..."); };

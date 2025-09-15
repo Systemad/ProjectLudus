@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.Extensions.Options;
 using Shared.Features;
 using Shared.Features.Games;
 using Shared.Features.PopScore;
@@ -8,47 +7,18 @@ using Shared.Twitch;
 
 namespace SyncService.Features;
 
-public class ApiClient
+public class ApiClient(HttpClient httpClient)
 {
-    private HttpClient _httpClient;
-    private TwitchOptions _twithOptions;
+    /*
+     * create
+     * delete
+     * update
+    */
 
-    public ApiClient(
-        HttpClient httpClient,
-        IOptions<TwitchOptions> options
-    )
-    {
-        _httpClient = httpClient;
-        _twithOptions = options.Value;
-
-        if (
-            string.IsNullOrEmpty(_twithOptions.IGDB_CLIENT_ID)
-            || string.IsNullOrEmpty(_twithOptions.IGDB_CLIENT_SECRET)
-        )
-        {
-            throw new ArgumentException("ClientID and token must be supplied!");
-        }
-    }
-
-    public async Task<CountResponse> FetchGamesCountAsync()
-    {
-        _httpClient.DefaultRequestHeaders.Add("Client-ID", $"{_twithOptions.IGDB_CLIENT_ID}");
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_twithOptions.IGDB_CLIENT_SECRET}");
-
-        var response = await _httpClient.PostAsync(GameQuery.Count, null);
-        var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
-        if (countResponse is null)
-            throw new ArgumentException("Count response is null!");
-
-        return countResponse;
-    }
-
+    
     public async Task<CountResponse> FetchCountAsync(string url)
     {
-        _httpClient.DefaultRequestHeaders.Add("Client-ID", $"{_twithOptions.IGDB_CLIENT_ID}");
-        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_twithOptions.IGDB_CLIENT_SECRET}");
-
-        var response = await _httpClient.PostAsync($"{url}/count", null);
+        var response = await httpClient.PostAsync($"{url}/count", null);
         var countResponse = await response.Content.ReadFromJsonAsync<CountResponse>();
         if (countResponse is null)
             throw new ArgumentException("Count response is null!");
@@ -69,7 +39,7 @@ public class ApiClient
         using var request = new HttpRequestMessage(HttpMethod.Post, url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await _httpClient.SendAsync(request);
+        var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var batch = await response.Content.ReadFromJsonAsync<List<T>>();
@@ -80,6 +50,25 @@ public class ApiClient
         return batch;
     }
 
+    public async Task<IGDBGame> FetchGameAsync(long id)
+    {
+        var requestBody =
+            $"fields {string.Join(",", GameQuery.Fields)}; where {id};";
+
+        using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Url);
+        request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
+
+        var response = await httpClient.SendAsync(request);
+        response.EnsureSuccessStatusCode();
+
+        var game = await response.Content.ReadFromJsonAsync<IGDBGame>();
+
+        if (game == null)
+            throw new ArgumentException("Games is null");
+
+        return game;
+    }
+    
     public async Task<List<IGDBGame>> FetchBatchAsync(long itemsToTake, long offset)
     {
         var requestBody =
@@ -88,7 +77,7 @@ public class ApiClient
         using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await _httpClient.SendAsync(request);
+        var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var games = await response.Content.ReadFromJsonAsync<List<IGDBGame>>();
@@ -106,7 +95,7 @@ public class ApiClient
         using var request = new HttpRequestMessage(HttpMethod.Post, "game_types");
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await _httpClient.SendAsync(request);
+        var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var gamesTypes = await response.Content.ReadFromJsonAsync<List<GameType>>();
@@ -126,7 +115,7 @@ public class ApiClient
         using var request = new HttpRequestMessage(HttpMethod.Post, PopScoreTypesQuery.Url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await _httpClient.SendAsync(request);
+        var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var popscoreTypes = await response.Content.ReadFromJsonAsync<List<PopularityTypes>>();
@@ -146,7 +135,7 @@ public class ApiClient
         using var request = new HttpRequestMessage(HttpMethod.Post, PopScoreTypesQuery.Url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
-        var response = await _httpClient.SendAsync(request);
+        var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
         var popscoreGames = await response.Content.ReadFromJsonAsync<List<PopScoreGame>>();
