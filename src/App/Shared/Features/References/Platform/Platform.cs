@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.References.Platform;
 
-public class Platform : IIdentifiable
+public class Platform
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

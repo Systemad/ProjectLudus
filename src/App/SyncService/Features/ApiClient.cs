@@ -13,9 +13,9 @@ public class ApiClient(HttpClient httpClient)
      * create
      * delete
      * update
-    */
+     */
 
-    
+
     public async Task<CountResponse> FetchCountAsync(string url)
     {
         var response = await httpClient.PostAsync($"{url}/count", null);
@@ -42,51 +42,57 @@ public class ApiClient(HttpClient httpClient)
         var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var batch = await response.Content.ReadFromJsonAsync<List<T>>();
+        var items = await response.Content.ReadFromJsonAsync<List<T>>();
 
-        if (batch == null || batch.Count == 0)
+        if (items == null || items.Count == 0)
             throw new ArgumentException("Items are null");
 
-        return batch;
+        return items;
     }
 
-    public async Task<IGDBGame> FetchGameAsync(long id)
+
+
+    public async Task<List<T>> Fetch<T>(string endpoint, string url, List<string> fields)
+    {
+        var countResponse = await FetchCountAsync(url);
+
+        int maxItemsPerIteration = 500;
+        long totalItems = countResponse.Count;
+        long iterations = (totalItems + maxItemsPerIteration - 1) / maxItemsPerIteration;
+
+        var items = new List<T>();
+        for (long i = 0; i < iterations; i++)
+        {
+            long offset = i * maxItemsPerIteration;
+            long itemsToTake = Math.Min(maxItemsPerIteration, totalItems - offset);
+
+            var batch = await FetchBatchAsyncGeneric<T>(url, fields, itemsToTake, offset);
+            items.AddRange(batch);
+            await Task.Delay(200);
+        }
+
+        return items;
+    }
+
+    public async Task<IgdbGame> FetchGameAsync(long id)
     {
         var requestBody =
             $"fields {string.Join(",", GameQuery.Fields)}; where {id};";
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Url);
+        using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Endpoint);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
 
         var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
 
-        var game = await response.Content.ReadFromJsonAsync<IGDBGame>();
+        var game = await response.Content.ReadFromJsonAsync<IgdbGame>();
 
         if (game == null)
             throw new ArgumentException("Games is null");
 
         return game;
     }
-    
-    public async Task<List<IGDBGame>> FetchBatchAsync(long itemsToTake, long offset)
-    {
-        var requestBody =
-            $"fields {string.Join(",", GameQuery.Fields)}; limit {itemsToTake}; offset {offset};";
 
-        using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Url);
-        request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
-
-        var response = await httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-
-        var games = await response.Content.ReadFromJsonAsync<List<IGDBGame>>();
-
-        if (games == null || games.Count == 0)
-            throw new ArgumentException("Games is null");
-
-        return games;
-    }
 
     public async Task<InternalGameType[]> FetchGamesTypesAsync()
     {
@@ -106,7 +112,7 @@ public class ApiClient(HttpClient httpClient)
         });
         return mapped.ToArray();
     }
-    
+
     public async Task<List<PopularityTypes>> FetchPopScoreTypes()
     {
         var requestBody =
@@ -125,7 +131,7 @@ public class ApiClient(HttpClient httpClient)
 
         return popscoreTypes;
     }
-    
+
     public async Task<List<PopScoreGame>> FetchPopScoreGames(int[] types, int limit = 50)
     {
         // fields game_id,value,popularity_type; sort value desc; limit 50; where popularity_type = (5, 6, 8);

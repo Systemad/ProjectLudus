@@ -1,5 +1,7 @@
 ﻿using Shared.Features;
 using Shared.Features.Games;
+using Shared.Features.IGDB;
+using Shared.Features.References.Platform;
 
 namespace WebAPI.Features.Common.Games.Mappers;
 

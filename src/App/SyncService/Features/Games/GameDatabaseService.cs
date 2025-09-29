@@ -3,13 +3,14 @@ using PhenX.EntityFrameworkCore.BulkInsert.Extensions;
 using PhenX.EntityFrameworkCore.BulkInsert.Options;
 using Shared.Features;
 using SyncService.Data;
+using SyncService.Data.Entities;
 using SyncService.Utilities;
 
 namespace SyncService.Features.Games;
 
 public class GameDatabaseService(SyncDbContext context)
 {
-    public async Task InsertGameBatchAsync(List<IGDBGame> games)
+    public async Task InsertGameBatchAsync(List<IgdbGame> games)
     {
         var entities = games.ToMultipleEntities();
         var dedupedGames = entities
@@ -29,34 +30,12 @@ public class GameDatabaseService(SyncDbContext context)
             },
 
             Update = (inserted, excluded) => inserted,
-            Where = (inserted, excluded) => excluded.RawData.UpdatedAt > inserted.RawData.UpdatedAt,
+            Where = (inserted, excluded) => excluded.Metadata.UpdatedAt > inserted.Metadata.UpdatedAt,
         });
     }
 
-    public async Task InsertFiltersAsync(
-        List<IGDBGame> games
-    )
-    {
-        var inserData = new InsertData();
-        inserData.GameModes.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.GameModes));
-        inserData.Genres.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Genres));
-        inserData.Platforms.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Platforms));
-        inserData.PlayerPerspectives.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.PlayerPerspectives));
-        inserData.GameEngines.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.GameEngines));
-        inserData.Themes.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Themes));
-        inserData.Franchises.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Franchises));
-        inserData.Keywords.AddRange(CommonUtilities.GetDistinctEntities(games, g => g.Keywords));
 
-        await BulkInsertInBatchesAsync(inserData.GameModes, context.GameModes);
-        await BulkInsertInBatchesAsync(inserData.Genres, context.Genres);
-        await BulkInsertInBatchesAsync(inserData.Platforms, context.Platforms);
-        await BulkInsertInBatchesAsync(inserData.PlayerPerspectives, context.PlayerPerspectives);
-        await BulkInsertInBatchesAsync(inserData.GameEngines, context.GameEngines);
-        await BulkInsertInBatchesAsync(inserData.Themes, context.Themes);
-        await BulkInsertInBatchesAsync(inserData.Franchises, context.Franchises);
-        await BulkInsertInBatchesAsync(inserData.Keywords, context.Keywords);
-    }
-
+    
     public async Task UpdateGameAsync(
         GameEntity game)
     {

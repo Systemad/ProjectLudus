@@ -28,9 +28,7 @@
         -->
         <PackageReference Include="TickerQ.EntityFrameworkCore"/>
         <PackageReference Include="JetBrains.Annotations"/>
-
         <PackageReference Include="JetBrains.Annotations"/>
-        
         <PackageReference Include="CSharpier.MSBuild"/>
     </ItemGroup>
     <ItemGroup>
@@ -38,4 +36,5 @@
         <ProjectReference Include="..\Shared\Shared.csproj"/>
         <ProjectReference Include="..\SyncService.Data\SyncService.Data.csproj"/>
     </ItemGroup>
+
 </Project>

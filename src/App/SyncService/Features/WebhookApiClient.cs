@@ -7,9 +7,9 @@ public class WebhookApiClient(HttpClient httpClient)
     public async Task SubscribeWebhooksAsync(string endpointUrl)
     {
         await Task.WhenAll(
-            SubscribeWebhookAsync(endpointUrl, WebhookMethods.CREATE),
-            SubscribeWebhookAsync(endpointUrl, WebhookMethods.UPDATE),
-            SubscribeWebhookAsync(endpointUrl, WebhookMethods.DELETE)
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.CREATE),
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.UPDATE),
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.DELETE)
         );
     }
 
@@ -31,7 +31,7 @@ public class WebhookApiClient(HttpClient httpClient)
     }
 
 
-    private async Task<WebhookResponse> SubscribeWebhookAsync(string endpointUrl, WebhookMethods method)
+    private async Task<WebhookResponse> SubscribeWebhookAsync(string endpointUrl, WebhookMethod method)
     {
         var formContent = new FormUrlEncodedContent(new Dictionary<string, string>
         {

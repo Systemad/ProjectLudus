@@ -17,12 +17,12 @@ public static class OptimizedList
         }
     }
     
-    public static async Task<List<IGDBGame>> ReadFromStreamAsync(
+    public static async Task<List<IgdbGame>> ReadFromStreamAsync(
         Stream stream, CancellationToken cancellationToken = default)
     {
         var reader = PipeReader.Create(stream);
  
-        var containers = new List<IGDBGame>();
+        var containers = new List<IgdbGame>();
         while (true)
         {
             var result = await reader.ReadAsync(cancellationToken);
@@ -68,10 +68,10 @@ public static class OptimizedList
             return false;
         }
  
-        static IGDBGame DeserializeJsonData(ReadOnlySequence<byte> jsonData)
+        static IgdbGame DeserializeJsonData(ReadOnlySequence<byte> jsonData)
         {
             var jsonReader = new Utf8JsonReader(jsonData);
-            return JsonSerializer.Deserialize<IGDBGame>(ref jsonReader) ?? throw new InvalidOperationException();
+            return JsonSerializer.Deserialize<IgdbGame>(ref jsonReader) ?? throw new InvalidOperationException();
         }
     }
 }

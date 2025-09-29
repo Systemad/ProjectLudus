@@ -1,9 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 using Shared.Features.Games;
+using Shared.Features.IGDB;
+using Shared.Features.References.Platform;
 
 namespace Shared.Features;
 
-public class IGDBGame
+public class IgdbGame
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -57,7 +59,7 @@ public class IGDBGame
     public required string Name { get; set; }
 
     [JsonPropertyName("platforms")]
-    public List<Platform> Platforms { get; set; } = new();
+    public List<long> Platforms { get; set; } = new();
 
     [JsonPropertyName("player_perspectives")]
     public List<PlayerPerspective> PlayerPerspectives { get; set; } = new();
@@ -87,7 +89,7 @@ public class IGDBGame
     public string? Summary { get; set; }
 
     [JsonPropertyName("themes")]
-    public List<Theme> Themes { get; set; } = new();
+    public List<long> Themes { get; set; } = new();
 
     [JsonPropertyName("total_rating")]
     public double? TotalRating { get; set; }
@@ -116,8 +118,10 @@ public class IGDBGame
     [JsonPropertyName("collections")]
     public List<Collection> Collections { get; set; } = new();
 
-    [JsonPropertyName("game_type")] public GameType GameType { get; set; } = new();
-
+    [JsonPropertyName("game_type")]
+    public GameType GameType { get; set; } = new();
+    
+    // JSONB
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
 }

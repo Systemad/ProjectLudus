@@ -2,9 +2,8 @@
 
 public static class GameQuery
 {
-    public static string Url = "games";
-    public static string Count = "games/count";
-    public static List<string> Fields = new()
+    public static readonly string Endpoint = "games";
+    public static readonly List<string> Fields = new()
     {
         "age_ratings.content_descriptions.description",
         "age_ratings.organization.name",
@@ -72,6 +71,7 @@ public static class GameQuery
         "platforms.slug",
         "platforms.platform_logo.url",
         "platforms.platform_logo.image_id",
+        "player_perspectives",
         "player_perspectives.name",
         "player_perspectives.slug",
         "player_perspectives.url",

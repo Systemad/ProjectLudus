@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SyncService.Data;
+using SyncService.Features;
 using SyncService.Features.Games;
 
 namespace SyncService.Workers;
@@ -17,18 +18,18 @@ public class SyncWorker(
         {
             Log.StartingSyncWorker(logger, DateTimeOffset.UtcNow);
             using var scope = serviceProvider.CreateScope();
-            var gameSeedingOrch = scope.ServiceProvider.GetRequiredService<GameSeedingSeedingController>();
+            var seedingController = scope.ServiceProvider.GetRequiredService<IgdbService>();
             try
             {
                 if (!await DatabaseHasDataAsync(scope))
                 {
                     Log.InitialSeeding(logger);
-                    await gameSeedingOrch.RunInitialSeedingAsync();
+                    await seedingController.RunInitialSeedingAsync();
                 }
                 else
                 {
                     Log.CatchupSeeding(logger);
-                    await gameSeedingOrch.RunCatchupSeedingAsync();
+                    await seedingController.RunCatchupSeedingAsync();
                 }
 
                 Log.DatabaseSeedSuccessful(logger, DateTimeOffset.UtcNow);

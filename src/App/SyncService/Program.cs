@@ -7,7 +7,7 @@ using Shared.Twitch;
 using TickerQ.DependencyInjection;
 using SyncService.Data;
 using SyncService.Features;
-using SyncService.Features.Company;
+using SyncService.Features.Companies;
 using SyncService.Features.Games;
 using SyncService.Features.Games.Webhook;
 using SyncService.Utilities;
@@ -28,13 +28,12 @@ builder.Services.AddHttpClient<ApiClient>(httpClient =>
     }
 ).AddHttpMessageHandler<TwitchAuthenticationHandler>();
 
-builder.Services.AddScoped<CompanyDatabaseService>();
+builder.Services.AddScoped<SeedingService>();
 builder.Services.AddScoped<GameDatabaseService>();
 
-builder.Services.AddScoped<GameWebhookController>();
+builder.Services.AddScoped<GameWebhookProcessor>();
 
-builder.Services.AddScoped<GameSeedingSeedingController>();
-builder.Services.AddScoped<CompanySeedingSeedingOrchestrator>();
+builder.Services.AddScoped<IgdbService>();
 builder.Logging.AddConsole();
 
 builder.AddNpgsqlDbContext<SyncDbContext>(connectionName: "syncdb", configureDbContextOptions: (optionsBuilder) =>
@@ -67,19 +66,19 @@ var app = builder.Build();
 
 // 7077
 app.MapPost("/webhooks/create/games",
-    async ([FromBody] WebhookGamePayload payload, [FromServices] GameWebhookController webhookController) =>
+    async ([FromBody] WebhookGamePayload payload, [FromServices] GameWebhookProcessor webhookProcessor) =>
     {
-        await webhookController.ProcessWebhookEventAsync(payload.Id, WebhookMethods.CREATE);
+        await webhookProcessor.ProcessWebhookEventAsync(payload.Id, WebhookMethod.CREATE);
     });
 app.MapPost("/webhooks/update/games",
-    async ([FromBody] WebhookGamePayload payload, [FromServices] GameWebhookController webhookController) =>
+    async ([FromBody] WebhookGamePayload payload, [FromServices] GameWebhookProcessor webhookProcessor) =>
     {
-        await webhookController.ProcessWebhookEventAsync(payload.Id, WebhookMethods.UPDATE);
+        await webhookProcessor.ProcessWebhookEventAsync(payload.Id, WebhookMethod.UPDATE);
     });
 app.MapPost("/webhooks/delete/games",
-    async ([FromBody] WebhookDeleteGamePayload payload, [FromServices] GameWebhookController webhookController) =>
+    async ([FromBody] WebhookDeleteGamePayload payload, [FromServices] GameWebhookProcessor webhookProcessor) =>
     {
-        await webhookController.ProcessWebhookEventAsync(payload.Id, WebhookMethods.DELETE);
+        await webhookProcessor.ProcessWebhookEventAsync(payload.Id, WebhookMethod.DELETE);
     });
 
 app.UseTickerQ(TickerQStartMode.Immediate);

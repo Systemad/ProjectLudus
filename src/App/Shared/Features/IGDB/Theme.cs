@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class GameMode : IIdentifiable
+public class Theme
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -16,3 +16,4 @@ public class GameMode : IIdentifiable
     [JsonPropertyName("url")]
     public string? Url { get; set; }
 }
+

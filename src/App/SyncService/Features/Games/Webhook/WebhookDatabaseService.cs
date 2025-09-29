@@ -20,7 +20,6 @@ public class WebhookDatabaseService(SyncDbContext context)
             UpdatedAt = response.UpdatedAt,
             LastProcessedAt = SystemClock.Instance.GetCurrentInstant()
         };
-
         context.ActiveWebhooks.Add(active);
     }
     public async Task<List<ActiveWebhook>> GetWebhooksAsync()
@@ -31,9 +30,9 @@ public class WebhookDatabaseService(SyncDbContext context)
 
     // TODO: ? Add endpoints, and in that way make this "more flexible"
     public async Task UpdateWebhookStatusAsync(
-        WebhookMethods method)
+        WebhookMethod method)
     {
-        var hook = await context.ActiveWebhooks.FirstOrDefaultAsync(g => g.SubCategory == (int)method);
+        var hook = await context.ActiveWebhooks.FirstOrDefaultAsync(g => g.SubCategory == method);
         if (hook is not null)
         {
             hook.LastProcessedAt = SystemClock.Instance.GetCurrentInstant();

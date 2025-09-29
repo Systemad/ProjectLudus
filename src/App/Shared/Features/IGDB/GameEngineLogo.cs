@@ -4,12 +4,12 @@ namespace Shared.Features.Games;
 
 public class GameEngineLogo
 {
-    //[JsonPropertyName("id")]
-    //public long Id { get; set; }
+    [JsonPropertyName("id")]
+    public required long Id { get; set; }
 
     [JsonPropertyName("image_id")]
-    public string ImageId { get; set; }
+    public required string ImageId { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; }
+    public required string Url { get; set; }
 }

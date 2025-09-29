@@ -1,6 +1,6 @@
 ﻿namespace Shared.Features.Webhooks;
 
-public enum WebhookMethods
+public enum WebhookMethod
 {
     CREATE = 0,
     UPDATE = 2,

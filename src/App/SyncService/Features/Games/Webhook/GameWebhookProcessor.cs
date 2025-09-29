@@ -3,25 +3,38 @@ using SyncService.Utilities;
 
 namespace SyncService.Features.Games.Webhook;
 
-public class GameWebhookController(GameDatabaseService databaseService, WebhookDatabaseService webhookDatabaseService, ApiClient apiClient, WebhookApiClient webhookApiClient)
+// TODO: MAKE THIS MORE GENERIC, AND INCLUDE ALL FIELDS
+public class GameWebhookProcessor(
+    GameDatabaseService databaseService,
+    WebhookDatabaseService webhookDatabaseService,
+    ApiClient apiClient,
+    WebhookApiClient webhookApiClient)
 {
     private WebhookDatabaseService _webhookDatabaseService = webhookDatabaseService;
     private GameDatabaseService _databaseService = databaseService;
     private ApiClient _apiClient = apiClient;
     private WebhookApiClient _webhookApiClient = webhookApiClient;
-    public async Task ProcessWebhookEventAsync(long gameId, WebhookMethods method)
+
+    public async Task ProcessWebhookEventAsync(long gameId, WebhookMethod method)
     {
         switch (method)
         {
-            case WebhookMethods.CREATE:
-            case WebhookMethods.UPDATE:
+            case WebhookMethod.CREATE:
+            case WebhookMethod.UPDATE:
                 await UpdateGameAsync(gameId);
                 break;
-            case WebhookMethods.DELETE:
+            case WebhookMethod.DELETE:
                 await DeleteGameAsync(gameId);
                 break;
         }
+
         await _webhookDatabaseService.UpdateWebhookStatusAsync(method);
+    }
+
+    public async Task ProcessWebhookEventAsync(long gameId)
+    {
+        await DeleteGameAsync(gameId);
+        await _webhookDatabaseService.UpdateWebhookStatusAsync(WebhookMethod.DELETE);
     }
 
     private async Task UpdateGameAsync(long id)
@@ -30,12 +43,12 @@ public class GameWebhookController(GameDatabaseService databaseService, WebhookD
         var dto = game.ToEntity();
         await _databaseService.UpdateGameAsync(dto);
     }
-    
+
     private async Task DeleteGameAsync(long id)
     {
-        
         await _databaseService.DeleteGameAsync(id);
     }
+
     public async Task SubscribeWebhookEndpointAsync(string endpoint)
     {
         await UnSubscribeAllWebhooksAsync();
@@ -58,7 +71,7 @@ public class GameWebhookController(GameDatabaseService databaseService, WebhookD
             await _webhookApiClient.UnSubscribeWebhookAsync(webhook.Id);
         }
     }
-    
+
     public async Task<List<WebhookResponse>> FetchActiveWebhooksAsync()
     {
         var allWebhooks = await _webhookApiClient.GetWebhooksAsync();

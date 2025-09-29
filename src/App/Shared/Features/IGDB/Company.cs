@@ -1,15 +1,8 @@
 ﻿using System.Text.Json.Serialization;
+using Shared.Features.Games;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class CompanyEntity
-{
-    public long Id { get; set; }
-    public string Description { get; set; }
-    public string Name { get; set; }
-    public string ImageId { get; set; }
-    public Company RawData { get; set; }
-}
 public partial class Company
 {
     [JsonPropertyName("id")]
@@ -34,7 +27,7 @@ public partial class Company
     public CompanyLogo Logo { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
     [JsonPropertyName("slug")]
     public string Slug { get; set; }
@@ -46,7 +39,7 @@ public partial class Company
     public long UpdatedAt { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; }
+    public required string Url { get; set; }
 
     [JsonPropertyName("websites")]
     public List<Website> Websites { get; set; }
@@ -58,7 +51,7 @@ public partial class Company
     public CompanyStatus Status { get; set; } = new();
 
     [JsonPropertyName("start_date_format")]
-    public StartDateFormat StartDateFormat { get; set; }
+    public DateFormat StartDateFormat { get; set; }
 
     [JsonPropertyName("change_date")]
     public long? ChangeDate { get; set; }
@@ -69,8 +62,8 @@ public partial class Company
 
 public partial class CompanyLogo
 {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
+    //[JsonPropertyName("id")]
+    //public long Id { get; set; }
 
     [JsonPropertyName("image_id")]
     public string ImageId { get; set; }
@@ -88,35 +81,6 @@ public partial class CompanyStatus
     public string Name { get; set; }
 }
 
-public partial class StartDateFormat
-{
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
 
-    [JsonPropertyName("format")]
-    public string Format { get; set; }
-}
 
-public partial class Website
-{
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
 
-    [JsonPropertyName("trusted")]
-    public bool Trusted { get; set; }
-
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
-
-    [JsonPropertyName("type")]
-    public TypeClass Type { get; set; }
-}
-
-public partial class TypeClass
-{
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
-}

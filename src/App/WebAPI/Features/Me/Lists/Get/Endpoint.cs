@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MartenExt = Marten;
 using Shared.Features;
 using Shared.Features.Games;
+using Shared.Features.References.Platform;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.DataAccess;

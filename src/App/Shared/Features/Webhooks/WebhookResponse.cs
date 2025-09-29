@@ -8,7 +8,7 @@ public class ActiveWebhook
     public long Id { get; set; }
     public string Url { get; set; }
     public long Category { get; set; }
-    public long SubCategory { get; set; }
+    public WebhookMethod SubCategory { get; set; }
     public bool Active { get; set; }
     public long CreatedAt { get; set; }
     public long UpdatedAt { get; set; }

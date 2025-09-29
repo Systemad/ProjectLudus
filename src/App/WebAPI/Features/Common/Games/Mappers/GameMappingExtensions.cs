@@ -1,5 +1,6 @@
 ﻿using Shared.Features;
 using Shared.Features.Games;
+using Shared.Features.References.Platform;
 using WebAPI.Features.Common.Games.Models;
 
 namespace WebAPI.Features.Common.Games.Mappers;

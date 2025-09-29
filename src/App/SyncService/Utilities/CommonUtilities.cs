@@ -6,8 +6,8 @@ namespace SyncService.Utilities;
 public static class CommonUtilities
 {
     public static List<T> GetDistinctEntities<T>(
-        IEnumerable<IGDBGame> games,
-        Func<IGDBGame, IEnumerable<T>> selector
+        IEnumerable<IgdbGame> games,
+        Func<IgdbGame, IEnumerable<T>> selector
     )
         where T : class
     {

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Shared.Features.Games;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
 public class AgeRating
 {

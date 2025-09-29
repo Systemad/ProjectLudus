@@ -1,14 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class GameEngine : IIdentifiable
+public class PlayerPerspective : IIdentifiable
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
-
-    [JsonPropertyName("logo")]
-    public GameEngineLogo? Logo { get; set; }
 
     [JsonPropertyName("name")]
     public required string Name { get; set; }
