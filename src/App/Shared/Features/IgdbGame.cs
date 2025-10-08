@@ -1,14 +1,13 @@
 ﻿using System.Text.Json.Serialization;
 using Shared.Features.Games;
 using Shared.Features.IGDB;
-using Shared.Features.References.Platform;
 
 namespace Shared.Features;
 
-public class IgdbGame
+public class IgdbGame : IgdbResponse
 {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
+    //[JsonPropertyName("id")]
+    //public long Id { get; set; }
 
     [JsonPropertyName("age_ratings")]
     public List<AgeRating> AgeRatings { get; set; } = new();
@@ -21,9 +20,6 @@ public class IgdbGame
 
     [JsonPropertyName("cover")]
     public Cover? Cover { get; set; }
-
-    [JsonPropertyName("created_at")]
-    public required long CreatedAt { get; set; }
 
     [JsonPropertyName("dlcs")]
     public List<long> Dlcs { get; set; } = new();
@@ -97,8 +93,8 @@ public class IgdbGame
     [JsonPropertyName("total_rating_count")]
     public long? TotalRatingCount { get; set; }
 
-    [JsonPropertyName("updated_at")]
-    public long UpdatedAt { get; set; }
+    //[JsonPropertyName("updated_at")]
+    //public long UpdatedAt { get; set; }
 
     [JsonPropertyName("url")]
     public string? Url { get; set; }
@@ -121,7 +117,6 @@ public class IgdbGame
     [JsonPropertyName("game_type")]
     public GameType GameType { get; set; } = new();
     
-    // JSONB
     [JsonPropertyName("multiplayer_modes")]
     public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
 }

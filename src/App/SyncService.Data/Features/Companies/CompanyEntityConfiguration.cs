@@ -12,18 +12,3 @@ public class CompanyEntityConfiguration : IEntityTypeConfiguration<CompanyEntity
             .ValueGeneratedNever();
     }
 }  
-
-public class RawCompanyEntityConfiguration : IEntityTypeConfiguration<RawCompanyEntity>
-{
-    public void Configure(EntityTypeBuilder<RawCompanyEntity> builder)
-    {
-        builder
-            .OwnsOne(c => c.Payload, d =>
-            {
-                d.ToJson();
-            })
-            .Property(g => g.Id)
-            .ValueGeneratedNever();
-
-    }
-}   

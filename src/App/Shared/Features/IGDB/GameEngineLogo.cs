@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
 public class GameEngineLogo
 {

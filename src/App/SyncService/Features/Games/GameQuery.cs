@@ -1,4 +1,4 @@
-﻿namespace Shared.Queries;
+﻿namespace SyncService.Features.Games;
 
 public static class GameQuery
 {

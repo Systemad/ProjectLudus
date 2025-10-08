@@ -2,8 +2,9 @@
 using Shared.Features;
 using Shared.Features.Games;
 using Shared.Features.PopScore;
-using Shared.Queries;
 using Shared.Twitch;
+using SyncService.Features.Games;
+using SyncService.Features.PopScore;
 
 namespace SyncService.Features;
 
@@ -14,7 +15,6 @@ public class ApiClient(HttpClient httpClient)
      * delete
      * update
      */
-
 
     public async Task<CountResponse> FetchCountAsync(string url)
     {
@@ -50,8 +50,6 @@ public class ApiClient(HttpClient httpClient)
         return items;
     }
 
-
-
     public async Task<List<T>> Fetch<T>(string endpoint, string url, List<string> fields)
     {
         var countResponse = await FetchCountAsync(url);
@@ -76,8 +74,7 @@ public class ApiClient(HttpClient httpClient)
 
     public async Task<IgdbGame> FetchGameAsync(long id)
     {
-        var requestBody =
-            $"fields {string.Join(",", GameQuery.Fields)}; where {id};";
+        var requestBody = $"fields {string.Join(",", GameQuery.Fields)}; where {id};";
 
         using var request = new HttpRequestMessage(HttpMethod.Post, GameQuery.Endpoint);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
@@ -92,7 +89,6 @@ public class ApiClient(HttpClient httpClient)
 
         return game;
     }
-
 
     public async Task<InternalGameType[]> FetchGamesTypesAsync()
     {
@@ -115,8 +111,7 @@ public class ApiClient(HttpClient httpClient)
 
     public async Task<List<PopularityTypes>> FetchPopScoreTypes()
     {
-        var requestBody =
-            $"fields {string.Join(",", PopScoreTypesQuery.Fields)}; sort id asc;";
+        var requestBody = $"fields {string.Join(",", PopScoreTypesQuery.Fields)}; sort id asc;";
 
         using var request = new HttpRequestMessage(HttpMethod.Post, PopScoreTypesQuery.Url);
         request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");

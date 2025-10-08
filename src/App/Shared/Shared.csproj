@@ -12,5 +12,6 @@
 
     <ItemGroup>
       <Folder Include="Features\References\" />
+      <Folder Include="Queries\" />
     </ItemGroup>
 </Project>

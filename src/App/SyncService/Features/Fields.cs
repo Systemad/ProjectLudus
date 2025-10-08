@@ -1,29 +1,21 @@
-﻿using SyncService.Features.Companies;
+﻿using Shared.Features;
+using SyncService.Features.Companies;
+using SyncService.Features.GameEngines;
+using SyncService.Features.Games;
+using SyncService.Features.Platforms;
 
-namespace SyncService.Features.Games;
+namespace SyncService.Features;
 
-public enum IgdbReference
+public static class Endpoints
 {
-    GAMES,
-    PLATFORMS,
-    GAMEENGINES,
-    COMPANIES,
-    THEMES,
-    GENRES,
-}
-
-public static class IgdbFields
-{
-    public static Dictionary<IgdbReference, (string Endpoint, List<string> Fields)> Queries = new Dictionary<IgdbReference, (string Endpoint, List<string> Fields)>
-    {
+    public static Dictionary<IgdbReference, (string Endpoint, List<string> Fields)> QueryMaps =
+        new()
         {
-            IgdbReference.PLATFORMS,
-            (CompanyQuery.Endpoint, CompanyQuery.Fields)
-            
-        },
-        { IgdbReference.GAMEENGINES, ("", [""])  },
-        { IgdbReference.COMPANIES, ("", [""])  },
-        { IgdbReference.THEMES, ("", [""])  },
-        { IgdbReference.GENRES, ("", [""])  },
-    };
+            { IgdbReference.PLATFORM, (PlatformQuery.Endpoint, PlatformQuery.Fields) },
+            { IgdbReference.GAME_ENGINE, (GameEngineQuery.Endpoint, GameEngineQuery.Fields) },
+            { IgdbReference.COMPANY, ("", [""]) },
+            { IgdbReference.THEME, ("", [""]) },
+            { IgdbReference.GENRE, ("", [""]) },
+            { IgdbReference.GAME, (GameQuery.Endpoint, GameQuery.Fields) },
+        };
 }

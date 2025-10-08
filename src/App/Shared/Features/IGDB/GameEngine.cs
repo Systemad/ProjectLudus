@@ -1,13 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using Shared.Features.Games;
 
-namespace Shared.Features.Games;
-
-// TODO: FETCH SEPERATELY   
-public class GameEngine
+namespace Shared.Features.IGDB;
+public class GameEngine : IgdbResponse
 {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
     [JsonPropertyName("name")]
     public required string Name { get; set; }
     
@@ -22,6 +18,4 @@ public class GameEngine
     
     [JsonPropertyName("url")]
     public required string Url { get; set; }
-    [JsonPropertyName("updated_at")]
-    public required long UpdatedAt { get; set; }
 }

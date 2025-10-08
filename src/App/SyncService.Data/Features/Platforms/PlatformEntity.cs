@@ -15,10 +15,3 @@ public partial class PlatformEntity
     public Instant UpdatedAt { get; set; }
     public virtual ICollection<GameEntity> Games { get; set; } = new List<GameEntity>();
 }
-
-public partial class RawPlatformEntity
-{
-    public long Id { get; set; }
-    public Platform Payload = null!;
-}
-

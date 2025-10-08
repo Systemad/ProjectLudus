@@ -1,4 +1,4 @@
-﻿namespace Shared.Queries;
+﻿namespace SyncService.Features.PopScore;
 
 public class PopScoreGamesQuery
 {

@@ -34,14 +34,6 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
         modelBuilder.HasPostgresExtension("pg_ivm");
         modelBuilder.HasPostgresExtension("pg_cron");
 
-        //modelBuilder.ApplyConfiguration(new CompanyEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new RawCompanyEntityConfiguration());
-        modelBuilder.ApplyConfiguration(new RawGameEngineEntityConfiguration());
-        
-
-        modelBuilder.Entity<PopScoreGame>()
-            .Property(g => g.Id)
-            .ValueGeneratedNever();
 
         /*
         modelBuilder.Entity<GameEntity>()
@@ -50,11 +42,13 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
                 d.ToJson();
             });
         */
+        /*
         modelBuilder.Entity<GameEntity>(b =>
         {
             b.Property(g => g.Id).ValueGeneratedNever();
             b.ComplexProperty(g => g.Metadata);
         });
+        */
 
 
 

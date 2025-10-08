@@ -12,6 +12,7 @@
         <PackageReference Include="Aspire.Hosting.Docker"/>
         <PackageReference Include="Aspire.Hosting.NodeJs"/>
         <PackageReference Include="Aspire.Hosting.PostgreSQL"/>
+        <PackageReference Include="Aspire.Hosting.Yarp"/>
         <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions"/>
     </ItemGroup>
     <ItemGroup>

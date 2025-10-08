@@ -21,9 +21,3 @@ public class CompanyEntity
 
     public virtual List<GameEntity> Games { get; set; } = [];
 }
-
-public class RawCompanyEntity
-{
-    public long Id { get; set; }
-    public Company Payload { get; set; } = null!;
-}

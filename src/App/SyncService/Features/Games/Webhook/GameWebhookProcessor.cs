@@ -3,14 +3,12 @@ using SyncService.Utilities;
 
 namespace SyncService.Features.Games.Webhook;
 
-// TODO: MAKE THIS MORE GENERIC, AND INCLUDE ALL FIELDS
 public class GameWebhookProcessor(
     GameDatabaseService databaseService,
-    WebhookDatabaseService webhookDatabaseService,
     ApiClient apiClient,
-    WebhookApiClient webhookApiClient)
+    WebhookApiClient webhookApiClient
+)
 {
-    private WebhookDatabaseService _webhookDatabaseService = webhookDatabaseService;
     private GameDatabaseService _databaseService = databaseService;
     private ApiClient _apiClient = apiClient;
     private WebhookApiClient _webhookApiClient = webhookApiClient;
@@ -27,14 +25,11 @@ public class GameWebhookProcessor(
                 await DeleteGameAsync(gameId);
                 break;
         }
-
-        await _webhookDatabaseService.UpdateWebhookStatusAsync(method);
     }
 
     public async Task ProcessWebhookEventAsync(long gameId)
     {
         await DeleteGameAsync(gameId);
-        await _webhookDatabaseService.UpdateWebhookStatusAsync(WebhookMethod.DELETE);
     }
 
     private async Task UpdateGameAsync(long id)
@@ -51,7 +46,6 @@ public class GameWebhookProcessor(
 
     public async Task SubscribeWebhookEndpointAsync(string endpoint)
     {
-        await UnSubscribeAllWebhooksAsync();
         try
         {
             await _webhookApiClient.SubscribeWebhooksAsync(endpoint);
@@ -60,15 +54,6 @@ public class GameWebhookProcessor(
         {
             Console.WriteLine(e);
             throw;
-        }
-    }
-
-    public async Task UnSubscribeAllWebhooksAsync()
-    {
-        var webhooks = await _webhookDatabaseService.GetWebhooksAsync();
-        foreach (var webhook in webhooks)
-        {
-            await _webhookApiClient.UnSubscribeWebhookAsync(webhook.Id);
         }
     }
 

@@ -1,11 +1,12 @@
-﻿namespace SyncService.Features.Companies;
+﻿namespace SyncService.Features.Platforms;
 
-public static class CompanyQuery
+public static class PlatformQuery
 {
-    public static string Endpoint = "companies";
+    public static string Endpoint = "platforms";
 
     public static List<string> Fields =
     [
+        "fields",
         "abbreviation",
         "alternative_name",
         "generation",
@@ -14,9 +15,10 @@ public static class CompanyQuery
         "platform_logo.image_id",
         "slug",
         "summary",
+        "created_at",
         "updated_at",
         "url",
         "websites.url",
-        "websites.trusted",
+        "websites.trusted"
     ];
 }

@@ -28,15 +28,18 @@ public class PopScoreJobs
             popscoreGames.AddRange(items);
         }
 
-        await _dbContext.PopScoreGames.ExecuteBulkInsertAsync(popscoreGames, options => { options.BatchSize = 500; },
+        await _dbContext.PopScoreGames.ExecuteBulkInsertAsync(
+            popscoreGames,
+            options =>
+            {
+                options.BatchSize = 500;
+            },
             onConflict: new OnConflictOptions<PopScoreGame>
             {
-                Match = e => new
-                {
-                    e.Id,
-                },
+                Match = e => new { e.Id },
 
-                Update = (inserted, excluded) => inserted
-            });
+                Update = (inserted, excluded) => inserted,
+            }
+        );
     }
 }

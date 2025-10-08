@@ -2,12 +2,12 @@
 using SyncService.Data;
 using SyncService.Features;
 using SyncService.Features.Games;
+using SyncService.Features.Seeding;
 
 namespace SyncService.Workers;
 
-public class SyncWorker(
-    IServiceProvider serviceProvider,
-    ILogger<SyncWorker> logger) : IHostedService
+public class SyncWorker(IServiceProvider serviceProvider, ILogger<SyncWorker> logger)
+    : IHostedService
 {
     //private readonly IServiceProvider _serviceProvider = serviceProvider;
     //private readonly ILogger<SyncWorker> _logger = logger;
@@ -18,18 +18,18 @@ public class SyncWorker(
         {
             Log.StartingSyncWorker(logger, DateTimeOffset.UtcNow);
             using var scope = serviceProvider.CreateScope();
-            var seedingController = scope.ServiceProvider.GetRequiredService<IgdbService>();
+            var seedingController = scope.ServiceProvider.GetRequiredService<ISeederService>();
             try
             {
                 if (!await DatabaseHasDataAsync(scope))
                 {
                     Log.InitialSeeding(logger);
-                    await seedingController.RunInitialSeedingAsync();
+                    //await seedingController.RunInitialSeedingAsync();
                 }
                 else
                 {
                     Log.CatchupSeeding(logger);
-                    await seedingController.RunCatchupSeedingAsync();
+                    //await seedingController.RunCatchupSeedingAsync();
                 }
 
                 Log.DatabaseSeedSuccessful(logger, DateTimeOffset.UtcNow);
@@ -45,7 +45,7 @@ public class SyncWorker(
 
     private static async Task<bool> DatabaseHasDataAsync(IServiceScope scope)
     {
-        /*await using*/ var db = scope.ServiceProvider.GetRequiredService<SyncDbContext>();
+        /*await using*/var db = scope.ServiceProvider.GetRequiredService<SyncDbContext>();
         return await db.Games.AnyAsync();
     }
 

@@ -25,26 +25,32 @@ public class WebhookApiClient(HttpClient httpClient)
         response.EnsureSuccessStatusCode();
 
         var webhooks = await response.Content.ReadFromJsonAsync<List<WebhookResponse>>();
-        if (webhooks == null) throw new Exception("Failed to fetch webhooks!");
+        if (webhooks == null)
+            throw new Exception("Failed to fetch webhooks!");
 
         return webhooks;
     }
 
-
-    private async Task<WebhookResponse> SubscribeWebhookAsync(string endpointUrl, WebhookMethod method)
+    private async Task<WebhookResponse> SubscribeWebhookAsync(
+        string endpointUrl,
+        WebhookMethod method
+    )
     {
-        var formContent = new FormUrlEncodedContent(new Dictionary<string, string>
-        {
-            ["url"] = endpointUrl,
-            ["secret"] = Guid.NewGuid().ToString(),
-            ["method"] = method.ToString()
-        });
+        var formContent = new FormUrlEncodedContent(
+            new Dictionary<string, string>
+            {
+                ["url"] = endpointUrl,
+                ["secret"] = Guid.NewGuid().ToString(),
+                ["method"] = method.ToString(),
+            }
+        );
 
         var response = await httpClient.PostAsync("webhooks", formContent);
         response.EnsureSuccessStatusCode();
 
         var webhook = await response.Content.ReadFromJsonAsync<WebhookResponse>();
-        if (webhook == null) throw new Exception("Failed to subscribe webhook!");
+        if (webhook == null)
+            throw new Exception("Failed to subscribe webhook!");
 
         return webhook;
     }

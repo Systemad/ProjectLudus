@@ -1,6 +1,7 @@
 {
   "appHostPath": "../AppHost.csproj",
   "features": {
-    "deployCommandEnabled": "true"
+    "deployCommandEnabled": "true",
+    "execCommandEnabled": "true"
   }
 }

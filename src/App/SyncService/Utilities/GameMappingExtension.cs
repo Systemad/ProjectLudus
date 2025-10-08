@@ -24,7 +24,7 @@ public static class GameMappingExtension
             TotalRating = game.TotalRating ?? 0,
             TotalRatingCount = game.TotalRatingCount ?? 0,
             UpdatedAt = Instant.FromUnixTimeSeconds(game.UpdatedAt),
-            Metadata = game
+            Metadata = game,
         };
     }
 

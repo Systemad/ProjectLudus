@@ -1,40 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-    <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <UserSecretsId>696f31a6-b46a-47e0-b35a-385e9e205a05</UserSecretsId>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="EFCore.NamingConventions"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Npgsql.DependencyInjection"/>
-        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL"/>
-
-        <!--
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>696f31a6-b46a-47e0-b35a-385e9e205a05</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="EFCore.NamingConventions" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.DependencyInjection" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <!--
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
         -->
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime"/>
-        <PackageReference Include="Npgsql.Json.NET"/>
-        <PackageReference Include="PhenX.EntityFrameworkCore.BulkInsert.PostgreSql"/>
-        <PackageReference Include="TickerQ"/>
-        <!--
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+    <PackageReference Include="Npgsql.Json.NET" />
+    <PackageReference Include="PhenX.EntityFrameworkCore.BulkInsert.PostgreSql" />
+    <PackageReference Include="TickerQ" />
+    <!--
         <PackageReference Include="TickerQ.Dashboard"/>
         -->
-        <PackageReference Include="TickerQ.EntityFrameworkCore"/>
-        <PackageReference Include="JetBrains.Annotations"/>
-        <PackageReference Include="JetBrains.Annotations"/>
-        <PackageReference Include="CSharpier.MSBuild"/>
-    </ItemGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj"/>
-        <ProjectReference Include="..\Shared\Shared.csproj"/>
-        <ProjectReference Include="..\SyncService.Data\SyncService.Data.csproj"/>
-    </ItemGroup>
+    <PackageReference Include="TickerQ.EntityFrameworkCore" />
+    <PackageReference Include="JetBrains.Annotations" />
+    <PackageReference Include="JetBrains.Annotations" />
+    <PackageReference Include="CSharpier.MSBuild" />
 
+      <PackageReference Include="Parquet.Net" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\SyncService.Data\SyncService.Data.csproj" />
+  </ItemGroup>
 </Project>
