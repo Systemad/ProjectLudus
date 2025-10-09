@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Shared.Features.Games;
 using Shared.Features.IGDB;
+using Shared.Features.References.Genre;
 
 namespace Shared.Features;
 
@@ -46,7 +47,7 @@ public class IgdbGame : IgdbResponse
     public long? Hypes { get; set; }
 
     [JsonPropertyName("involved_companies")]
-    public List<InvolvedCompanyRaw> InvolvedCompanies { get; set; } = new();
+    public List<InvolvedCompany> InvolvedCompanies { get; set; } = new();
 
     [JsonPropertyName("keywords")]
     public List<Keyword> Keywords { get; set; } = new();

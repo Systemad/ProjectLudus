@@ -1,0 +1,30 @@
+﻿using System.Text.Json;
+using Shared.Features;
+
+namespace CatalogAPI.Utilities;
+
+public static class CommonUtilities
+{
+    public static List<T> GetDistinctEntities<T>(
+        IEnumerable<IgdbGame> games,
+        Func<IgdbGame, IEnumerable<T>> selector
+    )
+        where T : class
+    {
+        return games
+            .SelectMany(g => selector(g) ?? Enumerable.Empty<T>())
+            //.SelectMany(selector)
+            .DistinctBy<T, long>(e => (e as dynamic).Id) // assuming Id is int
+            .ToList();
+    }
+
+    private static async Task WriteToJsonCacheAsync<T>(List<T> entities, string path)
+    {
+        await using var stream = new StreamWriter(path, append: true);
+        var options = new JsonSerializerOptions { WriteIndented = false };
+        foreach (var json in entities.Select(entity => JsonSerializer.Serialize(entity, options)))
+        {
+            await stream.WriteLineAsync(json);
+        }
+    }
+}

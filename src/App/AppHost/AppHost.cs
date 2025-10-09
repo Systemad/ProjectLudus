@@ -25,7 +25,7 @@ var gamingdb =
         .AddDatabase("syncdb");
 
 var syncService = builder
-    .AddProject<Projects.SyncService>("syncService")
+    .AddProject<Projects.CatalogAPI>("syncService")
     .WithEnvironment("IGDB_CLIENT", IGDB_CLIENT)
     .WithEnvironment("IGDB_ACCESSTOKEN", IGDB_ACCESSTOKEN)
     .WithReference(gamingdb)

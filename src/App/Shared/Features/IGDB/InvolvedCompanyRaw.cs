@@ -1,25 +1,14 @@
 ﻿using System.Text.Json.Serialization;
-using Shared.Features.IGDB;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class InvolvedCompanyFlat
-{
-    public long Id { get; set; }
-    public long CompanyId { get; set; }
-    public bool Developer { get; set; }
-    public bool Porting { get; set; }
-    public bool Publisher { get; set; }
-    public bool Supporting { get; set; }
-}
-
-public class InvolvedCompanyRaw
+public class InvolvedCompany
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     [JsonPropertyName("company")]
-    public InvolvedCompanyIdRaw Company { get; set; }
+    public long CompanyId { get; set; }
 
     [JsonPropertyName("developer")]
     public bool Developer { get; set; }
@@ -31,21 +20,5 @@ public class InvolvedCompanyRaw
     public bool Publisher { get; set; }
 
     [JsonPropertyName("supporting")]
-    public bool Supporting { get; set; }
-}
-
-public class InvolvedCompanyIdRaw
-{
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-}
-
-public class InvolvedCompany : IIdentifiable
-{
-    public long Id { get; set; }
-    public Company Company { get; set; }
-    public bool Developer { get; set; }
-    public bool Porting { get; set; }
-    public bool Publisher { get; set; }
     public bool Supporting { get; set; }
 }

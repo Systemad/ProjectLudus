@@ -3,7 +3,9 @@ using Marten;
 using Shared.Features;
 using Shared.Features.Games;
 using Shared.Features.IGDB;
+using Shared.Features.References.Genre;
 using Shared.Features.References.Platform;
+using Shared.Features.References.Theme;
 using WebAPI.Features.Common.Games.Mappers;
 
 namespace Public.Games.GetGameById;

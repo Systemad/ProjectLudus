@@ -1,4 +1,6 @@
-﻿namespace AppHost.Commands;
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace AppHost.Commands;
 
 public static class SeedingCommandExtensions
 {
@@ -21,7 +23,7 @@ public static class SeedingCommandExtensions
         IResourceBuilder<PostgresDatabaseResource> builder,
         ExecuteCommandContext context)
     {
-        //var prov = context.ServiceProvider.GetRequiredService<ISeederService>();
+        //var prov = context.ServiceProvider.GetRequiredService<ISee>();
         return CommandResults.Success();
     }
 

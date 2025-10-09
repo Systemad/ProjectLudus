@@ -1,10 +1,14 @@
 ﻿<Solution>
-  <Folder Name="/SyncService/">
-    <Project Path="SyncService.Data\SyncService.Data.csproj" Type="Classic C#" />
-    <Project Path="SyncService\SyncService.csproj" Type="Classic C#" />
+  <Folder Name="/Bootstrap/">
+    <Project Path="AppHost\AppHost.csproj" Type="Classic C#" />
+    <Project Path="ServiceDefaults\ServiceDefaults.csproj" Type="Classic C#" />
+    <Project Path="Shared\Shared.csproj" Type="Classic C#" />
   </Folder>
-  <Project Path="AppHost\AppHost.csproj" Type="Classic C#" />
-  <Project Path="ServiceDefaults\ServiceDefaults.csproj" Type="Classic C#" />
-  <Project Path="Shared\Shared.csproj" Type="Classic C#" />
-  <Project Path="WebAPI\WebAPI.csproj" Type="Classic C#" />
+  <Folder Name="/Catalog/">
+    <Project Path="CatalogAPI.Data\CatalogAPI.Data.csproj" Type="Classic C#" />
+    <Project Path="CatalogAPI\CatalogAPI.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Core/">
+    <Project Path="WebAPI\WebAPI.csproj" Type="Classic C#" />
+  </Folder>
 </Solution>
