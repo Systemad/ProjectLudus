@@ -1,5 +1,4 @@
 ﻿using FastEndpoints;
-using Marten;
 using Me.Hypes.Helpers;
 using Me.Wishlists.Helpers;
 using WebAPI.Features.Auth.Extensions;
@@ -12,8 +11,6 @@ namespace Me.GameMetadata.Get;
 public class Endpoint : Endpoint<GeGameMetadataRequest, GameMetadataDto>
 {
     public LudusContext _context { get; set; }
-    public IDocumentStore Store { get; set; }
-
     public override void Configure()
     {
         Get("/{GameId}");
@@ -24,7 +21,6 @@ public class Endpoint : Endpoint<GeGameMetadataRequest, GameMetadataDto>
     {
         var userId = User.GetUserId();
 
-        await using var session = Store.QuerySession();
         var hyped = await HypesHelper.IsHypedAsync(_context, userId, req.GameId, ct);
         var wishlisted = await WishlistsHelper.IsWishlistedAsync(_context, userId, req.GameId, ct);
 

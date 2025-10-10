@@ -8,7 +8,7 @@ using WebAPI.Features.Common.Endpoints;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 
-namespace Public.Games.GetTopRatedGames;
+namespace Features.Games.GetTopRatedGames;
 
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {

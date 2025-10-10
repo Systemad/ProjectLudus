@@ -1,6 +1,6 @@
 ﻿using WebAPI.Features.Common.Games.Models;
 
-namespace Public.Games.GetSimilarGames;
+namespace Features.Games.GetSimilarGames;
 
 public class GetSimilarGamesRequest
 {

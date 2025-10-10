@@ -1,9 +1,9 @@
 ﻿using CatalogAPI.Features.Companies;
 using CatalogAPI.Features.GameEngines;
 using CatalogAPI.Features.Games;
-using CatalogAPI.Features.Genres;
 using CatalogAPI.Features.Platforms;
-using CatalogAPI.Features.Themes;
+using CatalogAPI.Features.References.Genres;
+using CatalogAPI.Features.References.Themes;
 using Shared.Features;
 
 namespace CatalogAPI.Features;

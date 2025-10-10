@@ -1,7 +1,7 @@
-﻿using FastEndpoints;
-using WebAPI.Features.Common;
+﻿using CatalogAPI.Common;
+using FastEndpoints;
 
-namespace Public.Games;
+namespace Features.Games;
 
 public class GamesGroupEndpoint : Group
 {

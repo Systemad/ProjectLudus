@@ -2,7 +2,6 @@
 
 public static class ApiRoutes
 {
-    public const string Games = "api/games";
     public const string Me = "api/me";
 
     public static class MeRoutes

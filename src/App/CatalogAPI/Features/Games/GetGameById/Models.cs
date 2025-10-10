@@ -1,6 +1,5 @@
-﻿using Shared.Features;
-
-namespace Public.Games.GetGameById;
+﻿
+namespace Features.Games.GetGameById;
 
 public class GetGameByIdRequest
 {

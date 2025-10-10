@@ -6,7 +6,7 @@ namespace Me.Hypes;
 
 public static class HypedMapper
 {
-    public static HypedItem ToDto(this IGDBGameFlat game, Dictionary<long, Platform> platformDict, bool isHyped)
+    public static HypedItem ToDto(this IgdbGame game, Dictionary<long, Platform> platformDict, bool isHyped)
     {
         return new HypedItem()
         {

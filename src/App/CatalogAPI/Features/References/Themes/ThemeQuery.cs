@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Features.Themes;
+﻿namespace CatalogAPI.Features.References.Themes;
 
 public static class ThemeQuery
 {

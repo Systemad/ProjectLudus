@@ -3,6 +3,7 @@ using CatalogAPI.Features.Games;
 using CatalogAPI.Features.PopScore;
 using Shared.Features;
 using Shared.Features.Games;
+using Shared.Features.IGDB;
 using Shared.Features.PopScore;
 using Shared.Twitch;
 

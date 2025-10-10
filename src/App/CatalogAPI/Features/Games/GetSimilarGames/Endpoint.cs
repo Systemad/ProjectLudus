@@ -6,7 +6,7 @@ using Shared.Features.References.Platform;
 using WebAPI.Features.Common.Games.Mappers;
 using WebAPI.Features.Common.Games.Models;
 
-namespace Public.Games.GetSimilarGames;
+namespace Features.Games.GetSimilarGames;
 
 public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {

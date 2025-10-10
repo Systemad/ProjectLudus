@@ -1,11 +1,11 @@
 ﻿using CatalogAPI.Data.Features.Companies;
 using CatalogAPI.Data.Features.GameEngines;
+using CatalogAPI.Data.Features.GameModes;
 using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
 using CatalogAPI.Data.Features.Themes;
 using NodaTime;
 using Shared.Features;
-using CatalogAPI.Data.Features;
 
 namespace CatalogAPI.Data.Entities;
 
@@ -26,5 +26,6 @@ public partial class GameEntity
     public virtual ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
     public virtual ICollection<PlatformEntity> Platforms { get; set; } = new List<PlatformEntity>();
     public virtual ICollection<ThemeEntity> Themes { get; set; } = new List<ThemeEntity>();
-    public virtual List<CompanyEntity> Companies { get; set; } = [];
+    public virtual ICollection<GameModeEntity> GameModes { get; set; } = new List<GameModeEntity>();
+    public virtual ICollection<CompanyEntity> Companies { get; set; } = new List<CompanyEntity>();
 }

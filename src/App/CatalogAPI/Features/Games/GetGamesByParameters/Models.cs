@@ -1,7 +1,7 @@
 ﻿using FastEndpoints;
 using WebAPI.Features.Common.Endpoints;
 
-namespace Public.Games.GetGamesByParameters;
+namespace Features.Games.GetGamesByParameters;
 
 public class GameSearchRequest : PaginationRequest
 {

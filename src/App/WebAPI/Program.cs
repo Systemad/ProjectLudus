@@ -31,7 +31,6 @@ builder
 builder.AddNpgsqlDbContext<LudusContext>(connectionName: "maindb", configureDbContextOptions: (optionsBuilder) =>
 {
     optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    
 });
 
 builder.Services.AddMemoryCache();
@@ -54,7 +53,6 @@ if (app.Environment.IsDevelopment())
 
     //app.MapOpenApi();
     app.Map("/scalar", () => Results.Redirect("/scalar/v1"));
-    app.Map("/redirectweb", () => Results.Redirect("http://webui/"));
 }
 
 //app.UseDefaultFiles();
@@ -81,9 +79,5 @@ app.UseFastEndpoints(x =>
 app.UseStatusCodePages();
 
 //app.MapFallbackToFile("/index.html");
-/*
-using var scope = app.Services.CreateScope();
-var dbContext = scope.ServiceProvider.GetRequiredService<LudusContext>();
-await dbContext.Database.MigrateAsync();
-*/
+
 app.Run();

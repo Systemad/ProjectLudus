@@ -1,17 +1,10 @@
 ﻿using FastEndpoints;
-using Marten;
-using Marten.Pagination;
 using Me.Hypes;
 using Me.Hypes.GetAll;
 using Me.Hypes.Helpers;
-using Me.Wishlists.Helpers;
-using Shared.Features;
-using Shared.Features.Games;
 using Shared.Features.References.Platform;
 using WebAPI.Features.Auth.Extensions;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
-using WebAPI.Features.Common.Games.Models;
 using WebAPI.Features.DataAccess;
 
 namespace Me.Hyped.GetAll;

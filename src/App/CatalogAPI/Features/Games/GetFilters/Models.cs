@@ -1,4 +1,4 @@
-﻿namespace Public.Games.GetFilters;
+﻿namespace Features.Games.GetFilters;
 
 
 public record FilterItem(long Id, string Name);

@@ -1,6 +1,7 @@
 ﻿using CatalogAPI.Data.Entities;
 using CatalogAPI.Data.Features.Companies;
 using CatalogAPI.Data.Features.GameEngines;
+using CatalogAPI.Data.Features.GameModes;
 using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
 using CatalogAPI.Data.Features.Themes;
@@ -23,6 +24,7 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
     public DbSet<GameEngineEntity> GameEngines { get; set; }
     public DbSet<ThemeEntity> Themes { get; set; }
     public DbSet<FranchiseEntity> Franchises { get; set; }
+    public DbSet<GameModeEntity> GameModes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
