@@ -1,12 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class Franchise
+public class IgdbPlayerPerspective : IgdbResponse
 {
-    [JsonPropertyName("id")]
-    public long Id { get; set; }
-
     [JsonPropertyName("name")]
     public required string Name { get; set; }
 
@@ -15,7 +12,4 @@ public class Franchise
 
     [JsonPropertyName("url")]
     public string? Url { get; set; }
-
-    [JsonPropertyName("games")]
-    public List<long>? Games { get; set; }
 }

@@ -20,7 +20,7 @@ public static class HypedMapper
             ReleaseDates =
                 game.ReleaseDates?.Select(rd => DateTimeOffset.FromUnixTimeSeconds(rd.Date).DateTime).ToList() ??
                 [],
-            GameType = game.GameType,
+            GameType = game.IgdbGameType,
             IsHyped = isHyped
         };
     }

@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public partial class ReleaseRegion
+public partial class IgdbReleaseRegion
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

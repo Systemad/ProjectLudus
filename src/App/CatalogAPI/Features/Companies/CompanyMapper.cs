@@ -6,14 +6,14 @@ namespace CatalogAPI.Features.Companies;
 
 public static class CompanyMapper
 {
-    public static CompanyEntity ToEntity(this Company company)
+    public static CompanyEntity ToEntity(this IgdbCompany igdbCompany)
     {
         return new CompanyEntity
         {
-            Id = company.Id,
+            Id = igdbCompany.Id,
             UpdatedAt = Instant.FromDateTimeUtc(DateTime.UtcNow),
             Added = Instant.FromDateTimeUtc(DateTime.UtcNow),
-            Metadata = company,
+            Metadata = igdbCompany,
         };
     }
 }

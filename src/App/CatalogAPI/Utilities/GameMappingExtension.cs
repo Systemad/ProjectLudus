@@ -14,7 +14,7 @@ public static class GameMappingExtension
             Id = game.Id,
             Name = game.Name,
             FirstReleaseDate = Instant.FromUnixTimeSeconds(game.FirstReleaseDate),
-            GameType = game.GameType.Id,
+            GameType = game.IgdbGameType.Id,
             //Platforms = game.Platforms?.Select(x => x.Id).ToArray() ?? [],
             //GameEngines = game.GameEngines?.Select(x => x.Id).ToArray() ?? [],
             //Genres = game.Genres?.Select(x => x.Id).ToArray() ?? [],

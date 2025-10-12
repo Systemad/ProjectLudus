@@ -2,7 +2,7 @@
 
 namespace Shared.Features.IGDB;
 
-public class GameType
+public partial class IgdbGameWebsiteType
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

@@ -3,7 +3,7 @@ using Shared.Features.Games;
 
 namespace Shared.Features.IGDB;
 
-public partial class Company : IgdbResponse
+public partial class IgdbCompany : IgdbResponse
 {
     [JsonPropertyName("changed_company_id")]
     public long? ChangedCompanyId { get; set; }
@@ -32,7 +32,7 @@ public partial class Company : IgdbResponse
     public required string Url { get; set; }
 
     [JsonPropertyName("websites")]
-    public List<Website> Websites { get; set; }
+    public List<IgdbWebsite> Websites { get; set; }
 
     [JsonPropertyName("checksum")]
     public Guid Checksum { get; set; }
@@ -41,7 +41,7 @@ public partial class Company : IgdbResponse
     public CompanyStatus Status { get; set; } = new();
 
     [JsonPropertyName("start_date_format")]
-    public DateFormat StartDateFormat { get; set; }
+    public IgdbDateFormat StartIgdbDateFormat { get; set; }
 
     [JsonPropertyName("change_date")]
     public long? ChangeDate { get; set; }

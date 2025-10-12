@@ -13,5 +13,5 @@ public class GameDto
     public long FirstReleaseDate { get; set; }
     public List<Platform> Platforms { get; set; }
     public List<DateTime> ReleaseDates { get; set; }
-    public GameType? GameType { get; set; }
+    public IgdbGameType? GameType { get; set; }
 }

@@ -2,7 +2,7 @@
 
 namespace Shared.Features.IGDB;
 
-public class GameMode
+public class IgdbGameMode
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

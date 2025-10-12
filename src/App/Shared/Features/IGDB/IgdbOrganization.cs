@@ -2,7 +2,7 @@
 
 namespace Shared.Features.IGDB;
 
-public partial class ReleasePlatform
+public partial class IgdbOrganization
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

@@ -11,16 +11,16 @@ public class IgdbGame : IgdbResponse
     //public long Id { get; set; }
 
     [JsonPropertyName("age_ratings")]
-    public List<AgeRating> AgeRatings { get; set; } = new();
+    public List<IgdbAgeRating> AgeRatings { get; set; } = new();
 
     [JsonPropertyName("alternative_names")]
-    public List<AlternativeName> AlternativeNames { get; set; } = new();
+    public List<IgdbAlternativeName> AlternativeNames { get; set; } = new();
 
     [JsonPropertyName("artworks")]
-    public List<Artwork> Artworks { get; set; } = new();
+    public List<IgdbArtwork> Artworks { get; set; } = new();
 
     [JsonPropertyName("cover")]
-    public Cover? Cover { get; set; }
+    public IgdbCover? Cover { get; set; }
 
     [JsonPropertyName("dlcs")]
     public List<long> Dlcs { get; set; } = new();
@@ -32,13 +32,13 @@ public class IgdbGame : IgdbResponse
     public long FirstReleaseDate { get; set; }
 
     [JsonPropertyName("franchises")]
-    public List<Franchise> Franchises { get; set; } = new();
+    public List<IgdbFranchise> Franchises { get; set; } = new();
 
     [JsonPropertyName("game_engines")]
-    public List<GameEngine> GameEngines { get; set; } = new();
+    public List<IgdbGameEngine> GameEngines { get; set; } = new();
 
     [JsonPropertyName("game_modes")]
-    public List<GameMode> GameModes { get; set; } = new();
+    public List<IgdbGameMode> GameModes { get; set; } = new();
 
     [JsonPropertyName("genres")]
     public List<Genre> Genres { get; set; } = new();
@@ -50,7 +50,7 @@ public class IgdbGame : IgdbResponse
     public List<InvolvedCompany> InvolvedCompanies { get; set; } = new();
 
     [JsonPropertyName("keywords")]
-    public List<Keyword> Keywords { get; set; } = new();
+    public List<IgdbKeyword> Keywords { get; set; } = new();
 
     [JsonPropertyName("name")]
     public required string Name { get; set; }
@@ -59,7 +59,7 @@ public class IgdbGame : IgdbResponse
     public List<long> Platforms { get; set; } = new();
 
     [JsonPropertyName("player_perspectives")]
-    public List<PlayerPerspective> PlayerPerspectives { get; set; } = new();
+    public List<IgdbPlayerPerspective> PlayerPerspectives { get; set; } = new();
 
     [JsonPropertyName("rating")]
     public double? Rating { get; set; }
@@ -68,10 +68,10 @@ public class IgdbGame : IgdbResponse
     public long? RatingCount { get; set; }
 
     [JsonPropertyName("release_dates")]
-    public List<ReleaseDate> ReleaseDates { get; set; } = new();
+    public List<IgdbReleaseDate> ReleaseDates { get; set; } = new();
 
     [JsonPropertyName("screenshots")]
-    public List<Screenshot> Screenshots { get; set; } = new();
+    public List<IgdbScreenshot> Screenshots { get; set; } = new();
 
     [JsonPropertyName("similar_games")]
     public List<long> SimilarGames { get; set; } = new();
@@ -101,23 +101,23 @@ public class IgdbGame : IgdbResponse
     public string? Url { get; set; }
 
     [JsonPropertyName("videos")]
-    public List<Video> Videos { get; set; } = new();
+    public List<IgdbVideo> Videos { get; set; } = new();
 
     [JsonPropertyName("websites")]
-    public List<GameWebsite> Websites { get; set; } = new();
+    public List<IgdbGameWebsite> Websites { get; set; } = new();
 
     [JsonPropertyName("checksum")]
     public required string Checksum { get; set; }
 
     [JsonPropertyName("language_supports")]
-    public List<LanguageSupport> LanguageSupports { get; set; } = new();
+    public List<IgdbLanguageSupport> LanguageSupports { get; set; } = new();
 
     [JsonPropertyName("collections")]
-    public List<Collection> Collections { get; set; } = new();
+    public List<IgdbCollection> Collections { get; set; } = new();
 
     [JsonPropertyName("game_type")]
-    public GameType GameType { get; set; } = new();
+    public IgdbGameType IgdbGameType { get; set; } = new();
     
     [JsonPropertyName("multiplayer_modes")]
-    public List<MultiplayerMode> MultiplayerModes { get; set; } = new();
+    public List<IgdbMultiplayerMode> MultiplayerModes { get; set; } = new();
 }

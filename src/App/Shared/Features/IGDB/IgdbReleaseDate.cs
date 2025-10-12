@@ -1,9 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using Shared.Features.IGDB;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class ReleaseDate
+public class IgdbReleaseDate
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -15,7 +14,7 @@ public class ReleaseDate
     public string Human { get; set; }
 
     [JsonPropertyName("platform")]
-    public ReleasePlatform ReleasePlatforms { get; set; }
+    public IgdbReleasePlatform IgdbReleasePlatforms { get; set; }
 
     [JsonPropertyName("y")]
     public long Y { get; set; }
@@ -24,7 +23,7 @@ public class ReleaseDate
     public long DateFormat { get; set; }
 
     [JsonPropertyName("release_region")]
-    public ReleaseRegion ReleaseRegion { get; set; }
+    public IgdbReleaseRegion IgdbReleaseRegion { get; set; }
 
     [JsonPropertyName("status")]
     public long? Status { get; set; }

@@ -91,25 +91,6 @@ public class ApiClient(HttpClient httpClient)
         return game;
     }
 
-    public async Task<InternalGameType[]> FetchGamesTypesAsync()
-    {
-        var requestBody = $"fields type; limit 500;";
-
-        using var request = new HttpRequestMessage(HttpMethod.Post, "game_types");
-        request.Content = new StringContent(requestBody, Encoding.UTF8, "text/plain");
-
-        var response = await httpClient.SendAsync(request);
-        response.EnsureSuccessStatusCode();
-
-        var gamesTypes = await response.Content.ReadFromJsonAsync<List<GameType>>();
-        var mapped = gamesTypes.Select(x => new InternalGameType
-        {
-            OriginalId = x.Id,
-            Type = x.Type,
-        });
-        return mapped.ToArray();
-    }
-
     public async Task<List<PopularityTypes>> FetchPopScoreTypes()
     {
         var requestBody = $"fields {string.Join(",", PopScoreTypesQuery.Fields)}; sort id asc;";

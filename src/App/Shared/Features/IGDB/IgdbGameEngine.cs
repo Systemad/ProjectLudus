@@ -2,7 +2,7 @@
 using Shared.Features.Games;
 
 namespace Shared.Features.IGDB;
-public class GameEngine : IgdbResponse
+public class IgdbGameEngine : IgdbResponse
 {
     [JsonPropertyName("name")]
     public required string Name { get; set; }
@@ -11,7 +11,7 @@ public class GameEngine : IgdbResponse
     public List<long>? Platforms { get; set; }
     
     [JsonPropertyName("logo")]
-    public GameEngineLogo? GameEngineLogo { get; set; }
+    public IgdbGameEngineLogo? GameEngineLogo { get; set; }
 
     [JsonPropertyName("slug")]
     public required string Slug { get; set; }

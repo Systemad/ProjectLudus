@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public class Artwork
+public class IgdbScreenshot
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

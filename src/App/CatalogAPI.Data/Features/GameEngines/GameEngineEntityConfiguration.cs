@@ -12,7 +12,7 @@ public class GameEngineEntityConfiguration : IEntityTypeConfiguration<GameEngine
         builder.Property(g => g.Id)
             .ValueGeneratedNever();
         
-        builder.ComplexProperty<GameEngineLogo>(b => b.Logo)
+        builder.ComplexProperty<IgdbGameEngineLogo>(b => b.Logo)
             .Property(g => g.Id)
             .ValueGeneratedNever();
     }

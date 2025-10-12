@@ -2,7 +2,7 @@
 
 namespace Shared.Features.Games;
 
-public class Cover
+public class IgdbCover
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

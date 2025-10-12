@@ -2,7 +2,7 @@
 
 namespace Shared.Features.IGDB;
 
-public class GameEngineLogo
+public class IgdbGameEngineLogo
 {
     [JsonPropertyName("id")]
     public required long Id { get; set; }

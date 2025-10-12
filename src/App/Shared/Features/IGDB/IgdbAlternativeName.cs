@@ -2,11 +2,11 @@
 
 namespace Shared.Features.Games;
 
-public partial class ContentDescription
+public class IgdbAlternativeName
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 }

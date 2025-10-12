@@ -10,7 +10,7 @@ public class CompanyEntity
     public Instant UpdatedAt { get; set; }
     public Instant Added { get; set; }
     
-    public Company Metadata { get; set; } = null!;
+    public IgdbCompany Metadata { get; set; } = null!;
 
     
     public CompanyEntity? Parent { get; set; }

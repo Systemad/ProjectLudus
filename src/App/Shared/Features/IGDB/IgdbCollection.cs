@@ -1,18 +1,18 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.IGDB;
+namespace Shared.Features.Games;
 
-public class PlayerPerspective : IIdentifiable
+public class IgdbCollection
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
 
     [JsonPropertyName("name")]
-    public required string Name { get; set; }
+    public string Name { get; set; }
 
     [JsonPropertyName("slug")]
-    public string? Slug { get; set; }
+    public string Slug { get; set; }
 
     [JsonPropertyName("url")]
-    public string? Url { get; set; }
+    public string Url { get; set; }
 }

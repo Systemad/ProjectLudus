@@ -2,7 +2,7 @@
 
 namespace Shared.Features.IGDB;
 
-public partial class Website
+public partial class IgdbWebsite
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
@@ -14,12 +14,12 @@ public partial class Website
     public string Url { get; set; }
 
     [JsonPropertyName("type")]
-    public TypeClass Type { get; set; }
+    public IgdbTypeClass IgdbType { get; set; }
     [JsonPropertyName("updated_at")]
     public long UpdatedAt { get; set; }
 }
 
-public partial class TypeClass
+public partial class IgdbTypeClass
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }

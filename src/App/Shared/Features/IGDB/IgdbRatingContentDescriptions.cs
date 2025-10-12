@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Shared.Features.Games;
+namespace Shared.Features.IGDB;
 
-public partial class RatingContentDescriptions
+public partial class IgdbRatingContentDescriptions
 {
     [JsonPropertyName("id")]
     public long Id { get; set; }
