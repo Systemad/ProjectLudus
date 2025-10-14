@@ -5,18 +5,15 @@ using CatalogAPI.Data.Features.GameModes;
 using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
 using CatalogAPI.Data.Features.Themes;
+using PopularityPrimitive = IGDB.Models.PopularityPrimitive;
 using Microsoft.EntityFrameworkCore;
-using Shared.Features.Games;
-using Shared.Features.IGDB;
-using Shared.Features.PopScore;
-using Shared.Features.References.Platform;
-using Shared.Features.Webhooks;
+
 
 namespace CatalogAPI.Data;
 
 public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(options)
 {
-    public DbSet<PopScoreGame> PopScoreGames { get; set; }
+    public DbSet<PopularityPrimitive> PopScoreGames { get; set; }
     public DbSet<GameEntity> Games { get; set; }
     public DbSet<CompanyEntity> Companies { get; set; }
     public DbSet<GenreEntity> Genres { get; set; }
@@ -37,21 +34,27 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
         modelBuilder.HasPostgresExtension("pg_cron");
 
 
-        /*
-        modelBuilder.Entity<GameEntity>()
-            .OwnsOne(c => c.RawData, d =>
-            {
-                d.ToJson();
-            });
-        */
-        /*
         modelBuilder.Entity<GameEntity>(b =>
         {
             b.Property(g => g.Id).ValueGeneratedNever();
             b.ComplexProperty(g => g.Metadata);
+            
+            b.HasMany(g => g.Genres)
+                .WithMany(g => g.Games)
+                .UsingEntity<GameGenre>();
+            
+            b.HasMany(g => g.Themes)
+                .WithMany(g => g.Games)
+                .UsingEntity<GameTheme>();
+            
+            b.HasMany(g => g.GameModes)
+                .WithMany(g => g.Games)
+                .UsingEntity<GameGMode>();
+            
+            b.HasMany(g => g.Platforms)
+                .WithMany(g => g.Games)
+                .UsingEntity<GamePlatform>();
         });
-        */
-
 
 
     }

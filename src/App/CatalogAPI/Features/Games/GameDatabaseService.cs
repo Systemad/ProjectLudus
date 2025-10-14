@@ -10,16 +10,16 @@ namespace CatalogAPI.Features.Games;
 
 public class GameDatabaseService(SyncDbContext context)
 {
-    public async Task UpdateGameAsync(GameEntity game)
+    public async Task UpdateGameAsync(GameEntity gameEntity)
     {
-        var existingGame = await context.Games.FindAsync(game.Id);
+        var existingGame = await context.Games.FindAsync(gameEntity.Id);
         if (existingGame == null)
         {
-            context.Games.Add(game);
+            context.Games.Add(gameEntity);
         }
         else
         {
-            context.Entry(existingGame).CurrentValues.SetValues(game);
+            context.Entry(existingGame).CurrentValues.SetValues(gameEntity);
         }
 
         await context.SaveChangesAsync();

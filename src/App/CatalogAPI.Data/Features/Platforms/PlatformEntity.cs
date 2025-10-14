@@ -1,10 +1,10 @@
 ﻿using CatalogAPI.Data.Entities;
+using IGDB.Models;
 using NodaTime;
-using Shared.Features.References.Platform;
 
 namespace CatalogAPI.Data.Features.Platforms;
 
-public partial class PlatformEntity
+public class PlatformEntity
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;

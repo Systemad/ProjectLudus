@@ -5,11 +5,10 @@ using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
 using CatalogAPI.Data.Features.Themes;
 using NodaTime;
-using Shared.Features;
 
 namespace CatalogAPI.Data.Entities;
 
-public partial class GameEntity
+public class GameEntity
 {
     public long Id { get; set; }
     public string Name { get; set; }
@@ -21,7 +20,7 @@ public partial class GameEntity
     public Instant FirstReleaseDate { get; set; }
     public Instant UpdatedAt { get; set; }
 
-    public IgdbGame Metadata { get; set; } = null!;
+    public IGDB.Models.Game Metadata { get; set; } = null!;
     public virtual ICollection<GameEngineEntity> GameEngines { get; set; } = new List<GameEngineEntity>();
     public virtual ICollection<GenreEntity> Genres { get; set; } = new List<GenreEntity>();
     public virtual ICollection<PlatformEntity> Platforms { get; set; } = new List<PlatformEntity>();

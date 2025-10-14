@@ -9,6 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+        <PackageReference Include="IGDB" />
         <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 

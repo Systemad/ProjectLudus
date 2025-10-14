@@ -42,7 +42,7 @@ builder
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
-
+/*
 builder.Services.AddScoped<ApiClient>();
 builder
     .Services.AddHttpClient<ApiClient>(httpClient =>
@@ -51,7 +51,7 @@ builder
         httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
     })
     .AddHttpMessageHandler<TwitchAuthenticationHandler>();
-
+*/
 builder.Services.AddScoped<SeedingService>();
 builder.Services.AddScoped<GameDatabaseService>();
 

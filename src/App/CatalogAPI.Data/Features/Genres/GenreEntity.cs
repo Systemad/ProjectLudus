@@ -2,7 +2,7 @@
 
 namespace CatalogAPI.Data.Features.Genres;
 
-public partial class GenreEntity
+public class GenreEntity
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;

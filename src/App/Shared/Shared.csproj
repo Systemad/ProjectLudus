@@ -9,8 +9,4 @@
         <PackageReference Include="Npgsql.Json.NET" />
         <PackageReference Include="Npgsql.NodaTime" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Queries\" />
-    </ItemGroup>
 </Project>

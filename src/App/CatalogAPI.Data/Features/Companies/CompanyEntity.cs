@@ -1,6 +1,5 @@
 ﻿using CatalogAPI.Data.Entities;
 using NodaTime;
-using Shared.Features.IGDB;
 
 namespace CatalogAPI.Data.Features.Companies;
 
@@ -10,8 +9,7 @@ public class CompanyEntity
     public Instant UpdatedAt { get; set; }
     public Instant Added { get; set; }
     
-    public IgdbCompany Metadata { get; set; } = null!;
-
+    public CompanyEntity Metadata { get; set; } = null!;
     
     public CompanyEntity? Parent { get; set; }
     public long? ParentId { get; set; }

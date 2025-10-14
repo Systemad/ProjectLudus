@@ -2,7 +2,7 @@
 
 namespace CatalogAPI.Data.Features.Themes;
 
-public partial class ThemeEntity
+public class ThemeEntity
 {
     public long Id { get; set; }
     public string Name { get; set; } = null!;
