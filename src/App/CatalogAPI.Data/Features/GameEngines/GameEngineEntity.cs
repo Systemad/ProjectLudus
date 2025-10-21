@@ -1,17 +1,18 @@
-﻿using CatalogAPI.Data.Entities;
+﻿using CatalogAPI.Data.Features.Games;
 using IGDB.Models;
+using NodaTime;
 
 namespace CatalogAPI.Data.Features.GameEngines;
 
 public class GameEngineEntity
 {
     public long Id { get; set; }
-    public string Name { get; set; } = null!;
-    public string Slug { get; set; } = null!;
-    public string Url { get; set; } = null!;
+    public string Name { get; set; }
+    public string Slug { get; set; }
+    public string Url { get; set; }
 
+    public GameEngine Metadata { get; set; } = null!;
     public GameEngineLogo? Logo { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-    public virtual ICollection<GameEntity> Games { get; set; } = new List<GameEntity>();
+    public Instant UpdatedAt { get; set; }
+    public ICollection<GameEntity> Games { get; set; } = [];
 }

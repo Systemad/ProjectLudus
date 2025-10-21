@@ -1,18 +1,15 @@
 ﻿using CatalogAPI.Features;
+using IGDB.Models;
 using Parquet.Serialization;
 using Shared.Features;
-using Shared.Features.IGDB;
-using Shared.Features.References.Genre;
-using Shared.Features.References.Platform;
-using Shared.Features.References.Theme;
 
 namespace CatalogAPI.Seeding;
 
-public class SeedingService(IgdbService igdbService) : ISeederService
+public class SeedingService(IgdbService service) : ISeederService
 {
     public async Task BeginSeedAsync(CancellationToken cancellationToken)
     {
-        await SeedAsync<IgdbGame>(IgdbReference.GAME, cancellationToken);
+        await SeedAsync<Game>(IgdbType.GAME, cancellationToken);
 
         //await SeedAsync<Genre>(IgdbReference.GENRE, cancellationToken);
         //await SeedAsync<Company>(IgdbReference.COMPANY, cancellationToken);
@@ -21,18 +18,17 @@ public class SeedingService(IgdbService igdbService) : ISeederService
         //await SeedAsync<GameEngine>(IgdbReference.GAME_ENGINE, cancellationToken);
     }
 
-    public async Task SeedAsync<T>(IgdbReference reference, CancellationToken cancellationToken)
-        where T : IgdbResponse
+    public async Task SeedAsync<T>(IgdbType type, CancellationToken cancellationToken)
     {
         long amount = 0;
         await foreach (
-            var page in igdbService
-                .FetchAllPagesAsync<T>(reference)
+            var page in service
+                .FetchAllPagesAsync<T>(type)
                 .WithCancellation(cancellationToken)
         )
         {
             var append = amount > 0;
-            var file = $"data/{reference}.parquet";
+            var file = $"data/{type}.parquet";
             await ParquetSerializer.SerializeAsync(
                 page.Items,
                 file,

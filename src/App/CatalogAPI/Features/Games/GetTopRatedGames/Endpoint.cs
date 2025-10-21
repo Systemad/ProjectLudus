@@ -1,18 +1,14 @@
-﻿using FastEndpoints;
-using Marten;
-using Marten.Pagination;
-using Shared.Features;
-using Shared.Features.Games;
-using Shared.Features.References.Platform;
+﻿using CatalogAPI.Data;
+using CatalogAPI.Data.Features.Games;
+using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
-using WebAPI.Features.Common.Games.Models;
 
 namespace Features.Games.GetTopRatedGames;
 
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
-    public IDocumentStore Store { get; set; }
+    public SyncDbContext Context { get; set; }
     public override void Configure()
     {
         Get("/top");
@@ -22,30 +18,20 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
 
     public override async Task HandleAsync(GetTopRatedGamesRequest req, CancellationToken ct)
     {
-        await using var session = Store.LightweightSession();
 
-        var platformDict = new Dictionary<long, Platform>();
-        var games = await session
-            .Query<IGDBGameFlat>()
-            .Include(platformDict).On(x => x.Platforms)
-            .Where(x => x.GameType.Id == 0 && x.TotalRatingCount >= 90)
-            .OrderByDescending(x => x.TotalRating)
-            .ThenByDescending(x => x.TotalRatingCount)
-            .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
+        var games = await Context.Games
+            // TODO: USE RAW PARADEDB SYTNAX AND BOOST!!
+            .Where(x => x.GameType == 0).Take(20).ToListAsync(cancellationToken: ct);
 
-        var prev = games.Select(item =>
-                item.MapToGameDto(
-                    platformDict))
-            .ToList();
 
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(
-                prev,
-                games.TotalItemCount,
-                games.PageCount,
-                games.PageSize,
-                games.PageNumber,
-                games.IsLastPage
+                new List<GameDto>(),
+                1,
+                1,
+                1,
+                2,
+                false
             ),
             cancellation: ct
         );

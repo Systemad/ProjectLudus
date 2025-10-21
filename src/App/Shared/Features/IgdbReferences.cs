@@ -1,6 +1,6 @@
 ﻿namespace Shared.Features;
 
-public enum IgdbReference
+public enum IgdbType
 {
     GAME,
     PLATFORM,

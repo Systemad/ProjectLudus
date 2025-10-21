@@ -1,4 +1,6 @@
 ﻿
+using CatalogAPI.Data.Features.Games;
+
 namespace Features.Games.GetGameById;
 
 public class GetGameByIdRequest
@@ -6,4 +8,4 @@ public class GetGameByIdRequest
     public long GameId { get; set; }
 }
 
-public record GetGamesByIdResponse(IgdbGameDto Game);
+public record GetGamesByIdResponse(GameDto Game);

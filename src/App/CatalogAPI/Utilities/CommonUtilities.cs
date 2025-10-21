@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using IGDB.Models;
 using Shared.Features;
 
 namespace CatalogAPI.Utilities;
@@ -6,15 +7,15 @@ namespace CatalogAPI.Utilities;
 public static class CommonUtilities
 {
     public static List<T> GetDistinctEntities<T>(
-        IEnumerable<IgdbGame> games,
-        Func<IgdbGame, IEnumerable<T>> selector
+        IEnumerable<IIdentifier> games,
+        Func<IIdentifier, IEnumerable<T>> selector
     )
         where T : class
     {
         return games
             .SelectMany(g => selector(g) ?? Enumerable.Empty<T>())
             //.SelectMany(selector)
-            .DistinctBy<T, long>(e => (e as dynamic).Id) // assuming Id is int
+            .DistinctBy<T, long>(e => (e as dynamic).Id)
             .ToList();
     }
 

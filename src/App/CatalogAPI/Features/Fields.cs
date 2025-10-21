@@ -4,20 +4,22 @@ using CatalogAPI.Features.Games;
 using CatalogAPI.Features.Platforms;
 using CatalogAPI.Features.References.Genres;
 using CatalogAPI.Features.References.Themes;
+using IGDB.Models;
 using Shared.Features;
 
 namespace CatalogAPI.Features;
 
-public static class Endpoints
+public static class QueryHelper
 {
-    public static Dictionary<IgdbReference, (string Endpoint, List<string> Fields)> QueryMaps =
+    public static Dictionary<IgdbType, (string Endpoint, List<string> Fields)> QueryMaps =
         new()
         {
-            { IgdbReference.PLATFORM, (PlatformQuery.Endpoint, PlatformQuery.Fields) },
-            { IgdbReference.GAME_ENGINE, (GameEngineQuery.Endpoint, GameEngineQuery.Fields) },
-            { IgdbReference.COMPANY, (CompanyQuery.Endpoint, CompanyQuery.Fields) },
-            { IgdbReference.THEME, (ThemeQuery.Endpoint, ThemeQuery.Fields) },
-            { IgdbReference.GENRE, (GenreQuery.Endpoint, GenreQuery.Fields) },
-            { IgdbReference.GAME, (GameQuery.Endpoint, GameQuery.Fields) },
+            { IgdbType.PLATFORM, (PlatformQuery.Endpoint, PlatformQuery.Fields) },
+            { IgdbType.GAME_ENGINE, (GameEngineQuery.Endpoint, GameEngineQuery.Fields) },
+            { IgdbType.COMPANY, (CompanyQuery.Endpoint, CompanyQuery.Fields) },
+            { IgdbType.THEME, (ThemeQuery.Endpoint, ThemeQuery.Fields) },
+            { IgdbType.GENRE, (GenreQuery.Endpoint, GenreQuery.Fields) },
+            { IgdbType.GAME, (GameQuery.Endpoint, GameQuery.Fields) },
         };
+
 }

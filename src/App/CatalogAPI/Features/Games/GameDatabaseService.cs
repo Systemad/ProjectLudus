@@ -1,5 +1,5 @@
 ﻿using CatalogAPI.Data;
-using CatalogAPI.Data.Entities;
+using CatalogAPI.Data.Features.Games;
 using CatalogAPI.Utilities;
 using Microsoft.EntityFrameworkCore;
 using PhenX.EntityFrameworkCore.BulkInsert.Extensions;

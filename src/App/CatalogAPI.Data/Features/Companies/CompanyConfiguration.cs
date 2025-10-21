@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IGDB.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CatalogAPI.Data.Features.Companies;
@@ -10,5 +11,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<CompanyEntity>
         builder
             .Property(g => g.Id)
             .ValueGeneratedNever();
+        
+        builder.ComplexProperty<Company>(b => b.Metadata); 
     }
 }  

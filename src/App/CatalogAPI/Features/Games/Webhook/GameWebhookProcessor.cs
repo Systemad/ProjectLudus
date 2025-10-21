@@ -1,5 +1,6 @@
-﻿using CatalogAPI.Utilities;
-using Shared.Features.Webhooks;
+﻿using CatalogAPI.Data.Features.Games;
+using IGDB.Lib;
+using IGDB.Lib.Webhooks;
 
 namespace CatalogAPI.Features.Games.Webhook;
 
@@ -35,8 +36,7 @@ public class GameWebhookProcessor(
     private async Task UpdateGameAsync(long id)
     {
         var game = await _apiClient.FetchGameAsync(id);
-        var dto = game.ToEntity();
-        await _databaseService.UpdateGameAsync(dto);
+        await _databaseService.UpdateGameAsync(new GameEntity());
     }
 
     private async Task DeleteGameAsync(long id)

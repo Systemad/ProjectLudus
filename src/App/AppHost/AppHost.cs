@@ -15,14 +15,14 @@ var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
 // isolate sync service completely!
 //  postgresql-17-pg-search_0.18.2-1PARADEDB-noble_amd64.deb 
 var gamingdb =
-    builder.AddPostgres("syncPostgres")
-        .WithImage(image: "paradedb/paradedb", tag: "v0.18.11-pg17")
+    builder.AddPostgres("sync-postgres")
+        .WithImage(image: "paradedb/paradedb", tag: "v0.19.1-pg17")
         //.WithAnnotation(new ContainerImageAnnotation() { Image = "paradedb/paradedb", Tag = "v0.18.2-pg17" })
         .WithLifetime(ContainerLifetime.Persistent)
         //.WithImageTag("17")
-        .WithVolume("paradedb", "/var/lib/postgresql")
+        .WithDataVolume("paradedb-testing", isReadOnly: false) /*, "/var/lib/postgresql")*/
         //.WithDataVolume(isReadOnly: false)
-        .AddDatabase("syncdb");
+        .AddDatabase("sync-db");
 
 var syncService = builder
     .AddProject<Projects.CatalogAPI>("syncService")

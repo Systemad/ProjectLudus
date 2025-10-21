@@ -1,4 +1,5 @@
-﻿using CatalogAPI.Data.Entities;
+﻿using CatalogAPI.Data.Features.Games;
+using NodaTime;
 
 namespace CatalogAPI.Data.Features.Genres;
 
@@ -8,7 +9,7 @@ public class GenreEntity
     public string Name { get; set; } = null!;
     public string Slug { get; set; } = null!;
     public string Url { get; set; } = null!;
-    public long UpdatedAt { get; set; }
+    public Instant UpdatedAt { get; set; }
 
-    public virtual ICollection<GameEntity> Games { get; set; } = new List<GameEntity>();
+    public ICollection<GameEntity> Genres { get; set; } = new List<GameEntity>();
 }

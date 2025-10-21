@@ -1,7 +1,6 @@
 ﻿using System.Buffers;
 using System.IO.Pipelines;
 using System.Text.Json;
-using Shared.Features;
 
 namespace CatalogAPI.Utilities;
 
@@ -16,27 +15,27 @@ public static class OptimizedList
     {
         await using var stream = new StreamWriter(filePath, append: append);
         var options = new JsonSerializerOptions { WriteIndented = false };
-        foreach (var json in items.Select(company => JsonSerializer.Serialize(company, options)))
+        foreach (var json in items.Select(entity => JsonSerializer.Serialize(entity, options)))
         {
             await stream.WriteLineAsync(json);
         }
     }
 
-    public static async Task<List<IgdbGame>> ReadFromStreamAsync(
+    public static async Task<List<T>> ReadFromStreamAsync<T>(
         Stream stream,
         CancellationToken cancellationToken = default
     )
     {
         var reader = PipeReader.Create(stream);
 
-        var containers = new List<IgdbGame>();
+        var containers = new List<T>();
         while (true)
         {
             var result = await reader.ReadAsync(cancellationToken);
             var buffer = result.Buffer;
 
             while (TryReadLine(ref buffer, out var jsonData))
-                containers.Add(DeserializeJsonData(jsonData));
+                containers.Add(DeserializeJsonData<T>(jsonData));
 
             reader.AdvanceTo(buffer.Start, buffer.End);
 
@@ -44,7 +43,7 @@ public static class OptimizedList
                 continue;
 
             if (buffer.Length > 0 && buffer.FirstSpan[0] != (byte)'\n')
-                containers.Add(DeserializeJsonData(buffer));
+                containers.Add(DeserializeJsonData<T>(buffer));
 
             break;
         }
@@ -75,10 +74,10 @@ public static class OptimizedList
             return false;
         }
 
-        static IgdbGame DeserializeJsonData(ReadOnlySequence<byte> jsonData)
+        static TData DeserializeJsonData<TData>(ReadOnlySequence<byte> jsonData)
         {
             var jsonReader = new Utf8JsonReader(jsonData);
-            return JsonSerializer.Deserialize<IgdbGame>(ref jsonReader)
+            return JsonSerializer.Deserialize<TData>(ref jsonReader)
                 ?? throw new InvalidOperationException();
         }
     }

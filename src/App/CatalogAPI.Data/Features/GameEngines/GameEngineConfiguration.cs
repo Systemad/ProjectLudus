@@ -10,9 +10,8 @@ public class GameEngineConfiguration : IEntityTypeConfiguration<GameEngineEntity
     {
         builder.Property(g => g.Id)
             .ValueGeneratedNever();
-        
-        builder.ComplexProperty<GameEngineLogo>(b => b.Logo)
-            .Property(g => g.Id)
-            .ValueGeneratedNever();
+
+        builder.ComplexProperty<GameEngine>(b => b.Metadata);
+        builder.ComplexProperty<GameEngineLogo>(b => b.Logo);
     }
 }

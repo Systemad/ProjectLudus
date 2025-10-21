@@ -20,9 +20,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
+builder.AddNpgsqlDbContext<SyncDbContext>(
+    connectionName: "syncdb",
+    configureDbContextOptions: (optionsBuilder) =>
+    {
+        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        optionsBuilder.UseNpgsql(np =>
+        {
+            //np.MapEnum<IgdbReference>("type");
+            //np.UseNodaTime();
+            np.ConfigureDataSource(x =>
+            {
+                x.EnableParameterLogging();
+                x.UseNodaTime();
+                x.EnableDynamicJson();
+            });
+        });
+        optionsBuilder.UseSnakeCaseNamingConvention();
+        optionsBuilder.UseBulkInsertPostgreSql();
+    }
+);
+
+builder.EnrichNpgsqlDbContext<SyncDbContext>();
+
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
-
-
 builder.Logging.AddConsole();
 
 builder
@@ -60,26 +81,7 @@ builder.Services.AddScoped<GameWebhookProcessor>();
 builder.Services.AddScoped<IgdbService>();
 builder.Logging.AddConsole();
 
-builder.AddNpgsqlDbContext<SyncDbContext>(
-    connectionName: "syncdb",
-    configureDbContextOptions: (optionsBuilder) =>
-    {
-        optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        optionsBuilder.UseNpgsql(np =>
-        {
-            //np.MapEnum<IgdbReference>("type");
-            //np.UseNodaTime();
-            np.ConfigureDataSource(x =>
-            {
-                x.EnableParameterLogging();
-                x.UseNodaTime();
-                x.EnableDynamicJson();
-            });
-        });
-        optionsBuilder.UseSnakeCaseNamingConvention();
-        optionsBuilder.UseBulkInsertPostgreSql();
-    }
-);
+
 
 builder.Services.AddTickerQ(options =>
 {

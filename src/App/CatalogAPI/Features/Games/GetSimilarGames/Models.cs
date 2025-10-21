@@ -1,4 +1,4 @@
-﻿using WebAPI.Features.Common.Games.Models;
+﻿using CatalogAPI.Data.Features.Games;
 
 namespace Features.Games.GetSimilarGames;
 

@@ -8,11 +8,11 @@ public record PagedResult<T>(List<T> Items, long TotalCount);
 public class IgdbService(IGDBClient apiClient)
 {
     public async IAsyncEnumerable<PagedResult<T>> FetchAllPagesAsync<T>(
-        IgdbReference reference,
+        IgdbType reference,
         int pageSize = 500
     )
     {
-        var (url, fields) = Endpoints.QueryMaps[reference];
+        var (url, fields) = QueryHelper.QueryMaps[reference];
         var totalItems = await apiClient.CountAsync(url);
         await foreach (var pageResult in GetAllPages<T>(url, fields, totalItems.Count, pageSize))
         {

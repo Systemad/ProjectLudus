@@ -1,19 +1,14 @@
-﻿using FastEndpoints;
-using Marten;
-using Marten.Pagination;
-using Shared.Features;
-using Shared.Features.Games;
-using Shared.Features.References.Platform;
+﻿using CatalogAPI.Data;
+using CatalogAPI.Data.Features.Games;
+using FastEndpoints;
 using WebAPI.Features.Common.Endpoints;
-using WebAPI.Features.Common.Games.Mappers;
-using WebAPI.Features.Common.Games.Models;
 
 namespace Features.Games.GetGamesByParameters;
 
 public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
-    public IDocumentStore GameStore { get; set; }
 
+    public SyncDbContext Context { get; set; }
     public override void Configure()
     {
         Get("/search");
@@ -23,69 +18,86 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
     {
-        await using var session = GameStore.LightweightSession();
 
-        IQueryable<IGDBGameFlat> gameQuery = session.Query<IGDBGameFlat>();
+        IQueryable<GameEntity> gameQuery = Context.Games;
 
         if (!string.IsNullOrWhiteSpace(req.Query))
         {
+            /*
             gameQuery =
                 gameQuery.Where(x =>
                     x.SearchField.NgramSearch(req.Query)
                 );
+            */
         }
 
         if (req.Genres?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g)));
+            var genreIds = req.Genres;
+            gameQuery = gameQuery.Where(game =>
+                game.Genres != null && game.Genres.Any(g => genreIds.Contains(g.Id))
+            );
+            
+            //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g.Id)));
         }
 
         if (req.GameTypes?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.GameType != null && req.GameTypes.Contains(x.GameType.Id));
+            var gameTypeFilter = req.GameTypes;
+            gameQuery = gameQuery.Where(x => x.GameType != null && gameTypeFilter.Contains(x.GameType));
         }
 
         if (req.Platforms?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
+            var platformIds = req.Platforms;
+            gameQuery = gameQuery.Where(game =>
+                game.Platforms != null && game.Platforms.Any(g => platformIds.Contains(g.Id))
+            );
+            
+            //gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
         }
 
         if (req.GameModes?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
+            var gameModeIds = req.GameModes;
+            gameQuery = gameQuery.Where(game =>
+                game.GameModes != null && game.GameModes.Any(g => gameModeIds.Contains(g.Id))
+            );
+            
+            //gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
         }
 
         if (req.Themes?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g)));
+            var themeIds = req.Themes;
+            gameQuery = gameQuery.Where(game =>
+                game.Themes != null && game.Themes.Any(g => themeIds.Contains(g.Id))
+            );
+            //gameQuery = gameQuery.Where(x => x.Themes != null && x.Themes.Any(g => req.Themes.Contains(g)));
         }
 
+        // TODO: ADD!
+        /*
         if (req.PlayerPerspectives?.Length > 0)
         {
-            gameQuery = gameQuery.Where(x => x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
+            var ppsId = req.PlayerPerspectives;
+            gameQuery = gameQuery.Where(game =>
+                game.GameModes != null && game.GameModes.Any(g => gameModeIds.Contains(g.Id))
+            );
+            //gameQuery = gameQuery.Where(x => x.PlayerPerspectives.Any(g => req.PlayerPerspectives.Contains(g)));
         }
+        */
 
-        var platformDict = new Dictionary<long, Platform>();
-        var games =
-            await gameQuery
-                .Where(x => x.GameType.Id == 0)
-                .Include(platformDict).On(x => x.Platforms)
-                .OrderBySql(Sorting.SortFilerOne)
-                .ToPagedListAsync(req.PageNumber, req.PageSize, token: ct);
-
-        var previews = games.Select(item =>
-                item.MapToGameDto(
-                    platformDict))
-            .ToList();
+        var games = new List<GameDto>();
 
         await Send.OkAsync(
             new PaginatedResponse<GameDto>(
-                previews,
-                games.TotalItemCount,
-                games.PageCount,
-                games.PageSize,
-                games.PageNumber,
-                games.IsLastPage
+                Items: games,
+                1,
+                1,
+                1,
+                1,
+                false
             ),
             cancellation: ct
         );

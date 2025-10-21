@@ -10,5 +10,6 @@ public class GameModeConfiguration : IEntityTypeConfiguration<GameModeEntity>
         builder
             .Property(g => g.Id)
             .ValueGeneratedNever();
+        
     }
 }

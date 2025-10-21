@@ -1,10 +1,6 @@
 ﻿using CatalogAPI.Data;
+using CatalogAPI.Data.Features.Games;
 using FastEndpoints;
-using Shared.Features.Games;
-using Shared.Features.IGDB;
-using Shared.Features.References.Genre;
-using Shared.Features.References.Platform;
-using Shared.Features.References.Theme;
 
 namespace Features.Games.GetGameById;
 
@@ -28,6 +24,6 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
         }
 
 
-        await Send.OkAsync(new GetGamesByIdResponse(dto), ct);
+        await Send.OkAsync(new GetGamesByIdResponse(new GameDto()), ct);
     }
 }

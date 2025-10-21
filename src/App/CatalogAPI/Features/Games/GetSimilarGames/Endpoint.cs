@@ -1,16 +1,14 @@
-﻿using FastEndpoints;
-using Marten;
-using Shared.Features;
-using Shared.Features.Games;
-using Shared.Features.References.Platform;
-using WebAPI.Features.Common.Games.Mappers;
-using WebAPI.Features.Common.Games.Models;
+﻿using CatalogAPI.Data;
+using CatalogAPI.Data.Features.Games;
+using FastEndpoints;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Features.Games.GetSimilarGames;
 
 public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {
-    public IDocumentStore GameStore { get; set; }
+    public SyncDbContext Context { get; set; }
 
     public override void Configure()
     {
@@ -21,16 +19,19 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
-        await using var session = GameStore.QuerySession();
-        var similarGames = await session.Query<IGDBGameFlat>()
+        // DO SELECT HERE!!!
+        var similarGames = await Context.Games
             .Where(x => x.Id == req.GameId)
             .Select(s => s.SimilarGames)
-            .FirstOrDefaultAsync(token: ct);
+            .ToListAsync(cancellationToken: ct);
+        
         if (similarGames is null)
         {
             ThrowError("Game doesn't exist!");
         }
 
+        // NOT NEEDED RIGHT? SINCE WE JOIN AND USE PROJECTION???
+        /*
         var response = new List<GameDto>();
         if (similarGames.Count > 0)
         {
@@ -49,7 +50,8 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
 
             response = prev.ToList();
         }
+        */
 
-        await Send.OkAsync(new GetSimilarGamesResponse { SimilarGames = response }, ct);
+        await Send.OkAsync(new GetSimilarGamesResponse { SimilarGames = new List<GameDto>() }, ct);
     }
 }

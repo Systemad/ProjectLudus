@@ -49,5 +49,7 @@
         <PackageVersion Include="TickerQ.EntityFrameworkCore" Version="2.5.3"/>
         <PackageVersion Include="Parquet.Net" Version="5.2.0"/>
         <PackageVersion Include="IGDB" Version="6.1.0" />
+        <PackageVersion Include="Riok.Mapperly" Version="4.3.0-next.5" />
+        
     </ItemGroup>
 </Project>
