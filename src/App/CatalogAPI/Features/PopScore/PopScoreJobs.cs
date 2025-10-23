@@ -11,9 +11,9 @@ namespace CatalogAPI.Features.PopScore;
 public class PopScoreJobs
 {
     private IGDBClient _client;
-    private SyncDbContext _dbContext;
+    private CatalogContext _dbContext;
 
-    public PopScoreJobs( SyncDbContext dbContext, IGDBClient client)
+    public PopScoreJobs(CatalogContext dbContext, IGDBClient client)
     {
         _dbContext = dbContext;
         _client = client;

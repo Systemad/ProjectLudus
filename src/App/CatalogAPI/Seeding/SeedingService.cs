@@ -22,9 +22,7 @@ public class SeedingService(IgdbService service) : ISeederService
     {
         long amount = 0;
         await foreach (
-            var page in service
-                .FetchAllPagesAsync<T>(type)
-                .WithCancellation(cancellationToken)
+            var page in service.FetchAllPagesAsync<T>(type).WithCancellation(cancellationToken)
         )
         {
             var append = amount > 0;

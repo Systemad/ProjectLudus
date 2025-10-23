@@ -3,6 +3,7 @@ using CatalogAPI.Data.Features.GameEngines;
 using CatalogAPI.Data.Features.GameModes;
 using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
+using CatalogAPI.Data.Features.PlayerPerspective;
 using CatalogAPI.Data.Features.Themes;
 using IGDB.Models;
 using NodaTime;
@@ -23,10 +24,12 @@ public class GameEntity
 
     public Game Metadata { get; set; } = null!;
     public ICollection<GameEntity> SimilarGames { get; set; } = [];
-    public ICollection<CompanyEntity> Companies { get; set; } = [];
+    public ICollection<CompanyEntity> Developers { get; set; } = [];
+    public ICollection<CompanyEntity> Publishers { get; set; } = [];
     public ICollection<GameEngineEntity> GameEngines { get; set; } = [];
     public ICollection<GenreEntity> Genres { get; set; } = [];
     public ICollection<PlatformEntity> Platforms { get; set; } = [];
     public ICollection<ThemeEntity> Themes { get; set; } = [];
     public ICollection<GameModeEntity> GameModes { get; set; } = [];
+    public ICollection<PlayerPerspectiveEntity> PlayerPerspectives { get; set; } = [];
 }

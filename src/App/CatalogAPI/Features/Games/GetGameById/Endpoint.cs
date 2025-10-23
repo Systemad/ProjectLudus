@@ -6,7 +6,7 @@ namespace Features.Games.GetGameById;
 
 public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
 {
-    public SyncDbContext DbContext { get; set; }
+    public CatalogContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -22,7 +22,6 @@ public class Endpoint : Endpoint<GetGameByIdRequest, GetGamesByIdResponse>
             AddError(r => r.GameId, "Game IDs cannot be empty");
             ThrowIfAnyErrors();
         }
-
 
         await Send.OkAsync(new GetGamesByIdResponse(new GameDto()), ct);
     }

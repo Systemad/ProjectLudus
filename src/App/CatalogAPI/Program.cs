@@ -5,10 +5,10 @@ using CatalogAPI.Features.Games.Webhook;
 using CatalogAPI.Seeding;
 using CatalogAPI.Utilities;
 using CatalogAPI.Workers;
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using PhenX.EntityFrameworkCore.BulkInsert.PostgreSql;
 using Scalar.AspNetCore;
 using Shared.Twitch;
@@ -20,30 +20,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDbContext<SyncDbContext>(
-    connectionName: "syncdb",
+builder.AddNpgsqlDbContext<CatalogContext>(
+    connectionName: "catalog-db",
     configureDbContextOptions: (optionsBuilder) =>
     {
         optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         optionsBuilder.UseNpgsql(np =>
         {
             //np.MapEnum<IgdbReference>("type");
-            //np.UseNodaTime();
+            np.UseNodaTime();
             np.ConfigureDataSource(x =>
             {
                 x.EnableParameterLogging();
                 x.UseNodaTime();
-                x.EnableDynamicJson();
+                //x.EnableDynamicJson();
             });
         });
-        optionsBuilder.UseSnakeCaseNamingConvention();
-        optionsBuilder.UseBulkInsertPostgreSql();
+        //optionsBuilder.UseSnakeCaseNamingConvention();
+        //optionsBuilder.UseBulkInsertPostgreSql();
     }
 );
 
-builder.EnrichNpgsqlDbContext<SyncDbContext>();
+builder.EnrichNpgsqlDbContext<CatalogContext>();
 
-builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("Twitch"));
+builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("IGDB"));
 builder.Logging.AddConsole();
 
 builder
@@ -57,12 +57,16 @@ builder
             s.Version = "v1";
         };
         options.ShortSchemaNames = true;
-        options.DocumentSettings = s => { s.MarkNonNullablePropsAsRequired(); };
+        options.DocumentSettings = s =>
+        {
+            s.MarkNonNullablePropsAsRequired();
+        };
     });
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllers();
+
 /*
 builder.Services.AddScoped<ApiClient>();
 builder
@@ -73,24 +77,22 @@ builder
     })
     .AddHttpMessageHandler<TwitchAuthenticationHandler>();
 */
-builder.Services.AddScoped<SeedingService>();
-builder.Services.AddScoped<GameDatabaseService>();
+//builder.Services.AddScoped<SeedingService>();
+//builder.Services.AddScoped<GameDatabaseService>();
 
-builder.Services.AddScoped<GameWebhookProcessor>();
+//builder.Services.AddScoped<GameWebhookProcessor>();
 
-builder.Services.AddScoped<IgdbService>();
-builder.Logging.AddConsole();
-
-
-
+//builder.Services.AddScoped<IgdbService>();
+//builder.Logging.AddConsole();
+/*
 builder.Services.AddTickerQ(options =>
 {
     options.SetMaxConcurrency(4);
     //options.AddDashboard();
     //options.SetExceptionHandler<MyExceptionHandler>();
 });
-
-builder.Services.AddHostedService<SyncWorker>();
+*/
+// builder.Services.AddHostedService<SyncWorker>();
 
 var app = builder.Build();
 
@@ -111,6 +113,7 @@ app.UseFastEndpoints(x =>
         //x.Endpoints.ShortNames = true;
     })
     .UseSwaggerGen(c => { });
+
 //app.UseTickerQ(TickerQStartMode.Immediate);
 //ITickerHost tickerHost = app.Services.GetRequiredService<ITickerHost>();
 //tickerHost.Start();

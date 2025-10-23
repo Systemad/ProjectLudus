@@ -6,7 +6,8 @@ namespace CatalogAPI.Features.Games.Mapping;
 [Mapper]
 public static partial class GameMapper
 {
-    [MapperIgnoreSource(nameof(GameEntity.Companies))]
+    [MapperIgnoreSource(nameof(GameEntity.Developers))]
+    [MapperIgnoreSource(nameof(GameEntity.Publishers))]
     [MapperIgnoreSource(nameof(GameEntity.Platforms))]
     [MapperIgnoreSource(nameof(GameEntity.GameEngines))]
     [MapperIgnoreSource(nameof(GameEntity.GameModes))]
@@ -14,7 +15,8 @@ public static partial class GameMapper
     [MapperIgnoreSource(nameof(GameEntity.Genres))]
     public static partial GameDto ToDto(GameEntity entity);
 
-    [MapperIgnoreSource(nameof(GameEntity.Companies))]
+    [MapperIgnoreSource(nameof(GameEntity.Developers))]
+    [MapperIgnoreSource(nameof(GameEntity.Publishers))]
     [MapperIgnoreSource(nameof(GameEntity.Platforms))]
     [MapperIgnoreSource(nameof(GameEntity.GameEngines))]
     [MapperIgnoreSource(nameof(GameEntity.GameModes))]

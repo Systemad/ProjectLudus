@@ -11,7 +11,10 @@ public class GameEngineConfiguration : IEntityTypeConfiguration<GameEngineEntity
         builder.Property(g => g.Id)
             .ValueGeneratedNever();
 
-        builder.ComplexProperty<GameEngine>(b => b.Metadata);
-        builder.ComplexProperty<GameEngineLogo>(b => b.Logo);
+        builder.Property(c => c.Metadata).HasColumnType("jsonb");
+        builder.Property(c => c.Logo).HasColumnType("jsonb");
+        
+        //builder.ComplexProperty<GameEngine>(b => b.Metadata, d => d.ToJson());
+        //builder.ComplexProperty<GameEngineLogo>(b => b.Logo, d => d.ToJson());
     }
 }

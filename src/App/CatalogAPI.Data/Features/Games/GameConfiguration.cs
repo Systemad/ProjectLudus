@@ -12,6 +12,8 @@ public class GameConfiguration : IEntityTypeConfiguration<GameEntity>
             .Property(g => g.Id)
             .ValueGeneratedNever();
         
-        builder.ComplexProperty<Game>(b => b.Metadata);
+        builder.Property(c => c.Metadata).HasColumnType("jsonb");
+        
+        //builder.ComplexProperty<Game>(b => b.Metadata, d => d.ToJson());
     }
 }

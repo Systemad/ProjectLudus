@@ -11,6 +11,8 @@ public class FranchiseConfiguration : IEntityTypeConfiguration<FranchiseEntity>
         builder.Property(g => g.Id)
             .ValueGeneratedNever();
 
-        builder.ComplexProperty<Franchise>(b => b.Metadata);
+        builder.Property(c => c.Metadata).HasColumnType("jsonb");
+        
+        //builder.ComplexProperty<Franchise>(b => b.Metadata, d => d.ToJson());
     }
 }

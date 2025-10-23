@@ -8,7 +8,7 @@ using Shared.Features;
 
 namespace CatalogAPI.Features.Games;
 
-public class GameDatabaseService(SyncDbContext context)
+public class GameDatabaseService(CatalogContext context)
 {
     public async Task UpdateGameAsync(GameEntity gameEntity)
     {

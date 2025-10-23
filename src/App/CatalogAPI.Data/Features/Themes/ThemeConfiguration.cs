@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.GameModes;
+namespace CatalogAPI.Data.Features.Themes;
 
-public class GameModeConfiguration : IEntityTypeConfiguration<GameModeEntity>
+public class ThemeConfiguration : IEntityTypeConfiguration<ThemeEntity>
 {
-    public void Configure(EntityTypeBuilder<GameModeEntity> builder)
+    public void Configure(EntityTypeBuilder<ThemeEntity> builder)
     {
         builder
             .Property(g => g.Id)

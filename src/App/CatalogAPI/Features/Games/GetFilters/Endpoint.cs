@@ -7,7 +7,7 @@ namespace Features.Games.GetFilters;
 
 public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
 {
-    public SyncDbContext DbContext { get; set; }
+    public CatalogContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -15,15 +15,16 @@ public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
         Group<GamesGroupEndpoint>();
         AllowAnonymous();
     }
-// use fusion cache here
+
+    // use fusion cache here
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var genres = await DbContext.Genres
-            .Select(x => new FilterItem(x.Id, x.Name))
+        var genres = await DbContext
+            .Genres.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
 
-        var platforms = await DbContext.Platforms
-            .Where(x => ConsolePriority.IDS.Contains(x.Id))
+        var platforms = await DbContext
+            .Platforms.Where(x => ConsolePriority.IDS.Contains(x.Id))
             .Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
 
@@ -33,23 +34,23 @@ public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
             .Select(x => new FilterItem(x.OriginalId, x.Type))
             .ToListAsync(token: ct);
         */
-        var themes = await DbContext.Themes
-            .Select(x => new FilterItem(x.Id, x.Name))
+        var themes = await DbContext
+            .Themes.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
-        
+
         // TOOD: URGENT add GameModeEntity !!
-        
+
         /*
         var gameModes = await DbContext.GameMode
             .Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(token: ct);
         */
-        var gameEngines = await DbContext.GameEngines
-            .Select(x => new FilterItem(x.Id, x.Name))
+        var gameEngines = await DbContext
+            .GameEngines.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
-        
+
         // TOOD: URGENT add playerPerspectiveEntity !!
-        
+
         /*
         var playerPerspective = await DbContext.p
             .Select(x => new FilterItem(x.Id, x.Name))
@@ -66,7 +67,7 @@ public class Endpoint : EndpointWithoutRequest<GetFiltersResponse>
             //gameModes,
             gameEngines,
             new List<FilterItem>()
-            //playerPerspective
+        //playerPerspective
         );
 
         await Send.OkAsync(response, cancellation: ct);

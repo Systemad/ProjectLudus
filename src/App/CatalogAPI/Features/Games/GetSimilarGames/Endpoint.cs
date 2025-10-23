@@ -3,12 +3,11 @@ using CatalogAPI.Data.Features.Games;
 using FastEndpoints;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Features.Games.GetSimilarGames;
 
 public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {
-    public SyncDbContext Context { get; set; }
+    public CatalogContext Context { get; set; }
 
     public override void Configure()
     {
@@ -20,11 +19,11 @@ public class Endpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         // DO SELECT HERE!!!
-        var similarGames = await Context.Games
-            .Where(x => x.Id == req.GameId)
+        var similarGames = await Context
+            .Games.Where(x => x.Id == req.GameId)
             .Select(s => s.SimilarGames)
             .ToListAsync(cancellationToken: ct);
-        
+
         if (similarGames is null)
         {
             ThrowError("Game doesn't exist!");

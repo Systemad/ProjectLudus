@@ -34,11 +34,8 @@ public class IgdbService(IGDBClient apiClient)
         {
             var query =
                 $"fields {string.Join(",", fields)}; limit {pageSize}; offset {currentPage * pageSize};";
-            
-            var response = await apiClient.QueryAsync<T>(
-                url,
-                query
-            );
+
+            var response = await apiClient.QueryAsync<T>(url, query);
 
             currentCount += response.Length;
             yield return response.ToList();

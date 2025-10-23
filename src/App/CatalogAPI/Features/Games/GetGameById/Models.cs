@@ -1,5 +1,4 @@
-﻿
-using CatalogAPI.Data.Features.Games;
+﻿using CatalogAPI.Data.Features.Games;
 
 namespace Features.Games.GetGameById;
 

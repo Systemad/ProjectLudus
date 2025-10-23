@@ -19,6 +19,7 @@ public abstract class PaginationRequest
 
     [JsonIgnore]
     public int PageSize => _pageSize ?? 40;
+
     [JsonIgnore]
     public int PageNumber => _pageNumber ?? 1;
 }

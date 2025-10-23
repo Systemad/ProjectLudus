@@ -12,6 +12,8 @@ public class PlatformConfiguration : IEntityTypeConfiguration<PlatformEntity>
             .Property(g => g.Id)
             .ValueGeneratedNever();
         
-        builder.ComplexProperty<PlatformLogo>(b => b.Logo);
+        builder.Property(c => c.Logo).HasColumnType("jsonb");
+        
+        //builder.ComplexProperty<PlatformLogo>(b => b.Logo, d => d.ToJson());
     }
 }

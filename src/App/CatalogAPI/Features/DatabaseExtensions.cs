@@ -8,7 +8,7 @@ namespace CatalogAPI.Features;
 public static class DatabaseExtensions
 {
     public static Task BulkUpsertAsync<T>(
-        this SyncDbContext dbContext,
+        this CatalogContext dbContext,
         List<T> source,
         CancellationToken ct
     )

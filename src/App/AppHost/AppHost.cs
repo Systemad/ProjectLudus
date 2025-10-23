@@ -6,7 +6,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder
     .AddDockerComposeEnvironment("env")
     .WithDashboard(db => db.WithHostPort(8085))
-    .ConfigureComposeFile(file => { file.Name = "ludus-web"; });
+    .ConfigureComposeFile(file => { file.Name = "ludus"; });
 
 var IGDB_CLIENT = builder.AddParameter("igdb-client", secret: true);
 var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
@@ -14,22 +14,24 @@ var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
 
 // isolate sync service completely!
 //  postgresql-17-pg-search_0.18.2-1PARADEDB-noble_amd64.deb 
-var gamingdb =
-    builder.AddPostgres("sync-postgres")
+var catalogDb =
+    builder.AddPostgres("catalog-postgres")
         .WithImage(image: "paradedb/paradedb", tag: "v0.19.1-pg17")
         //.WithAnnotation(new ContainerImageAnnotation() { Image = "paradedb/paradedb", Tag = "v0.18.2-pg17" })
         .WithLifetime(ContainerLifetime.Persistent)
         //.WithImageTag("17")
         .WithDataVolume("paradedb-testing", isReadOnly: false) /*, "/var/lib/postgresql")*/
         //.WithDataVolume(isReadOnly: false)
-        .AddDatabase("sync-db");
+        .AddDatabase("catalog-db");
 
-var syncService = builder
-    .AddProject<Projects.CatalogAPI>("syncService")
+
+// var catalogApi = 
+builder
+    .AddProject<Projects.CatalogAPI>("catalog-api")
     .WithEnvironment("IGDB_CLIENT", IGDB_CLIENT)
     .WithEnvironment("IGDB_ACCESSTOKEN", IGDB_ACCESSTOKEN)
-    .WithReference(gamingdb)
-    .WaitFor(gamingdb);
+    .WithReference(catalogDb)
+    .WaitFor(catalogDb);
 
 /*
 var mainPostgres = builder.AddPostgres("mainPostgres").WithLifetime(ContainerLifetime.Persistent)

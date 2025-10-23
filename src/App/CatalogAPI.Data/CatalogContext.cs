@@ -5,6 +5,7 @@ using CatalogAPI.Data.Features.GameModes;
 using CatalogAPI.Data.Features.Games;
 using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
+using CatalogAPI.Data.Features.PlayerPerspective;
 using CatalogAPI.Data.Features.Themes;
 using PopularityPrimitive = IGDB.Models.PopularityPrimitive;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Data;
 
-public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(options)
+public class CatalogContext(DbContextOptions<CatalogContext> options) : DbContext(options)
 {
     //public DbSet<PopularityPrimitive> PopScoreGames { get; set; }
     public DbSet<GameEntity> Games { get; set; }
@@ -28,18 +29,23 @@ public class SyncDbContext(DbContextOptions<SyncDbContext> options) : DbContext(
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
-        modelBuilder.HasPostgresExtension("pg_search");
-        modelBuilder.HasPostgresExtension("vector");
-        modelBuilder.HasPostgresExtension("postgis");
-        modelBuilder.HasPostgresExtension("pg_ivm");
-        modelBuilder.HasPostgresExtension("pg_cron");
         
-        modelBuilder.Entity<GameEntity>(b =>
-        {
-            b.Property(g => g.Id).ValueGeneratedNever();
-            b.ComplexProperty(g => g.Metadata);
-        });
+        modelBuilder.HasPostgresExtension("pg_search");
+        //modelBuilder.HasPostgresExtension("vector");
+        //modelBuilder.HasPostgresExtension("postgis");
+        //modelBuilder.HasPostgresExtension("pg_ivm");
+        //modelBuilder.HasPostgresExtension("pg_cron");
+        
+        modelBuilder.ApplyConfiguration(new GameModeConfiguration());
+        modelBuilder.ApplyConfiguration(new GameEngineConfiguration());
+        modelBuilder.ApplyConfiguration(new FranchiseConfiguration());
+        modelBuilder.ApplyConfiguration(new CompanyConfiguration());
+        modelBuilder.ApplyConfiguration(new ThemeConfiguration());
+        modelBuilder.ApplyConfiguration(new PlatformConfiguration());
+        modelBuilder.ApplyConfiguration(new GenreConfiguration());
+        modelBuilder.ApplyConfiguration(new PlayerPerspectiveConfiguration());
+        
+        modelBuilder.ApplyConfiguration(new GameConfiguration());
     }
 }
 

@@ -8,7 +8,8 @@ namespace Features.Games.GetTopRatedGames;
 
 public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
-    public SyncDbContext Context { get; set; }
+    public CatalogContext Context { get; set; }
+
     public override void Configure()
     {
         Get("/top");
@@ -18,21 +19,15 @@ public class Endpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<Game
 
     public override async Task HandleAsync(GetTopRatedGamesRequest req, CancellationToken ct)
     {
-
-        var games = await Context.Games
+        var games = await Context
+            .Games
             // TODO: USE RAW PARADEDB SYTNAX AND BOOST!!
-            .Where(x => x.GameType == 0).Take(20).ToListAsync(cancellationToken: ct);
-
+            .Where(x => x.GameType == 0)
+            .Take(20)
+            .ToListAsync(cancellationToken: ct);
 
         await Send.OkAsync(
-            new PaginatedResponse<GameDto>(
-                new List<GameDto>(),
-                1,
-                1,
-                1,
-                2,
-                false
-            ),
+            new PaginatedResponse<GameDto>(new List<GameDto>(), 1, 1, 1, 2, false),
             cancellation: ct
         );
     }

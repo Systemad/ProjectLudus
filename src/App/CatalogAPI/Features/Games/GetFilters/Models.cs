@@ -1,6 +1,5 @@
 ﻿namespace Features.Games.GetFilters;
 
-
 public record FilterItem(long Id, string Name);
 
 public record GetFiltersResponse(

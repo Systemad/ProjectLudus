@@ -7,8 +7,8 @@ namespace Features.Games.GetGamesByParameters;
 
 public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
+    public CatalogContext Context { get; set; }
 
-    public SyncDbContext Context { get; set; }
     public override void Configure()
     {
         Get("/search");
@@ -18,7 +18,6 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
     {
-
         IQueryable<GameEntity> gameQuery = Context.Games;
 
         if (!string.IsNullOrWhiteSpace(req.Query))
@@ -37,14 +36,16 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             gameQuery = gameQuery.Where(game =>
                 game.Genres != null && game.Genres.Any(g => genreIds.Contains(g.Id))
             );
-            
+
             //gameQuery = gameQuery.Where(x => x.Genres != null && x.Genres.Any(g => req.Genres.Contains(g.Id)));
         }
 
         if (req.GameTypes?.Length > 0)
         {
             var gameTypeFilter = req.GameTypes;
-            gameQuery = gameQuery.Where(x => x.GameType != null && gameTypeFilter.Contains(x.GameType));
+            gameQuery = gameQuery.Where(x =>
+                x.GameType != null && gameTypeFilter.Contains(x.GameType)
+            );
         }
 
         if (req.Platforms?.Length > 0)
@@ -53,7 +54,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             gameQuery = gameQuery.Where(game =>
                 game.Platforms != null && game.Platforms.Any(g => platformIds.Contains(g.Id))
             );
-            
+
             //gameQuery = gameQuery.Where(x => x.Platforms != null && x.Platforms.Any(g => req.Platforms.Contains(g)));
         }
 
@@ -63,7 +64,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
             gameQuery = gameQuery.Where(game =>
                 game.GameModes != null && game.GameModes.Any(g => gameModeIds.Contains(g.Id))
             );
-            
+
             //gameQuery = gameQuery.Where(x => x.GameModes != null && x.GameModes.Any(g => req.GameModes.Contains(g)));
         }
 
@@ -91,14 +92,7 @@ public class Endpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
         var games = new List<GameDto>();
 
         await Send.OkAsync(
-            new PaginatedResponse<GameDto>(
-                Items: games,
-                1,
-                1,
-                1,
-                1,
-                false
-            ),
+            new PaginatedResponse<GameDto>(Items: games, 1, 1, 1, 1, false),
             cancellation: ct
         );
     }
