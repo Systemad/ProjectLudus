@@ -38,7 +38,6 @@
     <ProjectReference Include="..\CatalogAPI.Data\CatalogAPI.Data.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\DTO\" />
     <Folder Include="Scratches\" />
   </ItemGroup>
 </Project>

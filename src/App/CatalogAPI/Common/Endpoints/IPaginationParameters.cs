@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using FastEndpoints;
 
-namespace WebAPI.Features.Common.Endpoints;
+namespace CatalogAPI.Common.Endpoints;
 
 public interface IPaginationParameters
 {

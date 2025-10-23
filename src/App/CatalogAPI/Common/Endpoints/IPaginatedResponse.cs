@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Features.Common.Endpoints;
+﻿namespace CatalogAPI.Common.Endpoints;
 
 public record PaginatedResponse<T>(
     IEnumerable<T> Items,

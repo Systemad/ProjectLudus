@@ -1,7 +1,7 @@
-﻿using CatalogAPI.Data;
+﻿using CatalogAPI.Common.Endpoints;
+using CatalogAPI.Data;
 using CatalogAPI.Data.Features.Games;
 using FastEndpoints;
-using WebAPI.Features.Common.Endpoints;
 
 namespace Features.Games.GetGamesByParameters;
 

@@ -7,7 +7,6 @@ using CatalogAPI.Data.Features.Genres;
 using CatalogAPI.Data.Features.Platforms;
 using CatalogAPI.Data.Features.PlayerPerspective;
 using CatalogAPI.Data.Features.Themes;
-using PopularityPrimitive = IGDB.Models.PopularityPrimitive;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -21,10 +20,10 @@ public class CatalogContext(DbContextOptions<CatalogContext> options) : DbContex
     public DbSet<FranchiseEntity> Franchises { get; set; }
     public DbSet<GameEngineEntity> GameEngines { get; set; }
     public DbSet<GameModeEntity> GameModes { get; set; }
-    
     public DbSet<GenreEntity> Genres { get; set; }
     public DbSet<PlatformEntity> Platforms { get; set; }
     public DbSet<ThemeEntity> Themes { get; set; }
+    public DbSet<PlayerPerspectiveEntity> PlayerPerspectives { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

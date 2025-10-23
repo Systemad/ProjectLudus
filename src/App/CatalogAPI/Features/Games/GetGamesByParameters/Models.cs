@@ -1,5 +1,5 @@
-﻿using FastEndpoints;
-using WebAPI.Features.Common.Endpoints;
+﻿using CatalogAPI.Common.Endpoints;
+using FastEndpoints;
 
 namespace Features.Games.GetGamesByParameters;
 

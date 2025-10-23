@@ -1,6 +1,6 @@
-﻿using CatalogAPI.Data.Features.Games;
+﻿using CatalogAPI.Common.Endpoints;
+using CatalogAPI.Data.Features.Games;
 using FastEndpoints;
-using WebAPI.Features.Common.Endpoints;
 
 namespace Features.Games.GetTopRatedGames;
 

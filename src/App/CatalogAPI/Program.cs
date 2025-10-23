@@ -7,6 +7,7 @@ using CatalogAPI.Utilities;
 using CatalogAPI.Workers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
+using IGDB;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PhenX.EntityFrameworkCore.BulkInsert.PostgreSql;
@@ -45,6 +46,13 @@ builder.EnrichNpgsqlDbContext<CatalogContext>();
 
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("IGDB"));
 builder.Logging.AddConsole();
+
+    
+var igdbClient = IGDBClient.CreateWithDefaults(
+    Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
+    Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
+);
+builder.Services.AddSingleton<IGDBClient>(igdbClient);
 
 builder
     .Services.AddFastEndpoints()

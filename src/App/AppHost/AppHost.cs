@@ -8,8 +8,10 @@ builder
     .WithDashboard(db => db.WithHostPort(8085))
     .ConfigureComposeFile(file => { file.Name = "ludus"; });
 
-var IGDB_CLIENT = builder.AddParameter("igdb-client", secret: true);
-var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
+var IGDB_CLIENT_ID = builder.AddParameter("igdb-client-id", secret: true);
+var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true);
+
+//var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
 
 
 // isolate sync service completely!
@@ -28,8 +30,8 @@ var catalogDb =
 // var catalogApi = 
 builder
     .AddProject<Projects.CatalogAPI>("catalog-api")
-    .WithEnvironment("IGDB_CLIENT", IGDB_CLIENT)
-    .WithEnvironment("IGDB_ACCESSTOKEN", IGDB_ACCESSTOKEN)
+    .WithEnvironment("IGDB_CLIENT_ID", IGDB_CLIENT_ID)
+    .WithEnvironment("IGDB_CLIENT_SECRET", IGDB_CLIENT_SECRET)
     .WithReference(catalogDb)
     .WaitFor(catalogDb);
 
