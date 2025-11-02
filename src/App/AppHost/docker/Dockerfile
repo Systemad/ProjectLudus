@@ -21,11 +21,10 @@ RUN wget -O pgmq-PGMQ_VERSION.zip https://api.pgxn.org/dist/pgmq/PGMQ_VERSION/pg
 WORKDIR /tmp/pgmq-PGMQ_VERSION
 RUN make && make install
 
+WORKDIR /
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list && \
     wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
     apt-get purge -y build-essential wget make gcc unzip && \
     apt-get autoremove -y && \
     rm -rf /tmp/pgmq-PGMQ_VERSION && \
-    rm -rf /var/lib/apt/lists/* 
-
-WORKDIR /
+    rm -rf /var/lib/apt/lists/*
