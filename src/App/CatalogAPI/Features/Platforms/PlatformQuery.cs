@@ -6,19 +6,20 @@ public static class PlatformQuery
 
     public static List<string> Fields =
     [
-        "fields",
         "abbreviation",
         "alternative_name",
+        "checksum",
+        "created_at",
         "generation",
         "name",
-        "platform_logo.url",
-        "platform_logo.image_id",
+        "platform_family",
+        "platform_logo.*",
+        "platform_type.*",
         "slug",
         "summary",
-        "created_at",
         "updated_at",
         "url",
-        "websites.url",
-        "websites.trusted",
+        "versions",
+        "websites",
     ];
 }

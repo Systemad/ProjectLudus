@@ -30,6 +30,7 @@ public class CatalogContext(DbContextOptions<CatalogContext> options) : DbContex
         base.OnModelCreating(modelBuilder);
         
         modelBuilder.HasPostgresExtension("pg_search");
+        modelBuilder.HasPostgresExtension("pgmq");
         //modelBuilder.HasPostgresExtension("vector");
         //modelBuilder.HasPostgresExtension("postgis");
         //modelBuilder.HasPostgresExtension("pg_ivm");

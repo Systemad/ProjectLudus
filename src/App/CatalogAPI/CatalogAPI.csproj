@@ -19,25 +19,27 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
     <PackageReference Include="Npgsql.Json.NET" />
     <PackageReference Include="PhenX.EntityFrameworkCore.BulkInsert.PostgreSql" />
+    <!--
     <PackageReference Include="TickerQ" />
     <PackageReference Include="TickerQ.EntityFrameworkCore" />
+    <PackageReference Include="Parquet.Net" />
+
+    -->
     <PackageReference Include="JetBrains.Annotations" />
     <PackageReference Include="CSharpier.MSBuild" />
-    <PackageReference Include="Parquet.Net" />
     <PackageReference Include="FastEndpoints" />
     <PackageReference Include="FastEndpoints.Security" />
     <PackageReference Include="FastEndpoints.Swagger" />
     <PackageReference Include="JetBrains.Annotations" />
     <PackageReference Include="Scalar.AspNetCore" />
+    <!--
     <PackageReference Include="IGDB" />
+    -->
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IGDB.Lib\IGDB.Lib.csproj" />
     <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\CatalogAPI.Data\CatalogAPI.Data.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scratches\" />
   </ItemGroup>
 </Project>

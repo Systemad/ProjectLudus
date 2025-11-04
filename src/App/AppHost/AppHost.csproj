@@ -16,7 +16,9 @@
         <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions"/>
     </ItemGroup>
     <ItemGroup>
+        <!--
         <ProjectReference Include="..\WebAPI\WebAPI.csproj"/>
+        -->
         <ProjectReference Include="..\CatalogAPI\CatalogAPI.csproj" />
     </ItemGroup>
 </Project>

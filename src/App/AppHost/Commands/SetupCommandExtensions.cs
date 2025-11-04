@@ -2,7 +2,8 @@
 
 namespace AppHost.Commands;
 
-public static class SeedingCommandExtensions
+
+public static class SetupCommandExtensions
 {
     public static IResourceBuilder<PostgresDatabaseResource> WithSetupCommand(
         this IResourceBuilder<PostgresDatabaseResource> builder)
@@ -23,7 +24,7 @@ public static class SeedingCommandExtensions
         IResourceBuilder<PostgresDatabaseResource> builder,
         ExecuteCommandContext context)
     {
-        //var prov = context.ServiceProvider.GetRequiredService<ISee>();
+        //var prov = context.ServiceProvider.GetRequiredService<IDataFetcherService>();
         return CommandResults.Success();
     }
 

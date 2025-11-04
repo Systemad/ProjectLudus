@@ -18,7 +18,7 @@ public class SyncWorker(IServiceProvider serviceProvider, ILogger<SyncWorker> lo
         {
             Logging.Log.StartingSyncWorker(logger, DateTimeOffset.UtcNow);
             using var scope = serviceProvider.CreateScope();
-            var seedingController = scope.ServiceProvider.GetRequiredService<ISeederService>();
+            var seedingController = scope.ServiceProvider.GetRequiredService<IDataFetcherService>();
             try
             {
                 if (!await DatabaseHasDataAsync(scope))

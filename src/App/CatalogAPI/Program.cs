@@ -47,7 +47,8 @@ builder.EnrichNpgsqlDbContext<CatalogContext>();
 builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("IGDB"));
 builder.Logging.AddConsole();
 
-    
+var hey = new IGDBClient("", "");
+
 var igdbClient = IGDBClient.CreateWithDefaults(
     Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
     Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
@@ -85,12 +86,16 @@ builder
     })
     .AddHttpMessageHandler<TwitchAuthenticationHandler>();
 */
+
+builder.Services.AddScoped<IgdbService>();
+
+builder.Services.AddScoped<IDataFetcherService>();
+
 //builder.Services.AddScoped<SeedingService>();
 //builder.Services.AddScoped<GameDatabaseService>();
 
 //builder.Services.AddScoped<GameWebhookProcessor>();
 
-//builder.Services.AddScoped<IgdbService>();
 //builder.Logging.AddConsole();
 /*
 builder.Services.AddTickerQ(options =>

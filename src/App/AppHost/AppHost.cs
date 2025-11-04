@@ -6,34 +6,87 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder
     .AddDockerComposeEnvironment("env")
     .WithDashboard(db => db.WithHostPort(8085))
-    .ConfigureComposeFile(file => { file.Name = "ludus"; });
+    .ConfigureComposeFile(file =>
+    {
+        file.Name = "ludus";
+    });
 
 var IGDB_CLIENT_ID = builder.AddParameter("igdb-client-id", secret: true);
 var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true);
 
 //var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
 
-
 // isolate sync service completely!
-//  postgresql-17-pg-search_0.18.2-1PARADEDB-noble_amd64.deb 
-var catalogDb =
-    builder.AddPostgres("catalog-postgres")
-        .WithImage(image: "paradedb/paradedb", tag: "v0.19.1-pg17")
-        //.WithAnnotation(new ContainerImageAnnotation() { Image = "paradedb/paradedb", Tag = "v0.18.2-pg17" })
-        .WithLifetime(ContainerLifetime.Persistent)
-        //.WithImageTag("17")
-        .WithDataVolume("paradedb-testing", isReadOnly: false) /*, "/var/lib/postgresql")*/
-        //.WithDataVolume(isReadOnly: false)
-        .AddDatabase("catalog-db");
+//  postgresql-17-pg-search_0.18.2-1PARADEDB-noble_amd64.deb
+var catalogDb = builder
+    .AddPostgres("catalog-postgres")
+    //.WithImage(image: "paradedb/paradedb", tag: "v0.19.3-pg17")
+    .WithDockerfile("../../../docker")
+    .WithDataVolume("paradedb-testing",  isReadOnly: false) /*, "/var/lib/postgresql")*/
+    .AddDatabase("catalog-db");
 
+#pragma warning disable ASPIREINTERACTION001
+var adminKey = builder
+    .AddParameter("adminkey", secret: true)
+    .WithCustomInput(x =>
+        new()
+        {
+            Name = "AdminKey",
+            Label = "Admin Key",
+            InputType = InputType.Text,
+            Placeholder = "Something complicated and secure",
+            Required = true,
+        }
+    );
+#pragma warning restore ASPIREINTERACTION001
 
-// var catalogApi = 
-builder
+var catalogApi = builder
     .AddProject<Projects.CatalogAPI>("catalog-api")
+    .WithExplicitStart()
+    .WithEnvironment("ADMIN_KEY", adminKey)
     .WithEnvironment("IGDB_CLIENT_ID", IGDB_CLIENT_ID)
     .WithEnvironment("IGDB_CLIENT_SECRET", IGDB_CLIENT_SECRET)
+    .WithHttpCommand(
+        path: "admin/queue/start",
+        displayName: "Start queue",
+        commandOptions: new HttpCommandOptions()
+        {
+            IconName = "DatabaseFilled",
+            IconVariant = IconVariant.Filled,
+            ConfirmationMessage = "Do you want to start queue to process webhook messages?",
+            PrepareRequest = async (context) =>
+            {
+                context.Request.Headers.Add(
+                    "X-AdminKey",
+                    $"{await adminKey.Resource.GetValueAsync(CancellationToken.None)}"
+                );
+            },
+            IsHighlighted = false,
+        }
+    )
+    .WithHttpCommand(
+        path: "admin/queue/stop",
+        displayName: "Start queue",
+        commandOptions: new HttpCommandOptions()
+        {
+            IconName = "DatabaseFilled",
+            IconVariant = IconVariant.Filled,
+            ConfirmationMessage = "Do you want to start queue to process webhook messages?",
+            PrepareRequest = async (context) =>
+            {
+                context.Request.Headers.Add(
+                    "X-AdminKey",
+                    $"{await adminKey.Resource.GetValueAsync(CancellationToken.None)}"
+                );
+            },
+            IsHighlighted = false,
+        }
+    )
+    .WithHttpHealthCheck("/health")
     .WithReference(catalogDb)
     .WaitFor(catalogDb);
+
+adminKey.WithParentRelationship(catalogApi);
 
 /*
 var mainPostgres = builder.AddPostgres("mainPostgres").WithLifetime(ContainerLifetime.Persistent)

@@ -1,17 +1,19 @@
 ﻿<Solution>
   <Folder Name="/Bootstrap/">
-    <Project Path="AppHost\AppHost.csproj" Type="Classic C#" />
-    <Project Path="ServiceDefaults\ServiceDefaults.csproj" Type="Classic C#" />
-    <Project Path="Shared\Shared.csproj" Type="Classic C#" />
+    <Project Path="AppHost\AppHost.csproj" Type="C#" />
+    <Project Path="ServiceDefaults\ServiceDefaults.csproj" Type="C#" />
+    <Project Path="Shared\Shared.csproj" Type="C#" />
   </Folder>
   <Folder Name="/Catalog/">
-    <Project Path="CatalogAPI.Data\CatalogAPI.Data.csproj" Type="Classic C#" />
-    <Project Path="CatalogAPI\CatalogAPI.csproj" Type="Classic C#" />
+    <Project Path="Catalog.Ingester/Catalog.Ingester.csproj" Type="C#" />
+    <Project Path="Catalog.Worker/Catalog.Worker.csproj" Type="C#" />
+    <Project Path="CatalogAPI.Data\CatalogAPI.Data.csproj" Type="C#" />
+    <Project Path="CatalogAPI\CatalogAPI.csproj" Type="C#" />
   </Folder>
   <Folder Name="/Core/">
-    <Project Path="WebAPI\WebAPI.csproj" Type="Classic C#" />
+    <Project Path="WebAPI\WebAPI.csproj" Type="C#" />
   </Folder>
   <Folder Name="/IGDB/">
-    <Project Path="IGDB.Lib\IGDB.Lib.csproj" Type="Classic C#" />
+    <Project Path="IGDB.Lib\IGDB.Lib.csproj" Type="C#" />
   </Folder>
 </Solution>
