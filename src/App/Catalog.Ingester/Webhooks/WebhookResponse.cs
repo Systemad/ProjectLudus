@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace IGDB.Lib.Webhooks;
+namespace Catalog.Ingester.Webhooks;
 
 public partial class WebhookResponse
 {
@@ -11,7 +11,6 @@ public partial class WebhookResponse
     [JsonPropertyName("category")] public long Category { get; set; }
 
     [JsonPropertyName("sub_category")] public long SubCategory { get; set; }
-
     [JsonPropertyName("active")] public bool Active { get; set; }
 
     [JsonPropertyName("api_key")] public string ApiKey { get; set; }

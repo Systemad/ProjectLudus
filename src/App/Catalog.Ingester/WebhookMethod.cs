@@ -1,4 +1,4 @@
-﻿namespace IGDB.Lib.Webhooks;
+﻿namespace Catalog.Ingester;
 
 public enum WebhookMethod
 {

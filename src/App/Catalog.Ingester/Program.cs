@@ -1,46 +1,45 @@
+using Catalog.Ingester.Extensions;
+using IGDB;
+using Shared.Twitch;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
+// TODO await npgmq.InitAsync(); //SOMEWHERE ELSE, AT STARTUP MAYBE?
 // TODO: WHAT THIS PROJET DOES
 // STRICTLY: HANDLES WEBHOOK SUBSCRIPTIONS, RECIVES DATA, AND PUTS THEM INTO A QUEUE!!!
 // NOTHING ELSE!!!
 
+builder.Services.AddOpenApi();
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
+// TODO: connection string not needed?
+builder.Services.AddNpgmq("");
+
+
+// await npgmqClient.InitAsync();
+
+builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("IGDB"));
+builder.Logging.AddConsole();
+
+var igdbClient = IGDBClient.CreateWithDefaults(
+    Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
+    Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
+);
+builder.Services.AddSingleton<IGDBClient>(igdbClient);
+
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-//    app.MapOpenApi();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

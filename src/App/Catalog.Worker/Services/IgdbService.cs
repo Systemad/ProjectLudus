@@ -1,11 +1,9 @@
-﻿using System.Text.Json;
-using CatalogAPI.Common;
+﻿using Catalog.Worker.Queries;
 using CatalogAPI.Features;
 using IGDB;
-using IGDB.Models;
 using Shared.Features;
 
-namespace CatalogAPI.Seeding;
+namespace Catalog.Worker.Services;
 
 public record PagedResult<T>(List<T> Items, long TotalCount);
 

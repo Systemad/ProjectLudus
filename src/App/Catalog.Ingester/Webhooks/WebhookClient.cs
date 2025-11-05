@@ -1,9 +1,9 @@
-﻿using System.Net.Http.Json;
-using IGDB.Lib.Webhooks;
+﻿namespace Catalog.Ingester.Webhooks;
 
-namespace IGDB.Lib;
 
-public class WebhookApiClient(HttpClient httpClient)
+// await npgmq.CreateQueueAsync("my_queue");
+// CREATES THE QUEUE, IN WEBHOOKSUSCRIBESERVICE
+public class WebhookClient(HttpClient httpClient)
 {
     public async Task SubscribeWebhooksAsync(string endpointUrl)
     {
@@ -33,14 +33,14 @@ public class WebhookApiClient(HttpClient httpClient)
     }
 
     private async Task<WebhookResponse> SubscribeWebhookAsync(
-        string endpointUrl,
+        string callbackUrl,
         WebhookMethod method
     )
     {
         var formContent = new FormUrlEncodedContent(
             new Dictionary<string, string>
             {
-                ["url"] = endpointUrl,
+                ["url"] = callbackUrl,
                 ["secret"] = Guid.NewGuid().ToString(),
                 ["method"] = method.ToString(),
             }

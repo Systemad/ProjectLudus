@@ -1,21 +1,9 @@
 using CatalogAPI.Data;
-using CatalogAPI.Features;
-using CatalogAPI.Features.Games;
-using CatalogAPI.Features.Games.Webhook;
-using CatalogAPI.Seeding;
-using CatalogAPI.Utilities;
-using CatalogAPI.Workers;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using IGDB;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
-using PhenX.EntityFrameworkCore.BulkInsert.PostgreSql;
 using Scalar.AspNetCore;
-using Shared.Twitch;
-using TickerQ.DependencyInjection;
-using TickerQ.Utilities.Enums;
-using TickerQ.Utilities.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,16 +32,6 @@ builder.AddNpgsqlDbContext<CatalogContext>(
 
 builder.EnrichNpgsqlDbContext<CatalogContext>();
 
-builder.Services.Configure<TwitchOptions>(builder.Configuration.GetSection("IGDB"));
-builder.Logging.AddConsole();
-
-var hey = new IGDBClient("", "");
-
-var igdbClient = IGDBClient.CreateWithDefaults(
-    Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
-    Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
-);
-builder.Services.AddSingleton<IGDBClient>(igdbClient);
 
 builder
     .Services.AddFastEndpoints()
@@ -86,10 +64,6 @@ builder
     })
     .AddHttpMessageHandler<TwitchAuthenticationHandler>();
 */
-
-builder.Services.AddScoped<IgdbService>();
-
-builder.Services.AddScoped<IDataFetcherService>();
 
 //builder.Services.AddScoped<SeedingService>();
 //builder.Services.AddScoped<GameDatabaseService>();

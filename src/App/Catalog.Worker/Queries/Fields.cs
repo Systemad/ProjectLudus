@@ -1,14 +1,13 @@
-﻿using CatalogAPI.Features.Companies;
+﻿using Catalog.Worker.Features.Companies;
 using CatalogAPI.Features.GameEngines;
 using CatalogAPI.Features.Games;
 using CatalogAPI.Features.Genres;
 using CatalogAPI.Features.Platforms;
 using CatalogAPI.Features.PlayerPerspective;
 using CatalogAPI.Features.Themes;
-using IGDB.Models;
 using Shared.Features;
 
-namespace CatalogAPI.Features;
+namespace Catalog.Worker.Queries;
 
 public static class QueryHelper
 {

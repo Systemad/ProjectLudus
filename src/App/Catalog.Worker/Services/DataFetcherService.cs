@@ -1,9 +1,9 @@
-﻿using CatalogAPI.Features;
+﻿using CatalogAPI.Seeding;
 using IGDB.Models;
 using Parquet.Serialization;
 using Shared.Features;
 
-namespace CatalogAPI.Seeding;
+namespace Catalog.Worker.Services;
 
 public class DataFetcherService(IgdbService service) : IDataFetcherService
 {

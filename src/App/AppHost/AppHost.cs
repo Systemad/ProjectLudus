@@ -22,8 +22,11 @@ var catalogDb = builder
     .AddPostgres("catalog-postgres")
     //.WithImage(image: "paradedb/paradedb", tag: "v0.19.3-pg17")
     .WithDockerfile("../../../docker")
-    .WithDataVolume("paradedb-testing",  isReadOnly: false) /*, "/var/lib/postgresql")*/
+    .WithDataVolume("paradedb-testing", isReadOnly: false) /*, "/var/lib/postgresql")*/
     .AddDatabase("catalog-db");
+
+var webhookSecret = builder.AddParameter("webhook-secret");
+var hostDomain = builder.AddParameter("host-domain");
 
 #pragma warning disable ASPIREINTERACTION001
 var adminKey = builder
@@ -40,12 +43,19 @@ var adminKey = builder
     );
 #pragma warning restore ASPIREINTERACTION001
 
-var catalogApi = builder
-    .AddProject<Projects.CatalogAPI>("catalog-api")
-    .WithExplicitStart()
+var catalogIngester = builder
+    .AddProject<Projects.Catalog_Ingester>("catalog-ingester")
+    .WithExplicitStart() // check again
     .WithEnvironment("ADMIN_KEY", adminKey)
     .WithEnvironment("IGDB_CLIENT_ID", IGDB_CLIENT_ID)
     .WithEnvironment("IGDB_CLIENT_SECRET", IGDB_CLIENT_SECRET)
+    .WithEnvironment("HOST_DOMAIN", hostDomain)
+    .WithEnvironment("WEBHOOK_SECRET", webhookSecret);
+
+var catalogWorker = builder
+    .AddProject<Projects.Catalog_Worker>("catalog-worker")
+    // start initial process command!
+    // ONE COMMAND, ONE PROCESS!
     .WithHttpCommand(
         path: "admin/queue/start",
         displayName: "Start queue",
@@ -81,7 +91,12 @@ var catalogApi = builder
             },
             IsHighlighted = false,
         }
-    )
+    ).WithReference(catalogIngester);
+
+var catalogApi = builder
+    .AddProject<Projects.CatalogAPI>("catalog-api")
+    .WithExplicitStart()
+    .WithEnvironment("ADMIN_KEY", adminKey)
     .WithHttpHealthCheck("/health")
     .WithReference(catalogDb)
     .WaitFor(catalogDb);

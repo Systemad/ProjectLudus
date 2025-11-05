@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Logging;
+﻿namespace Catalog.Worker.Logging;
 
 public static partial class Log
 {

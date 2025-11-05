@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace IGDB.Lib.Webhooks;
+namespace Catalog.Ingester.Webhooks;
 
 public class WebhookDeleteGamePayload
 {

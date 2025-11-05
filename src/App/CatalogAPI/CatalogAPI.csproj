@@ -18,7 +18,6 @@
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
     <PackageReference Include="Npgsql.Json.NET" />
-    <PackageReference Include="PhenX.EntityFrameworkCore.BulkInsert.PostgreSql" />
     <!--
     <PackageReference Include="TickerQ" />
     <PackageReference Include="TickerQ.EntityFrameworkCore" />
@@ -41,5 +40,10 @@
     <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\CatalogAPI.Data\CatalogAPI.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\Companies\" />
+    <Folder Include="Features\GameEngines\" />
+    <Folder Include="Features\PlayerPerspective\" />
   </ItemGroup>
 </Project>
