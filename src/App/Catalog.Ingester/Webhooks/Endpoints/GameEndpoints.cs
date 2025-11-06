@@ -1,17 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
 using Npgmq;
+using Shared;
+using Shared.Features;
 
-namespace Catalog.Ingester.Webhooks;
+namespace Catalog.Ingester.Webhooks.Endpoints;
 
 //
 
 
 
-public static class WebhookEndpoints
+public static class GameEndpoints
 {
     public static void MapWebhookEndpoints(WebApplication app, [FromServices] NpgmqClient npgmqClient, [FromServices] IConfiguration config)
     {
-        app.MapPost("/webhooks/{resource}/{actionType}", async (string resource, string actionType, HttpRequest request) =>
+        app.MapPost("/webhooks/games/{actionType}", async (string actionType, HttpRequest request) =>
         {
             // validate header secret!
             if (!request.Headers.TryGetValue("X-Secret", out var headerSecret) || string.IsNullOrEmpty(headerSecret))
@@ -29,20 +32,18 @@ public static class WebhookEndpoints
             // Read request body
             using var reader = new StreamReader(request.Body);
             var body = await reader.ReadToEndAsync();
+                    var serialized = JsonSerializer.Deserialize<WebhookPayload>(body);
 
-            // TODO: Validate secret header and deserialize JSON payload
-
-            switch (resource.ToLower())
+            var eventMessage = new WebhookEvent
             {
-                case "games":
-                    // Handle game webhook for actionType (create, update, delete)
-                    break;
-                case "companies":
-                    // Handle company webhook for actionType
-                    break;
-                default:
-                    return Results.BadRequest("Unknown resource");
-            }
+                ResourceId = 1,
+                CreatedAt = 0,
+                ResourceType = IgdbType.GAME,
+                EventType = EventType.Created,
+                PayloadJson = null,
+                Timestamp = default
+            };
+
 
             return Results.Ok();
         });

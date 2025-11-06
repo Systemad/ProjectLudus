@@ -8,6 +8,6 @@ public enum IgdbType
     COMPANY,
     THEME,
     GENRE,
-    PlayerPerspective
+    PLAYER_PERSPECTIVE
 }
 

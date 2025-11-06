@@ -18,7 +18,7 @@ public static class QueryHelper
         { IgdbType.GENRE, (GenreQuery.Endpoint, GenreQuery.Fields) },
         { IgdbType.THEME, (ThemeQuery.Endpoint, ThemeQuery.Fields) },
         {
-            IgdbType.PlayerPerspective,
+            IgdbType.PLAYER_PERSPECTIVE,
             (PlayerPerspectiveQuery.Endpoint, PlayerPerspectiveQuery.Fields)
         },
         // Not Done
