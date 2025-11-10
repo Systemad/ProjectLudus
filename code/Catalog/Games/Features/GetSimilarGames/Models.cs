@@ -1,0 +1,13 @@
+﻿using Catalog.Api.Data.Features.Games;
+
+namespace Features.Games.GetSimilarGames;
+
+public class GetSimilarGamesRequest
+{
+    public long GameId { get; set; }
+}
+
+public class GetSimilarGamesResponse
+{
+    public List<GameDto> SimilarGames { get; set; }
+}

@@ -1,0 +1,27 @@
+﻿<Solution>
+  <Folder Name="/IGDB/">
+    <Project Path="IGDB.Lib\IGDB.Lib.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Aspire/" />
+  <Folder Name="/src/Aspire/src/">
+    <Project Path="AppHost\AppHost.csproj" />
+    <Project Path="ServiceDefaults\ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="BuildingBlocks/BuildingBlocks.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/Catalog/" />
+  <Folder Name="/src/Services/Catalog/src/">
+    <Project Path="Catalog.Api/Catalog.Api.csproj" />
+    <Project Path="Catalog.Ingester/Catalog.Ingester.csproj" />
+    <Project Path="Catalog.Worker/Catalog.Worker.csproj" />
+    <Project Path="Catalog/Catalog.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/Ludus/" />
+  <Folder Name="/src/Services/Ludus/src/">
+    <Project Path="Ludus.Api/Ludus.Api.csproj" />
+    <Project Path="Ludus/Ludus.csproj" Type="C#" />
+  </Folder>
+</Solution>

@@ -1,0 +1,29 @@
+import { mergeMultiStyle } from "@yamada-ui/react";
+import type { ComponentMultiStyle } from "@yamada-ui/react";
+import { Select } from "./select";
+
+export const MultiSelect: ComponentMultiStyle<"MultiSelect"> = mergeMultiStyle(
+  Select,
+  {
+    baseStyle: {
+      clearIcon: {
+        pointerEvents: "auto",
+        transitionDuration: "normal",
+        transitionProperty: "common",
+        _disabled: {
+          opacity: 0.4,
+          pointerEvents: "none",
+        },
+        _focusVisible: {
+          boxShadow: "outline",
+        },
+        _hover: {
+          opacity: 0.8,
+        },
+        _readOnly: {
+          pointerEvents: "none",
+        },
+      },
+    },
+  },
+)();
