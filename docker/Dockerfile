@@ -1,4 +1,4 @@
-﻿ARG PG_SEARCH_TAG=v0.19.4-pg17
+﻿ARG PG_SEARCH_TAG=v0.19.5-pg17
 ARG PGMQ_VERSION=1.7.0
 
 FROM paradedb/paradedb:${PG_SEARCH_TAG} AS builder-pg_search
