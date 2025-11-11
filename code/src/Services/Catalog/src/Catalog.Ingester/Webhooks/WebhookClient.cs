@@ -1,0 +1,58 @@
+﻿namespace Catalog.Ingester.Webhooks;
+
+
+// await npgmq.CreateQueueAsync("my_queue");
+// CREATES THE QUEUE, IN WEBHOOKSUSCRIBESERVICE
+public class WebhookClient(HttpClient httpClient)
+{
+    public async Task SubscribeWebhooksAsync(string endpointUrl)
+    {
+        await Task.WhenAll(
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.CREATE),
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.UPDATE),
+            SubscribeWebhookAsync(endpointUrl, WebhookMethod.DELETE)
+        );
+    }
+
+    public async Task UnSubscribeWebhookAsync(long webhookId)
+    {
+        var response = await httpClient.DeleteAsync($"webhooks/{webhookId}");
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task<List<WebhookResponse>> GetWebhooksAsync()
+    {
+        var response = await httpClient.GetAsync("webhooks");
+        response.EnsureSuccessStatusCode();
+
+        var webhooks = await response.Content.ReadFromJsonAsync<List<WebhookResponse>>();
+        if (webhooks == null)
+            throw new Exception("Failed to fetch webhooks!");
+
+        return webhooks;
+    }
+
+    private async Task<WebhookResponse> SubscribeWebhookAsync(
+        string callbackUrl,
+        WebhookMethod method
+    )
+    {
+        var formContent = new FormUrlEncodedContent(
+            new Dictionary<string, string>
+            {
+                ["url"] = callbackUrl,
+                ["secret"] = Guid.NewGuid().ToString(),
+                ["method"] = method.ToString(),
+            }
+        );
+
+        var response = await httpClient.PostAsync("webhooks", formContent);
+        response.EnsureSuccessStatusCode();
+
+        var webhook = await response.Content.ReadFromJsonAsync<WebhookResponse>();
+        if (webhook == null)
+            throw new Exception("Failed to subscribe webhook!");
+
+        return webhook;
+    }
+}

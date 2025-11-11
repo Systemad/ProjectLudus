@@ -1,0 +1,8 @@
+{
+  "deploy": "true",
+  "publish": "true",
+  "appHostPath": "../AppHost/AppHost.csproj",
+  "features": {
+    "execCommandEnabled": "true"
+  }
+}
