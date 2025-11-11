@@ -3,25 +3,20 @@
     <Project Path="IGDB.Lib\IGDB.Lib.csproj" />
   </Folder>
   <Folder Name="/src/" />
-  <Folder Name="/src/Aspire/" />
-  <Folder Name="/src/Aspire/src/">
-    <Project Path="AppHost\AppHost.csproj" />
-    <Project Path="ServiceDefaults\ServiceDefaults.csproj" />
+  <Folder Name="/src/Aspire/">
+    <Project Path="src/Aspire/src/AppHost/AppHost.csproj" Type="C#" />
+    <Project Path="src/Aspire/src/ServiceDefaults/ServiceDefaults.csproj" Type="C#" />
   </Folder>
-  <Folder Name="/src/BuildingBlocks/">
-    <Project Path="BuildingBlocks/BuildingBlocks.csproj" />
+  <Folder Name="/src/BuildingBlock/">
+    <Project Path="src/BuildingBlocks/BuildingBlocks.csproj" Type="C#" />
   </Folder>
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/Catalog/" />
   <Folder Name="/src/Services/Catalog/src/">
-    <Project Path="Catalog.Api/Catalog.Api.csproj" />
-    <Project Path="Catalog.Ingester/Catalog.Ingester.csproj" />
-    <Project Path="Catalog.Worker/Catalog.Worker.csproj" />
-    <Project Path="Catalog/Catalog.csproj" />
+    <Project Path="src/Services/Catalog/src/Catalog.Api/Catalog.Api.csproj" Type="C#" />
+    <Project Path="src/Services/Catalog/src/Catalog.Ingester/Catalog.Ingester.csproj" Type="C#" />
+    <Project Path="src/Services/Catalog/src/Catalog.Worker/Catalog.Worker.csproj" Type="C#" />
+    <Project Path="src/Services/Catalog/src/Catalog/Catalog.csproj" Type="C#" />
   </Folder>
-  <Folder Name="/src/Services/Ludus/" />
-  <Folder Name="/src/Services/Ludus/src/">
-    <Project Path="Ludus.Api/Ludus.Api.csproj" />
-    <Project Path="Ludus/Ludus.csproj" Type="C#" />
-  </Folder>
+
 </Solution>
