@@ -1,4 +1,4 @@
-﻿using Catalog.Data;
+using Ludus.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,15 +7,15 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using ServiceDefaults;
 
-namespace Catalog.Extensions;
+namespace Ludus.Extensions.Infrastructure;
 
 public static class InfrastructureExtensions
 {
     public static WebApplicationBuilder AddDatabaseInfrastructure(this WebApplicationBuilder builder)
     {
         builder.AddServiceDefaults();
-        builder.AddNpgsqlDbContext<CatalogContext>(
-            connectionName: "catalog-db",
+        builder.AddNpgsqlDbContext<LudusContext>(
+            connectionName: "user-db",
             configureDbContextOptions: (optionsBuilder) =>
             {
                 optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -35,13 +35,14 @@ public static class InfrastructureExtensions
             }
         );
 
-        builder.EnrichNpgsqlDbContext<CatalogContext>();
+        builder.EnrichNpgsqlDbContext<LudusContext>();
         return builder;
     }
 
     public static WebApplicationBuilder AddCommonInfrastructure(this WebApplicationBuilder builder)
     {
         builder.Logging.AddConsole();
+        builder.Services.AddMemoryCache();
         builder.Services.AddHttpClient();
         builder.Services.AddHttpContextAccessor();
         builder.Services.AddControllers();
@@ -49,14 +50,3 @@ public static class InfrastructureExtensions
     }
 
 }
-
-/*
-builder.Services.AddScoped<ApiClient>();
-builder
-    .Services.AddHttpClient<ApiClient>(httpClient =>
-    {
-        httpClient.BaseAddress = new Uri("https://api.igdb.com/v4/");
-        httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-    })
-    .AddHttpMessageHandler<TwitchAuthenticationHandler>();
-*/

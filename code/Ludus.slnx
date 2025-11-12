@@ -4,19 +4,24 @@
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Aspire/">
-    <Project Path="src/Aspire/src/AppHost/AppHost.csproj" Type="C#" />
-    <Project Path="src/Aspire/src/ServiceDefaults/ServiceDefaults.csproj" Type="C#" />
+    <Project Path="src/Aspire/src/AppHost/AppHost.csproj" />
+    <Project Path="src/Aspire/src/ServiceDefaults/ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/src/BuildingBlock/">
-    <Project Path="src/BuildingBlocks/BuildingBlocks.csproj" Type="C#" />
+    <Project Path="src/BuildingBlocks/BuildingBlocks.csproj" />
   </Folder>
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/Catalog/" />
   <Folder Name="/src/Services/Catalog/src/">
-    <Project Path="src/Services/Catalog/src/Catalog.Api/Catalog.Api.csproj" Type="C#" />
-    <Project Path="src/Services/Catalog/src/Catalog.Ingester/Catalog.Ingester.csproj" Type="C#" />
-    <Project Path="src/Services/Catalog/src/Catalog.Worker/Catalog.Worker.csproj" Type="C#" />
-    <Project Path="src/Services/Catalog/src/Catalog/Catalog.csproj" Type="C#" />
+    <Project Path="src/Services/Catalog/src/Catalog.Api/Catalog.Api.csproj" />
+    <Project Path="src/Services/Catalog/src/Catalog.Ingester/Catalog.Ingester.csproj" />
+    <Project Path="src/Services/Catalog/src/Catalog.Worker/Catalog.Worker.csproj" />
+    <Project Path="src/Services/Catalog/src/Catalog/Catalog.csproj" />
+  </Folder>
+  <Folder Name="/src/Services/Ludus/" />
+  <Folder Name="/src/Services/Ludus/src/">
+    <Project Path="src/Services/Ludus/src/Ludus.Api/Ludus.Api.csproj" />
+    <Project Path="src/Services/Ludus/src/Ludus/Ludus.csproj" />
   </Folder>
 
 </Solution>

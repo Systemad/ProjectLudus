@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\Aspire\src\ServiceDefaults\ServiceDefaults.csproj" />
+      <ProjectReference Include="..\..\..\..\BuildingBlocks\BuildingBlocks.csproj" />
+        <PackageReference Include="Riok.Mapperly" ExcludeAssets="runtime" PrivateAssets="all">
+            <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+
 </Project>

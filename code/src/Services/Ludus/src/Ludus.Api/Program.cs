@@ -1,65 +1,29 @@
+using BuildingBlocks.FastEndpoint;
+using BuildingBlocks.OpenApi;
 using FastEndpoints;
-using FastEndpoints.Swagger;
-using Microsoft.EntityFrameworkCore;
-using Scalar.AspNetCore;
+using Ludus;
 using SteamWebAPI2.Utilities;
-using Ludus.Api.Features.Auth.Extensions;
-using Ludus.Api.Features.DataAccess;
-using ServiceDefaults;
+using Ludus.Extensions.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+builder.AddDatabaseInfrastructure();
+builder.AddAuthInfrastucture();
+builder.AddCommonInfrastructure();
 
-builder.Logging.AddConsole();
-
-builder.Services.AddAuthenticationCookie(validFor: TimeSpan.FromDays(7)).AddAuthorization();
-
-builder
-    .Services.AddFastEndpoints()
-    .SwaggerDocument(options =>
-    {
-        options.DocumentSettings = s =>
-        {
-            s.Title = "Ludus API";
-            s.Version = "v1";
-        };
-        options.ShortSchemaNames = true;
-        options.DocumentSettings = s => { s.MarkNonNullablePropsAsRequired(); };
-    });
-
-builder.AddNpgsqlDbContext<LudusContext>(connectionName: "maindb", configureDbContextOptions: (optionsBuilder) =>
-{
-    optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-});
-
-builder.Services.AddMemoryCache();
-builder.Services.AddHttpClient();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllers();
 
 builder.Services.AddTransient(x => new SteamWebInterfaceFactory(
     builder.Configuration["SteamWebAPIKey"]
 ));
 
-builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
-app.UseFastEndpoints(x =>
-    {
-        x.Errors.UseProblemDetails();
-        //x.Endpoints.ShortNames = true;
-    })
-    .UseSwaggerGen(c => { });
+builder.AddFastEndpoints<LudusRoot>("Ludus API");
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseOpenApi(c => c.Path = "/openapi/v1.json");
-    app.MapScalarApiReference();
-
-    //app.MapOpenApi();
-    app.Map("/scalar", () => Results.Redirect("/scalar/v1"));
+    app.UseAspnetOpenApi();
 }
 
 //app.UseDefaultFiles();
@@ -70,9 +34,8 @@ app.UseDefaultExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
-app.UseCookiePolicy();
+// TODO: seperate into Extension, "UseAuthExtensions"
+app.UseAuthInfrastucture();
 
 
 //app.UseOutputCache();

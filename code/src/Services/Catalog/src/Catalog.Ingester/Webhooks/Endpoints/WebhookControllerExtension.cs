@@ -25,21 +25,7 @@ public static class WebhookControllerExtension
                 NamingStrategy = new SnakeCaseNamingStrategy(),
             },
         };
-
-    public static void MapEntityWebhookEndpoints<T>(WebApplication app, string entityName)
-    {
-        var cleanEntityName = entityName?.Trim('/');
-        string baseRoute = entityName.Trim('/');
-        app.MapPost($"{baseRoute}/create", async (T payload) => await HandleCreate(payload));
-        //app.MapPost($"/{entityName}/update", async (T payload) => await HandleUpdate(payload));
-        //app.MapPost($"/{entityName}/delete", async (T payload) => await HandleDelete(payload));
-    }
-
-    public static Task<IResult> HandleCreate<T>(T payload)
-    {
-        return null;
-    }
-
+    
     public static void MapWebhookController<TResource>(
         this WebApplication app,
         IgdbType resourceType,

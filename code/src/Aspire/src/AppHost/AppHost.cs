@@ -7,7 +7,7 @@ using Aspire.Hosting.Yarp.Transforms;
 var builder = DistributedApplication.CreateBuilder(args);
 
 builder
-    .AddDockerComposeEnvironment("env")
+    .AddDockerComposeEnvironment("docker-compose")
     .WithDashboard(db => db.WithHostPort(8085))
     .ConfigureComposeFile(file =>
     {
@@ -25,22 +25,22 @@ var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true
 //.WithPassword(postgresPasswordParameter)
 
 
-var catalogMaster = builder
-    .AddPostgres("catalog-master")
+var catalogPrimaryDb = builder
+    .AddPostgres("catalog-primary")
     .WithDockerfile("../../../docker")
     //.WithImage(image: "paradedb/paradedb", tag: "v0.19.5-pg17")
     //.WithArgs("-c", "wal_level=logical")
     //.WithArgs("-c", "max_replication_slots=4")
     //.WithArgs("-c", "max_wal_senders=4")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataVolume("catalog-master-data", isReadOnly: false)
-    .AddDatabase("catalogdb-master");
+    .WithDataVolume("catalog-primary-data", isReadOnly: false)
+    .AddDatabase("catalog");
 /*
-var catalogReplica = builder
+var catalogReplicaDb = builder
     .AddPostgres("catalog-replica")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume("catalog-replica-data", isReadOnly: false)
-    .AddDatabase("catalog-replica");
+    .AddDatabase("catalog");
 */
 
 //.WithImage(image: "paradedb/paradedb", tag: "v0.19.3-pg17")
@@ -72,7 +72,7 @@ var catalogIngester = builder
     .WithEnvironment("IGDB_CLIENT_SECRET", IGDB_CLIENT_SECRET)
     .WithEnvironment("HOST_DOMAIN", hostDomain)
     .WithEnvironment("WEBHOOK_SECRET", webhookSecret);
-
+    .WithReference(catalogPrimaryDb, "catalog-primary") // custom name for connectionstring
 var catalogWorker = builder
     .AddProject<Projects.Catalog_Worker>("catalog-worker")
     // start initial process command!
@@ -126,13 +126,14 @@ var catalogApi = builder
 adminKey.WithParentRelationship(catalogApi);
 */
 /*
-var mainPostgres = builder.AddPostgres("mainPostgres").WithLifetime(ContainerLifetime.Persistent)
+var userDb = builder.AddPostgres("user-db")
+    .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume(isReadOnly: false); //.WithPgAdmin().WithPgWeb();
 var apiServiceDatabase = mainPostgres.AddDatabase("maindb");
 var apiService = builder.AddProject<Projects.Ludus.Api>("apiservice")
     .WithReference(apiServiceDatabase);
 
-
+// https://aspire.dev/whats-new/aspire-13/#javascript-as-a-first-class-citizen
 // https://github.com/davidfowl/aspire-ai-chat-demo/tree/main/AIChat.AppHost
 // https://learn.microsoft.com/en-us/dotnet/aspire/whats-new/dotnet-aspire-9.5#yarp-static-files-support
 if (builder.ExecutionContext.IsRunMode)
@@ -158,6 +159,7 @@ if (builder.ExecutionContext.IsRunMode)
             ctx.Args.Add(targetEndpoint.Property(EndpointProperty.TargetPort));
         })
         .WithEnvironment("BROWSER", "none")
+        .WithEnvironment("API_URL", apiService.GetEndpoint("https")) // for auth redirect?
         .WithEnvironment(context =>
         {
             if (context.ExecutionContext.IsRunMode)

@@ -41,7 +41,7 @@ public class WebhookClient(HttpClient httpClient)
             new Dictionary<string, string>
             {
                 ["url"] = callbackUrl,
-                ["secret"] = Guid.NewGuid().ToString(),
+                ["secret"] = Guid.NewGuid().ToString(), // TODO: FIX SECRET
                 ["method"] = method.ToString(),
             }
         );
