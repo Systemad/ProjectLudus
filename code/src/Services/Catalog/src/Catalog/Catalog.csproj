@@ -10,5 +10,8 @@
     <PackageReference Include="Riok.Mapperly" ExcludeAssets="runtime" PrivateAssets="all">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+
+
+    
   </ItemGroup>
 </Project>

@@ -1,9 +1,8 @@
 ﻿using Catalog.Platforms.Models;
-using IGDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.Platforms;
+namespace Catalog.Data.Configurations;
 
 public class PlatformConfiguration : IEntityTypeConfiguration<PlatformEntity>
 {

@@ -10,9 +10,9 @@ public class GameEngineEntity
     public string Name { get; set; }
     public string Slug { get; set; }
     public string Url { get; set; }
-
+    public Instant UpdatedAt { get; set; }
+    public Instant CreatedAt { get; set; }
     public GameEngine Metadata { get; set; } = null!;
     public GameEngineLogo? Logo { get; set; }
-    public Instant UpdatedAt { get; set; }
     public ICollection<GameEntity> Games { get; set; } = [];
 }

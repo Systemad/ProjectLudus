@@ -8,7 +8,7 @@ namespace Catalog.Games.Features.GetGamesByParameters;
 
 public class GetGamesByParametersEndpoint : Endpoint<GameSearchRequest, PaginatedResponse<GameDto>>
 {
-    public CatalogContext Context { get; set; }
+    public CatalogDbContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -19,7 +19,7 @@ public class GetGamesByParametersEndpoint : Endpoint<GameSearchRequest, Paginate
 
     public override async Task HandleAsync(GameSearchRequest req, CancellationToken ct)
     {
-        IQueryable<GameEntity> gameQuery = Context.Games;
+        IQueryable<GameEntity> gameQuery = DbContext.Games;
 
         if (!string.IsNullOrWhiteSpace(req.Query))
         {

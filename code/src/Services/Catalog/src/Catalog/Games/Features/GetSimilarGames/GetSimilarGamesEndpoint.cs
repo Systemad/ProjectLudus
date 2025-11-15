@@ -18,7 +18,7 @@ public class GetSimilarGamesResponse
 
 public class GetSimilarGamesEndpoint : Endpoint<GetSimilarGamesRequest, GetSimilarGamesResponse>
 {
-    public CatalogContext Context { get; set; }
+    public CatalogDbContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -30,7 +30,7 @@ public class GetSimilarGamesEndpoint : Endpoint<GetSimilarGamesRequest, GetSimil
     public override async Task HandleAsync(GetSimilarGamesRequest req, CancellationToken ct)
     {
         // DO SELECT HERE!!!
-        var similarGames = await Context
+        var similarGames = await DbContext
             .Games.Where(x => x.Id == req.GameId)
             .Select(s => s.SimilarGames)
             .ToListAsync(cancellationToken: ct);

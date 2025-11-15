@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.Genres;
+namespace Catalog.Data.Configurations;
 
 public class GenreConfiguration : IEntityTypeConfiguration<GameEntity>
 {

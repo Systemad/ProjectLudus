@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.Themes;
+namespace Catalog.Data.Configurations;
 
 public class ThemeConfiguration : IEntityTypeConfiguration<ThemeEntity>
 {

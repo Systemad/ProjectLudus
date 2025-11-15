@@ -13,7 +13,8 @@
         "ASPIRE_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22058",
         "ASPIRE_DASHBOARD_AI_DISABLED": "true",
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21123",
-        "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22074"
+        "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22074",
+        "ASPIRE_DASHBOARD_MCP_DISABLED": "true"
       }
     },
     "http": {

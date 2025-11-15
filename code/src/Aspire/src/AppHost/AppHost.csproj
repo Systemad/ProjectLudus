@@ -15,7 +15,12 @@
         <PackageReference Include="Aspire.Hosting.JavaScript"/>
         <PackageReference Include="Aspire.Hosting.PostgreSQL" />
         <PackageReference Include="Aspire.Hosting.Yarp" />
+        <!--
         <PackageReference Include="CommunityToolkit.Aspire.Hosting.NodeJS.Extensions" />
+    -->
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Services\Catalog\src\Catalog.Worker\Catalog.Worker.csproj" />
     </ItemGroup>
 
 </Project>

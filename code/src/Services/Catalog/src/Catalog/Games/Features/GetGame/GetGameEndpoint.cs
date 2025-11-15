@@ -13,7 +13,7 @@ public record GetGamesByIdResponse(GameDto Game);
 
 public class GetGameEndpoint : Endpoint<GetGameByIdRequest>
 {
-    public CatalogContext DbContext { get; set; }
+    public CatalogDbContext DbDbContext { get; set; }
 
     public override void Configure()
     {

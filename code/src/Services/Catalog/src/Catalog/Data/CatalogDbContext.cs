@@ -8,18 +8,11 @@ using Catalog.Genres.Models;
 using Catalog.Platforms.Models;
 using Catalog.PlayerPerspective.Models;
 using Catalog.Themes.Models;
-using CatalogAPI.Data.Features.Franchises;
-using CatalogAPI.Data.Features.GameEngines;
-using CatalogAPI.Data.Features.GameModes;
-using CatalogAPI.Data.Features.Genres;
-using CatalogAPI.Data.Features.Platforms;
-using CatalogAPI.Data.Features.PlayerPerspective;
-using CatalogAPI.Data.Features.Themes;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Data;
 
-public class CatalogContext(DbContextOptions<CatalogContext> options) : DbContext(options)
+public class CatalogDbContext(DbContextOptions<CatalogDbContext> options) : DbContext(options)
 {
     //public DbSet<PopularityPrimitive> PopScoreGames { get; set; }
     public DbSet<GameEntity> Games { get; set; }

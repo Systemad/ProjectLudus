@@ -7,7 +7,7 @@ namespace Catalog.Games.Features.GetFilters;
 
 public class GetFiltersEndpoint : EndpointWithoutRequest<GetFiltersResponse>
 {
-    public CatalogContext DbContext { get; set; }
+    public CatalogDbContext DbDbContext { get; set; }
 
     public override void Configure()
     {
@@ -19,11 +19,11 @@ public class GetFiltersEndpoint : EndpointWithoutRequest<GetFiltersResponse>
     // use fusion cache here
     public override async Task HandleAsync(CancellationToken ct)
     {
-        var genres = await DbContext
+        var genres = await DbDbContext
             .Genres.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
 
-        var platforms = await DbContext
+        var platforms = await DbDbContext
             .Platforms.Where(x => ConsolePriority.IDS.Contains(x.Id))
             .Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
@@ -34,7 +34,7 @@ public class GetFiltersEndpoint : EndpointWithoutRequest<GetFiltersResponse>
             .Select(x => new FilterItem(x.OriginalId, x.Type))
             .ToListAsync(token: ct);
         */
-        var themes = await DbContext
+        var themes = await DbDbContext
             .Themes.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
 
@@ -45,7 +45,7 @@ public class GetFiltersEndpoint : EndpointWithoutRequest<GetFiltersResponse>
             .Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(token: ct);
         */
-        var gameEngines = await DbContext
+        var gameEngines = await DbDbContext
             .GameEngines.Select(x => new FilterItem(x.Id, x.Name))
             .ToListAsync(ct);
 

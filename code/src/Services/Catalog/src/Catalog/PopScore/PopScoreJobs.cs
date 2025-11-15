@@ -8,11 +8,11 @@ namespace Catalog.PopScore;
 public class PopScoreJobs
 {
     private IGDBClient _client;
-    private CatalogContext _dbContext;
+    private CatalogDbContext _dbDbContext;
 
-    public PopScoreJobs(CatalogContext dbContext, IGDBClient client)
+    public PopScoreJobs(CatalogDbContext dbDbContext, IGDBClient client)
     {
-        _dbContext = dbContext;
+        _dbDbContext = dbDbContext;
         _client = client;
     }
 

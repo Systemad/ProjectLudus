@@ -1,4 +1,5 @@
 ﻿using Catalog.Companies.Models;
+using Catalog.Franchises.Models;
 using Catalog.GameEngines.Models;
 using Catalog.GameModes.Models;
 using Catalog.Genres.Models;
@@ -21,7 +22,7 @@ public class GameEntity
     public long? TotalRatingCount { get; set; }
     public Instant FirstReleaseDate { get; set; }
     public Instant UpdatedAt { get; set; }
-
+    public Instant CreatedAt { get; set; }
     public Game Metadata { get; set; } = null!;
     public ICollection<GameEntity> SimilarGames { get; set; } = [];
     public ICollection<CompanyEntity> Developers { get; set; } = [];
@@ -29,6 +30,7 @@ public class GameEntity
     public ICollection<GameEngineEntity> GameEngines { get; set; } = [];
     public ICollection<GenreEntity> Genres { get; set; } = [];
     public ICollection<PlatformEntity> Platforms { get; set; } = [];
+    public ICollection<FranchiseEntity> Franchises { get; set; } = [];
     public ICollection<ThemeEntity> Themes { get; set; } = [];
     public ICollection<GameModeEntity> GameModes { get; set; } = [];
     public ICollection<PlayerPerspectiveEntity> PlayerPerspectives { get; set; } = [];

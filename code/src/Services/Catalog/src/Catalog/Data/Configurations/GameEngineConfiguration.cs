@@ -1,10 +1,8 @@
-﻿using Catalog.GameEngines;
-using Catalog.GameEngines.Models;
-using IGDB.Models;
+﻿using Catalog.GameEngines.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.GameEngines;
+namespace Catalog.Data.Configurations;
 
 public class GameEngineConfiguration : IEntityTypeConfiguration<GameEngineEntity>
 {

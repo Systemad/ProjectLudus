@@ -1,9 +1,8 @@
-﻿using Catalog.GameModes;
-using Catalog.GameModes.Models;
+﻿using Catalog.GameModes.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.GameModes;
+namespace Catalog.Data.Configurations;
 
 public class GameModeConfiguration : IEntityTypeConfiguration<GameModeEntity>
 {

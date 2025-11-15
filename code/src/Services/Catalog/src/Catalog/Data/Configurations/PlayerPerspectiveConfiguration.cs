@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.PlayerPerspective;
+namespace Catalog.Data.Configurations;
 
 public class PlayerPerspectiveConfiguration : IEntityTypeConfiguration<PlayerPerspectiveEntity>
 {

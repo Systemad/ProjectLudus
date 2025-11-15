@@ -12,7 +12,7 @@ public class DataFetcherService(IgdbService service) : IDataFetcherService
         //await SeedAsync<Game>(IgdbType.GAME, cancellationToken);
 
         //await SeedAsync<Genre>(IgdbType.GENRE, cancellationToken);
-        await FetchDataAsync<Company>(IgdbType.COMPANY, cancellationToken);
+        await FetchDataAsync<IGDB.Models.Company>(IgdbType.COMPANY, cancellationToken);
         //await SeedAsync<Theme>(IgdbType.THEME, cancellationToken);
         //await SeedAsync<Platform>(IgdbType.PLATFORM, cancellationToken);
         //await SeedAsync<GameEngine>(IgdbType.GAME_ENGINE, cancellationToken);

@@ -20,7 +20,7 @@ public class GetTopRatedGamesRequest : IPaginationQuery
 
 public class GetTopRatedGamesEndpoint : Endpoint<GetTopRatedGamesRequest, PaginatedResponse<GameDto>>
 {
-    public CatalogContext Context { get; set; }
+    public CatalogDbContext DbContext { get; set; }
 
     public override void Configure()
     {
@@ -31,7 +31,7 @@ public class GetTopRatedGamesEndpoint : Endpoint<GetTopRatedGamesRequest, Pagina
 
     public override async Task HandleAsync(GetTopRatedGamesRequest req, CancellationToken ct)
     {
-        var games = await Context
+        var games = await DbContext
             .Games
             // TODO: USE RAW PARADEDB SYTNAX AND BOOST!!
             .Where(x => x.GameType == 0)

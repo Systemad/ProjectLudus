@@ -8,17 +8,18 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 builder
     .AddDockerComposeEnvironment("docker-compose")
-    .WithDashboard(db => db.WithHostPort(8085))
+    .WithDashboard(db => db.WithHostPort(8085));
+    /*
     .ConfigureComposeFile(file =>
     {
         file.Name = "ludus";
     });
+*/
+//var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
+//var pgPassword = builder.AddParameter("pg-password", "mypassword", secret: true);
 
-var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
-var pgPassword = builder.AddParameter("pg-password", "mypassword", secret: true);
-
-var IGDB_CLIENT_ID = builder.AddParameter("igdb-client-id", secret: true);
-var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true);
+//var IGDB_CLIENT_ID = builder.AddParameter("igdb-client-id", secret: true);
+//var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true);
 
 //var IGDB_ACCESSTOKEN = builder.AddParameter("igdb-token", secret: true);
 //.WithUserName(postgresUsernameParameter)
@@ -27,7 +28,7 @@ var IGDB_CLIENT_SECRET = builder.AddParameter("igdb-client-secret", secret: true
 
 var catalogPrimaryDb = builder
     .AddPostgres("catalog-primary")
-    .WithDockerfile("../../../docker")
+    .WithDockerfile("../../../../../docker")
     //.WithImage(image: "paradedb/paradedb", tag: "v0.19.5-pg17")
     //.WithArgs("-c", "wal_level=logical")
     //.WithArgs("-c", "max_replication_slots=4")
@@ -45,6 +46,7 @@ var catalogReplicaDb = builder
 
 //.WithImage(image: "paradedb/paradedb", tag: "v0.19.3-pg17")
 //.WithDockerfile("../../../docker")
+/*
 var webhookSecret = builder.AddParameter("webhook-secret");
 var hostDomain = builder.AddParameter("host-domain");
 
@@ -62,7 +64,7 @@ var adminKey = builder
         }
     );
 #pragma warning restore ASPIREINTERACTION001
-
+*/
 /*
 var catalogIngester = builder
     .AddProject<Projects.Catalog_Ingester>("catalog-ingester")
@@ -73,49 +75,15 @@ var catalogIngester = builder
     .WithEnvironment("HOST_DOMAIN", hostDomain)
     .WithEnvironment("WEBHOOK_SECRET", webhookSecret);
     .WithReference(catalogPrimaryDb, "catalog-primary") // custom name for connectionstring
+*/
 var catalogWorker = builder
     .AddProject<Projects.Catalog_Worker>("catalog-worker")
     // start initial process command!
     // ONE COMMAND, ONE PROCESS!
-    .WithHttpCommand(
-        path: "admin/queue/start",
-        displayName: "Start queue",
-        commandOptions: new HttpCommandOptions()
-        {
-            IconName = "DatabaseFilled",
-            IconVariant = IconVariant.Filled,
-            ConfirmationMessage = "Do you want to start queue to process webhook messages?",
-            PrepareRequest = async (context) =>
-            {
-                context.Request.Headers.Add(
-                    "X-AdminKey",
-                    $"{await adminKey.Resource.GetValueAsync(CancellationToken.None)}"
-                );
-            },
-            IsHighlighted = false,
-        }
-    )
-    .WithHttpCommand(
-        path: "admin/queue/stop",
-        displayName: "Start queue",
-        commandOptions: new HttpCommandOptions()
-        {
-            IconName = "DatabaseFilled",
-            IconVariant = IconVariant.Filled,
-            ConfirmationMessage = "Do you want to start queue to process webhook messages?",
-            PrepareRequest = async (context) =>
-            {
-                context.Request.Headers.Add(
-                    "X-AdminKey",
-                    $"{await adminKey.Resource.GetValueAsync(CancellationToken.None)}"
-                );
-            },
-            IsHighlighted = false,
-        }
-    )
-    .WithReference(catalogMaster)
-    .WithReference(catalogIngester);
-
+    .WithReference(catalogPrimaryDb, "catalog-primary");
+    
+    //.WithReference(catalogIngester);
+/*
 var catalogApi = builder
     .AddProject<Projects.CatalogAPI>("catalog-api")
     .WithExplicitStart()

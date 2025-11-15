@@ -1,9 +1,8 @@
 ﻿using Catalog.Franchises.Models;
-using IGDB.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CatalogAPI.Data.Features.Franchises;
+namespace Catalog.Data.Configurations;
 
 public class FranchiseConfiguration : IEntityTypeConfiguration<FranchiseEntity>
 {
