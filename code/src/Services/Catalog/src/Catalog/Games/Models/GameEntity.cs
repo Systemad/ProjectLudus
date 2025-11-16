@@ -15,11 +15,13 @@ public class GameEntity
 {
     public long Id { get; set; }
     public string Name { get; set; }
+    public string Slug { get; set; }
     public long GameType { get; set; }
     public double? Rating { get; set; }
     public long? RatingCount { get; set; }
     public double? TotalRating { get; set; }
     public long? TotalRatingCount { get; set; }
+    public string Url { get; set; }
     public Instant FirstReleaseDate { get; set; }
     public Instant UpdatedAt { get; set; }
     public Instant CreatedAt { get; set; }

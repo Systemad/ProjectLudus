@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Features.Genres;
+﻿namespace Catalog.Worker.Queries;
 
 public static class GenreQuery
 {

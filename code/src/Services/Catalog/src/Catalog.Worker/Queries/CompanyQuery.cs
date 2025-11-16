@@ -1,4 +1,4 @@
-﻿namespace Catalog.Worker.Features.Companies;
+﻿namespace Catalog.Worker.Queries;
 
 public static class CompanyQuery
 {

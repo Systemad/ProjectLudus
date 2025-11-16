@@ -1,11 +1,4 @@
 ﻿using BuildingBlocks.Twitch;
-using Catalog.Worker.Features.Companies;
-using CatalogAPI.Features.GameEngines;
-using CatalogAPI.Features.Games;
-using CatalogAPI.Features.Genres;
-using CatalogAPI.Features.Platforms;
-using CatalogAPI.Features.PlayerPerspective;
-using CatalogAPI.Features.Themes;
 
 namespace Catalog.Worker.Queries;
 

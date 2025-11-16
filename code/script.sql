@@ -59,11 +59,13 @@ CREATE TABLE game_modes (
 CREATE TABLE games (
     id bigint NOT NULL,
     name text NOT NULL,
+    slug text NOT NULL,
     game_type bigint NOT NULL,
     rating double precision,
     rating_count bigint,
     total_rating double precision,
     total_rating_count bigint,
+    url text NOT NULL,
     first_release_date timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -212,7 +214,7 @@ CREATE INDEX ix_games_game_entity_id ON games (game_entity_id);
 CREATE INDEX ix_publisher_game_game_id ON publisher_game (game_id);
 
 INSERT INTO "__EFMigrationsHistory" (migration_id, product_version)
-VALUES ('20251115231414_Initial', '10.0.0-rc.2.25502.107');
+VALUES ('20251116222936_Initial', '10.0.0-rc.2.25502.107');
 
 COMMIT;
 

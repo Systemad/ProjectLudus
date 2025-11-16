@@ -4,6 +4,7 @@ using NodaTime;
 
 namespace Catalog.Platforms.Models;
 
+// TODO: RUN MIGRATION!
 public class PlatformEntity
 {
     public long Id { get; set; }
@@ -11,6 +12,7 @@ public class PlatformEntity
     public string? Abbreviation { get; set; }
     public long? Generation { get; set; }
     public string Slug { get; set; }
+    public string Url { get; set; }
     public Instant UpdatedAt { get; set; }
     public Instant CreatedAt { get; set; }
     public PlatformLogo? Logo { get; set; }

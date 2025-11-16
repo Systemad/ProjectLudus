@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Features.PlayerPerspective;
+﻿namespace Catalog.Worker.Queries;
 
 public static class PlayerPerspectiveQuery
 {

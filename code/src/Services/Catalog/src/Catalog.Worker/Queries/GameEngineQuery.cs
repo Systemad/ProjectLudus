@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Features.GameEngines;
+﻿namespace Catalog.Worker.Queries;
 
 public static class GameEngineQuery
 {

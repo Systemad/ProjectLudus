@@ -16,7 +16,6 @@ public class GetFiltersEndpoint : EndpointWithoutRequest<GetFiltersResponse>
         AllowAnonymous();
     }
 
-    // use fusion cache here
     public override async Task HandleAsync(CancellationToken ct)
     {
         var genres = await DbDbContext

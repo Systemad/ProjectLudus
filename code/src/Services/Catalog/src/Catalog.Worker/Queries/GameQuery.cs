@@ -1,6 +1,6 @@
 ﻿using IGDB;
 
-namespace CatalogAPI.Features.Games;
+namespace Catalog.Worker.Queries;
 
 public static class GameQuery
 {

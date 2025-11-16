@@ -105,11 +105,13 @@ namespace Catalog.Data.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
+                    slug = table.Column<string>(type: "text", nullable: false),
                     game_type = table.Column<long>(type: "bigint", nullable: false),
                     rating = table.Column<double>(type: "double precision", nullable: true),
                     rating_count = table.Column<long>(type: "bigint", nullable: true),
                     total_rating = table.Column<double>(type: "double precision", nullable: true),
                     total_rating_count = table.Column<long>(type: "bigint", nullable: true),
+                    url = table.Column<string>(type: "text", nullable: false),
                     first_release_date = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<Instant>(type: "timestamp with time zone", nullable: false),

@@ -1,4 +1,4 @@
-﻿namespace CatalogAPI.Features.Platforms;
+﻿namespace Catalog.Worker.Queries;
 
 public static class PlatformQuery
 {

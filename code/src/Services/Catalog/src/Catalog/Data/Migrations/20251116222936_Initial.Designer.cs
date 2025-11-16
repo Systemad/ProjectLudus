@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.Data.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20251115231414_Initial")]
+    [Migration("20251116222936_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -244,6 +244,11 @@ namespace Catalog.Data.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("rating_count");
 
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("slug");
+
                     b.Property<double?>("TotalRating")
                         .HasColumnType("double precision")
                         .HasColumnName("total_rating");
@@ -255,6 +260,11 @@ namespace Catalog.Data.Migrations
                     b.Property<Instant>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
 
                     b.HasKey("Id")
                         .HasName("pk_games");
