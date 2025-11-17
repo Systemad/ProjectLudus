@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Twitch;
-using Catalog.Worker.Queries;
-using IGDB;
+﻿using IGDB;
 
 namespace Catalog.Worker.Services;
 
@@ -8,7 +6,11 @@ public record PagedResult<T>(List<T> Items, long TotalCount);
 
 public interface IIgdbService
 {
-    IAsyncEnumerable<PagedResult<T>> FetchAllPagesAsync<T>(IgdbType reference, int pageSize = 500);
+    IAsyncEnumerable<PagedResult<T>> FetchAllPagesAsync<T>(
+        string endpoint,
+        IReadOnlyList<string> fields,
+        int pageSize = 500
+    );
 }
 
 public class IgdbService(IGDBClient apiClient) : IIgdbService
@@ -38,13 +40,15 @@ public class IgdbService(IGDBClient apiClient) : IIgdbService
     */
 
     public async IAsyncEnumerable<PagedResult<T>> FetchAllPagesAsync<T>(
-        IgdbType reference,
+        string endpoint,
+        IReadOnlyList<string> fields,
         int pageSize = 500
     )
     {
-        var (url, fields) = QueryHelper.QueryMaps[reference];
-        var totalItems = await apiClient.CountAsync(url);
-        await foreach (var pageResult in GetAllPages<T>(url, fields, totalItems.Count, pageSize))
+        var totalItems = await apiClient.CountAsync(endpoint);
+        await foreach (
+            var pageResult in GetAllPages<T>(endpoint, fields, totalItems.Count, pageSize)
+        )
         {
             yield return new PagedResult<T>(pageResult, totalItems.Count);
         }
@@ -52,7 +56,7 @@ public class IgdbService(IGDBClient apiClient) : IIgdbService
 
     private async IAsyncEnumerable<List<T>> GetAllPages<T>(
         string url,
-        List<string> fields,
+        IReadOnlyList<string> fields,
         long totalCount,
         int pageSize = 500
     )

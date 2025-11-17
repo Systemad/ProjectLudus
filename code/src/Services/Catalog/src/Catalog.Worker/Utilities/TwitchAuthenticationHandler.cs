@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using BuildingBlocks.Twitch;
 
-namespace CatalogAPI.Utilities;
+namespace Catalog.Worker.Utilities;
 
 public class TwitchAuthenticationHandler(TwitchOptions twitchOptions) : DelegatingHandler
 {

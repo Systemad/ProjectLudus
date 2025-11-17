@@ -154,6 +154,7 @@ namespace Catalog.Data.Migrations
                     abbreviation = table.Column<string>(type: "text", nullable: true),
                     generation = table.Column<long>(type: "bigint", nullable: true),
                     slug = table.Column<string>(type: "text", nullable: false),
+                    url = table.Column<string>(type: "text", nullable: false),
                     updated_at = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<Instant>(type: "timestamp with time zone", nullable: false),
                     logo = table.Column<PlatformLogo>(type: "jsonb", nullable: true)

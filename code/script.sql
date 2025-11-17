@@ -91,6 +91,7 @@ CREATE TABLE platforms (
     abbreviation text,
     generation bigint,
     slug text NOT NULL,
+    url text NOT NULL,
     updated_at timestamp with time zone NOT NULL,
     created_at timestamp with time zone NOT NULL,
     logo jsonb,
@@ -214,7 +215,7 @@ CREATE INDEX ix_games_game_entity_id ON games (game_entity_id);
 CREATE INDEX ix_publisher_game_game_id ON publisher_game (game_id);
 
 INSERT INTO "__EFMigrationsHistory" (migration_id, product_version)
-VALUES ('20251116222936_Initial', '10.0.0-rc.2.25502.107');
+VALUES ('20251117120116_Initial', '10.0.0-rc.2.25502.107');
 
 COMMIT;
 

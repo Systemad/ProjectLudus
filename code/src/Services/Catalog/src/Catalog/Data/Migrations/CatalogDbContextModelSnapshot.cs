@@ -346,6 +346,11 @@ namespace Catalog.Data.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("url");
+
                     b.HasKey("Id")
                         .HasName("pk_platforms");
 
