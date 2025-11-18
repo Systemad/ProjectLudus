@@ -14,7 +14,6 @@ public class GameBulkInsert : IBulkInsert<Game>
         writer.Write(item.Id, NpgsqlDbType.Bigint);
         writer.Write(item.Name, NpgsqlDbType.Text);
         writer.Write(item.Slug, NpgsqlDbType.Text);
-        // maybe just int?
         writer.Write(item.GameType.Value.Id, NpgsqlDbType.Bigint);
         writer.Write(item.Rating, NpgsqlDbType.Double);
         writer.Write(item.RatingCount, NpgsqlDbType.Bigint);
