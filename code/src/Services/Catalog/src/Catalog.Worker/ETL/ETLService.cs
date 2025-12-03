@@ -1,3 +1,5 @@
+using Catalog.Worker.ETL.Configs;
+using Catalog.Worker.ETL.Pipelines;
 using Catalog.Worker.Services;
 using Npgsql;
 using Parquet;
@@ -7,6 +9,11 @@ namespace Catalog.Worker.ETL;
 
 public class EtlService(IgdbService service)
 {
+    
+    public async Task RunAllEntitiesAsync(CancellationToken cancellationToken)
+    {
+
+    }
     public async Task FetchDataAsync<T>(CancellationToken cancellationToken, EntityMetadata<T> config)
     {
         long amount = 0;

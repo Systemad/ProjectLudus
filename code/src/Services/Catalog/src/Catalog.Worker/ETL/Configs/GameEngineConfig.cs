@@ -18,7 +18,7 @@ public static class GameEngineConfig
                 "logo.slug",
                 "logo.url",
                 "updated_at",
-                "created_at",
+                "created_at"
             ],
             CopyCommand: "COPY game_engines (id, name, slug, url, start_date, updated_at, created_at, metadata) FROM STDIN (FORMAT BINARY)",
             WriteRow: (writer, item) =>

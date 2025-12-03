@@ -8,7 +8,7 @@ public static class CompanyConfig
     public static EntityMetadata<Company> Config { get; } =
         new(
             Endpoint: "companies",
-            Fields: ["fields *", "status.name", "websites.type.type", "websites.*", "logo.*;"],
+            Fields: ["*", "status.name", "websites.type.type", "websites.*", "logo.*;"],
             CopyCommand: "COPY companies (id, name, slug, url, start_date, updated_at, created_at, metadata) FROM STDIN (FORMAT BINARY)",
             WriteRow: (writer, item) =>
             {

@@ -1,6 +1,6 @@
 namespace Catalog.Worker.ETL.Pipelines;
 
-public class IPipelineStep
+public interface IPipelineStep<T>
 {
-    
+    Task<T> ProcessAsync(T input, CancellationToken cancellationToken);
 }

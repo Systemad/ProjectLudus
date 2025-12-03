@@ -15,30 +15,6 @@ public interface IIgdbService
 
 public class IgdbService(IGDBClient apiClient) : IIgdbService
 {
-    /*
-    public async Task<List<T>> FetchMultiQuery<T>()
-    {
-        MultiQueryResult<T>[]? response = await apiClient.QueryAsync<MultiQueryResult<T>>("multiquery", "query");
-        List<MultiQueryResult<T>> hey = response.ToList();
-        List<Theme> themesList = ExtractListByName<object, Theme>(hey, "Themes");
-        List<Genre> genresList = ExtractListByName<object, Genre>(hey, "Genres");
-        
-    }
-
-    public List<TTyped> ExtractListByName<T, TTyped>(List<MultiQueryResult<T>> results, string name)
-    {
-        MultiQueryResult<T>? queryResult = results.FirstOrDefault(r => r.Name == name);
-        return queryResult?.Data as List<TTyped> ?? new List<TTyped>();
-    }
-    
-    public List<T> ExtractData<T>(List<MultiQueryResult<T>> results, string queryName)
-    {
-        var target = results.FirstOrDefault(r => r.Name == queryName);
-
-        return target.Data;
-    }
-    */
-
     public async IAsyncEnumerable<PagedResult<T>> FetchAllPagesAsync<T>(
         string endpoint,
         IReadOnlyList<string> fields,
@@ -79,6 +55,32 @@ public class IgdbService(IGDBClient apiClient) : IIgdbService
 }
 
 
+/*
+ *
+ *     /*
+    public async Task<List<T>> FetchMultiQuery<T>()
+    {
+        MultiQueryResult<T>[]? response = await apiClient.QueryAsync<MultiQueryResult<T>>("multiquery", "query");
+        List<MultiQueryResult<T>> hey = response.ToList();
+        List<Theme> themesList = ExtractListByName<object, Theme>(hey, "Themes");
+        List<Genre> genresList = ExtractListByName<object, Genre>(hey, "Genres");
+        
+    }
+
+    public List<TTyped> ExtractListByName<T, TTyped>(List<MultiQueryResult<T>> results, string name)
+    {
+        MultiQueryResult<T>? queryResult = results.FirstOrDefault(r => r.Name == name);
+        return queryResult?.Data as List<TTyped> ?? new List<TTyped>();
+    }
+    
+    public List<T> ExtractData<T>(List<MultiQueryResult<T>> results, string queryName)
+    {
+        var target = results.FirstOrDefault(r => r.Name == queryName);
+
+        return target.Data;
+    }
+    * /
+ */
 /*
 public class IgdbService(ApiClient apiClient)
 {

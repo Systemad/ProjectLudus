@@ -11,10 +11,11 @@ public static class GameConfig
             Fields:
             [
                 "age_ratings.content_descriptions.description",
-                "age_ratings.organization.name",
                 "age_ratings.rating_category.rating",
                 "age_ratings.rating_content_descriptions.description",
+                "age_ratings.organization.*",
                 "age_ratings.rating_cover_url",
+
                 "alternative_names.name",
                 "artworks.animated",
                 "artworks.image_id",

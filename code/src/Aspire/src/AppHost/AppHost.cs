@@ -6,14 +6,13 @@ using Aspire.Hosting.Yarp.Transforms;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder
-    .AddDockerComposeEnvironment("docker-compose")
-    .WithDashboard(db => db.WithHostPort(8085));
-    /*
-    .ConfigureComposeFile(file =>
-    {
-        file.Name = "ludus";
-    });
+builder.AddDockerComposeEnvironment("docker-compose").WithDashboard(db => db.WithHostPort(8085));
+
+/*
+.ConfigureComposeFile(file =>
+{
+    file.Name = "ludus";
+});
 */
 //var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
 //var pgPassword = builder.AddParameter("pg-password", "mypassword", secret: true);
@@ -25,17 +24,28 @@ builder
 //.WithUserName(postgresUsernameParameter)
 //.WithPassword(postgresPasswordParameter)
 
-
 var catalogPrimaryDb = builder
     .AddPostgres("catalog-primary")
-    .WithDockerfile("../../../../../docker")
-    //.WithImage(image: "paradedb/paradedb", tag: "v0.19.5-pg17")
-    //.WithArgs("-c", "wal_level=logical")
-    //.WithArgs("-c", "max_replication_slots=4")
-    //.WithArgs("-c", "max_wal_senders=4")
+    .WithHostPort(5433)
+    .WithImage(image: "paradedb/paradedb", tag: "v0.20.0-pg17")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume("catalog-primary-data", isReadOnly: false)
-    .AddDatabase("catalog");
+    .WithEndpoint("tcp", ep => 
+    {
+        ep.Port = 5433;
+        ep.TargetPort = 5432;
+        ep.IsProxied = false;
+    })
+    .AddDatabase("catalogdev");
+
+/*
+ *
+    //.WithDockerfile("../../../../../docker")
+ * 
+ *     //.WithArgs("-c", "wal_level=logical")
+    //.WithArgs("-c", "max_replication_slots=4")
+    //.WithArgs("-c", "max_wal_senders=4")
+ */
 /*
 var catalogReplicaDb = builder
     .AddPostgres("catalog-replica")
@@ -76,13 +86,13 @@ var catalogIngester = builder
     .WithEnvironment("WEBHOOK_SECRET", webhookSecret);
     .WithReference(catalogPrimaryDb, "catalog-primary") // custom name for connectionstring
 */
-var catalogWorker = builder
-    .AddProject<Projects.Catalog_Worker>("catalog-worker")
+//var catalogWorker = builder
+//    .AddProject<Projects.Catalog_Worker>("catalog-worker")
     // start initial process command!
     // ONE COMMAND, ONE PROCESS!
-    .WithReference(catalogPrimaryDb, "catalog-primary");
-    
-    //.WithReference(catalogIngester);
+//    .WithReference(catalogPrimaryDb, "catalog-primary");
+
+//.WithReference(catalogIngester);
 /*
 var catalogApi = builder
     .AddProject<Projects.CatalogAPI>("catalog-api")
