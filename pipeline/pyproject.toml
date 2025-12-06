@@ -13,4 +13,5 @@ dependencies = [
     "marimo",
     "numpy==2.3.5",
     "dbt-core",
-    "dbt-postgres"]
+    "dbt-postgres",
+    "shandy-sqlfmt[jinjafmt]"]

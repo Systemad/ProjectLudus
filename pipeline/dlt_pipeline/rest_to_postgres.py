@@ -110,12 +110,14 @@ def igdb_source():
             # Endpoints.POPULARITY_PRIMITIVES,
             # Endpoints.POPULARITY_TYPES,
             Endpoints.REGIONS,
-            Endpoints.RELEASE_DATES,
+            # Same as WEBSITES
+            # Endpoints.RELEASE_DATES,
             Endpoints.RELEASE_DATE_REGIONS,
             Endpoints.RELEASE_DATE_STATUSES,
             Endpoints.SCREENSHOTS,
             Endpoints.THEMES,
-            Endpoints.WEBSITES,
+            # 700K, way too much, just expand games!, fields *,websites.*
+            # Endpoints.WEBSITES,
             Endpoints.WEBSITE_TYPES,
         ],
     }
