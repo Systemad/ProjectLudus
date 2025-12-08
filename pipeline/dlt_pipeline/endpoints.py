@@ -78,6 +78,7 @@ class Endpoints(str, Enum):
     PLATFORM_TYPES = "platform_types"
     PLATFORM_FAMILY = "platform_families"
     PLATFORM_VERSIONS = "platform_versions"
+    PLATFORM_LOGOS = "platform_logos"
     PLATFORM_VERSION_COMPANIES = "platform_version_companies"
     PLATFORM_VERSION_RELEASE_DATES = "platform_version_release_dates"
     PLATFORM_WEBSITES = "platform_websites"

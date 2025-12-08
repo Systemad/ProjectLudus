@@ -78,7 +78,6 @@ def igdb_source():
             Endpoints.EXTERNAL_GAMES,
             Endpoints.EXTERNAL_GAME_SOURCES,
             Endpoints.FRANCHISES,
-            Endpoints.GAMES,
             Endpoints.GAME_ENGINES,
             Endpoints.GAME_ENGINE_LOGOS,
             Endpoints.GAME_LOCALIZATIONS,
@@ -100,6 +99,7 @@ def igdb_source():
             Endpoints.MULTIPLAYER_MODES,
             Endpoints.NETWORK_TYPES,
             Endpoints.PLATFORMS,
+            Endpoints.PLATFORM_LOGOS,
             Endpoints.PLATFORM_TYPES,
             Endpoints.PLATFORM_FAMILY,
             Endpoints.PLATFORM_VERSIONS,
@@ -107,18 +107,27 @@ def igdb_source():
             Endpoints.PLATFORM_VERSION_RELEASE_DATES,
             Endpoints.PLATFORM_WEBSITES,
             Endpoints.PLAYER_PERSPECTIVES,
-            # Endpoints.POPULARITY_PRIMITIVES,
-            # Endpoints.POPULARITY_TYPES,
             Endpoints.REGIONS,
-            # Same as WEBSITES
-            # Endpoints.RELEASE_DATES,
             Endpoints.RELEASE_DATE_REGIONS,
             Endpoints.RELEASE_DATE_STATUSES,
             Endpoints.SCREENSHOTS,
             Endpoints.THEMES,
-            # 700K, way too much, just expand games!, fields *,websites.*
-            # Endpoints.WEBSITES,
             Endpoints.WEBSITE_TYPES,
+            {
+                "name": Endpoints.GAMES,
+                "endpoint": {
+                    "path": Endpoints.GAMES,
+                    "params": {
+                        "fields": "*,websites.*,release_dates.*",
+                    },
+                },
+                "max_table_nesting": 1,
+            },
+            # Endpoints.POPULARITY_PRIMITIVES,
+            # Endpoints.POPULARITY_TYPES,
+            # Same as WEBSITES
+            # Endpoints.RELEASE_DATES,
+            # Endpoints.WEBSITES,
         ],
     }
 
