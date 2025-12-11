@@ -12,12 +12,41 @@
         ],
     )
 }}
-select
-    {{
-        dbt_utils.star(
-            from=source("igdb_raw", "games"),
-            except=["_dlt_load_id", "_dlt_id"],
-            quote_identifiers=False,
-        )
-    }}
-from {{ source("igdb_raw", "games") }}
+
+with
+    source as (select * from {{ source("igdb_raw_new", "games") }}),
+
+    renamed as (
+
+        select
+            id,
+            created_at,
+            updated_at,
+            name,
+            parent_game,
+            slug,
+            summary,
+            url,
+            checksum,
+            game_type,
+            first_release_date,
+            rating,
+            rating_count,
+            storyline,
+            total_rating,
+            total_rating_count,
+            hypes,
+            status,
+            game_status,
+            aggregated_rating,
+            aggregated_rating_count,
+            version_parent,
+            version_title,
+            franchise
+
+        from source
+
+    )
+
+select *
+from renamed
