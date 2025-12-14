@@ -23,7 +23,7 @@ IGDB_ACCESS_TOKEN = "9c6ddwo8bno5qz5b06p9iq2xdi49un"
 # , max_table_nesting=0
 # , max_table_nesting=1
 #   max_table_nesting=3
-@dlt.source(name="igdb_new", max_table_nesting=0)
+@dlt.source(name="igdb_v2", max_table_nesting=0)
 def igdb_source():
     config: RESTAPIConfig = {
         "client": {
@@ -63,18 +63,26 @@ def igdb_source():
             Endpoints.COLLECTION_RELATIONS,
             Endpoints.COLLECTION_RELATION_TYPES,
             Endpoints.COLLECTION_TYPES,
-            Endpoints.COMPANIES,
-            Endpoints.COMPANY_LOGOS,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.COMPANIES,
+                "endpoint": {
+                    "path": Endpoints.COMPANIES,
+                    "params": {
+                        "fields": "*,logo.*,websites.*",
+                    },
+                },
+            },
+            # Endpoints.COMPANIES,
+            # Endpoints.COMPANY_LOGOS,
+            # Endpoints.COMPANY_WEBSITES,
             Endpoints.COMPANY_STATUSES,
-            Endpoints.COMPANY_WEBSITES,
             Endpoints.DATE_FORMATS,
             Endpoints.EVENTS,
             Endpoints.EVENT_LOGOS,
             Endpoints.EVENT_NETWORKS,
             Endpoints.EXTERNAL_GAME_SOURCES,
             Endpoints.FRANCHISES,
-            Endpoints.GAME_ENGINES,
-            Endpoints.GAME_ENGINE_LOGOS,
             Endpoints.GAME_MODES,
             Endpoints.GAME_RELEASE_FORMATS,
             Endpoints.GAME_STATUSES,
@@ -88,10 +96,20 @@ def igdb_source():
             Endpoints.LANGUAGES,
             Endpoints.LANGUAGE_SUPPORT_TYPES,
             Endpoints.NETWORK_TYPES,
-            Endpoints.PLATFORMS,
-            Endpoints.PLATFORM_LOGOS,
-            Endpoints.PLATFORM_TYPES,
-            Endpoints.PLATFORM_FAMILY,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.PLATFORMS,
+                "endpoint": {
+                    "path": Endpoints.PLATFORMS,
+                    "params": {
+                        "fields": "*,platform_family.*,platform_logo.*,platform_type.*",
+                    },
+                },
+            },
+            # Endpoints.PLATFORMS,
+            # Endpoints.PLATFORM_LOGOS,
+            # Endpoints.PLATFORM_TYPES,
+            # Endpoints.PLATFORM_FAMILY,
             Endpoints.PLATFORM_VERSIONS,
             Endpoints.PLATFORM_VERSION_COMPANIES,
             Endpoints.PLATFORM_VERSION_RELEASE_DATES,
@@ -100,9 +118,20 @@ def igdb_source():
             Endpoints.RELEASE_DATE_REGIONS,
             Endpoints.RELEASE_DATE_STATUSES,
             Endpoints.THEMES,
-            # TODO: REFETCH, SINCE I MISSED THIS!!!
             Endpoints.PLATFORM_WEBSITES,
             Endpoints.WEBSITE_TYPES,
+            # Endpoints.GAME_ENGINES,
+            # Endpoints.GAME_ENGINE_LOGOS,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.GAME_ENGINES,
+                "endpoint": {
+                    "path": Endpoints.GAME_ENGINES,
+                    "params": {
+                        "fields": "*,logo.*",
+                    },
+                },
+            },
             {
                 "max_table_nesting": 1,
                 "name": Endpoints.GAMES,
@@ -134,16 +163,15 @@ def igdb_source():
         # Endpoints.MULTIPLAYER_MODES,
         # Endpoints.SCREENSHOTS,
         # Endpoints.COVERS,
-        # ,
         # Endpoints.RELEASE_DATES,
         # Endpoints.WEBSITES,
 
 
 def load_igdb():
     pipeline = dlt.pipeline(
-        pipeline_name="igdb_dlt_pipeline_new",
+        pipeline_name="igdb_dlt_pipeline_v2",
         destination="postgres",
-        dataset_name="igdb_raw_new",
+        dataset_name="igdb_raw_v2",
         progress="alive_progress",
     )
     load_info = pipeline.run(igdb_source())

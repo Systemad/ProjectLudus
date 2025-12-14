@@ -13,9 +13,9 @@
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_new", "platform_version_release_dates"),
+            from=source("igdb_raw_v2", "platform_version_release_dates"),
             except=["_dlt_load_id", "_dlt_id"],
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_new", "platform_version_release_dates") }}
+from {{ source("igdb_raw_v2", "platform_version_release_dates") }}

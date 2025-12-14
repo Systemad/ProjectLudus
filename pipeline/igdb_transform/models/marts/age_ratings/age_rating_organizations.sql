@@ -8,9 +8,9 @@
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_new", "age_rating_organizations"),
+            from=source("igdb_raw_v2", "age_rating_organizations"),
             except=["_dlt_load_id", "_dlt_id"],
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_new", "age_rating_organizations") }}
+from {{ source("igdb_raw_v2", "age_rating_organizations") }}

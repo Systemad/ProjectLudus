@@ -1,0 +1,7 @@
+{{ config(materialized="view") }}
+
+select g.id as game_id, t.id as alternative_name_id, t.game as igdb_game_fk
+
+from {{ source("igdb_raw_v2", "games__alternative_names") }} t
+
+inner join {{ source("igdb_raw_v2", "games") }} g on t._dlt_parent_id = g._dlt_id

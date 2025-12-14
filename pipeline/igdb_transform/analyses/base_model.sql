@@ -1,6 +1,6 @@
 {{
     codegen.generate_base_model(
-        source_name="igdb_raw_new",
+        source_name="igdb_raw_v2",
         table_name="games",
         materialized="table",
     )

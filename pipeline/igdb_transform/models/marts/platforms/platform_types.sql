@@ -4,12 +4,5 @@
         post_hook=["ALTER TABLE {{ this }} ADD PRIMARY KEY (id)"],
     )
 }}
-select
-    {{
-        dbt_utils.star(
-            from=source("igdb_raw_new", "platform_types"),
-            except=["_dlt_load_id", "_dlt_id"],
-            quote_identifiers=False,
-        )
-    }}
-from {{ source("igdb_raw_new", "platform_types") }}
+select {{ dbt_utils.star(from=ref("stg_platform_types"), quote_identifiers=False) }}
+from {{ ref("stg_platform_types") }}

@@ -4,13 +4,12 @@
         post_hook=["ALTER TABLE {{ this }} ADD PRIMARY KEY (id)"],
     )
 }}
-
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_v2", "age_rating_content_description_types"),
+            from=source("igdb_raw_v2", "platform_websites"),
             except=["_dlt_load_id", "_dlt_id"],
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_v2", "age_rating_content_description_types") }}
+from {{ source("igdb_raw_v2", "platform_websites") }}

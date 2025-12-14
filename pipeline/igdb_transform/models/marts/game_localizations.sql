@@ -12,9 +12,9 @@
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_new", "games__game_localizations"),
+            from=source("igdb_raw_v2", "games__game_localizations"),
             except=["_dlt_parent_id", "_dlt_list_idx", "_dlt_id"],
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_new", "games__game_localizations") }}
+from {{ source("igdb_raw_v2", "games__game_localizations") }}

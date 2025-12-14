@@ -14,7 +14,7 @@
 }}
 
 with
-    source as (select * from {{ source("igdb_raw_new", "games") }}),
+    source as (select * from {{ source("igdb_raw_v2", "games") }}),
 
     renamed as (
 

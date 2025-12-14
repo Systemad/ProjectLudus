@@ -11,9 +11,9 @@
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_new", "games__multiplayer_modes"),
+            from=source("igdb_raw_v2", "games__multiplayer_modes"),
             except=["_dlt_parent_id", "_dlt_list_idx", "_dlt_id"],
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_new", "games__multiplayer_modes") }}
+from {{ source("igdb_raw_v2", "games__multiplayer_modes") }}

@@ -7,9 +7,8 @@
 select
     {{
         dbt_utils.star(
-            from=source("igdb_raw_new", "platform_logos"),
-            except=["_dlt_load_id", "_dlt_id"],
+            from=ref("stg_platform_logos"),
             quote_identifiers=False,
         )
     }}
-from {{ source("igdb_raw_new", "platform_logos") }}
+from {{ ref("stg_platform_logos") }}
