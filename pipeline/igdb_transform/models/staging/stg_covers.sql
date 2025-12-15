@@ -1,3 +1,5 @@
+{{ config(materialized="view") }}
+
 with
     source as (select * from {{ source("igdb_raw_v2", "games") }}),
     renamed as (
