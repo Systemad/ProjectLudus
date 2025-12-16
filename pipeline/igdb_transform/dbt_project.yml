@@ -32,6 +32,15 @@ clean-targets: # directories to be removed by `dbt clean`
 #    example:
 #      +materialized: view
 models:
-    +persist_docs:
-        relation: true
-        columns: true
+    igdb_transform:
+        +materialized: table
+        +persist_docs:
+            relation: true
+            columns: true
+        staging:
+            +materialized: view
+        marts:
+            +incremental_strategy: merge # For bridges with updates
+
+vars:
+    enable_incremental: true
