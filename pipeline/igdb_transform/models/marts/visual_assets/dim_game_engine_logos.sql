@@ -7,7 +7,12 @@
 
 with
     final as (
-        select {{ dbt_utils.star(from=ref("stg_game_engine_logos")) }}
+        select
+            {{
+                dbt_utils.star(
+                    from=ref("stg_game_engine_logos"), quote_identifiers=False
+                )
+            }}
         from {{ ref("stg_game_engine_logos") }}
     )
 select *
