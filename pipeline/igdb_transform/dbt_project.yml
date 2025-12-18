@@ -3,7 +3,7 @@
 # name or the intended use of these models
 name: "igdb_transform"
 version: "1.0.0"
-
+config-version: 2
 # This setting configures which "profile" dbt uses for this project.
 profile: "igdb_transform"
 
@@ -33,14 +33,16 @@ clean-targets: # directories to be removed by `dbt clean`
 #      +materialized: view
 models:
     igdb_transform:
+        #+dbt-osmosis: "_{model}.yml"
         +materialized: table
         +persist_docs:
             relation: true
             columns: true
         staging:
+            +schema: staging
             +materialized: view
         marts:
-            +incremental_strategy: merge # For bridges with updates
+            +schema: mart
 
 vars:
     enable_incremental: true
