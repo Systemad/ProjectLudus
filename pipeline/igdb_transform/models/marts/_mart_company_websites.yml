@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: mart_company_websites
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: trusted
+        data_type: boolean
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: type
+        data_type: bigint
+        description: ""

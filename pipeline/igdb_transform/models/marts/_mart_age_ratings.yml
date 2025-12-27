@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: mart_age_ratings
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: organization
+        data_type: bigint
+        description: ""
+      - name: rating_category
+        data_type: bigint
+        description: ""
+      - name: rating_content_descriptions
+        data_type: jsonb
+        description: ""
+      - name: synopsis
+        data_type: character varying
+        description: ""

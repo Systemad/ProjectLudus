@@ -1,0 +1,38 @@
+version: 2
+models:
+  - name: mart_event_logos
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: event
+        data_type: bigint
+        description: ""
+      - name: alpha_channel
+        data_type: boolean
+        description: ""
+      - name: animated
+        data_type: boolean
+        description: ""
+      - name: height
+        data_type: bigint
+        description: ""
+      - name: image_id
+        data_type: character varying
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: width
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

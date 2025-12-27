@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: bridge_game_franchise
+    description: ""
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: ""
+      - name: franchise_id
+        data_type: bigint
+        description: ""

@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: player_game_player_perspective
+    description: ""
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: ""
+      - name: player_perspective_id
+        data_type: bigint
+        description: ""

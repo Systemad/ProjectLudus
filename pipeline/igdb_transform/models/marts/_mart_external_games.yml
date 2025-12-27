@@ -1,0 +1,47 @@
+version: 2
+models:
+  - name: mart_external_games
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: game
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: uid
+        data_type: character varying
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: year
+        data_type: bigint
+        description: ""
+      - name: category
+        data_type: bigint
+        description: ""
+      - name: media
+        data_type: bigint
+        description: ""
+      - name: platform
+        data_type: bigint
+        description: ""
+      - name: countries
+        data_type: jsonb
+        description: ""
+      - name: game_release_format
+        data_type: bigint
+        description: ""

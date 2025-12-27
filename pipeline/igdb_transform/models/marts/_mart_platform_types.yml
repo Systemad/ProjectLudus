@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: mart_platform_types
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: platform_id
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

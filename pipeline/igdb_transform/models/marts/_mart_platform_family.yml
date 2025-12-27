@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: mart_platform_family
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: platform_id
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: slug
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

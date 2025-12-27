@@ -1,0 +1,8 @@
+version: 2
+models:
+  - name: mart_games__tags
+    description: ""
+    columns:
+      - name: value
+        data_type: bigint
+        description: ""

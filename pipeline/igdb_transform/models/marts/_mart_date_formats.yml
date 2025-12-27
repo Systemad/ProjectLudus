@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: mart_date_formats
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: format
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

@@ -1,0 +1,71 @@
+version: 2
+models:
+  - name: mart_platform_versions
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: platform_logo
+        data_type: bigint
+        description: ""
+      - name: platform_version_release_dates
+        data_type: jsonb
+        description: ""
+      - name: slug
+        data_type: character varying
+        description: ""
+      - name: summary
+        data_type: character varying
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: companies
+        data_type: jsonb
+        description: ""
+      - name: cpu
+        data_type: character varying
+        description: ""
+      - name: media
+        data_type: character varying
+        description: ""
+      - name: memory
+        data_type: character varying
+        description: ""
+      - name: output
+        data_type: character varying
+        description: ""
+      - name: resolutions
+        data_type: character varying
+        description: ""
+      - name: sound
+        data_type: character varying
+        description: ""
+      - name: connectivity
+        data_type: character varying
+        description: ""
+      - name: storage
+        data_type: character varying
+        description: ""
+      - name: graphics
+        data_type: character varying
+        description: ""
+      - name: os
+        data_type: character varying
+        description: ""
+      - name: main_manufacturer
+        data_type: bigint
+        description: ""

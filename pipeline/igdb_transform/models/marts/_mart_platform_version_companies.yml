@@ -1,0 +1,29 @@
+version: 2
+models:
+  - name: mart_platform_version_companies
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: company
+        data_type: bigint
+        description: ""
+      - name: developer
+        data_type: boolean
+        description: ""
+      - name: manufacturer
+        data_type: boolean
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: comment
+        data_type: character varying
+        description: ""

@@ -1,0 +1,32 @@
+version: 2
+models:
+  - name: mart_screenshots
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: alpha_channel
+        data_type: boolean
+        description: ""
+      - name: animated
+        data_type: boolean
+        description: ""
+      - name: game
+        data_type: bigint
+        description: ""
+      - name: height
+        data_type: bigint
+        description: ""
+      - name: image_id
+        data_type: character varying
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: width
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

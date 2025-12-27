@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: bridge_game_dlc
+    description: ""
+    columns:
+      - name: base_game_id
+        data_type: bigint
+        description: ""
+      - name: dlc_game_id
+        data_type: bigint
+        description: ""

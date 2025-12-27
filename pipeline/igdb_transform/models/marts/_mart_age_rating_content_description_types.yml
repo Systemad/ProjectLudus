@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: mart_age_rating_content_description_types
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: slug
+        data_type: character varying
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

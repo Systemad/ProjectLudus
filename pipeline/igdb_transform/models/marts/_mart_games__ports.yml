@@ -1,0 +1,8 @@
+version: 2
+models:
+  - name: mart_games__ports
+    description: ""
+    columns:
+      - name: value
+        data_type: bigint
+        description: ""

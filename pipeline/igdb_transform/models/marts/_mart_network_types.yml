@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: mart_network_types
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: event_networks
+        data_type: jsonb
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

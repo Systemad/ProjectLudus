@@ -1,0 +1,104 @@
+version: 2
+models:
+  - name: mart_games
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: cover__id
+        data_type: bigint
+        description: ""
+      - name: cover__alpha_channel
+        data_type: boolean
+        description: ""
+      - name: cover__animated
+        data_type: boolean
+        description: ""
+      - name: cover__game
+        data_type: bigint
+        description: ""
+      - name: cover__height
+        data_type: bigint
+        description: ""
+      - name: cover__image_id
+        data_type: character varying
+        description: ""
+      - name: cover__url
+        data_type: character varying
+        description: ""
+      - name: cover__width
+        data_type: bigint
+        description: ""
+      - name: cover__checksum
+        data_type: character varying
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: parent_game
+        data_type: bigint
+        description: ""
+      - name: slug
+        data_type: character varying
+        description: ""
+      - name: summary
+        data_type: character varying
+        description: ""
+      - name: url
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: game_type
+        data_type: bigint
+        description: ""
+      - name: first_release_date
+        data_type: bigint
+        description: ""
+      - name: rating
+        data_type: double precision
+        description: ""
+      - name: rating_count
+        data_type: bigint
+        description: ""
+      - name: total_rating
+        data_type: double precision
+        description: ""
+      - name: total_rating_count
+        data_type: bigint
+        description: ""
+      - name: storyline
+        data_type: character varying
+        description: ""
+      - name: aggregated_rating
+        data_type: double precision
+        description: ""
+      - name: aggregated_rating_count
+        data_type: bigint
+        description: ""
+      - name: status
+        data_type: bigint
+        description: ""
+      - name: game_status
+        data_type: bigint
+        description: ""
+      - name: hypes
+        data_type: bigint
+        description: ""
+      - name: version_parent
+        data_type: bigint
+        description: ""
+      - name: version_title
+        data_type: character varying
+        description: ""
+      - name: franchise
+        data_type: bigint
+        description: ""

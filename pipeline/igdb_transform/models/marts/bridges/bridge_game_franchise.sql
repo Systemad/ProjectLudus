@@ -1,1 +1,8 @@
-select game_id, franchise_id from {{ ref("int_game_franchise") }}
+{{ config(materialized="view") }}
+
+select g.id as game_id, t.value as franchise_id
+from {{ ref("stg_games__franchises") }} t
+inner join {{ ref("stg_games") }} g on t._dlt_parent_id = g._dlt_id
+-- Ensure IDs exist in final marts
+inner join {{ ref("mart_games") }} mg on g.id = mg.id
+inner join {{ ref("mart_franchises") }} mf on t.value = mf.id

@@ -1,0 +1,63 @@
+version: 2
+models:
+    - name: mart_companies
+      config:
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: check
+            columns: [id]
+            expression: "id > 0"
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: change_date
+            data_type: bigint
+            description: ""
+          - name: change_date_category
+            data_type: bigint
+            description: ""
+          - name: country
+            data_type: bigint
+            description: ""
+          - name: description
+            data_type: character varying
+            description: ""
+          - name: name
+            data_type: character varying
+            description: ""
+          - name: slug
+            data_type: character varying
+            description: ""
+          - name: start_date
+            data_type: bigint
+            description: ""
+          - name: url
+            data_type: character varying
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""
+          - name: status
+            data_type: bigint
+            description: ""
+          - name: start_date_format
+            data_type: bigint
+            description: ""
+          - name: parent
+            data_type: bigint
+            description: ""
+          - name: changed_company_id
+            data_type: bigint
+            description: ""

@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: bridge_company_developed
+    description: ""
+    columns:
+      - name: company_id
+        data_type: bigint
+        description: ""
+      - name: game_id
+        data_type: bigint
+        description: ""

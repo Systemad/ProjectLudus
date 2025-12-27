@@ -1,0 +1,32 @@
+version: 2
+models:
+  - name: mart_game_version_features
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: category
+        data_type: bigint
+        description: ""
+      - name: position
+        data_type: bigint
+        description: ""
+      - name: title
+        data_type: character varying
+        description: ""
+      - name: values
+        data_type: jsonb
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: description
+        data_type: character varying
+        description: ""

@@ -1,0 +1,41 @@
+version: 2
+models:
+  - name: mart_release_dates
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: date
+        data_type: bigint
+        description: ""
+      - name: game
+        data_type: bigint
+        description: ""
+      - name: human
+        data_type: character varying
+        description: ""
+      - name: m
+        data_type: bigint
+        description: ""
+      - name: platform
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: y
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: status
+        data_type: bigint
+        description: ""
+      - name: date_format
+        data_type: bigint
+        description: ""

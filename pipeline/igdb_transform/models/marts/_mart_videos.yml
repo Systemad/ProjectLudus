@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: mart_videos
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: game
+        data_type: bigint
+        description: ""
+      - name: name
+        data_type: character varying
+        description: ""
+      - name: video_id
+        data_type: character varying
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
