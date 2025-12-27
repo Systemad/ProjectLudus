@@ -1,0 +1,9 @@
+with
+    formatted as (
+
+        select id, trusted, url, checksum, type
+
+        from {{ ref("stg_companies__websites") }}
+    )
+select *
+from formatted

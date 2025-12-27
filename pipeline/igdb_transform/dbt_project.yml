@@ -34,6 +34,10 @@ clean-targets: # directories to be removed by `dbt clean`
 models:
     igdb_transform:
         #+dbt-osmosis: "_{model}.yml"
+        #+dbt-osmosis-options:
+        #    skip-add-data-types: false
+        #    skip-add-tags: true
+        #    skip-merge-meta: true
         +materialized: table
         +persist_docs:
             relation: true
@@ -42,7 +46,4 @@ models:
             +schema: staging
             +materialized: view
         marts:
-            +schema: mart
-
-vars:
-    enable_incremental: true
+            +materialized: table
