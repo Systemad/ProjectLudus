@@ -1,50 +1,63 @@
 version: 2
 models:
-  - name: mart_events
-    description: ""
-    columns:
-      - name: id
-        data_type: bigint
-        description: ""
-      - name: created_at
-        data_type: bigint
-        description: ""
-      - name: updated_at
-        data_type: bigint
-        description: ""
-      - name: name
-        data_type: character varying
-        description: ""
-      - name: slug
-        data_type: character varying
-        description: ""
-      - name: event_logo
-        data_type: bigint
-        description: ""
-      - name: start_time
-        data_type: bigint
-        description: ""
-      - name: time_zone
-        data_type: character varying
-        description: ""
-      - name: live_stream_url
-        data_type: character varying
-        description: ""
-      - name: games
-        data_type: jsonb
-        description: ""
-      - name: checksum
-        data_type: character varying
-        description: ""
-      - name: end_time
-        data_type: bigint
-        description: ""
-      - name: description
-        data_type: character varying
-        description: ""
-      - name: videos
-        data_type: jsonb
-        description: ""
-      - name: event_networks
-        data_type: jsonb
-        description: ""
+    - name: mart_events
+
+      config:
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: foreign_key
+            columns: [event_logo]
+            to: ref('mart_event_logos')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: name
+            data_type: character varying
+            description: ""
+          - name: slug
+            data_type: character varying
+            description: ""
+          - name: event_logo
+            data_type: bigint
+            description: ""
+          - name: start_time
+            data_type: bigint
+            description: ""
+          - name: time_zone
+            data_type: character varying
+            description: ""
+          - name: live_stream_url
+            data_type: character varying
+            description: ""
+          - name: games
+            data_type: jsonb
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""
+          - name: end_time
+            data_type: bigint
+            description: ""
+          - name: description
+            data_type: character varying
+            description: ""
+          - name: videos
+            data_type: jsonb
+            description: ""
+          - name: event_networks
+            data_type: jsonb
+            description: ""

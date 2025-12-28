@@ -17,6 +17,7 @@ with
             media,
             platform,
             countries,
+            external_game_source,
             game_release_format
 
         from source

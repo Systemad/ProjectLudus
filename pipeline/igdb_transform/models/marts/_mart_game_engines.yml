@@ -1,6 +1,7 @@
 version: 2
 models:
     - name: mart_game_engines
+
       config:
           contract: { enforced: true }
 
@@ -8,9 +9,10 @@ models:
           - type: primary_key
             columns: [id]
 
-          - type: check
-            columns: [id]
-            expression: "id > 0"
+          - type: foreign_key
+            columns: [logo]
+            to: ref('mart_game_engine_logo')
+            to_columns: [id]
 
       description: ""
       columns:

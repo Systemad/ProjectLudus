@@ -3,7 +3,7 @@
         materialized="table",
         post_hook=[
             "ALTER TABLE {{ this }} ADD PRIMARY KEY (id)",
-            "ALTER TABLE {{ this }} ADD CONSTRAINT company_id FOREIGN KEY (platform_family) REFERENCES {{ ref('dim_companies') }} (id)",
+            "ALTER TABLE {{ this }} ADD CONSTRAINT company_id FOREIGN KEY (company) REFERENCES {{ ref('dim_companies') }} (id)",
         ],
     )
 }}

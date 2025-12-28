@@ -1,33 +1,33 @@
 version: 2
 models:
-    - name: bridge_game_engine_company
+    - name: bridge_game_engine_platform
+
       config:
           contract: { enforced: true }
 
       constraints:
           - type: primary_key
-            columns: [game_engine_id, company_id]
+            columns: [game_engine_id, platform_id]
 
           - type: foreign_key
-            enforced: false
             columns: [game_engine_id]
             to: ref('mart_game_engines')
             to_columns: [id]
 
           - type: foreign_key
-            enforced: false
-            columns: [company_id]
-            to: ref('mart_companies')
+            columns: [platform_id]
+            to: ref('mart_platforms')
             to_columns: [id]
 
           - type: check
-            columns: [game_engine_id, company_id]
-            expression: "game_engine_id > 0 AND company_id > 0"
+            columns: [game_engine_id, platform_id]
+            expression: "game_engine_id > 0 AND platform_id > 0"
+
       description: ""
       columns:
           - name: game_engine_id
             data_type: bigint
             description: ""
-          - name: company_id
+          - name: platform_id
             data_type: bigint
             description: ""

@@ -8,9 +8,36 @@ models:
           - type: primary_key
             columns: [id]
 
-          - type: check
-            columns: [id]
-            expression: "id > 0"
+          - type: foreign_key
+            columns: [logo]
+            to: ref('mart_company_logos')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [parent]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [status]
+            to: ref('mart_company_statuses')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [start_date_format]
+            to: ref('mart_date_formats')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [changed_company]
+            to: ref('mart_companies')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [change_date_format]
+            to: ref('mart_date_formats')
+            to_columns: [id]
+
       description: ""
       columns:
           - name: id

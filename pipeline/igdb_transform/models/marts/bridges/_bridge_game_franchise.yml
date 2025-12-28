@@ -1,0 +1,33 @@
+version: 2
+models:
+    - name: bridge_game_franchise
+
+      config:
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [game_id, franchise_id]
+
+          - type: foreign_key
+            columns: [game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [franchise_id]
+            to: ref('mart_franchises')
+            to_columns: [id]
+
+          - type: check
+            columns: [game_id, franchise_id]
+            expression: "game_id > 0 AND franchise_id > 0"
+
+      description: ""
+      columns:
+          - name: game_id
+            data_type: bigint
+            description: ""
+          - name: franchise_id
+            data_type: bigint
+            description: ""

@@ -29,7 +29,7 @@ def igdb_source():
         "client": {
             "base_url": Endpoints.BASE_URL,
             "headers": {"Client-Id": IGDB_CLIENT_ID},
-            "auth": ({"type": "bearer", "token": IGDB_ACCESS_TOKEN}),
+            "auth": ({"type": "bearer", "token": IGDB_ACCESS_TOKEN}),  # ty:ignore[invalid-argument-type]
             "paginator": OffsetPaginator(
                 offset_param="offset",
                 limit=500,
@@ -45,7 +45,7 @@ def igdb_source():
                 "id": {"data_type": "bigint"},
                 "created_at": {"data_type": "bigint"},
                 "updated_at": {"data_type": "bigint"},
-            },
+            },  # ty:ignore[invalid-argument-type]
         },
         "resources": [
             Endpoints.AGE_RATING_CATEGORIES,
@@ -110,7 +110,18 @@ def igdb_source():
             # Endpoints.PLATFORM_LOGOS,
             # Endpoints.PLATFORM_TYPES,
             # Endpoints.PLATFORM_FAMILY,
-            Endpoints.PLATFORM_VERSIONS,
+            # Endpoints.PLATFORM_VERSIONS,
+            # TODO: RERUN, AND REDO PLATFORM_VERSION
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.PLATFORM_VERSIONS,
+                "endpoint": {
+                    "path": Endpoints.PLATFORM_VERSIONS,
+                    "params": {
+                        "fields": "*",
+                    },
+                },
+            },
             Endpoints.PLATFORM_VERSION_COMPANIES,
             Endpoints.PLATFORM_VERSION_RELEASE_DATES,
             Endpoints.PLAYER_PERSPECTIVES,

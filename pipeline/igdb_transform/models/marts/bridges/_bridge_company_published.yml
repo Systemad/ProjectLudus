@@ -1,0 +1,33 @@
+version: 2
+models:
+    - name: bridge_company_published
+
+      config:
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [company_id, game_id]
+
+          - type: foreign_key
+            columns: [company_id]
+            to: ref('mart_companies')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: check
+            columns: [company_id, game_id]
+            expression: "company_id > 0 AND game_id > 0"
+
+      description: ""
+      columns:
+          - name: company_id
+            data_type: bigint
+            description: ""
+          - name: game_id
+            data_type: bigint
+            description: ""
