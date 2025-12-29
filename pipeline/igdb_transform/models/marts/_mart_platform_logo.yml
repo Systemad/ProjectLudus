@@ -13,6 +13,8 @@ models:
       columns:
           - name: id
             data_type: bigint
+            constraints:
+                - type: not_null
             description: ""
           - name: platform_id
             data_type: bigint

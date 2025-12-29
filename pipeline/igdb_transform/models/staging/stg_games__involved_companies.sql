@@ -1,29 +1,31 @@
-with source as (
+with
+    source as (
 
-    select * from {{ source('igdb_raw_v2', 'games__involved_companies') }}
+        select *
+        from {{ source("igdb_source_20251229083704", "games__involved_companies") }}
 
-),
+    ),
 
-renamed as (
+    renamed as (
 
-    select
-        id,
-        company,
-        created_at,
-        developer,
-        game,
-        porting,
-        publisher,
-        supporting,
-        updated_at,
-        checksum,
-        _dlt_parent_id,
-        _dlt_list_idx,
-        _dlt_id
+        select
+            id,
+            company,
+            created_at,
+            developer,
+            game,
+            porting,
+            publisher,
+            supporting,
+            updated_at,
+            checksum,
+            _dlt_parent_id,
+            _dlt_list_idx,
+            _dlt_id
 
-    from source
+        from source
 
-)
+    )
 
-select * from renamed
-
+select *
+from renamed

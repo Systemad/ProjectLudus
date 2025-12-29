@@ -21,7 +21,7 @@ models:
 
           - type: foreign_key
             columns: [platform_logo]
-            to: ref('mart_platform_logos')
+            to: ref('mart_platform_logo')
             to_columns: [id]
 
       description: ""

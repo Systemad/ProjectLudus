@@ -12,6 +12,7 @@ with
             width,
             checksum
         from {{ ref("stg_platform_logo") }}
+        where id is not null
     )
 
 select *

@@ -13,6 +13,7 @@ with
             checksum
 
         from {{ ref("stg_company_logos") }}
+        where id is not null
     )
 select *
 from formatted

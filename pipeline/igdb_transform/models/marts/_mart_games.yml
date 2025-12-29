@@ -5,6 +5,13 @@ models:
       config:
           contract: { enforced: true }
 
+      post_hook: |
+          ALTER TABLE {{ this }} ADD CONSTRAINT fk_version_parent 
+          FOREIGN KEY (version_parent) REFERENCES {{ this }} (id)
+
+          ALTER TABLE {{ this }} ADD CONSTRAINT fk_parent_game 
+          FOREIGN KEY (parent_game) REFERENCES {{ this }} (id)
+
       constraints:
           - type: primary_key
             columns: [id]
@@ -20,19 +27,19 @@ models:
             to_columns: [id]
 
           - type: foreign_key
-            columns: [game_types]
+            columns: [game_type]
             to: ref('mart_game_types')
             to_columns: [id]
 
-          - type: foreign_key
-            columns: [parent_game]
-            to: ref('mart_games')
-            to_columns: [id]
+          #- type: foreign_key
+          #  columns: [parent_game]
+          #  to: ref('mart_games')
+          #  to_columns: [id]
 
-          - type: foreign_key
-            columns: [version_parent]
-            to: ref('mart_games')
-            to_columns: [id]
+          #- type: foreign_key
+          #  columns: [version_parent]
+          #  to: ref('mart_games')
+          #  to_columns: [id]
 
           - type: foreign_key
             columns: [cover]
@@ -50,33 +57,6 @@ models:
           - name: updated_at
             data_type: bigint
             description: ""
-          - name: cover__id
-            data_type: bigint
-            description: ""
-          - name: cover__alpha_channel
-            data_type: boolean
-            description: ""
-          - name: cover__animated
-            data_type: boolean
-            description: ""
-          - name: cover__game
-            data_type: bigint
-            description: ""
-          - name: cover__height
-            data_type: bigint
-            description: ""
-          - name: cover__image_id
-            data_type: character varying
-            description: ""
-          - name: cover__url
-            data_type: character varying
-            description: ""
-          - name: cover__width
-            data_type: bigint
-            description: ""
-          - name: cover__checksum
-            data_type: character varying
-            description: ""
           - name: name
             data_type: character varying
             description: ""
@@ -88,6 +68,9 @@ models:
             description: ""
           - name: summary
             data_type: character varying
+            description: ""
+          - name: cover
+            data_type: bigint
             description: ""
           - name: url
             data_type: character varying

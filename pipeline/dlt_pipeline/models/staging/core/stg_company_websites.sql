@@ -1,7 +1,9 @@
 {{ config(materialized="view") }}
 
 with
-    source as (select * from {{ source("igdb_raw_v2", "companies__websites") }}),
+    source as (
+        select * from {{ source("igdb_source_20251229083704", "companies__websites") }}
+    ),
     renamed as (select id, trusted, url, checksum, type from source)
 select *
 from renamed

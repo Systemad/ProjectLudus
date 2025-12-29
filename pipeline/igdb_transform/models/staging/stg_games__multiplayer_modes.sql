@@ -1,33 +1,35 @@
-with source as (
+with
+    source as (
 
-    select * from {{ source('igdb_raw_v2', 'games__multiplayer_modes') }}
+        select *
+        from {{ source("igdb_source_20251229083704", "games__multiplayer_modes") }}
 
-),
+    ),
 
-renamed as (
+    renamed as (
 
-    select
-        id,
-        campaigncoop,
-        dropin,
-        game,
-        lancoop,
-        offlinecoop,
-        onlinecoop,
-        platform,
-        splitscreen,
-        checksum,
-        _dlt_parent_id,
-        _dlt_list_idx,
-        _dlt_id,
-        offlinemax,
-        onlinemax,
-        onlinecoopmax,
-        offlinecoopmax
+        select
+            id,
+            campaigncoop,
+            dropin,
+            game,
+            lancoop,
+            offlinecoop,
+            onlinecoop,
+            platform,
+            splitscreen,
+            checksum,
+            _dlt_parent_id,
+            _dlt_list_idx,
+            _dlt_id,
+            offlinemax,
+            onlinemax,
+            onlinecoopmax,
+            offlinecoopmax
 
-    from source
+        from source
 
-)
+    )
 
-select * from renamed
-
+select *
+from renamed

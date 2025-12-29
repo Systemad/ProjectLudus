@@ -6,19 +6,13 @@ with
             {{
                 source(
                     "igdb_source_20251229083704",
-                    "age_rating_content_description_types",
+                    "platform_versions__platform_version_release_dates",
                 )
             }}
 
     ),
 
-    renamed as (
-
-        select id, created_at, updated_at, slug, name, checksum, _dlt_load_id, _dlt_id
-
-        from source
-
-    )
+    renamed as (select value, _dlt_parent_id, _dlt_list_idx, _dlt_id from source)
 
 select *
 from renamed

@@ -11,6 +11,7 @@ with
             change_date_category,
             country,
             description,
+            logo__id as logo,
             name,
             slug,
             start_date,
@@ -19,7 +20,8 @@ with
             status,
             start_date_format,
             parent,
-            changed_company_id
+            nullif(parent, 0)::bigint as parent,
+            nullif(changed_company_id, 0)::bigint as changed_company_id
 
         from source
 

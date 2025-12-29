@@ -4,6 +4,10 @@ models:
       config:
           contract: { enforced: true }
 
+          post_hook:
+              - ALTER TABLE {{ this }} ADD FOREIGN KEY (changed_company_id) REFERENCES {{ this }} (id)
+              - ALTER TABLE {{ this }} ADD FOREIGN KEY (parent) REFERENCES {{ this }} (id)
+
       constraints:
           - type: primary_key
             columns: [id]
@@ -13,10 +17,10 @@ models:
             to: ref('mart_company_logos')
             to_columns: [id]
 
-          - type: foreign_key
-            columns: [parent]
-            to: ref('mart_games')
-            to_columns: [id]
+          #- type: foreign_key
+          #  columns: [parent]
+          #  to: ref('mart_companies')
+          #  to_columns: [id]
 
           - type: foreign_key
             columns: [status]
@@ -28,15 +32,15 @@ models:
             to: ref('mart_date_formats')
             to_columns: [id]
 
-          - type: foreign_key
-            columns: [changed_company]
-            to: ref('mart_companies')
-            to_columns: [id]
+          #- type: foreign_key
+          #  columns: [changed_company]
+          #  to: ref('mart_companies')
+          #  to_columns: [id]
 
-          - type: foreign_key
-            columns: [change_date_format]
-            to: ref('mart_date_formats')
-            to_columns: [id]
+          #- type: foreign_key
+          #  columns: [change_date_format]
+          #  to: ref('mart_date_formats')
+          #  to_columns: [id]
 
       description: ""
       columns:
@@ -60,6 +64,9 @@ models:
             description: ""
           - name: description
             data_type: character varying
+            description: ""
+          - name: logo
+            data_type: bigint
             description: ""
           - name: name
             data_type: character varying

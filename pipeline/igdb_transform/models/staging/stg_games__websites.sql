@@ -1,25 +1,26 @@
-with source as (
+with
+    source as (
 
-    select * from {{ source('igdb_raw_v2', 'games__websites') }}
+        select * from {{ source("igdb_source_20251229083704", "games__websites") }}
 
-),
+    ),
 
-renamed as (
+    renamed as (
 
-    select
-        id,
-        game,
-        trusted,
-        url,
-        checksum,
-        type,
-        _dlt_parent_id,
-        _dlt_list_idx,
-        _dlt_id
+        select
+            id,
+            game,
+            trusted,
+            url,
+            checksum,
+            type,
+            _dlt_parent_id,
+            _dlt_list_idx,
+            _dlt_id
 
-    from source
+        from source
 
-)
+    )
 
-select * from renamed
-
+select *
+from renamed

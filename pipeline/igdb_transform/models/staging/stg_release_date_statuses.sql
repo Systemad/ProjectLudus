@@ -1,24 +1,26 @@
-with source as (
+with
+    source as (
 
-    select * from {{ source('igdb_raw_v2', 'release_date_statuses') }}
+        select *
+        from {{ source("igdb_source_20251229083704", "release_date_statuses") }}
 
-),
+    ),
 
-renamed as (
+    renamed as (
 
-    select
-        id,
-        created_at,
-        updated_at,
-        name,
-        description,
-        checksum,
-        _dlt_load_id,
-        _dlt_id
+        select
+            id,
+            created_at,
+            updated_at,
+            name,
+            description,
+            checksum,
+            _dlt_load_id,
+            _dlt_id
 
-    from source
+        from source
 
-)
+    )
 
-select * from renamed
-
+select *
+from renamed

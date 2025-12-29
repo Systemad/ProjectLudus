@@ -23,7 +23,7 @@ IGDB_ACCESS_TOKEN = "9c6ddwo8bno5qz5b06p9iq2xdi49un"
 # , max_table_nesting=0
 # , max_table_nesting=1
 #   max_table_nesting=3
-@dlt.source(name="igdb_v2", max_table_nesting=0)
+@dlt.source(name="igdb", max_table_nesting=0)
 def igdb_source():
     config: RESTAPIConfig = {
         "client": {
@@ -180,10 +180,11 @@ def igdb_source():
 
 def load_igdb():
     pipeline = dlt.pipeline(
-        pipeline_name="igdb_dlt_pipeline_v2",
+        pipeline_name="igdb_pipeline",
         destination="postgres",
-        dataset_name="igdb_raw_v2",
+        dataset_name="igdb_source",
         progress="alive_progress",
+        dev_mode=True,
     )
     load_info = pipeline.run(igdb_source())
 

@@ -1,6 +1,8 @@
 {{ config(materialized="view") }}
 with
-    source as (select * from {{ source("igdb_raw_v2", "game_engines") }}),
+    source as (
+        select * from {{ source("igdb_source_20251229083704", "game_engines") }}
+    ),
     renamed as (
         select
             logo__id as id,
