@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ ref("stg_companies") }}),
+    source as (select * from {{ ref("int_companies") }}),
 
     renamed as (
 
@@ -11,7 +11,7 @@ with
             change_date_category,
             country,
             description,
-            logo__id as logo,
+            logo,
             name,
             slug,
             start_date,
@@ -19,9 +19,8 @@ with
             checksum,
             status,
             start_date_format,
-            parent,
-            nullif(parent, 0)::bigint as parent,
-            nullif(changed_company_id, 0)::bigint as changed_company_id
+            parent_id,
+            changed_company_id
 
         from source
 

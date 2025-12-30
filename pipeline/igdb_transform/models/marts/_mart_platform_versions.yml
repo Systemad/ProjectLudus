@@ -36,9 +36,6 @@ models:
           - name: platform_logo
             data_type: bigint
             description: ""
-          - name: platform_version_release_dates
-            data_type: jsonb
-            description: ""
           - name: slug
             data_type: character varying
             description: ""
@@ -50,9 +47,6 @@ models:
             description: ""
           - name: checksum
             data_type: character varying
-            description: ""
-          - name: companies
-            data_type: jsonb
             description: ""
           - name: cpu
             data_type: character varying

@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ ref("stg_platform_versions") }}),
+    source as (select * from {{ ref("int_platform_versions") }}),
 
     renamed as (
 
@@ -9,12 +9,10 @@ with
             updated_at,
             name,
             platform_logo,
-            platform_version_release_dates,
             slug,
             summary,
             url,
             checksum,
-            companies,
             cpu,
             media,
             memory,
