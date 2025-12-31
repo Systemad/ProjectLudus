@@ -1,6 +1,6 @@
 with
     source as (
-        select * from {{ source("igdb_source_20251229083704", "game_engines") }}
+        select * from {{ source("igdb_source_20251231072127", "game_engines") }}
     ),
 
     renamed as (
@@ -22,3 +22,4 @@ with
 
 select *
 from renamed
+where id is not null

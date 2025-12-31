@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-    - name: igdb_source_20251229083704
+    - name: igdb_source_20251231072127
       tables:
           - name: _dlt_loads
             columns:
@@ -690,6 +690,57 @@ sources:
                   data_type: bigint
                 - name: _dlt_id
                   data_type: character varying
+
+          - name: game_localizations
+            columns:
+                - name: id
+                  data_type: bigint
+                - name: created_at
+                  data_type: bigint
+                - name: updated_at
+                  data_type: bigint
+                - name: name
+                  data_type: character varying
+                - name: game
+                  data_type: bigint
+                - name: region__id
+                  data_type: bigint
+                - name: region__name
+                  data_type: character varying
+                - name: region__category
+                  data_type: character varying
+                - name: region__identifier
+                  data_type: character varying
+                - name: region__created_at
+                  data_type: bigint
+                - name: region__updated_at
+                  data_type: bigint
+                - name: region__checksum
+                  data_type: character varying
+                - name: checksum
+                  data_type: character varying
+                - name: _dlt_load_id
+                  data_type: character varying
+                - name: _dlt_id
+                  data_type: character varying
+                - name: cover__id
+                  data_type: bigint
+                - name: cover__alpha_channel
+                  data_type: boolean
+                - name: cover__animated
+                  data_type: boolean
+                - name: cover__height
+                  data_type: bigint
+                - name: cover__image_id
+                  data_type: character varying
+                - name: cover__url
+                  data_type: character varying
+                - name: cover__width
+                  data_type: bigint
+                - name: cover__checksum
+                  data_type: character varying
+                - name: cover__game_localization
+                  data_type: bigint
 
           - name: game_modes
             columns:

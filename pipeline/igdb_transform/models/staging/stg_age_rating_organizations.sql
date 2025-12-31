@@ -2,7 +2,7 @@ with
     source as (
 
         select *
-        from {{ source("igdb_source_20251229083704", "age_rating_organizations") }}
+        from {{ source("igdb_source_20251231072127", "age_rating_organizations") }}
 
     ),
 

@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ source("igdb_source_20251229083704", "platforms") }}),
+    source as (select * from {{ source("igdb_source_20251231072127", "platforms") }}),
 
     renamed as (
 
@@ -17,3 +17,4 @@ with
 
 select *
 from renamed
+where id is not null

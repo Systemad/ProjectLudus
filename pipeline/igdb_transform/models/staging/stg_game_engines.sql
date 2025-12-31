@@ -1,7 +1,7 @@
 with
     source as (
 
-        select * from {{ source("igdb_source_20251229083704", "game_engines") }}
+        select * from {{ source("igdb_source_20251231072127", "game_engines") }}
 
     ),
 
@@ -18,7 +18,7 @@ with
             _dlt_load_id,
             _dlt_id,
             description,
-            logo__id,
+            logo__id as logo,
             logo__alpha_channel,
             logo__animated,
             logo__height,

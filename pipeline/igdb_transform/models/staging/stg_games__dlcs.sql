@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ source("igdb_source_20251229083704", "games__dlcs") }}),
+    source as (select * from {{ source("igdb_source_20251231072127", "games__dlcs") }}),
 
     renamed as (select value, _dlt_parent_id, _dlt_list_idx, _dlt_id from source)
 

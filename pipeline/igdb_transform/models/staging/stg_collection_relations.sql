@@ -1,7 +1,7 @@
 with
     source as (
 
-        select * from {{ source("igdb_source_20251229083704", "collection_relations") }}
+        select * from {{ source("igdb_source_20251231072127", "collection_relations") }}
 
     ),
 

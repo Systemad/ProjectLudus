@@ -3,7 +3,7 @@ with
 
         select *
         from
-            {{ source("igdb_source_20251229083704", "platform_version_release_dates") }}
+            {{ source("igdb_source_20251231072127", "platform_version_release_dates") }}
 
     ),
 

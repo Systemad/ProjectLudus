@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ ref("stg_event_networks") }}),
+    source as (select * from {{ ref("int_event_network") }}),
 
     renamed as (
 

@@ -1,7 +1,7 @@
 with
     source as (
 
-        select * from {{ source("igdb_source_20251229083704", "network_types") }}
+        select * from {{ source("igdb_source_20251231072127", "network_types") }}
 
     ),
 
@@ -23,3 +23,4 @@ with
 
 select *
 from renamed
+where id is not null

@@ -40,3 +40,6 @@ models:
           - name: description
             data_type: character varying
             description: ""
+          - name: logo
+            data_type: bigint
+            description: ""

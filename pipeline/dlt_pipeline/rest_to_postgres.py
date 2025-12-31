@@ -135,6 +135,16 @@ def igdb_source():
             # Endpoints.GAME_ENGINE_LOGOS,
             {
                 "max_table_nesting": 1,
+                "name": Endpoints.GAME_LOCALIZATIONS,
+                "endpoint": {
+                    "path": Endpoints.GAME_LOCALIZATIONS,
+                    "params": {
+                        "fields": "*,cover.*,region.*",
+                    },
+                },
+            },
+            {
+                "max_table_nesting": 1,
                 "name": Endpoints.GAME_ENGINES,
                 "endpoint": {
                     "path": Endpoints.GAME_ENGINES,

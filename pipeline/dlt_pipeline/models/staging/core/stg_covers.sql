@@ -1,7 +1,7 @@
 {{ config(materialized="view") }}
 
 with
-    source as (select * from {{ source("igdb_source_20251229083704", "games") }}),
+    source as (select * from {{ source("igdb_source_20251231072127", "games") }}),
     renamed as (
         select
             cover__id as id,

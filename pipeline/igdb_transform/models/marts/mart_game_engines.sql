@@ -3,7 +3,7 @@ with
 
     renamed as (
 
-        select id, created_at, updated_at, name, slug, url, checksum, description
+        select id, created_at, updated_at, name, slug, url, checksum, description, logo
 
         from source
 

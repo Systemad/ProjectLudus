@@ -1,6 +1,6 @@
 {{ config(materialized="view") }}
 with
-    source as (select * from {{ source("igdb_source_20251229083704", "platforms") }}),
+    source as (select * from {{ source("igdb_source_20251231072127", "platforms") }}),
     renamed as (
         select
             platform_logo__id as id,
