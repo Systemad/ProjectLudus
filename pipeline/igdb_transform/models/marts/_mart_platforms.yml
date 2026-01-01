@@ -44,29 +44,8 @@ models:
           - name: name
             data_type: character varying
             description: ""
-          - name: platform_logo__id
+          - name: platform_logo
             data_type: bigint
-            description: ""
-          - name: platform_logo__alpha_channel
-            data_type: boolean
-            description: ""
-          - name: platform_logo__animated
-            data_type: boolean
-            description: ""
-          - name: platform_logo__height
-            data_type: bigint
-            description: ""
-          - name: platform_logo__image_id
-            data_type: character varying
-            description: ""
-          - name: platform_logo__url
-            data_type: character varying
-            description: ""
-          - name: platform_logo__width
-            data_type: bigint
-            description: ""
-          - name: platform_logo__checksum
-            data_type: character varying
             description: ""
           - name: slug
             data_type: character varying
@@ -77,32 +56,11 @@ models:
           - name: checksum
             data_type: character varying
             description: ""
-          - name: platform_type__id
+          - name: platform_type
             data_type: bigint
             description: ""
-          - name: platform_type__name
-            data_type: character varying
-            description: ""
-          - name: platform_type__created_at
+          - name: platform_family
             data_type: bigint
-            description: ""
-          - name: platform_type__updated_at
-            data_type: bigint
-            description: ""
-          - name: platform_type__checksum
-            data_type: character varying
-            description: ""
-          - name: platform_family__id
-            data_type: bigint
-            description: ""
-          - name: platform_family__name
-            data_type: character varying
-            description: ""
-          - name: platform_family__slug
-            data_type: character varying
-            description: ""
-          - name: platform_family__checksum
-            data_type: character varying
             description: ""
           - name: abbreviation
             data_type: character varying

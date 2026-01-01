@@ -14,9 +14,6 @@ models:
           - name: id
             data_type: bigint
             description: ""
-          - name: platform_id
-            data_type: bigint
-            description: ""
           - name: name
             data_type: character varying
             description: ""

@@ -1,5 +1,5 @@
 [runtime]
-log_level="WARNING"  # the system log level of dlt
+log_level="DEBUG"  # the system log level of dlt
 dlthub_telemetry = false
 
 [normalize.data_writer]

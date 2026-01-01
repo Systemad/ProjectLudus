@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ ref("int_games") }}),
+    source as (select * from {{ ref("stg_games") }}),
 
     renamed as (
 
@@ -7,7 +7,7 @@ with
             id,
             created_at,
             updated_at,
-            cover,
+            cover__id as cover,
             name,
             parent_game,
             slug,
@@ -34,5 +34,7 @@ with
 
     )
 
-select *
+select distinct on (id) *
 from renamed
+where id is not null
+order by id, updated_at desc
