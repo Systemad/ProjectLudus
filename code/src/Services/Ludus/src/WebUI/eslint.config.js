@@ -6,7 +6,7 @@ import tseslint from "typescript-eslint";
 import pluginQuery from "@tanstack/eslint-plugin-query";
 import prettierConfig from "eslint-config-prettier";
 import pluginRouter from "@tanstack/eslint-plugin-router";
-
+import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
 export default tseslint.config(
     prettierConfig,
     ...pluginRouter.configs["flat/recommended"],
@@ -15,7 +15,11 @@ export default tseslint.config(
         ignores: ["dist", "**/routeTree.gen.ts", "**/gen/**"],
     },
     {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
+        extends: [
+            js.configs.recommended,
+            ...tseslint.configs.recommended,
+            reactYouMightNotNeedAnEffect.configs.recommended,
+        ],
         files: ["**/*.{ts,tsx}"],
         languageOptions: {
             ecmaVersion: 2020,
