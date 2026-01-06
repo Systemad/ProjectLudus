@@ -3,6 +3,7 @@ models:
     - name: mart_game_localizations
 
       config:
+          alias: game_localizations
           contract: { enforced: true }
 
       constraints:

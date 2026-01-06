@@ -3,6 +3,7 @@ models:
     - name: mart_game_release_formats
 
       config:
+          alias: game_release_formats
           contract: { enforced: true }
 
       constraints:

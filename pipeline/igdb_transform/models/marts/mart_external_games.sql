@@ -18,7 +18,7 @@ with
             external_game_source,
             game_release_format
 
-        from {{ ref("stg_external_games") }}
+        from {{ ref("int_external_games") }}
 
     )
 

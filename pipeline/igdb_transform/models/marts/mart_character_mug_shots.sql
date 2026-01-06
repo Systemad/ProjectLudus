@@ -3,17 +3,7 @@ with
 
     renamed as (
 
-        select
-            id,
-            created_at,
-            updated_at,
-            height,
-            image_id,
-            url,
-            width,
-            checksum,
-            alpha_channel,
-            animated
+        select id, height, image_id, url, width, checksum, alpha_channel, animated
 
         from source
 

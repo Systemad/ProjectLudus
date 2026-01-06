@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "game_player_perspective"
       constraints:
           - type: primary_key
             columns: [game_id, player_perspective_id]

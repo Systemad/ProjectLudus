@@ -3,6 +3,7 @@ models:
     - name: mart_age_rating_organizations
 
       config:
+          alias: age_rating_organizations
           contract: { enforced: true }
 
       constraints:

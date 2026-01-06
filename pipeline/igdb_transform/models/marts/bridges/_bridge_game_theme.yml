@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "game_theme"
       constraints:
           - type: primary_key
             columns: [game_id, theme_id]

@@ -3,6 +3,7 @@ models:
     - name: mart_alternative_names
 
       config:
+          alias: alternative_names
           contract: { enforced: true }
 
       constraints:

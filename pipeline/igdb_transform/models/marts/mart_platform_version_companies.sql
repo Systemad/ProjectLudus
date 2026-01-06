@@ -3,17 +3,7 @@ with
 
     renamed as (
 
-        select
-            id,
-            created_at,
-            updated_at,
-            company,
-            developer,
-            manufacturer,
-            checksum,
-            comment
-
-        from source
+        select id, company, developer, manufacturer, checksum, comment from source
 
     )
 

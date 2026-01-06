@@ -1,8 +1,7 @@
 with
     source as (
 
-        select *
-        from {{ source("igdb_source_20251231072127", "game_version_feature_values") }}
+        select * from {{ source("igdb_source2", "game_version_feature_values") }}
 
     ),
 
@@ -10,8 +9,6 @@ with
 
         select
             id,
-            created_at,
-            updated_at,
             game,
             game_feature,
             included_feature,

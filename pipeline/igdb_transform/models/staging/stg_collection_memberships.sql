@@ -1,10 +1,5 @@
 with
-    source as (
-
-        select *
-        from {{ source("igdb_source_20251231072127", "collection_memberships") }}
-
-    ),
+    source as (select * from {{ source("igdb_source2", "collection_memberships") }}),
 
     renamed as (
 

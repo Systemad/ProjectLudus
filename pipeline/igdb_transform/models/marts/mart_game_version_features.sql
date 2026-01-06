@@ -3,10 +3,7 @@ with
 
     renamed as (
 
-        select id, created_at, updated_at, category, position, title,
-        values, checksum, description
-
-        from source
+        select id, category, position, title, values, checksum, description from source
 
     )
 

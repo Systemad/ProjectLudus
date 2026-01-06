@@ -3,6 +3,7 @@ models:
     - name: mart_age_rating_categories
 
       config:
+          alias: age_rating_categories
           contract: { enforced: true }
 
       constraints:

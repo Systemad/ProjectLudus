@@ -3,6 +3,7 @@ models:
     - name: mart_game_modes
 
       config:
+          alias: game_modes
           contract: { enforced: true }
 
       constraints:

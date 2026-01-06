@@ -3,6 +3,7 @@ models:
     - name: mart_platform_logo
 
       config:
+          alias: platform_logo
           contract: { enforced: true }
 
       constraints:

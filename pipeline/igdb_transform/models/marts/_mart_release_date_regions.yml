@@ -3,6 +3,7 @@ models:
     - name: mart_release_date_regions
 
       config:
+          alias: release_date_regions
           contract: { enforced: true }
 
       constraints:

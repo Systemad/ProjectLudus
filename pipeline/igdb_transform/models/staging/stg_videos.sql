@@ -1,7 +1,5 @@
 with
-    source as (
-        select * from {{ source("igdb_source_20251231072127", "games__videos") }}
-    ),
+    source as (select * from {{ source("igdb_source2", "games__videos") }}),
 
     renamed as (select id, game, name, video_id, checksum from source)
 

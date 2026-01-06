@@ -3,6 +3,7 @@ models:
     - name: mart_character_genders
 
       config:
+          alias: character_genders
           contract: { enforced: true }
 
       constraints:

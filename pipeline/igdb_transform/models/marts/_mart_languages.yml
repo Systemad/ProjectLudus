@@ -3,6 +3,7 @@ models:
     - name: mart_languages
 
       config:
+          alias: languages
           contract: { enforced: true }
 
       constraints:

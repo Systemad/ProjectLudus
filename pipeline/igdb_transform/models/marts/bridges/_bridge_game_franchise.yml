@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "game_franchise"
       constraints:
           - type: primary_key
             columns: [game_id, franchise_id]
@@ -18,10 +18,6 @@ models:
             columns: [franchise_id]
             to: ref('mart_franchises')
             to_columns: [id]
-
-          - type: check
-            columns: [game_id, franchise_id]
-            expression: "game_id > 0 AND franchise_id > 0"
 
       description: ""
       columns:

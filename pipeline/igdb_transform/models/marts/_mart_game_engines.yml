@@ -3,6 +3,7 @@ models:
     - name: mart_game_engines
 
       config:
+          alias: game_engines
           contract: { enforced: true }
 
       constraints:

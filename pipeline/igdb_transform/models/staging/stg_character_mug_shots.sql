@@ -1,16 +1,10 @@
 with
-    source as (
-
-        select * from {{ source("igdb_source_20251231072127", "character_mug_shots") }}
-
-    ),
+    source as (select * from {{ source("igdb_source2", "character_mug_shots") }}),
 
     renamed as (
 
         select
             id,
-            created_at,
-            updated_at,
             height,
             image_id,
             url,

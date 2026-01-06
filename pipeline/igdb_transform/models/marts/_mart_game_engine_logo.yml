@@ -3,6 +3,7 @@ models:
     - name: mart_game_engine_logo
 
       config:
+          alias: game_engine_logo
           contract: { enforced: true }
 
       constraints:

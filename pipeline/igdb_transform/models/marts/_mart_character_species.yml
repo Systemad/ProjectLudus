@@ -3,6 +3,7 @@ models:
     - name: mart_character_species
 
       config:
+          alias: character_species
           contract: { enforced: true }
 
       constraints:

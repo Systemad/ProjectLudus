@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "game_engine_company"
       constraints:
           - type: primary_key
             columns: [game_engine_id, company_id]
@@ -18,10 +18,6 @@ models:
             columns: [company_id]
             to: ref('mart_companies')
             to_columns: [id]
-
-          - type: check
-            columns: [game_engine_id, company_id]
-            expression: "game_engine_id > 0 AND company_id > 0"
 
       description: ""
       columns:

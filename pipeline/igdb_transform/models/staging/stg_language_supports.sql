@@ -1,8 +1,5 @@
 with
-    source as (
-        select *
-        from {{ source("igdb_source_20251231072127", "games__language_supports") }}
-    ),
+    source as (select * from {{ source("igdb_source2", "games__language_supports") }}),
 
     renamed as (
 

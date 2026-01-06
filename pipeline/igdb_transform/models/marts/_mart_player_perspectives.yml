@@ -3,6 +3,7 @@ models:
     - name: mart_player_perspectives
 
       config:
+          alias: player_perspectives
           contract: { enforced: true }
 
       constraints:

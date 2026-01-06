@@ -3,6 +3,7 @@ models:
     - name: mart_event_logos
 
       config:
+          alias: event_logos
           contract: { enforced: true }
 
       constraints:

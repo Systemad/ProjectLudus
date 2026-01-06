@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "platform_version_company"
       constraints:
           - type: primary_key
             columns: [company_id, platform_version_id]

@@ -3,6 +3,7 @@ models:
     - name: mart_company_logos
 
       config:
+          alias: company_logos
           contract: { enforced: true }
 
       constraints:

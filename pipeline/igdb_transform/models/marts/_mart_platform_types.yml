@@ -3,6 +3,7 @@ models:
     - name: mart_platform_types
 
       config:
+          alias: platform_types
           contract: { enforced: true }
 
       constraints:

@@ -3,6 +3,7 @@ models:
     - name: mart_games
 
       config:
+          alias: games
           contract: { enforced: true }
 
       post_hook: |

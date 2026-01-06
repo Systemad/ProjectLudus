@@ -3,6 +3,7 @@ models:
     - name: mart_websites
 
       config:
+          alias: websites
           contract: { enforced: true }
 
       constraints:

@@ -3,6 +3,7 @@ models:
     - name: mart_character_mug_shots
 
       config:
+          alias: character_mug_shots
           contract: { enforced: true }
 
       constraints:

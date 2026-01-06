@@ -1,16 +1,10 @@
 with
-    source as (
-
-        select * from {{ source("igdb_source_20251231072127", "platform_versions") }}
-
-    ),
+    source as (select * from {{ source("igdb_source2", "platform_versions") }}),
 
     renamed as (
 
         select
             id,
-            created_at,
-            updated_at,
             name,
             platform_logo,
             slug,

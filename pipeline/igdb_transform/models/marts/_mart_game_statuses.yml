@@ -3,6 +3,7 @@ models:
     - name: mart_game_statuses
 
       config:
+          alias: game_statuses
           contract: { enforced: true }
 
       constraints:

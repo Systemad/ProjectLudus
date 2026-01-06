@@ -1,7 +1,5 @@
 select
     base.id,
-    base.created_at,
-    base.updated_at,
     base.name,
     base.slug,
     base.summary,

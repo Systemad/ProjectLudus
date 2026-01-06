@@ -2,6 +2,7 @@ version: 2
 models:
     - name: mart_companies
       config:
+          alias: companies
           contract: { enforced: true }
 
           post_hook:

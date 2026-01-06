@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "game_genre"
       constraints:
           - type: primary_key
             columns: [game_id, genre_id]

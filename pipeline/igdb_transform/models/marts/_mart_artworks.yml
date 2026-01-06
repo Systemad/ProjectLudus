@@ -3,6 +3,7 @@ models:
     - name: mart_artworks
 
       config:
+          alias: artworks
           contract: { enforced: true }
 
       constraints:

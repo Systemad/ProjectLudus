@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "games_dlc"
       constraints:
           - type: primary_key
             columns: [base_game_id, dlc_game_id]
@@ -18,10 +18,6 @@ models:
             columns: [dlc_game_id]
             to: ref('mart_games')
             to_columns: [id]
-
-          - type: check
-            columns: [base_game_id, dlc_game_id]
-            expression: "base_game_id > 0 AND dlc_game_id > 0"
 
       description: ""
       columns:

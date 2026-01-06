@@ -3,6 +3,7 @@ models:
     - name: mart_event_networks
 
       config:
+          alias: event_networks
           contract: { enforced: true }
 
       constraints:

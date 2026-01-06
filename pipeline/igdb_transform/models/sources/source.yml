@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-    - name: igdb_source_20251231072127
+    - name: igdb_source2
       tables:
           - name: _dlt_loads
             columns:

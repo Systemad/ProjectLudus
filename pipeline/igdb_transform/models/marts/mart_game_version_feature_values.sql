@@ -3,17 +3,7 @@ with
 
     renamed as (
 
-        select
-            id,
-            created_at,
-            updated_at,
-            game,
-            game_feature,
-            included_feature,
-            checksum,
-            note
-
-        from source
+        select id, game, game_feature, included_feature, checksum, note from source
 
     )
 

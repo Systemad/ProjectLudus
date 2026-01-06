@@ -3,6 +3,7 @@ models:
     - name: mart_release_date_statuses
 
       config:
+          alias: release_date_statuses
           contract: { enforced: true }
 
       constraints:

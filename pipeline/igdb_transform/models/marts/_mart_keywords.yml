@@ -3,6 +3,8 @@ models:
     - name: mart_keywords
 
       config:
+          alias: keywords
+          alias: keywords
           contract: { enforced: true }
 
       constraints:

@@ -3,6 +3,7 @@ models:
     - name: mart_videos
 
       config:
+          alias: videos
           contract: { enforced: true }
 
       constraints:

@@ -3,6 +3,7 @@ models:
     - name: mart_network_types
 
       config:
+          alias: network_types
           contract: { enforced: true }
 
       constraints:

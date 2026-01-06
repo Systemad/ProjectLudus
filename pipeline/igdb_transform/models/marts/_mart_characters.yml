@@ -3,6 +3,7 @@ models:
     - name: mart_characters
 
       config:
+          alias: characters
           contract: { enforced: true }
 
       constraints:

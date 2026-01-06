@@ -3,6 +3,7 @@ models:
     - name: mart_covers
 
       config:
+          alias: covers
           contract: { enforced: true }
 
       constraints:

@@ -3,6 +3,7 @@ models:
     - name: mart_franchises
 
       config:
+          alias: franchises
           contract: { enforced: true }
 
       constraints:

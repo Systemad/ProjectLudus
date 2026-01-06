@@ -3,6 +3,7 @@ models:
     - name: mart_company_statuses
 
       config:
+          alias: company_statuses
           contract: { enforced: true }
 
       constraints:

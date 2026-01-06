@@ -3,6 +3,7 @@ models:
     - name: mart_external_game_sources
 
       config:
+          alias: external_game_sources
           contract: { enforced: true }
 
       constraints:

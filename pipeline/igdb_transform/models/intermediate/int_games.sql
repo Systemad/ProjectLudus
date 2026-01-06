@@ -34,7 +34,6 @@ with
 
     )
 
-select distinct on (id) *
+select *
 from renamed
 where id is not null
-order by id, updated_at desc

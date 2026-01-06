@@ -3,6 +3,7 @@ models:
     - name: mart_themes
 
       config:
+          alias: themes
           contract: { enforced: true }
 
       constraints:

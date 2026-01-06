@@ -3,6 +3,7 @@ models:
     - name: mart_screenshots
 
       config:
+          alias: screenshots
           contract: { enforced: true }
 
       constraints:

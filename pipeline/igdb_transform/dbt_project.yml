@@ -31,6 +31,10 @@ clean-targets: # directories to be removed by `dbt clean`
 #    # Config indicated by + and applies to all files under models/example/
 #    example:
 #      +materialized: view
+
+vars:
+    threads: 4
+
 models:
     igdb_transform:
         #+dbt-osmosis: "_{model}.yml"
@@ -42,6 +46,9 @@ models:
         +persist_docs:
             relation: true
             columns: true
+        intermediate:
+            +schema: intermediate
+            +materialized: view
         staging:
             +schema: staging
             +materialized: view

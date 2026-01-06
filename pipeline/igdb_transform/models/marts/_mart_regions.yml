@@ -3,6 +3,7 @@ models:
     - name: mart_regions
 
       config:
+          alias: regions
           contract: { enforced: true }
 
       constraints:

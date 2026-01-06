@@ -1,4 +1,4 @@
-{{ config(materialized="view") }}
+{{ config(materialized="table") }}
 
 select g.id as game_id, t.value as game_engine_id
 from {{ ref("stg_games__game_engines") }} t

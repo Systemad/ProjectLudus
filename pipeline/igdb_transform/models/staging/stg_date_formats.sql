@@ -1,9 +1,5 @@
 with
-    source as (
-
-        select * from {{ source("igdb_source_20251231072127", "date_formats") }}
-
-    ),
+    source as (select * from {{ source("igdb_source2", "date_formats") }}),
 
     renamed as (
 
