@@ -5,7 +5,7 @@ with
         from
             {{
                 source(
-                    "igdb_source2",
+                    "igdb_source",
                     "age_rating_content_description_types",
                 )
             }}

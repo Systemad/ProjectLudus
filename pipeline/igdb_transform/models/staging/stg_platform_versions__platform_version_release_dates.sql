@@ -5,7 +5,7 @@ with
         from
             {{
                 source(
-                    "igdb_source2",
+                    "igdb_source",
                     "platform_versions__platform_version_release_dates",
                 )
             }}

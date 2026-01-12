@@ -1,0 +1,17 @@
+with
+    source as (select * from {{ ref("stg_pop_igdb_wants_to_play") }}),
+    renamed as (
+        select
+            id,
+            game_id,
+            popularity_type,
+            popularity_source,
+            value,
+            calculated_at,
+            created_at,
+            updated_at,
+            external_popularity_source
+        from source
+    )
+select *
+from renamed

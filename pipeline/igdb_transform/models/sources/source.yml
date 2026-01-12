@@ -1,1968 +1,2323 @@
 version: 2
 
 sources:
-    - name: igdb_source2
-      tables:
-          - name: _dlt_loads
-            columns:
-                - name: load_id
-                  data_type: character varying
-                - name: schema_name
-                  data_type: character varying
-                - name: status
-                  data_type: bigint
-                - name: inserted_at
-                  data_type: timestamp with time zone
-                - name: schema_version_hash
-                  data_type: character varying
+  - name: igdb_source
+    tables:
+      - name: _dlt_loads
+        columns:
+          - name: load_id
+            data_type: character varying
+          - name: schema_name
+            data_type: character varying
+          - name: status
+            data_type: bigint
+          - name: inserted_at
+            data_type: timestamp with time zone
+          - name: schema_version_hash
+            data_type: character varying
 
-          - name: _dlt_pipeline_state
-            columns:
-                - name: version
-                  data_type: bigint
-                - name: engine_version
-                  data_type: bigint
-                - name: pipeline_name
-                  data_type: character varying
-                - name: state
-                  data_type: character varying
-                - name: created_at
-                  data_type: timestamp with time zone
-                - name: version_hash
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: _dlt_pipeline_state
+        columns:
+          - name: version
+            data_type: bigint
+          - name: engine_version
+            data_type: bigint
+          - name: pipeline_name
+            data_type: character varying
+          - name: state
+            data_type: character varying
+          - name: created_at
+            data_type: timestamp with time zone
+          - name: version_hash
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: _dlt_version
-            columns:
-                - name: version
-                  data_type: bigint
-                - name: engine_version
-                  data_type: bigint
-                - name: inserted_at
-                  data_type: timestamp with time zone
-                - name: schema_name
-                  data_type: character varying
-                - name: version_hash
-                  data_type: character varying
-                - name: schema
-                  data_type: character varying
+      - name: _dlt_version
+        columns:
+          - name: version
+            data_type: bigint
+          - name: engine_version
+            data_type: bigint
+          - name: inserted_at
+            data_type: timestamp with time zone
+          - name: schema_name
+            data_type: character varying
+          - name: version_hash
+            data_type: character varying
+          - name: schema
+            data_type: character varying
 
-          - name: age_rating_categories
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: rating
-                  data_type: character varying
-                - name: organization
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: age_rating_categories
+        columns:
+          - name: id
+            data_type: bigint
+          - name: rating
+            data_type: character varying
+          - name: organization
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: age_rating_content_description_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: slug
-                  data_type: character varying
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: age_rating_content_description_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: slug
+            data_type: character varying
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: age_rating_content_descriptions_v2
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: description
-                  data_type: character varying
-                - name: organization
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: description_type
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: age_rating_content_descriptions_v2
+        columns:
+          - name: id
+            data_type: bigint
+          - name: description
+            data_type: character varying
+          - name: organization
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: description_type
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: age_rating_organizations
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: age_rating_organizations
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: artwork_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: slug
-                  data_type: character varying
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: artwork_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: slug
+            data_type: character varying
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: character_genders
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: character_genders
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: character_mug_shots
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: height
-                  data_type: bigint
-                - name: image_id
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: width
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: alpha_channel
-                  data_type: boolean
-                - name: animated
-                  data_type: boolean
+      - name: character_mug_shots
+        columns:
+          - name: id
+            data_type: bigint
+          - name: height
+            data_type: bigint
+          - name: image_id
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: width
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: alpha_channel
+            data_type: boolean
+          - name: animated
+            data_type: boolean
 
-          - name: character_species
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: character_species
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: characters
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: games
-                  data_type: jsonb
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: mug_shot
-                  data_type: bigint
-                - name: character_gender
-                  data_type: bigint
-                - name: character_species
-                  data_type: bigint
-                - name: description
-                  data_type: character varying
-                - name: akas
-                  data_type: jsonb
-
-          - name: collection_membership_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-                - name: allowed_collection_type
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: collection_memberships
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: collection
-                  data_type: bigint
-                - name: type
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: collection_relation_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-                - name: allowed_child_type
-                  data_type: bigint
-                - name: allowed_parent_type
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: collection_relations
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: child_collection
-                  data_type: bigint
-                - name: parent_collection
-                  data_type: bigint
-                - name: type
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: collection_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: collections
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: games
-                  data_type: jsonb
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: type
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: as_child_relations
-                  data_type: jsonb
-                - name: as_parent_relations
-                  data_type: jsonb
-
-          - name: companies
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: change_date
-                  data_type: bigint
-                - name: change_date_category
-                  data_type: bigint
-                - name: country
-                  data_type: bigint
-                - name: description
-                  data_type: character varying
-                - name: logo__id
-                  data_type: bigint
-                - name: logo__alpha_channel
-                  data_type: boolean
-                - name: logo__animated
-                  data_type: boolean
-                - name: logo__height
-                  data_type: bigint
-                - name: logo__image_id
-                  data_type: character varying
-                - name: logo__url
-                  data_type: character varying
-                - name: logo__width
-                  data_type: bigint
-                - name: logo__checksum
-                  data_type: character varying
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: start_date
-                  data_type: bigint
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: status
-                  data_type: bigint
-                - name: start_date_format
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: parent
-                  data_type: bigint
-                - name: changed_company_id
-                  data_type: bigint
-
-          - name: companies__developed
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: companies__published
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: companies__websites
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: trusted
-                  data_type: boolean
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: type
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: company_statuses
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: date_formats
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: format
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: event_logos
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: event
-                  data_type: bigint
-                - name: alpha_channel
-                  data_type: boolean
-                - name: animated
-                  data_type: boolean
-                - name: height
-                  data_type: bigint
-                - name: image_id
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: width
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: event_networks
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: event
-                  data_type: bigint
-                - name: url
-                  data_type: character varying
-                - name: network_type
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: events
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: event_logo
-                  data_type: bigint
-                - name: start_time
-                  data_type: bigint
-                - name: time_zone
-                  data_type: character varying
-                - name: live_stream_url
-                  data_type: character varying
-                - name: games
-                  data_type: jsonb
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: end_time
-                  data_type: bigint
-                - name: description
-                  data_type: character varying
-                - name: videos
-                  data_type: jsonb
-                - name: event_networks
-                  data_type: jsonb
-
-          - name: external_game_sources
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: franchises
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: games
-                  data_type: jsonb
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_engines
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-                - name: logo__id
-                  data_type: bigint
-                - name: logo__alpha_channel
-                  data_type: boolean
-                - name: logo__animated
-                  data_type: boolean
-                - name: logo__height
-                  data_type: bigint
-                - name: logo__image_id
-                  data_type: character varying
-                - name: logo__url
-                  data_type: character varying
-                - name: logo__width
-                  data_type: bigint
-                - name: logo__checksum
-                  data_type: character varying
-
-          - name: game_engines__companies
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_engines__platforms
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_localizations
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: game
-                  data_type: bigint
-                - name: region__id
-                  data_type: bigint
-                - name: region__name
-                  data_type: character varying
-                - name: region__category
-                  data_type: character varying
-                - name: region__identifier
-                  data_type: character varying
-                - name: region__created_at
-                  data_type: bigint
-                - name: region__updated_at
-                  data_type: bigint
-                - name: region__checksum
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: cover__id
-                  data_type: bigint
-                - name: cover__alpha_channel
-                  data_type: boolean
-                - name: cover__animated
-                  data_type: boolean
-                - name: cover__height
-                  data_type: bigint
-                - name: cover__image_id
-                  data_type: character varying
-                - name: cover__url
-                  data_type: character varying
-                - name: cover__width
-                  data_type: bigint
-                - name: cover__checksum
-                  data_type: character varying
-                - name: cover__game_localization
-                  data_type: bigint
-
-          - name: game_modes
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_release_formats
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: format
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_statuses
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: status
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_time_to_beats
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: game_id
-                  data_type: bigint
-                - name: hastily
-                  data_type: bigint
-                - name: normally
-                  data_type: bigint
-                - name: completely
-                  data_type: bigint
-                - name: count
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: type
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-
-          - name: game_version_feature_values
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: game_feature
-                  data_type: bigint
-                - name: included_feature
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: note
-                  data_type: character varying
-
-          - name: game_version_features
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: category
-                  data_type: bigint
-                - name: position
-                  data_type: bigint
-                - name: title
-                  data_type: character varying
-                - name: values
-                  data_type: jsonb
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-
-          - name: game_versions
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: features
-                  data_type: jsonb
-                - name: games
-                  data_type: jsonb
-
+      - name: characters
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
           - name: games
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: cover__id
-                  data_type: bigint
-                - name: cover__alpha_channel
-                  data_type: boolean
-                - name: cover__animated
-                  data_type: boolean
-                - name: cover__game
-                  data_type: bigint
-                - name: cover__height
-                  data_type: bigint
-                - name: cover__image_id
-                  data_type: character varying
-                - name: cover__url
-                  data_type: character varying
-                - name: cover__width
-                  data_type: bigint
-                - name: cover__checksum
-                  data_type: character varying
-                - name: name
-                  data_type: character varying
-                - name: parent_game
-                  data_type: bigint
-                - name: slug
-                  data_type: character varying
-                - name: summary
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: game_type
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: first_release_date
-                  data_type: bigint
-                - name: storyline
-                  data_type: character varying
-                - name: rating
-                  data_type: double precision
-                - name: rating_count
-                  data_type: bigint
-                - name: total_rating
-                  data_type: double precision
-                - name: total_rating_count
-                  data_type: bigint
-                - name: status
-                  data_type: bigint
-                - name: game_status
-                  data_type: bigint
-                - name: hypes
-                  data_type: bigint
-                - name: aggregated_rating
-                  data_type: double precision
-                - name: aggregated_rating_count
-                  data_type: bigint
-                - name: version_parent
-                  data_type: bigint
-                - name: version_title
-                  data_type: character varying
-                - name: franchise
-                  data_type: bigint
+            data_type: jsonb
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: mug_shot
+            data_type: bigint
+          - name: character_gender
+            data_type: bigint
+          - name: character_species
+            data_type: bigint
+          - name: description
+            data_type: character varying
+          - name: akas
+            data_type: jsonb
 
-          - name: games__age_ratings
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: organization
-                  data_type: bigint
-                - name: rating_category
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-                - name: rating_content_descriptions
-                  data_type: jsonb
-                - name: synopsis
-                  data_type: character varying
+      - name: collection_membership_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: allowed_collection_type
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__alternative_names
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: comment
-                  data_type: character varying
-                - name: game
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: collection_memberships
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: collection
+            data_type: bigint
+          - name: type
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__artworks
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: alpha_channel
-                  data_type: boolean
-                - name: animated
-                  data_type: boolean
-                - name: game
-                  data_type: bigint
-                - name: height
-                  data_type: bigint
-                - name: image_id
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: width
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: artwork_type
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: collection_relation_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: allowed_child_type
+            data_type: bigint
+          - name: allowed_parent_type
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__bundles
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: collection_relations
+        columns:
+          - name: id
+            data_type: bigint
+          - name: child_collection
+            data_type: bigint
+          - name: parent_collection
+            data_type: bigint
+          - name: type
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__collections
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: collection_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__dlcs
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: collections
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: games
+            data_type: jsonb
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: type
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: as_child_relations
+            data_type: jsonb
+          - name: as_parent_relations
+            data_type: jsonb
 
-          - name: games__expanded_games
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: companies
+        columns:
+          - name: id
+            data_type: bigint
+          - name: change_date
+            data_type: bigint
+          - name: change_date_category
+            data_type: bigint
+          - name: country
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: description
+            data_type: character varying
+          - name: logo__id
+            data_type: bigint
+          - name: logo__alpha_channel
+            data_type: boolean
+          - name: logo__animated
+            data_type: boolean
+          - name: logo__height
+            data_type: bigint
+          - name: logo__image_id
+            data_type: character varying
+          - name: logo__url
+            data_type: character varying
+          - name: logo__width
+            data_type: bigint
+          - name: logo__checksum
+            data_type: character varying
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: start_date
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: status
+            data_type: bigint
+          - name: start_date_format
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: parent
+            data_type: bigint
+          - name: changed_company_id
+            data_type: bigint
 
-          - name: games__expansions
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: companies__developed
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__external_games
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: uid
-                  data_type: character varying
-                - name: updated_at
-                  data_type: bigint
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: external_game_source
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-                - name: year
-                  data_type: bigint
-                - name: category
-                  data_type: bigint
-                - name: media
-                  data_type: bigint
-                - name: platform
-                  data_type: bigint
-                - name: countries
-                  data_type: jsonb
-                - name: game_release_format
-                  data_type: bigint
+      - name: companies__published
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__forks
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: companies__websites
+        columns:
+          - name: id
+            data_type: bigint
+          - name: trusted
+            data_type: boolean
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: type
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__franchises
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: company_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__game_engines
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: date_formats
+        columns:
+          - name: id
+            data_type: bigint
+          - name: format
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__game_localizations
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: game
-                  data_type: bigint
-                - name: region
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-                - name: cover
-                  data_type: bigint
+      - name: event_logos
+        columns:
+          - name: id
+            data_type: bigint
+          - name: event
+            data_type: bigint
+          - name: alpha_channel
+            data_type: boolean
+          - name: animated
+            data_type: boolean
+          - name: height
+            data_type: bigint
+          - name: image_id
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: width
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__game_modes
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: event_networks
+        columns:
+          - name: id
+            data_type: bigint
+          - name: event
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: network_type
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__genres
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: events
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: event_logo
+            data_type: bigint
+          - name: start_time
+            data_type: bigint
+          - name: time_zone
+            data_type: character varying
+          - name: live_stream_url
+            data_type: character varying
+          - name: games
+            data_type: jsonb
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: end_time
+            data_type: bigint
+          - name: description
+            data_type: character varying
+          - name: videos
+            data_type: jsonb
+          - name: event_networks
+            data_type: jsonb
 
-          - name: games__involved_companies
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: company
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: developer
-                  data_type: boolean
-                - name: game
-                  data_type: bigint
-                - name: porting
-                  data_type: boolean
-                - name: publisher
-                  data_type: boolean
-                - name: supporting
-                  data_type: boolean
-                - name: updated_at
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: external_game_sources
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__keywords
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: franchises
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: games
+            data_type: jsonb
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__language_supports
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: language
-                  data_type: bigint
-                - name: language_support_type
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_engines
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: logo__id
+            data_type: bigint
+          - name: logo__alpha_channel
+            data_type: boolean
+          - name: logo__animated
+            data_type: boolean
+          - name: logo__height
+            data_type: bigint
+          - name: logo__image_id
+            data_type: character varying
+          - name: logo__url
+            data_type: character varying
+          - name: logo__width
+            data_type: bigint
+          - name: logo__checksum
+            data_type: character varying
 
-          - name: games__multiplayer_modes
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: campaigncoop
-                  data_type: boolean
-                - name: dropin
-                  data_type: boolean
-                - name: game
-                  data_type: bigint
-                - name: lancoop
-                  data_type: boolean
-                - name: offlinecoop
-                  data_type: boolean
-                - name: onlinecoop
-                  data_type: boolean
-                - name: platform
-                  data_type: bigint
-                - name: splitscreen
-                  data_type: boolean
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
-                - name: offlinecoopmax
-                  data_type: bigint
-                - name: offlinemax
-                  data_type: bigint
-                - name: onlinecoopmax
-                  data_type: bigint
-                - name: onlinemax
-                  data_type: bigint
+      - name: game_engines__companies
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__platforms
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_engines__platforms
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__player_perspectives
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_localizations
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: game
+            data_type: bigint
+          - name: region__id
+            data_type: bigint
+          - name: region__name
+            data_type: character varying
+          - name: region__category
+            data_type: character varying
+          - name: region__identifier
+            data_type: character varying
+          - name: region__created_at
+            data_type: bigint
+          - name: region__updated_at
+            data_type: bigint
+          - name: region__checksum
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: cover__id
+            data_type: bigint
+          - name: cover__alpha_channel
+            data_type: boolean
+          - name: cover__animated
+            data_type: boolean
+          - name: cover__height
+            data_type: bigint
+          - name: cover__image_id
+            data_type: character varying
+          - name: cover__url
+            data_type: character varying
+          - name: cover__width
+            data_type: bigint
+          - name: cover__checksum
+            data_type: character varying
+          - name: cover__game_localization
+            data_type: bigint
 
-          - name: games__ports
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_modes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__release_dates
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: date
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: human
-                  data_type: character varying
-                - name: m
-                  data_type: bigint
-                - name: platform
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: y
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: status
-                  data_type: bigint
-                - name: date_format
-                  data_type: bigint
-                - name: release_region
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_release_formats
+        columns:
+          - name: id
+            data_type: bigint
+          - name: format
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__remakes
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: status
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__remasters
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_time_to_beats
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: hastily
+            data_type: bigint
+          - name: normally
+            data_type: bigint
+          - name: completely
+            data_type: bigint
+          - name: count
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__screenshots
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: alpha_channel
-                  data_type: boolean
-                - name: animated
-                  data_type: boolean
-                - name: game
-                  data_type: bigint
-                - name: height
-                  data_type: bigint
-                - name: image_id
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: width
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: type
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: games__similar_games
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_version_feature_values
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: game_feature
+            data_type: bigint
+          - name: included_feature
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: note
+            data_type: character varying
 
-          - name: games__standalone_expansions
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_version_features
+        columns:
+          - name: id
+            data_type: bigint
+          - name: category
+            data_type: bigint
+          - name: position
+            data_type: bigint
+          - name: title
+            data_type: character varying
+          - name: values
+            data_type: jsonb
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: description
+            data_type: character varying
 
-          - name: games__tags
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: game_versions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: features
+            data_type: jsonb
+          - name: games
+            data_type: jsonb
 
-          - name: games__themes
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games
+        columns:
+          - name: id
+            data_type: bigint
+          - name: cover__id
+            data_type: bigint
+          - name: cover__alpha_channel
+            data_type: boolean
+          - name: cover__animated
+            data_type: boolean
+          - name: cover__game
+            data_type: bigint
+          - name: cover__height
+            data_type: bigint
+          - name: cover__image_id
+            data_type: character varying
+          - name: cover__url
+            data_type: character varying
+          - name: cover__width
+            data_type: bigint
+          - name: cover__checksum
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: parent_game
+            data_type: bigint
+          - name: slug
+            data_type: character varying
+          - name: summary
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: game_type
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: first_release_date
+            data_type: bigint
+          - name: storyline
+            data_type: character varying
+          - name: rating
+            data_type: double precision
+          - name: rating_count
+            data_type: bigint
+          - name: total_rating
+            data_type: double precision
+          - name: total_rating_count
+            data_type: bigint
+          - name: status
+            data_type: bigint
+          - name: game_status
+            data_type: bigint
+          - name: aggregated_rating
+            data_type: double precision
+          - name: aggregated_rating_count
+            data_type: bigint
+          - name: hypes
+            data_type: bigint
+          - name: franchise
+            data_type: bigint
+          - name: version_parent
+            data_type: bigint
+          - name: version_title
+            data_type: character varying
 
-          - name: games__videos
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: video_id
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__age_ratings
+        columns:
+          - name: id
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: organization
+            data_type: bigint
+          - name: rating_category
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+          - name: rating_content_descriptions
+            data_type: jsonb
+          - name: synopsis
+            data_type: character varying
 
-          - name: games__websites
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: game
-                  data_type: bigint
-                - name: trusted
-                  data_type: boolean
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: type
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__alternative_names
+        columns:
+          - name: id
+            data_type: bigint
+          - name: comment
+            data_type: character varying
+          - name: game
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: genres
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__artworks
+        columns:
+          - name: id
+            data_type: bigint
+          - name: alpha_channel
+            data_type: boolean
+          - name: animated
+            data_type: boolean
+          - name: game
+            data_type: bigint
+          - name: height
+            data_type: bigint
+          - name: image_id
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: width
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: artwork_type
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: keywords
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__bundles
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: language_support_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__collections
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: languages
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: native_name
-                  data_type: character varying
-                - name: locale
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__dlcs
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: network_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: event_networks
-                  data_type: jsonb
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__expanded_games
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platform_version_companies
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: company
-                  data_type: bigint
-                - name: developer
-                  data_type: boolean
-                - name: manufacturer
-                  data_type: boolean
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: comment
-                  data_type: character varying
+      - name: games__expansions
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platform_version_release_dates
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: date
-                  data_type: bigint
-                - name: human
-                  data_type: character varying
-                - name: m
-                  data_type: bigint
-                - name: y
-                  data_type: bigint
-                - name: checksum
-                  data_type: character varying
-                - name: date_format
-                  data_type: bigint
-                - name: release_region
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__external_games
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: uid
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: external_game_source
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+          - name: year
+            data_type: bigint
+          - name: category
+            data_type: bigint
+          - name: media
+            data_type: bigint
+          - name: platform
+            data_type: bigint
+          - name: countries
+            data_type: jsonb
+          - name: game_release_format
+            data_type: bigint
 
-          - name: platform_versions
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: platform_logo
-                  data_type: bigint
-                - name: slug
-                  data_type: character varying
-                - name: summary
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: cpu
-                  data_type: character varying
-                - name: media
-                  data_type: character varying
-                - name: memory
-                  data_type: character varying
-                - name: output
-                  data_type: character varying
-                - name: resolutions
-                  data_type: character varying
-                - name: sound
-                  data_type: character varying
-                - name: connectivity
-                  data_type: character varying
-                - name: storage
-                  data_type: character varying
-                - name: graphics
-                  data_type: character varying
-                - name: os
-                  data_type: character varying
-                - name: main_manufacturer
-                  data_type: bigint
+      - name: games__forks
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platform_versions__companies
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__franchises
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platform_versions__platform_version_release_dates
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__game_engines
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platform_websites
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: trusted
-                  data_type: boolean
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: type
-                  data_type: bigint
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__game_localizations
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: game
+            data_type: bigint
+          - name: region
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+          - name: cover
+            data_type: bigint
 
-          - name: platforms
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: alternative_name
-                  data_type: character varying
-                - name: generation
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: platform_logo__id
-                  data_type: bigint
-                - name: platform_logo__alpha_channel
-                  data_type: boolean
-                - name: platform_logo__animated
-                  data_type: boolean
-                - name: platform_logo__height
-                  data_type: bigint
-                - name: platform_logo__image_id
-                  data_type: character varying
-                - name: platform_logo__url
-                  data_type: character varying
-                - name: platform_logo__width
-                  data_type: bigint
-                - name: platform_logo__checksum
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: platform_type__id
-                  data_type: bigint
-                - name: platform_type__name
-                  data_type: character varying
-                - name: platform_type__created_at
-                  data_type: bigint
-                - name: platform_type__updated_at
-                  data_type: bigint
-                - name: platform_type__checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
-                - name: platform_family__id
-                  data_type: bigint
-                - name: platform_family__name
-                  data_type: character varying
-                - name: platform_family__slug
-                  data_type: character varying
-                - name: platform_family__checksum
-                  data_type: character varying
-                - name: abbreviation
-                  data_type: character varying
-                - name: summary
-                  data_type: character varying
+      - name: games__game_modes
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platforms__versions
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__genres
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: platforms__websites
-            columns:
-                - name: value
-                  data_type: bigint
-                - name: _dlt_parent_id
-                  data_type: character varying
-                - name: _dlt_list_idx
-                  data_type: bigint
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__involved_companies
+        columns:
+          - name: id
+            data_type: bigint
+          - name: company
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: developer
+            data_type: boolean
+          - name: game
+            data_type: bigint
+          - name: porting
+            data_type: boolean
+          - name: publisher
+            data_type: boolean
+          - name: supporting
+            data_type: boolean
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: player_perspectives
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__keywords
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: regions
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: category
-                  data_type: character varying
-                - name: identifier
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__language_supports
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: language
+            data_type: bigint
+          - name: language_support_type
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: release_date_regions
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: region
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__multiplayer_modes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: campaigncoop
+            data_type: boolean
+          - name: dropin
+            data_type: boolean
+          - name: game
+            data_type: bigint
+          - name: lancoop
+            data_type: boolean
+          - name: offlinecoop
+            data_type: boolean
+          - name: offlinemax
+            data_type: bigint
+          - name: onlinecoop
+            data_type: boolean
+          - name: platform
+            data_type: bigint
+          - name: splitscreen
+            data_type: boolean
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+          - name: offlinecoopmax
+            data_type: bigint
+          - name: onlinecoopmax
+            data_type: bigint
+          - name: onlinemax
+            data_type: bigint
 
-          - name: release_date_statuses
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: description
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__platforms
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: themes
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: name
-                  data_type: character varying
-                - name: slug
-                  data_type: character varying
-                - name: url
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__player_perspectives
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
-          - name: website_types
-            columns:
-                - name: id
-                  data_type: bigint
-                - name: created_at
-                  data_type: bigint
-                - name: updated_at
-                  data_type: bigint
-                - name: type
-                  data_type: character varying
-                - name: checksum
-                  data_type: character varying
-                - name: _dlt_load_id
-                  data_type: character varying
-                - name: _dlt_id
-                  data_type: character varying
+      - name: games__ports
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__release_dates
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: date
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: human
+            data_type: character varying
+          - name: m
+            data_type: bigint
+          - name: platform
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: y
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: status
+            data_type: bigint
+          - name: date_format
+            data_type: bigint
+          - name: release_region
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__remakes
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__remasters
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__screenshots
+        columns:
+          - name: id
+            data_type: bigint
+          - name: alpha_channel
+            data_type: boolean
+          - name: animated
+            data_type: boolean
+          - name: game
+            data_type: bigint
+          - name: height
+            data_type: bigint
+          - name: image_id
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: width
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__similar_games
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__standalone_expansions
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__tags
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__themes
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__videos
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: video_id
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: games__websites
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game
+            data_type: bigint
+          - name: trusted
+            data_type: boolean
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: type
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: genres
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: keywords
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: language_support_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: languages
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: native_name
+            data_type: character varying
+          - name: locale
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: network_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: event_networks
+            data_type: jsonb
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platform_version_companies
+        columns:
+          - name: id
+            data_type: bigint
+          - name: company
+            data_type: bigint
+          - name: developer
+            data_type: boolean
+          - name: manufacturer
+            data_type: boolean
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: comment
+            data_type: character varying
+
+      - name: platform_version_release_dates
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: date
+            data_type: bigint
+          - name: human
+            data_type: character varying
+          - name: m
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: y
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: date_format
+            data_type: bigint
+          - name: release_region
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platform_versions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: platform_logo
+            data_type: bigint
+          - name: slug
+            data_type: character varying
+          - name: summary
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: cpu
+            data_type: character varying
+          - name: media
+            data_type: character varying
+          - name: memory
+            data_type: character varying
+          - name: output
+            data_type: character varying
+          - name: resolutions
+            data_type: character varying
+          - name: sound
+            data_type: character varying
+          - name: connectivity
+            data_type: character varying
+          - name: storage
+            data_type: character varying
+          - name: graphics
+            data_type: character varying
+          - name: os
+            data_type: character varying
+          - name: main_manufacturer
+            data_type: bigint
+
+      - name: platform_versions__companies
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platform_versions__platform_version_release_dates
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platform_websites
+        columns:
+          - name: id
+            data_type: bigint
+          - name: trusted
+            data_type: boolean
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: type
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platforms
+        columns:
+          - name: id
+            data_type: bigint
+          - name: alternative_name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: generation
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: platform_logo__id
+            data_type: bigint
+          - name: platform_logo__alpha_channel
+            data_type: boolean
+          - name: platform_logo__animated
+            data_type: boolean
+          - name: platform_logo__height
+            data_type: bigint
+          - name: platform_logo__image_id
+            data_type: character varying
+          - name: platform_logo__url
+            data_type: character varying
+          - name: platform_logo__width
+            data_type: bigint
+          - name: platform_logo__checksum
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: platform_type__id
+            data_type: bigint
+          - name: platform_type__name
+            data_type: character varying
+          - name: platform_type__created_at
+            data_type: bigint
+          - name: platform_type__updated_at
+            data_type: bigint
+          - name: platform_type__checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+          - name: platform_family__id
+            data_type: bigint
+          - name: platform_family__name
+            data_type: character varying
+          - name: platform_family__slug
+            data_type: character varying
+          - name: platform_family__checksum
+            data_type: character varying
+          - name: abbreviation
+            data_type: character varying
+          - name: summary
+            data_type: character varying
+
+      - name: platforms__versions
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: platforms__websites
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: player_perspectives
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_igdb_played
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_igdb_playing
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_igdb_visits
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_igdb_wants_to_play
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_24hr_hours_watched
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_24hr_peak_players
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_global_top_sellers
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_most_wishlisted_upcoming
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_negative_reviews
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_positive_reviews
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: pop_steam_total_reviews
+        columns:
+          - name: id
+            data_type: bigint
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: popularity_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: popularity_source
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: external_popularity_source
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: regions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: category
+            data_type: character varying
+          - name: identifier
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: release_date_regions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: region
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: release_date_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: themes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: updated_at
+            data_type: bigint
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: website_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: type
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying
+

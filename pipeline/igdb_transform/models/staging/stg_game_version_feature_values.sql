@@ -1,7 +1,7 @@
 with
     source as (
 
-        select * from {{ source("igdb_source2", "game_version_feature_values") }}
+        select * from {{ source("igdb_source", "game_version_feature_values") }}
 
     ),
 

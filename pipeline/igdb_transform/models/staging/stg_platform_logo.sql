@@ -1,5 +1,5 @@
 with
-    source as (select * from {{ source("igdb_source2", "platforms") }}),
+    source as (select * from {{ source("igdb_source", "platforms") }}),
 
     renamed as (
 

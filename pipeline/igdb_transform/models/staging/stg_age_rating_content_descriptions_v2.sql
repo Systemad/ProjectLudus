@@ -1,7 +1,7 @@
 with
     source as (
 
-        select * from {{ source("igdb_source2", "age_rating_content_descriptions_v2") }}
+        select * from {{ source("igdb_source", "age_rating_content_descriptions_v2") }}
 
     ),
 
