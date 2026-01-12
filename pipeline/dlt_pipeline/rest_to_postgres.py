@@ -14,8 +14,130 @@ dlt_table_schema: dict[str, TColumnSchema] = {
 # "write_disposition": {"disposition": "merge", "strategy": "scd2"},
 # "columns": dlt_table_schema,
 
+popularity = rest_api_source(
+    name="igdb_popularity",
+    config={
+        "client": {
+            "base_url": Endpoints.BASE_URL,
+            "headers": {"Client-Id": dlt.secrets["igdb.clientid"]},
+            "auth": BearerTokenAuth(dlt.secrets["igdb.token"]),
+        },
+        "resource_defaults": {
+            "primary_key": "id",
+            "write_disposition": "append",
+            "max_table_nesting": 0,
+            "endpoint": {
+                "method": "POST",
+                # "data": {
+                #    "fields": "*",
+                #    "limit": 500,
+                # },
+            },
+        },
+        "resources": [
+            # {
+            #    "name": Endpoints.POPULARITY_TYPES,
+            #    "endpoint": {
+            #        "path": Endpoints.POPULARITY_TYPES,
+            #        "data": {
+            #            "limit": 250,
+            #        },
+            #    },
+            # },
+            {
+                "name": "pop_igdb_visits",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 1; limit 100;",
+                },
+            },
+            {
+                "name": "pop_igdb_playing",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 3; limit 100;",
+                },
+            },
+            {
+                "name": "pop_igdb_wants_to_play",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 2; limit 100;",
+                },
+            },
+            {
+                "name": "pop_igdb_played",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 4; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_total_reviews",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 8; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_negative_reviews",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 7; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_24hr_peak_players",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 5; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_positive_reviews",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 6; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_most_wishlisted_upcoming",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 10; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_global_top_sellers",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 9; limit 100;",
+                },
+            },
+            {
+                "name": "pop_steam_24hr_hours_watched",
+                "endpoint": {
+                    "method": "POST",
+                    "path": Endpoints.POPULARITY_PRIMITIVES,
+                    "data": "fields *; sort value desc; where popularity_type = 34; limit 100;",
+                },
+            },
+        ],
+    },
+)
+#                        "where": "popularity_type = (1,2,3,4,5,6,7,8)",
 default = rest_api_source(
-    name="igdb2",
+    name="igdb",
     config={
         "client": {
             "base_url": Endpoints.BASE_URL,
@@ -170,15 +292,18 @@ default = rest_api_source(
 
 def load_igdb():
     pipeline = dlt.pipeline(
-        pipeline_name="igdb_pipeline2",
+        pipeline_name="igdb_pipeline",
         destination="postgres",
-        dataset_name="igdb_source2",
+        dataset_name="igdb_source",
         progress="alive_progress",
         dev_mode=False,
     )
 
-    load_info = pipeline.run(default)
+    load_info_pop = pipeline.run(popularity)
+    # load_info_default = pipeline.run(default)
 
+    print(load_info_pop)
+    # print(load_info_default)
     # venv = dlt.dbt.get_venv(pipeline)
     #
     # dbt = dlt.dbt.package(
@@ -187,8 +312,6 @@ def load_igdb():
     #    venv=venv,
     # )
     # models = dbt.run_all()
-
-    print(load_info)
 
 
 if __name__ == "__main__":

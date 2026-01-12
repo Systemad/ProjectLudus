@@ -25,12 +25,6 @@ models:
           - name: id
             data_type: bigint
             description: ""
-          - name: created_at
-            data_type: bigint
-            description: ""
-          - name: updated_at
-            data_type: bigint
-            description: ""
           - name: name
             data_type: character varying
             description: ""

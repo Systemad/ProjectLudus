@@ -1,8 +1,10 @@
 version: 2
 models:
-  - name: mart_games__standalone_expansions
-    description: ""
-    columns:
-      - name: value
-        data_type: bigint
-        description: ""
+    - name: mart_games__standalone_expansions
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: value
+            data_type: bigint
+            description: ""

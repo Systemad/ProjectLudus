@@ -1,41 +1,78 @@
 version: 2
 models:
-  - name: mart_release_dates
-    description: ""
-    columns:
-      - name: id
-        data_type: bigint
-        description: ""
-      - name: created_at
-        data_type: bigint
-        description: ""
-      - name: date
-        data_type: bigint
-        description: ""
-      - name: game
-        data_type: bigint
-        description: ""
-      - name: human
-        data_type: character varying
-        description: ""
-      - name: m
-        data_type: bigint
-        description: ""
-      - name: platform
-        data_type: bigint
-        description: ""
-      - name: updated_at
-        data_type: bigint
-        description: ""
-      - name: y
-        data_type: bigint
-        description: ""
-      - name: checksum
-        data_type: character varying
-        description: ""
-      - name: status
-        data_type: bigint
-        description: ""
-      - name: date_format
-        data_type: bigint
-        description: ""
+    - name: mart_release_dates
+      config:
+          alias: release_dates
+          #enabled: false
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: foreign_key
+            columns: [game]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [platform]
+            to: ref('mart_platforms')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [status]
+            to: ref('mart_release_date_statuses')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [release_region]
+            to: ref('mart_release_date_regions')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [date_format]
+            to: ref('mart_date_formats')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: date
+            data_type: bigint
+            description: ""
+          - name: game
+            data_type: bigint
+            description: ""
+          - name: human
+            data_type: character varying
+            description: ""
+          - name: m
+            data_type: bigint
+            description: ""
+          - name: platform
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: y
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""
+          - name: status
+            data_type: bigint
+            description: ""
+          - name: date_format
+            data_type: bigint
+            description: ""
+          - name: release_region
+            data_type: bigint
+            description: ""

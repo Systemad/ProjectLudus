@@ -1,26 +1,28 @@
 version: 2
 models:
-  - name: mart_collection_memberships
-    description: ""
-    columns:
-      - name: id
-        data_type: bigint
-        description: ""
-      - name: created_at
-        data_type: bigint
-        description: ""
-      - name: updated_at
-        data_type: bigint
-        description: ""
-      - name: game
-        data_type: bigint
-        description: ""
-      - name: collection
-        data_type: bigint
-        description: ""
-      - name: type
-        data_type: bigint
-        description: ""
-      - name: checksum
-        data_type: character varying
-        description: ""
+    - name: mart_collection_memberships
+      description: ""
+      config:
+          enabled: false
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: game
+            data_type: bigint
+            description: ""
+          - name: collection
+            data_type: bigint
+            description: ""
+          - name: type
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""

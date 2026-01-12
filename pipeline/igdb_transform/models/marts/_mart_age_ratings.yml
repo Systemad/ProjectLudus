@@ -1,23 +1,42 @@
 version: 2
 models:
-  - name: mart_age_ratings
-    description: ""
-    columns:
-      - name: id
-        data_type: bigint
-        description: ""
-      - name: checksum
-        data_type: character varying
-        description: ""
-      - name: organization
-        data_type: bigint
-        description: ""
-      - name: rating_category
-        data_type: bigint
-        description: ""
-      - name: rating_content_descriptions
-        data_type: jsonb
-        description: ""
-      - name: synopsis
-        data_type: character varying
-        description: ""
+    - name: mart_age_ratings
+
+      config:
+          alias: age_ratings
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: foreign_key
+            columns: [rating_category]
+            to: ref('mart_age_rating_categories')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [organization]
+            to: ref('mart_age_rating_organizations')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""
+          - name: organization
+            data_type: bigint
+            description: ""
+          - name: rating_category
+            data_type: bigint
+            description: ""
+          - name: rating_content_descriptions
+            data_type: jsonb
+            description: ""
+          - name: synopsis
+            data_type: character varying
+            description: ""

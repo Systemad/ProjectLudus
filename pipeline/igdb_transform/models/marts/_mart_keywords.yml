@@ -4,7 +4,6 @@ models:
 
       config:
           alias: keywords
-          alias: keywords
           contract: { enforced: true }
 
       constraints:

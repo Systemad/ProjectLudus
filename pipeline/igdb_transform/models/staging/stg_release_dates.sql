@@ -15,7 +15,8 @@ with
             y,
             checksum,
             status,
-            date_format
+            date_format,
+            release_region
 
         from source
 

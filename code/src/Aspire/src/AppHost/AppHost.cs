@@ -27,7 +27,7 @@ builder.AddDockerComposeEnvironment("docker-compose").WithDashboard(db => db.Wit
 var catalogPrimaryDb = builder
     .AddPostgres("catalog-primary")
     .WithHostPort(5433)
-    .WithImage(image: "paradedb/paradedb", tag: "v0.20.0-pg17")
+    .WithImage(image: "paradedb/paradedb", tag: "v0.21.0-pg17")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume("catalog-primary-data", isReadOnly: false)
     .WithEndpoint("tcp", ep => 

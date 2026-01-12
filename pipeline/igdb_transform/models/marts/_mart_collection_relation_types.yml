@@ -1,29 +1,31 @@
 version: 2
 models:
-  - name: mart_collection_relation_types
-    description: ""
-    columns:
-      - name: id
-        data_type: bigint
-        description: ""
-      - name: created_at
-        data_type: bigint
-        description: ""
-      - name: updated_at
-        data_type: bigint
-        description: ""
-      - name: name
-        data_type: character varying
-        description: ""
-      - name: description
-        data_type: character varying
-        description: ""
-      - name: allowed_child_type
-        data_type: bigint
-        description: ""
-      - name: allowed_parent_type
-        data_type: bigint
-        description: ""
-      - name: checksum
-        data_type: character varying
-        description: ""
+    - name: mart_collection_relation_types
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: name
+            data_type: character varying
+            description: ""
+          - name: description
+            data_type: character varying
+            description: ""
+          - name: allowed_child_type
+            data_type: bigint
+            description: ""
+          - name: allowed_parent_type
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""

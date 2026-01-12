@@ -1,8 +1,10 @@
 version: 2
 models:
-  - name: mart_games__forks
-    description: ""
-    columns:
-      - name: value
-        data_type: bigint
-        description: ""
+    - name: mart_games__forks
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: value
+            data_type: bigint
+            description: ""
