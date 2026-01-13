@@ -1,16 +1,15 @@
 with
-    source as (select * from {{ ref("stg_pop_igdb_played") }}),
+    source as (select * from {{ ref("stg_popularity_types") }}),
     renamed as (
         select
             id,
-            game_id,
-            popularity_type,
             popularity_source,
-            value,
-            calculated_at,
+            name,
             created_at,
             updated_at,
+            checksum,
             external_popularity_source
+
         from source
     )
 select *

@@ -242,6 +242,7 @@ default = rest_api_source(
             Endpoints.RELEASE_DATE_STATUSES,
             Endpoints.THEMES,
             Endpoints.PLATFORM_WEBSITES,
+            Endpoints.POPULARITY_TYPES,
             Endpoints.WEBSITE_TYPES,
             {
                 "max_table_nesting": 1,
@@ -300,9 +301,10 @@ def load_igdb():
     )
 
     load_info_pop = pipeline.run(popularity)
-    # load_info_default = pipeline.run(default)
+    load_info_default = pipeline.run(default)
 
     print(load_info_pop)
+    print(load_info_default)
     # print(load_info_default)
     # venv = dlt.dbt.get_venv(pipeline)
     #

@@ -188,17 +188,14 @@ def main(
     output_type: str = typer.Option("sql", "--type"),
     models: Annotated[Optional[List[str]], typer.Option("--model")] = None,
 ):
-    # 1. Handle Layer and SQL Prefix Logic
     if layer == "staging":
         s_pref = "stg_"
     else:
-        # If user didn't provide --prefix or --sql-prefix, default to mart_
         s_pref = prefix or sql_prefix or "mart_"
 
     y_pref = prefix or yml_prefix
     select_path = f"models/{layer}"
 
-    # 2. Get Model Names
     model_names = models if models else get_model_names(select_path)
 
     if not model_names:
@@ -209,7 +206,6 @@ def main(
         f"Generating {output_type} for {layer} (Prefix: {s_pref if output_type == 'sql' else y_pref})"
     )
 
-    # 3. Execution Logic
     if output_type == "sql":
         if not source_name:
             raise typer.BadParameter("--source-name is required for SQL format")
