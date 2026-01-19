@@ -11,7 +11,6 @@ with
             ) as id,
             game_id,
             popularity_type,
-            popularity_source,
             value,
             calculated_at,
             created_at,
@@ -21,6 +20,5 @@ with
             to_timestamp(updated_at)::date as snapshot_date
         from source
     )
-select *
-from renamed
+select distinct * from renamed
 order by updated_at desc

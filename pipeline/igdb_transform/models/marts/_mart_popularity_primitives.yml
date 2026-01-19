@@ -22,7 +22,7 @@ models:
       description: ""
       columns:
           - name: id
-            data_type: bigint
+            data_type: text
             description: ""
           - name: game_id
             data_type: bigint
@@ -44,4 +44,10 @@ models:
             description: ""
           - name: external_popularity_source
             data_type: bigint
+            description: ""
+          - name: updated_at_tz
+            data_type: TIMESTAMPTZ
+            description: ""
+          - name: snapshot_date
+            data_type: DATE
             description: ""
