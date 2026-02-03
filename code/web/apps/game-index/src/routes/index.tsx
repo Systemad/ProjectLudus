@@ -52,7 +52,7 @@ export const FacetedSearch = () => {
             <HStack align="flex-start" gap="lg">
                 <Box
                     display={{ base: "none", md: "block" }}
-                    w="30%"
+                    w="35%"
                     p="md"
                     border="1px solid"
                     borderColor="border"

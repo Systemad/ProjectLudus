@@ -517,3 +517,5 @@ $RECYCLE.BIN/
 *.swp
 .Cache
 .env
+*storybook.log
+storybook-static

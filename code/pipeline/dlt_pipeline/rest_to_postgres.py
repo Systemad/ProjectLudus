@@ -28,10 +28,7 @@ popularity = rest_api_source(
             "max_table_nesting": 0,
             "endpoint": {
                 "method": "POST",
-                # "data": {
-                #    "fields": "*",
-                #    "limit": 500,
-                # },
+
             },
         },
         "resources": [
