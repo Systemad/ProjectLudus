@@ -4,7 +4,6 @@ import {
     NavigationMenuTrigger,
     NavigationMenuItem,
     NavigationMenuContent,
-    NavigationMenuLink,
 } from "./nav-menu";
 
 import {
@@ -21,6 +20,8 @@ import {
     Link,
     Accordion,
     Drawer,
+    Input,
+    InputGroup,
     Button,
     useDisclosure,
     IconButton,
@@ -32,7 +33,11 @@ import {
     UsersIcon,
     ChartNoAxesCombinedIcon,
     Stack,
+    Spacer,
+    SearchIcon,
 } from "@packages/ui";
+import { ThemeButton } from "./ThemeButton";
+import { CustomNavigationMenuLinkStyled } from "../Links/TanstackLinks.tsx";
 
 const MENU_DATA = {
     GENRES: [
@@ -106,24 +111,70 @@ const handbookLinks = [
     },
 ] as const;
 
-export const NavBar = () => {
-    return (
-        <NavigationMenu>
-            <Box display={{ base: "none", md: "block" }}>
-                <DesktopNavBar />
-            </Box>
+export const NavBar = () => (
+    <Stack
+        as="header"
+        bg="bg/100"
+        position="sticky"
+        top="0"
+        w="full"
+        zIndex="yamcha"
+        gap="sm"
+        px="{space}"
+        py="sm"
+        borderBottom="1px solid blue"
+    >
+        <HStack display={{ base: "flex", md: "none" }} justify="space-between">
+            <MobileMenu />
+            <HStack gap="sm">
+                <ThemeButton />
+            </HStack>
+        </HStack>
 
-            <Box display={{ base: "block", md: "none" }}>
-                <MobileMenu />
-            </Box>
-        </NavigationMenu>
-    );
-};
-const MobileMenu = () => {
+        <Box display={{ base: "block", md: "none" }}>
+            <InputGroup.Root variant="filled" w="full">
+                <Input placeholder="Search 300,000 games" />
+                <InputGroup.Element>
+                    <SearchIcon />
+                </InputGroup.Element>
+            </InputGroup.Root>
+        </Box>
+
+        <Box display={{ base: "none", md: "block" }}>
+            <InputGroup.Root variant="filled" w="full">
+                <InputGroup.Addon />
+                <Input placeholder="Search 300,000 games" />
+                <InputGroup.Element>
+                    <SearchIcon />
+                </InputGroup.Element>
+            </InputGroup.Root>
+        </Box>
+
+        <Box display={{ base: "none", md: "block" }}>
+            <Flex align="center" justify="space-between" w="full">
+                <Text paddingRight={"md"} fontSize={"1rem"} fontWeight={"500"}>
+                    Home
+                </Text>
+
+                {/* Center: Navigation */}
+                <Box flex="1" display="flex">
+                    <NavigationMenu>
+                        <DesktopNavBar />
+                    </NavigationMenu>
+                </Box>
+
+                <HStack>
+                    <ThemeButton />
+                </HStack>
+            </Flex>
+        </Box>
+    </Stack>
+);
+export const MobileMenu = () => {
     return (
         <Drawer.Root placement={"inline-start"} size="xs" duration={0.25}>
             <Drawer.OpenTrigger>
-                <MenuIcon fontSize={"lg"} />
+                <MenuIcon fontSize={"xl"} />
             </Drawer.OpenTrigger>
 
             <Drawer.Content margin="0">
@@ -247,6 +298,89 @@ export const DesktopNavBar = () => {
     return (
         <NavigationMenuList>
             <NavigationMenuItem>
+                <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                    <Grid w="lg" templateColumns="1fr 1fr" gap="md" p="md">
+                        <Box
+                            borderRight="1px solid"
+                            borderColor="border"
+                            pr="lg"
+                        >
+                            <Text
+                                fontSize="xs"
+                                fontWeight="semibold"
+                                color="muted"
+                                mb="md"
+                                textTransform="uppercase"
+                            >
+                                Rankings
+                            </Text>
+                            <List.Root gap="xs" mb="lg">
+                                {MENU_DATA.OTHER.map((item) => (
+                                    <List.Item
+                                        padding="sm"
+                                        borderRadius="xl"
+                                        _hover={{
+                                            backgroundColor: "bg.muted",
+                                            borderRadius: "xl",
+                                        }}
+                                    >
+                                        <List.Icon>{item.icon}</List.Icon>
+                                        <Text fontSize="sm" fontWeight="normal">
+                                            {item.name}
+                                        </Text>
+                                    </List.Item>
+                                ))}
+                            </List.Root>
+                            <Separator mb="md" />
+                            <Text
+                                fontSize="xs"
+                                fontWeight="semibold"
+                                color="muted"
+                                mb="md"
+                                textTransform="uppercase"
+                            >
+                                Others
+                            </Text>
+                            <List.Root gap="0.0625rem">
+                                {/* Others List.Items */}
+                            </List.Root>
+                        </Box>
+
+                        {/* Right Column */}
+                        <Box>
+                            <Text
+                                fontSize="xs"
+                                fontWeight="semibold"
+                                color="muted"
+                                mb="md"
+                                textTransform="uppercase"
+                            >
+                                Genres
+                            </Text>
+                            <List.Root gap="0.0625rem">
+                                {MENU_DATA.GENRES.map((item) => (
+                                    <List.Item
+                                        padding="sm"
+                                        borderRadius="xl"
+                                        _hover={{
+                                            backgroundColor: "bg.muted",
+                                            borderRadius: "xl",
+                                        }}
+                                    >
+                                        <List.Icon>{item.icon}</List.Icon>
+                                        <Text fontSize="sm" fontWeight="normal">
+                                            {item.name}
+                                        </Text>
+                                    </List.Item>
+                                ))}
+                            </List.Root>
+                        </Box>
+                    </Grid>
+                </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
                 <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
                 <NavigationMenuContent>
                     <Grid
@@ -276,63 +410,6 @@ export const DesktopNavBar = () => {
                             </Card.Root>
                         ))}
                     </Grid>
-                </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-                <NavigationMenuTrigger>Explore</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                    <HStack gap="md" h="full" align="stretch">
-                        {/* Left List */}
-                        <Box flex="1">
-                            <List.Root gap="0.0625rem">
-                                {MENU_DATA.GENRES.map((item) => (
-                                    <List.Item
-                                        padding="sm"
-                                        borderRadius="xl"
-                                        _hover={{
-                                            backgroundColor: "bg.muted",
-                                            borderRadius: "xl",
-                                        }}
-                                    >
-                                        <List.Icon>{item.icon}</List.Icon>
-                                        <Text fontSize="sm" fontWeight="medium">
-                                            {item.name}
-                                        </Text>
-                                    </List.Item>
-                                ))}
-                            </List.Root>
-                        </Box>
-
-                        {/* Full height vertical separator */}
-                        <Separator
-                            orientation="vertical"
-                            size="sm"
-                            flexShrink="0"
-                            backgroundColor={"blue.200"}
-                        />
-
-                        {/* Right List */}
-                        <Box flex="1">
-                            <List.Root gap="0.0625rem">
-                                {MENU_DATA.OTHER.map((item) => (
-                                    <List.Item
-                                        padding="sm"
-                                        borderRadius="xl"
-                                        _hover={{
-                                            backgroundColor: "bg.muted",
-                                            borderRadius: "xl",
-                                        }}
-                                    >
-                                        <List.Icon>{item.icon}</List.Icon>
-                                        <Text fontSize="sm" fontWeight="medium">
-                                            {item.name}
-                                        </Text>
-                                    </List.Item>
-                                ))}
-                            </List.Root>
-                        </Box>
-                    </HStack>
                 </NavigationMenuContent>
             </NavigationMenuItem>
 
@@ -390,10 +467,24 @@ export const DesktopNavBar = () => {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-                <NavigationMenuLink href="https://github.com/mui/base-ui">
-                    GitHub
-                </NavigationMenuLink>
+                <CustomNavigationMenuLinkStyled to="/">
+                    HOME AAA
+                </CustomNavigationMenuLinkStyled>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+                <CustomNavigationMenuLinkStyled to="/about">
+                    Custom AAA
+                </CustomNavigationMenuLinkStyled>
             </NavigationMenuItem>
         </NavigationMenuList>
     );
 };
+
+/*
+            <NavigationMenuItem>
+                <CustomNavigationMenuLinkStyled to="/">
+                    Home
+                </CustomNavigationMenuLinkStyled>
+            </NavigationMenuItem>
+*/

@@ -1,5 +1,8 @@
 {
-	"dependencies": {
-		"@packages/ui": "workspace:*"
-	}
+    "dependencies": {
+        "@packages/ui": "workspace:*"
+    },
+    "devDependencies": {
+        "@yamada-ui/cli": "^2.0.6"
+    }
 }

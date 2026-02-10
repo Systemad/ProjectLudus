@@ -6,19 +6,31 @@ import { ChevronDownIcon, styled } from "@packages/ui";
 
 const NavigationMenuRootStyled = styled(NavigationMenuPrimitive.Root, {
     base: {
-        backgroundColor: "bg.float",
-        borderRadius: "0.5rem",
-        padding: "0.25rem",
-        minWidth: "max-content",
+        backgroundColor: "transparent",
+        padding: 0,
+        //backgroundColor: "bg.float",
+        //borderRadius: "0.5rem",
+        //padding: "0.25rem",
+        //minWidth: "max-content",
+        //width: "100%",
+        maxWidth: "100%",
     },
 });
 
 const NavigationMenuListStyled = styled(NavigationMenuPrimitive.List, {
     base: {
         display: "flex",
+        alignItems: "center",
+        //padding: "0.25rem",
+        borderRadius: "0.5rem",
+        backgroundColor: "bg.float",
+        /*
+        display: "flex",
         listStyle: "none",
         padding: 0,
         margin: 0,
+        width: "100%",
+        */
     },
 });
 
@@ -92,9 +104,9 @@ const NavigationMenuTriggerStyled = styled(NavigationMenuPrimitive.Trigger, {
     base: {
         display: "flex",
         alignItems: "center",
-        gap: "0.375rem",
+        gap: "sm",
         height: "2.5rem",
-        padding: "0 0.875rem",
+        padding: "0 0.5rem",
         borderRadius: "0.375rem",
         border: "none",
         backgroundColor: "var(--color-gray-50)",
@@ -155,9 +167,9 @@ const NavigationMenuPositionerStyled = styled(
     NavigationMenuPrimitive.Positioner,
     {
         base: {
-            "--duration": "0.35s",
-            "--easing": "cubic-bezier(0.22, 1, 0.36, 1)",
-
+            "--duration": "0.2s",
+            //"--easing": "cubic-bezier(0.22, 1, 0.36, 1)",
+            "--easing": "cubic-bezier(0.34, 1.56, 0.64, 1)",
             boxSizing: "border-box",
             width: "var(--positioner-width)",
             height: "var(--positioner-height)",
@@ -166,6 +178,9 @@ const NavigationMenuPositionerStyled = styled(
             transitionProperty: "top, left, right, bottom, width, height",
             transitionDuration: "var(--duration)",
             transitionTimingFunction: "var(--easing)",
+
+            fontSmooth: "antialiased",
+            WebkitFontSmoothing: "antialiased",
 
             "&[data-instant]": {
                 transition: "none",
@@ -184,6 +199,10 @@ const NavigationMenuPopupStyled = styled(NavigationMenuPrimitive.Popup, {
         width: "var(--popup-width)",
         height: "var(--popup-height)",
 
+        contain: "paint",
+        backfaceVisibility: "hidden",
+        transform: "translateZ(0)",
+
         transformOrigin: "var(--transform-origin)",
         transitionProperty: "opacity, transform, width, height",
         transitionDuration: "var(--duration)",
@@ -191,13 +210,17 @@ const NavigationMenuPopupStyled = styled(NavigationMenuPrimitive.Popup, {
 
         "&[data-starting-style]": {
             opacity: 0,
-            transform: "scale(0.95)",
+            //transform: "scale(0.95)",
+            transform: "scale(0.5) translateY(-10px)",
         },
 
         "&[data-ending-style]": {
             opacity: 0,
-            transform: "scale(0.95)",
-            transitionDuration: "0.15s",
+            transform: "scale(0.5)",
+            transitionDuration: "0.1s",
+            transitionTimingFunction: "ease-in",
+            //transform: "scale(0.95)",
+            //transitionDuration: "0.15s",
         },
     },
 });
