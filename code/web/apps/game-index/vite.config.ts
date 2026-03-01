@@ -28,7 +28,7 @@ function injectColorModeScript(): Plugin {
             const content = getStorageScript(
                 "colorMode",
                 COLOR_MODE_STORAGE_KEY
-            )({ defaultValue: "light" });
+            )({ defaultValue: "dark" });
 
             return html.replace("<body>", `<body><script>${content}</script>`);
         },

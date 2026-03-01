@@ -88,6 +88,40 @@ export const FacetedSearch = () => {
                         gap="md"
                         templateColumns="repeat(auto-fill, minmax(min({--min-grid-col-size}, 100%), 1fr))"
                     >
+                        <GridItem>
+                            <Box
+                                position="relative"
+                                overflow="hidden"
+                                borderRadius="lg"
+                            >
+                                <Image
+                                    src="https://slamdunk-movie.jp/files/images/p_gallery_03.jpg"
+                                    alt="Card image"
+                                    w="100%"
+                                    objectFit="cover"
+                                />
+
+                                <Box
+                                    position="absolute"
+                                    bottom="0"
+                                    left="0"
+                                    right="0"
+                                    p="4"
+                                    background="linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0))"
+                                >
+                                    <Text
+                                        color="white"
+                                        fontWeight="bold"
+                                        fontSize="lg"
+                                    >
+                                        Your Title
+                                    </Text>
+                                    <Text color="gray.200" fontSize="sm">
+                                        Optional subtitle
+                                    </Text>
+                                </Box>
+                            </Box>
+                        </GridItem>
                         <For each={Array.from({ length: 20 })}>
                             {(_, index) => (
                                 <GridItem key={index}>
@@ -143,6 +177,7 @@ export const FacetedSearch = () => {
             </HStack>
 
             <Drawer.Root
+                duration={0.3}
                 placement={"block-end"}
                 open={open}
                 onClose={onClose}
@@ -150,9 +185,21 @@ export const FacetedSearch = () => {
                 closeOnDrag
                 withDragBar={true}
             >
-                <Drawer.Content>
+                <Drawer.Content
+                    transition={
+                        {
+                            enter: {
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 25,
+                                mass: 0.9,
+                            },
+                        } as any
+                    }
+                >
+                    <Drawer.Header>Filters</Drawer.Header>
+
                     <Drawer.Body>
-                        <Drawer.Header>Filters</Drawer.Header>
                         <FilterFields onApply={onClose} />
                     </Drawer.Body>
                 </Drawer.Content>
@@ -168,7 +215,23 @@ const FilterFields = ({ onApply }: FilterFieldsProps) => (
     <Stack w="full" h="full">
         <Accordion.Root toggle multiple>
             <Accordion.Item button="Theme" index={0}>
-                <Accordion.Panel borderRadius={"lg"}>
+                <Accordion.Panel
+                    borderRadius={"lg"}
+                    duration={0.25}
+                    transition={{
+                        enter: {
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 25,
+                            mass: 0.7,
+                        },
+                        exit: {
+                            type: "tween",
+                            duration: 0.05,
+                            ease: [0.4, 0, 1, 1],
+                        },
+                    }}
+                >
                     <CheckboxGroup.Root>
                         <CheckboxGroup.Item>Action</CheckboxGroup.Item>
                         <CheckboxGroup.Item>RPG</CheckboxGroup.Item>
@@ -178,7 +241,18 @@ const FilterFields = ({ onApply }: FilterFieldsProps) => (
             </Accordion.Item>
 
             <Accordion.Item button="Genre" index={1}>
-                <Accordion.Panel borderRadius={"lg"}>
+                <Accordion.Panel
+                    borderRadius={"lg"}
+                    duration={0.25}
+                    transition={{
+                        enter: {
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 20,
+                            mass: 0.8,
+                        },
+                    }}
+                >
                     <CheckboxGroup.Root>
                         <CheckboxGroup.Item>Action</CheckboxGroup.Item>
                         <CheckboxGroup.Item>RPG</CheckboxGroup.Item>
@@ -189,13 +263,7 @@ const FilterFields = ({ onApply }: FilterFieldsProps) => (
         </Accordion.Root>
 
         {onApply && (
-            <Box
-                pt="4"
-                pb="calc(env(safe-area-inset-bottom) + 16px)"
-                borderTop="1px solid"
-                borderColor="border.subtle"
-                bg="white"
-            >
+            <Box pt="4" pb="calc(env(safe-area-inset-bottom) + 16px)">
                 <Button w="full" size="lg" onClick={onApply}>
                     Show Results
                 </Button>

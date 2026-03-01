@@ -191,7 +191,7 @@ const NavigationMenuPositionerStyled = styled(
 
 const NavigationMenuPopupStyled = styled(NavigationMenuPrimitive.Popup, {
     base: {
-        backgroundColor: "bg.float",
+        backgroundColor: "bg.muted",
         border: "1px solid var(--color-border-muted)",
         borderRadius: "0.5rem",
         boxShadow: "sm",

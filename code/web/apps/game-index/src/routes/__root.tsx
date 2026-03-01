@@ -19,7 +19,6 @@ const RootLayout = () => (
                 px="xs"
                 w="full"
                 pb="md"
-                scrollbarGutter={"stable"}
             >
                 <Outlet />
             </Flex>
