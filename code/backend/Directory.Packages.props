@@ -22,5 +22,7 @@
     <PackageVersion Include="Scalar.AspNetCore" Version="2.12.41" />
     <PackageVersion Include="Thinktecture.EntityFrameworkCore.PostgreSQL" Version="10.1.0-beta02" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+
+      <PackageVersion Include="Jameak.CursorPagination" Version="1.1.1" />
   </ItemGroup>
 </Project>

@@ -21,6 +21,8 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 
         <PackageReference Include="Thinktecture.EntityFrameworkCore.PostgreSQL" />
+
+        <PackageReference Include="Jameak.CursorPagination" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,34 +1,50 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using CatalogAPI;
 using CatalogAPI.Context;
 using CatalogAPI.Data;
 using CatalogAPI.Models;
 using EFCore.ParadeDB.PgSearch;
-using EFCore.ParadeDB.PgSearch.Internals.Functions;
+using Jameak.CursorPagination;
+using Jameak.CursorPagination.Abstractions.Enums;
+using Jameak.CursorPagination.Enums;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Scalar.AspNetCore;
 using Thinktecture;
+using GameItem = CatalogAPI.GameItem;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+builder.Services.AddScoped<KeySetPaginationStrategy>();
+builder.Services.AddScoped<OffsetPaginationStrategy>();
 
 // builder.AddNpgsqlDbContext
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    optionsBuilder.UseNpgsql(np =>
-    {
-        np.UseNodaTime();
-        np.ConfigureDataSource(ds =>
+    optionsBuilder.UseNpgsql(
+        builder.Configuration.GetConnectionString("catalogdev"),
+        np =>
         {
-            ds.UseNodaTime();
-            //ds.EnableDynamicJson();
-        });
-        np.UsePgSearch();
-        //np.u
-    });
+            np.UseNodaTime();
+            np.ConfigureDataSource(ds =>
+            {
+                ds.UseNodaTime();
+                //ds.EnableDynamicJson();
+            });
+            np.UsePgSearch();
+            np.AddWindowFunctionsSupport();
+            //np.u
+        }
+    );
     optionsBuilder.UseSnakeCaseNamingConvention();
 });
 
@@ -54,6 +70,8 @@ if (app.Environment.IsDevelopment())
         options =>
         {
             options.WithTitle("My API Documentation").ForceDarkMode();
+            options.DisableAgent();
+            options.DisableTelemetry();
         }
     );
     //app.MapScalarApiReference();
@@ -93,94 +111,23 @@ app.MapGet(
     .WithName("GetWeatherForecast")
     .CacheOutput();
 
+
 app.MapGet(
-        "/api/games",
-        (string? name) =>
-        {
-            var forecast = Enumerable
-                .Range(1, 5)
-                .Select(index => new WeatherForecast(
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-                .ToArray();
-            return forecast;
-        }
-    )
-    .WithName("GetWeatherForecast")
-    .CacheOutput();
-
-app.Run();
-
-app.MapPost(
         "api/search",
-        async (string hello, AppDbContext dbContext) =>
-        {
-            var results1 = await dbContext
-                .GamesSearches.Where(g => EF.Functions.MatchDisjunction(g.Name, "zombies"))
-                .Select(g => new
-                {
-                    g.Id,
-                    g.Name,
-                    g.Summary,
-                    g.Storyline,
-                    g.FirstReleaseDate,
-                    g.GameType,
-                    g.CoverUrl,
-                    g.Themes,
-                    g.Genres,
-                    g.Modes,
-                    g.ReleaseYear,
-                })
-                .AsSubQuery()
-                .AsQueryable()
-                .Select(sub => new GameSearchFacet
-                {
-                    Id = 0,
-                    Name = sub.Name,
-                    Summary = sub.Summary,
-                    Storyline = sub.Storyline,
-                    FirstReleaseDate = sub.FirstReleaseDate,
-                    GameType = sub.GameType,
-                    CoverUrl = sub.CoverUrl,
-                    ReleaseYear = sub.ReleaseYear,
-                    TotalItems = EF.Functions.WindowFunction(new WindowFunction<int>("COUNT", true)),
-                    Score = EF.Functions.Score(sub.Id),
-                    Themes = sub.Themes,
-                    Genres = sub.Genres,
-                    Modes = sub.Modes,
-                    ThemeFacet = JsonSerializer.Deserialize<Facets>(
-                        EF.Functions.WindowFunction(
-                            new WindowFunction<string>("agg", false),
-                            "{\"terms\":{\"field\": \"themes\"}}"
-                        )
-                    ),
-                    GenreFacet = JsonSerializer.Deserialize<Facets>(
-                        EF.Functions.WindowFunction(
-                            new WindowFunction<string>("agg", false),
-                            "{\"terms\":{\"field\": \"genres\"}}"
-                        )
-                    ),
-                })
-                .OrderByDescending(x => x.Score)
-                .Take(20)
-                .ToListAsync();
-           
-        }
-    )
-    .WithName("Search");
-
-app.MapGet(
-        "api/searching",
-        async ([AsParameters] GameSearchRequest req, AppDbContext dbContext) =>
+        async (
+            [AsParameters] GameSearchRequest req,
+            CancellationToken token,
+            AppDbContext dbContext,
+            KeySetPaginationStrategy _keySetPaginationStrategy,
+            OffsetPaginationStrategy _offsetPaginationStrategy
+        ) =>
         {
             IQueryable<GamesSearch> query = dbContext.GamesSearches.AsQueryable();
-            
+
             if (!string.IsNullOrWhiteSpace(req.Name))
                 query = query.Where(g => EF.Functions.MatchDisjunction(g.Name, req.Name));
 
-            if (req.Genres.Length > 0)
+            if (req.Genres is { Length: > 0 })
             {
                 foreach (var term in req.Genres)
                 {
@@ -188,24 +135,23 @@ app.MapGet(
                 }
             }
 
-            if (req.Themes.Length > 0)
+            if (req.Themes is { Length: > 0 })
             {
                 foreach (var term in req.Themes)
                 {
                     query = query.Where(p => EF.Functions.Term(p.Themes, term));
                 }
             }
-            
-            if (req.Modes.Length > 0)
+
+            if (req.Modes is { Length: > 0 })
             {
                 foreach (var term in req.Modes)
                 {
                     query = query.Where(p => EF.Functions.Term(p.Modes, term));
                 }
             }
-            
-            var subQuery =  dbContext
-                .GamesSearches.Where(g => EF.Functions.MatchDisjunction(g.Name, "zombies"))
+
+            var subQuery = query
                 .Select(g => new
                 {
                     g.Id,
@@ -222,11 +168,11 @@ app.MapGet(
                 })
                 .AsSubQuery()
                 .AsQueryable();
-                
-                
-               var rows = await subQuery.Select(sub => new GameSearchFacet
+
+            var rows = subQuery
+                .Select(sub => new GameSearchFacet
                 {
-                    Id = 0,
+                    Id = (long)sub.Id!,
                     Name = sub.Name,
                     Summary = sub.Summary,
                     Storyline = sub.Storyline,
@@ -234,7 +180,9 @@ app.MapGet(
                     GameType = sub.GameType,
                     CoverUrl = sub.CoverUrl,
                     ReleaseYear = sub.ReleaseYear,
-                    TotalItems = EF.Functions.WindowFunction(new WindowFunction<int>("COUNT", true)),
+                    TotalItems = EF.Functions.WindowFunction(
+                        new WindowFunction<int>("COUNT", true)
+                    ),
                     Score = EF.Functions.Score(sub.Id),
                     Themes = sub.Themes,
                     Genres = sub.Genres,
@@ -252,28 +200,51 @@ app.MapGet(
                         )
                     ),
                 })
-                .OrderByDescending(x => x.Score)
-                .Take(req.PageSize)
-                .ToListAsync();
-               
-               var hasNextPage = rows.Count > req.PageSize;
-               var data = hasNextPage ? rows.Take(req.PageSize).ToList() : rows;
-               var nextCursor = data.LastOrDefault()?.Id;
-               
-               return Results.Ok(new
-               {
-                   data,
-                   pagination = new
-                   {
-                       req.PageSize,
-                       hasNextPage,
-                       nextCursor,
-                       totalItems = rows.FirstOrDefault()?.TotalItems ?? 0
-                   }
-               });
+                .OrderByDescending(x => x.Score);
+
+            //
+            //.Take(req.PageSize);
+
+            var page = await KeySetPaginator.ApplyPaginationAsync<
+                GameSearchFacet,
+                KeySetPaginationStrategy.Cursor,
+                KeySetPaginationStrategy
+            >(
+                _keySetPaginationStrategy,
+                rows,
+                DelegateMethods.ToListAsyncDelegate(),
+                DelegateMethods.CountAsyncDelegate(),
+                DelegateMethods.AnyAsyncDelegate(),
+                req.AfterCursor,
+                40,
+                //paginationDirection: PaginationDirection.Forward,
+                computeTotalCount: ComputeTotalCount.Never,
+                computeNextPage: ComputeNextPage.EveryPageAndPreventNextPageQueryOnLastPage,
+                cancellationToken: token
+            );
+
+            var pageMetadata = new PageMetadata
+            {
+                NextPageCursor = page.NextCursor == null
+                    ? null
+                    : _keySetPaginationStrategy.CursorToString(page.NextCursor),
+                HasNextPage = page.HasNextPage!.Value,
+                HasPreviousPage = await page.HasPreviousPageAsync(),
+                TotalCount = page.Items[0].Data.TotalItems ?? 0
+            };
+            var data = page
+                .Items.Select(item => new PagedItem<GameItem>()
+                {
+                    Cursor = _keySetPaginationStrategy.CursorToString(item.Cursor),
+                    Item = item.Data.MapTo(),
+                }).ToList();
+
+            return new PaginatedResponse<GameItem>(pageMetadata, data);
         }
     )
     .WithName("Searching");
+app.Run();
+
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
