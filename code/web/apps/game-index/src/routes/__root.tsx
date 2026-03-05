@@ -4,6 +4,7 @@ import { NavBar } from "../layouts/Navigation/Navbar";
 
 const RootLayout = () => (
     <Flex w="full" alignItems="center" flexDirection="column" minH="100dvh">
+        <NavBar />
         <Flex
             alignItems="center"
             flex="1"
@@ -11,7 +12,6 @@ const RootLayout = () => (
             maxW="8xl"
             w="full"
         >
-            <NavBar />
             <Flex
                 as="main"
                 flex="1"

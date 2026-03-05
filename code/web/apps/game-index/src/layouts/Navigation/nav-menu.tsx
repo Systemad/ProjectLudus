@@ -6,7 +6,7 @@ import { ChevronDownIcon, styled } from "@packages/ui";
 
 const NavigationMenuRootStyled = styled(NavigationMenuPrimitive.Root, {
     base: {
-        backgroundColor: "transparent",
+        //backgroundColor: "transparent",
         padding: 0,
 
         //backgroundColor: "bg.float",
@@ -24,8 +24,10 @@ const NavigationMenuListStyled = styled(NavigationMenuPrimitive.List, {
         alignItems: "center",
         //padding: "0.25rem",
         borderRadius: "0.5rem",
+        backdropBlur: "xl",
         zIndex: 10,
-        backgroundColor: "bg.float",
+        backgroundColor: "rgba(31,31,31,0.8)",
+        //backgroundColor: "bg.float",
         /*
         display: "flex",
         listStyle: "none",

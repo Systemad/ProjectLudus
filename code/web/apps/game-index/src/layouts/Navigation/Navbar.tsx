@@ -112,61 +112,77 @@ const handbookLinks = [
 ] as const;
 
 export const NavBar = () => (
-    <Stack
+    <Box
         as="header"
-        bg="bg/100"
+        w="full"
+        bg="rgba(31,31,31,0.8)"
+        backdropBlur="xl"
         position="sticky"
         top="0"
-        w="full"
-        zIndex="10"
-        gap="sm"
-        px="{space}"
-        py="sm"
-        borderBottom="1px solid blue"
+        zIndex="50"
     >
-        <HStack display={{ base: "flex", md: "none" }} justify="space-between">
-            <MobileMenu />
-            <HStack gap="sm">
-                <ThemeButton />
-            </HStack>
-        </HStack>
-
-        <Box display={{ base: "block", md: "none" }}>
-            <InputGroup.Root variant="filled" w="full">
-                <Input placeholder="Search 300,000 games" />
-                <InputGroup.Element>
-                    <SearchIcon />
-                </InputGroup.Element>
-            </InputGroup.Root>
-        </Box>
-
-        <Box display={{ base: "none", md: "block" }}>
-            <Flex align="center" justify="space-between" w="full">
-                <Text paddingRight={"md"} fontSize={"1rem"} fontWeight={"500"}>
-                    Home
-                </Text>
-
-                {/* Center: Navigation */}
-                <Box flex="1" display="flex">
-                    <NavigationMenu>
-                        <DesktopNavBar />
-                    </NavigationMenu>
-                </Box>
-
-                <Box display={{ base: "none", md: "block" }}>
-                    <InputGroup.Root variant="filled" w="full">
-                        <InputGroup.Element>
-                            <SearchIcon />
-                        </InputGroup.Element>
-                        <Input placeholder="Search 500,000 games" />
-                    </InputGroup.Root>
-                </Box>
-                <HStack>
+        {/* Inner container: centers content, max width */}
+        <Flex
+            maxW="8xl"
+            w="full"
+            mx="auto"
+            px={{ base: "sm", md: "8" }}
+            py="2"
+            align="center"
+            justify="space-between"
+            gap="4"
+        >
+            <HStack
+                display={{ base: "flex", md: "none" }}
+                justify="space-between"
+            >
+                <MobileMenu />
+                <HStack gap="sm">
                     <ThemeButton />
                 </HStack>
-            </Flex>
-        </Box>
-    </Stack>
+            </HStack>
+
+            <Box flex={1} display={{ base: "block", md: "none" }}>
+                <InputGroup.Root variant="filled" w="full">
+                    <Input placeholder="Search 300,000 games" />
+                    <InputGroup.Element>
+                        <SearchIcon />
+                    </InputGroup.Element>
+                </InputGroup.Root>
+            </Box>
+
+            <Box display={{ base: "none", md: "block" }}>
+                <Flex align="center" justify="space-between" w="full">
+                    <Text
+                        paddingRight={"md"}
+                        fontSize={"1rem"}
+                        fontWeight={"500"}
+                    >
+                        Home
+                    </Text>
+
+                    {/* Center: Navigation */}
+                    <Box flex="1" display="flex">
+                        <NavigationMenu>
+                            <DesktopNavBar />
+                        </NavigationMenu>
+                    </Box>
+
+                    <Box display={{ base: "none", md: "block" }}>
+                        <InputGroup.Root variant="filled" w="full">
+                            <InputGroup.Element>
+                                <SearchIcon />
+                            </InputGroup.Element>
+                            <Input placeholder="Search 500,000 games" />
+                        </InputGroup.Root>
+                    </Box>
+                    <HStack>
+                        <ThemeButton />
+                    </HStack>
+                </Flex>
+            </Box>
+        </Flex>
+    </Box>
 );
 export const MobileMenu = () => {
     return (

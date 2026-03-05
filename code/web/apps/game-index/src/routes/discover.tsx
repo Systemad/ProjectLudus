@@ -19,7 +19,7 @@ import {
 } from "@packages/ui";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
-
+// TODO: FIX COLORS, AND SKIP CUSTOM COLORS!!
 export const Route = createFileRoute("/discover")({
     component: Discover,
 });
@@ -63,7 +63,13 @@ const ObjectiveDiscovery = () => {
     );
 
     return (
-        <VStack gap="20" align="stretch">
+        <VStack
+            gap="20"
+            align="stretch"
+            py="xl"
+            px={{ base: "md", xl: "lg" }}
+            minH="100vh"
+        >
             {/* HERO SECTION */}
             <SimpleGrid columns={{ base: 1, lg: 2 }} gap="6">
                 {/* Neon Protocol */}
