@@ -8,6 +8,7 @@ const NavigationMenuRootStyled = styled(NavigationMenuPrimitive.Root, {
     base: {
         backgroundColor: "transparent",
         padding: 0,
+
         //backgroundColor: "bg.float",
         //borderRadius: "0.5rem",
         //padding: "0.25rem",
@@ -23,6 +24,7 @@ const NavigationMenuListStyled = styled(NavigationMenuPrimitive.List, {
         alignItems: "center",
         //padding: "0.25rem",
         borderRadius: "0.5rem",
+        zIndex: 10,
         backgroundColor: "bg.float",
         /*
         display: "flex",
@@ -135,6 +137,7 @@ const NavigationMenuIconStyled = styled(NavigationMenuPrimitive.Icon, {
 
 const NavigationMenuContentStyled = styled(NavigationMenuPrimitive.Content, {
     base: {
+        zIndex: 10,
         boxSizing: "border-box",
         padding: "sm",
 

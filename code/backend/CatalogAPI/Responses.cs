@@ -33,28 +33,7 @@ public class GameItem
     public List<string>? Genres { get; set; }
     public List<string>? Modes { get; set; }
 }
- /*
-  *
-  *             return new PaginatedResponse
-            {
-                PageInfo = new PageInfo
-                {
-                    HasNextPage = page.HasNextPage!.Value,
-                    HasPreviousPage = await page.HasPreviousPageAsync(),
-                    NextPageCursor =
-                        page.NextCursor == null
-                            ? null
-                            : _keySetPaginationStrategy.CursorToString(page.NextCursor),
-                },
-                Data = page
-                    .Items.Select(item => new DataWithCursor
-                    {
-                        Cursor = _keySetPaginationStrategy.CursorToString(item.Cursor),
-                        Data = item.Data,
-                    })
-                    .ToList(),
-            };
-  */
+
 public static class ResponseMapper
 {
     public static GameItem MapTo(this GameSearchFacet game)

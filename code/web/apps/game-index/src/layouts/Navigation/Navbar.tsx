@@ -118,7 +118,7 @@ export const NavBar = () => (
         position="sticky"
         top="0"
         w="full"
-        zIndex="yamcha"
+        zIndex="10"
         gap="sm"
         px="{space}"
         py="sm"
@@ -141,16 +141,6 @@ export const NavBar = () => (
         </Box>
 
         <Box display={{ base: "none", md: "block" }}>
-            <InputGroup.Root variant="filled" w="full">
-                <InputGroup.Addon />
-                <Input placeholder="Search 300,000 games" />
-                <InputGroup.Element>
-                    <SearchIcon />
-                </InputGroup.Element>
-            </InputGroup.Root>
-        </Box>
-
-        <Box display={{ base: "none", md: "block" }}>
             <Flex align="center" justify="space-between" w="full">
                 <Text paddingRight={"md"} fontSize={"1rem"} fontWeight={"500"}>
                     Home
@@ -163,6 +153,14 @@ export const NavBar = () => (
                     </NavigationMenu>
                 </Box>
 
+                <Box display={{ base: "none", md: "block" }}>
+                    <InputGroup.Root variant="filled" w="full">
+                        <InputGroup.Element>
+                            <SearchIcon />
+                        </InputGroup.Element>
+                        <Input placeholder="Search 500,000 games" />
+                    </InputGroup.Root>
+                </Box>
                 <HStack>
                     <ThemeButton />
                 </HStack>
@@ -465,7 +463,11 @@ export const DesktopNavBar = () => {
                     </List.Root>
                 </NavigationMenuContent>
             </NavigationMenuItem>
+        </NavigationMenuList>
+    );
+};
 
+/*
             <NavigationMenuItem>
                 <CustomNavigationMenuLinkStyled to="/">
                     HOME AAA
@@ -477,14 +479,5 @@ export const DesktopNavBar = () => {
                     Custom AAA
                 </CustomNavigationMenuLinkStyled>
             </NavigationMenuItem>
-        </NavigationMenuList>
-    );
-};
 
-/*
-            <NavigationMenuItem>
-                <CustomNavigationMenuLinkStyled to="/">
-                    Home
-                </CustomNavigationMenuLinkStyled>
-            </NavigationMenuItem>
 */
