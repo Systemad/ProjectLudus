@@ -74,7 +74,6 @@ if (app.Environment.IsDevelopment())
             options.DisableTelemetry();
         }
     );
-    //app.MapScalarApiReference();
 }
 
 app.UseHttpsRedirection();

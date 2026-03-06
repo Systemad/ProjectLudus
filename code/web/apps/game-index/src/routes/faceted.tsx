@@ -10,7 +10,6 @@ import {
     Image,
     CheckboxGroup,
     useDisclosure,
-    Pagination,
     Stack,
     Text,
     Heading,

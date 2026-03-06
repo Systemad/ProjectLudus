@@ -1,3 +1,5 @@
+"use client";
+
 import {
     NavigationMenu,
     NavigationMenuList,
@@ -19,25 +21,21 @@ import {
     List,
     Link,
     Accordion,
+    useDisclosure,
     Drawer,
     Input,
     InputGroup,
     Button,
-    useDisclosure,
-    IconButton,
-    Gamepad2Icon,
     GlobeIcon,
     SwordIcon,
     MonitorIcon,
     GamepadIcon,
     UsersIcon,
     ChartNoAxesCombinedIcon,
-    Stack,
-    Spacer,
     SearchIcon,
 } from "@packages/ui";
 import { ThemeButton } from "./ThemeButton";
-import { CustomNavigationMenuLinkStyled } from "../Links/TanstackLinks.tsx";
+import { RouterLink } from "../Links/YamadaLink.tsx";
 
 const MENU_DATA = {
     GENRES: [
@@ -115,13 +113,12 @@ export const NavBar = () => (
     <Box
         as="header"
         w="full"
-        bg="rgba(31,31,31,0.8)"
+        bg="bg.float"
         backdropBlur="xl"
         position="sticky"
         top="0"
         zIndex="50"
     >
-        {/* Inner container: centers content, max width */}
         <Flex
             maxW="8xl"
             w="full"
@@ -132,62 +129,61 @@ export const NavBar = () => (
             justify="space-between"
             gap="4"
         >
-            <HStack
-                display={{ base: "flex", md: "none" }}
-                justify="space-between"
-            >
+            <HStack display={{ base: "flex", md: "none" }} w="full" gap="4">
                 <MobileMenu />
-                <HStack gap="sm">
-                    <ThemeButton />
-                </HStack>
+                <Box flex="1">
+                    <InputGroup.Root variant="filled" w="full">
+                        <Input placeholder="Search 300,000 games" />
+                        <InputGroup.Element>
+                            <SearchIcon />
+                        </InputGroup.Element>
+                    </InputGroup.Root>
+                </Box>
+                <ThemeButton />
             </HStack>
 
-            <Box flex={1} display={{ base: "block", md: "none" }}>
-                <InputGroup.Root variant="filled" w="full">
-                    <Input placeholder="Search 300,000 games" />
-                    <InputGroup.Element>
-                        <SearchIcon />
-                    </InputGroup.Element>
-                </InputGroup.Root>
-            </Box>
-
-            <Box display={{ base: "none", md: "block" }}>
-                <Flex align="center" justify="space-between" w="full">
-                    <Text
-                        paddingRight={"md"}
-                        fontSize={"1rem"}
-                        fontWeight={"500"}
-                    >
+            <Flex
+                display={{ base: "none", md: "flex" }}
+                align="center"
+                w="full"
+                gap="6"
+            >
+                <HStack gap="xs">
+                    <Text fontSize={"1rem"} fontWeight={"500"} cursor="pointer">
                         Home
                     </Text>
+                    <NavigationMenu>
+                        <DesktopNavBar />
+                    </NavigationMenu>
+                </HStack>
 
-                    {/* Center: Navigation */}
-                    <Box flex="1" display="flex">
-                        <NavigationMenu>
-                            <DesktopNavBar />
-                        </NavigationMenu>
-                    </Box>
+                <Box flex="1">
+                    <InputGroup.Root variant="filled" w="full">
+                        <InputGroup.Element>
+                            <SearchIcon />
+                        </InputGroup.Element>
+                        <Input placeholder="Search 500,000 games" />
+                    </InputGroup.Root>
+                </Box>
 
-                    <Box display={{ base: "none", md: "block" }}>
-                        <InputGroup.Root variant="filled" w="full">
-                            <InputGroup.Element>
-                                <SearchIcon />
-                            </InputGroup.Element>
-                            <Input placeholder="Search 500,000 games" />
-                        </InputGroup.Root>
-                    </Box>
-                    <HStack>
-                        <ThemeButton />
-                    </HStack>
-                </Flex>
-            </Box>
+                <HStack>
+                    <ThemeButton />
+                </HStack>
+            </Flex>
         </Flex>
     </Box>
 );
 export const MobileMenu = () => {
+    const { open, onOpen, onClose } = useDisclosure();
     return (
-        <Drawer.Root placement={"inline-start"} size="xs" duration={0.25}>
-            <Drawer.OpenTrigger>
+        <Drawer.Root
+            open={open}
+            onClose={onClose}
+            placement={"inline-start"}
+            size="xs"
+            duration={0.25}
+        >
+            <Drawer.OpenTrigger onClick={onOpen}>
                 <MenuIcon fontSize={"xl"} />
             </Drawer.OpenTrigger>
 
@@ -196,6 +192,43 @@ export const MobileMenu = () => {
 
                 <Drawer.Body padding={"xs"}>
                     <Box w="full">
+                        <List.Root gap={"xs"}>
+                            {MENU_DATA.Browse.map((item) => (
+                                <List.Item
+                                    padding={"sm"}
+                                    _hover={{
+                                        backgroundColor: "bg.muted",
+                                        borderRadius: "xl",
+                                    }}
+                                >
+                                    <RouterLink
+                                        to="/faceted"
+                                        onClick={onClose}
+                                        style={{
+                                            textDecoration: "none",
+                                            color: "inherit",
+                                        }}
+                                    >
+                                        <List.Icon>{item.icon}</List.Icon>
+                                        <Box>
+                                            <Text
+                                                fontSize="sm"
+                                                fontWeight="semibold"
+                                            >
+                                                {item.name}
+                                            </Text>
+                                            <Text
+                                                color="muted"
+                                                fontSize="xs"
+                                                fontWeight="normal"
+                                            >
+                                                {item.description}
+                                            </Text>
+                                        </Box>
+                                    </RouterLink>
+                                </List.Item>
+                            ))}
+                        </List.Root>
                         <Accordion.Root toggle multiple={true}>
                             <Accordion.Item index={0}>
                                 <Accordion.Button
@@ -252,45 +285,6 @@ export const MobileMenu = () => {
                                         >
                                             <List.Icon>{item.icon}</List.Icon>
                                             {item.name}
-                                        </List.Item>
-                                    ))}
-                                </List.Root>
-                            </Accordion.Item>
-                        </Accordion.Root>
-                        <Accordion.Root toggle multiple={true}>
-                            <Accordion.Item index={0}>
-                                <Accordion.Button
-                                    fontSize={"md"}
-                                    fontWeight={"bold"}
-                                >
-                                    Browse
-                                </Accordion.Button>
-
-                                <List.Root gap={"xs"}>
-                                    {MENU_DATA.Browse.map((item) => (
-                                        <List.Item
-                                            padding={"sm"}
-                                            _hover={{
-                                                backgroundColor: "bg.muted",
-                                                borderRadius: "xl",
-                                            }}
-                                        >
-                                            <List.Icon>{item.icon}</List.Icon>
-                                            <Box>
-                                                <Text
-                                                    fontSize="sm"
-                                                    fontWeight="semibold"
-                                                >
-                                                    {item.name}
-                                                </Text>{" "}
-                                                <Text
-                                                    color="muted"
-                                                    fontSize="xs"
-                                                    fontWeight="normal"
-                                                >
-                                                    {item.description}
-                                                </Text>{" "}
-                                            </Box>
                                         </List.Item>
                                     ))}
                                 </List.Root>

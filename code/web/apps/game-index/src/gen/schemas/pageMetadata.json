@@ -1,0 +1,1 @@
+{"required":["nextPageCursor","hasNextPage","hasPreviousPage","totalCount"],"type":"object","properties":{"nextPageCursor":{"type":["null","string"]},"hasNextPage":{"type":"boolean"},"hasPreviousPage":{"type":"boolean"},"totalCount":{"pattern":"^-?(?:0|[1-9]\\d*)$","type":["integer","string"],"format":"int64"}},"x-readme-ref-name":"PageMetadata"}

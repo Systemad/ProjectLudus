@@ -3,6 +3,6 @@
         "@packages/ui": "workspace:*"
     },
     "devDependencies": {
-        "@yamada-ui/cli": "^2.0.6"
+        "@yamada-ui/cli": "^2.0.9"
     }
 }

@@ -1,5 +1,12 @@
 import "./styles.css";
 import "./fonts.css";
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+    QueryClient,
+    QueryClientProvider,
+} from "@tanstack/react-query";
 
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
@@ -113,6 +120,8 @@ export const config = defineConfig({
     //notice: { duration: 5000 },
     theme: { responsive: true },
 });
+
+const queryClient = new QueryClient();
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

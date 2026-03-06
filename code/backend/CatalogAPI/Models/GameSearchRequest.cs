@@ -9,7 +9,6 @@ public sealed class GameSearchRequest
     public string[]? Themes { get; init; } = [];
     public string[]? Modes { get; init; } = [];
     public string? AfterCursor { get; set; }
-    //public int Page { get; set; }
     public int? PageSize { get; set; } = 40;
 }
 
