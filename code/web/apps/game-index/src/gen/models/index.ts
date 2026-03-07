@@ -3,5 +3,5 @@ export type { GetWeatherForecast200, GetWeatherForecastQuery, GetWeatherForecast
 export type { PageMetadata } from "./PageMetadata.ts";
 export type { PagedItemOfGameItem } from "./PagedItemOfGameItem.ts";
 export type { PaginatedResponseOfGameItem } from "./PaginatedResponseOfGameItem.ts";
-export type { Searching200, SearchingQuery, SearchingQueryParams, SearchingQueryResponse } from "./Searching.ts";
+export type { Search200, SearchQuery, SearchQueryParams, SearchQueryResponse } from "./Search.ts";
 export type { WeatherForecast } from "./WeatherForecast.ts";

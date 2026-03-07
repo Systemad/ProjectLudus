@@ -3,15 +3,27 @@
 * Do not edit manually.
 */
 
+import fetch from "../../../client.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "../../../client.ts";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
-import { getWeatherForecast } from "../../clients/getWeatherForecast.ts";
 
 export const getWeatherForecastQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
 
 export type GetWeatherForecastQueryKey = ReturnType<typeof getWeatherForecastQueryKey>
+
+/**
+ * {@link /weatherforecast}
+ */
+export async function getWeatherForecastHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
+  const { client: request = fetch, ...requestConfig } = config
+
+
+
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  return res.data
+}
 
 export function getWeatherForecastQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
@@ -20,7 +32,7 @@ export function getWeatherForecastQueryOptionsHook(config: Partial<RequestConfig
          
          queryKey,
          queryFn: async ({ signal }) => {
-            return getWeatherForecast({ ...config, signal: config.signal ?? signal })
+            return getWeatherForecastHook({ ...config, signal: config.signal ?? signal })
          },
         })
 

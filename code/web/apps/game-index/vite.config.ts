@@ -7,6 +7,9 @@ import {
     getStorageScript,
 } from "@packages/ui";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
+
+const target = process.env.CATALOGAPI_HTTPs || process.env.CATALOGAPI_HTTP;
+
 function injectThemeSchemeScript(): Plugin {
     return {
         name: "inject-theme-scheme-scripts",
@@ -48,4 +51,13 @@ export default defineConfig({
         }),
         injectColorModeScript(),
     ],
+    server: {
+        open: true,
+        proxy: {
+            "/api": {
+                target,
+                changeOrigin: true,
+            },
+        },
+    },
 });

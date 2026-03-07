@@ -6,7 +6,7 @@
 
 import type { PaginatedResponseOfGameItem } from "./PaginatedResponseOfGameItem.ts";
 
-export type SearchingQueryParams = {
+export type SearchQueryParams = {
     /**
      * @type string | undefined
     */
@@ -36,12 +36,12 @@ export type SearchingQueryParams = {
 /**
  * @description OK
 */
-export type Searching200 = PaginatedResponseOfGameItem;
+export type Search200 = PaginatedResponseOfGameItem;
 
-export type SearchingQueryResponse = Searching200;
+export type SearchQueryResponse = Search200;
 
-export type SearchingQuery = {
-    Response: Searching200;
-    QueryParams: SearchingQueryParams;
+export type SearchQuery = {
+    Response: Search200;
+    QueryParams: SearchQueryParams;
     Errors: any;
 };

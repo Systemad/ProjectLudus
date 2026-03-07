@@ -3,15 +3,27 @@
 * Do not edit manually.
 */
 
+import fetch from "../../../client.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "../../../client.ts";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { getWeatherForecast } from "../../clients/getWeatherForecast.ts";
 
 export const getWeatherForecastSuspenseQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
 
 export type GetWeatherForecastSuspenseQueryKey = ReturnType<typeof getWeatherForecastSuspenseQueryKey>
+
+/**
+ * {@link /weatherforecast}
+ */
+export async function getWeatherForecastSuspenseHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
+  const { client: request = fetch, ...requestConfig } = config
+
+
+
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  return res.data
+}
 
 export function getWeatherForecastSuspenseQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
@@ -20,7 +32,7 @@ export function getWeatherForecastSuspenseQueryOptionsHook(config: Partial<Reque
          
          queryKey,
          queryFn: async ({ signal }) => {
-            return getWeatherForecast({ ...config, signal: config.signal ?? signal })
+            return getWeatherForecastSuspenseHook({ ...config, signal: config.signal ?? signal })
          },
         })
 

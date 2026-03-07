@@ -3,4 +3,5 @@ packages:
   - apps/**
 
 onlyBuiltDependencies:
+  - es5-ext
   - esbuild

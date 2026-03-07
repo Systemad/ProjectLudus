@@ -1,4 +1,13 @@
+using Aspire.Hosting.Yarp.Transforms;
+
 var builder = DistributedApplication.CreateBuilder(args);
+builder
+    .AddDockerComposeEnvironment("env")
+    .WithDashboard(db => db.WithHostPort(8085))
+    .ConfigureComposeFile(file =>
+    {
+        file.Name = "game-index";
+    });
 
 var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
 var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
@@ -20,6 +29,44 @@ var catalogDb = builder
     )
     .AddDatabase("catalogdev");
 
-builder.AddProject<Projects.CatalogAPI>("catalogapi").WaitFor(catalogDb).WithReference(catalogDb);
+var api = builder
+    .AddProject<Projects.CatalogAPI>("catalogapi")
+    .WaitFor(catalogDb)
+    .WithReference(catalogDb);
 
+//.WithExternalHttpEndpoints();
+
+var frontend = builder
+    .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
+    .WithPnpm()
+    .WithReference(api)
+    .WaitFor(api)
+    .WithUrl("", "Game Index");
+
+/*
+.WithEndpoint(
+    endpointName: "http",
+    endpoint =>
+    {
+        endpoint.Port = builder.ExecutionContext.IsRunMode ? 5173 : null;
+    }
+);
+*/
+
+//if (builder.ExecutionContext.IsPublishMode)
+//{
+builder
+    .AddYarp("frontend-server")
+    .WithExternalHttpEndpoints()
+    .PublishWithStaticFiles(frontend)
+    .WithConfiguration(yarp =>
+    {
+        // Always proxy /api requests to backend
+        yarp.AddRoute("/api/{**catch-all}", api); //.WithTransformPathRemovePrefix("/api");
+    })
+    .WithExplicitStart();
+
+//.WithExternalHttpEndpoints()
+
+//}
 builder.Build().Run();

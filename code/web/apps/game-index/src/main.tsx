@@ -1,12 +1,6 @@
 import "./styles.css";
 import "./fonts.css";
-import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-    QueryClient,
-    QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
@@ -14,6 +8,7 @@ import { UIProvider, defineConfig, extendTheme } from "@packages/ui";
 // import { my_theme } from "@packages/theme";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import { queryClient } from "./QueryClient";
 
 // Create a new router instance
 
@@ -121,8 +116,6 @@ export const config = defineConfig({
     theme: { responsive: true },
 });
 
-const queryClient = new QueryClient();
-
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
     interface Register {
@@ -132,7 +125,12 @@ declare module "@tanstack/react-router" {
 
 const router = createRouter({
     routeTree,
+    context: { queryClient },
     defaultPreload: "intent",
+    //defaultPreloadStaleTime: 0,
+    // defaultStructuralSharing: true,
+    //defaultPendingMinMs: 0,
+    //defaultPendingMs: 100,
     scrollRestoration: true,
     defaultViewTransition: {
         types: ({ fromLocation, toLocation }) => {
@@ -164,7 +162,9 @@ if (!rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <UIProvider config={config} theme={extendedTheme}>
-                <RouterProvider router={router} />
+                <QueryClientProvider client={queryClient}>
+                    <RouterProvider router={router} />
+                </QueryClientProvider>
             </UIProvider>
         </StrictMode>
     );

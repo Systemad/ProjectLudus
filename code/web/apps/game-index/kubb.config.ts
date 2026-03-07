@@ -25,11 +25,13 @@ export default defineConfig({
                 },
             },
         }),
+        /*
         pluginClient({
             output: {
                 path: "clients",
             },
         }),
+        */
         pluginReactQuery({
             transformers: {
                 name: (name, type) => {
@@ -52,6 +54,7 @@ export default defineConfig({
             },
             client: {
                 dataReturnType: "data",
+                //dataReturnType: "data",
                 importPath: "../../../client.ts",
                 baseURL: "",
             },
@@ -59,12 +62,16 @@ export default defineConfig({
                 methods: ["post", "put", "delete"],
             },
             infinite: {
-                queryParam: "pageNumber",
-                initialPageParam: 1,
-                //cursorParam: "undefined",
+                queryParam: "AfterCursor",
+                initialPageParam: undefined,
+                nextParam: "pageInfo.nextPageCursor",
+                //cursorParam: "data.pageInfo.nextPageCursor",
             },
             paramsType: "object",
             pathParamsType: "object",
+
+            //paramsType: "object",
+            //pathParamsType: "object",
             suspense: {},
             query: {
                 methods: ["get"],

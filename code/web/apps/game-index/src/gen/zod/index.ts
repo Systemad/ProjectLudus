@@ -3,5 +3,5 @@ export { getWeatherForecast200Schema, getWeatherForecastQueryResponseSchema } fr
 export { pageMetadataSchema } from "./pageMetadataSchema.ts";
 export { pagedItemOfGameItemSchema } from "./pagedItemOfGameItemSchema.ts";
 export { paginatedResponseOfGameItemSchema } from "./paginatedResponseOfGameItemSchema.ts";
-export { searching200Schema, searchingQueryParamsSchema, searchingQueryResponseSchema } from "./searchingSchema.ts";
+export { search200Schema, searchQueryParamsSchema, searchQueryResponseSchema } from "./searchSchema.ts";
 export { weatherForecastSchema } from "./weatherForecastSchema.ts";

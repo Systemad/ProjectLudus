@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
     HStack,
@@ -19,18 +19,17 @@ import {
     GridItem,
     Flex,
 } from "@packages/ui";
+import { useSearchSuspenseInfiniteHook, type GameItem } from "../gen";
+
+import { useInView } from "react-intersection-observer";
+import React from "react";
 
 export const Route = createFileRoute("/faceted")({
     component: Index,
 });
 
 function Index() {
-    return <FacetedSearchTwo />;
-}
-
-export const FacetedSearchTwo = () => {
     const { open, onOpen, onClose } = useDisclosure();
-
     return (
         <Flex
             direction="column"
@@ -114,23 +113,7 @@ export const FacetedSearchTwo = () => {
                     </HStack>
 
                     {/* GRID */}
-                    <Grid
-                        gap="lg"
-                        templateColumns={{
-                            base: "repeat(2, 1fr)",
-                            sm: "repeat(auto-fill, minmax(160px, 1fr))",
-                            md: "repeat(auto-fill, minmax(200px, 1fr))",
-                            xl: "repeat(auto-fill, minmax(220px, 1fr))",
-                        }}
-                    >
-                        <For each={Array.from({ length: 20 })}>
-                            {(_, i) => (
-                                <GridItem key={i}>
-                                    <ExplorerCard />
-                                </GridItem>
-                            )}
-                        </For>
-                    </Grid>
+                    <ItemScrolls />
 
                     {/* PAGINATION */}
                     <Flex justify="space-between" align="center">
@@ -158,13 +141,99 @@ export const FacetedSearchTwo = () => {
             </Drawer.Root>
         </Flex>
     );
+}
+
+export const ItemScrolls = () => {
+    const { ref, inView } = useInView();
+
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
+        useSearchSuspenseInfiniteHook({});
+
+    useEffect(() => {
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            console.log("fetching");
+
+            fetchNextPage();
+        }
+        console.log("Write");
+    }, [inView, hasNextPage, isFetchingNextPage]);
+
+    return (
+        <Grid
+            gap="lg"
+            templateColumns={{
+                base: "repeat(2, 1fr)",
+                sm: "repeat(auto-fill, minmax(160px, 1fr))",
+                md: "repeat(auto-fill, minmax(200px, 1fr))",
+                xl: "repeat(auto-fill, minmax(220px, 1fr))",
+            }}
+        >
+            <>
+                {/* 1. Loop through pages */}
+                <For each={data.pages}>
+                    {(axiosResponse, pageIndex) => {
+                        // axiosResponse.data is your PaginatedResponseOfGameItem JSON
+                        const data = axiosResponse.data;
+                        const pageInfo = axiosResponse.pageInfo;
+
+                        return (
+                            <React.Fragment
+                                key={
+                                    pageInfo?.nextPageCursor ??
+                                    `page-${pageIndex}`
+                                }
+                            >
+                                <For each={data}>
+                                    {(project) => (
+                                        <GridItem key={project.item?.id}>
+                                            <ExplorerCard item={project.item} />
+                                        </GridItem>
+                                    )}
+                                </For>
+                            </React.Fragment>
+                        );
+                    }}
+                </For>
+                {/* 3. The Sentinel / Load More Trigger */}
+                <GridItem display="flex" justifyContent="center" py="md">
+                    <button
+                        ref={ref}
+                        onClick={() => fetchNextPage()}
+                        disabled={!hasNextPage || isFetchingNextPage}
+                        style={{
+                            padding: "10px",
+                            cursor: hasNextPage ? "pointer" : "default",
+                        }}
+                    >
+                        {isFetchingNextPage
+                            ? "Loading more..."
+                            : hasNextPage
+                            ? "Load More"
+                            : "Nothing more to load"}
+                    </button>
+                </GridItem>
+                {/* Background Sync Indicator */}
+                {isFetching && !isFetchingNextPage && (
+                    <GridItem textAlign="center" fontSize="xs" color="fg.muted">
+                        Background Updating...
+                    </GridItem>
+                )}
+            </>
+        </Grid>
+    );
 };
 
+/*
+
+*/
 /* -------------------------------------------------- */
 /* CARD */
 /* -------------------------------------------------- */
 
-const ExplorerCard = () => {
+type CardProps = {
+    item: GameItem | null;
+};
+const ExplorerCard = ({ item }: CardProps) => {
     return (
         <Card.Root
             bg="bg.panel"
@@ -180,7 +249,7 @@ const ExplorerCard = () => {
         >
             <Box aspectRatio="3/4" overflow="hidden">
                 <Image
-                    src="https://slamdunk-movie.jp/files/images/p_gallery_03.jpg"
+                    src={item?.coverUrl}
                     w="full"
                     h="full"
                     objectFit="cover"
@@ -192,7 +261,7 @@ const ExplorerCard = () => {
             <Card.Body>
                 <Stack gap="xs">
                     <Heading size="sm" lineClamp={2}>
-                        Neon Protocol: Revelations
+                        {item?.name}
                     </Heading>
 
                     <Text fontSize="xs" color="fg.muted">

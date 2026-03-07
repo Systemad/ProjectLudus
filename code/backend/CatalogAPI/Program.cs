@@ -16,7 +16,7 @@ using Thinktecture;
 using GameItem = CatalogAPI.GameItem;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddOpenApi();
 builder.AddServiceDefaults();
 builder.Services.Configure<JsonOptions>(options =>
 {
@@ -52,7 +52,6 @@ builder.EnrichNpgsqlDbContext<AppDbContext>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddOutputCache(options =>
 {
     options.DefaultExpirationTimeSpan = TimeSpan.FromHours(1);
@@ -93,7 +92,7 @@ var summaries = new[]
 };
 
 app.MapGet(
-        "/weatherforecast",
+        "api/weatherforecast",
         () =>
         {
             var forecast = Enumerable
@@ -241,7 +240,7 @@ app.MapGet(
             return new PaginatedResponse<GameItem>(pageMetadata, data);
         }
     )
-    .WithName("Searching");
+    .WithName("Search");
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

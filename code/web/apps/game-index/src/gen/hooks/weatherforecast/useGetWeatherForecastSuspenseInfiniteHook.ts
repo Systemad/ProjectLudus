@@ -3,28 +3,39 @@
 * Do not edit manually.
 */
 
+import fetch from "../../../client.ts";
 import type { Client, RequestConfig, ResponseErrorConfig } from "../../../client.ts";
 import type { InfiniteData, QueryKey, QueryClient, UseSuspenseInfiniteQueryOptions, UseSuspenseInfiniteQueryResult } from "@tanstack/react-query";
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { infiniteQueryOptions, useSuspenseInfiniteQuery } from "@tanstack/react-query";
-import { getWeatherForecast } from "../../clients/getWeatherForecast.ts";
 
 export const getWeatherForecastSuspenseInfiniteQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
 
 export type GetWeatherForecastSuspenseInfiniteQueryKey = ReturnType<typeof getWeatherForecastSuspenseInfiniteQueryKey>
 
+/**
+ * {@link /weatherforecast}
+ */
+export async function getWeatherForecastSuspenseInfiniteHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
+  const { client: request = fetch, ...requestConfig } = config
+
+
+
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  return res.data
+}
+
 export function getWeatherForecastSuspenseInfiniteQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = getWeatherForecastSuspenseInfiniteQueryKey()
-        return infiniteQueryOptions<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, InfiniteData<GetWeatherForecastQueryResponse>, typeof queryKey, number>({
+        return infiniteQueryOptions<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, InfiniteData<GetWeatherForecastQueryResponse>, typeof queryKey, unknown>({
          
          queryKey,
          queryFn: async ({ signal }) => {
-            return getWeatherForecast({ ...config, signal: config.signal ?? signal })
+            return getWeatherForecastSuspenseInfiniteHook({ ...config, signal: config.signal ?? signal })
           },
-         initialPageParam: 1,
-  getNextPageParam: (lastPage, _allPages, lastPageParam) => Array.isArray(lastPage) && lastPage.length === 0 ? undefined : lastPageParam + 1,
-  getPreviousPageParam: (_firstPage, _allPages, firstPageParam) => firstPageParam <= 1 ? undefined : firstPageParam - 1
+         initialPageParam: undefined,
+  getNextPageParam: (lastPage) => lastPage?.['pageInfo']?.['nextPageCursor']
        })
 
 }
@@ -32,7 +43,7 @@ export function getWeatherForecastSuspenseInfiniteQueryOptionsHook(config: Parti
 /**
  * {@link /weatherforecast}
  */
-export function useGetWeatherForecastSuspenseInfiniteHook<TQueryFnData = GetWeatherForecastQueryResponse, TError = ResponseErrorConfig<Error>, TData = InfiniteData<TQueryFnData>, TQueryKey extends QueryKey = GetWeatherForecastSuspenseInfiniteQueryKey, TPageParam = number>(options: 
+export function useGetWeatherForecastSuspenseInfiniteHook<TQueryFnData = GetWeatherForecastQueryResponse, TError = ResponseErrorConfig<Error>, TData = InfiniteData<TQueryFnData>, TQueryKey extends QueryKey = GetWeatherForecastSuspenseInfiniteQueryKey, TPageParam = unknown>(options: 
 {
   query?: Partial<UseSuspenseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryKey, TPageParam>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

@@ -6,7 +6,7 @@
 import { paginatedResponseOfGameItemSchema } from "./paginatedResponseOfGameItemSchema.ts";
 import { z } from "zod/v4";
 
-export const searchingQueryParamsSchema = z.object({
+export const searchQueryParamsSchema = z.object({
     "Name": z.optional(z.string()),
 "Genres": z.optional(z.array(z.string())),
 "Themes": z.optional(z.array(z.string())),
@@ -18,6 +18,6 @@ export const searchingQueryParamsSchema = z.object({
 /**
  * @description OK
  */
-export const searching200Schema = z.lazy(() => paginatedResponseOfGameItemSchema)
+export const search200Schema = z.lazy(() => paginatedResponseOfGameItemSchema)
 
-export const searchingQueryResponseSchema = z.lazy(() => searching200Schema)
+export const searchQueryResponseSchema = z.lazy(() => search200Schema)
