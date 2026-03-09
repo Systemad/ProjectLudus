@@ -9,19 +9,19 @@ import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-export const getWeatherForecastQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
+export const getWeatherForecastQueryKey = () => ["v1", { url: '/api/weatherforecast' }] as const
 
 export type GetWeatherForecastQueryKey = ReturnType<typeof getWeatherForecastQueryKey>
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export async function getWeatherForecastHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/weatherforecast`, ... requestConfig })
   return res.data
 }
 
@@ -39,7 +39,7 @@ export function getWeatherForecastQueryOptionsHook(config: Partial<RequestConfig
 }
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export function useGetWeatherForecastHook<TData = GetWeatherForecastQueryResponse, TQueryData = GetWeatherForecastQueryResponse, TQueryKey extends QueryKey = GetWeatherForecastQueryKey>(options: 
 {

@@ -19,7 +19,7 @@ export type PageMetadata = {
     */
     hasPreviousPage: boolean;
     /**
-     * @type integer,string, int64
+     * @type integer, int64
     */
-    totalCount: (number | string);
+    totalCount: number;
 };

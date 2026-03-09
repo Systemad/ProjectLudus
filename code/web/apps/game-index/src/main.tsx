@@ -6,10 +6,15 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { UIProvider, defineConfig, extendTheme } from "@packages/ui";
 // import { my_theme } from "@packages/theme";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+import {
+    RouterProvider,
+    createRouter,
+    parseSearchWith,
+    stringifySearchWith,
+} from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./QueryClient";
-
+import queryString from "query-string";
 // Create a new router instance
 
 /*

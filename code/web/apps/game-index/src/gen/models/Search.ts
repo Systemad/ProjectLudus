@@ -28,9 +28,9 @@ export type SearchQueryParams = {
     */
     AfterCursor?: string;
     /**
-     * @type integer,string | undefined, int32
+     * @type integer | undefined, int32
     */
-    PageSize?: (number | string);
+    PageSize?: number;
 };
 
 /**

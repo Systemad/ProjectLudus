@@ -9,19 +9,19 @@ import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryRe
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-export const getWeatherForecastSuspenseQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
+export const getWeatherForecastSuspenseQueryKey = () => ["v1", { url: '/api/weatherforecast' }] as const
 
 export type GetWeatherForecastSuspenseQueryKey = ReturnType<typeof getWeatherForecastSuspenseQueryKey>
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export async function getWeatherForecastSuspenseHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/weatherforecast`, ... requestConfig })
   return res.data
 }
 
@@ -39,7 +39,7 @@ export function getWeatherForecastSuspenseQueryOptionsHook(config: Partial<Reque
 }
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export function useGetWeatherForecastSuspenseHook<TData = GetWeatherForecastQueryResponse, TQueryKey extends QueryKey = GetWeatherForecastSuspenseQueryKey>(options: 
 {

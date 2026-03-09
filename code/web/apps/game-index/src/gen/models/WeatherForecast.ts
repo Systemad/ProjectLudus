@@ -11,15 +11,15 @@ export type WeatherForecast = {
     */
     date: string;
     /**
-     * @type integer,string, int32
+     * @type integer, int32
     */
-    temperatureC: (number | string);
+    temperatureC: number;
     /**
      * @type null,string
     */
     summary: string | null;
     /**
-     * @type integer,string | undefined, int32
+     * @type integer | undefined, int32
     */
-    temperatureF?: (number | string);
+    temperatureF?: number;
 };

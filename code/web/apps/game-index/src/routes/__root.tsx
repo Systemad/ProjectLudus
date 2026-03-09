@@ -1,6 +1,12 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import {
+    createRootRoute,
+    createRootRouteWithContext,
+    Link,
+    Outlet,
+} from "@tanstack/react-router";
 import { Flex } from "@packages/ui";
 import { NavBar } from "../layouts/Navigation/Navbar";
+import type { QueryClient } from "@tanstack/react-query";
 
 const RootLayout = () => (
     <Flex w="full" alignItems="center" flexDirection="column" minH="100dvh">
@@ -26,7 +32,20 @@ const RootLayout = () => (
     </Flex>
 );
 
-export const Route = createRootRoute({ component: RootLayout });
+//export const Route = createRootRoute({ component: RootLayout });
+export const Route = createRootRouteWithContext<{
+    queryClient: QueryClient;
+}>()({
+    component: RootLayout,
+    notFoundComponent: () => {
+        return (
+            <div>
+                <p>This is the notFoundComponent configured on root route</p>
+                <Link to="/">Start Over</Link>
+            </div>
+        );
+    },
+});
 /*
 <TanStackRouterDevtools />
 */

@@ -6,15 +6,15 @@
 import { z } from "zod/v4";
 
 export const gameItemSchema = z.object({
-    "id": z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])),
+    "id": z.optional(z.int()),
 "name": z.string().nullish(),
 "summary": z.string().nullish(),
 "storyline": z.string().nullish(),
-"firstReleaseDate": z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]).nullish(),
-"gameType": z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]).nullish(),
+"firstReleaseDate": z.int().nullish(),
+"gameType": z.int().nullish(),
 "coverUrl": z.string().nullish(),
-"releaseYear": z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]).nullish(),
-"score": z.optional(z.union([z.number(), z.string().regex(/^-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?$/)])),
+"releaseYear": z.int().nullish(),
+"score": z.optional(z.number()),
 "themes": z.array(z.string()).nullish(),
 "genres": z.array(z.string()).nullish(),
 "modes": z.array(z.string()).nullish()

@@ -1,5 +1,8 @@
+export type { Bucket } from "./Bucket.ts";
+export type { Facets } from "./Facets.ts";
 export type { GameItem } from "./GameItem.ts";
 export type { GetWeatherForecast200, GetWeatherForecastQuery, GetWeatherForecastQueryResponse } from "./GetWeatherForecast.ts";
+export type { ItemFacets } from "./ItemFacets.ts";
 export type { PageMetadata } from "./PageMetadata.ts";
 export type { PagedItemOfGameItem } from "./PagedItemOfGameItem.ts";
 export type { PaginatedResponseOfGameItem } from "./PaginatedResponseOfGameItem.ts";

@@ -51,7 +51,7 @@ export const axiosInstance = axios.create({
 export type Client = <TData, _TError = unknown, TVariables = unknown>(
     config: RequestConfig<TVariables>
 ) => Promise<ResponseConfig<TData>>;
-
+/*
 export const client = async <TData, TError = unknown, TVariables = unknown>(
     config: RequestConfig<TVariables>
 ): Promise<ResponseConfig<TData>> => {
@@ -67,6 +67,32 @@ export const client = async <TData, TError = unknown, TVariables = unknown>(
                 serialize: (params) =>
                     queryString.stringify(params, {
                         arrayFormat: "comma",
+                        skipNull: true,
+                    }),
+            },
+        })
+        .catch((e: AxiosError<TError>) => {
+            throw e;
+        });
+
+    return promise;
+};
+*/
+export const client = async <TData, TError = unknown, TVariables = unknown>(
+    config: RequestConfig<TVariables>
+): Promise<ResponseConfig<TData>> => {
+    const promise = axiosInstance
+        .request<TVariables, ResponseConfig<TData>>({
+            ...config,
+            paramsSerializer: {
+                encode: (params) =>
+                    queryString.stringify(params, {
+                        arrayFormat: "none",
+                        skipNull: true,
+                    }),
+                serialize: (params) =>
+                    queryString.stringify(params, {
+                        arrayFormat: "none",
                         skipNull: true,
                     }),
             },

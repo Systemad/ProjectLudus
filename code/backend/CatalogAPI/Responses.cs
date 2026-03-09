@@ -2,7 +2,11 @@ using CatalogAPI.Models;
 
 namespace CatalogAPI;
 
-public record PaginatedResponse<T>(PageMetadata PageInfo, List<PagedItem<T>> Data);
+public record PaginatedResponse<T>(
+    PageMetadata PageInfo,
+    List<PagedItem<T>> Data,
+    ItemFacets ItemFacets
+);
 
 public class PageMetadata
 {
@@ -11,6 +15,8 @@ public class PageMetadata
     public required bool HasPreviousPage { get; init; }
     public required long TotalCount { get; init; }
 }
+
+public record ItemFacets(List<Facets> Facets);
 
 public class PagedItem<T>
 {
@@ -51,7 +57,7 @@ public static class ResponseMapper
             Score = game.Score,
             Themes = game.Themes,
             Genres = game.Genres,
-            Modes = game.Modes
+            Modes = game.Modes,
         };
         return data;
     }

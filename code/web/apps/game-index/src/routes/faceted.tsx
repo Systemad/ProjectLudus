@@ -1,6 +1,6 @@
 "use client";
-import { useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Suspense, useEffect } from "react";
+import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import {
     HStack,
     Box,
@@ -18,18 +18,94 @@ import {
     Grid,
     GridItem,
     Flex,
+    Checkbox,
+    BoxIcon,
+    EmptyState,
 } from "@packages/ui";
-import { useSearchSuspenseInfiniteHook, type GameItem } from "../gen";
+import {
+    searchQueryParamsSchema,
+    useSearchSuspenseInfiniteHook,
+    type Bucket,
+    type Facets,
+    type GameItem,
+    type SearchQueryParams,
+    type SearchQueryResponse,
+} from "../gen";
 
 import { useInView } from "react-intersection-observer";
 import React from "react";
+import { getIGDBImageUrl } from "../utils/ImageHelper";
+import type {
+    InfiniteData,
+    InfiniteQueryObserverResult,
+    UseSuspenseInfiniteQueryOptions,
+    UseSuspenseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import z from "zod/v4";
+
+/*
+export const searchQueryParamsSchema = z
+    .object({
+        Name: z.optional(z.string()),
+        Genres: z.optional(z.array(z.string())),
+        Themes: z.optional(z.array(z.string())),
+        Modes: z.optional(z.array(z.string())),
+        AfterCursor: z.optional(z.string()),
+        PageSize: z.optional(z.coerce.number().int()),
+    })
+    .optional();
+
+    */
+
+export const searchQueryParamsSchema2 = z.object({
+    Name: z.string().optional(),
+    Genres: z.array(z.string()).optional(),
+    Themes: z.array(z.string()).optional(),
+    Modes: z.array(z.string()).optional(),
+    AfterCursor: z.string().optional(),
+    PageSize: z.number().int().catch(20).optional(),
+});
+
+type SearchParams = z.infer<typeof searchQueryParamsSchema2>;
+
+const defaultValues: Partial<SearchParams> = {
+    Name: undefined,
+    Genres: [],
+    Themes: [],
+    Modes: [],
+    AfterCursor: undefined,
+    PageSize: undefined,
+};
 
 export const Route = createFileRoute("/faceted")({
     component: Index,
+    validateSearch: searchQueryParamsSchema2,
+    search: {
+        middlewares: [
+            stripSearchParams<SearchParams>({
+                Name: "",
+                Genres: [],
+                Themes: [],
+                Modes: [],
+                AfterCursor: "",
+            }),
+        ],
+    },
 });
 
 function Index() {
     const { open, onOpen, onClose } = useDisclosure();
+
+    const searchParams = Route.useSearch() ?? {};
+    const navigate = Route.useNavigate();
+
+    // Standard TanStack update pattern
+    const onUpdate = (next: SearchQueryParams) =>
+        navigate({ search: next, replace: true });
+
+    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
+        useSearchSuspenseInfiniteHook({ params: searchParams });
+    const facets = data?.pages[0]?.itemFacets?.facets ?? [];
     return (
         <Flex
             direction="column"
@@ -82,8 +158,11 @@ function Index() {
                                 Reset
                             </Button>
                         </Flex>
-
-                        <FilterFields />
+                        <FilterSidebar
+                            facets={facets}
+                            searchParams={searchParams}
+                            onUpdate={onUpdate}
+                        />
                     </Stack>
                 </Box>
 
@@ -113,7 +192,13 @@ function Index() {
                     </HStack>
 
                     {/* GRID */}
-                    <ItemScrolls />
+                    <ItemScrolls
+                        data={data}
+                        fetchNextPage={fetchNextPage}
+                        hasNextPage={hasNextPage}
+                        isFetchingNextPage={isFetchingNextPage}
+                        isFetching={isFetching}
+                    />
 
                     {/* PAGINATION */}
                     <Flex justify="space-between" align="center">
@@ -143,19 +228,29 @@ function Index() {
     );
 }
 
-export const ItemScrolls = () => {
-    const { ref, inView } = useInView();
+interface ItemScrollsProps {
+    data: InfiniteData<SearchQueryResponse> | undefined;
+    fetchNextPage: () => Promise<
+        InfiniteQueryObserverResult<InfiniteData<SearchQueryResponse>, Error>
+    >;
+    hasNextPage: boolean | undefined;
+    isFetchingNextPage: boolean;
+    isFetching: boolean;
+}
 
-    const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
-        useSearchSuspenseInfiniteHook({});
+export const ItemScrolls = ({
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetching,
+}: ItemScrollsProps) => {
+    const { ref, inView } = useInView();
 
     useEffect(() => {
         if (inView && hasNextPage && !isFetchingNextPage) {
-            console.log("fetching");
-
             fetchNextPage();
         }
-        console.log("Write");
     }, [inView, hasNextPage, isFetchingNextPage]);
 
     return (
@@ -168,9 +263,17 @@ export const ItemScrolls = () => {
                 xl: "repeat(auto-fill, minmax(220px, 1fr))",
             }}
         >
-            <>
+            <Suspense>
                 {/* 1. Loop through pages */}
-                <For each={data.pages}>
+                <For
+                    each={data?.pages}
+                    fallback={
+                        <EmptyState.Root
+                            description="There are no items to show"
+                            indicator={<BoxIcon />}
+                        />
+                    }
+                >
                     {(axiosResponse, pageIndex) => {
                         // axiosResponse.data is your PaginatedResponseOfGameItem JSON
                         const data = axiosResponse.data;
@@ -218,7 +321,7 @@ export const ItemScrolls = () => {
                         Background Updating...
                     </GridItem>
                 )}
-            </>
+            </Suspense>
         </Grid>
     );
 };
@@ -234,6 +337,8 @@ type CardProps = {
     item: GameItem | null;
 };
 const ExplorerCard = ({ item }: CardProps) => {
+    const imageUrl = getIGDBImageUrl(item?.coverUrl, "1080p", false);
+
     return (
         <Card.Root
             bg="bg.panel"
@@ -249,7 +354,7 @@ const ExplorerCard = ({ item }: CardProps) => {
         >
             <Box aspectRatio="3/4" overflow="hidden">
                 <Image
-                    src={item?.coverUrl}
+                    src={imageUrl}
                     w="full"
                     h="full"
                     objectFit="cover"
@@ -336,3 +441,71 @@ const FilterFields = ({ onApply }: FilterFieldsProps) => (
         )}
     </Stack>
 );
+
+// FIX LOGiC?
+// TODO: ON BACKEND: FILTER ALWAYS ALPHABETICAL!!
+// INSTEAD OF DYNAIMCALLY GENERATING, DO MANUALLY, AND HAVE MORE CONTROL, AND GRAY OUT, IF A BUCKET HAS ZERO DOC_COUNT
+type FacetKey = "Themes" | "Modes" | "Genres";
+
+type BucketWithKey = Bucket & { key: string };
+
+function hasKey(bucket: Bucket): bucket is BucketWithKey {
+    return typeof bucket.key === "string";
+}
+const facetKeys: FacetKey[] = ["Themes", "Modes", "Genres"];
+
+const FilterSidebar = ({
+    searchParams,
+    facets,
+    onUpdate,
+}: {
+    searchParams: SearchQueryParams;
+    facets: Facets[];
+    onUpdate: (s: SearchQueryParams) => void;
+}) => {
+    const toggle = (key: FacetKey, val: string) => {
+        const current = searchParams[key] ?? [];
+
+        const next = current.includes(val)
+            ? current.filter((v) => v !== val)
+            : [...current, val];
+
+        onUpdate({
+            ...searchParams,
+            [key]: next,
+        });
+    };
+
+    return (
+        <Accordion.Root toggle multiple>
+            {facets.map((facet, i) => {
+                const key = facetKeys[i];
+                if (!key) return null;
+
+                const buckets = facet.buckets?.filter(hasKey) ?? [];
+
+                return (
+                    <Accordion.Item key={key} button={key} index={i}>
+                        <Accordion.Panel>
+                            {buckets.map((bucket) => {
+                                const selected = (
+                                    searchParams[key] ?? []
+                                ).includes(bucket.key);
+
+                                return (
+                                    <Checkbox
+                                        key={bucket.key}
+                                        checked={selected}
+                                        onChange={() => toggle(key, bucket.key)}
+                                    >
+                                        {bucket.key} ({bucket.doc_count ?? 0})
+                                    </Checkbox>
+                                );
+                            })}
+                        </Accordion.Panel>
+                    </Accordion.Item>
+                );
+            })}
+        </Accordion.Root>
+    );
+};

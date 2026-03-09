@@ -9,5 +9,5 @@ export const pageMetadataSchema = z.object({
     "nextPageCursor": z.nullable(z.string()),
 "hasNextPage": z.boolean(),
 "hasPreviousPage": z.boolean(),
-"totalCount": z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)])
+"totalCount": z.int()
     })

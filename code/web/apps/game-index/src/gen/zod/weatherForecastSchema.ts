@@ -7,7 +7,7 @@ import { z } from "zod/v4";
 
 export const weatherForecastSchema = z.object({
     "date": z.iso.date(),
-"temperatureC": z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]),
+"temperatureC": z.int(),
 "summary": z.nullable(z.string()),
-"temperatureF": z.optional(z.union([z.int(), z.string().regex(/^-?(?:0|[1-9]\d*)$/)]))
+"temperatureF": z.optional(z.int())
     })

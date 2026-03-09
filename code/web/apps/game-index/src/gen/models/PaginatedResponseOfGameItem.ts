@@ -4,6 +4,7 @@
 * Do not edit manually.
 */
 
+import type { ItemFacets } from "./ItemFacets.ts";
 import type { PageMetadata } from "./PageMetadata.ts";
 import type { PagedItemOfGameItem } from "./PagedItemOfGameItem.ts";
 
@@ -16,4 +17,8 @@ export type PaginatedResponseOfGameItem = {
      * @type array
     */
     data: PagedItemOfGameItem[];
+    /**
+     * @type object
+    */
+    itemFacets: ItemFacets;
 };

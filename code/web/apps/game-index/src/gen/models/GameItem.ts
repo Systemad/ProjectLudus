@@ -7,9 +7,9 @@
 
 export type GameItem = {
     /**
-     * @type integer,string | undefined, int64
+     * @type integer | undefined, int64
     */
-    id?: (number | string);
+    id?: number;
     /**
      * @type null,string
     */
@@ -23,25 +23,25 @@ export type GameItem = {
     */
     storyline?: string | null;
     /**
-     * @type null,integer,string, int64
+     * @type null,integer, int64
     */
-    firstReleaseDate?: (number | string) | null;
+    firstReleaseDate?: number | null;
     /**
-     * @type null,integer,string, int64
+     * @type null,integer, int64
     */
-    gameType?: (number | string) | null;
+    gameType?: number | null;
     /**
      * @type null,string
     */
     coverUrl?: string | null;
     /**
-     * @type null,integer,string, int32
+     * @type null,integer, int32
     */
-    releaseYear?: (number | string) | null;
+    releaseYear?: number | null;
     /**
-     * @type number,string | undefined, float
+     * @type number | undefined, float
     */
-    score?: (number | string);
+    score?: number;
     /**
      * @type null,array
     */

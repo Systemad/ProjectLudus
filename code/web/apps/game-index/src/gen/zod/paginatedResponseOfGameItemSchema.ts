@@ -3,6 +3,7 @@
 * Do not edit manually.
 */
 
+import { itemFacetsSchema } from "./itemFacetsSchema.ts";
 import { pageMetadataSchema } from "./pageMetadataSchema.ts";
 import { pagedItemOfGameItemSchema } from "./pagedItemOfGameItemSchema.ts";
 import { z } from "zod/v4";
@@ -13,5 +14,8 @@ export const paginatedResponseOfGameItemSchema = z.object({
               },
 get "data"(){
                 return z.array(pagedItemOfGameItemSchema)
+              },
+get "itemFacets"(){
+                return itemFacetsSchema
               }
     })

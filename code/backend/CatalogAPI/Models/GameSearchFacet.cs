@@ -40,6 +40,8 @@ public class GameSearchFacet
     public List<string>? Modes { get; set; }
     public Facets? GenreFacet { get; set; } 
     public Facets? ThemeFacet { get; set; }
+    //public Facets? GameTypeFacet { get; set; }
+    public Facets? GameModesFacets { get; set; }
 }
 
 public class GameItem

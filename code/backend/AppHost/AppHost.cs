@@ -1,5 +1,8 @@
 using Aspire.Hosting.Yarp.Transforms;
-
+// HTTPS
+// "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23015", 
+// HTTP
+// "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18046",
 var builder = DistributedApplication.CreateBuilder(args);
 builder
     .AddDockerComposeEnvironment("env")
@@ -40,8 +43,9 @@ var frontend = builder
     .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
     .WithPnpm()
     .WithReference(api)
-    .WaitFor(api)
-    .WithUrl("", "Game Index");
+    .WaitFor(api);
+    
+    //.WithUrl("", "Game Index");
 
 /*
 .WithEndpoint(
@@ -63,8 +67,9 @@ builder
     {
         // Always proxy /api requests to backend
         yarp.AddRoute("/api/{**catch-all}", api); //.WithTransformPathRemovePrefix("/api");
-    })
-    .WithExplicitStart();
+    });
+    
+    //.WithExplicitStart();
 
 //.WithExternalHttpEndpoints()
 

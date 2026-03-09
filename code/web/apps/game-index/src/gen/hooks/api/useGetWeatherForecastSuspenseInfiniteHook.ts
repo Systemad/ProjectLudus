@@ -9,19 +9,19 @@ import type { InfiniteData, QueryKey, QueryClient, UseSuspenseInfiniteQueryOptio
 import type { GetWeatherForecastQueryResponse } from "../../models/GetWeatherForecast.ts";
 import { infiniteQueryOptions, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
-export const getWeatherForecastSuspenseInfiniteQueryKey = () => ["v1", { url: '/weatherforecast' }] as const
+export const getWeatherForecastSuspenseInfiniteQueryKey = () => ["v1", { url: '/api/weatherforecast' }] as const
 
 export type GetWeatherForecastSuspenseInfiniteQueryKey = ReturnType<typeof getWeatherForecastSuspenseInfiniteQueryKey>
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export async function getWeatherForecastSuspenseInfiniteHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/weatherforecast`, ... requestConfig })
+  const res = await request<GetWeatherForecastQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/weatherforecast`, ... requestConfig })
   return res.data
 }
 
@@ -41,7 +41,7 @@ export function getWeatherForecastSuspenseInfiniteQueryOptionsHook(config: Parti
 }
 
 /**
- * {@link /weatherforecast}
+ * {@link /api/weatherforecast}
  */
 export function useGetWeatherForecastSuspenseInfiniteHook<TQueryFnData = GetWeatherForecastQueryResponse, TError = ResponseErrorConfig<Error>, TData = InfiniteData<TQueryFnData>, TQueryKey extends QueryKey = GetWeatherForecastSuspenseInfiniteQueryKey, TPageParam = unknown>(options: 
 {
