@@ -3,6 +3,7 @@
 * Do not edit manually.
 */
 
+import { aggregationBucketsSchema } from "./aggregationBucketsSchema.ts";
 import { z } from "zod/v4";
 
 export const gameItemSchema = z.object({
@@ -14,8 +15,15 @@ export const gameItemSchema = z.object({
 "gameType": z.int().nullish(),
 "coverUrl": z.string().nullish(),
 "releaseYear": z.int().nullish(),
-"score": z.optional(z.number()),
+"totalItems": z.int().nullish(),
+"score": z.number().nullish(),
 "themes": z.array(z.string()).nullish(),
 "genres": z.array(z.string()).nullish(),
-"modes": z.array(z.string()).nullish()
+"modes": z.array(z.string()).nullish(),
+get "genreFacet"(){
+                return z.union([aggregationBucketsSchema, z.null()]).optional()
+              },
+get "themeFacet"(){
+                return z.union([aggregationBucketsSchema, z.null()]).optional()
+              }
     })

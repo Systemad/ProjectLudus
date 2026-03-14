@@ -4,7 +4,7 @@
 * Do not edit manually.
 */
 
-import type { PaginatedResponseOfGameItem } from "./PaginatedResponseOfGameItem.ts";
+import type { SearchResponseOfGameItem } from "./SearchResponseOfGameItem.ts";
 
 export type SearchQueryParams = {
     /**
@@ -28,15 +28,15 @@ export type SearchQueryParams = {
     */
     AfterCursor?: string;
     /**
-     * @type integer | undefined, int32
+     * @type integer, int32
     */
-    PageSize?: number;
+    PageSize: number;
 };
 
 /**
  * @description OK
 */
-export type Search200 = PaginatedResponseOfGameItem;
+export type Search200 = SearchResponseOfGameItem;
 
 export type SearchQueryResponse = Search200;
 

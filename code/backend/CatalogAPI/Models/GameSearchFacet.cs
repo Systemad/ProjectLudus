@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace CatalogAPI.Models;
 
-public partial class Facets
+public partial class AggregationBuckets
 {
     [JsonPropertyName("buckets")]
     public Bucket[] Buckets { get; set; }
@@ -33,15 +33,17 @@ public class GameSearchFacet
     public long? GameType { get; set; }
     public string? CoverUrl { get; set; }
     public int? ReleaseYear { get; set; }
-    public long? TotalItems { get; set; }
     public float Score { get; set; }
     public List<string>? Themes { get; set; }
     public List<string>? Genres { get; set; }
     public List<string>? Modes { get; set; }
-    public Facets? GenreFacet { get; set; } 
-    public Facets? ThemeFacet { get; set; }
-    //public Facets? GameTypeFacet { get; set; }
-    public Facets? GameModesFacets { get; set; }
+}
+
+
+public sealed class AggregateResultCount
+{
+    [JsonPropertyName("value")]
+    public long Value { get; init; }
 }
 
 public class GameItem
@@ -55,10 +57,10 @@ public class GameItem
     public string? CoverUrl { get; set; }
     public int? ReleaseYear { get; set; }
     public long? TotalItems { get; set; }
-    public float Score { get; set; }
+    public float? Score { get; set; }
     public List<string>? Themes { get; set; }
     public List<string>? Genres { get; set; }
     public List<string>? Modes { get; set; }
-    public Facets? GenreFacet { get; set; } 
-    public Facets? ThemeFacet { get; set; }
+    public AggregationBuckets? GenreFacet { get; set; } 
+    public AggregationBuckets? ThemeFacet { get; set; }
 }

@@ -23,6 +23,7 @@ import {
     EmptyState,
 } from "@packages/ui";
 import {
+    useSearchInfiniteHook,
     useSearchSuspenseInfiniteHook,
     type FacetBuckets,
     type GameItem,
@@ -33,13 +34,14 @@ import {
 import { useInView } from "react-intersection-observer";
 import React from "react";
 import { getIGDBImageUrl } from "../utils/ImageHelper";
-import type {
-    InfiniteData,
-    InfiniteQueryObserverResult,
+import {
+    keepPreviousData,
+    type InfiniteData,
+    type InfiniteQueryObserverResult,
 } from "@tanstack/react-query";
 import z from "zod/v4";
 
-export const searchQueryParamsSchema2 = z.object({
+const searchQueryParamsSchema2 = z.object({
     Name: z.string().optional(),
     Genres: z.array(z.string()).optional(),
     Themes: z.array(z.string()).optional(),
@@ -50,7 +52,7 @@ export const searchQueryParamsSchema2 = z.object({
 
 type SearchParams = z.infer<typeof searchQueryParamsSchema2>;
 
-export const Route = createFileRoute("/faceted")({
+export const Route = createFileRoute("/searching")({
     component: Index,
     validateSearch: searchQueryParamsSchema2,
     search: {
@@ -64,35 +66,33 @@ export const Route = createFileRoute("/faceted")({
             }),
         ],
     },
-    pendingComponent: () => (
-        <Flex
-            direction="column"
-            bg="bg.surface"
-            minH="100vh"
-            px={{ base: "md", xl: "lg" }}
-            py="xl"
-            gap="xl"
-        >
-            <Text fontSize="lg" textAlign="center" py="xl">
-                Updating results...
-            </Text>
-        </Flex>
-    ),
-    pendingMs: 600,
 });
 
-function Index() {
-    const { open, onOpen, onClose } = useDisclosure();
-
+function RouteComponent() {
     const searchParams = Route.useSearch() ?? {};
     const navigate = Route.useNavigate();
 
-    const onUpdate = (next: SearchQueryParams) =>
-        navigate({ search: next, replace: true });
+    return <SearchContainer />;
+}
+function Index() {
+    const { open, onOpen, onClose } = useDisclosure();
+    const [isPending, startTransition] = useTransition();
+    const searchParams = Route.useSearch() ?? {};
+    const navigate = Route.useNavigate();
 
+    const onUpdate = (next: SearchQueryParams) => {
+        navigate({ search: next, replace: true });
+    };
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
-        useSearchSuspenseInfiniteHook({ params: searchParams });
-    const facets = data?.pages[0]?.facetBuckets ?? [];
+        useSearchInfiniteHook(
+            { params: searchParams },
+            {
+                query: {
+                    placeholderData: keepPreviousData,
+                },
+            }
+        );
+
     return (
         <Flex
             direction="column"
@@ -123,37 +123,39 @@ function Index() {
 
             <Flex align="flex-start" gap="xl">
                 {/* SIDEBAR */}
-                <Box
-                    display={{ base: "none", md: "block" }}
-                    w="280px"
-                    flexShrink={0}
-                    position="sticky"
-                    top="xl"
-                >
-                    <Stack
-                        bg="bg.panel"
-                        rounded="2xl"
-                        p="lg"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
-                        gap="lg"
+                <aside>
+                    <Box
+                        display={{ base: "none", md: "block" }}
+                        w="280px"
+                        flexShrink={0}
+                        position="sticky"
+                        top="xl"
                     >
-                        <Flex justify="space-between" align="center">
-                            <Heading size="sm">Refine</Heading>
+                        <Stack
+                            bg="bg.panel"
+                            rounded="2xl"
+                            p="lg"
+                            borderWidth="1px"
+                            borderColor="border.subtle"
+                            gap="lg"
+                        >
+                            <Flex justify="space-between" align="center">
+                                <Heading size="sm">Refine</Heading>
 
-                            <Button variant="ghost" size="xs">
-                                Reset
-                            </Button>
-                        </Flex>
-                        <Suspense fallback={<h2>Loading...</h2>}>
-                            <FilterSidebar
-                                facetBuckets={facets}
-                                searchParams={searchParams}
-                                onUpdate={onUpdate}
-                            />
-                        </Suspense>
-                    </Stack>
-                </Box>
+                                <Button variant="ghost" size="xs">
+                                    Reset
+                                </Button>
+                            </Flex>
+                            {facets && (
+                                <FilterSidebar
+                                    facetBuckets={facets}
+                                    searchParams={searchParams}
+                                    onUpdate={onUpdate}
+                                />
+                            )}
+                        </Stack>
+                    </Box>
+                </aside>
 
                 {/* CONTENT */}
                 <Stack flex="1" gap="xl">
@@ -182,15 +184,13 @@ function Index() {
 
                     {/* GRID */}
 
-                    <Suspense fallback={<h2>Loading...</h2>}>
-                        <ItemScrolls
-                            data={data}
-                            fetchNextPage={fetchNextPage}
-                            hasNextPage={hasNextPage}
-                            isFetchingNextPage={isFetchingNextPage}
-                            isFetching={isFetching}
-                        />
-                    </Suspense>
+                    <ItemScrolls
+                        data={data}
+                        fetchNextPage={fetchNextPage}
+                        hasNextPage={hasNextPage}
+                        isFetchingNextPage={isFetchingNextPage}
+                        isFetching={isFetching}
+                    />
 
                     {/* PAGINATION */}
                     <Flex justify="space-between" align="center">
@@ -243,7 +243,7 @@ export const ItemScrolls = ({
         if (inView && hasNextPage && !isFetchingNextPage) {
             fetchNextPage();
         }
-    }, [inView, hasNextPage, isFetchingNextPage]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <Grid
@@ -255,65 +255,62 @@ export const ItemScrolls = ({
                 xl: "repeat(auto-fill, minmax(220px, 1fr))",
             }}
         >
-            <Suspense>
-                {/* 1. Loop through pages */}
-                <For
-                    each={data?.pages}
-                    fallback={
-                        <EmptyState.Root
-                            description="There are no items to show"
-                            indicator={<BoxIcon />}
-                        />
-                    }
-                >
-                    {(axiosResponse, pageIndex) => {
-                        // axiosResponse.data is your PaginatedResponseOfGameItem JSON
-                        const data = axiosResponse.data;
-                        const pageInfo = axiosResponse.pageInfo;
+            {/* 1. Loop through pages */}
+            <For
+                each={data?.pages}
+                fallback={
+                    <EmptyState.Root
+                        description="There are no items to show"
+                        indicator={<BoxIcon />}
+                    />
+                }
+            >
+                {(axiosResponse, pageIndex) => {
+                    // axiosResponse.data is your PaginatedResponseOfGameItem JSON
+                    const data = axiosResponse.data;
+                    const pageInfo = axiosResponse.pageInfo;
 
-                        return (
-                            <React.Fragment
-                                key={
-                                    pageInfo?.nextPageCursor ??
-                                    `page-${pageIndex}`
-                                }
-                            >
-                                <For each={data}>
-                                    {(project) => (
-                                        <GridItem key={project.item?.id}>
-                                            <ExplorerCard item={project.item} />
-                                        </GridItem>
-                                    )}
-                                </For>
-                            </React.Fragment>
-                        );
+                    return (
+                        <React.Fragment
+                            key={
+                                pageInfo?.nextPageCursor ?? `page-${pageIndex}`
+                            }
+                        >
+                            <For each={data}>
+                                {(project) => (
+                                    <GridItem key={project.item?.id}>
+                                        <ExplorerCard item={project.item} />
+                                    </GridItem>
+                                )}
+                            </For>
+                        </React.Fragment>
+                    );
+                }}
+            </For>
+            {/* 3. The Sentinel / Load More Trigger */}
+            <GridItem display="flex" justifyContent="center" py="md">
+                <button
+                    ref={ref}
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                    style={{
+                        padding: "10px",
+                        cursor: hasNextPage ? "pointer" : "default",
                     }}
-                </For>
-                {/* 3. The Sentinel / Load More Trigger */}
-                <GridItem display="flex" justifyContent="center" py="md">
-                    <button
-                        ref={ref}
-                        onClick={() => fetchNextPage()}
-                        disabled={!hasNextPage || isFetchingNextPage}
-                        style={{
-                            padding: "10px",
-                            cursor: hasNextPage ? "pointer" : "default",
-                        }}
-                    >
-                        {isFetchingNextPage
-                            ? "Loading more..."
-                            : hasNextPage
-                            ? "Load More"
-                            : "Nothing more to load"}
-                    </button>
+                >
+                    {isFetchingNextPage
+                        ? "Loading more..."
+                        : hasNextPage
+                        ? "Load More"
+                        : "Nothing more to load"}
+                </button>
+            </GridItem>
+            {/* Background Sync Indicator */}
+            {isFetching && !isFetchingNextPage && (
+                <GridItem textAlign="center" fontSize="xs" color="fg.muted">
+                    Background Updating...
                 </GridItem>
-                {/* Background Sync Indicator */}
-                {isFetching && !isFetchingNextPage && (
-                    <GridItem textAlign="center" fontSize="xs" color="fg.muted">
-                        Background Updating...
-                    </GridItem>
-                )}
-            </Suspense>
+            )}
         </Grid>
     );
 };
@@ -434,8 +431,6 @@ const FilterFields = ({ onApply }: FilterFieldsProps) => (
     </Stack>
 );
 
-// FIX LOGiC?
-// INSTEAD OF DYNAIMCALLY GENERATING, DO MANUALLY, AND HAVE MORE CONTROL, AND GRAY OUT, IF A BUCKET HAS ZERO DOC_COUNT
 type FacetKey = "Themes" | "Modes" | "Genres";
 
 const FilterSidebar = ({
@@ -447,8 +442,6 @@ const FilterSidebar = ({
     facetBuckets: FacetBuckets;
     onUpdate: (s: SearchQueryParams) => void;
 }) => {
-    const [isPending, startTransition] = useTransition();
-
     const toggle = (key: FacetKey, val: string) => {
         const current = searchParams[key] ?? [];
 
@@ -456,11 +449,9 @@ const FilterSidebar = ({
             ? current.filter((v) => v !== val)
             : [...current, val];
 
-        startTransition(() => {
-            onUpdate({
-                ...searchParams,
-                [key]: next,
-            });
+        onUpdate({
+            ...searchParams,
+            [key]: next,
         });
     };
 

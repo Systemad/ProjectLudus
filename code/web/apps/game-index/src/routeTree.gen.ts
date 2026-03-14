@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SearchingRouteImport } from './routes/searching'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as FacetedRouteImport } from './routes/faceted'
 import { Route as ExploreRouteImport } from './routes/explore'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesIndexRouteImport } from './routes/games/index'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 
+const SearchingRoute = SearchingRouteImport.update({
+  id: '/searching',
+  path: '/searching',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/explore': typeof ExploreRoute
   '/faceted': typeof FacetedRoute
   '/search': typeof SearchRoute
+  '/searching': typeof SearchingRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/': typeof GamesIndexRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/explore': typeof ExploreRoute
   '/faceted': typeof FacetedRoute
   '/search': typeof SearchRoute
+  '/searching': typeof SearchingRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games': typeof GamesIndexRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/explore': typeof ExploreRoute
   '/faceted': typeof FacetedRoute
   '/search': typeof SearchRoute
+  '/searching': typeof SearchingRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/': typeof GamesIndexRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/faceted'
     | '/search'
+    | '/searching'
     | '/games/$gameId'
     | '/games/'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/faceted'
     | '/search'
+    | '/searching'
     | '/games/$gameId'
     | '/games'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/explore'
     | '/faceted'
     | '/search'
+    | '/searching'
     | '/games/$gameId'
     | '/games/'
   fileRoutesById: FileRoutesById
@@ -117,12 +129,20 @@ export interface RootRouteChildren {
   ExploreRoute: typeof ExploreRoute
   FacetedRoute: typeof FacetedRoute
   SearchRoute: typeof SearchRoute
+  SearchingRoute: typeof SearchingRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
   GamesIndexRoute: typeof GamesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/searching': {
+      id: '/searching'
+      path: '/searching'
+      fullPath: '/searching'
+      preLoaderRoute: typeof SearchingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   ExploreRoute: ExploreRoute,
   FacetedRoute: FacetedRoute,
   SearchRoute: SearchRoute,
+  SearchingRoute: SearchingRoute,
   GamesGameIdRoute: GamesGameIdRoute,
   GamesIndexRoute: GamesIndexRoute,
 }

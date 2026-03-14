@@ -18,8 +18,4 @@ export type PageMetadata = {
      * @type boolean
     */
     hasPreviousPage: boolean;
-    /**
-     * @type integer, int64
-    */
-    totalCount: number;
 };

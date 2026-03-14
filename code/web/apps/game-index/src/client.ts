@@ -77,6 +77,8 @@ export const client = async <TData, TError = unknown, TVariables = unknown>(
 
     return promise;
 };
+
+themes[]=hello&themes[]=hello
 */
 export const client = async <TData, TError = unknown, TVariables = unknown>(
     config: RequestConfig<TVariables>
@@ -85,11 +87,13 @@ export const client = async <TData, TError = unknown, TVariables = unknown>(
         .request<TVariables, ResponseConfig<TData>>({
             ...config,
             paramsSerializer: {
+                /*
                 encode: (params) =>
                     queryString.stringify(params, {
                         arrayFormat: "none",
                         skipNull: true,
                     }),
+                    */
                 serialize: (params) =>
                     queryString.stringify(params, {
                         arrayFormat: "none",

@@ -1,1 +1,0 @@
-{"type":"object","properties":{"buckets":{"type":"array","items":{"type":"object","properties":{"key":{"type":"string"},"doc_count":{"type":"integer","format":"int64"}},"x-readme-ref-name":"Bucket"}},"sum_other_doc_count":{"type":"integer","format":"int64"},"doc_count_error_upper_bound":{"type":"integer","format":"int64"}},"x-readme-ref-name":"Facets"}

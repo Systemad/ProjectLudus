@@ -8,6 +8,5 @@ import { z } from "zod/v4";
 export const pageMetadataSchema = z.object({
     "nextPageCursor": z.nullable(z.string()),
 "hasNextPage": z.boolean(),
-"hasPreviousPage": z.boolean(),
-"totalCount": z.int()
+"hasPreviousPage": z.boolean()
     })
