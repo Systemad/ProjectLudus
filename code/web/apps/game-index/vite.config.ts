@@ -8,7 +8,7 @@ import {
 } from "@packages/ui";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
-const target = process.env.CATALOGAPI_HTTPs || process.env.CATALOGAPI_HTTP;
+const target = process.env.CATALOGAPI_HTTPS || process.env.CATALOGAPI_HTTP;
 
 function injectThemeSchemeScript(): Plugin {
     return {

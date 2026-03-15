@@ -4,13 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Features.Tags;
 
+public record TagResponse(List<FullTag> Tags);
+
 public static class TagsEndpoints
 {
     private const string GetResource = "GetTags";
 
     public static IEndpointRouteBuilder UseTagsEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        var group = routeBuilder.MapGroup("/tags");
+        var group = routeBuilder.MapGroup("/api/tags");
 
         group.MapGet(
             "all-tags",
@@ -41,6 +43,8 @@ public static class TagsEndpoints
                         Slug: x.Slug
                     ))
                     .ToListAsync(cancellationToken: token);
+                
+                var tags = genres.Concat(themes).Concat(gameModes).ToList();
                 /*
                 var gameStatus = await context
                     .GameStatuses.Select(x => new FullTag(
@@ -51,7 +55,7 @@ public static class TagsEndpoints
                     ))
                     .ToListAsync(cancellationToken: token);
                 */
-                return Results.Ok(new[] { genres, themes, gameModes, /*gameStatus*/ });
+                return new TagResponse(tags);
             }
         );
         return group;

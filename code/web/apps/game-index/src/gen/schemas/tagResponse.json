@@ -1,0 +1,1 @@
+{"required":["tags"],"type":"object","properties":{"tags":{"type":"array","items":{"required":["id","name","groupName","slug"],"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"groupName":{"type":"string"},"slug":{"type":"string"}},"x-readme-ref-name":"FullTag"}}},"x-readme-ref-name":"TagResponse"}

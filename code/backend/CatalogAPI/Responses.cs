@@ -38,9 +38,6 @@ public static class ResponseMapper
             CoverUrl = game.CoverUrl,
             ReleaseYear = game.ReleaseYear,
             Score = game.Score,
-            Themes = game.Themes,
-            Genres = game.Genres,
-            Modes = game.Modes,
         };
         return data;
     }

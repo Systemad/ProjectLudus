@@ -9,19 +9,19 @@ import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryRe
 import type { SearchQueryResponse, SearchQueryParams } from "../../models/Search.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-export const searchSuspenseQueryKey = (params: SearchQueryParams) => ["v1", { url: '/search' }, ...(params ? [params] : [])] as const
+export const searchSuspenseQueryKey = (params: SearchQueryParams) => ["v1", { url: '/api/search' }, ...(params ? [params] : [])] as const
 
 export type SearchSuspenseQueryKey = ReturnType<typeof searchSuspenseQueryKey>
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export async function searchSuspenseHook({ params }: { params: SearchQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/search`, params, ... requestConfig })
+  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/search`, params, ... requestConfig })
   return res.data
 }
 
@@ -39,7 +39,7 @@ export function searchSuspenseQueryOptionsHook({ params }: { params: SearchQuery
 }
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export function useSearchSuspenseHook<TData = SearchQueryResponse, TQueryKey extends QueryKey = SearchSuspenseQueryKey>({ params }: { params: SearchQueryParams }, options: 
 {

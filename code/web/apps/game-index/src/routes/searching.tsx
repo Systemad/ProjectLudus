@@ -1,45 +1,12 @@
 "use client";
-import { Suspense, useEffect, useTransition } from "react";
+
 import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import {
-    HStack,
-    Box,
-    Button,
-    For,
-    Card,
-    Image,
-    CheckboxGroup,
-    useDisclosure,
-    Stack,
-    Text,
-    Heading,
-    Drawer,
-    Accordion,
-    Grid,
-    GridItem,
-    Flex,
-    Checkbox,
-    BoxIcon,
-    EmptyState,
-} from "@packages/ui";
-import {
-    useSearchInfiniteHook,
-    useSearchSuspenseInfiniteHook,
-    type FacetBuckets,
-    type GameItem,
-    type SearchQueryParams,
-    type SearchQueryResponse,
+    getApiTagsAllTagsHook,
+    getApiTagsAllTagsQueryOptionsHook,
 } from "../gen";
-
-import { useInView } from "react-intersection-observer";
-import React from "react";
-import { getIGDBImageUrl } from "../utils/ImageHelper";
-import {
-    keepPreviousData,
-    type InfiniteData,
-    type InfiniteQueryObserverResult,
-} from "@tanstack/react-query";
 import z from "zod/v4";
+import { SearchContainer } from "../Components/Search/SearchContainer";
 
 const searchQueryParamsSchema2 = z.object({
     Name: z.string().optional(),
@@ -47,13 +14,19 @@ const searchQueryParamsSchema2 = z.object({
     Themes: z.array(z.string()).optional(),
     Modes: z.array(z.string()).optional(),
     AfterCursor: z.string().optional(),
-    PageSize: z.number().int().catch(20).optional(),
+    PageSize: z.number().int().catch(40).optional(),
 });
 
 type SearchParams = z.infer<typeof searchQueryParamsSchema2>;
 
 export const Route = createFileRoute("/searching")({
-    component: Index,
+    component: RouteComponent,
+
+    loader: async ({ context }) => {
+        const { queryClient } = context;
+
+        await queryClient.ensureQueryData(getApiTagsAllTagsQueryOptionsHook());
+    },
     validateSearch: searchQueryParamsSchema2,
     search: {
         middlewares: [
@@ -69,11 +42,24 @@ export const Route = createFileRoute("/searching")({
 });
 
 function RouteComponent() {
-    const searchParams = Route.useSearch() ?? {};
+    const search = Route.useSearch() ?? {};
     const navigate = Route.useNavigate();
 
-    return <SearchContainer />;
+    return (
+        <SearchContainer
+            contextId="search"
+            initialSearch={search}
+            onSearchChange={(s) => {
+                navigate({
+                    search: s,
+                    resetScroll: false,
+                });
+            }}
+        />
+    );
 }
+
+/*
 function Index() {
     const { open, onOpen, onClose } = useDisclosure();
     const [isPending, startTransition] = useTransition();
@@ -102,7 +88,6 @@ function Index() {
             py="xl"
             gap="xl"
         >
-            {/* MOBILE FILTER BUTTON */}
             <Flex
                 display={{ base: "flex", md: "none" }}
                 justify="space-between"
@@ -122,7 +107,6 @@ function Index() {
             </Flex>
 
             <Flex align="flex-start" gap="xl">
-                {/* SIDEBAR */}
                 <aside>
                     <Box
                         display={{ base: "none", md: "block" }}
@@ -157,9 +141,7 @@ function Index() {
                     </Box>
                 </aside>
 
-                {/* CONTENT */}
                 <Stack flex="1" gap="xl">
-                    {/* ACTIVE FILTERS */}
                     <HStack flexWrap="wrap" gap="sm">
                         <Text fontSize="xs" color="fg.muted">
                             Filters:
@@ -182,7 +164,6 @@ function Index() {
                         </Button>
                     </HStack>
 
-                    {/* GRID */}
 
                     <ItemScrolls
                         data={data}
@@ -192,14 +173,12 @@ function Index() {
                         isFetching={isFetching}
                     />
 
-                    {/* PAGINATION */}
                     <Flex justify="space-between" align="center">
                         <Button>Load more</Button>
                     </Flex>
                 </Stack>
             </Flex>
 
-            {/* MOBILE FILTERS */}
             <Drawer.Root
                 placement="block-end"
                 open={open}
@@ -255,7 +234,6 @@ export const ItemScrolls = ({
                 xl: "repeat(auto-fill, minmax(220px, 1fr))",
             }}
         >
-            {/* 1. Loop through pages */}
             <For
                 each={data?.pages}
                 fallback={
@@ -266,7 +244,6 @@ export const ItemScrolls = ({
                 }
             >
                 {(axiosResponse, pageIndex) => {
-                    // axiosResponse.data is your PaginatedResponseOfGameItem JSON
                     const data = axiosResponse.data;
                     const pageInfo = axiosResponse.pageInfo;
 
@@ -287,7 +264,6 @@ export const ItemScrolls = ({
                     );
                 }}
             </For>
-            {/* 3. The Sentinel / Load More Trigger */}
             <GridItem display="flex" justifyContent="center" py="md">
                 <button
                     ref={ref}
@@ -305,7 +281,6 @@ export const ItemScrolls = ({
                         : "Nothing more to load"}
                 </button>
             </GridItem>
-            {/* Background Sync Indicator */}
             {isFetching && !isFetchingNextPage && (
                 <GridItem textAlign="center" fontSize="xs" color="fg.muted">
                     Background Updating...
@@ -315,12 +290,6 @@ export const ItemScrolls = ({
     );
 };
 
-/*
-
-*/
-/* -------------------------------------------------- */
-/* CARD */
-/* -------------------------------------------------- */
 
 type CardProps = {
     item: GameItem | null;
@@ -379,9 +348,6 @@ const ExplorerCard = ({ item }: CardProps) => {
     );
 };
 
-/* -------------------------------------------------- */
-/* FILTERS */
-/* -------------------------------------------------- */
 
 interface FilterFieldsProps {
     onApply?: () => void;
@@ -484,3 +450,4 @@ const FilterSidebar = ({
         </Accordion.Root>
     );
 };
+*/

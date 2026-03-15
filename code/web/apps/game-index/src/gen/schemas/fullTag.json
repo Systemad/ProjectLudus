@@ -1,0 +1,1 @@
+{"required":["id","name","groupName","slug"],"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"groupName":{"type":"string"},"slug":{"type":"string"}},"x-readme-ref-name":"FullTag"}

@@ -9,19 +9,19 @@ import type { InfiniteData, QueryKey, QueryClient, InfiniteQueryObserverOptions,
 import type { SearchQueryResponse, SearchQueryParams } from "../../models/Search.ts";
 import { infiniteQueryOptions, useInfiniteQuery } from "@tanstack/react-query";
 
-export const searchInfiniteQueryKey = (params: SearchQueryParams) => ["v1", { url: '/search' }, ...(params ? [params] : [])] as const
+export const searchInfiniteQueryKey = (params: SearchQueryParams) => ["v1", { url: '/api/search' }, ...(params ? [params] : [])] as const
 
 export type SearchInfiniteQueryKey = ReturnType<typeof searchInfiniteQueryKey>
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export async function searchInfiniteHook({ params }: { params: SearchQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/search`, params, ... requestConfig })
+  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/search`, params, ... requestConfig })
   return res.data
 }
 
@@ -40,13 +40,13 @@ export function searchInfiniteQueryOptionsHook({ params }: { params: SearchQuery
             return searchInfiniteHook({ params: params }, { ...config, signal: config.signal ?? signal })
           },
          initialPageParam: undefined,
-  getNextPageParam: (lastPage) => lastPage?.['pageInfo']?.['nextPageCursor']
+  getNextPageParam: (lastPage) => lastPage?.['pageMetadata']?.['nextPageCursor']
         })
 
 }
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export function useSearchInfiniteHook<TQueryFnData = SearchQueryResponse, TError = ResponseErrorConfig<Error>, TData = InfiniteData<TQueryFnData>, TQueryKey extends QueryKey = SearchInfiniteQueryKey, TPageParam = SearchQueryParams['AfterCursor']>({ params }: { params: SearchQueryParams }, options: 
 {

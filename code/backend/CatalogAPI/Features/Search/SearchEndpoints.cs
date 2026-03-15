@@ -15,7 +15,7 @@ public static class SearchEndpoints
 {
     public static IEndpointRouteBuilder UseSearchEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        var group = routeBuilder.MapGroup("/search");
+        var group = routeBuilder.MapGroup("/api/search");
 
         group
             .MapGet(

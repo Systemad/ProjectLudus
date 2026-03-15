@@ -9,19 +9,19 @@ import type { InfiniteData, QueryKey, QueryClient, UseSuspenseInfiniteQueryOptio
 import type { SearchQueryResponse, SearchQueryParams } from "../../models/Search.ts";
 import { infiniteQueryOptions, useSuspenseInfiniteQuery } from "@tanstack/react-query";
 
-export const searchSuspenseInfiniteQueryKey = (params: SearchQueryParams) => ["v1", { url: '/search' }, ...(params ? [params] : [])] as const
+export const searchSuspenseInfiniteQueryKey = (params: SearchQueryParams) => ["v1", { url: '/api/search' }, ...(params ? [params] : [])] as const
 
 export type SearchSuspenseInfiniteQueryKey = ReturnType<typeof searchSuspenseInfiniteQueryKey>
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export async function searchSuspenseInfiniteHook({ params }: { params: SearchQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/search`, params, ... requestConfig })
+  const res = await request<SearchQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/api/search`, params, ... requestConfig })
   return res.data
 }
 
@@ -40,13 +40,13 @@ export function searchSuspenseInfiniteQueryOptionsHook({ params }: { params: Sea
             return searchSuspenseInfiniteHook({ params: params }, { ...config, signal: config.signal ?? signal })
           },
          initialPageParam: undefined,
-  getNextPageParam: (lastPage) => lastPage?.['pageInfo']?.['nextPageCursor']
+  getNextPageParam: (lastPage) => lastPage?.['pageMetadata']?.['nextPageCursor']
         })
 
 }
 
 /**
- * {@link /search}
+ * {@link /api/search}
  */
 export function useSearchSuspenseInfiniteHook<TQueryFnData = SearchQueryResponse, TError = ResponseErrorConfig<Error>, TData = InfiniteData<TQueryFnData>, TQueryKey extends QueryKey = SearchSuspenseInfiniteQueryKey, TPageParam = SearchQueryParams['AfterCursor']>({ params }: { params: SearchQueryParams }, options: 
 {

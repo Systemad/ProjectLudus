@@ -4,7 +4,6 @@
 * Do not edit manually.
 */
 
-import type { AggregationBuckets } from "./AggregationBuckets.ts";
 
 export type GameItem = {
     /**
@@ -40,10 +39,6 @@ export type GameItem = {
     */
     releaseYear?: number | null;
     /**
-     * @type null,integer, int64
-    */
-    totalItems?: number | null;
-    /**
      * @type null,number, float
     */
     score?: number | null;
@@ -55,10 +50,4 @@ export type GameItem = {
      * @type null,array
     */
     genres?: string[] | null;
-    /**
-     * @type null,array
-    */
-    modes?: string[] | null;
-    genreFacet?: (null | AggregationBuckets);
-    themeFacet?: (null | AggregationBuckets);
 };

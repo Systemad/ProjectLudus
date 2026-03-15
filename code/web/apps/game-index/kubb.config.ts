@@ -64,7 +64,7 @@ export default defineConfig({
             infinite: {
                 queryParam: "AfterCursor",
                 initialPageParam: undefined,
-                nextParam: "pageInfo.nextPageCursor",
+                nextParam: "pageMetadata.nextPageCursor",
                 //cursorParam: "data.pageInfo.nextPageCursor",
             },
             paramsType: "object",

@@ -56,11 +56,7 @@ public class GameItem
     public long? GameType { get; set; }
     public string? CoverUrl { get; set; }
     public int? ReleaseYear { get; set; }
-    public long? TotalItems { get; set; }
     public float? Score { get; set; }
     public List<string>? Themes { get; set; }
     public List<string>? Genres { get; set; }
-    public List<string>? Modes { get; set; }
-    public AggregationBuckets? GenreFacet { get; set; } 
-    public AggregationBuckets? ThemeFacet { get; set; }
 }

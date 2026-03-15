@@ -1,6 +1,7 @@
 import { Store } from "@tanstack/react-store";
 import { z } from "zod";
-
+import type { searchQueryParamsSchema } from "../../gen";
+/*
 export const formSchema = z.object({
     name: z.string().optional(),
     genres: z.array(z.string()).optional(),
@@ -8,8 +9,8 @@ export const formSchema = z.object({
     modes: z.array(z.string()).optional(),
     PageSize: z.number(),
 });
-
-export type SearchState = z.infer<typeof formSchema>;
+*/
+export type SearchState = z.infer<typeof searchQueryParamsSchema>;
 
 const DEFAULT_PAGE_SIZE = 40;
 const defaultState: SearchState = {
