@@ -7,11 +7,11 @@
 
 export type Bucket = {
     /**
-     * @type string | undefined
+     * @type string
     */
-    key?: string;
+    key: string;
     /**
-     * @type integer | undefined, int64
+     * @type integer, int64
     */
-    doc_count?: number;
+    doc_count: number;
 };

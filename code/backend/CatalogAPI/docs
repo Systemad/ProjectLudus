@@ -1,0 +1,31 @@
+SELECT extversion FROM pg_extension WHERE extname = 'pg_search';
+SELECT * FROM paradedb.version_info();
+
+ALTER EXTENSION pg_search UPDATE TO '0.22.0';
+-- Autocomplete (ngram)
+-- SELECT * FROM games WHERE title::pdb.alias('title_ngram') ||| 'hal';
+
+-- Full-word search (default tokenizer)
+-- SELECT * FROM games WHERE title ||| 'halo';
+
+
+CREATE INDEX search_idx ON games_search
+    USING bm25 (id,
+                (name::pdb.unicode_words),
+                (name::pdb.ngram(2, 10, 'prefix_only=true', 'alias=name_ngram')),
+                summary,
+                storyline,
+                first_release_date,
+                release_year,
+                (game_type::pdb.literal_normalized),
+                (game_status::pdb.literal_normalized),
+                (themes::pdb.literal_normalized('trim=true')),
+                (genres::pdb.literal_normalized('trim=true')),
+                (game_modes::pdb.literal_normalized('trim=true')),
+                (platforms::pdb.literal_normalized('trim=true')),
+                (game_engines::pdb.literal_normalized('trim=true')),
+                (player_perspectives::pdb.literal_normalized('trim=true')),
+                (publishers::pdb.literal_normalized('trim=true')),
+                (developers::pdb.literal_normalized('trim=true')),
+                (multiplayer_modes::pdb.literal_normalized('trim=true'))
+               ) WITH (key_field='id', search_tokenizer='unicode_words');

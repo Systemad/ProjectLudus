@@ -4,6 +4,7 @@ models:
       config:
           enabled: true
           contract: { enforced: true }
+          alias: "involved_companies"
       constraints:
           - type: primary_key
             columns: [id]

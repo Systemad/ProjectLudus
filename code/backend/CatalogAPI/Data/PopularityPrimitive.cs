@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NodaTime;
 
 namespace CatalogAPI.Data;
 
@@ -21,11 +22,13 @@ public partial class PopularityPrimitive
 
     public long? ExternalPopularitySource { get; set; }
 
-    public DateTime? UpdatedAtTz { get; set; }
+    public Instant? UpdatedAtTz { get; set; }
 
-    public DateOnly? SnapshotDate { get; set; }
+    public LocalDate? SnapshotDate { get; set; }
 
     public virtual ExternalGameSource? ExternalPopularitySourceNavigation { get; set; }
+
+    public virtual Game? Game { get; set; }
 
     public virtual PopularityType? PopularityTypeNavigation { get; set; }
 }

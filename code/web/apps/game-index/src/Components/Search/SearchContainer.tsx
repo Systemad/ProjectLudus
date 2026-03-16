@@ -7,12 +7,13 @@ import {
     type SearchState,
 } from "./SearchStore";
 import type { TypeOf } from "zod";
-import { useEffect, useMemo, useRef } from "react";
-import { useDebouncedState, useDebouncedValue } from "@mantine/hooks";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useDebouncedValue } from "@mantine/hooks";
 import {
     searchQueryParamsSchema,
     useGetApiTagsAllTagsHook,
-    useSearchHook,
+    useSearchInfiniteHook,
+    type SearchQueryResponse,
     type AggregationBuckets,
 } from "../../gen";
 import { keepPreviousData } from "@tanstack/react-query";
@@ -35,8 +36,8 @@ import {
 export interface SearchContainerProps {
     contextId?: string;
     initialSearch?: Partial<TypeOf<typeof searchQueryParamsSchema>>;
-    fixedParams?: Partial<TypeOf<typeof searchQueryParamsSchema>>;
     onSearchChange?: (search: TypeOf<typeof searchQueryParamsSchema>) => void;
+    fixedParams?: Partial<TypeOf<typeof searchQueryParamsSchema>>;
     title?: string;
 }
 
@@ -80,144 +81,139 @@ const FilterPanel = ({
     allTags,
     tagTypes,
     onReset,
-}: FilterPanelProps) => (
-    <Stack gap="lg" w="full" h="full">
-        <Flex justify="space-between" align="center">
-            <Heading size="sm">Refine</Heading>
-            <Button variant="ghost" size="xs" onClick={onReset}>
-                Reset
-            </Button>
-        </Flex>
+}: FilterPanelProps) => {
+    const genreTags =
+        allTags?.tags?.filter(
+            (t: { groupName?: string }) => t.groupName === "genres"
+        ) ?? [];
+    const themeTags =
+        allTags?.tags?.filter(
+            (t: { groupName?: string }) => t.groupName === "themes"
+        ) ?? [];
+    const gameModeTags =
+        allTags?.tags?.filter(
+            (t: { groupName?: string }) =>
+                t.groupName === "game_modes" || t.groupName === "modes"
+        ) ?? [];
 
-        <Accordion.Root toggle multiple>
-            <Accordion.Item button="Genres" index={0}>
-                <Accordion.Panel>
-                    <Stack>
-                        {tagTypes.find((t) => t.name === "genres") &&
-                            Object.entries(tagCounts)
-                                .filter(
-                                    ([key]) =>
-                                        allTags?.tags?.find(
-                                            (t: { id: string }) => t.id === key
-                                        )?.groupName === "genres"
-                                )
-                                .map(([key, count]) => (
-                                    <Checkbox
-                                        key={key}
-                                        checked={(query.Genres || []).includes(
-                                            key
-                                        )}
-                                        onChange={() => {
-                                            const current = query.Genres || [];
-                                            setField(
-                                                "Genres",
-                                                current.includes(key)
-                                                    ? current.filter(
-                                                          (g) => g !== key
-                                                      )
-                                                    : [...current, key]
-                                            );
-                                        }}
-                                    >
-                                        {
-                                            allTags?.tags?.find(
-                                                (t: { id: string }) =>
-                                                    t.id === key
-                                            )?.name
-                                        }{" "}
-                                        ({count})
-                                    </Checkbox>
-                                ))}
-                    </Stack>
-                </Accordion.Panel>
-            </Accordion.Item>
+    return (
+        <Stack gap="lg" w="full" h="full">
+            <Flex justify="space-between" align="center">
+                <Heading size="sm">Refine</Heading>
+                <Button variant="ghost" size="xs" onClick={onReset}>
+                    Reset
+                </Button>
+            </Flex>
 
-            <Accordion.Item button="Themes" index={1}>
-                <Accordion.Panel>
-                    <Stack>
-                        {tagTypes.find((t) => t.name === "themes") &&
-                            Object.entries(tagCounts)
-                                .filter(
-                                    ([key]) =>
-                                        allTags?.tags?.find(
-                                            (t: { id: string }) => t.id === key
-                                        )?.groupName === "themes"
-                                )
-                                .map(([key, count]) => (
-                                    <Checkbox
-                                        key={key}
-                                        checked={(query.Themes || []).includes(
-                                            key
-                                        )}
-                                        onChange={() => {
-                                            const current = query.Themes || [];
-                                            setField(
-                                                "Themes",
-                                                current.includes(key)
-                                                    ? current.filter(
-                                                          (t) => t !== key
-                                                      )
-                                                    : [...current, key]
-                                            );
-                                        }}
-                                    >
-                                        {
-                                            allTags?.tags?.find(
-                                                (t: { id: string }) =>
-                                                    t.id === key
-                                            )?.name
-                                        }{" "}
-                                        ({count})
-                                    </Checkbox>
-                                ))}
-                    </Stack>
-                </Accordion.Panel>
-            </Accordion.Item>
+            <Accordion.Root toggle multiple>
+                <Accordion.Item button="Genres" index={0}>
+                    <Accordion.Panel>
+                        <Stack>
+                            {tagTypes.find((t) => t.name === "genres") &&
+                                genreTags.map(
+                                    (tag: { id: string; name: string }) => (
+                                        <Checkbox
+                                            key={tag.id}
+                                            checked={(
+                                                query.Genres || []
+                                            ).includes(tag.name)}
+                                            onChange={() => {
+                                                const current =
+                                                    query.Genres || [];
+                                                setField(
+                                                    "Genres",
+                                                    current.includes(tag.name)
+                                                        ? current.filter(
+                                                              (g) =>
+                                                                  g !== tag.name
+                                                          )
+                                                        : [...current, tag.name]
+                                                );
+                                            }}
+                                        >
+                                            {tag.name} (
+                                            {tagCounts[tag.name] ?? 0})
+                                        </Checkbox>
+                                    )
+                                )}
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+                <Accordion.Item button="Themes" index={1}>
+                    <Accordion.Panel>
+                        <Stack>
+                            {tagTypes.find((t) => t.name === "themes") &&
+                                themeTags.map(
+                                    (tag: { id: string; name: string }) => (
+                                        <Checkbox
+                                            key={tag.id}
+                                            checked={(
+                                                query.Themes || []
+                                            ).includes(tag.name)}
+                                            onChange={() => {
+                                                const current =
+                                                    query.Themes || [];
+                                                setField(
+                                                    "Themes",
+                                                    current.includes(tag.name)
+                                                        ? current.filter(
+                                                              (t) =>
+                                                                  t !== tag.name
+                                                          )
+                                                        : [...current, tag.name]
+                                                );
+                                            }}
+                                        >
+                                            {tag.name} (
+                                            {tagCounts[tag.name] ?? 0})
+                                        </Checkbox>
+                                    )
+                                )}
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
 
-            <Accordion.Item button="Game Modes" index={2}>
-                <Accordion.Panel>
-                    <Stack>
-                        {tagTypes.find((t) => t.name === "modes") &&
-                            Object.entries(tagCounts)
-                                .filter(
-                                    ([key]) =>
-                                        allTags?.tags?.find(
-                                            (t: { id: string }) => t.id === key
-                                        )?.groupName === "modes"
-                                )
-                                .map(([key, count]) => (
-                                    <Checkbox
-                                        key={key}
-                                        checked={(query.Modes || []).includes(
-                                            key
-                                        )}
-                                        onChange={() => {
-                                            const current = query.Modes || [];
-                                            setField(
-                                                "Modes",
-                                                current.includes(key)
-                                                    ? current.filter(
-                                                          (m) => m !== key
-                                                      )
-                                                    : [...current, key]
-                                            );
-                                        }}
-                                    >
-                                        {
-                                            allTags?.tags?.find(
-                                                (t: { id: string }) =>
-                                                    t.id === key
-                                            )?.name
-                                        }{" "}
-                                        ({count})
-                                    </Checkbox>
-                                ))}
-                    </Stack>
-                </Accordion.Panel>
-            </Accordion.Item>
-        </Accordion.Root>
-    </Stack>
-);
+                <Accordion.Item button="Game Modes" index={2}>
+                    <Accordion.Panel>
+                        <Stack>
+                            {tagTypes.find(
+                                (t) =>
+                                    t.name === "game_modes" ||
+                                    t.name === "modes"
+                            ) &&
+                                gameModeTags.map(
+                                    (tag: { id: string; name: string }) => (
+                                        <Checkbox
+                                            key={tag.id}
+                                            checked={(
+                                                query.GameModes || []
+                                            ).includes(tag.name)}
+                                            onChange={() => {
+                                                const current =
+                                                    query.GameModes || [];
+                                                setField(
+                                                    "GameModes",
+                                                    current.includes(tag.name)
+                                                        ? current.filter(
+                                                              (m) =>
+                                                                  m !== tag.name
+                                                          )
+                                                        : [...current, tag.name]
+                                                );
+                                            }}
+                                        >
+                                            {tag.name} (
+                                            {tagCounts[tag.name] ?? 0})
+                                        </Checkbox>
+                                    )
+                                )}
+                        </Stack>
+                    </Accordion.Panel>
+                </Accordion.Item>
+            </Accordion.Root>
+        </Stack>
+    );
+};
 
 // Extract SearchFilters component
 const SearchFilters = ({
@@ -302,7 +298,6 @@ export function SearchContainer({
     initialSearch = {},
     fixedParams = {},
     onSearchChange,
-    title = "Search",
 }: SearchContainerProps) {
     const store = getSearchStore(
         contextId,
@@ -316,21 +311,30 @@ export function SearchContainer({
     const setField: <K extends keyof TypeOf<typeof searchQueryParamsSchema>>(
         field: K,
         value: TypeOf<typeof searchQueryParamsSchema>[K]
-    ) => void = (field, value) => {
-        store.setState((prev) => {
-            if (field !== "AfterCursor") {
+    ) => void = useCallback(
+        (field, value) => {
+            store.setState((prev) => {
+                // Avoid state churn when value is unchanged.
+                if (Object.is(prev[field], value)) {
+                    return prev;
+                }
+
+                if (field !== "AfterCursor") {
+                    return {
+                        ...prev,
+                        [field]: value,
+                        AfterCursor: undefined,
+                    };
+                }
+
                 return {
                     ...prev,
                     [field]: value,
-                    AfterCursor: undefined,
                 };
-            }
-            return {
-                ...prev,
-                [field]: value,
-            };
-        });
-    };
+            });
+        },
+        [store]
+    );
 
     const prevSearchRef = useRef<
         TypeOf<typeof searchQueryParamsSchema> | undefined
@@ -358,17 +362,32 @@ export function SearchContainer({
             PageSize: merged.PageSize ?? 40,
         } as TypeOf<typeof searchQueryParamsSchema>;
     }, [query, fixedParams]);
-    const [debouncedQuery, setDebouncedQuery] = useDebouncedValue(
-        mergedQuery,
-        300
-    );
+    const [debouncedQuery] = useDebouncedValue(mergedQuery, 300);
 
-    const { data: results, isLoading } = useSearchHook(
-        { params: debouncedQuery },
+    const paramsWithoutCursor = useMemo(() => {
+        const { AfterCursor: _afterCursor, ...rest } = debouncedQuery;
+        return rest;
+    }, [debouncedQuery]);
+
+    const {
+        data: results,
+        isLoading,
+        isFetching,
+        isFetchingNextPage,
+        fetchNextPage,
+        hasNextPage,
+    } = useSearchInfiniteHook(
+        { params: paramsWithoutCursor },
         {
             query: {
-                queryKey: ["search", contextId, JSON.stringify(debouncedQuery)],
-                placeholderData: keepPreviousData,
+                queryKey: [
+                    "search",
+                    contextId,
+                    JSON.stringify(paramsWithoutCursor),
+                ],
+                staleTime: 30_000,
+                refetchOnWindowFocus: false,
+                refetchOnReconnect: false,
             },
         }
     );
@@ -382,7 +401,7 @@ export function SearchContainer({
 
     const tagTypesDictionary: { [key: string]: string } = {
         genres: "genres",
-        modes: "modes",
+        modes: "game_modes",
         themes: "themes",
     };
 
@@ -407,21 +426,55 @@ export function SearchContainer({
     ): Record<string, number> => {
         const counts: Record<string, number> = {};
         for (const bucket of aggregation?.buckets ?? []) {
-            const key = bucket.key;
-            const count = bucket.doc_count;
-
-            if (!key || count === undefined) continue;
-
-            const normalizedKey = transformKey ? transformKey(key) : key;
-            counts[normalizedKey] = count;
+            if (transformKey) {
+                counts[transformKey(bucket.key)] = bucket.doc_count;
+            } else {
+                counts[bucket.key] = bucket.doc_count;
+            }
         }
         return counts;
     };
 
-    const tagCounts: Record<string, number> = parseAggregationBuckets(
-        results?.aggregationBuckets as AggregationBuckets,
-        (key) => allTags?.tags?.find((t) => t.name === key)?.id ?? key
-    );
+    const normalizedResults = useMemo<SearchQueryResponse | undefined>(() => {
+        const pages = results?.pages;
+        if (!pages || pages.length === 0) {
+            return undefined;
+        }
+
+        const firstPage = pages[0];
+        const lastPage = pages[pages.length - 1];
+
+        return {
+            ...lastPage,
+            data: pages.flatMap((page) => page.data ?? []),
+            aggregationBuckets: firstPage.aggregationBuckets,
+            totalCount: firstPage.totalCount,
+        };
+    }, [results]);
+
+    const tagCounts: Record<string, number> = useMemo(() => {
+        const aggregations = normalizedResults?.aggregationBuckets;
+        if (!aggregations) {
+            return {};
+        }
+
+        const mergedCounts: Record<string, number> = {};
+        for (const aggregation of Object.values(aggregations)) {
+            const counts = parseAggregationBuckets(aggregation);
+
+            for (const [key, count] of Object.entries(counts)) {
+                mergedCounts[key] = (mergedCounts[key] ?? 0) + count;
+            }
+        }
+
+        return mergedCounts;
+    }, [allTags?.tags, normalizedResults]);
+
+    const sanitizedQueryForUrl = useMemo(() => {
+        const merged = { ...query, ...fixedParams };
+        const { AfterCursor: _afterCursor, ...rest } = merged;
+        return rest;
+    }, [fixedParams, query]);
 
     useEffect(() => {
         if (
@@ -431,7 +484,7 @@ export function SearchContainer({
         )
             return;
 
-        const currentSearch = { ...query, ...fixedParams };
+        const currentSearch = sanitizedQueryForUrl;
         const prevSearch = prevSearchRef.current;
 
         // Only call onSearchChange if the search has actually changed
@@ -440,10 +493,14 @@ export function SearchContainer({
             !prevSearch ||
             JSON.stringify(currentSearch) !== JSON.stringify(prevSearch)
         ) {
-            prevSearchRef.current = currentSearch;
-            onSearchChange(currentSearch);
+            prevSearchRef.current = currentSearch as TypeOf<
+                typeof searchQueryParamsSchema
+            >;
+            onSearchChange(
+                currentSearch as TypeOf<typeof searchQueryParamsSchema>
+            );
         }
-    }, [query, fixedParams, onSearchChange]);
+    }, [onSearchChange, sanitizedQueryForUrl]);
 
     useEffect(() => {
         return () => {
@@ -458,7 +515,7 @@ export function SearchContainer({
     const handleReset = () => {
         setField("Genres", []);
         setField("Themes", []);
-        setField("Modes", []);
+        setField("GameModes", []);
     };
 
     return (
@@ -491,10 +548,12 @@ export function SearchContainer({
                     <SearchHeader query={query} />
 
                     <SearchResults
-                        query={query as TypeOf<typeof searchQueryParamsSchema>}
-                        setField={setField}
                         loading={isLoading}
-                        results={results}
+                        fetching={isFetching}
+                        hasNextPage={hasNextPage}
+                        isFetchingNextPage={isFetchingNextPage}
+                        fetchNextPage={fetchNextPage}
+                        results={normalizedResults}
                     />
                 </Flex>
             </Flex>

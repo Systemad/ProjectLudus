@@ -42,6 +42,7 @@ export type RequestConfig<TData = unknown> = {
 
 export const axiosInstance = axios.create({
     baseURL: typeof AXIOS_BASE !== "undefined" ? AXIOS_BASE : undefined,
+    timeout: 15000,
     headers:
         typeof AXIOS_HEADERS !== "undefined"
             ? (JSON.parse(AXIOS_HEADERS) as AxiosHeaders)

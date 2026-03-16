@@ -8,8 +8,7 @@ import { z } from "zod/v4";
 
 export const aggregationBucketsSchema = z.object({
     get "buckets"(){
-                return z.array(bucketSchema).optional()
+                return z.array(bucketSchema)
               },
-"sum_other_doc_count": z.optional(z.int()),
-"doc_count_error_upper_bound": z.optional(z.int())
+"sum_other_doc_count": z.int()
     })

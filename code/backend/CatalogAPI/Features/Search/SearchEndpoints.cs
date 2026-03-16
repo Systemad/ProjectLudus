@@ -10,7 +10,9 @@ using Jameak.CursorPagination.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Features.Search;
-
+/// <summary>
+///  REQUESTS HAVE TO BE LOWERCASE!!!!, SO, REQ.NAME.LOWERCASE, REQ.GENRE.LOWERCASE
+/// </summary>
 public static class SearchEndpoints
 {
     public static IEndpointRouteBuilder UseSearchEndpoints(this IEndpointRouteBuilder routeBuilder)
@@ -51,12 +53,12 @@ public static class SearchEndpoints
                         hasSearch = true;
                     }
 
-                    if (req.Modes is { Length: > 0 })
+                    if (req.GameModes is { Length: > 0 })
                     {
-                        foreach (var term in req.Modes)
+                        foreach (var term in req.GameModes)
                         {
-                            query = query.Where(p => EF.Functions.Term(p.Modes, term));
-                            aggregatesQuery = aggregatesQuery.Where(p => EF.Functions.Term(p.Modes, term));
+                            query = query.Where(p => EF.Functions.Term(p.GameModes, term));
+                            aggregatesQuery = aggregatesQuery.Where(p => EF.Functions.Term(p.GameModes, term));
                         }
                         hasSearch = true;
                     }
@@ -69,13 +71,36 @@ public static class SearchEndpoints
                         }
                         hasSearch = true;
                     }
+
+                    if (req.MultiplayerModes is { Length: > 0 })
+                    {
+                        foreach (var term in req.MultiplayerModes)
+                        {
+                            query = query.Where(p => EF.Functions.Term(p.MultiplayerModes, term));
+                            aggregatesQuery = aggregatesQuery.Where(p => EF.Functions.Term(p.MultiplayerModes, term));
+                        }
+                        hasSearch = true;
+                    }
+                    
+                    if (req.PlayerPerspectives is { Length: > 0 })
+                    {
+                        foreach (var term in req.PlayerPerspectives)
+                        {
+                            query = query.Where(p => EF.Functions.Term(p.PlayerPerspectives, term));
+                            aggregatesQuery = aggregatesQuery.Where(p => EF.Functions.Term(p.PlayerPerspectives, term));
+                        }
+                        hasSearch = true;
+                    }
+        
                     var aggregates = await aggregatesQuery
                         .Where(g => EF.Functions.All(g.Id))
                         .Select(x => new
                         {
                             Genres = EF.Functions.Aggregate(x.Themes, new TermsAggregate("genres"){MinDocCount = 0, Size = 25, Order = "asc"}),
                             Themes = EF.Functions.Aggregate(x.Genres, new TermsAggregate("themes"){MinDocCount = 0, Size = 25, Order = "asc"}),
-                            Modes = EF.Functions.Aggregate(x.Modes, new TermsAggregate("modes"){MinDocCount = 0, Size = 25, Order = "asc"}),
+                            GameModes = EF.Functions.Aggregate(x.GameModes, new TermsAggregate("game_modes"){MinDocCount = 0, Size = 25, Order = "asc"}),
+                            MultiPlayerModes = EF.Functions.Aggregate(x.GameModes, new TermsAggregate("multiplayer_modes"){MinDocCount = 0, Size = 25, Order = "asc"}),
+                            PlayerPerspective = EF.Functions.Aggregate(x.GameModes, new TermsAggregate("player_perspectives"){MinDocCount = 0, Size = 25, Order = "asc"}),
                             Total = EF.Functions.Count(x.Id)
                         })
                         .FirstOrDefaultAsync(cancellationToken: token);
@@ -85,9 +110,9 @@ public static class SearchEndpoints
                     {
                         [TagKeys.GENRES] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.Genres)!,
                         [TagKeys.THEMES] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.Themes)!,
-                        [TagKeys.MODES] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.Modes)!,
-                        //["platforms"] = JsonSerializer.Deserialize<AggregationBuckets>(agg!.Platforms)!,
-                        //["developers"] = JsonSerializer.Deserialize<AggregationBuckets>(agg!.Developers)!
+                        [TagKeys.GAME_MODES] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.GameModes)!,
+                        [TagKeys.MULTIPLAYER_MODES] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.MultiPlayerModes)!,
+                        [TagKeys.PLAYER_PERSPECTIVE] = JsonSerializer.Deserialize<AggregationBuckets>(aggregates!.PlayerPerspective)!
                     };
                     IQueryable<GameSearchFacet> rows;
                     
@@ -101,12 +126,19 @@ public static class SearchEndpoints
                                 Storyline = sub.Storyline,
                                 FirstReleaseDate = sub.FirstReleaseDate,
                                 GameType = sub.GameType,
+                                GameStatus = sub.GameStatus,
                                 CoverUrl = sub.CoverUrl,
                                 ReleaseYear = sub.ReleaseYear,
                                 Score = EF.Functions.Score(sub.Id),
                                 Themes = sub.Themes,
                                 Genres = sub.Genres,
-                                Modes = sub.Modes,
+                                GameModes = sub.GameModes,
+                                Platforms = sub.Platforms,
+                                GameEngines = sub.GameEngines,
+                                PlayerPerspectives = sub.PlayerPerspectives,
+                                Publishers = sub.Publishers,
+                                Developers = sub.Developers,
+                                MultiplayerModes = sub.MultiplayerModes,
                             })
                             .OrderByDescending(x => x.Score);
                     }
@@ -120,12 +152,19 @@ public static class SearchEndpoints
                                 Storyline = sub.Storyline,
                                 FirstReleaseDate = sub.FirstReleaseDate,
                                 GameType = sub.GameType,
+                                GameStatus = sub.GameStatus,
                                 CoverUrl = sub.CoverUrl,
                                 ReleaseYear = sub.ReleaseYear,
                                 Score = 0,
                                 Themes = sub.Themes,
                                 Genres = sub.Genres,
-                                Modes = sub.Modes,
+                                GameModes = sub.GameModes,
+                                Platforms = sub.Platforms,
+                                GameEngines = sub.GameEngines,
+                                PlayerPerspectives = sub.PlayerPerspectives,
+                                Publishers = sub.Publishers,
+                                Developers = sub.Developers,
+                                MultiplayerModes = sub.MultiplayerModes,
                             })
                             .OrderByDescending(x => x.Id);
                     }

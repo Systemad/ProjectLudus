@@ -1,1 +1,1 @@
-{"type":"object","properties":{"key":{"type":"string"},"doc_count":{"type":"integer","format":"int64"}},"x-readme-ref-name":"Bucket"}
+{"required":["key","doc_count"],"type":"object","properties":{"key":{"type":"string"},"doc_count":{"type":"integer","format":"int64"}},"x-readme-ref-name":"Bucket"}

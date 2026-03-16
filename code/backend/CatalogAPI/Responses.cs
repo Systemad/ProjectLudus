@@ -35,9 +35,19 @@ public static class ResponseMapper
             Storyline = game.Summary,
             FirstReleaseDate = game.FirstReleaseDate,
             GameType = game.GameType,
+            GameStatus = game.GameStatus,
             CoverUrl = game.CoverUrl,
             ReleaseYear = game.ReleaseYear,
             Score = game.Score,
+            Themes = game.Themes,
+            Genres = game.Genres,
+            GameModes = game.GameModes,
+            Platforms = game.Platforms,
+            GameEngines = game.GameEngines,
+            PlayerPerspectives = game.PlayerPerspectives,
+            Publishers = game.Publishers,
+            Developers = game.Developers,
+            MultiplayerModes = game.MultiplayerModes,
         };
         return data;
     }

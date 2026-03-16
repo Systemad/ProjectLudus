@@ -39,25 +39,26 @@ public static class TagsEndpoints
                     .GameModes.Select(x => new FullTag(
                         Id: $"{x.Id}:{x.Name}",
                         Name: x.Name,
+                        GroupName: TagKeys.GAME_MODES,
+                        Slug: x.Slug
+                    ))
+                    .ToListAsync(cancellationToken: token);
+                /*
+                var playerPerspective = await context
+                    .PlayerPerspectives.Select(x => new FullTag(
+                        Id: $"{x.Id}:{x.Name}",
+                        Name: x.Name,
                         GroupName: TagKeys.MODES,
                         Slug: x.Slug
                     ))
                     .ToListAsync(cancellationToken: token);
                 
-                var tags = genres.Concat(themes).Concat(gameModes).ToList();
-                /*
-                var gameStatus = await context
-                    .GameStatuses.Select(x => new FullTag(
-                        Id: $"{x.Id}:{x.Status}",
-                        Name: x.Status,
-                        GroupName: "Status",
-                        Slug: x.Status
-                    ))
-                    .ToListAsync(cancellationToken: token);
                 */
+                var tags = genres.Concat(themes).Concat(gameModes).ToList();
+
                 return new TagResponse(tags);
             }
-        );
+        ).CacheOutput("Expire15Min");
         return group;
     }
 }

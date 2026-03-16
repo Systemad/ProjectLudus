@@ -44,4 +44,6 @@ public partial class Platform
     public virtual ICollection<ReleaseDate> ReleaseDates { get; set; } = new List<ReleaseDate>();
 
     public virtual ICollection<GameEngine> GameEngines { get; set; } = new List<GameEngine>();
+
+    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 }

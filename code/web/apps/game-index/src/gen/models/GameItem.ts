@@ -7,9 +7,9 @@
 
 export type GameItem = {
     /**
-     * @type integer | undefined, int64
+     * @type null,integer, int64
     */
-    id?: number;
+    id?: number | null;
     /**
      * @type null,string
     */
@@ -27,17 +27,17 @@ export type GameItem = {
     */
     firstReleaseDate?: number | null;
     /**
-     * @type null,integer, int64
+     * @type null,string
     */
-    gameType?: number | null;
+    gameType?: string | null;
+    /**
+     * @type null,string
+    */
+    gameStatus?: string | null;
     /**
      * @type null,string
     */
     coverUrl?: string | null;
-    /**
-     * @type null,integer, int32
-    */
-    releaseYear?: number | null;
     /**
      * @type null,number, float
     */
@@ -50,4 +50,36 @@ export type GameItem = {
      * @type null,array
     */
     genres?: string[] | null;
+    /**
+     * @type null,array
+    */
+    gameModes?: string[] | null;
+    /**
+     * @type null,array
+    */
+    platforms?: string[] | null;
+    /**
+     * @type null,array
+    */
+    gameEngines?: string[] | null;
+    /**
+     * @type null,array
+    */
+    playerPerspectives?: string[] | null;
+    /**
+     * @type null,array
+    */
+    publishers?: string[] | null;
+    /**
+     * @type null,array
+    */
+    developers?: string[] | null;
+    /**
+     * @type null,array
+    */
+    multiplayerModes?: string[] | null;
+    /**
+     * @type null,integer, int32
+    */
+    releaseYear?: number | null;
 };

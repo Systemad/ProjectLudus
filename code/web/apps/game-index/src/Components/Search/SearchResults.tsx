@@ -1,9 +1,5 @@
-import type { TypeOf } from "zod/v4";
-import type {
-    GameItem,
-    searchQueryParamsSchema,
-    SearchQueryResponse,
-} from "../../gen";
+"use client";
+import type { GameItem, SearchQueryResponse } from "../../gen";
 import {
     SkeletonCircle,
     VStack,
@@ -26,31 +22,53 @@ import {
 import { getIGDBImageUrl } from "../../utils/ImageHelper";
 import { useExtractColors } from "react-extract-colors";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import type { UseInfiniteQueryResult } from "@tanstack/react-query";
 
 export interface SearchResultsProps {
-    query: TypeOf<typeof searchQueryParamsSchema>;
-    setField: <K extends keyof TypeOf<typeof searchQueryParamsSchema>>(
-        field: K,
-        value: TypeOf<typeof searchQueryParamsSchema>[K]
-    ) => void;
     loading: boolean;
+    fetching: boolean;
+    hasNextPage: boolean | undefined;
+    isFetchingNextPage: boolean;
+    fetchNextPage: UseInfiniteQueryResult["fetchNextPage"];
     results: SearchQueryResponse | null | undefined;
 }
 
 export function SearchResults({
-    query,
-    setField,
     loading,
+    fetching,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
     results,
 }: SearchResultsProps) {
     const { ref, inView } = useInView();
+    const hasTriggeredInViewRef = useRef(false);
 
     useEffect(() => {
-        if (inView && results?.pageMetadata?.nextPageCursor) {
-            setField("AfterCursor", results.pageMetadata.nextPageCursor);
+        if (!inView) {
+            hasTriggeredInViewRef.current = false;
+            return;
         }
-    }, [inView, results?.pageMetadata?.nextPageCursor, setField]);
+
+        if (
+            !loading &&
+            !fetching &&
+            !isFetchingNextPage &&
+            hasNextPage &&
+            !hasTriggeredInViewRef.current
+        ) {
+            hasTriggeredInViewRef.current = true;
+            void fetchNextPage();
+        }
+    }, [
+        fetchNextPage,
+        fetching,
+        hasNextPage,
+        inView,
+        isFetchingNextPage,
+        loading,
+    ]);
 
     if (loading && !results) {
         return (
@@ -95,7 +113,7 @@ export function SearchResults({
                     />
                 }
             >
-                {(pagedItem, index) => {
+                {(pagedItem) => {
                     const game = pagedItem.item;
                     if (!game) return null;
 
@@ -108,7 +126,7 @@ export function SearchResults({
             </For>
 
             {/* Infinite scroll trigger */}
-            {results?.pageMetadata?.nextPageCursor && (
+            {hasNextPage && (
                 <GridItem
                     ref={ref}
                     display="flex"
@@ -124,42 +142,23 @@ export function SearchResults({
     );
 }
 
-const withAlpha = (rgb: string | null, alpha: number) => {
-    if (!rgb) return `rgba(0,0,0,0)`;
-    return rgb.replace("rgb(", "rgba(").replace(")", `, ${alpha})`);
-};
-
 type CardProps = {
     item: GameItem | null;
 };
 const ExplorerCard = ({ item }: CardProps) => {
     const imageUrl = getIGDBImageUrl(item?.coverUrl, "1080p", false);
-    const { dominantColor, darkerColor, lighterColor } = useExtractColors(
-        imageUrl,
-        {
-            format: "rgba",
-            maxColors: 3,
-            orderBy: "vibrance",
-        }
-    );
-
-    const dom66 = withAlpha(dominantColor, 0.6);
-    const dom33 = withAlpha(dominantColor, 0.3);
-    const dark44 = withAlpha(darkerColor, 0.4);
-    const dark55 = withAlpha(darkerColor, 0.55);
+    const { dominantColor, lighterColor } = useExtractColors(imageUrl, {
+        format: "rgba",
+        maxColors: 3,
+        sortBy: "vibrance",
+    });
 
     return (
         <Card.Root
             style={{
                 background: `
-            radial-gradient(circle at 50% 20%, ${withAlpha(
-                lighterColor,
-                0.95
-            )} 0%, ${dominantColor} 35%, transparent 65%),
-            radial-gradient(circle at 80% 80%, ${withAlpha(
-                dominantColor,
-                0.4
-            )} 0%, transparent 70%),
+            radial-gradient(circle at 50% 20%, ${dominantColor} 0%, ${dominantColor} 35%, transparent 65%),
+            radial-gradient(circle at 80% 80%, ${dominantColor} 0%, transparent 70%),
             linear-gradient(180deg, ${dominantColor}, rgba(12,12,16,0.95))
         `,
             }}
@@ -169,7 +168,7 @@ const ExplorerCard = ({ item }: CardProps) => {
             transition="all .25s"
             _hover={{
                 transform: "translateY(-4px)",
-                boxShadow: `0 18px 40px ${dark55}`,
+                boxShadow: `0 18px 40px ${lighterColor}`,
             }}
         >
             <Box aspectRatio="3/4" overflow="hidden">

@@ -19,5 +19,7 @@ public partial class PopularityType
 
     public long? ExternalPopularitySource { get; set; }
 
+    public virtual ICollection<GamePopularityLatest> GamePopularityLatests { get; set; } = new List<GamePopularityLatest>();
+
     public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
 }

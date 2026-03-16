@@ -10,7 +10,9 @@ export const searchQueryParamsSchema = z.object({
     "Name": z.optional(z.string()),
 "Genres": z.optional(z.array(z.string())),
 "Themes": z.optional(z.array(z.string())),
-"Modes": z.optional(z.array(z.string())),
+"GameModes": z.optional(z.array(z.string())),
+"MultiplayerModes": z.optional(z.array(z.string())),
+"PlayerPerspectives": z.optional(z.array(z.string())),
 "AfterCursor": z.optional(z.string()),
 "PageSize": z.coerce.number().int()
     })

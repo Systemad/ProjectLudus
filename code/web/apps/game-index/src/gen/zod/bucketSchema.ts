@@ -6,6 +6,6 @@
 import { z } from "zod/v4";
 
 export const bucketSchema = z.object({
-    "key": z.optional(z.string()),
-"doc_count": z.optional(z.int())
+    "key": z.string(),
+"doc_count": z.int()
     })

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CatalogAPI.Data;
 
-public partial class MartMultiplayerMode
+public partial class MultiplayerMode
 {
     public long Id { get; set; }
 
@@ -32,4 +32,6 @@ public partial class MartMultiplayerMode
     public long? Onlinecoopmax { get; set; }
 
     public long? Offlinecoopmax { get; set; }
+
+    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 }

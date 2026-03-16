@@ -18,7 +18,7 @@ var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", s
 var catalogDb = builder
     .AddPostgres(name: "catalog-primary", pgUsername, pgPassword)
     .WithHostPort(5433)
-    .WithImage(image: "paradedb/paradedb", tag: "v0.21.10-pg17")
+    .WithImage(image: "paradedb/paradedb", tag: "v0.22.0-pg17")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume("catalog-primary-data", isReadOnly: false)
     .WithEndpoint(

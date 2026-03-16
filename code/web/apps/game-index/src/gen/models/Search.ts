@@ -22,7 +22,15 @@ export type SearchQueryParams = {
     /**
      * @type array | undefined
     */
-    Modes?: string[];
+    GameModes?: string[];
+    /**
+     * @type array | undefined
+    */
+    MultiplayerModes?: string[];
+    /**
+     * @type array | undefined
+    */
+    PlayerPerspectives?: string[];
     /**
      * @type string | undefined
     */

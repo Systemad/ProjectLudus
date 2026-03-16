@@ -45,6 +45,8 @@ public partial class Company
 
     public virtual ICollection<Company> InverseParent { get; set; } = new List<Company>();
 
+    public virtual ICollection<InvolvedCompanyCompany> InvolvedCompanyCompanies { get; set; } = new List<InvolvedCompanyCompany>();
+
     public virtual CompanyLogo? LogoNavigation { get; set; }
 
     public virtual Company? Parent { get; set; }
@@ -56,10 +58,6 @@ public partial class Company
     public virtual CompanyStatus? StatusNavigation { get; set; }
 
     public virtual ICollection<GameEngine> GameEngines { get; set; } = new List<GameEngine>();
-
-    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> GamesNavigation { get; set; } = new List<Game>();
 
     public virtual ICollection<PlatformVersion> PlatformVersions { get; set; } = new List<PlatformVersion>();
 }

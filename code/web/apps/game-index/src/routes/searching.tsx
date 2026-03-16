@@ -1,10 +1,7 @@
 "use client";
 
 import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
-import {
-    getApiTagsAllTagsHook,
-    getApiTagsAllTagsQueryOptionsHook,
-} from "../gen";
+import { getApiTagsAllTagsQueryOptionsHook } from "../gen";
 import z from "zod/v4";
 import { SearchContainer } from "../Components/Search/SearchContainer";
 
@@ -12,7 +9,9 @@ const searchQueryParamsSchema2 = z.object({
     Name: z.string().optional(),
     Genres: z.array(z.string()).optional(),
     Themes: z.array(z.string()).optional(),
-    Modes: z.array(z.string()).optional(),
+    GameModes: z.array(z.string()).optional(),
+    MultiplayerModes: z.array(z.string()).optional(),
+    PlayerPerspectives: z.array(z.string()).optional(),
     AfterCursor: z.string().optional(),
     PageSize: z.number().int().catch(40).optional(),
 });
@@ -22,10 +21,11 @@ type SearchParams = z.infer<typeof searchQueryParamsSchema2>;
 export const Route = createFileRoute("/searching")({
     component: RouteComponent,
 
-    loader: async ({ context }) => {
+    loader: ({ context }) => {
         const { queryClient } = context;
 
-        await queryClient.ensureQueryData(getApiTagsAllTagsQueryOptionsHook());
+        // Prefetch without blocking route render; network issues should not blank the page.
+        void queryClient.prefetchQuery(getApiTagsAllTagsQueryOptionsHook());
     },
     validateSearch: searchQueryParamsSchema2,
     search: {
@@ -34,7 +34,9 @@ export const Route = createFileRoute("/searching")({
                 Name: "",
                 Genres: [],
                 Themes: [],
-                Modes: [],
+                GameModes: [],
+                MultiplayerModes: [],
+                PlayerPerspectives: [],
                 AfterCursor: "",
             }),
         ],

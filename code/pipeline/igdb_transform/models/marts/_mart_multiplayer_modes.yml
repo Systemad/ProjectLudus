@@ -4,7 +4,7 @@ models:
 
       config:
           contract: { enforced: true }
-
+          alias: "multiplayer_modes"
       constraints:
           - type: primary_key
             columns: [id]

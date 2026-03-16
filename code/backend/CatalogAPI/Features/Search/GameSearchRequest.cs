@@ -5,7 +5,9 @@ public sealed class GameSearchRequest
     public string? Name { get; init; }
     public string[]? Genres { get; init; } = [];
     public string[]? Themes { get; init; } = [];
-    public string[]? Modes { get; init; } = [];
+    public string[]? GameModes { get; init; } = [];
+    public string[]? MultiplayerModes { get; init; } = [];
+    public string[]? PlayerPerspectives { get; init; } = [];
     public string? AfterCursor { get; set; }
     public int PageSize { get; set; } = 40;
 }

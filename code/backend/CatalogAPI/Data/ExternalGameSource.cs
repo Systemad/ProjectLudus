@@ -17,5 +17,7 @@ public partial class ExternalGameSource
 
     public virtual ICollection<ExternalGame> ExternalGames { get; set; } = new List<ExternalGame>();
 
+    public virtual ICollection<GamePopularityLatest> GamePopularityLatests { get; set; } = new List<GamePopularityLatest>();
+
     public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
 }

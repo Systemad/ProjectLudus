@@ -65,9 +65,13 @@ public partial class Game
 
     public virtual ICollection<GameLocalization> GameLocalizations { get; set; } = new List<GameLocalization>();
 
+    public virtual ICollection<GamePopularityLatest> GamePopularityLatests { get; set; } = new List<GamePopularityLatest>();
+
     public virtual GameStatus? GameStatusNavigation { get; set; }
 
     public virtual GameType? GameTypeNavigation { get; set; }
+
+    public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
 
     public virtual ICollection<ReleaseDate> ReleaseDates { get; set; } = new List<ReleaseDate>();
 
@@ -79,10 +83,6 @@ public partial class Game
 
     public virtual ICollection<Game> BaseGames { get; set; } = new List<Game>();
 
-    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
-
-    public virtual ICollection<Company> CompaniesNavigation { get; set; } = new List<Company>();
-
     public virtual ICollection<Game> DlcGames { get; set; } = new List<Game>();
 
     public virtual ICollection<Franchise> Franchises { get; set; } = new List<Franchise>();
@@ -92,6 +92,10 @@ public partial class Game
     public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
     public virtual ICollection<Keyword> Keywords { get; set; } = new List<Keyword>();
+
+    public virtual ICollection<MultiplayerMode> MultiplayerModes { get; set; } = new List<MultiplayerMode>();
+
+    public virtual ICollection<Platform> Platforms { get; set; } = new List<Platform>();
 
     public virtual ICollection<PlayerPerspective> PlayerPerspectives { get; set; } = new List<PlayerPerspective>();
 

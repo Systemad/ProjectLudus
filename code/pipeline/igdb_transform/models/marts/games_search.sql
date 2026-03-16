@@ -48,17 +48,21 @@ with
     ),
     game_publishers as (
         select
-            gp.game_id, array_agg(distinct c.name order by c.name)::text[] as publishers
-        from {{ ref("bridge_game_publisher") }} gp
-        join {{ ref("mart_companies") }} c on gp.company_id = c.id
-        group by gp.game_id
+            ic.game as game_id,
+            array_agg(distinct c.name order by c.name)::text[] as publishers
+        from {{ ref("mart_involved_companies") }} ic
+        join {{ ref("mart_companies") }} c on ic.company = c.id
+        where ic.publisher = true
+        group by ic.game
     ),
     game_developers as (
         select
-            gd.game_id, array_agg(distinct c.name order by c.name)::text[] as developers
-        from {{ ref("bridge_game_developer") }} gd
-        join {{ ref("mart_companies") }} c on gd.company_id = c.id
-        group by gd.game_id
+            ic.game as game_id,
+            array_agg(distinct c.name order by c.name)::text[] as developers
+        from {{ ref("mart_involved_companies") }} ic
+        join {{ ref("mart_companies") }} c on ic.company = c.id
+        where ic.developer = true
+        group by ic.game
     ),
     game_multiplayer_flags as (
         select

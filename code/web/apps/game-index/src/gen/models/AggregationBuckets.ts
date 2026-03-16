@@ -8,15 +8,11 @@ import type { Bucket } from "./Bucket.ts";
 
 export type AggregationBuckets = {
     /**
-     * @type array | undefined
+     * @type array
     */
-    buckets?: Bucket[];
+    buckets: Bucket[];
     /**
-     * @type integer | undefined, int64
+     * @type integer, int64
     */
-    sum_other_doc_count?: number;
-    /**
-     * @type integer | undefined, int64
-    */
-    doc_count_error_upper_bound?: number;
+    sum_other_doc_count: number;
 };
