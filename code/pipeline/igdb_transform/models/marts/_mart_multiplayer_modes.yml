@@ -1,6 +1,14 @@
 version: 2
 models:
-    - name: multiplayer_modes
+    - name: mart_multiplayer_modes
+
+      config:
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
       description: ""
       columns:
           - name: id

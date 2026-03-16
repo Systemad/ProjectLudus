@@ -29,10 +29,8 @@ public static class SearchEndpoints
                 ) =>
                 {
                     IQueryable<GamesSearch> query = dbContext.GamesSearches.AsQueryable();
-
-                    var heyhey = await dbContext.GamesSearches.LongCountAsync();
-                    
                     IQueryable<GamesSearch> aggregatesQuery = dbContext.GamesSearches.AsQueryable();
+                    
                     bool hasSearch = false;
                     if (!string.IsNullOrWhiteSpace(req.Name))
                     {
@@ -76,8 +74,8 @@ public static class SearchEndpoints
                         .Select(x => new
                         {
                             Genres = EF.Functions.Aggregate(x.Themes, new TermsAggregate("genres"){MinDocCount = 0, Size = 25, Order = "asc"}),
-                            Themes = EF.Functions.Aggregate(x.Themes, new TermsAggregate("themes"){MinDocCount = 0, Size = 25, Order = "asc"}),
-                            Modes = EF.Functions.Aggregate(x.Themes, new TermsAggregate("modes"){MinDocCount = 0, Size = 25, Order = "asc"}),
+                            Themes = EF.Functions.Aggregate(x.Genres, new TermsAggregate("themes"){MinDocCount = 0, Size = 25, Order = "asc"}),
+                            Modes = EF.Functions.Aggregate(x.Modes, new TermsAggregate("modes"){MinDocCount = 0, Size = 25, Order = "asc"}),
                             Total = EF.Functions.Count(x.Id)
                         })
                         .FirstOrDefaultAsync(cancellationToken: token);

@@ -1,0 +1,30 @@
+version: 2
+models:
+    - name: bridge_game_multiplayer_mode
+
+      config:
+          contract: { enforced: true }
+          alias: "game_multiplayer_mode"
+
+      constraints:
+          - type: primary_key
+            columns: [game_id, multiplayer_mode_id]
+
+          - type: foreign_key
+            columns: [game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [multiplayer_mode_id]
+            to: ref('mart_multiplayer_modes')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: game_id
+            data_type: bigint
+            description: ""
+          - name: multiplayer_mode_id
+            data_type: bigint
+            description: ""
