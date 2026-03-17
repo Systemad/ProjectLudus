@@ -20,29 +20,27 @@ import {
     Flex,
 } from "@packages/ui";
 import { getIGDBImageUrl } from "../../utils/ImageHelper";
-import { useExtractColors } from "react-extract-colors";
+import { getCachedCardStyles } from "../../utils/CardStyleCache";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef } from "react";
 import type { UseInfiniteQueryResult } from "@tanstack/react-query";
 
 export interface SearchResultsProps {
     loading: boolean;
-    fetching: boolean;
-    hasNextPage: boolean | undefined;
-    isFetchingNextPage: boolean;
-    fetchNextPage: UseInfiniteQueryResult["fetchNextPage"];
+    hasNextPage?: boolean;
+    isFetchingNextPage?: boolean;
+    fetchNextPage?: UseInfiniteQueryResult["fetchNextPage"];
     results: SearchQueryResponse | null | undefined;
 }
 
 export function SearchResults({
     loading,
-    fetching,
-    hasNextPage,
-    isFetchingNextPage,
+    hasNextPage = false,
+    isFetchingNextPage = false,
     fetchNextPage,
     results,
 }: SearchResultsProps) {
-    const { ref, inView } = useInView();
+    const { ref, inView } = useInView({ rootMargin: "200px" });
     const hasTriggeredInViewRef = useRef(false);
 
     useEffect(() => {
@@ -52,23 +50,15 @@ export function SearchResults({
         }
 
         if (
-            !loading &&
-            !fetching &&
-            !isFetchingNextPage &&
             hasNextPage &&
+            fetchNextPage &&
+            !isFetchingNextPage &&
             !hasTriggeredInViewRef.current
         ) {
             hasTriggeredInViewRef.current = true;
-            void fetchNextPage();
+            fetchNextPage();
         }
-    }, [
-        fetchNextPage,
-        fetching,
-        hasNextPage,
-        inView,
-        isFetchingNextPage,
-        loading,
-    ]);
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     if (loading && !results) {
         return (
@@ -147,20 +137,12 @@ type CardProps = {
 };
 const ExplorerCard = ({ item }: CardProps) => {
     const imageUrl = getIGDBImageUrl(item?.coverUrl, "1080p", false);
-    const { dominantColor, lighterColor } = useExtractColors(imageUrl, {
-        format: "rgba",
-        maxColors: 3,
-        sortBy: "vibrance",
-    });
+    const { gradient, shadow } = getCachedCardStyles(imageUrl);
 
     return (
         <Card.Root
             style={{
-                background: `
-            radial-gradient(circle at 50% 20%, ${dominantColor} 0%, ${dominantColor} 35%, transparent 65%),
-            radial-gradient(circle at 80% 80%, ${dominantColor} 0%, transparent 70%),
-            linear-gradient(180deg, ${dominantColor}, rgba(12,12,16,0.95))
-        `,
+                background: gradient,
             }}
             border={"none"}
             rounded="2xl"
@@ -168,7 +150,7 @@ const ExplorerCard = ({ item }: CardProps) => {
             transition="all .25s"
             _hover={{
                 transform: "translateY(-4px)",
-                boxShadow: `0 18px 40px ${lighterColor}`,
+                boxShadow: shadow,
             }}
         >
             <Box aspectRatio="3/4" overflow="hidden">

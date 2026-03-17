@@ -14,7 +14,8 @@ export type SearchState = z.infer<typeof searchQueryParamsSchema>;
 
 const DEFAULT_PAGE_SIZE = 40;
 const defaultState: SearchState = {
-    PageSize: DEFAULT_PAGE_SIZE,
+    Page: 1,
+    Limit: DEFAULT_PAGE_SIZE,
 };
 
 export const searchStore = new Store<SearchState>(defaultState);

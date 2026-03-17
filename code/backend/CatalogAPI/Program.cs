@@ -1,14 +1,9 @@
-using System.Text.Json;
 using System.Text.Json.Serialization;
-using CatalogAPI;
 using CatalogAPI.Context;
-using CatalogAPI.Data;
 using CatalogAPI.Features.Search;
 using CatalogAPI.Features.Tags;
 using CatalogAPI.Models;
 using EFCore.ParadeDB.PgSearch;
-using Jameak.CursorPagination;
-using Jameak.CursorPagination.Enums;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
@@ -47,6 +42,7 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
         builder.Configuration.GetConnectionString("catalogdev"),
         np =>
         {
+            np.CommandTimeout(30);
             np.UseNodaTime();
             np.ConfigureDataSource(ds =>
             {

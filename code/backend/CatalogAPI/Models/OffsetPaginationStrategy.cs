@@ -16,8 +16,16 @@ ORDER BY pdb.score(g0."Id") DESC, g0."Id"
 LIMIT 20
  */
 // Configure Offset source generation
-[OffsetPaginationStrategy(typeof(GamesSearch))]
-[PaginationProperty(Order: 1, nameof(GamesSearch.Id), PaginationOrdering.Ascending)]
+
+/*
+ *
+ * [KeySetPaginationStrategy(typeof(GameSearchFacet), CursorSerialization: KeySetCursorSerializerGeneration.UseSystemTextJson)]
+[PaginationProperty(Order: 0, nameof(GameSearchFacet.Id), PaginationOrdering.Descending)]
+[PaginationProperty(Order: 1, nameof(GameSearchFacet.Score), PaginationOrdering.Descending)]
+ */
+[OffsetPaginationStrategy(typeof(GameSearchFacet))]
+[PaginationProperty(Order: 0, nameof(GameSearchFacet.Id), PaginationOrdering.Descending)]
+[PaginationProperty(Order: 1, nameof(GameSearchFacet.Score), PaginationOrdering.Descending)]
 public partial class OffsetPaginationStrategy
 {
     

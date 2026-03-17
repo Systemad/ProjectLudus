@@ -26,19 +26,19 @@ export type SearchQueryParams = {
     /**
      * @type array | undefined
     */
-    MultiplayerModes?: string[];
+    Multiplayer?: string[];
     /**
      * @type array | undefined
     */
-    PlayerPerspectives?: string[];
-    /**
-     * @type string | undefined
-    */
-    AfterCursor?: string;
+    Perspectives?: string[];
     /**
      * @type integer, int32
     */
-    PageSize: number;
+    Page: number;
+    /**
+     * @type integer, int32
+    */
+    Limit: number;
 };
 
 /**

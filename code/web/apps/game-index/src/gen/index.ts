@@ -2,7 +2,6 @@ export type { GetApiTagsAllTagsQueryKey } from "./hooks/api/useGetApiTagsAllTags
 export type { GetApiTagsAllTagsSuspenseQueryKey } from "./hooks/api/useGetApiTagsAllTagsSuspenseHook.ts";
 export type { GetApiTagsAllTagsSuspenseInfiniteQueryKey } from "./hooks/api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
 export type { SearchQueryKey } from "./hooks/api/useSearchHook.ts";
-export type { SearchInfiniteQueryKey } from "./hooks/api/useSearchInfiniteHook.ts";
 export type { SearchSuspenseQueryKey } from "./hooks/api/useSearchSuspenseHook.ts";
 export type { SearchSuspenseInfiniteQueryKey } from "./hooks/api/useSearchSuspenseInfiniteHook.ts";
 export type { AggregationBuckets } from "./models/AggregationBuckets.ts";
@@ -31,10 +30,6 @@ export { searchHook } from "./hooks/api/useSearchHook.ts";
 export { searchQueryKey } from "./hooks/api/useSearchHook.ts";
 export { searchQueryOptionsHook } from "./hooks/api/useSearchHook.ts";
 export { useSearchHook } from "./hooks/api/useSearchHook.ts";
-export { searchInfiniteHook } from "./hooks/api/useSearchInfiniteHook.ts";
-export { searchInfiniteQueryKey } from "./hooks/api/useSearchInfiniteHook.ts";
-export { searchInfiniteQueryOptionsHook } from "./hooks/api/useSearchInfiniteHook.ts";
-export { useSearchInfiniteHook } from "./hooks/api/useSearchInfiniteHook.ts";
 export { searchSuspenseHook } from "./hooks/api/useSearchSuspenseHook.ts";
 export { searchSuspenseQueryKey } from "./hooks/api/useSearchSuspenseHook.ts";
 export { searchSuspenseQueryOptionsHook } from "./hooks/api/useSearchSuspenseHook.ts";
