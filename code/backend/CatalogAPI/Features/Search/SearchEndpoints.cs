@@ -1,4 +1,3 @@
-using System.Text.Json;
 using CatalogAPI.Context;
 using CatalogAPI.Data;
 using CatalogAPI.Features.Tags;
@@ -50,7 +49,9 @@ public static class SearchEndpoints
                     bool hasSearch = false;
                     if (!string.IsNullOrWhiteSpace(req.Name))
                     {
-                        query = query.Where(g => EF.Functions.MatchDisjunction(g.Name, req.Name.ToLower()));
+                        query = query.Where(g =>
+                            EF.Functions.MatchDisjunction(g.Name, req.Name.ToLower())
+                        );
                         aggregatesQuery = aggregatesQuery.Where(g =>
                             EF.Functions.MatchDisjunction(g.Name, req.Name.ToLower())
                         );
@@ -73,7 +74,9 @@ public static class SearchEndpoints
                     {
                         foreach (var term in req.GameModes)
                         {
-                            query = query.Where(p => EF.Functions.Term(p.GameModes, term.ToLower()));
+                            query = query.Where(p =>
+                                EF.Functions.Term(p.GameModes, term.ToLower())
+                            );
                             aggregatesQuery = aggregatesQuery.Where(p =>
                                 EF.Functions.Term(p.GameModes, term.ToLower())
                             );
@@ -96,7 +99,9 @@ public static class SearchEndpoints
                     {
                         foreach (var term in req.Multiplayer)
                         {
-                            query = query.Where(p => EF.Functions.Term(p.MultiplayerModes, term.ToLower()));
+                            query = query.Where(p =>
+                                EF.Functions.Term(p.MultiplayerModes, term.ToLower())
+                            );
                             aggregatesQuery = aggregatesQuery.Where(p =>
                                 EF.Functions.Term(p.MultiplayerModes, term.ToLower())
                             );
@@ -108,7 +113,9 @@ public static class SearchEndpoints
                     {
                         foreach (var term in req.Perspectives)
                         {
-                            query = query.Where(p => EF.Functions.Term(p.PlayerPerspectives, term.ToLower()));
+                            query = query.Where(p =>
+                                EF.Functions.Term(p.PlayerPerspectives, term.ToLower())
+                            );
                             aggregatesQuery = aggregatesQuery.Where(p =>
                                 EF.Functions.Term(p.PlayerPerspectives, term.ToLower())
                             );
@@ -116,7 +123,7 @@ public static class SearchEndpoints
                         hasSearch = true;
                     }
 
-                    var aggregates = await aggregatesQuery
+                    var rawAggregates = await aggregatesQuery
                         .Where(g => EF.Functions.All(g.Id))
                         .Select(x => new
                         {
@@ -169,26 +176,18 @@ public static class SearchEndpoints
                         })
                         .FirstOrDefaultAsync(cancellationToken: token);
 
-                    var aggregationBucketsDictionary = new Dictionary<string, AggregationBuckets>
-                    {
-                        [TagKeys.GENRES] = JsonSerializer.Deserialize<AggregationBuckets>(
-                            aggregates!.Genres
-                        )!,
-                        [TagKeys.THEMES] = JsonSerializer.Deserialize<AggregationBuckets>(
-                            aggregates!.Themes
-                        )!,
-                        [TagKeys.GAME_MODES] = JsonSerializer.Deserialize<AggregationBuckets>(
-                            aggregates!.GameModes
-                        )!,
-                        [TagKeys.MULTIPLAYER_MODES] =
-                            JsonSerializer.Deserialize<AggregationBuckets>(
-                                aggregates!.MultiPlayerModes
-                            )!,
-                        [TagKeys.PLAYER_PERSPECTIVE] =
-                            JsonSerializer.Deserialize<AggregationBuckets>(
-                                aggregates!.PlayerPerspective
-                            )!,
-                    };
+                    var aggregates = rawAggregates is null
+                        ? null
+                        : new SearchAggregateResult(
+                            rawAggregates.Genres,
+                            rawAggregates.Themes,
+                            rawAggregates.GameModes,
+                            rawAggregates.MultiPlayerModes,
+                            rawAggregates.PlayerPerspective,
+                            rawAggregates.Total
+                        );
+
+                    var aggregationBuckets = FacetGroupBuilder.Build(req, aggregates);
                     IQueryable<GameSearchFacet> rows;
 
                     if (hasSearch)
@@ -255,15 +254,16 @@ public static class SearchEndpoints
                         pageSize: 40,
                         computeTotalCount: ComputeTotalCount.Never,
                         computeNextPage: ComputeNextPage.EveryPageAndPreventNextPageQueryOnLastPage,
-                        cancellationToken: token);
+                        cancellationToken: token
+                    );
 
                     var pageMetadata = new PageMetadata
                     {
                         HasNextPage = page.HasNextPage!.Value,
                         HasPreviousPage = await page.HasPreviousPageAsync(),
-                        NextPageCursor = page.NextCursor?.CursorToString()
+                        NextPageCursor = page.NextCursor?.CursorToString(),
                     };
-                    
+
                     var data = page
                         .Items.Select(item => new PagedItem<GameItem>()
                         {
@@ -273,10 +273,10 @@ public static class SearchEndpoints
                         .ToList();
 
                     return new SearchResponse<GameItem>(
-                        TotalCount: aggregates.Total,
+                        TotalCount: aggregates?.Total ?? 0,
                         PageSize: req.Limit,
                         Data: data,
-                        AggregationBuckets: aggregationBucketsDictionary,
+                        AggregationBuckets: aggregationBuckets,
                         PageMetadata: pageMetadata
                     );
                 }

@@ -1,5 +1,6 @@
 export type { AggregationBuckets } from "./AggregationBuckets.ts";
 export type { Bucket } from "./Bucket.ts";
+export type { FacetGroupResponse } from "./FacetGroupResponse.ts";
 export type { FullTag } from "./FullTag.ts";
 export type { GameItem } from "./GameItem.ts";
 export type { GetApiTagsAllTags200, GetApiTagsAllTagsQuery, GetApiTagsAllTagsQueryResponse } from "./GetApiTagsAllTags.ts";

@@ -1,0 +1,37 @@
+version: 2
+models:
+    - name: mart_age_rating_categories
+
+      config:
+          alias: age_rating_categories
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: foreign_key
+            columns: [organization]
+            to: ref('mart_age_rating_organizations')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: rating
+            data_type: character varying
+            description: ""
+          - name: organization
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""

@@ -1,0 +1,29 @@
+version: 2
+models:
+    - name: bridge_game_genre
+
+      config:
+          contract: { enforced: true }
+          alias: "game_genre"
+      constraints:
+          - type: primary_key
+            columns: [game_id, genre_id]
+
+          - type: foreign_key
+            columns: [game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [genre_id]
+            to: ref('mart_genres')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: game_id
+            data_type: bigint
+            description: ""
+          - name: genre_id
+            data_type: bigint
+            description: ""

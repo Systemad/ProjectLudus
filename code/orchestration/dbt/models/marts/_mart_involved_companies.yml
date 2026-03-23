@@ -1,0 +1,42 @@
+version: 2
+models:
+    - name: mart_involved_companies
+      config:
+          enabled: true
+          contract: { enforced: true }
+          alias: "involved_companies"
+      constraints:
+          - type: primary_key
+            columns: [id]
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: company
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: developer
+            data_type: boolean
+            description: ""
+          - name: game
+            data_type: bigint
+            description: ""
+          - name: porting
+            data_type: boolean
+            description: ""
+          - name: publisher
+            data_type: boolean
+            description: ""
+          - name: supporting
+            data_type: boolean
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""

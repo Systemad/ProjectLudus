@@ -61,12 +61,14 @@ export default defineConfig({
             mutation: {
                 methods: ["post", "put", "delete"],
             },
+            /*
             infinite: {
                 queryParam: "AfterCursor",
                 initialPageParam: undefined,
                 nextParam: "pageMetadata.nextPageCursor",
                 //cursorParam: "data.pageInfo.nextPageCursor",
             },
+            */
             paramsType: "object",
             pathParamsType: "object",
 

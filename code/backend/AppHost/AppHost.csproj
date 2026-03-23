@@ -9,12 +9,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CatalogAPI\CatalogAPI.csproj" />
+    <ProjectReference Include="..\PlayAPI\PlayAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
     <PackageReference Include="Aspire.Hosting.Yarp" />
     <PackageReference Include="Aspire.Hosting.JavaScript" />
     <PackageReference Include="Aspire.Hosting.Docker" />
+    <PackageReference Include="Aspire.Hosting.Python" />
   </ItemGroup>
 </Project>

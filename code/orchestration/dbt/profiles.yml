@@ -1,0 +1,24 @@
+catalog:
+    outputs:
+        dev:
+            dbname: catalogdev
+            host: localhost
+            pass: PQDF13*7dpR-Q77nmQZh*3
+            port: 5433
+            schema: dbt_dev
+            threads: 2
+            type: postgres
+            user: postgres
+    target: dev
+dbt:
+    outputs:
+        dev:
+            dbname: catalogdev
+            host: localhost
+            pass: PQDF13*7dpR-Q77nmQZh*3
+            port: 5433
+            schema: public
+            threads: 2
+            type: postgres
+            user: postgres
+    target: dev

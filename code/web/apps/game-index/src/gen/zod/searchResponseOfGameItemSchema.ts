@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import { aggregationBucketsSchema } from "./aggregationBucketsSchema.ts";
+import { facetGroupResponseSchema } from "./facetGroupResponseSchema.ts";
 import { pageMetadataSchema } from "./pageMetadataSchema.ts";
 import { pagedItemOfGameItemSchema } from "./pagedItemOfGameItemSchema.ts";
 import { z } from "zod/v4";
@@ -14,9 +14,9 @@ export const searchResponseOfGameItemSchema = z.object({
 get "data"(){
                 return z.array(pagedItemOfGameItemSchema)
               },
-"aggregationBuckets": z.object({
-    
-    }).catchall(z.lazy(() => aggregationBucketsSchema)),
+get "aggregationBuckets"(){
+                return z.array(facetGroupResponseSchema)
+              },
 get "pageMetadata"(){
                 return pageMetadataSchema
               }

@@ -1,3 +1,5 @@
+import os
+
 import dlt
 from dlt.common.schema import TColumnSchema
 from dlt.sources.helpers.rest_client.auth import BearerTokenAuth
@@ -10,9 +12,6 @@ from endpoints import Endpoints
 dlt_table_schema: dict[str, TColumnSchema] = {
     "updated_at": {"data_type": "bigint", "dedup_sort": "desc"}
 }
-# TODO: https://dlthub.com/docs/general-usage/merge-loading#example-incremental-scd2
-# "write_disposition": {"disposition": "merge", "strategy": "scd2"},
-# "columns": dlt_table_schema,
 
 popularity = rest_api_source(
     name="igdb_popularity",
@@ -301,15 +300,17 @@ def load_igdb():
 
     print(load_info_pop)
     print(load_info_default)
-    # print(load_info_default)
-    # venv = dlt.dbt.get_venv(pipeline)
-    #
-    # dbt = dlt.dbt.package(
-    #    pipeline=pipeline,
-    #    package_location="../igdb_transform",  # path where your dbt project exists
-    #    venv=venv,
-    # )
-    # models = dbt.run_all()
+
+    dbt = dlt.dbt.package(
+        pipeline=pipeline,
+        package_location="../igdb_transform",
+    )
+    run_params: list[str] = (
+        ["--full-refresh"] if os.environ.get("DBT_FULL_REFRESH") else []
+    )
+    models = dbt.run_all(run_params=run_params)
+    for model in models:
+        print(model)
 
 
 if __name__ == "__main__":

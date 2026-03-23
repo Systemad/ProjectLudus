@@ -202,7 +202,7 @@ export const MobileMenu = () => {
                                     }}
                                 >
                                     <RouterLink
-                                        to="/faceted"
+                                        to="/"
                                         onClick={onClose}
                                         style={{
                                             textDecoration: "none",
@@ -229,7 +229,7 @@ export const MobileMenu = () => {
                                 </List.Item>
                             ))}
                         </List.Root>
-                        <Accordion.Root toggle multiple={true}>
+                        <Accordion.Root multiple>
                             <Accordion.Item index={0}>
                                 <Accordion.Button
                                     fontSize={"md"}

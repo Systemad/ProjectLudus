@@ -1,9 +1,13 @@
+using Aspire.Hosting.Docker.Resources.ServiceNodes.Swarm;
 using Aspire.Hosting.Yarp.Transforms;
+
 // HTTPS
-// "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23015", 
+// "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23015",
 // HTTP
 // "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "http://localhost:18046",
+
 var builder = DistributedApplication.CreateBuilder(args);
+
 builder
     .AddDockerComposeEnvironment("env")
     .WithDashboard(db => db.WithHostPort(8085))
@@ -12,10 +16,11 @@ builder
         file.Name = "game-index";
     });
 
+var typesenseMasterKey = builder.AddParameter("TYPESENSE-MASTER-KEY");
 var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
 var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
 
-var catalogDb = builder
+var postgres = builder
     .AddPostgres(name: "catalog-primary", pgUsername, pgPassword)
     .WithHostPort(5433)
     .WithImage(image: "paradedb/paradedb", tag: "v0.22.0-pg17")
@@ -29,36 +34,56 @@ var catalogDb = builder
             ep.TargetPort = 5432;
             ep.IsProxied = false;
         }
+    );
+
+var catalogDb = postgres.AddDatabase("catalogdev");
+var playDb = postgres.AddDatabase("playdev");
+
+var typesense = builder
+    .AddContainer("typesense", "typesense/typesense:30.2.rc9")
+    .WithEndpoint(
+        "http",
+        c =>
+        {
+            c.Port = 8108;
+            c.TargetPort = 8108;
+        }
     )
-    .AddDatabase("catalogdev");
+    .WithBindMount("../../typesense-data", "/data")
+    .WithArgs(
+        "--data-dir",
+        "/data",
+        "--api-key=typesense-index-gaming",
+        "--enable-cors",
+        "--enable-search-analytics",
+        "--analytics-dir",
+        "/data/analytics",
+        "--analytics-minute-rate-limit",
+        "500"
+    )
+    .WithEnvironment("typesenseApiKey", typesenseMasterKey)
+    .PublishAsDockerComposeService(
+        (resource, service) =>
+        {
+            service.Name = "typesense";
+            service.Restart = "on-failure";
+        }
+    );
 
 var api = builder
-    .AddProject<Projects.CatalogAPI>("catalogapi")
-    .WaitFor(catalogDb)
-    .WithReference(catalogDb);
-
-//.WithExternalHttpEndpoints();
+    .AddProject<Projects.PlayAPI>("playapi")
+    .WaitFor(playDb)
+    .WithReference(playDb)
+    //.WithReference(typesense)
+    .WithExplicitStart();
 
 var frontend = builder
     .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
     .WithPnpm()
     .WithReference(api)
-    .WaitFor(api);
-    
-    //.WithUrl("", "Game Index");
+    .WaitFor(api)
+    .WithExplicitStart();
 
-/*
-.WithEndpoint(
-    endpointName: "http",
-    endpoint =>
-    {
-        endpoint.Port = builder.ExecutionContext.IsRunMode ? 5173 : null;
-    }
-);
-*/
-
-//if (builder.ExecutionContext.IsPublishMode)
-//{
 builder
     .AddYarp("frontend-server")
     .WithExternalHttpEndpoints()
@@ -66,12 +91,7 @@ builder
     .WithConfiguration(yarp =>
     {
         // Always proxy /api requests to backend
-        yarp.AddRoute("/api/{**catch-all}", api); //.WithTransformPathRemovePrefix("/api");
+        yarp.AddRoute("/api/{**catch-all}", api);
     });
-    
-    //.WithExplicitStart();
 
-//.WithExternalHttpEndpoints()
-
-//}
 builder.Build().Run();

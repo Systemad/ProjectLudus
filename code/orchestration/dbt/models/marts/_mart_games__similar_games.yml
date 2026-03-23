@@ -1,0 +1,10 @@
+version: 2
+models:
+    - name: mart_games__similar_games
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: value
+            data_type: bigint
+            description: ""

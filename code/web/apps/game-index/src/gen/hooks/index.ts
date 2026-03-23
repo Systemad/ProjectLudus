@@ -1,9 +1,7 @@
 export type { GetApiTagsAllTagsQueryKey } from "./api/useGetApiTagsAllTagsHook.ts";
 export type { GetApiTagsAllTagsSuspenseQueryKey } from "./api/useGetApiTagsAllTagsSuspenseHook.ts";
-export type { GetApiTagsAllTagsSuspenseInfiniteQueryKey } from "./api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
 export type { SearchQueryKey } from "./api/useSearchHook.ts";
 export type { SearchSuspenseQueryKey } from "./api/useSearchSuspenseHook.ts";
-export type { SearchSuspenseInfiniteQueryKey } from "./api/useSearchSuspenseInfiniteHook.ts";
 export { getApiTagsAllTagsHook } from "./api/useGetApiTagsAllTagsHook.ts";
 export { getApiTagsAllTagsQueryKey } from "./api/useGetApiTagsAllTagsHook.ts";
 export { getApiTagsAllTagsQueryOptionsHook } from "./api/useGetApiTagsAllTagsHook.ts";
@@ -12,10 +10,6 @@ export { getApiTagsAllTagsSuspenseHook } from "./api/useGetApiTagsAllTagsSuspens
 export { getApiTagsAllTagsSuspenseQueryKey } from "./api/useGetApiTagsAllTagsSuspenseHook.ts";
 export { getApiTagsAllTagsSuspenseQueryOptionsHook } from "./api/useGetApiTagsAllTagsSuspenseHook.ts";
 export { useGetApiTagsAllTagsSuspenseHook } from "./api/useGetApiTagsAllTagsSuspenseHook.ts";
-export { getApiTagsAllTagsSuspenseInfiniteHook } from "./api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
-export { getApiTagsAllTagsSuspenseInfiniteQueryKey } from "./api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
-export { getApiTagsAllTagsSuspenseInfiniteQueryOptionsHook } from "./api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
-export { useGetApiTagsAllTagsSuspenseInfiniteHook } from "./api/useGetApiTagsAllTagsSuspenseInfiniteHook.ts";
 export { searchHook } from "./api/useSearchHook.ts";
 export { searchQueryKey } from "./api/useSearchHook.ts";
 export { searchQueryOptionsHook } from "./api/useSearchHook.ts";
@@ -24,7 +18,3 @@ export { searchSuspenseHook } from "./api/useSearchSuspenseHook.ts";
 export { searchSuspenseQueryKey } from "./api/useSearchSuspenseHook.ts";
 export { searchSuspenseQueryOptionsHook } from "./api/useSearchSuspenseHook.ts";
 export { useSearchSuspenseHook } from "./api/useSearchSuspenseHook.ts";
-export { searchSuspenseInfiniteHook } from "./api/useSearchSuspenseInfiniteHook.ts";
-export { searchSuspenseInfiniteQueryKey } from "./api/useSearchSuspenseInfiniteHook.ts";
-export { searchSuspenseInfiniteQueryOptionsHook } from "./api/useSearchSuspenseInfiniteHook.ts";
-export { useSearchSuspenseInfiniteHook } from "./api/useSearchSuspenseInfiniteHook.ts";

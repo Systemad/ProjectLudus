@@ -5,3 +5,4 @@ packages:
 onlyBuiltDependencies:
   - es5-ext
   - esbuild
+  - typesense-instantsearch-adapter

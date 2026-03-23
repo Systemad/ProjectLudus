@@ -8,14 +8,7 @@ import type { SVGProps } from "react";
 
 const NavigationMenuRootStyled = styled(NavigationMenuPrimitive.Root, {
     base: {
-        //backgroundColor: "transparent",
         padding: 0,
-
-        //backgroundColor: "bg.float",
-        //borderRadius: "0.5rem",
-        //padding: "0.25rem",
-        //minWidth: "max-content",
-        //width: "100%",
         maxWidth: "100%",
     },
 });
@@ -24,28 +17,19 @@ const NavigationMenuListStyled = styled(NavigationMenuPrimitive.List, {
     base: {
         display: "flex",
         alignItems: "center",
-        //padding: "0.25rem",
-        borderRadius: "0.5rem",
+        padding: "1",
+        borderRadius: "xl",
         backdropBlur: "xl",
         zIndex: 10,
         backgroundColor: "bg.float",
-        //backgroundColor: "bg.float",
-        /*
-        display: "flex",
-        listStyle: "none",
-        padding: 0,
-        margin: 0,
-        width: "100%",
-        */
+        border: "1px solid",
+        borderColor: "border.subtle",
     },
 });
 
 const NavigationMenuArrowStyled = styled(NavigationMenuPrimitive.Arrow, {
     base: {
         display: "flex",
-        //color: "bg.float",
-        //backgroundColor: "bg.float",
-        //position: "absolute",
         transition: "left calc(var(--duration)) var(--easing)",
 
         "&[data-side='top']": {
@@ -69,28 +53,21 @@ const NavigationMenuArrowStyled = styled(NavigationMenuPrimitive.Arrow, {
     },
 });
 
-// styles.ArrowFill
 const ArrowFill = styled("path", {
     base: {
-        fill: "canvas",
+        fill: "bg.float",
     },
 });
 
-// styles.ArrowOuterStroke
 const ArrowOuterStroke = styled("path", {
     base: {
-        "@media (prefers-color-scheme: light)": {
-            fill: "gray.200",
-        },
+        fill: "border.subtle",
     },
 });
 
-// styles.ArrowInnerStroke
 const ArrowInnerStroke = styled("path", {
     base: {
-        "@media (prefers-color-scheme: dark)": {
-            fill: "gray.300",
-        },
+        fill: "border.emphasized",
     },
 });
 export const ArrowSvg = forwardRef<SVGSVGElement, SVGProps<SVGSVGElement>>(
@@ -115,20 +92,28 @@ const NavigationMenuTriggerStyled = styled(NavigationMenuPrimitive.Trigger, {
         display: "flex",
         alignItems: "center",
         gap: "sm",
-        height: "2.5rem",
-        padding: "0 0.5rem",
-        borderRadius: "0.375rem",
+        height: "10",
+        paddingInline: "2",
+        borderRadius: "lg",
         border: "none",
-        backgroundColor: "var(--color-gray-50)",
+        backgroundColor: "bg.subtle",
+        color: "fg.base",
         fontWeight: 500,
         cursor: "pointer",
+        transition: "background-color .2s ease, color .2s ease",
+
+        "@media (hover: hover)": {
+            "&:hover": {
+                backgroundColor: "bg.muted",
+            },
+        },
 
         "&[data-popup-open]": {
-            backgroundColor: "var(--color-gray-100)",
+            backgroundColor: "bg.muted",
         },
 
         "&:focus-visible": {
-            outline: "2px solid var(--color-blue)",
+            outline: "2px solid var(--ui-colors-border-emphasized)",
             outlineOffset: "-1px",
         },
     },
@@ -155,20 +140,20 @@ const NavigationMenuContentStyled = styled(NavigationMenuPrimitive.Content, {
         "&[data-starting-style]": {
             opacity: 0,
             "&[data-activation-direction='left']": {
-                transform: "translateX(-40px)",
+                transform: "translateX(-6px)",
             },
             "&[data-activation-direction='right']": {
-                transform: "translateX(40px)",
+                transform: "translateX(6px)",
             },
         },
 
         "&[data-ending-style]": {
             opacity: 0,
             "&[data-activation-direction='left']": {
-                transform: "translateX(40px)",
+                transform: "translateX(6px)",
             },
             "&[data-activation-direction='right']": {
-                transform: "translateX(-40px)",
+                transform: "translateX(-6px)",
             },
         },
     },
@@ -179,8 +164,7 @@ const NavigationMenuPositionerStyled = styled(
     {
         base: {
             "--duration": "0.2s",
-            //"--easing": "cubic-bezier(0.22, 1, 0.36, 1)",
-            "--easing": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+            "--easing": "cubic-bezier(0.22, 1, 0.36, 1)",
             boxSizing: "border-box",
             width: "var(--positioner-width)",
             height: "var(--positioner-height)",
@@ -202,10 +186,12 @@ const NavigationMenuPositionerStyled = styled(
 
 const NavigationMenuPopupStyled = styled(NavigationMenuPrimitive.Popup, {
     base: {
-        backgroundColor: "bg.muted",
-        border: "1px solid var(--color-border-muted)",
-        borderRadius: "0.5rem",
-        boxShadow: "sm",
+        backgroundColor: "bg.float",
+        border: "1px solid",
+        borderColor: "border.subtle",
+        borderRadius: "xl",
+        boxShadow: "lg",
+        backdropBlur: "xl",
 
         width: "var(--popup-width)",
         height: "var(--popup-height)",
@@ -221,17 +207,14 @@ const NavigationMenuPopupStyled = styled(NavigationMenuPrimitive.Popup, {
 
         "&[data-starting-style]": {
             opacity: 0,
-            //transform: "scale(0.95)",
-            transform: "scale(0.5) translateY(-10px)",
+            transform: "scale(0.96) translateY(-2px)",
         },
 
         "&[data-ending-style]": {
             opacity: 0,
-            transform: "scale(0.5)",
+            transform: "scale(0.98)",
             transitionDuration: "0.1s",
             transitionTimingFunction: "ease-in",
-            //transform: "scale(0.95)",
-            //transitionDuration: "0.15s",
         },
     },
 });
@@ -251,38 +234,38 @@ const NavigationMenuLinkStyled = styled(NavigationMenuPrimitive.Link, {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "0.375rem",
-        height: "2.5rem",
-        padding: "0 0.875rem",
+        gap: "xs",
+        height: "10",
+        paddingInline: "3.5",
         margin: 0,
         outline: 0,
         border: "none",
-        borderRadius: "0.375rem",
-        backgroundColor: "var(--color-gray-50)",
+        borderRadius: "lg",
+        backgroundColor: "bg.subtle",
         fontFamily: "inherit",
         fontSize: "1rem",
         fontWeight: 500,
         lineHeight: "1.5rem",
-        color: "var(--color-gray-900)",
+        color: "fg.base",
         userSelect: "none",
         textDecoration: "none",
         "@media (max-width: 500px)": {
             fontSize: "0.925rem",
-            padding: "0 0.5rem",
+            paddingInline: "2",
         },
         "@media (hover: hover)": {
             "&:hover": {
-                backgroundColor: "var(--color-gray-100)",
+                backgroundColor: "bg.muted",
             },
         },
 
         "&[data-popup-open]": {
-            backgroundColor: "var(--color-gray-100)",
+            backgroundColor: "bg.muted",
         },
 
         "&:focus-visible": {
             position: "relative",
-            outline: "2px solid var(--color-blue)",
+            outline: "2px solid var(--ui-colors-border-emphasized)",
             outlineOffset: "-1px",
         },
     },
@@ -298,12 +281,12 @@ const NavigationMenu = React.forwardRef<
 
             <NavigationMenuPrimitive.Portal>
                 <NavigationMenuPositionerStyled
-                    sideOffset={10}
+                    sideOffset={8}
                     collisionPadding={{
-                        top: 5,
-                        bottom: 5,
-                        left: 20,
-                        right: 20,
+                        top: 8,
+                        bottom: 8,
+                        left: 12,
+                        right: 12,
                     }}
                     collisionAvoidance={{ side: "none" }}
                 >

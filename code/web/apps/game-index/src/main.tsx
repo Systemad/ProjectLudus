@@ -6,15 +6,9 @@ import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { UIProvider, defineConfig, extendTheme } from "@packages/ui";
 // import { my_theme } from "@packages/theme";
-import {
-    RouterProvider,
-    createRouter,
-    parseSearchWith,
-    stringifySearchWith,
-} from "@tanstack/react-router";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./QueryClient";
-import queryString from "query-string";
 // Create a new router instance
 
 /*
@@ -63,35 +57,7 @@ const extendedTheme = extendTheme({
         mono: '"Geist Mono", "Geist Mono Fallback"',
     },
     semanticTokens: {
-        colors: {
-            /*
-            black: {
-                base: "gray.90",
-                bg: "gray.800", // menu/panels
-                subtle: "gray.700", // inputs
-                muted: "gray.600", // hover
-                fg: "whiteAlpha.900",
-                contrast: "white",
-                ghost: "whiteAlpha.100",
-                outline: "gray.700",
-                solid: "black.700",
-            },
-            white: {
-                base: "#ffffff",
-                //base: "bg.float",
-                bg: "#161616",
-                contrast: "black",
-                emphasized: "white.400/50",
-                fg: "white.900",
-                ghost: "white.200/50",
-                muted: "white.300/50",
-                outline: "white.800",
-                solid: "white",
-                subtle: "white.200/50",
-            },
-        },
-        */
-        },
+        colors: {},
     },
     colors: {},
     styles: {
@@ -135,7 +101,7 @@ const router = createRouter({
     // defaultStructuralSharing: true,
     //defaultPendingMinMs: 0,
     //defaultPendingMs: 100,
-    scrollRestoration: true,
+    scrollRestoration: false,
     defaultViewTransition: {
         types: ({ fromLocation, toLocation }) => {
             let direction = "none";
@@ -159,7 +125,7 @@ const router = createRouter({
         },
     },
 });
-
+// TODO: KEEP SELECTED FILTETRS ALWAYS INTOP!
 const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
     const root = ReactDOM.createRoot(rootElement);

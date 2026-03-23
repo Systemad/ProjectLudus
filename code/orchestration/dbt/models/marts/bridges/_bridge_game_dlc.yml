@@ -1,0 +1,29 @@
+version: 2
+models:
+    - name: bridge_game_dlc
+
+      config:
+          contract: { enforced: true }
+          alias: "games_dlc"
+      constraints:
+          - type: primary_key
+            columns: [base_game_id, dlc_game_id]
+
+          - type: foreign_key
+            columns: [base_game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [dlc_game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: base_game_id
+            data_type: bigint
+            description: ""
+          - name: dlc_game_id
+            data_type: bigint
+            description: ""

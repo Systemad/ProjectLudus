@@ -1,0 +1,37 @@
+version: 2
+models:
+    - name: mart_platform_version_release_dates
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: date
+            data_type: bigint
+            description: ""
+          - name: human
+            data_type: character varying
+            description: ""
+          - name: m
+            data_type: bigint
+            description: ""
+          - name: y
+            data_type: bigint
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""
+          - name: date_format
+            data_type: bigint
+            description: ""
+          - name: release_region
+            data_type: bigint
+            description: ""

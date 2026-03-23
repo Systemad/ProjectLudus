@@ -1,0 +1,8 @@
+type: dagster_dlt.DltLoadCollectionComponent
+
+attributes:
+    loads:
+        - source: .loads.popularity
+          pipeline: .loads.popularity_pipeline
+        - source: .loads.default
+          pipeline: .loads.default_pipeline

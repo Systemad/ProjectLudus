@@ -4,7 +4,7 @@
 * Do not edit manually.
 */
 
-import type { AggregationBuckets } from "./AggregationBuckets.ts";
+import type { FacetGroupResponse } from "./FacetGroupResponse.ts";
 import type { PageMetadata } from "./PageMetadata.ts";
 import type { PagedItemOfGameItem } from "./PagedItemOfGameItem.ts";
 
@@ -22,11 +22,9 @@ export type SearchResponseOfGameItem = {
     */
     data: PagedItemOfGameItem[];
     /**
-     * @type object
+     * @type array
     */
-    aggregationBuckets: {
-        [key: string]: AggregationBuckets;
-    };
+    aggregationBuckets: FacetGroupResponse[];
     /**
      * @type object
     */

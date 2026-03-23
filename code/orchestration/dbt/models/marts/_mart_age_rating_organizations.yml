@@ -1,0 +1,29 @@
+version: 2
+models:
+    - name: mart_age_rating_organizations
+
+      config:
+          alias: age_rating_organizations
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: created_at
+            data_type: bigint
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            description: ""
+          - name: name
+            data_type: character varying
+            description: ""
+          - name: checksum
+            data_type: character varying
+            description: ""

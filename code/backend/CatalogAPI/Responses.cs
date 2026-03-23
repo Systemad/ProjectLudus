@@ -6,7 +6,7 @@ public record SearchResponse<T>(
     long TotalCount,
     int PageSize,
     List<PagedItem<T>> Data,
-    Dictionary<string, AggregationBuckets> AggregationBuckets,
+    List<FacetGroupResponse> AggregationBuckets,
     PageMetadata PageMetadata
 );
 

@@ -1,0 +1,10 @@
+version: 2
+models:
+    - name: mart_games__collections
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: value
+            data_type: bigint
+            description: ""

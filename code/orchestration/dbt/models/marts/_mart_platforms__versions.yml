@@ -1,0 +1,10 @@
+version: 2
+models:
+    - name: mart_platforms__versions
+      config:
+          enabled: false
+      description: ""
+      columns:
+          - name: value
+            data_type: bigint
+            description: ""

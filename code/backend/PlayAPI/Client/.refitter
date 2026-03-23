@@ -1,0 +1,11 @@
+{
+  "openApiPath": "./schema.yml",
+  "namespace": "PlayAPI.Client.TypesenseClient",
+  "multipleInterfaces": "ByEndpoint",
+    "naming": {
+      "useOpenApiTitle": false,
+      "interfaceName": "TypesenseClient"
+    },
+   "outputFolder": ".",
+   "outputFilename": "TypesenseClient.cs"
+}

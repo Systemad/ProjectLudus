@@ -1,5 +1,6 @@
 export { aggregationBucketsSchema } from "./aggregationBucketsSchema.ts";
 export { bucketSchema } from "./bucketSchema.ts";
+export { facetGroupResponseSchema } from "./facetGroupResponseSchema.ts";
 export { fullTagSchema } from "./fullTagSchema.ts";
 export { gameItemSchema } from "./gameItemSchema.ts";
 export { getApiTagsAllTags200Schema, getApiTagsAllTagsQueryResponseSchema } from "./getApiTagsAllTagsSchema.ts";

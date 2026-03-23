@@ -1,28 +1,10 @@
 import { defineConfig } from "vite";
 import type { Plugin } from "vite";
 import react from "@vitejs/plugin-react";
-import {
-    COLOR_MODE_STORAGE_KEY,
-    THEME_SCHEME_STORAGE_KEY,
-    getStorageScript,
-} from "@packages/ui";
+import { COLOR_MODE_STORAGE_KEY, getStorageScript } from "@packages/ui";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
-const target = process.env.CATALOGAPI_HTTPS || process.env.CATALOGAPI_HTTP;
-
-function injectThemeSchemeScript(): Plugin {
-    return {
-        name: "inject-theme-scheme-scripts",
-        transformIndexHtml(html) {
-            const content = getStorageScript(
-                "themeScheme",
-                THEME_SCHEME_STORAGE_KEY
-            )({ defaultValue: "base" });
-
-            return html.replace("<body>", `<body><script>${content}</script>`);
-        },
-    };
-}
+const target = "http://localhost:5141"; //process.env.CATALOGAPI_HTTPS || process.env.CATALOGAPI_HTTP;
 
 function injectColorModeScript(): Plugin {
     return {

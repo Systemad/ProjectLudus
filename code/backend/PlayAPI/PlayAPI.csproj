@@ -7,8 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="linq2db" />
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+        <PackageReference Include="EFCore.NamingConventions" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
+        <PackageReference Include="Scalar.AspNetCore" />
+        <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+        <PackageReference Include="Refit" />
     </ItemGroup>
 
 </Project>

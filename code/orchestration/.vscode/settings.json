@@ -1,0 +1,13 @@
+{
+    "python.terminal.useEnvFile": true,
+    "python.envFile": "${workspaceFolder}/.env",
+    "files.watcherExclude": {
+        "**/.local_defs_state/**": true
+    },
+    "files.exclude": {
+        "**/.local_defs_state": true
+    },
+    "search.exclude": {
+        "**/.local_defs_state": true
+    }
+}

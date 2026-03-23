@@ -1,0 +1,22 @@
+with
+    source as (select * from {{ source("igdb_source", "network_types") }}),
+
+    renamed as (
+
+        select
+            id,
+            created_at,
+            updated_at,
+            name,
+            event_networks,
+            checksum,
+            _dlt_load_id,
+            _dlt_id
+
+        from source
+
+    )
+
+select *
+from renamed
+where id is not null

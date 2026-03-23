@@ -1,5 +1,4 @@
 import {
-    createRootRoute,
     createRootRouteWithContext,
     Link,
     Outlet,
@@ -32,7 +31,6 @@ const RootLayout = () => (
     </Flex>
 );
 
-//export const Route = createRootRoute({ component: RootLayout });
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient;
 }>()({
