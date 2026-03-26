@@ -6,6 +6,7 @@ from dlt.sources.helpers.rest_client.paginators import OffsetPaginator
 from dlt.sources.rest_api import (
     rest_api_source,
 )
+from dlt_typesense import typesense
 from dotenv import load_dotenv
 
 from .endpoints import Endpoints
@@ -178,97 +179,97 @@ default = rest_api_source(
             Endpoints.COLLECTION_MEMBERSHIP_TYPES.value,
             Endpoints.COLLECTION_RELATIONS.value,
             Endpoints.COLLECTION_RELATION_TYPES.value,
-            # Endpoints.COLLECTION_TYPES.value,
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.COMPANIES.value,
-            #    "endpoint": {
-            #        "path": Endpoints.COMPANIES.value,
-            #        "params": {
-            #            "fields": "*,logo.*,websites.*",
-            #        },
-            #    },
-            # },
-            # Endpoints.COMPANY_STATUSES.value,
-            # Endpoints.DATE_FORMATS.value,
-            # Endpoints.EVENTS.value,
-            # Endpoints.EVENT_LOGOS.value,
-            # Endpoints.EVENT_NETWORKS.value,
-            # Endpoints.EXTERNAL_GAME_SOURCES.value,
-            # Endpoints.FRANCHISES.value,
-            # Endpoints.GAME_MODES.value,
-            # Endpoints.GAME_RELEASE_FORMATS.value,
-            # Endpoints.GAME_STATUSES.value,
-            # Endpoints.GAME_TIME_TO_BEATS.value,
-            # Endpoints.GAME_TYPES.value,
-            # Endpoints.GAME_VERSIONS.value,
-            # Endpoints.GAME_VERSION_FEATURES.value,
-            # Endpoints.GAME_VERSION_FEATURE_VALUES.value,
-            # Endpoints.GENRES.value,
-            # Endpoints.KEYWORDS.value,
-            # Endpoints.LANGUAGES.value,
-            # Endpoints.LANGUAGE_SUPPORT_TYPES.value,
-            # Endpoints.NETWORK_TYPES.value,
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.PLATFORMS.value,
-            #    "endpoint": {
-            #        "path": Endpoints.PLATFORMS.value,
-            #        "params": {
-            #            "fields": "*,platform_family.*,platform_logo.*,platform_type.*",
-            #        },
-            #    },
-            # },
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.PLATFORM_VERSIONS.value,
-            #    "endpoint": {
-            #        "path": Endpoints.PLATFORM_VERSIONS.value,
-            #        "params": {
-            #            "fields": "*",
-            #        },
-            #    },
-            # },
-            # Endpoints.PLATFORM_VERSION_COMPANIES.value,
-            # Endpoints.PLATFORM_VERSION_RELEASE_DATES.value,
-            # Endpoints.PLAYER_PERSPECTIVES.value,
-            # Endpoints.REGIONS.value,
-            # Endpoints.RELEASE_DATE_REGIONS.value,
-            # Endpoints.RELEASE_DATE_STATUSES.value,
-            # Endpoints.THEMES.value,
-            # Endpoints.PLATFORM_WEBSITES.value,
-            # Endpoints.POPULARITY_TYPES.value,
-            # Endpoints.WEBSITE_TYPES.value,
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.GAME_LOCALIZATIONS.value,
-            #    "endpoint": {
-            #        "path": Endpoints.GAME_LOCALIZATIONS.value,
-            #        "params": {
-            #            "fields": "*,cover.*,region.*",
-            #        },
-            #    },
-            # },
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.GAME_ENGINES.value,
-            #    "endpoint": {
-            #        "path": Endpoints.GAME_ENGINES.value,
-            #        "params": {
-            #            "fields": "*,logo.*",
-            #        },
-            #    },
-            # },
-            # {
-            #    "max_table_nesting": 1,
-            #    "name": Endpoints.GAMES.value,
-            #    "endpoint": {
-            #        "path": Endpoints.GAMES.value,
-            #        "params": {
-            #            "fields": "*,age_ratings.*,artworks.*,alternative_names.*,game_localizations.*,external_games.*,websites.*,release_dates.*,cover.*,screenshots.*,multiplayer_modes.*,language_supports.*,involved_companies.*,videos.*",
-            #        },
-            #    },
-            # },
+            Endpoints.COLLECTION_TYPES.value,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.COMPANIES.value,
+                "endpoint": {
+                    "path": Endpoints.COMPANIES.value,
+                    "params": {
+                        "fields": "*,logo.*,websites.*",
+                    },
+                },
+            },
+            Endpoints.COMPANY_STATUSES.value,
+            Endpoints.DATE_FORMATS.value,
+            Endpoints.EVENTS.value,
+            Endpoints.EVENT_LOGOS.value,
+            Endpoints.EVENT_NETWORKS.value,
+            Endpoints.EXTERNAL_GAME_SOURCES.value,
+            Endpoints.FRANCHISES.value,
+            Endpoints.GAME_MODES.value,
+            Endpoints.GAME_RELEASE_FORMATS.value,
+            Endpoints.GAME_STATUSES.value,
+            Endpoints.GAME_TIME_TO_BEATS.value,
+            Endpoints.GAME_TYPES.value,
+            Endpoints.GAME_VERSIONS.value,
+            Endpoints.GAME_VERSION_FEATURES.value,
+            Endpoints.GAME_VERSION_FEATURE_VALUES.value,
+            Endpoints.GENRES.value,
+            Endpoints.KEYWORDS.value,
+            Endpoints.LANGUAGES.value,
+            Endpoints.LANGUAGE_SUPPORT_TYPES.value,
+            Endpoints.NETWORK_TYPES.value,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.PLATFORMS.value,
+                "endpoint": {
+                    "path": Endpoints.PLATFORMS.value,
+                    "params": {
+                        "fields": "*,platform_family.*,platform_logo.*,platform_type.*",
+                    },
+                },
+            },
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.PLATFORM_VERSIONS.value,
+                "endpoint": {
+                    "path": Endpoints.PLATFORM_VERSIONS.value,
+                    "params": {
+                        "fields": "*",
+                    },
+                },
+            },
+            Endpoints.PLATFORM_VERSION_COMPANIES.value,
+            Endpoints.PLATFORM_VERSION_RELEASE_DATES.value,
+            Endpoints.PLAYER_PERSPECTIVES.value,
+            Endpoints.REGIONS.value,
+            Endpoints.RELEASE_DATE_REGIONS.value,
+            Endpoints.RELEASE_DATE_STATUSES.value,
+            Endpoints.THEMES.value,
+            Endpoints.PLATFORM_WEBSITES.value,
+            Endpoints.POPULARITY_TYPES.value,
+            Endpoints.WEBSITE_TYPES.value,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.GAME_LOCALIZATIONS.value,
+                "endpoint": {
+                    "path": Endpoints.GAME_LOCALIZATIONS.value,
+                    "params": {
+                        "fields": "*,cover.*,region.*",
+                    },
+                },
+            },
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.GAME_ENGINES.value,
+                "endpoint": {
+                    "path": Endpoints.GAME_ENGINES.value,
+                    "params": {
+                        "fields": "*,logo.*",
+                    },
+                },
+            },
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.GAMES.value,
+                "endpoint": {
+                    "path": Endpoints.GAMES.value,
+                    "params": {
+                        "fields": "*,age_ratings.*,artworks.*,alternative_names.*,game_localizations.*,external_games.*,websites.*,release_dates.*,cover.*,screenshots.*,multiplayer_modes.*,language_supports.*,involved_companies.*,videos.*",
+                    },
+                },
+            },
         ],
     },
 )
@@ -278,12 +279,24 @@ popularity_pipeline = dlt.pipeline(
     pipeline_name="igdb_popularity_pipeline",
     destination="postgres",
     dataset_name="igdb_source",
+    progress="alive_progress",
+    dev_mode=False,
 )
 
 default_pipeline = dlt.pipeline(
     pipeline_name="igdb_default_pipeline",
     destination="postgres",
     dataset_name="igdb_source",
+    progress="alive_progress",
+    dev_mode=False,
+)
+
+make_typesense_index_pipeline = dlt.pipeline(
+    pipeline_name="make_typesense_index_pipeline",
+    destination=typesense(),
+    dataset_name="games_to_typesense_dataset",
+    progress="alive_progress",
+    dev_mode=False,
 )
 
 

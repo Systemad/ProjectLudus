@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ExploreRouteImport } from './routes/explore'
-import { Route as DepRouteImport } from './routes/dep'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesIndexRouteImport } from './routes/games/index'
@@ -25,11 +24,6 @@ const SearchRoute = SearchRouteImport.update({
 const ExploreRoute = ExploreRouteImport.update({
   id: '/explore',
   path: '/explore',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DepRoute = DepRouteImport.update({
-  id: '/dep',
-  path: '/dep',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -56,7 +50,6 @@ const GamesGameIdRoute = GamesGameIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/dep': typeof DepRoute
   '/explore': typeof ExploreRoute
   '/search': typeof SearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
@@ -65,7 +58,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/dep': typeof DepRoute
   '/explore': typeof ExploreRoute
   '/search': typeof SearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
@@ -75,7 +67,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/dep': typeof DepRoute
   '/explore': typeof ExploreRoute
   '/search': typeof SearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
@@ -86,25 +77,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
-    | '/dep'
     | '/explore'
     | '/search'
     | '/games/$gameId'
     | '/games/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/about'
-    | '/dep'
-    | '/explore'
-    | '/search'
-    | '/games/$gameId'
-    | '/games'
+  to: '/' | '/about' | '/explore' | '/search' | '/games/$gameId' | '/games'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/dep'
     | '/explore'
     | '/search'
     | '/games/$gameId'
@@ -114,7 +96,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  DepRoute: typeof DepRoute
   ExploreRoute: typeof ExploreRoute
   SearchRoute: typeof SearchRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
@@ -135,13 +116,6 @@ declare module '@tanstack/react-router' {
       path: '/explore'
       fullPath: '/explore'
       preLoaderRoute: typeof ExploreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dep': {
-      id: '/dep'
-      path: '/dep'
-      fullPath: '/dep'
-      preLoaderRoute: typeof DepRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -178,7 +152,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  DepRoute: DepRoute,
   ExploreRoute: ExploreRoute,
   SearchRoute: SearchRoute,
   GamesGameIdRoute: GamesGameIdRoute,

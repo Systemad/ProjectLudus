@@ -52,7 +52,7 @@ const FILTER_GROUPS = [
     { title: "Player Perspectives", attribute: "player_perspectives" },
 ] as const;
 
-const DEFAULT_SORT_INDEX = "games_search";
+const DEFAULT_SORT_INDEX = "games_to_typesense_dataset___games_search";
 // All combinations pre-listed so useSortBy accepts every possible value.
 
 function FacetFilterGroup({

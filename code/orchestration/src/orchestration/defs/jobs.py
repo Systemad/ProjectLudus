@@ -1,40 +1,34 @@
-import dagster as dg
+from dagster import AssetSelection, define_asset_job
 
-# Job for dlt assets (IGDB ingestion)
-igdb_ingestion_job = dg.define_asset_job(
-    name="igdb_ingestion_job",
-    selection=dg.AssetSelection.groups(
-        "igdb_rest_ingest"
-    ),  # Selects assets from this component
-)
-
-# Separate DLT job: default pipeline (non-popularity assets)
-igdb_default_dlt_job = dg.define_asset_job(
+igdb_default_dlt_job = define_asset_job(
     name="igdb_default_dlt_job",
-    selection=dg.AssetSelection.groups("dlt_assets_igdb_igdb_source"),
+    selection=AssetSelection.groups("igdb_default"),
+    tags={"type": "dlt"},
 )
 
-# Separate DLT job: popularity pipeline
-igdb_popularity_dlt_job = dg.define_asset_job(
+igdb_popularity_dlt_job = define_asset_job(
     name="igdb_popularity_dlt_job",
-    selection=dg.AssetSelection.groups("dlt_assets_igdb_popularity_igdb_source"),
+    selection=AssetSelection.groups("igdb_popularity_data"),
+    tags={"type": "dlt"},
 )
 
-# Job for dbt assets (transformation)
-dbt_transformation_job = dg.define_asset_job(
+dbt_transformation_job = define_asset_job(
     name="dbt_transformation_job",
-    selection=dg.AssetSelection.groups(
-        "dbt_ingest"
-    ),  # Selects assets from this component
+    selection=AssetSelection.groups("igdb_dbt_transformations"),
 )
 
+make_typesense_index_job = define_asset_job(
+    name="make_typesense_index_job",
+    selection=AssetSelection.groups("make_typesense_index"),
+    tags={"type": "dlt", "target": "typesense"},
+)
 
-# Full pipeline job: runs DLT assets (default + popularity) then DBT assets
-full_pipeline_job = dg.define_asset_job(
+full_pipeline_job = define_asset_job(
     name="full_pipeline_job",
-    selection=dg.AssetSelection.groups(
-        "dlt_assets_igdb_igdb_source",
-        "dlt_assets_igdb_popularity_igdb_source",
-        "dbt_ingest",
+    selection=AssetSelection.groups(
+        "igdb_popularity_data",
+        "igdb_default",
+        "igdb_dbt_transformations",
+        "make_typesense_index",
     ),
 )

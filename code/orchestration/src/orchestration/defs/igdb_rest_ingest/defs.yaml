@@ -4,5 +4,31 @@ attributes:
     loads:
         - source: .loads.popularity
           pipeline: .loads.popularity_pipeline
+          translation:
+              group_name: igdb_popularity_data
+              description: "Load popularity data from IGDB"
+
         - source: .loads.default
           pipeline: .loads.default_pipeline
+          translation:
+              group_name: igdb_default
+              description: "Load default data from IGDB"
+
+        - source: .loads.make_typesense_index
+          pipeline: .loads.make_typesense_index_pipeline
+          translation:
+              group_name: make_typesense_index
+              description: "Create/refresh Typesense index from games_search"
+
+requirements:
+    env:
+        - IGDB_CLIENT_ID
+        - IGDB_ACCESS_TOKEN
+#post_processing:
+#    assets:
+#        - target: "igdb_default"
+#          attributes:
+#              pool: "igdb_dlt"
+#        - target: "igdb_popularity_data"
+#          attributes:
+#              pool: "igdb_dlt"

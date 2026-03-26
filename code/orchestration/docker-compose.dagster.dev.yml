@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  dagster-code:
+    image: "${DAGSTER_CODE_IMAGE:-dagster_user_code:latest}"
+    environment:
+      DAGSTER_CURRENT_IMAGE: "dagster-code"
+      IGDB_CLIENT_ID: "${IGDB_CLIENT_ID}"
+      IGDB_ACCESS_TOKEN: "${IGDB_ACCESS_TOKEN}"
+    ports:
+      - "4000:4000"
+    healthcheck:
+      test: ["CMD-SHELL", "dagster api grpc-health-check -p 4000 || exit 1"]
+      interval: 5s
+      timeout: 2s
+      retries: 12
+    networks:
+      aspire:
+        aliases:
+          - dagster-code
+
+  dagster-webserver:
+    image: "${DAGSTER_WEBSERVER_IMAGE:-dagster_base:latest}"
+    entrypoint: ["dagster-webserver"]
+    command: ["-h", "0.0.0.0", "-p", "3000", "-w", "workspace.yaml"]
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: volume
+        source: io_storage
+        target: /tmp/io_manager_storage
+    depends_on:
+      dagster-code:
+        condition: service_healthy
+    networks:
+      - aspire
+
+  dagster-daemon:
+    image: "${DAGSTER_DAEMON_IMAGE:-dagster_base:latest}"
+    entrypoint: ["dagster-daemon"]
+    command: ["run", "-w", "workspace.yaml"]
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+      - type: volume
+        source: io_storage
+        target: /tmp/io_manager_storage
+    depends_on:
+      dagster-code:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - aspire
+
+networks:
+  aspire:
+    name: aspire-persistent-network-d0f4c22e-AppHost
+    external: true
+
+volumes:
+  io_storage:
+    driver: local

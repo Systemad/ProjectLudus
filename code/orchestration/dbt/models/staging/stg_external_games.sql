@@ -25,4 +25,13 @@ with
     )
 
 select *
-from renamed
+from
+    (
+        select
+            *,
+            row_number() over (
+                partition by id order by coalesce(updated_at, created_at) desc
+            ) as rn
+        from renamed
+    ) t
+where rn = 1

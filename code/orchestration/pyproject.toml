@@ -1,13 +1,24 @@
 [project]
 name = "orchestration"
-requires-python = ">=3.10,<3.15"
+#requires-python = ">=3.10,<3.15"
+requires-python = ">=3.13,<3.15"
 version = "0.1.0"
 dependencies = [
+    "alive-progress>=3.3.0",
     "dagster==1.12.20",
     "dagster-dbt>=0.28.20",
     "dagster-dlt>=0.28.20",
+    "dagster-docker>=0.28.20",
+    "dagster-graphql>=1.12.20",
+    "dagster-postgres>=0.28.20",
+    "dagster-webserver>=1.12.20",
     "dbt-core>=1.11.7",
     "dbt-postgres>=1.10.0",
+    "typesense>=2.0.0",
+    "dlt-typesense @ git+https://github.com/marcopesani/dlt-typesense.git@main",
+    "connectorx>=0.4.5",
+    "psycopg[binary]>=3.2.0",
+    "pyarrow>=23.0.1",
 ]
 
 [dependency-groups]
@@ -31,5 +42,12 @@ root_module = "orchestration"
 registry_modules = [
     "orchestration.components.*",
 ]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+#[tool.typos.default]
+# Ignore spellchecking all lines with # spellchecker:ignore
+#extend-ignore-re = ["(?Rm)^.*(#|//)\\s*spellchecker:ignore$"]
 
 
