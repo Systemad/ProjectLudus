@@ -416,7 +416,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
-.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -724,3 +723,14 @@ exponent.txt
 /schedules/
 /history/
 /.telemetry
+
+# Orchestration/runtime and local artifacts: ignore common runtime dirs anywhere
+# Virtualenv folders
+.venv/
+venv/
+# dbt/dagster logs, history and local state
+**/dbt/logs/
+**/history/
+**/.local_defs_state/
+**/storage/
+**/.telemetry
