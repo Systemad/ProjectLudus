@@ -720,7 +720,7 @@ exponent.txt
 .impl/
 .erk/config.local.toml
 
-logs/
-schedules/
-history/
-.telemetry
+/logs/
+/schedules/
+/history/
+/.telemetry

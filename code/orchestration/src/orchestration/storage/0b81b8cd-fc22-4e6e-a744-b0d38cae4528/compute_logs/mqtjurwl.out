@@ -1,0 +1,155 @@
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 0.00s | Rate: 0.00/s
+Memory usage: 213.93 MB (74.60%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 0.63s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 0.00s | Rate: 6168094.12/s
+Memory usage: 217.09 MB (74.60%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 1.20s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 0.57s | Rate: 176.58/s
+pop_igdb_playing: 100  | Time: 0.00s | Rate: 11037642.11/s
+Memory usage: 217.88 MB (74.60%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 1.76s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 1.13s | Rate: 88.20/s
+pop_igdb_playing: 100  | Time: 0.57s | Rate: 176.22/s
+pop_igdb_wants_to_play: 100  | Time: 0.00s | Rate: 18236104.35/s
+Memory usage: 218.82 MB (74.60%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 2.30s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 1.67s | Rate: 59.86/s
+pop_igdb_playing: 100  | Time: 1.10s | Rate: 90.55/s
+pop_igdb_wants_to_play: 100  | Time: 0.54s | Rate: 186.25/s
+pop_igdb_played: 100  | Time: 0.00s | Rate: 14979657.14/s
+Memory usage: 219.71 MB (74.60%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 2.98s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 2.35s | Rate: 42.61/s
+pop_igdb_playing: 100  | Time: 1.78s | Rate: 56.17/s
+pop_igdb_wants_to_play: 100  | Time: 1.21s | Rate: 82.44/s
+pop_igdb_played: 100  | Time: 0.68s | Rate: 147.91/s
+pop_steam_total_reviews: 100  | Time: 0.00s | Rate: 13530012.90/s
+Memory usage: 220.71 MB (74.50%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 3.63s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 3.01s | Rate: 33.27/s
+pop_igdb_playing: 100  | Time: 2.44s | Rate: 41.00/s
+pop_igdb_wants_to_play: 100  | Time: 1.87s | Rate: 53.42/s
+pop_igdb_played: 100  | Time: 1.33s | Rate: 74.91/s
+pop_steam_total_reviews: 100  | Time: 0.66s | Rate: 151.78/s
+pop_steam_negative_reviews: 100  | Time: 0.00s | Rate: 19972876.19/s
+Memory usage: 221.54 MB (74.50%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 4.53s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 3.90s | Rate: 25.66/s
+pop_igdb_playing: 100  | Time: 3.33s | Rate: 30.03/s
+pop_igdb_wants_to_play: 100  | Time: 2.76s | Rate: 36.20/s
+pop_igdb_played: 100  | Time: 2.23s | Rate: 44.93/s
+pop_steam_total_reviews: 100  | Time: 1.55s | Rate: 64.52/s
+pop_steam_negative_reviews: 100  | Time: 0.89s | Rate: 112.24/s
+pop_steam_24hr_peak_players: 100  | Time: 0.00s | Rate: 20971520.00/s
+Memory usage: 222.76 MB (75.00%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 5.08s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 4.45s | Rate: 22.45/s
+pop_igdb_playing: 100  | Time: 3.89s | Rate: 25.72/s
+pop_igdb_wants_to_play: 100  | Time: 3.32s | Rate: 30.11/s
+pop_igdb_played: 100  | Time: 2.78s | Rate: 35.92/s
+pop_steam_total_reviews: 100  | Time: 2.11s | Rate: 47.44/s
+pop_steam_negative_reviews: 100  | Time: 1.45s | Rate: 69.01/s
+pop_steam_24hr_peak_players: 100  | Time: 0.56s | Rate: 179.15/s
+pop_steam_positive_reviews: 100  | Time: 0.00s | Rate: 13530012.90/s
+Memory usage: 223.41 MB (75.00%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 5.64s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 5.01s | Rate: 19.96/s
+pop_igdb_playing: 100  | Time: 4.44s | Rate: 22.50/s
+pop_igdb_wants_to_play: 100  | Time: 3.88s | Rate: 25.80/s
+pop_igdb_played: 100  | Time: 3.34s | Rate: 29.95/s
+pop_steam_total_reviews: 100  | Time: 2.66s | Rate: 37.55/s
+pop_steam_negative_reviews: 100  | Time: 2.00s | Rate: 49.89/s
+pop_steam_24hr_peak_players: 100  | Time: 1.11s | Rate: 89.81/s
+pop_steam_positive_reviews: 100  | Time: 0.56s | Rate: 180.10/s
+pop_steam_most_wishlisted_upcoming: 100  | Time: 0.00s | Rate: 22075284.21/s
+Memory usage: 224.32 MB (74.90%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 6.25s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 5.62s | Rate: 17.79/s
+pop_igdb_playing: 100  | Time: 5.06s | Rate: 19.78/s
+pop_igdb_wants_to_play: 100  | Time: 4.49s | Rate: 22.28/s
+pop_igdb_played: 100  | Time: 3.95s | Rate: 25.31/s
+pop_steam_total_reviews: 100  | Time: 3.28s | Rate: 30.53/s
+pop_steam_negative_reviews: 100  | Time: 2.62s | Rate: 38.22/s
+pop_steam_24hr_peak_players: 100  | Time: 1.73s | Rate: 57.96/s
+pop_steam_positive_reviews: 100  | Time: 1.17s | Rate: 85.67/s
+pop_steam_most_wishlisted_upcoming: 100  | Time: 0.61s | Rate: 163.40/s
+pop_steam_global_top_sellers: 100  | Time: 0.00s | Rate: 13981013.33/s
+Memory usage: 225.38 MB (74.90%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 0/11 (0.0%) | Time: 6.91s | Rate: 0.00/s
+pop_igdb_visits: 100  | Time: 6.28s | Rate: 15.93/s
+pop_igdb_playing: 100  | Time: 5.71s | Rate: 17.51/s
+pop_igdb_wants_to_play: 100  | Time: 5.14s | Rate: 19.44/s
+pop_igdb_played: 100  | Time: 4.61s | Rate: 21.71/s
+pop_steam_total_reviews: 100  | Time: 3.93s | Rate: 25.44/s
+pop_steam_negative_reviews: 100  | Time: 3.27s | Rate: 30.57/s
+pop_steam_24hr_peak_players: 100  | Time: 2.38s | Rate: 42.01/s
+pop_steam_positive_reviews: 100  | Time: 1.82s | Rate: 54.87/s
+pop_steam_most_wishlisted_upcoming: 100  | Time: 1.27s | Rate: 78.92/s
+pop_steam_global_top_sellers: 100  | Time: 0.66s | Rate: 152.64/s
+pop_steam_24hr_hours_watched: 100  | Time: 0.00s | Rate: 16777216.00/s
+Memory usage: 226.53 MB (74.80%) | CPU usage: 0.00%
+
+--------------------------- Extract igdb_popularity ----------------------------
+Resources: 11/11 (100.0%) | Time: 6.95s | Rate: 1.58/s
+pop_igdb_visits: 100  | Time: 6.32s | Rate: 15.82/s
+pop_igdb_playing: 100  | Time: 5.75s | Rate: 17.38/s
+pop_igdb_wants_to_play: 100  | Time: 5.19s | Rate: 19.28/s
+pop_igdb_played: 100  | Time: 4.65s | Rate: 21.51/s
+pop_steam_total_reviews: 100  | Time: 3.97s | Rate: 25.17/s
+pop_steam_negative_reviews: 100  | Time: 3.31s | Rate: 30.18/s
+pop_steam_24hr_peak_players: 100  | Time: 2.42s | Rate: 41.27/s
+pop_steam_positive_reviews: 100  | Time: 1.86s | Rate: 53.63/s
+pop_steam_most_wishlisted_upcoming: 100  | Time: 1.31s | Rate: 76.37/s
+pop_steam_global_top_sellers: 100  | Time: 0.70s | Rate: 143.38/s
+pop_steam_24hr_hours_watched: 100  | Time: 0.04s | Rate: 2363.60/s
+Memory usage: 227.21 MB (74.80%) | CPU usage: 0.00%
+
+--------------- Normalize igdb_popularity in 1774384792.3688629 ----------------
+Files: 0/11 (0.0%) | Time: 0.00s | Rate: 0.00/s
+Memory usage: 228.06 MB (74.80%) | CPU usage: 0.00%
+
+--------------- Normalize igdb_popularity in 1774384792.3688629 ----------------
+Files: 0/11 (0.0%) | Time: 0.01s | Rate: 0.00/s
+Items: 0  | Time: 0.00s | Rate: 0.00/s
+Memory usage: 228.06 MB (74.80%) | CPU usage: 0.00%
+
+--------------- Normalize igdb_popularity in 1774384792.3688629 ----------------
+Files: 11/11 (100.0%) | Time: 0.28s | Rate: 38.75/s
+Items: 1100  | Time: 0.28s | Rate: 3983.43/s
+Memory usage: 228.72 MB (74.90%) | CPU usage: 0.00%
+
+------------------ Load igdb_popularity in 1774384792.3688629 ------------------
+Jobs: 0/11 (0.0%) | Time: 0.00s | Rate: 0.00/s
+Memory usage: 229.70 MB (74.80%) | CPU usage: 0.00%
+
+------------------ Load igdb_popularity in 1774384792.3688629 ------------------
+Jobs: 0/11 (0.0%) | Time: 4.18s | Rate: 0.00/s
+Memory usage: 230.45 MB (74.80%) | CPU usage: 0.00%
+
+------------------ Load igdb_popularity in 1774384792.3688629 ------------------
+Jobs: 11/11 (100.0%) | Time: 6.34s | Rate: 1.74/s
+Memory usage: 230.46 MB (74.90%) | CPU usage: 0.00%
+

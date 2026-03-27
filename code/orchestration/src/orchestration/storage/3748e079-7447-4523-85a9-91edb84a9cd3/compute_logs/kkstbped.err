@@ -1,0 +1,5 @@
+[32m2026-03-24 20:41:53 +0100[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 3748e079-7447-4523-85a9-91edb84a9cd3 - 3880 - LOGS_CAPTURED - Started capturing logs in process (pid: 3880).
+[32m2026-03-24 20:41:53 +0100[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 3748e079-7447-4523-85a9-91edb84a9cd3 - 3880 - dlt_assets_igdb_igdb_source - STEP_START - Started execution of step "dlt_assets_igdb_igdb_source".
+[32m2026-03-24 20:42:06 +0100[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 3748e079-7447-4523-85a9-91edb84a9cd3 - 3880 - dlt_assets_igdb_igdb_source - STEP_OUTPUT - Yielded output "igdb_source__collection_types" of type "Nothing". (Type check passed).
+[32m2026-03-24 20:42:06 +0100[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 3748e079-7447-4523-85a9-91edb84a9cd3 - 3880 - dlt_assets_igdb_igdb_source - ASSET_MATERIALIZATION - Materialized value igdb_source collection_types.
+[32m2026-03-24 20:42:06 +0100[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 3748e079-7447-4523-85a9-91edb84a9cd3 - 3880 - dlt_assets_igdb_igdb_source - STEP_SUCCESS - Finished execution of step "dlt_assets_igdb_igdb_source" in 12.57s.

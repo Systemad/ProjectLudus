@@ -1,0 +1,7 @@
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - 3584 - LOGS_CAPTURED - Started capturing logs in process (pid: 3584).
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - 3584 - ui_example_op - STEP_START - Started execution of step "ui_example_op".
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mINFO[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - ui_example_op - ui_example_op executed
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - 3584 - ui_example_op - STEP_OUTPUT - Yielded output "result" of type "Any". (Type check passed).
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - ui_example_op - Writing file at: D:\Projects\ProjectLudus\code\orchestration\src\orchestration\storage\8326033f-0eed-4f59-9615-3a28df172886\ui_example_op\result using PickledObjectFilesystemIOManager...
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - 3584 - ui_example_op - HANDLED_OUTPUT - Handled output "result" using IO manager "io_manager"
+[32m2026-03-24 14:41:34 +0100[0m - dagster - [34mDEBUG[0m - ui_example_job - 8326033f-0eed-4f59-9615-3a28df172886 - 3584 - ui_example_op - STEP_SUCCESS - Finished execution of step "ui_example_op" in 46ms.
