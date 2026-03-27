@@ -735,6 +735,11 @@ venv/
 **/storage/
 **/.telemetry
 
+# Typesense data (local search engine storage)
+code/typesense-data/
+**/typesense-data/
+typesense-data/
+
 # ========== Common language / tool ignores ==========
 # Python
 .venv/
