@@ -1,0 +1,55 @@
+{
+    "name": "game-index",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vp dev",
+        "build": "tsc -b && vp build",
+        "lint": "eslint .",
+        "preview": "vp preview"
+    },
+    "dependencies": {
+        "@fontsource-variable/inter": "catalog:",
+        "@fontsource-variable/montserrat": "catalog:",
+        "@fontsource-variable/nunito-sans": "catalog:",
+        "@fontsource-variable/raleway": "catalog:",
+        "@mantine/hooks": "catalog:",
+        "@tanstack/react-router": "catalog:",
+        "@tanstack/react-router-devtools": "catalog:",
+        "react-dom": "^19.2.4",
+        "react-extract-colors": "catalog:",
+        "react-instantsearch": "catalog:",
+        "ui": "workspace:*",
+        "utils": "workspace:*"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.29.0",
+        "@eslint/js": "^9.39.4",
+        "@rolldown/plugin-babel": "^0.2.2",
+        "@tanstack/eslint-plugin-router": "catalog:",
+        "@tanstack/router-plugin": "catalog:",
+        "@types/babel__core": "^7.20.5",
+        "@types/node": "^24.12.0",
+        "@types/react": "^19.2.14",
+        "@types/react-dom": "^19.2.3",
+        "@vitejs/plugin-react": "^6.0.1",
+        "babel-plugin-react-compiler": "^1.0.0",
+        "eslint": "^9.39.4",
+        "eslint-plugin-oxlint": "catalog:",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-react-refresh": "^0.5.2",
+        "globals": "^17.4.0",
+        "react": "^19.2.4",
+        "typescript": "~5.9.3",
+        "typescript-eslint": "^8.58.0",
+        "typesense-instantsearch-adapter": "catalog:",
+        "utils": "workspace:*",
+        "vite": "catalog:",
+        "vite-plus": "catalog:"
+    },
+    "peerDependencies": {
+        "react": "^19.2.4",
+        "vite": "catalog:"
+    }
+}

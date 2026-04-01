@@ -1,0 +1,267 @@
+# Yamada UI Documentation Digest
+
+- Source: `yamada-ui-llms-full.txt`
+- Digest date: 2026-04-01
+- Coverage: full file processed
+- Corpus size: 3,403,093 bytes / 51,479 lines
+- Unique page titles detected: 239
+
+## Working Rules For This Repo
+
+- Import UI primitives from `ui`.
+- Prefer theme tokens over raw values (sizes, spaces, colors, radii, shadows, zIndices).
+- Prefer semantic color tokens for app surfaces and text: `bg.*`, `fg.*`, `border.*`.
+- Prefer color-scheme context tokens where relevant: `colorScheme.solid`, `colorScheme.subtle`, `colorScheme.fg`, `colorScheme.contrast`, `colorScheme.bg`, `colorScheme.surface`, `colorScheme.ghost`, `colorScheme.outline`.
+- Prefer palette-step color tokens like `blue.50` ... `blue.950`.
+- Do not hardcode color values (hex/rgb/rgba) unless absolutely necessary; prefer Yamada UI built-in colors and semantic tokens.
+- Prefer size tokens (`xs`, `sm`, `md`, `lg`, `xl`, etc.) and fractional size tokens (`1/2`, `1/3`, `2/3`, etc.) for layout dimensions.
+- Prefer named z-index tokens instead of raw numbers (`yamcha` ... `beerus`).
+
+## High-Value Token Notes
+
+- Sizes semantic scale includes: `9xs`..`9xl`, `full`, `fit`, `min`, `max`, viewport tokens (`vh`, `dvh`, etc.).
+- Fractional tokens include: `1/2`, `1/3`, `1/4`, `1/5`, `1/6`, `1/12`, `2/3`, `2/5`, etc.
+- Z-index tokens: `yamcha`, `kurillin`, `nappa`, `guldo`, `jeice`, `burter`, `recoome`, `ginyu`, `dodoria`, `zarbon`, `freeza`, `vegeta`, `sonGoku`, `beerus`.
+- Semantic foreground/background usage patterns in docs: `bg.contrast` + `fg.contrast` for strong surfaces, `bg.subtle` for muted surfaces, `fg.muted` for secondary text.
+
+## Complete Topic Inventory (Unique Titles)
+
+- Accessibility
+- Accordion
+- ActionBar
+- Airy
+- Alert
+- AlphaSlider
+- Animation
+- Animations
+- AreaChart
+- Aspect Ratios
+- AspectRatio
+- At-Rules
+- Autocomplete
+- Avatar
+- Badge
+- BarChart
+- Bleed
+- Blockquote
+- Blurs
+- Borders
+- Box
+- Breadcrumb
+- Breakpoints
+- Button
+- Calendar
+- Card
+- Carousel
+- Cascade Layers
+- Center
+- Chat
+- Checkbox
+- CheckboxCard
+- CircleProgress
+- CLI
+- ClientOnly
+- CloseButton
+- Code
+- Collapse
+- Color Mode
+- Color Scheme
+- Color Schemes
+- ColorPicker
+- Colors
+- ColorSelector
+- ColorSwatch
+- Components
+- ComposedChart
+- Conditional Styles
+- Container
+- createComponent
+- CSS Custom Properties
+- CSS Value Functions
+- Customization
+- DataList
+- DatePicker
+- Dockable
+- DonutChart
+- Drawer
+- Dropzone
+- Durations
+- Easings
+- Editable
+- Em
+- EmptyState
+- Fade
+- FadeScale
+- Field
+- Fieldset
+- FileButton
+- FileInput
+- Flex
+- Flip
+- Float
+- Focus Ring
+- FocusLock
+- Font Sizes
+- Font Weights
+- Fonts
+- For
+- Form
+- Format
+- Get Started
+- Global Styles
+- Gradients
+- Grid
+- Group
+- Heading
+- Highlight
+- Hooks
+- HStack
+- HueSlider
+- Icon
+- IconButton
+- Image
+- Indicator
+- InfiniteScrollArea
+- Input
+- Internationalization
+- Interpolation
+- Kbd
+- Keyframes
+- Layer Styles
+- Learn the Advanced
+- Learn the Basics
+- Legacy Documentation
+- Letter Spacings
+- Line Heights
+- LineChart
+- Link
+- LinkBox
+- List
+- LLMs.txt
+- Loading
+- Mark
+- Menu
+- Migration
+- Modal
+- Motion
+- NativeAccordion
+- NativePopover
+- NativeSelect
+- NativeTable
+- Next.js (App)
+- Next.js (Pages)
+- NumberInput
+- Overview
+- Pagination
+- PasswordInput
+- PhoneInput
+- Picture
+- PieChart
+- PinInput
+- Popover
+- Portal
+- Progress
+- QrCode
+- RadarChart
+- RadialChart
+- Radii
+- Radio
+- RadioCard
+- Rating
+- React Router
+- Reorder
+- Reset Styles
+- Resizable
+- Responsive Design
+- Ripple
+- Rotate
+- SaturationSlider
+- ScrollArea
+- SegmentedControl
+- Select
+- Separator
+- Shadows
+- Show
+- SimpleGrid
+- Sizes
+- Skeleton
+- Slide
+- SlideFade
+- Slider
+- Slot
+- Snacks
+- Spacer
+- Spaces
+- Stack
+- Stat
+- Status
+- Steps
+- Style Props
+- styled
+- Styling
+- Swipeable
+- Switch
+- Switching Themes
+- Table
+- Tabs
+- Tag
+- TanStack Router
+- TanStack Start
+- Text
+- Text Styles
+- Textarea
+- Theming
+- Timeline
+- TimePicker
+- Tip
+- Toggle
+- Tooltip
+- Tour
+- Tree
+- useAnimation
+- useAsync
+- useAsyncCallback
+- useBoolean
+- useBreakpoint
+- useBreakpointEffect
+- useBreakpointState
+- useBreakpointValue
+- useClipboard
+- useColorMode
+- useColorModeValue
+- useCounter
+- useDescendants
+- useDisclosure
+- useDynamicAnimation
+- useEyeDropper
+- useFocusOnShow
+- useFormatByte
+- useFormatDateTime
+- useFormatNumber
+- useHover
+- useIdle
+- useInfiniteScroll
+- useInterval
+- useLoading
+- useLocalStorage
+- useMediaQuery
+- useNotice
+- useOnline
+- useOS
+- useOutsideClick
+- usePrevious
+- useProcessing
+- usePromiseDisclosure
+- useResizeObserver
+- useTheme
+- useTimeout
+- useUpdateBreakpointEffect
+- useUpdateEffect
+- useValue
+- useWindowEvent
+- VisuallyHidden
+- Vite
+- VStack
+- Wrap
+- Z Indices
+- ZStack
