@@ -4,60 +4,37 @@ import { QueryClientProvider } from "@tanstack/react-query";
 
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { UIProvider, defineConfig, extendTheme } from "@packages/ui";
-// import { my_theme } from "@packages/theme";
+import {
+    UIProvider,
+    defineConfig,
+    extendTheme,
+    defineStyles,
+} from "@packages/ui";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import { queryClient } from "./QueryClient";
 // Create a new router instance
 
-/*
-createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-        <UIProvider>
-            <App />
-        </UIProvider>
-    </StrictMode>
-);
-*/
-//base: "bg.float",
-//
-/*
+const customLayerStyles = defineStyles.layerStyle({
+    glass: {
+        bg: "colorScheme.200/40",
+        backdropFilter: "blur(10px)",
+        borderRadius: "xl",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    },
+    "glass.hover": {
+        bg: "colorScheme.200/60",
+        transform: "translateY(-4px)",
+        boxShadow: "shadows.cardHover",
+    },
+});
 
-black: {
-    base: "#202123",        // main background
-    bg: "#2a2b32",          // surfaces like menu
-    subtle: "#2f3037",      // inputs
-    muted: "#35363d",       // hover states
-    contrast: "white",
-    emphasized: "black.200",
-    fg: "white",
-    ghost: "white/10",
-    outline: "#3a3b42",
-    solid: "#3a3b42",
-},
-            black: {
-                base: "#0a0b0b",
-                bg: "#f8f8f8",
-                contrast: "white",
-                emphasized: "black.200",
-                fg: "black.800",
-                ghost: "black.100/50",
-                muted: "black.100",
-                outline: "black.900",
-                solid: "black",
-                subtle: "black.50",
-            },
-*/
 const extendedTheme = extendTheme({
     fonts: {
         body: '"Montserrat Variable", "sans-serif"',
         heading: '"Montserrat Variable", "sans-serif"',
         //heading: '"Inter", "Inter Fallback"',
         mono: '"Geist Mono", "Geist Mono Fallback"',
-    },
-    semanticTokens: {
-        colors: {},
     },
     colors: {},
     styles: {
@@ -68,6 +45,7 @@ const extendedTheme = extendTheme({
                 //scrollbarGutter: "stable",
                 colorScheme: "emerald",
                 overflowY: "scroll",
+                bg: "bg.base",
             },
             html: {
                 scrollbarWidth: "thin",
@@ -76,6 +54,7 @@ const extendedTheme = extendTheme({
                 //scrollbarGutter: "stable",
             },
         },
+        layerStyles: customLayerStyles,
     },
 });
 export const config = defineConfig({

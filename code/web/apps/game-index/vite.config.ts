@@ -1,7 +1,11 @@
 import { defineConfig } from "vite";
 import type { Plugin } from "vite";
-import react from "@vitejs/plugin-react";
-import { COLOR_MODE_STORAGE_KEY, getStorageScript } from "@packages/ui";
+import viteReact from "@vitejs/plugin-react";
+import {
+    COLOR_MODE_STORAGE_KEY,
+    THEME_SCHEME_STORAGE_KEY,
+    getStorageScript,
+} from "@packages/ui";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
 const target = "http://localhost:5141"; //process.env.CATALOGAPI_HTTPS || process.env.CATALOGAPI_HTTP;
@@ -13,7 +17,21 @@ function injectColorModeScript(): Plugin {
             const content = getStorageScript(
                 "colorMode",
                 COLOR_MODE_STORAGE_KEY
-            )({ defaultValue: "dark" });
+            )({ defaultValue: "light" });
+
+            return html.replace("<body>", `<body><script>${content}</script>`);
+        },
+    };
+}
+
+function injectThemeSchemeScript(): Plugin {
+    return {
+        name: "inject-theme-scheme-script",
+        transformIndexHtml(html) {
+            const content = getStorageScript(
+                "themeScheme",
+                THEME_SCHEME_STORAGE_KEY
+            )({ defaultValue: "base" });
 
             return html.replace("<body>", `<body><script>${content}</script>`);
         },
@@ -26,12 +44,13 @@ export default defineConfig({
             target: "react",
             autoCodeSplitting: true,
         }),
-        react({
+        viteReact({
             babel: {
                 plugins: ["babel-plugin-react-compiler"],
             },
         }),
-        injectColorModeScript(),
+        //injectColorModeScript(),
+        injectThemeSchemeScript(),
     ],
     server: {
         open: true,

@@ -2,7 +2,6 @@
 
 import {
     Card,
-    Skeleton,
     SimpleGrid,
     Image,
     Text,
@@ -13,22 +12,10 @@ import {
     Icon,
     VStack,
     HStack,
-    List,
     TrendingUpIcon,
-    DatabaseIcon,
-    ClockIcon,
-    MoveRightIcon,
 } from "@packages/ui";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-    Configure,
-    Hits,
-    Index as AlgoliaIndex,
-    InstantSearch,
-    useHits,
-    useInstantSearch,
-} from "react-instantsearch";
-import { searchClient } from "../instantsearch";
+// react-instantsearch removed for layout-only version
 
 export const Route = createFileRoute("/")({
     component: Index,
@@ -48,9 +35,55 @@ const DEFAULT_IMAGE =
     "https://lh3.googleusercontent.com/aida-public/AB6AXuDrhV31xIPyEEpV8Z2HtaH3D-BFSIZtssVM_rsyySeLmC4VVBTkGke6dNVl2fTizEodmC0_xlXbECLefHIe2faK3a6KdevAB-f6JZPnxYg8HaOigYVT-zUp4HB1RVwp4CxPczrSX2Vz-4lxIMPrpYD8-3m1BNxrjWgJiJAFxHJ45zjsnC9VzA1lydtQOr5JpHjwigiCDywbpcL0rsFf7TbDw2rRiK5qvuQgJDB8tdgiAYx-peNLDEEMfOpyUWbnevRMWoFjDVU-nS5C";
 
 const CONSOLES = [
-    { name: "PlayStation 5", color: "#003791", logo: "/logos/ps5.svg" },
-    { name: "Xbox Series X", color: "#107C10", logo: "/logos/xbox.svg" },
-    { name: "Nintendo Switch", color: "#E60012", logo: "/logos/switch.svg" },
+    { name: "PlayStation 5", color: "blue.600", logo: "/logos/ps5.svg" },
+    { name: "Xbox Series X", color: "emerald.500", logo: "/logos/xbox.svg" },
+    { name: "Nintendo Switch", color: "red.500", logo: "/logos/switch.svg" },
+    { name: "PC", color: "amber.200", logo: "/logos/pc.svg" },
+];
+
+const SAMPLE_GAMES: GameSearchHit[] = [
+    {
+        id: "g1",
+        name: "Hollow Knight",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 92,
+        first_release_date: "2017-02-24",
+    },
+    {
+        id: "g2",
+        name: "Stardew Valley",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 88,
+        first_release_date: "2016-02-26",
+    },
+    {
+        id: "g3",
+        name: "Terraria",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 85,
+        first_release_date: "2011-05-16",
+    },
+    {
+        id: "g4",
+        name: "The Witcher 3",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 94,
+        first_release_date: "2015-05-19",
+    },
+    {
+        id: "g5",
+        name: "Hades II",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 90,
+        first_release_date: "2026-10-01",
+    },
+    {
+        id: "g6",
+        name: "Sea of Stars",
+        cover_url: DEFAULT_IMAGE,
+        aggregated_rating: 80,
+        first_release_date: "2023-10-12",
+    },
 ];
 
 function getCoverImageUrl(coverUrl?: string) {
@@ -75,36 +108,6 @@ function getReleaseLabel(firstReleaseDate?: number | string) {
     return "Unknown release";
 }
 
-function getHitKey(hit: GameSearchHit, fallback: string) {
-    return String(hit.id ?? hit.objectID ?? fallback);
-}
-
-function SectionLoadingList() {
-    return (
-        <List.Root>
-            {[0, 1].map((slot) => (
-                <List.Item key={slot}>
-                    <Flex
-                        w="full"
-                        p="md"
-                        align="center"
-                        gap="md"
-                        borderRadius="xl"
-                        bgColor="bg.panel"
-                    >
-                        <Skeleton boxSize="6" rounded="md" />
-                        <Skeleton boxSize="14" rounded="lg" />
-                        <VStack align="start" flex="1" gap="xs">
-                            <Skeleton h="4" w="70%" />
-                            <Skeleton h="3" w="40%" />
-                        </VStack>
-                    </Flex>
-                </List.Item>
-            ))}
-        </List.Root>
-    );
-}
-
 function Index() {
     return (
         <VStack
@@ -114,182 +117,90 @@ function Index() {
             px={{ base: "md", xl: "lg" }}
             minH="100vh"
         >
-            <InstantSearch
-                searchClient={searchClient}
-                indexName="games_search/sort/aggregated_rating:desc"
-            >
-                <Configure query="" />
+            <Hero />
 
-                <SimpleGrid columns={{ base: 1, md: 2 }} gap="lg">
-                    <AlgoliaIndex indexName="games_search/sort/aggregated_rating:desc">
-                        <Configure hitsPerPage={2} />
-                        <PopularSection />
-                    </AlgoliaIndex>
+            <TrendingNow />
 
-                    <AlgoliaIndex indexName="games_search/sort/first_release_date:asc">
-                        <Configure hitsPerPage={2} />
-                        <UpcomingSection />
-                    </AlgoliaIndex>
-                </SimpleGrid>
+            <ConsoleSection />
 
-                <ConsoleSection />
-
-                <AlgoliaIndex indexName="games_search/sort/aggregated_rating:desc">
-                    <Configure hitsPerPage={6} />
-                    <TrendingGames />
-                </AlgoliaIndex>
-            </InstantSearch>
+            <ReleasingThisMonth />
         </VStack>
     );
 }
 
-const StatItem = ({
-    rank,
-    name,
-    imageUrl,
-    meta,
-}: {
-    rank: string;
-    name: string;
-    imageUrl: string;
-    meta: string;
-}) => (
-    <Flex
-        w="full"
-        p="md"
-        align="center"
-        gap="md"
-        borderRadius="xl"
-        bgColor={"bg.panel"}
-    >
-        <Text fontSize="sm" fontWeight="900" w="6">
-            {rank}
-        </Text>
-        <Image
-            src={imageUrl}
-            w="14"
-            h="14"
-            borderRadius="lg"
-            fit="cover"
-            alt={name}
-        />
-        <Box flex="1">
-            <Text fontSize="sm" fontWeight="bold">
-                {name}
-            </Text>
-            <Text
-                fontSize="xs"
-                color="fg.emphasized"
-                fontWeight="bold"
-                textTransform="uppercase"
-            >
-                {meta}
-            </Text>
-        </Box>
-        <Icon as={MoveRightIcon} color="fg" fontSize="md" />
-    </Flex>
-);
-
-function PopularSection() {
-    const { items } = useHits<GameSearchHit>();
-    const { status } = useInstantSearch();
+function Hero() {
+    const heroImage =
+        "https://images.igdb.com/igdb/image/upload/t_screenshot_huge/sc7e1o.jpg";
 
     return (
-        <Box
-            css={{
-                ".index-trending-grid": {
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                    gap: "1.5rem",
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                },
-                "@media (min-width: 48em)": {
-                    ".index-trending-grid": {
-                        gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-                    },
-                },
-                "@media (min-width: 80em)": {
-                    ".index-trending-grid": {
-                        gridTemplateColumns: "repeat(6, minmax(0, 1fr))",
-                    },
-                },
-                ".index-trending-grid-item": {
-                    margin: 0,
-                },
-            }}
-        >
-            <Heading
-                fontSize="xs"
-                fontWeight="800"
-                textTransform="uppercase"
-                letterSpacing="widest"
-                mb="lg"
-                display="flex"
-                alignItems="center"
-                gap="md"
+        <Box position="relative" w="full">
+            <Box
+                borderRadius="xl"
+                overflow="hidden"
+                h={{ base: "60", md: "96" }}
+                position="relative"
+                bg="black"
             >
-                <Icon as={TrendingUpIcon} /> Most Popular This Month
-            </Heading>
+                <Image
+                    src={heroImage}
+                    alt="Spotlight"
+                    w="full"
+                    h="full"
+                    fit="cover"
+                />
 
-            {status === "loading" || status === "stalled" ? (
-                <SectionLoadingList />
-            ) : (
-                <List.Root>
-                    {items.map((item, index) => (
-                        <List.Item key={getHitKey(item, `popular-${index}`)}>
-                            <StatItem
-                                rank={String(index + 1).padStart(2, "0")}
-                                name={item.name ?? "Untitled game"}
-                                imageUrl={getCoverImageUrl(item.cover_url)}
-                                meta={`Rating ${Math.round(
-                                    item.aggregated_rating ?? 0
-                                )}/100`}
-                            />
-                        </List.Item>
-                    ))}
-                </List.Root>
-            )}
-        </Box>
-    );
-}
+                <Box position="absolute" top="0" left="0" right="0" bottom="0">
+                    <Box
+                        position="absolute"
+                        top="0"
+                        left="0"
+                        right="0"
+                        bottom="0"
+                        bgGradient="linear(to-r, blackAlpha.700, transparent)"
+                        display="flex"
+                        alignItems="center"
+                    >
+                        <VStack
+                            align="start"
+                            gap="md"
+                            px={{ base: "md", md: "lg" }}
+                        >
+                            <Text
+                                fontSize="xs"
+                                fontWeight="900"
+                                color="fg.muted"
+                            >
+                                SPOTLIGHT
+                            </Text>
 
-function UpcomingSection() {
-    const { items } = useHits<GameSearchHit>();
-    const { status } = useInstantSearch();
+                            <Heading
+                                fontSize={{ base: "2xl", md: "5xl" }}
+                                fontWeight="900"
+                                color="white"
+                                lineHeight="shorter"
+                            >
+                                Starfield: Premium Edition
+                            </Heading>
 
-    return (
-        <Box>
-            <Heading
-                fontSize="xs"
-                fontWeight="800"
-                textTransform="uppercase"
-                letterSpacing="widest"
-                mb="lg"
-                display="flex"
-                alignItems="center"
-                gap="md"
-            >
-                <Icon as={ClockIcon} /> Upcoming Games
-            </Heading>
+                            <HStack gap="sm">
+                                <Badge
+                                    colorScheme="emerald"
+                                    fontWeight="bold"
+                                    px="3"
+                                    py="2"
+                                    borderRadius="md"
+                                >
+                                    -40%
+                                </Badge>
 
-            {status === "loading" || status === "stalled" ? (
-                <SectionLoadingList />
-            ) : (
-                <List.Root>
-                    {items.map((item, index) => (
-                        <List.Item key={getHitKey(item, `upcoming-${index}`)}>
-                            <StatItem
-                                rank={String(index + 1).padStart(2, "0")}
-                                name={item.name ?? "Untitled game"}
-                                imageUrl={getCoverImageUrl(item.cover_url)}
-                                meta={getReleaseLabel(item.first_release_date)}
-                            />
-                        </List.Item>
-                    ))}
-                </List.Root>
-            )}
+                                <Text fontWeight="bold" color="white">
+                                    $59.99
+                                </Text>
+                            </HStack>
+                        </VStack>
+                    </Box>
+                </Box>
+            </Box>
         </Box>
     );
 }
@@ -305,78 +216,44 @@ const ConsoleSection = () => {
             >
                 Browse by Console
             </Heading>
-            <HStack gap="4">
+
+            <SimpleGrid columns={{ base: 2, md: 4 }} gap="4">
                 {CONSOLES.map((console) => (
                     <Card.Root
                         key={console.name}
-                        bg={`${console.color}/20`}
-                        borderRadius="lg"
+                        bg={console.color}
                         p="4"
-                        _hover={{ transform: "translateY(-2px)" }}
+                        borderRadius="lg"
+                        transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                        _hover={{
+                            transform: "translateY(-4px)",
+                            boxShadow: "shadows.xl",
+                        }}
                     >
                         <VStack align="center" gap="2">
-                            <Image
-                                src={console.logo}
-                                alt={console.name}
-                                w="16"
-                                h="16"
-                            />
+                            {console.logo ? (
+                                <Image
+                                    src={console.logo}
+                                    alt={console.name}
+                                    w="16"
+                                    h="16"
+                                />
+                            ) : (
+                                <Box w="16" h="16" />
+                            )}
                             <Text fontWeight="bold" color="white">
                                 {console.name}
                             </Text>
                         </VStack>
                     </Card.Root>
                 ))}
-            </HStack>
+            </SimpleGrid>
         </Box>
     );
 };
 
-const TrendingGames = () => {
-    const { status } = useInstantSearch();
-
-    if (status === "loading" || status === "stalled") {
-        return (
-            <Box>
-                <Flex justify="space-between" align="center" mb="8">
-                    <Heading
-                        fontSize="sm"
-                        fontWeight="800"
-                        textTransform="uppercase"
-                        letterSpacing="widest"
-                    >
-                        <Icon as={DatabaseIcon} mr="xs" /> Trending
-                    </Heading>
-                    <Text
-                        fontSize="xs"
-                        fontWeight="900"
-                        color="info.600"
-                        letterSpacing="widest"
-                    >
-                        FULL DATABASE INDEX
-                    </Text>
-                </Flex>
-
-                <SimpleGrid columns={{ base: 2, md: 4, xl: 6 }} gap="6">
-                    {[0, 1, 2, 3, 4, 5].map((slot) => (
-                        <Card.Root
-                            key={slot}
-                            bg="bg.subtle"
-                            borderRadius="xl"
-                            overflow="hidden"
-                            border="none"
-                        >
-                            <Skeleton h="16rem" rounded="none" />
-                            <Card.Body p="4">
-                                <Skeleton h="4" mb="2" />
-                                <Skeleton h="5" w="40%" rounded="full" />
-                            </Card.Body>
-                        </Card.Root>
-                    ))}
-                </SimpleGrid>
-            </Box>
-        );
-    }
+const TrendingNow = () => {
+    const items = SAMPLE_GAMES;
 
     return (
         <Box>
@@ -387,23 +264,22 @@ const TrendingGames = () => {
                     textTransform="uppercase"
                     letterSpacing="widest"
                 >
-                    <Icon as={DatabaseIcon} mr="xs" /> Trending
+                    <Icon as={TrendingUpIcon} mr="xs" /> Trending Now
                 </Heading>
                 <Text
                     as={Link}
                     to="/search"
                     fontSize="xs"
                     fontWeight="900"
-                    color="info.600"
+                    color="emerald.600"
                     letterSpacing="widest"
                 >
-                    FULL DATABASE INDEX
+                    VIEW ALL
                 </Text>
             </Flex>
 
-            <Hits
-                hitComponent={({ hit }) => {
-                    const safeHit = hit as GameSearchHit;
+            <SimpleGrid columns={{ base: 2, md: 4, xl: 6 }} gap="6">
+                {items.map((safeHit, idx) => {
                     const rating =
                         typeof safeHit.aggregated_rating === "number"
                             ? Math.round(safeHit.aggregated_rating)
@@ -411,11 +287,16 @@ const TrendingGames = () => {
 
                     return (
                         <Card.Root
-                            bg="bg.subtle"
+                            key={safeHit.id ?? `trending-${idx}`}
+                            bg="bg.panel"
                             borderRadius="xl"
                             overflow="hidden"
-                            border="none"
-                            _hover={{ transform: "translateY(-2px)" }}
+                            transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                            boxShadow="shadows.lg"
+                            _hover={{
+                                transform: "translateY(-6px)",
+                                boxShadow: "shadows.xl",
+                            }}
                         >
                             <Box aspectRatio={3 / 4} position="relative">
                                 <Image
@@ -428,6 +309,7 @@ const TrendingGames = () => {
 
                                 {rating !== null ? (
                                     <Badge
+                                        colorScheme="emerald"
                                         position="absolute"
                                         bottom="2"
                                         right="2"
@@ -435,11 +317,9 @@ const TrendingGames = () => {
                                         py="1"
                                         borderRadius="md"
                                         fontWeight="bold"
-                                        bg="whiteAlpha.600"
-                                        backdropFilter="blur(10px)"
-                                        color="black"
-                                        borderColor="whiteAlpha.400"
-                                        boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+                                        bg="emerald.500/90"
+                                        color="white"
+                                        boxShadow="0 6px 12px rgba(0, 0, 0, 0.4)"
                                     >
                                         {(rating / 10).toFixed(1)}
                                     </Badge>
@@ -447,10 +327,20 @@ const TrendingGames = () => {
                             </Box>
 
                             <Card.Body p="4">
-                                <Text fontSize="sm" fontWeight="bold" mb="xs">
+                                <Text
+                                    fontSize="sm"
+                                    fontWeight="bold"
+                                    mb="xs"
+                                    color="white"
+                                >
                                     {safeHit.name ?? "Untitled game"}
                                 </Text>
-                                <Badge bg="bg" fontSize="xs" borderRadius="lg">
+                                <Badge
+                                    bg="bg.base"
+                                    fontSize="xs"
+                                    borderRadius="lg"
+                                    color="fg.muted"
+                                >
                                     {getReleaseLabel(
                                         safeHit.first_release_date
                                     )}
@@ -458,12 +348,97 @@ const TrendingGames = () => {
                             </Card.Body>
                         </Card.Root>
                     );
-                }}
-                classNames={{
-                    list: "index-trending-grid",
-                    item: "index-trending-grid-item",
-                }}
-            />
+                })}
+            </SimpleGrid>
         </Box>
     );
 };
+
+function ReleasingThisMonth() {
+    const sample = [
+        {
+            title: "Hollow Knight",
+            subtitle: "Release Date",
+            img: DEFAULT_IMAGE,
+        },
+        { title: "Tenaris", subtitle: "Release Date", img: DEFAULT_IMAGE },
+        { title: "Hades II", subtitle: "Release Date", img: DEFAULT_IMAGE },
+        {
+            title: "Stardew Valley",
+            subtitle: "Release Date",
+            img: DEFAULT_IMAGE,
+        },
+        { title: "Sea of Stars", subtitle: "Release Date", img: DEFAULT_IMAGE },
+        {
+            title: "The Witcher 3",
+            subtitle: "Release Date",
+            img: DEFAULT_IMAGE,
+        },
+    ];
+
+    return (
+        <Box mt="lg">
+            <Heading fontSize="sm" fontWeight="800" mb="4">
+                Releasing This Month
+            </Heading>
+
+            <SimpleGrid columns={{ base: 1, md: 4 }} gap="6">
+                <Card.Root
+                    bg="bg.panel"
+                    borderRadius="xl"
+                    p="4"
+                    boxShadow="shadows.lg"
+                >
+                    <Box
+                        aspectRatio={1}
+                        w="full"
+                        bg="bg.base"
+                        borderRadius="md"
+                    />
+                </Card.Root>
+
+                <SimpleGrid
+                    columns={{ base: 2, md: 3 }}
+                    gap="4"
+                    as={Box}
+                    gridColumn="span 3"
+                >
+                    {sample.map((g, i) => (
+                        <Card.Root
+                            key={i}
+                            bg="bg.panel"
+                            borderRadius="lg"
+                            overflow="hidden"
+                            transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
+                            boxShadow="shadows.lg"
+                            _hover={{
+                                transform: "translateY(-4px)",
+                                boxShadow: "shadows.xl",
+                            }}
+                        >
+                            <Image
+                                src={g.img}
+                                alt={g.title}
+                                w="full"
+                                h="40"
+                                fit="cover"
+                            />
+                            <Card.Body p="3">
+                                <Text
+                                    fontSize="sm"
+                                    fontWeight="bold"
+                                    color="white"
+                                >
+                                    {g.title}
+                                </Text>
+                                <Text fontSize="xs" color="fg.muted">
+                                    {g.subtitle}
+                                </Text>
+                            </Card.Body>
+                        </Card.Root>
+                    ))}
+                </SimpleGrid>
+            </SimpleGrid>
+        </Box>
+    );
+}
