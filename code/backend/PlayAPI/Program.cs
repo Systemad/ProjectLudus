@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PlayAPI.Context;
+using PlayAPI.Extensions;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +12,7 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
 });
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi(options =>
-{
-});
+builder.Services.AddOpenApi(options => { });
 builder.AddServiceDefaults();
 builder.Services.Configure<JsonOptions>(options =>
 {
@@ -42,9 +39,15 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
     optionsBuilder.UseSnakeCaseNamingConvention();
 });
 builder.EnrichNpgsqlDbContext<AppDbContext>();
+builder.Services.AddPlayApiRateLimiting();
+builder.Services.AddGameClickTrackingServices();
+builder.Services.AddTypesenseServices(builder.Configuration);
 var app = builder.Build();
 
+app.UseRateLimiter();
+
 app.MapDefaultEndpoints();
+app.MapEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

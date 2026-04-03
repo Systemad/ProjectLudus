@@ -1,48 +1,27 @@
-using Microsoft.EntityFrameworkCore;
-using PlayAPI.Context;
-using PlayAPI.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace PlayAPI.Features.Typesense;
 
 public static class TypesenseEndpoints
 {
-    public static IEndpointRouteBuilder UseTagEndpoints(this IEndpointRouteBuilder routeBuilder)
+    public sealed record TypesenseKeyResponse(string Key, string Index);
+
+    public static IEndpointRouteBuilder UseTypesenseEndpoints(
+        this IEndpointRouteBuilder routeBuilder
+    )
     {
-        var group = routeBuilder.MapGroup("/api");
+        var group = routeBuilder.MapGroup("/api/typesense");
 
-        group.MapGet("/typesense-key", async (AppDbContext db, IConfiguration config) =>
-        {
-            // Get current key from DB
-            var keyEntry = await db.TypesenseKeys.FirstOrDefaultAsync();
-
-            var now = DateTime.UtcNow;
-
-            if (keyEntry == null || keyEntry.ExpiresAt <= now)
+        group.MapGet(
+            "/key",
+            async Task<Ok<TypesenseKeyResponse>> (TypesenseKeyService keyService) =>
             {
-                var masterKey = config["TYPESENSE_MASTER_KEY"] ?? throw new Exception("Master key missing");
-                var newKey = Guid.NewGuid().ToString(); 
-                var expiresAt = now.AddDays(1); 
-
-                if (keyEntry == null)
-                {
-                    keyEntry = new TypesenseKey { Key = newKey, ExpiresAt = expiresAt };
-                    db.TypesenseKeys.Add(keyEntry);
-                }
-                else
-                {
-                    keyEntry.Key = newKey;
-                    keyEntry.ExpiresAt = expiresAt;
-                }
-
-                await db.SaveChangesAsync();
+                var key = await keyService.GetValidKeyAsync();
+                return TypedResults.Ok(
+                    new TypesenseKeyResponse(key, TypesenseKeyService.SearchCollection)
+                );
             }
-
-            return Results.Ok(new
-            {
-                Key = keyEntry.Key,
-                ExpiresAt = keyEntry.ExpiresAt
-            });
-        });
+        );
         return group;
     }
 }

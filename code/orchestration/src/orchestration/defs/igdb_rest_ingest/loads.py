@@ -6,7 +6,6 @@ from dlt.sources.helpers.rest_client.paginators import OffsetPaginator
 from dlt.sources.rest_api import (
     rest_api_source,
 )
-from dlt_typesense import typesense
 from dotenv import load_dotenv
 
 from .endpoints import Endpoints
@@ -290,15 +289,6 @@ default_pipeline = dlt.pipeline(
     progress="alive_progress",
     dev_mode=False,
 )
-
-make_typesense_index_pipeline = dlt.pipeline(
-    pipeline_name="make_typesense_index_pipeline",
-    destination=typesense(),
-    dataset_name="games_to_typesense_dataset",
-    progress="alive_progress",
-    dev_mode=False,
-)
-
 
 # my_load_source = my_source()
 # my_load_pipeline = dlt.pipeline(destination="postgres")

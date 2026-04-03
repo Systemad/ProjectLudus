@@ -1,0 +1,24 @@
+{
+  "csharp.inlayHints.enableInlayHintsForTypes": false,
+  "csharp.inlayHints.enableInlayHintsForImplicitObjectCreation": false,
+  "csharp.inlayHints.enableInlayHintsForLambdaParameterTypes": false,
+  "dotnet.inlayHints.enableInlayHintsForParameters": true,
+  "dotnet.inlayHints.enableInlayHintsForOtherParameters": true,
+  "[csharp]": {
+    "editor.defaultFormatter": "csharpier.csharpier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "csharpier.csharpier-vscode",
+    "editor.formatOnSave": true
+  },
+  "csharp-dev-tools.entityFramework.migrationPreferences": {
+    "backend.slnx": {
+      "startupProject": "PlayAPI\\PlayAPI.csproj",
+      "migrationsProject": "PlayAPI\\PlayAPI.csproj",
+      "dbContextClass": "AppDbContext",
+      "migrationsFolder": "Migrations",
+      "targetMigration": "InitialCreate"
+    }
+  },
+}

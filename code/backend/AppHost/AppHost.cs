@@ -14,27 +14,18 @@ builder
     .ConfigureComposeFile(file =>
     {
         file.Name = "game-index";
-        /*
-        file.Networks.Add("custom-network", new()
-        {
-            Driver = "bridge",
-            Name = "aspire"
-        });
-        */
     });
 
-var typesenseMasterKey = builder.AddParameter("TYPESENSE-MASTER-KEY");
+var typesenseMasterKey = builder.AddParameter("TYPESENSE-ADMIN-KEY");
 var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
 var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
 
-// IGDB credentials are managed in the separate Dagster compose; keep AppHost focused on backend services.
-
 var postgres = builder
-    .AddPostgres(name: "catalog-primary", pgUsername, pgPassword)
+    .AddPostgres(name: "main-postgres", pgUsername, pgPassword)
     .WithHostPort(5433)
-    .WithImage(image: "paradedb/paradedb", tag: "v0.22.0-pg17")
+    .WithImage(image: "library/postgres", tag: "18")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataVolume("catalog-primary-data", isReadOnly: false)
+    .WithDataVolume("main-postgres-data", isReadOnly: false)
     .WithEndpoint(
         "tcp",
         ep =>
@@ -47,7 +38,6 @@ var postgres = builder
 
 var catalogDb = postgres.AddDatabase("catalogdev");
 var playDb = postgres.AddDatabase("playdev");
-var dagserDb = postgres.AddDatabase("dagsterDb");
 
 var typesense = builder
     .AddContainer("typesense", "typesense/typesense:30.2.rc9")
@@ -63,7 +53,7 @@ var typesense = builder
     .WithArgs(
         "--data-dir",
         "/data",
-        "--api-key=typesense-index-gaming",
+        // "--api-key=typesense-index-gaming",
         "--enable-cors",
         "--enable-search-analytics",
         "--analytics-dir",
@@ -71,7 +61,7 @@ var typesense = builder
         "--analytics-minute-rate-limit",
         "500"
     )
-    //.WithEnvironment("typesenseApiKey", typesenseMasterKey)
+    .WithEnvironment("TYPESENSE_API_KEY", typesenseMasterKey)
     .PublishAsDockerComposeService(
         (resource, service) =>
         {
@@ -80,12 +70,10 @@ var typesense = builder
         }
     );
 
-var api = builder
-    .AddProject<Projects.PlayAPI>("playapi")
-    .WaitFor(playDb)
-    .WithReference(playDb)
-    //.WithReference(typesense)
-    .WithExplicitStart();
+var api = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
+
+//.WithReference(typesense)
+//.WithExplicitStart();
 
 var frontend = builder
     .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
@@ -102,8 +90,7 @@ builder
     {
         // Always proxy /api requests to backend
         yarp.AddRoute("/api/{**catch-all}", api);
-    });
-
-// Dagster is managed in a separate Docker Compose; remove Dagster services from AppHost.
+    })
+    .WithExplicitStart();
 
 builder.Build().Run();

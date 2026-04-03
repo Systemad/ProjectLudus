@@ -7,6 +7,8 @@ namespace PlayAPI.Features.Typesense;
 
 public class TypesenseKeyService
 {
+    public const string SearchCollection = "games";
+
     private readonly ICreateKeyEndpoint _createKey;
     private readonly AppDbContext _db;
 
@@ -19,7 +21,10 @@ public class TypesenseKeyService
     public async Task<string> GetValidKeyAsync()
     {
         var now = DateTime.UtcNow;
-        var keyEntry = await _db.TypesenseKeys.FirstOrDefaultAsync();
+        var keyEntry = await _db
+            .TypesenseKeys.AsTracking()
+            .OrderBy(x => x.Id)
+            .FirstOrDefaultAsync();
 
         if (keyEntry == null || keyEntry.ExpiresAt <= now)
         {
@@ -30,15 +35,19 @@ public class TypesenseKeyService
             {
                 Description = "Search-only key for frontend",
                 Actions = new[] { "search" },
-                Collections = new[] { "games", "games" },
-                ExpiresAt = expiresAtUnix
+                Collections = new[] { SearchCollection },
+                ExpiresAt = expiresAtUnix,
             };
 
             var createdKey = await _createKey.Execute(keySchema);
 
             if (keyEntry == null)
             {
-                keyEntry = new TypesenseKey { Key = createdKey.Value, ExpiresAt = DateTimeOffset.FromUnixTimeSeconds(expiresAtUnix).UtcDateTime };
+                keyEntry = new TypesenseKey
+                {
+                    Key = createdKey.Value,
+                    ExpiresAt = DateTimeOffset.FromUnixTimeSeconds(expiresAtUnix).UtcDateTime,
+                };
                 _db.TypesenseKeys.Add(keyEntry);
             }
             else

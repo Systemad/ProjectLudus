@@ -96,6 +96,10 @@ with
     game_types as (select id, type as game_type from {{ ref("mart_game_types") }}),
     game_statuses as (
         select id, status as game_status from {{ ref("mart_game_statuses") }}
+    ),
+    game_clicks as (
+        select game_id, count::bigint as clicked
+        from {{ source("igdb_source", "gamesclickcount") }}
     )
 select
     g.id,
@@ -122,6 +126,7 @@ select
     coalesce(pub.publishers, array[]::text[]) as publishers,
     coalesce(dev.developers, array[]::text[]) as developers,
     coalesce(gmm.multiplayer_modes, array[]::text[]) as multiplayer_modes,
+    coalesce(gc.clicked, 0)::bigint as clicked,
     case
         when g.first_release_date is not null and g.first_release_date > 0
         then extract(year from to_timestamp(g.first_release_date::numeric))::int
@@ -140,3 +145,4 @@ left join game_multiplayer_modes gmm on g.id = gmm.game_id
 left join game_types gtype on g.game_type = gtype.id
 left join game_statuses gs on g.game_status = gs.id
 left join {{ ref("mart_covers") }} img on g.cover = img.id
+left join game_clicks gc on g.id = gc.game_id

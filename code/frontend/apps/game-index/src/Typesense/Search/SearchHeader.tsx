@@ -1,11 +1,11 @@
 import { Box } from "ui";
-import { SearchBox } from "react-instantsearch";
 import { SortControls } from "./SearchControl";
+import { SearchInput } from "./SearchInput";
 
 export function SearchHeader() {
     return (
-        <Box>
-            <SearchBox />
+        <Box mb="md">
+            <SearchInput />
 
             <SortControls />
         </Box>

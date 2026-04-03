@@ -23,6 +23,12 @@ make_typesense_index_job = define_asset_job(
     tags={"type": "dlt", "target": "typesense"},
 )
 
+gameclickcount_copy_job = define_asset_job(
+    name="gameclickcount_copy_job",
+    selection=AssetSelection.groups("gameclickcount_copy"),
+    tags={"type": "dlt", "target": "postgres"},
+)
+
 full_pipeline_job = define_asset_job(
     name="full_pipeline_job",
     selection=AssetSelection.groups(
@@ -30,5 +36,6 @@ full_pipeline_job = define_asset_job(
         "igdb_default",
         "igdb_dbt_transformations",
         "make_typesense_index",
+        "gameclickcount_copy",
     ),
 )

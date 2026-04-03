@@ -16,16 +16,12 @@ dependencies = [
     "dbt-postgres>=1.10.0",
     "typesense>=2.0.0",
     "dlt-typesense @ git+https://github.com/marcopesani/dlt-typesense.git@main",
-    "connectorx>=0.4.5",
     "psycopg[binary]>=3.2.0",
     "pyarrow>=23.0.1",
 ]
 
 [dependency-groups]
-dev = [
-    "dagster-webserver",
-    "dagster-dg-cli",
-]
+dev = ["dagster-webserver", "dagster-dg-cli"]
 
 [build-system]
 requires = ["hatchling"]
@@ -39,9 +35,7 @@ directory_type = "project"
 
 [tool.dg.project]
 root_module = "orchestration"
-registry_modules = [
-    "orchestration.components.*",
-]
+registry_modules = ["orchestration.components.*"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
@@ -49,5 +43,3 @@ allow-direct-references = true
 #[tool.typos.default]
 # Ignore spellchecking all lines with # spellchecker:ignore
 #extend-ignore-re = ["(?Rm)^.*(#|//)\\s*spellchecker:ignore$"]
-
-

@@ -1,5 +1,6 @@
 import { Flex, Box, Button, Text } from "ui";
 import { useSortBy } from "react-instantsearch";
+import { SEARCH_INDEX_NAME } from "../instantsearch";
 
 type SortAnchor = (typeof SORT_ANCHOR_OPTIONS)[number]["value"];
 type SortDirection = (typeof SORT_DIRECTION_OPTIONS)[number]["value"];
@@ -14,11 +15,9 @@ const SORT_DIRECTION_OPTIONS = [
     { label: "Descending", value: "desc" },
 ] as const;
 
-const DEFAULT_SORT_INDEX = "games_search";
-
 const RELEVANCY_SORT_ITEM = {
     label: "Relevancy",
-    value: DEFAULT_SORT_INDEX,
+    value: SEARCH_INDEX_NAME,
 };
 
 const ALL_SORT_ITEMS = [
@@ -26,7 +25,7 @@ const ALL_SORT_ITEMS = [
     ...SORT_ANCHOR_OPTIONS.filter((option) => option.value !== "relevancy").flatMap((anchor) =>
         SORT_DIRECTION_OPTIONS.map((direction) => ({
             label: `${anchor.label} ${direction.label}`,
-            value: `games_search/sort/${anchor.value}:${direction.value}`,
+            value: `${SEARCH_INDEX_NAME}/sort/${anchor.value}:${direction.value}`,
         })),
     ),
 ];
@@ -36,7 +35,7 @@ export function SortControls() {
 
     const match = currentRefinement.match(/\/sort\/([^:]+):(asc|desc)$/);
     const anchor =
-        currentRefinement === DEFAULT_SORT_INDEX
+        currentRefinement === SEARCH_INDEX_NAME
             ? "relevancy"
             : ((match?.[1] ?? "relevancy") as SortAnchor);
     const direction = (match?.[2] ?? "desc") as SortDirection;
@@ -56,11 +55,11 @@ export function SortControls() {
                             variant={anchor === option.value ? "solid" : "outline"}
                             onClick={() => {
                                 if (option.value === "relevancy") {
-                                    refine(DEFAULT_SORT_INDEX);
+                                    refine(SEARCH_INDEX_NAME);
                                     return;
                                 }
 
-                                refine(`games_search/sort/${option.value}:${direction}`);
+                                refine(`${SEARCH_INDEX_NAME}/sort/${option.value}:${direction}`);
                             }}
                         >
                             {option.label}
@@ -85,7 +84,7 @@ export function SortControls() {
                             onClick={() => {
                                 if (!isReplicaSort) return;
 
-                                refine(`games_search/sort/${anchor}:${option.value}`);
+                                refine(`${SEARCH_INDEX_NAME}/sort/${anchor}:${option.value}`);
                             }}
                         >
                             {option.label}

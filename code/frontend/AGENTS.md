@@ -76,7 +76,7 @@ For GitHub Actions, consider using [`voidzero-dev/setup-vp`](https://github.com/
 ```yaml
 - uses: voidzero-dev/setup-vp@v1
   with:
-    cache: true
+      cache: true
 - run: vp check
 - run: vp test
 ```
@@ -85,4 +85,5 @@ For GitHub Actions, consider using [`voidzero-dev/setup-vp`](https://github.com/
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
 - [ ] Run `vp check` and `vp test` to validate changes.
-<!--VITE PLUS END-->
+- [ ] Avoid `useEffect` unless it is genuinely required for synchronization with an external system; prefer event-driven updates and Mantine debounce hooks for search input flows.
+  <!--VITE PLUS END-->

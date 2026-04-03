@@ -1,5 +1,7 @@
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
+export const SEARCH_INDEX_NAME = "games_to_typesense_dataset___games_search";
+
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
         apiKey: "typesense-index-gaming", // Be sure to use an API key that only allows search operations
@@ -17,8 +19,7 @@ const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     //  So you can pass any parameters supported by the search endpoint below.
     //  query_by is required.
     additionalSearchParameters: {
-        query_by:
-            "name,genres,themes,game_modes,multiplayer_modes,player_perspectives",
+        query_by: "name,genres,themes,game_modes,multiplayer_modes,player_perspectives",
         query_by_weights: "12,3,2,2,1,1",
         text_match_type: "max_score",
     },

@@ -1,0 +1,9 @@
+type: dagster_dlt.DltLoadCollectionComponent
+
+attributes:
+  loads:
+    - source: .games_postgres_dlt.make_typesense_index
+      pipeline: .games_postgres_dlt.pipeline
+      translation:
+        group_name: make_typesense_index
+        description: "Create/refresh Typesense index from games_search"
