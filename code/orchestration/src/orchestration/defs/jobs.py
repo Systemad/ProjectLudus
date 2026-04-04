@@ -19,7 +19,7 @@ dbt_transformation_job = define_asset_job(
 
 make_typesense_index_job = define_asset_job(
     name="make_typesense_index_job",
-    selection=AssetSelection.groups("make_typesense_index"),
+    selection=AssetSelection.groups("typesense_job"),
     tags={"type": "dlt", "target": "typesense"},
 )
 
@@ -35,7 +35,7 @@ full_pipeline_job = define_asset_job(
         "igdb_popularity_data",
         "igdb_default",
         "igdb_dbt_transformations",
-        "make_typesense_index",
+        "typesense_job",
         "gameclickcount_copy",
     ),
 )

@@ -3,7 +3,7 @@ catalog:
         dev:
             dbname: catalogdev
             host: localhost
-            pass: PQDF13*7dpR-Q77nmQZh*3
+            pass: pudGW.E7_u8eF8Qhnym)E0
             port: 5433
             schema: dbt_dev
             threads: 2
@@ -15,7 +15,7 @@ dbt:
         dev:
             dbname: catalogdev
             host: localhost
-            pass: PQDF13*7dpR-Q77nmQZh*3
+            pass: pudGW.E7_u8eF8Qhnym)E0
             port: 5433
             schema: public
             threads: 2

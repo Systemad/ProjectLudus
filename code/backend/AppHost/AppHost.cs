@@ -17,15 +17,18 @@ builder
     });
 
 var typesenseMasterKey = builder.AddParameter("TYPESENSE-ADMIN-KEY");
-var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
-var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
+
+//var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
+//var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
 
 var postgres = builder
-    .AddPostgres(name: "main-postgres", pgUsername, pgPassword)
+    .AddPostgres(
+        name: "main-postgres" /*, pgUsername, pgPassword*/
+    )
     .WithHostPort(5433)
     .WithImage(image: "library/postgres", tag: "18")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithDataVolume("main-postgres-data", isReadOnly: false)
+    .WithDataVolume("game-index", isReadOnly: false)
     .WithEndpoint(
         "tcp",
         ep =>

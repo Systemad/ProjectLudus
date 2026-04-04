@@ -12,7 +12,7 @@ using PlayAPI.Context;
 namespace PlayAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260403210746_InitialCreate")]
+    [Migration("20260404122222_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

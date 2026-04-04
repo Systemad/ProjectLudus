@@ -20,9 +20,7 @@ from orchestration.defs.sensors import (
 )
 
 defs = dg.Definitions.merge(
-    load_from_defs_folder(
-        path_within_project=Path(__file__).parent
-    ),  # Loads your components
+    load_from_defs_folder(path_within_project=Path(__file__).parent),
     dg.Definitions(
         jobs=[
             igdb_default_dlt_job,

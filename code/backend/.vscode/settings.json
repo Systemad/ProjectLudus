@@ -21,4 +21,7 @@
       "targetMigration": "InitialCreate"
     }
   },
+  "csharp-dev-tools.roslyn.projectOrSolutionFiles": [
+    "d:\\Projects\\ProjectLudus\\code\\backend\\backend.slnx"
+  ],
 }

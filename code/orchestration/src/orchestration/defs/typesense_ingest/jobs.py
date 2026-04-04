@@ -2,6 +2,7 @@ from typing import Any
 
 import dlt
 from dlt.sources.sql_database import sql_table
+from dlt_typesense import typesense as typesense_destination
 from dlt_typesense import typesense_adapter
 
 GAMES_FACETS = [
@@ -34,14 +35,16 @@ NUMERIC_TYPE_HINTS: dict[str, dict[str, Any]] = {
 
 
 @dlt.source(name="postgres_to_typesense")
-def make_typesense_index():
+def _typesense_source():
     games_resource = sql_table(
+        credentials=dlt.secrets["destination.postgres.credentials"],
         table="games_search",
         schema="public",
+        defer_table_reflect=True,
         # chunk_size=50000,
     )
 
-    games_resource = typesense_adapter(
+    games = typesense_adapter(
         games_resource,
         facet=GAMES_FACETS,
         sort=GAMES_SORT,
@@ -57,13 +60,17 @@ def make_typesense_index():
     }
     games_resource.apply_hints(columns=column_type_hints)  # type: ignore[arg-type]
 
-    return games_resource
+    return games
 
 
-pipeline = dlt.pipeline(
+# dagster_dlt component loader expects a concrete DltSource object, not a source factory.
+typesense_source = _typesense_source()
+
+
+typesense_source_pipeline = dlt.pipeline(
     pipeline_name="postgres_to_typesense_pipeline",
-    destination="typesense",
+    destination=typesense_destination(),
     dataset_name="games_search",
-    progress="alive_progress",
+    progress="log",
     dev_mode=False,
 )

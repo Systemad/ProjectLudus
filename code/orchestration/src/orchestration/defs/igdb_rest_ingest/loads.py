@@ -278,7 +278,7 @@ popularity_pipeline = dlt.pipeline(
     pipeline_name="igdb_popularity_pipeline",
     destination="postgres",
     dataset_name="igdb_source",
-    progress="alive_progress",
+    progress="log",
     dev_mode=False,
 )
 
@@ -286,7 +286,7 @@ default_pipeline = dlt.pipeline(
     pipeline_name="igdb_default_pipeline",
     destination="postgres",
     dataset_name="igdb_source",
-    progress="alive_progress",
+    progress="log",
     dev_mode=False,
 )
 
