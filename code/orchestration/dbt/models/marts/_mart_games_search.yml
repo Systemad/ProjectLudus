@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: mart_games_search
+    config:
+      alias: games_search
+      contract: { enforced: false }
+    description: "Search-ready games dataset with aggregated metrics for Typesense indexing"
+    columns:
+      - name: id
+        data_type: bigint
+      - name: name
+        data_type: character varying
+      - name: summary
+        data_type: text
+      - name: storyline
+        data_type: text
+      - name: updated_at
+        data_type: bigint
+      - name: first_release_date
+        data_type: bigint
+      - name: game_type
+        data_type: character varying
+      - name: game_status
+        data_type: character varying
+      - name: aggregated_rating
+        data_type: double precision
+      - name: aggregated_rating_count
+        data_type: integer
+      - name: rating
+        data_type: double precision
+      - name: rating_count
+        data_type: integer
+      - name: total_rating
+        data_type: double precision
+      - name: total_rating_count
+        data_type: integer
+      - name: cover_url
+        data_type: character varying
+      - name: themes
+        data_type: text[]
+      - name: genres
+        data_type: text[]
+      - name: game_modes
+        data_type: text[]
+      - name: platforms
+        data_type: text[]
+      - name: game_engines
+        data_type: text[]
+      - name: player_perspectives
+        data_type: text[]
+      - name: publishers
+        data_type: text[]
+      - name: developers
+        data_type: text[]
+      - name: multiplayer_modes
+        data_type: text[]
+      - name: total_visits
+        data_type: bigint
+      - name: release_year
+        data_type: integer

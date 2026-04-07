@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: mart_company_search
+    config:
+      alias: company_search
+      contract: { enforced: false }
+    description: "Search-ready companies dataset for Typesense indexing"
+    columns:
+      - name: id
+        data_type: bigint
+      - name: name
+        data_type: character varying
+      - name: description
+        data_type: text
+      - name: slug
+        data_type: character varying
+      - name: url
+        data_type: character varying
+      - name: updated_at
+        data_type: bigint
+      - name: start_date
+        data_type: bigint
+      - name: start_year
+        data_type: integer
+      - name: parent_company
+        data_type: character varying
+      - name: changed_company
+        data_type: character varying
+      - name: status
+        data_type: character varying
+      - name: logo_url
+        data_type: character varying
+      - name: games_developed_count
+        data_type: integer
+      - name: games_published_count
+        data_type: integer

@@ -1,10 +1,10 @@
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
-export const SEARCH_INDEX_NAME = "games_to_typesense_dataset___games_search";
+export const SEARCH_INDEX_NAME = "search___games_search";
 
 const typesenseInstantsearchAdapter = new TypesenseInstantSearchAdapter({
     server: {
-        apiKey: "typesense-index-gaming", // Be sure to use an API key that only allows search operations
+        apiKey: "GqGGZsi5vpsNXOGY74tuNfUnQrc1Bf8U", // Be sure to use an API key that only allows search operations
         nodes: [
             {
                 host: "localhost",

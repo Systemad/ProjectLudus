@@ -18,7 +18,7 @@
       "migrationsProject": "PlayAPI\\PlayAPI.csproj",
       "dbContextClass": "AppDbContext",
       "migrationsFolder": "Migrations",
-      "targetMigration": "InitialCreate"
+      "targetMigration": "AddEntry"
     }
   },
   "csharp-dev-tools.roslyn.projectOrSolutionFiles": [

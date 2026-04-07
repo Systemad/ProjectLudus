@@ -8,7 +8,7 @@ import { QueryKey } from "@kubb/plugin-react-query/components";
 export default defineConfig({
     root: ".",
     input: {
-        path: "http://localhost:5141/openapi/v1.json",
+        path: "http://localhost:5129/openapi/v1.json",
     },
     output: {
         path: "./src/gen",
@@ -55,7 +55,7 @@ export default defineConfig({
             client: {
                 dataReturnType: "data",
                 //dataReturnType: "data",
-                importPath: "../../../client.ts",
+                //importPath: "../../../client.ts",
                 baseURL: "",
             },
             mutation: {

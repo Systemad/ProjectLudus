@@ -100,6 +100,7 @@ function RouteComponent() {
                         },
                     },
                 }}
+                future={{ preserveSharedStateOnUnmount: true }}
             >
                 <Configure
                     hitsPerPage={24}

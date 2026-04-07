@@ -72,9 +72,16 @@ var typesense = builder
             service.Restart = "on-failure";
         }
     );
+/*
+var bootstrap = builder.AddPythonApp(
+        "typesense-bootstrap",
+        "../python-bootstrap",
+        scriptPath: "bootstrap_typesense.py"
+    );
+*/
+    //.WithReference(typesense)
 
 var api = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
-
 //.WithReference(typesense)
 //.WithExplicitStart();
 
@@ -84,6 +91,7 @@ var frontend = builder
     .WithReference(api)
     .WaitFor(api)
     .WithExplicitStart();
+//api.PublishWithContainerFiles(frontend, "wwww");
 
 builder
     .AddYarp("frontend-server")

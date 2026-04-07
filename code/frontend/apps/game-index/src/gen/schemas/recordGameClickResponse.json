@@ -1,0 +1,10 @@
+{
+    "required": ["gameId", "count", "lastVisitedAt"],
+    "type": "object",
+    "properties": {
+        "gameId": { "type": "integer", "format": "int64" },
+        "count": { "type": "integer", "format": "int64" },
+        "lastVisitedAt": { "type": "string", "format": "date-time" }
+    },
+    "x-readme-ref-name": "RecordGameClickResponse"
+}

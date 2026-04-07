@@ -9,7 +9,7 @@ def _gameclickcount_copy_source():
         table="game_visit_counts",
         schema="public",
         defer_table_reflect=True,
-    ).with_name("gamesclickcount")
+    ).with_name("game_visit_counts")
 
     return resource
 

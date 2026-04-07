@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PlayAPI.Context;
 using PlayAPI.Data;
 
-namespace PlayAPI.Features.GameClicks;
+namespace PlayAPI.Features.Games.Analytics.RecordClick;
 
 public class GameClickTrackingService
 {

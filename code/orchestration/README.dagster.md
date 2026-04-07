@@ -101,7 +101,7 @@ username = "CATALOG_POSTGRES_USER"
 password = "CATALOG_POSTGRES_PASSWORD"
 ```
 
-This configuration copies `public.game_visit_counts` from the source database into `igdb_source.gamesclickcount` in the catalog database.
+This configuration copies `public.game_visit_counts` from the source database into `igdb_source.game_visit_counts` in the catalog database.
 
 ## CI / Production recommendation
 

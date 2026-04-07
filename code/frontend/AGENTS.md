@@ -85,5 +85,27 @@ For GitHub Actions, consider using [`voidzero-dev/setup-vp`](https://github.com/
 
 - [ ] Run `vp install` after pulling remote changes and before getting started.
 - [ ] Run `vp check` and `vp test` to validate changes.
-- [ ] Avoid `useEffect` unless it is genuinely required for synchronization with an external system; prefer event-driven updates and Mantine debounce hooks for search input flows.
   <!--VITE PLUS END-->
+
+<!--GAME-INDEX START-->
+
+## React Frontend for game-index (apps/game-index)
+
+## Root path for `game-index`
+
+**game-index**: apps/game-index. `game-index` refers to `apps/game-index`
+
+### Routing (generouted)
+
+File-based routing in `src/routes/`. **`src/routeTree.gen.ts` is auto-generated — never edit it manually.**
+
+### API and State
+
+- **Read and Write API**: Tanstack Query is used, combined with Auto-Generated hooks from from `src/gen`
+
+### UI Stack
+
+- **Components**: Refer to `doc/yamada-ui-digest.md` for specifications on how to use YamadaUI and which rules to follow
+- **Search**: Typesense via `react-instantsearch` + `typesense-instantsearch-adapter`
+
+<!--GAME-INDEX END-->

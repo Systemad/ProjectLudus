@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: igdb_source
     tables:
-      - name: gamesclickcount
+      - name: game_visit_counts
         columns:
           - name: id
             data_type: integer

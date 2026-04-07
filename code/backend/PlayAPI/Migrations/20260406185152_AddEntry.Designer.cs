@@ -12,8 +12,8 @@ using PlayAPI.Context;
 namespace PlayAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260404122222_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260406185152_AddEntry")]
+    partial class AddEntry
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,15 @@ namespace PlayAPI.Migrations
                         .HasDatabaseName("ix_game_visit_counts_game_id");
 
                     b.ToTable("game_visit_counts", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Count = 0L,
+                            GameId = -1L,
+                            LastVisitedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
+                        });
                 });
 
             modelBuilder.Entity("PlayAPI.Data.TypesenseKey", b =>

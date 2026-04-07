@@ -1,19 +1,11 @@
 using PlayAPI.Client.TypesenseClient;
-using PlayAPI.Features.GameClicks;
-using PlayAPI.Features.Typesense;
+using PlayAPI.Features.Typesense.GetKey;
 using Refit;
 
-namespace PlayAPI.Extensions;
+namespace PlayAPI.Features.Typesense;
 
-public static class ServiceCollectionExtensions
+public static class TypesenseServiceExtensions
 {
-    public static IServiceCollection AddGameClickTrackingServices(this IServiceCollection services)
-    {
-        services.AddScoped<GameClickTrackingService>();
-
-        return services;
-    }
-
     public static IServiceCollection AddTypesenseServices(
         this IServiceCollection services,
         IConfiguration configuration

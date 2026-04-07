@@ -3,11 +3,11 @@ using PlayAPI.Client.TypesenseClient;
 using PlayAPI.Context;
 using PlayAPI.Data;
 
-namespace PlayAPI.Features.Typesense;
+namespace PlayAPI.Features.Typesense.GetKey;
 
 public class TypesenseKeyService
 {
-    public const string SearchCollection = "games";
+    public const string SearchCollection = "search___games_search";
 
     private readonly ICreateKeyEndpoint _createKey;
     private readonly AppDbContext _db;
@@ -26,9 +26,8 @@ public class TypesenseKeyService
             .OrderBy(x => x.Id)
             .FirstOrDefaultAsync();
 
-        if (keyEntry == null || keyEntry.ExpiresAt <= now)
+        if (keyEntry is null || keyEntry.ExpiresAt <= now)
         {
-            // Generate a new scoped search-only key
             var expiresAtUnix = DateTimeOffset.UtcNow.AddDays(7).ToUnixTimeSeconds();
 
             var keySchema = new ApiKeySchema
@@ -41,7 +40,7 @@ public class TypesenseKeyService
 
             var createdKey = await _createKey.Execute(keySchema);
 
-            if (keyEntry == null)
+            if (keyEntry is null)
             {
                 keyEntry = new TypesenseKey
                 {

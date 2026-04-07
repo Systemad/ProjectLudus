@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using PlayAPI.Extensions;
 
-namespace PlayAPI.Features.GameClicks;
+namespace PlayAPI.Features.Games.Analytics.RecordClick;
 
-public static class GameClickEndpoints
+public static class RecordClickEndpoints
 {
     public sealed record RecordGameClickResponse(long GameId, long Count, DateTime LastVisitedAt);
 
-    public static IEndpointRouteBuilder UseGameClickEndpoints(
+    public static IEndpointRouteBuilder MapRecordClickEndpoints(
         this IEndpointRouteBuilder routeBuilder
     )
     {

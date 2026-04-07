@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace PlayAPI.Features.Typesense;
+namespace PlayAPI.Features.Typesense.GetKey;
 
-public static class TypesenseEndpoints
+public static class GetKeyEndpoints
 {
     public sealed record TypesenseKeyResponse(string Key, string Index);
 
-    public static IEndpointRouteBuilder UseTypesenseEndpoints(
-        this IEndpointRouteBuilder routeBuilder
-    )
+    public static IEndpointRouteBuilder MapGetKeyEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
         var group = routeBuilder.MapGroup("/api/typesense");
 
@@ -22,6 +20,7 @@ public static class TypesenseEndpoints
                 );
             }
         );
+
         return group;
     }
 }

@@ -28,7 +28,7 @@ import { useDebouncedCallback } from "@mantine/hooks";
 import { SearchBox } from "../Components/Search/SearchInput";
 import { SearchHeader } from "../Components/Search/SearchHeader";
 
-export const Route = createFileRoute("/searchsense")({
+export const Route = createFileRoute("/search")({
     component: RouteComponent,
 });
 

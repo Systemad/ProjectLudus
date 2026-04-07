@@ -98,8 +98,8 @@ with
         select id, status as game_status from {{ ref("mart_game_statuses") }}
     ),
     game_clicks as (
-        select game_id, count::bigint as clicked
-        from {{ source("igdb_source", "gamesclickcount") }}
+        select game_id, count::bigint as total_visits
+        from {{ source("igdb_source", "game_visit_counts") }}
     )
 select
     g.id,
@@ -126,7 +126,7 @@ select
     coalesce(pub.publishers, array[]::text[]) as publishers,
     coalesce(dev.developers, array[]::text[]) as developers,
     coalesce(gmm.multiplayer_modes, array[]::text[]) as multiplayer_modes,
-    coalesce(gc.clicked, 0)::bigint as clicked,
+    coalesce(gc.total_visits, 0)::bigint as total_visits,
     case
         when g.first_release_date is not null and g.first_release_date > 0
         then extract(year from to_timestamp(g.first_release_date::numeric))::int

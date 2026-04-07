@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using PlayAPI.Context;
 using PlayAPI.Extensions;
+using PlayAPI.Features.Games.Analytics;
+using PlayAPI.Features.Typesense;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +34,6 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
             np.ConfigureDataSource(ds =>
             {
                 ds.UseNodaTime();
-                //ds.EnableDynamicJson();
             });
         }
     );
@@ -40,16 +41,15 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 });
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 builder.Services.AddPlayApiRateLimiting();
-builder.Services.AddGameClickTrackingServices();
+builder.Services.AddGamesAnalyticsServices();
 builder.Services.AddTypesenseServices(builder.Configuration);
 var app = builder.Build();
 
 app.UseRateLimiter();
 
 app.MapDefaultEndpoints();
-app.MapEndpoints();
-
-// Configure the HTTP request pipeline.
+app.MapGamesAnalyticsEndpoints();
+app.MapTypesenseEndpointsGroup();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
