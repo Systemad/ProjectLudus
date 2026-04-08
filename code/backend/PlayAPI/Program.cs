@@ -43,6 +43,8 @@ builder.EnrichNpgsqlDbContext<AppDbContext>();
 builder.Services.AddPlayApiRateLimiting();
 builder.Services.AddGamesAnalyticsServices();
 builder.Services.AddTypesenseServices(builder.Configuration);
+
+
 var app = builder.Build();
 
 app.UseRateLimiter();

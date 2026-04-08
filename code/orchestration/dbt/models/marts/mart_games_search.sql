@@ -100,6 +100,79 @@ with
     game_clicks as (
         select game_id, count::bigint as total_visits
         from {{ source("igdb_source", "game_visit_counts") }}
+    ),
+    game_popularity as (
+        select
+            gpl.game_id,
+            max(
+                case
+                    when gpl.popularity_type = 1 and pt.popularity_source = 121
+                    then gpl.value
+                end
+            )::float as igdb_visits,
+            max(
+                case
+                    when gpl.popularity_type = 2 and pt.popularity_source = 121
+                    then gpl.value
+                end
+            )::float as igdb_want_to_play,
+            max(
+                case
+                    when gpl.popularity_type = 3 and pt.popularity_source = 121
+                    then gpl.value
+                end
+            )::float as igdb_playing,
+            max(
+                case
+                    when gpl.popularity_type = 4 and pt.popularity_source = 121
+                    then gpl.value
+                end
+            )::float as igdb_played,
+            max(
+                case
+                    when gpl.popularity_type = 5 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_24hr_peak_players,
+            max(
+                case
+                    when gpl.popularity_type = 6 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_positive_reviews,
+            max(
+                case
+                    when gpl.popularity_type = 7 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_negative_reviews,
+            max(
+                case
+                    when gpl.popularity_type = 8 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_total_reviews,
+            max(
+                case
+                    when gpl.popularity_type = 9 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_global_top_sellers,
+            max(
+                case
+                    when gpl.popularity_type = 10 and pt.popularity_source = 1
+                    then gpl.value
+                end
+            )::float as steam_most_wishlisted_upcoming,
+            max(
+                case
+                    when gpl.popularity_type = 34 and pt.popularity_source = 14
+                    then gpl.value
+                end
+            )::float as twitch_24hr_hours_watched
+        from {{ ref("mart_game_popularity_latest") }} gpl
+        join {{ ref("mart_popularity_types") }} pt on gpl.popularity_type = pt.id
+        group by gpl.game_id
     )
 select
     g.id,
@@ -120,13 +193,24 @@ select
     coalesce(gth.themes, array[]::text[]) as themes,
     coalesce(gg.genres, array[]::text[]) as genres,
     coalesce(gm.game_modes, array[]::text[]) as game_modes,
-    coalesce(gp.platforms, array[]::text[]) as platforms,
+    coalesce(gpl.platforms, array[]::text[]) as platforms,
     coalesce(ge.game_engines, array[]::text[]) as game_engines,
     coalesce(gpp.player_perspectives, array[]::text[]) as player_perspectives,
     coalesce(pub.publishers, array[]::text[]) as publishers,
     coalesce(dev.developers, array[]::text[]) as developers,
     coalesce(gmm.multiplayer_modes, array[]::text[]) as multiplayer_modes,
     coalesce(gc.total_visits, 0)::bigint as total_visits,
+    gpop.igdb_visits,
+    gpop.igdb_want_to_play,
+    gpop.igdb_playing,
+    gpop.igdb_played,
+    gpop.steam_24hr_peak_players,
+    gpop.steam_positive_reviews,
+    gpop.steam_negative_reviews,
+    gpop.steam_total_reviews,
+    gpop.steam_global_top_sellers,
+    gpop.steam_most_wishlisted_upcoming,
+    gpop.twitch_24hr_hours_watched,
     case
         when g.first_release_date is not null and g.first_release_date > 0
         then extract(year from to_timestamp(g.first_release_date::numeric))::int
@@ -136,7 +220,7 @@ from {{ ref("mart_games") }} g
 left join game_themes gth on g.id = gth.game_id
 left join game_genres gg on g.id = gg.game_id
 left join game_modes gm on g.id = gm.game_id
-left join game_platforms gp on g.id = gp.game_id
+left join game_platforms gpl on g.id = gpl.game_id
 left join game_engines ge on g.id = ge.game_id
 left join game_player_perspectives gpp on g.id = gpp.game_id
 left join game_publishers pub on g.id = pub.game_id
@@ -146,3 +230,4 @@ left join game_types gtype on g.game_type = gtype.id
 left join game_statuses gs on g.game_status = gs.id
 left join {{ ref("mart_covers") }} img on g.cover = img.id
 left join game_clicks gc on g.id = gc.game_id
+left join game_popularity gpop on g.id = gpop.game_id

@@ -1,14 +1,11 @@
 using System.Text.Json.Serialization;
 using CatalogAPI.Context;
-using CatalogAPI.Features.Search;
-using CatalogAPI.Features.Tags;
-using CatalogAPI.Models;
-using EFCore.ParadeDB.PgSearch;
+using CatalogAPI.Features.Games;
+using CatalogAPI.Features.PopularityTypes;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Scalar.AspNetCore;
-using Thinktecture;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +28,6 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
 });
 
-builder.Services.AddScoped<KeySetPaginationStrategy>();
-builder.Services.AddScoped<OffsetPaginationStrategy>();
-
-// builder.AddNpgsqlDbContext
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -49,23 +42,25 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
                 ds.UseNodaTime();
                 //ds.EnableDynamicJson();
             });
-            np.UsePgSearch();
-            np.AddWindowFunctionsSupport();
         }
     );
     optionsBuilder.UseSnakeCaseNamingConvention();
 });
-
 builder.EnrichNpgsqlDbContext<AppDbContext>();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOutputCache(options =>
 {
-    options.AddPolicy("Expire15Min", outputCachePolicyBuilder => 
-        outputCachePolicyBuilder.Expire(TimeSpan.FromMinutes(15)));
+    options.AddPolicy(
+        "Expire15Min",
+        outputCachePolicyBuilder => outputCachePolicyBuilder.Expire(TimeSpan.FromMinutes(15))
+    );
     //options.DefaultExpirationTimeSpan = TimeSpan.FromHours(1);
 });
+
+builder.Services.AddGamesServices();
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
@@ -87,7 +82,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseOutputCache();
 
-app.UseSearchEndpoints();
-app.UseTagsEndpoints();
+app.UseGamesEndpoints();
+app.UsePopularityEndpoints();
 
 app.Run();

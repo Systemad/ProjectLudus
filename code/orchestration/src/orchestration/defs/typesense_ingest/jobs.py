@@ -19,7 +19,21 @@ GAMES_FACETS = [
     "multiplayer_modes",
 ]
 
-GAMES_SORT = ["aggregated_rating", "release_year"]
+GAMES_SORT = [
+    "aggregated_rating",
+    "release_year",
+    "igdb_visits",
+    "igdb_want_to_play",
+    "igdb_playing",
+    "igdb_played",
+    "steam_24hr_peak_players",
+    "steam_positive_reviews",
+    "steam_negative_reviews",
+    "steam_total_reviews",
+    "steam_global_top_sellers",
+    "steam_most_wishlisted_upcoming",
+    "twitch_24hr_hours_watched",
+]
 ARRAY_STRING_FIELDS = [
     "themes",
     "genres",
@@ -32,7 +46,39 @@ ARRAY_STRING_FIELDS = [
     "multiplayer_modes",
 ]
 NUMERIC_TYPE_HINTS: dict[str, dict[str, Any]] = {
-    "total_visits": {"name": "total_visits", "x-typesense-type": "int64"}
+    "total_visits": {"name": "total_visits", "x-typesense-type": "int64"},
+    "igdb_visits": {"name": "igdb_visits", "x-typesense-type": "float"},
+    "igdb_want_to_play": {"name": "igdb_want_to_play", "x-typesense-type": "float"},
+    "igdb_playing": {"name": "igdb_playing", "x-typesense-type": "float"},
+    "igdb_played": {"name": "igdb_played", "x-typesense-type": "float"},
+    "steam_24hr_peak_players": {
+        "name": "steam_24hr_peak_players",
+        "x-typesense-type": "float",
+    },
+    "steam_positive_reviews": {
+        "name": "steam_positive_reviews",
+        "x-typesense-type": "float",
+    },
+    "steam_negative_reviews": {
+        "name": "steam_negative_reviews",
+        "x-typesense-type": "float",
+    },
+    "steam_total_reviews": {
+        "name": "steam_total_reviews",
+        "x-typesense-type": "float",
+    },
+    "steam_global_top_sellers": {
+        "name": "steam_global_top_sellers",
+        "x-typesense-type": "float",
+    },
+    "steam_most_wishlisted_upcoming": {
+        "name": "steam_most_wishlisted_upcoming",
+        "x-typesense-type": "float",
+    },
+    "twitch_24hr_hours_watched": {
+        "name": "twitch_24hr_hours_watched",
+        "x-typesense-type": "float",
+    },
 }
 
 

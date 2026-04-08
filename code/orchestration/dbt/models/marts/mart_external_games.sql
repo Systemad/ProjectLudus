@@ -20,7 +20,18 @@ with
 
         from {{ ref("int_external_games") }}
 
+    ),
+
+    deduplicated as (
+        {{
+            dbt_utils.deduplicate(
+                relation="formatted",
+                partition_by="id",
+                order_by="updated_at desc, created_at desc",
+            )
+        }}
+
     )
 
 select *
-from formatted
+from deduplicated

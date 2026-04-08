@@ -7,16 +7,26 @@ import {
     Grid,
     Heading,
     HStack,
-    Image,
-    SimpleGrid,
     Text,
     VStack,
 } from "ui";
-import { releasingThisMonth } from "../../data/games";
+import { Configure, Hits, InstantSearch } from "react-instantsearch";
+import { SEARCH_INDEX_NAME, releasingSearchClient } from "@src/Typesense/instantsearch";
+import { HomeRailHitCard, homeRailHitClassNames, homeRailHitListCss } from "./HomeRailHitCard";
 
 const CALENDAR_HIGHLIGHTS = new Set([18, 20, 22, 24, 26, 28]);
 
 export function ReleasingSection() {
+    const now = new Date();
+    const monthStart = Math.floor(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1) / 1000);
+    const nextMonthStart = Math.floor(
+        Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1) / 1000,
+    );
+    const releaseRailParams = {
+        sort_by: "aggregated_rating:desc",
+        filter_by: `aggregated_rating:!=null && first_release_date:>=${monthStart} && first_release_date:<${nextMonthStart}`,
+    } as const;
+
     return (
         <VStack align="stretch" gap="8">
             <Heading fontFamily="heading" fontSize={{ base: "3xl", md: "4xl" }}>
@@ -103,40 +113,17 @@ export function ReleasingSection() {
                     </VStack>
                 </Box>
 
-                {/* Release list */}
-                <SimpleGrid columns={{ base: 1, sm: 2, xl: 3 }} gap="3">
-                    {releasingThisMonth.map((item) => (
-                        <Flex
-                            key={item.id}
-                            gap="3"
-                            align="center"
-                            rounded="2xl"
-                            bg="bg.panel"
-                            borderWidth="1px"
-                            borderColor="border.subtle"
-                            p="4"
-                        >
-                            <Image
-                                src={item.image}
-                                alt={item.title}
-                                w="12"
-                                h="12"
-                                minW="12"
-                                rounded="xl"
-                                objectFit="cover"
-                                flexShrink={0}
-                            />
-                            <VStack align="stretch" gap="0.5">
-                                <Text fontWeight="bold" fontSize="sm">
-                                    {item.title}
-                                </Text>
-                                <Text color="fg.muted" fontSize="xs">
-                                    {item.releaseDate}
-                                </Text>
-                            </VStack>
-                        </Flex>
-                    ))}
-                </SimpleGrid>
+                <InstantSearch
+                    searchClient={releasingSearchClient}
+                    indexName={SEARCH_INDEX_NAME}
+                    future={{ preserveSharedStateOnUnmount: true }}
+                >
+                    <Configure query="*" hitsPerPage={10} {...(releaseRailParams as object)} />
+
+                    <Box css={homeRailHitListCss}>
+                        <Hits hitComponent={HomeRailHitCard} classNames={homeRailHitClassNames} />
+                    </Box>
+                </InstantSearch>
             </Grid>
         </VStack>
     );

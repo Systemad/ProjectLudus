@@ -57,5 +57,27 @@ models:
         data_type: text[]
       - name: total_visits
         data_type: bigint
+      - name: igdb_visits
+        data_type: double precision
+      - name: igdb_want_to_play
+        data_type: double precision
+      - name: igdb_playing
+        data_type: double precision
+      - name: igdb_played
+        data_type: double precision
+      - name: steam_24hr_peak_players
+        data_type: double precision
+      - name: steam_positive_reviews
+        data_type: double precision
+      - name: steam_negative_reviews
+        data_type: double precision
+      - name: steam_total_reviews
+        data_type: double precision
+      - name: steam_global_top_sellers
+        data_type: double precision
+      - name: steam_most_wishlisted_upcoming
+        data_type: double precision
+      - name: twitch_24hr_hours_watched
+        data_type: double precision
       - name: release_year
         data_type: integer

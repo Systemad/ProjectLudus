@@ -5,6 +5,8 @@ import { ConsolesSection } from "../components/home/ConsolesSection";
 import { ReleasingSection } from "../components/home/ReleasingSection";
 import { SpotlightHero } from "../components/home/SpotlightHero";
 import { SpotlightRatedSection } from "../components/home/SpotlightRatedSection";
+import { SteamPeakPlayersSection } from "../components/home/SteamPeakPlayersSection";
+import { SteamWishlistedUpcomingSection } from "../components/home/SteamWishlistedUpcomingSection";
 import { TrendingSection } from "../components/home/TrendingSection";
 import { games } from "../data/games";
 
@@ -21,6 +23,8 @@ function GamingHubPage() {
                     <ConsolesSection />
                     <SpotlightRatedSection />
                     <ReleasingSection />
+                    <SteamPeakPlayersSection />
+                    <SteamWishlistedUpcomingSection />
 
                     {/* Stats banner */}
                     <Box

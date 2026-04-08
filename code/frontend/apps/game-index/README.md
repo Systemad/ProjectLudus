@@ -45,6 +45,25 @@ export default defineConfig([
 ]);
 ```
 
+## Typesense Rails
+
+For homepage metric rails (for example: releasing, Steam 24h peak, Steam wishlisted), use a separate Typesense adapter/search client per rail.
+
+Why this is required:
+
+- Rails can share index and widgets, but not adapter-level `additionalSearchParameters`.
+- If rails share one adapter/client, `sort_by` and related params can bleed across sections and produce identical lists.
+- One adapter per rail ensures each section sends its own `sort_by` and `filter_by` payload.
+
+Current pattern in `src/Typesense/instantsearch.ts`:
+
+- `searchClient`: full-text search pages.
+- `releasingSearchClient`: "Releasing This Month" rail.
+- `steamPeakPlayersSearchClient`: "Steam 24h Peak Players" rail.
+- `steamWishlistedUpcomingSearchClient`: "Steam Most Wishlisted Upcoming" rail.
+
+When adding a new metric rail, create a dedicated adapter/client instead of reusing an existing one.
+
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
