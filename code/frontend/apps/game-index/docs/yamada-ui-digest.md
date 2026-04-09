@@ -1,10 +1,10 @@
 # Yamada UI Documentation Digest
 
 - Source: `yamada-ui-llms-full.txt`
-- Digest date: 2026-04-01
+- Digest date: 2026-04-09
 - Coverage: full file processed
-- Corpus size: 3,403,093 bytes / 51,479 lines
-- Unique page titles detected: 239
+- Corpus size: 3,628,713 bytes / 65,722 lines
+- Unique page titles detected: 240
 
 ## Working Rules For This Repo
 
@@ -182,6 +182,7 @@
 - Separator
 - Shadows
 - Show
+- Sidebar
 - SimpleGrid
 - Sizes
 - Skeleton

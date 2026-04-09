@@ -5,10 +5,10 @@ import { ConsolesSection } from "../components/home/ConsolesSection";
 import { ReleasingSection } from "../components/home/ReleasingSection";
 import { SpotlightHero } from "../components/home/SpotlightHero";
 import { SpotlightRatedSection } from "../components/home/SpotlightRatedSection";
-import { SteamPeakPlayersSection } from "../components/home/SteamPeakPlayersSection";
-import { SteamWishlistedUpcomingSection } from "../components/home/SteamWishlistedUpcomingSection";
+
 import { TrendingSection } from "../components/home/TrendingSection";
 import { games } from "../data/games";
+import { SteamPopularitySection } from "@src/components/home/SteamPopularitySection";
 
 export const Route = createFileRoute("/")({ component: GamingHubPage });
 
@@ -23,8 +23,11 @@ function GamingHubPage() {
                     <ConsolesSection />
                     <SpotlightRatedSection />
                     <ReleasingSection />
-                    <SteamPeakPlayersSection />
-                    <SteamWishlistedUpcomingSection />
+                    <SteamPopularitySection title="Steam 24h Peak Players" popularityTypeId={5} />
+                    <SteamPopularitySection
+                        title="Steam Most Wishlisted Upcoming"
+                        popularityTypeId={10}
+                    />
 
                     {/* Stats banner */}
                     <Box

@@ -1,6 +1,7 @@
 "use client";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useExtractColors } from "react-extract-colors";
+import { useMemo } from "react";
 import {
     Box,
     Button,
@@ -21,10 +22,11 @@ import {
 import AmbientBackground from "../../components/game/AmbientBackground";
 import Hero from "../../components/game/Hero";
 import ScreenshotCarousel from "../../components/game/ScreenshotCarousel";
-import SimilarGamesSection from "../../components/game/SimilarGamesSection";
 import Card from "../../components/ui/Card";
-import { getGameById, getGamesByIds } from "../../data/games";
 import { buildAmbientGradient } from "../../utils/ambientGradient";
+import { type GameDto, useGetApiGamesGameidSuspenseHook } from "@src/gen/catalogApi";
+import { formatReleaseDate } from "@src/utils/formatReleaseDate";
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 export const Route = createFileRoute("/games/$gameId")({
     component: GameDetailPage,
@@ -48,24 +50,9 @@ const sectionMetaStyle = {
 
 function GameDetailPage() {
     const { gameId } = Route.useParams();
-    const game = getGameById(gameId);
-
-    const sourceImage = game?.heroImage ?? game?.coverImage ?? "";
-    const { dominantColor, darkerColor, lighterColor } = useExtractColors(sourceImage, {
-        format: "hex",
-        maxColors: 4,
-        maxSize: 120,
-        colorSimilarityThreshold: 45,
-        sortBy: "vibrance",
-    });
-    const pageAmbientGradient = buildAmbientGradient({
-        dominantColor,
-        darkerColor,
-        lighterColor,
-    });
-
-    const screenshotSources = game?.screenshots ?? [];
-    const similarGames = getGamesByIds(game?.similarGameIds || []);
+    const numericGameId = Number(gameId);
+    const { data } = useGetApiGamesGameidSuspenseHook({ gameId: numericGameId });
+    const game = data?.game as GameDto | undefined;
 
     if (!game) {
         return (
@@ -80,6 +67,38 @@ function GameDetailPage() {
         );
     }
 
+    const coverImage = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_big") : "";
+    const sourceImage = coverImage;
+    const { dominantColor, darkerColor, lighterColor } = useExtractColors(sourceImage, {
+        format: "hex",
+        maxColors: 4,
+        maxSize: 120,
+        colorSimilarityThreshold: 45,
+        sortBy: "vibrance",
+    });
+    const pageAmbientGradient = buildAmbientGradient({
+        dominantColor,
+        darkerColor,
+        lighterColor,
+    });
+
+    const screenshotSources = useMemo(
+        () =>
+            (game.screenshots ?? [])
+                .map((screenshot) =>
+                    screenshot.url ? getIGDBImageUrl(screenshot.url, "screenshot_big") : "",
+                )
+                .filter((src) => src.length > 0),
+        [game.screenshots],
+    );
+
+    const genres = game.genres ?? [];
+    const themes = game.themes ?? [];
+    const platforms = game.platforms ?? [];
+    const modes = game.gameModes ?? game.playerPerspectives ?? [];
+    const rating = game.aggregatedRating ?? game.rating;
+    const websites = game.websites?.filter((website) => website.url) ?? [];
+
     return (
         <Box w="full" color="fg.base" position="relative" isolation="isolate">
             <AmbientBackground gradient={pageAmbientGradient} />
@@ -92,10 +111,10 @@ function GameDetailPage() {
                         <VStack align="stretch" gap={6}>
                             <Card p={8}>
                                 <Heading color="fg.base" size="md" mb={4}>
-                                    The Ancient Kingdom Awaits
+                                    {game.storyline ? "Storyline" : "Overview"}
                                 </Heading>
                                 <Text color="fg.subtle" lineHeight="normal" fontSize="lg">
-                                    {game.summary}
+                                    {game.storyline ?? game.summary ?? "No description available."}
                                 </Text>
                             </Card>
 
@@ -116,7 +135,7 @@ function GameDetailPage() {
                                                 fontWeight="medium"
                                                 color="fg.emphasized"
                                             >
-                                                Team Cherry
+                                                Unknown
                                             </Text>
                                         </HStack>
                                         <HStack justify="space-between">
@@ -126,7 +145,7 @@ function GameDetailPage() {
                                                 fontWeight="medium"
                                                 color="fg.emphasized"
                                             >
-                                                Team Cherry
+                                                Unknown
                                             </Text>
                                         </HStack>
                                         <HStack justify="space-between">
@@ -136,7 +155,7 @@ function GameDetailPage() {
                                                 fontWeight="medium"
                                                 color="fg.emphasized"
                                             >
-                                                Feb 24, 2017
+                                                {formatReleaseDate(game.firstReleaseDate)}
                                             </Text>
                                         </HStack>
                                     </VStack>
@@ -150,7 +169,7 @@ function GameDetailPage() {
                                         GENRES
                                     </Text>
                                     <Wrap mb={4} gap="xs">
-                                        {["Action", "Adventure", "Indie"].map((item) => (
+                                        {genres.map((item) => (
                                             <Tag
                                                 key={item}
                                                 variant="surface"
@@ -168,27 +187,24 @@ function GameDetailPage() {
                                         THEMES
                                     </Text>
                                     <Wrap gap="xs">
-                                        {["Metroidvania", "Atmospheric", "Difficult"].map(
-                                            (item) => (
-                                                <Tag
-                                                    key={item}
-                                                    variant="surface"
-                                                    colorScheme="gray"
-                                                    color="fg.base"
-                                                    textTransform="none"
-                                                    px="sm"
-                                                    py="2xs"
-                                                >
-                                                    {item}
-                                                </Tag>
-                                            ),
-                                        )}
+                                        {themes.map((item) => (
+                                            <Tag
+                                                key={item}
+                                                variant="surface"
+                                                colorScheme="gray"
+                                                color="fg.base"
+                                                textTransform="none"
+                                                px="sm"
+                                                py="2xs"
+                                            >
+                                                {item}
+                                            </Tag>
+                                        ))}
                                     </Wrap>
                                 </Card>
                             </SimpleGrid>
                         </VStack>
 
-                        {/* Sidebar Column */}
                         <VStack align="stretch" gap={6}>
                             <Card p={6}>
                                 <VStack align="stretch" gap={6}>
@@ -197,18 +213,21 @@ function GameDetailPage() {
                                             Consoles
                                         </Text>
                                         <Wrap gap="md">
-                                            <Tag
-                                                variant="surface"
-                                                colorScheme="gray"
-                                                size="md"
-                                                rounded="lg"
-                                                startIcon={<GithubIcon />}
-                                                px="sm"
-                                                py="2xs"
-                                                color="fg.base"
-                                            >
-                                                Github
-                                            </Tag>
+                                            {platforms.map((platform) => (
+                                                <Tag
+                                                    key={platform}
+                                                    variant="surface"
+                                                    colorScheme="gray"
+                                                    size="md"
+                                                    rounded="lg"
+                                                    startIcon={<GithubIcon />}
+                                                    px="sm"
+                                                    py="2xs"
+                                                    color="fg.base"
+                                                >
+                                                    {platform}
+                                                </Tag>
+                                            ))}
                                         </Wrap>
                                     </Box>
 
@@ -219,7 +238,7 @@ function GameDetailPage() {
                                         <HStack bg="bg.panel" p={3} rounded="xl" justify="center">
                                             <Icon as={UserIcon} color="yellow.500" />
                                             <Text fontWeight="bold" fontSize="sm">
-                                                Single-player
+                                                {modes.join(", ") || "Not specified"}
                                             </Text>
                                         </HStack>
                                     </Box>
@@ -229,48 +248,48 @@ function GameDetailPage() {
                                             Official Links
                                         </Text>
                                         <VStack align="stretch" gap={2}>
-                                            <Button
-                                                variant="ghost"
-                                                colorScheme="gray"
-                                                color="fg.base"
-                                                justifyContent="space-between"
-                                                endIcon={<span>›</span>}
-                                                size="sm"
-                                                _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                                            >
-                                                <HStack>
-                                                    <Icon as={Gamepad2Icon} color="fg.muted" />
-                                                    <Text>Steam Store</Text>
-                                                </HStack>
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                colorScheme="gray"
-                                                color="fg.base"
-                                                justifyContent="space-between"
-                                                endIcon={<span>›</span>}
-                                                size="sm"
-                                                _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                                            >
-                                                <HStack>
-                                                    <Icon as={GlobeIcon} color="fg.muted" />{" "}
-                                                    <Text>Official Website</Text>
-                                                </HStack>
-                                            </Button>
-                                            <Button
-                                                variant="ghost"
-                                                colorScheme="gray"
-                                                color="fg.base"
-                                                justifyContent="space-between"
-                                                endIcon={<span>›</span>}
-                                                size="sm"
-                                                _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                                            >
-                                                <HStack>
-                                                    <Icon as={Gamepad2Icon} color="fg.muted" />{" "}
-                                                    <Text>Epic Games Store</Text>
-                                                </HStack>
-                                            </Button>
+                                            {websites.length > 0 ? (
+                                                websites.map((website) => (
+                                                    <Button
+                                                        key={website.id}
+                                                        as="a"
+                                                        href={website.url ?? undefined}
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        variant="ghost"
+                                                        colorScheme="gray"
+                                                        color="fg.base"
+                                                        justifyContent="space-between"
+                                                        endIcon={<span>›</span>}
+                                                        size="sm"
+                                                        _hover={{
+                                                            bg: "bg.subtle",
+                                                            color: "fg.base",
+                                                        }}
+                                                    >
+                                                        <HStack>
+                                                            <Icon
+                                                                as={
+                                                                    website.typeName
+                                                                        ?.toLowerCase()
+                                                                        .includes("official")
+                                                                        ? GlobeIcon
+                                                                        : Gamepad2Icon
+                                                                }
+                                                                color="fg.muted"
+                                                            />
+                                                            <Text>
+                                                                {website.typeName ??
+                                                                    "Official Link"}
+                                                            </Text>
+                                                        </HStack>
+                                                    </Button>
+                                                ))
+                                            ) : (
+                                                <Text color="fg.subtle" fontSize="sm">
+                                                    No official links available.
+                                                </Text>
+                                            )}
                                         </VStack>
                                     </Box>
 
@@ -285,10 +304,12 @@ function GameDetailPage() {
                                             <Icon as={Gamepad2Icon} color="fg.info" />
                                             <VStack align="start" gap={0}>
                                                 <Text fontSize="xs" fontWeight="bold">
-                                                    PC Master Race
+                                                    {game.gameStatusName ?? "Game status"}
                                                 </Text>
                                                 <Text fontSize="xs" color="fg.subtle">
-                                                    OPTIMIZATION GOLD
+                                                    {typeof rating === "number"
+                                                        ? `${rating.toFixed(1)} aggregated rating`
+                                                        : "Rating unavailable"}
                                                 </Text>
                                             </VStack>
                                         </HStack>
@@ -299,33 +320,29 @@ function GameDetailPage() {
                             <Card p={6}>
                                 <HStack gap={2} mb={4} align="center">
                                     <Icon as={Gamepad2Icon} />
-                                    <Text {...sectionLabelStyle}>System Requirements</Text>
+                                    <Text {...sectionLabelStyle}>Release Details</Text>
                                 </HStack>
                                 <VStack align="stretch" gap={4} fontSize="xs">
                                     <Box>
                                         <Text {...sectionMetaStyle} mb={1}>
-                                            MINIMUM SPECS
+                                            TYPE
                                         </Text>
-                                        <Text color="fg.subtle">• OS: Windows 7</Text>
                                         <Text color="fg.subtle">
-                                            • Processor: Intel Core 2 Duo E5200
+                                            {game.gameTypeName ?? "Unspecified"}
                                         </Text>
-                                        <Text color="fg.subtle">• Memory: 4 GB RAM</Text>
                                     </Box>
                                     <Box>
                                         <Text {...sectionMetaStyle} mb={1}>
-                                            RECOMMENDED SPECS
+                                            RELEASE DATE
                                         </Text>
-                                        <Text color="fg.subtle">• OS: Windows 10</Text>
-                                        <Text color="fg.subtle">• Processor: Intel Core i5</Text>
-                                        <Text color="fg.subtle">• Memory: 8 GB RAM</Text>
+                                        <Text color="fg.subtle">
+                                            {formatReleaseDate(game.firstReleaseDate)}
+                                        </Text>
                                     </Box>
                                 </VStack>
                             </Card>
                         </VStack>
                     </Grid>
-
-                    <SimilarGamesSection games={similarGames} />
                 </Box>
             </Box>
         </Box>

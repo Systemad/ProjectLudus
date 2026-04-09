@@ -1,3 +1,4 @@
+using System.IO;
 using Aspire.Hosting.Docker.Resources.ServiceNodes.Swarm;
 using Aspire.Hosting.Yarp.Transforms;
 
@@ -17,6 +18,11 @@ builder
     });
 
 var typesenseMasterKey = builder.AddParameter("TYPESENSE-ADMIN-KEY");
+
+var typesenseDataPath = Path.Combine(
+    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+    "typesense-data"
+);
 
 //var pgUsername = builder.AddParameter("pg-username", "postgres", secret: false);
 //var pgPassword = builder.AddParameter("pg-password", "PQDF13*7dpR-Q77nmQZh*3", secret: true);
@@ -52,11 +58,10 @@ var typesense = builder
             c.TargetPort = 8108;
         }
     )
-    .WithBindMount("../../typesense-data", "/data")
+    .WithBindMount(typesenseDataPath, "/data")
     .WithArgs(
         "--data-dir",
         "/data",
-        // "--api-key=typesense-index-gaming",
         "--enable-cors",
         "--enable-search-analytics",
         "--analytics-dir",
@@ -72,6 +77,7 @@ var typesense = builder
             service.Restart = "on-failure";
         }
     );
+
 /*
 var bootstrap = builder.AddPythonApp(
         "typesense-bootstrap",
@@ -79,18 +85,23 @@ var bootstrap = builder.AddPythonApp(
         scriptPath: "bootstrap_typesense.py"
     );
 */
-    //.WithReference(typesense)
+//.WithReference(typesense)
 
-var api = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
+var playApi = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
+var catalogApi = builder.AddProject<Projects.CatalogAPI>("catalogApi").WaitFor(catalogDb).WithReference(catalogDb);
+
 //.WithReference(typesense)
 //.WithExplicitStart();
 
 var frontend = builder
     .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
     .WithPnpm()
-    .WithReference(api)
-    .WaitFor(api)
+    .WithReference(playApi)
+    .WaitFor(playApi)
+    .WithReference(catalogApi)
+    .WaitFor(catalogApi)
     .WithExplicitStart();
+
 //api.PublishWithContainerFiles(frontend, "wwww");
 
 builder
@@ -99,8 +110,8 @@ builder
     .PublishWithStaticFiles(frontend)
     .WithConfiguration(yarp =>
     {
-        // Always proxy /api requests to backend
-        yarp.AddRoute("/api/{**catch-all}", api);
+        yarp.AddRoute("/api/{**catch-all}", playApi);
+        yarp.AddRoute("/api/{**catch-all}", catalogApi);
     })
     .WithExplicitStart();
 

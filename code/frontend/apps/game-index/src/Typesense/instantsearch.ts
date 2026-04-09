@@ -6,7 +6,7 @@ export const SEARCH_INDEX_NAME = "search___games_search";
 // Sharing adapter-level additionalSearchParameters can cause rails to render identical lists.
 
 const baseServerConfig = {
-    apiKey: "Qw5lCP1T5k3M1eZyfDyoM4pRpdSO7FWp", // Be sure to use an API key that only allows search operations
+    apiKey: "PeONwmjZnjhprfb8qM539fgWFyknThSR", // Be sure to use an API key that only allows search operations
     nodes: [
         {
             host: "localhost",

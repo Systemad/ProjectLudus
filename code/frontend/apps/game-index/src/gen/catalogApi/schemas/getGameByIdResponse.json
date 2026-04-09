@@ -1,0 +1,148 @@
+{
+    "required": ["game"],
+    "type": "object",
+    "properties": {
+        "game": {
+            "type": "object",
+            "properties": {
+                "id": { "type": "integer", "format": "int64" },
+                "createdAt": { "type": ["null", "integer"], "format": "int64" },
+                "updatedAt": { "type": ["null", "integer"], "format": "int64" },
+                "name": { "type": ["null", "string"] },
+                "summary": { "type": ["null", "string"] },
+                "storyline": { "type": ["null", "string"] },
+                "slug": { "type": ["null", "string"] },
+                "url": { "type": ["null", "string"] },
+                "checksum": { "type": ["null", "string"] },
+                "parentGame": { "type": ["null", "integer"], "format": "int64" },
+                "cover": { "type": ["null", "integer"], "format": "int64" },
+                "coverUrl": { "type": ["null", "string"] },
+                "gameType": { "type": ["null", "integer"], "format": "int64" },
+                "gameTypeName": { "type": ["null", "string"] },
+                "gameStatus": { "type": ["null", "integer"], "format": "int64" },
+                "gameStatusName": { "type": ["null", "string"] },
+                "firstReleaseDate": { "type": ["null", "integer"], "format": "int64" },
+                "rating": { "type": ["null", "number"], "format": "double" },
+                "ratingCount": { "type": ["null", "integer"], "format": "int64" },
+                "totalRating": { "type": ["null", "number"], "format": "double" },
+                "totalRatingCount": { "type": ["null", "integer"], "format": "int64" },
+                "aggregatedRating": { "type": ["null", "number"], "format": "double" },
+                "aggregatedRatingCount": { "type": ["null", "integer"], "format": "int64" },
+                "hypes": { "type": ["null", "integer"], "format": "int64" },
+                "versionParent": { "type": ["null", "integer"], "format": "int64" },
+                "versionTitle": { "type": ["null", "string"] },
+                "franchise": { "type": ["null", "integer"], "format": "int64" },
+                "platforms": { "type": ["null", "array"], "items": { "type": "string" } },
+                "genres": { "type": ["null", "array"], "items": { "type": "string" } },
+                "themes": { "type": ["null", "array"], "items": { "type": "string" } },
+                "gameModes": { "type": ["null", "array"], "items": { "type": "string" } },
+                "playerPerspectives": { "type": ["null", "array"], "items": { "type": "string" } },
+                "releaseDates": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "date": { "type": ["null", "integer"], "format": "int64" },
+                            "human": { "type": ["null", "string"] },
+                            "platform": { "type": ["null", "integer"], "format": "int64" },
+                            "platformName": { "type": ["null", "string"] },
+                            "status": { "type": ["null", "integer"], "format": "int64" },
+                            "statusName": { "type": ["null", "string"] },
+                            "releaseRegion": { "type": ["null", "integer"], "format": "int64" },
+                            "releaseRegionName": { "type": ["null", "string"] },
+                            "dateFormat": { "type": ["null", "integer"], "format": "int64" },
+                            "dateFormatName": { "type": ["null", "string"] },
+                            "y": { "type": ["null", "integer"], "format": "int64" },
+                            "m": { "type": ["null", "integer"], "format": "int64" }
+                        },
+                        "x-readme-ref-name": "ReleaseDateDto"
+                    }
+                },
+                "websites": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": ["id", "trusted", "url", "typeName"],
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "trusted": { "type": ["null", "boolean"] },
+                            "url": { "type": ["null", "string"] },
+                            "typeName": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "WebsiteDto"
+                    }
+                },
+                "videos": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": ["id", "name", "videoId"],
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "name": { "type": ["null", "string"] },
+                            "videoId": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "VideoDto"
+                    }
+                },
+                "screenshots": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": ["id", "alphaChannel", "animated", "height", "width", "url"],
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "alphaChannel": { "type": ["null", "boolean"] },
+                            "animated": { "type": ["null", "boolean"] },
+                            "height": { "type": ["null", "integer"], "format": "int64" },
+                            "width": { "type": ["null", "integer"], "format": "int64" },
+                            "url": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "ScreenshotDto"
+                    }
+                },
+                "alternativeNames": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": ["id", "name", "comment"],
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "name": { "type": ["null", "string"] },
+                            "comment": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "AlternativeNameDto"
+                    }
+                },
+                "externalGames": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": [
+                            "id",
+                            "name",
+                            "uid",
+                            "url",
+                            "platformId",
+                            "platformName",
+                            "externalGameSourceName"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "id": { "type": "integer", "format": "int64" },
+                            "name": { "type": ["null", "string"] },
+                            "uid": { "type": ["null", "string"] },
+                            "url": { "type": ["null", "string"] },
+                            "platformId": { "type": ["null", "integer"], "format": "int64" },
+                            "platformName": { "type": ["null", "string"] },
+                            "externalGameSourceName": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "ExternalGameDto"
+                    }
+                }
+            },
+            "x-readme-ref-name": "GameDto"
+        }
+    },
+    "x-readme-ref-name": "GetGameByIdResponse"
+}

@@ -1,0 +1,65 @@
+{
+    "required": ["from", "to", "limit", "games"],
+    "type": "object",
+    "properties": {
+        "from": { "type": "integer", "format": "int64" },
+        "to": { "type": "integer", "format": "int64" },
+        "limit": { "type": "integer", "format": "int32" },
+        "games": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": ["null", "integer"], "format": "int64" },
+                    "name": { "type": ["null", "string"] },
+                    "summary": { "type": ["null", "string"] },
+                    "storyline": { "type": ["null", "string"] },
+                    "updatedAt": { "type": ["null", "integer"], "format": "int64" },
+                    "firstReleaseDate": { "type": ["null", "integer"], "format": "int64" },
+                    "gameType": { "type": ["null", "string"] },
+                    "gameStatus": { "type": ["null", "string"] },
+                    "aggregatedRating": { "type": ["null", "number"], "format": "double" },
+                    "aggregatedRatingCount": { "type": ["null", "integer"], "format": "int32" },
+                    "rating": { "type": ["null", "number"], "format": "double" },
+                    "ratingCount": { "type": ["null", "integer"], "format": "int32" },
+                    "totalRating": { "type": ["null", "number"], "format": "double" },
+                    "totalRatingCount": { "type": ["null", "integer"], "format": "int32" },
+                    "coverUrl": { "type": ["null", "string"] },
+                    "themes": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "genres": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "gameModes": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "platforms": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "gameEngines": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "playerPerspectives": {
+                        "type": ["null", "array"],
+                        "items": { "type": "string" }
+                    },
+                    "publishers": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "developers": { "type": ["null", "array"], "items": { "type": "string" } },
+                    "multiplayerModes": {
+                        "type": ["null", "array"],
+                        "items": { "type": "string" }
+                    },
+                    "totalVisits": { "type": ["null", "integer"], "format": "int64" },
+                    "igdbVisits": { "type": ["null", "number"], "format": "double" },
+                    "igdbWantToPlay": { "type": ["null", "number"], "format": "double" },
+                    "igdbPlaying": { "type": ["null", "number"], "format": "double" },
+                    "igdbPlayed": { "type": ["null", "number"], "format": "double" },
+                    "steam24hrPeakPlayers": { "type": ["null", "number"], "format": "double" },
+                    "steamPositiveReviews": { "type": ["null", "number"], "format": "double" },
+                    "steamNegativeReviews": { "type": ["null", "number"], "format": "double" },
+                    "steamTotalReviews": { "type": ["null", "number"], "format": "double" },
+                    "steamGlobalTopSellers": { "type": ["null", "number"], "format": "double" },
+                    "steamMostWishlistedUpcoming": {
+                        "type": ["null", "number"],
+                        "format": "double"
+                    },
+                    "twitch24hrHoursWatched": { "type": ["null", "number"], "format": "double" },
+                    "releaseYear": { "type": ["null", "integer"], "format": "int32" }
+                },
+                "x-readme-ref-name": "GamesSearch"
+            }
+        }
+    },
+    "x-readme-ref-name": "GamesReleaseDateRangeResponse"
+}

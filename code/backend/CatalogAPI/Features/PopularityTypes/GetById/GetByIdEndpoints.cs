@@ -7,17 +7,15 @@ namespace CatalogAPI.Features.PopularityTypes.GetById;
 
 public static class GetByIdEndpoints
 {
-    public record Response(List<GamesSearch> Games);
-    
-    public static IEndpointRouteBuilder MapGetByIdEndpoints(
-        this IEndpointRouteBuilder routeBuilder
-    )
+    public record PopularityGamesResponse(List<GamesSearch> Games);
+
+    public static IEndpointRouteBuilder MapGetByIdEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        var group = routeBuilder.MapGroup("/api/popularity-types");
+        var group = routeBuilder.MapGroup("/api/popularity");
 
         group
-            .MapGet("/rails/popularity/{popularityTypeId:long}", GetPopularityRailAsync)
-            .Produces<Ok<Response>>(StatusCodes.Status200OK);
+            .MapGet("/{popularityTypeId:long}", GetPopularityRailAsync)
+            .Produces<PopularityGamesResponse>(StatusCodes.Status200OK);
 
         return routeBuilder;
     }
@@ -29,25 +27,30 @@ public static class GetByIdEndpoints
         CancellationToken cancellationToken
     )
     {
-        var topGameIds = await db.PopularityPrimitives
-            .Where(p => p.PopularityType == popularityTypeId && p.GameId.HasValue)
+        var topGameIds = await db
+            .PopularityPrimitives.Where(p =>
+                p.PopularityType == popularityTypeId && p.GameId.HasValue
+            )
             .OrderByDescending(p => p.Value)
             .Select(p => p.GameId!.Value)
             .Take(limit)
             .ToListAsync(cancellationToken);
 
         if (topGameIds.Count == 0)
-            return Results.Ok(new Response([]));
-        
-        var gamesDict = await db.GamesSearches
+            return Results.Ok(new PopularityGamesResponse([]));
+
+        var gamesDict = await db
+            .GamesSearches
             .Where(g => g.Id.HasValue && topGameIds.Contains(g.Id.Value))
+            .Where(x => x.GameType == "Main Game")
             .ToDictionaryAsync(g => g.Id!.Value, cancellationToken);
 
-        var orderedGames = topGameIds.Distinct()
+        var orderedGames = topGameIds
+            .Distinct()
             .Where(gamesDict.ContainsKey)
             .Select(id => gamesDict[id])
             .ToList();
-        
-        return Results.Ok(new Response(orderedGames));
+
+        return Results.Ok(new PopularityGamesResponse(orderedGames));
     }
 }

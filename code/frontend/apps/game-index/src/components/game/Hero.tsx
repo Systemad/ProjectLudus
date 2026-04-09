@@ -12,13 +12,17 @@ import {
     VStack,
     Wrap,
 } from "ui";
-import type { Game } from "../../data/games";
+import type { GameDto } from "@src/gen/catalogApi";
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
-    game: Game;
+    game: GameDto;
 };
 
 export default function Hero({ game }: Props) {
+    const coverImage = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_big") : "";
+    const rating = game.aggregatedRating ?? game.rating;
+
     return (
         <Bleed inline="full" blockStart="xl">
             <Box
@@ -28,8 +32,8 @@ export default function Hero({ game }: Props) {
                 mb={{ base: 8, md: 12 }}
             >
                 <Image
-                    src={game.heroImage}
-                    alt={game.title}
+                    src={coverImage}
+                    alt={game.name ?? "Game art"}
                     position="absolute"
                     inset={0}
                     w="full"
@@ -68,7 +72,7 @@ export default function Hero({ game }: Props) {
                         >
                             <AspectRatio ratio={3 / 4}>
                                 <Image
-                                    src={game.coverImage}
+                                    src={coverImage}
                                     objectFit="cover"
                                     alt="Cover Art"
                                     rounded="2xl"
@@ -86,12 +90,14 @@ export default function Hero({ game }: Props) {
                                     ))}
                                 </Wrap>
 
-                                <HStack gap={1} color="yellow.400">
-                                    <StarIcon boxSize="4" />
-                                    <Text fontWeight="bold" fontSize="lg">
-                                        {game.rating.toFixed(1)}
-                                    </Text>
-                                </HStack>
+                                {typeof rating === "number" && (
+                                    <HStack gap={1} color="yellow.400">
+                                        <StarIcon boxSize="4" />
+                                        <Text fontWeight="bold" fontSize="lg">
+                                            {rating.toFixed(1)}
+                                        </Text>
+                                    </HStack>
+                                )}
                             </HStack>
 
                             <Heading
@@ -101,7 +107,7 @@ export default function Hero({ game }: Props) {
                                 lineHeight="1"
                                 textTransform="uppercase"
                             >
-                                {game.title}
+                                {game.name ?? "Untitled game"}
                             </Heading>
                         </VStack>
                     </Grid>

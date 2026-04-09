@@ -18,11 +18,13 @@
         "@tanstack/react-query": "catalog:",
         "@tanstack/react-router": "catalog:",
         "@tanstack/react-router-devtools": "catalog:",
+        "@tanstack/react-router-ssr-query": "catalog:",
         "react-dom": "^19.2.4",
         "react-extract-colors": "catalog:",
         "react-instantsearch": "catalog:",
         "ui": "workspace:*",
         "utils": "workspace:*",
+        "zod": "catalog:",
         "zustand": "catalog:"
     },
     "devDependencies": {

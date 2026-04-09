@@ -1,6 +1,7 @@
 import AppShell from "@src/components/AppShell";
-import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import type { QueryClient } from "@tanstack/react-query";
 
 const RootLayout = () => (
     <AppShell>
@@ -9,20 +10,8 @@ const RootLayout = () => (
     </AppShell>
 );
 
-export const Route = createRootRoute({ component: RootLayout });
-/*
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient;
 }>()({
     component: RootLayout,
-    notFoundComponent: () => {
-        return (
-            <div>
-                <p>This is the notFoundComponent configured on root route</p>
-                <Link to="/">Start Over</Link>
-            </div>
-        );
-    },
 });
-
-*/
