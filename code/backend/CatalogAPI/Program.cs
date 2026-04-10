@@ -21,6 +21,7 @@ builder.Services.AddOpenApi(options =>
     //options.AddSchemaTransformer<RequiredSchemaTransformer>();
     //options.AddSchemaTransformer<RequiredPropertySchemaTransformer>();
 });
+
 builder.AddServiceDefaults();
 builder.Services.Configure<JsonOptions>(options =>
 {
@@ -29,7 +30,11 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.MaxDepth = 256;
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
-
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    // Tell OpenApi generator to report number fields as integers/floats only, not strings
+    options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
+});
 
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {

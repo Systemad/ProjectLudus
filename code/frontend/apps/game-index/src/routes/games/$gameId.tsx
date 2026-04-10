@@ -1,64 +1,42 @@
 "use client";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useExtractColors } from "react-extract-colors";
-import { useMemo } from "react";
-import {
-    Box,
-    Button,
-    Gamepad2Icon,
-    GithubIcon,
-    GlobeIcon,
-    Grid,
-    Heading,
-    HStack,
-    Icon,
-    SimpleGrid,
-    Tag,
-    Text,
-    UserIcon,
-    VStack,
-    Wrap,
-} from "ui";
-import AmbientBackground from "../../components/game/AmbientBackground";
-import Hero from "../../components/game/Hero";
-import ScreenshotCarousel from "../../components/game/ScreenshotCarousel";
-import Card from "../../components/ui/Card";
-import { buildAmbientGradient } from "../../utils/ambientGradient";
+import { useState } from "react";
+import { Box, Button, Grid, Heading, HStack, Image, Tag, Text, VStack, Wrap } from "ui";
+import MediaGrid from "@src/components/game/MediaGrid";
+import AlternativeNames from "@src/components/game/AlternativeNames";
+import OfficialLinks from "@src/components/game/OfficialLinks";
+import OverviewPanel from "@src/components/game/OverviewPanel";
+import RelatedGamesSection from "@src/components/game/RelatedGamesSection";
+import { ScreenshotPreview } from "@src/components/game/ScreenshotPreview";
+import { linkStyle, sectionLabelStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import { type GameDto, useGetApiGamesGameidSuspenseHook } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
+
+type Tab = "overview" | "official-links" | "media" | "details";
+
+const TABS: { value: Tab; label: string }[] = [
+    { value: "overview", label: "Overview" },
+    { value: "official-links", label: "Official links" },
+    { value: "media", label: "Media" },
+    { value: "details", label: "Details" },
+];
 
 export const Route = createFileRoute("/games/$gameId")({
     component: GameDetailPage,
 });
 
-const linkStyle = { color: "inherit", textDecoration: "none" };
-const sectionLabelStyle = {
-    fontSize: "sm",
-    fontWeight: "semibold",
-    color: "fg.emphasized",
-    textTransform: "uppercase" as const,
-    letterSpacing: "wide",
-};
-const sectionMetaStyle = {
-    fontSize: "xs",
-    fontWeight: "semibold",
-    color: "fg.emphasized",
-    textTransform: "uppercase" as const,
-    letterSpacing: "wide",
-};
-
 function GameDetailPage() {
     const { gameId } = Route.useParams();
-    const numericGameId = Number(gameId);
-    const { data } = useGetApiGamesGameidSuspenseHook({ gameId: numericGameId });
+    const { data } = useGetApiGamesGameidSuspenseHook({ gameId: Number(gameId) });
     const game = data?.game as GameDto | undefined;
+    const [activeTab, setActiveTab] = useState<Tab>("overview");
 
     if (!game) {
         return (
-            <Box maxW="7xl" mx="auto" px={{ base: "4", md: "6", xl: "8" }} py="20">
+            <Box maxW="7xl" mx="auto" px={{ base: "4", md: "6" }} py="20">
                 <VStack align="center" gap="6">
-                    <Heading fontFamily="heading">Game not found</Heading>
+                    <Heading>Game not found</Heading>
                     <Link to="/" style={linkStyle}>
                         <Button>Back to Home</Button>
                     </Link>
@@ -67,282 +45,212 @@ function GameDetailPage() {
         );
     }
 
-    const coverImage = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_big") : "";
-    const sourceImage = coverImage;
-    const { dominantColor, darkerColor, lighterColor } = useExtractColors(sourceImage, {
-        format: "hex",
-        maxColors: 4,
-        maxSize: 120,
-        colorSimilarityThreshold: 45,
-        sortBy: "vibrance",
-    });
-    const pageAmbientGradient = buildAmbientGradient({
-        dominantColor,
-        darkerColor,
-        lighterColor,
-    });
+    const coverImageId = game.cover != null ? String(game.cover) : (game.coverUrl ?? "");
+    const coverImage = coverImageId ? getIGDBImageUrl(coverImageId, "cover_big") : "";
 
-    const screenshotSources = useMemo(
-        () =>
-            (game.screenshots ?? [])
-                .map((screenshot) =>
-                    screenshot.url ? getIGDBImageUrl(screenshot.url, "screenshot_big") : "",
-                )
-                .filter((src) => src.length > 0),
-        [game.screenshots],
-    );
+    const screenshotSources = (game.screenshots ?? [])
+        .map((s) => getIGDBImageUrl(s.imageId, "screenshot_med"))
+        .filter((src) => src.length > 0);
 
     const genres = game.genres ?? [];
     const themes = game.themes ?? [];
     const platforms = game.platforms ?? [];
-    const modes = game.gameModes ?? game.playerPerspectives ?? [];
-    const rating = game.aggregatedRating ?? game.rating;
-    const websites = game.websites?.filter((website) => website.url) ?? [];
+    const modes = game.gameModes ?? [];
+    const playerPerspectives = game.playerPerspectives ?? [];
+    const websites = game.websites?.filter((w) => w.url) ?? [];
+    const externalGames = game.externalGames ?? [];
+    const videos = game.videos?.filter((v) => v.videoId) ?? [];
+    const alternativeNames = (game.alternativeNames ?? [])
+        .map((item) => item.name)
+        .filter((item): item is string => Boolean(item));
+    const relatedGames = (game.similarGames ?? [])
+        .map((item) => {
+            const coverUrl = item?.coverUrl ?? "";
+            const imageUrl = coverUrl.startsWith("http")
+                ? coverUrl
+                : item?.cover != null
+                  ? getIGDBImageUrl(String(item.cover), "cover_big")
+                  : coverUrl
+                    ? getIGDBImageUrl(coverUrl, "cover_big")
+                    : undefined;
+            return {
+                id: item?.id ?? -1,
+                name: item?.name ?? "",
+                imageUrl,
+            };
+        })
+        .filter((item) => item.id > 0 && item.name.length > 0);
+    const developers = (game.involvedCompanies ?? []).filter((c) => c.developed);
+    const publishers = (game.involvedCompanies ?? []).filter((c) => c.published);
 
     return (
-        <Box w="full" color="fg.base" position="relative" isolation="isolate">
-            <AmbientBackground gradient={pageAmbientGradient} />
+        <Box w="full" color="fg.base">
+            {/* ── Hero ── */}
+            <Box position="relative" overflow="hidden">
+                {coverImage && (
+                    <Image
+                        src={coverImage}
+                        alt=""
+                        position="absolute"
+                        inset={0}
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        filter="blur(28px) brightness(0.3)"
+                        transform="scale(1.1)"
+                        pointerEvents="none"
+                    />
+                )}
+                <Box position="relative" maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py={8}>
+                    <HStack align="flex-start" gap={{ base: 4, md: 6 }}>
+                        <Box
+                            flexShrink={0}
+                            w={{ base: "90px", md: "120px" }}
+                            rounded="xl"
+                            overflow="hidden"
+                            boxShadow="lg"
+                        >
+                            <Image
+                                src={coverImage || undefined}
+                                alt={game.name ?? "Cover"}
+                                objectFit="cover"
+                                w="full"
+                                display="block"
+                            />
+                        </Box>
 
-            <Box position="relative" zIndex={1}>
-                <Hero game={game} />
+                        <VStack align="start" gap={2} flex={1} minW={0}>
+                            <Text color="fg.muted" fontSize="sm">
+                                {formatReleaseDate(game.firstReleaseDate)}
+                            </Text>
+                            <Heading
+                                size={{ base: "2xl", md: "4xl" }}
+                                color="fg.base"
+                                lineHeight="1.1"
+                            >
+                                {game.name ?? "Untitled game"}
+                            </Heading>
+                            <Wrap gap="xs">
+                                {genres.slice(0, 3).map((g) => (
+                                    <Tag
+                                        key={g}
+                                        variant="subtle"
+                                        colorScheme="gray"
+                                        size="sm"
+                                        textTransform="none"
+                                    >
+                                        {g}
+                                    </Tag>
+                                ))}
+                            </Wrap>
+                            <HStack gap={6} mt={1} flexWrap="wrap">
+                                {developers.length > 0 && (
+                                    <Box>
+                                        <Text {...sectionMetaStyle} fontSize="xs" mb="2xs">
+                                            DEVELOPER
+                                        </Text>
+                                        <Text color="fg.subtle" fontSize="sm">
+                                            {developers.map((c) => c.name).join(", ")}
+                                        </Text>
+                                    </Box>
+                                )}
+                                {publishers.length > 0 && (
+                                    <Box>
+                                        <Text {...sectionMetaStyle} fontSize="xs" mb="2xs">
+                                            PUBLISHER
+                                        </Text>
+                                        <Text color="fg.subtle" fontSize="sm">
+                                            {publishers.map((c) => c.name).join(", ")}
+                                        </Text>
+                                    </Box>
+                                )}
+                            </HStack>
+                            <Text color="fg.subtle" fontSize="sm" maxW="2xl" lineClamp={3} mt={1}>
+                                {game.summary ?? game.storyline ?? ""}
+                            </Text>
+                        </VStack>
+                    </HStack>
+                </Box>
+            </Box>
 
-                <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} pb="20">
-                    <Grid templateColumns={{ base: "1fr", md: "1fr 320px" }} gap={10}>
-                        <VStack align="stretch" gap={6}>
-                            <Card p={8}>
-                                <Heading color="fg.base" size="md" mb={4}>
-                                    {game.storyline ? "Storyline" : "Overview"}
-                                </Heading>
-                                <Text color="fg.subtle" lineHeight="normal" fontSize="lg">
+            {/* ── Tab bar ── */}
+            <Box borderBottomWidth="1px" borderColor="border.subtle">
+                <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }}>
+                    <HStack gap={0}>
+                        {TABS.map((tab) => (
+                            <Button
+                                key={tab.value}
+                                variant="ghost"
+                                colorScheme="gray"
+                                color={activeTab === tab.value ? "fg.base" : "fg.muted"}
+                                borderBottomWidth="2px"
+                                borderColor={activeTab === tab.value ? "fg.base" : "transparent"}
+                                borderRadius="0"
+                                px={4}
+                                py={3}
+                                h="auto"
+                                fontSize="sm"
+                                fontWeight={activeTab === tab.value ? "semibold" : "normal"}
+                                onClick={() => setActiveTab(tab.value)}
+                                _hover={{ color: "fg.base", bg: "transparent" }}
+                            >
+                                {tab.label}
+                            </Button>
+                        ))}
+                    </HStack>
+                </Box>
+            </Box>
+
+            {/* ── Tab content ── */}
+            <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py={8} pb={20}>
+                {/* Overview: story + screenshots (left) | sidebar (right) */}
+                <Box display={activeTab === "overview" ? "block" : "none"}>
+                    <Grid
+                        templateColumns={{ base: "1fr", lg: "1fr 300px" }}
+                        gap={{ base: 8, lg: 10 }}
+                        alignItems="start"
+                    >
+                        <VStack align="stretch" gap={8}>
+                            <Box>
+                                <Text {...sectionLabelStyle} mb={3}>
+                                    Story
+                                </Text>
+                                <Text color="fg.subtle" lineHeight="tall">
                                     {game.storyline ?? game.summary ?? "No description available."}
                                 </Text>
-                            </Card>
-
-                            {screenshotSources.length > 0 && (
-                                <ScreenshotCarousel sources={screenshotSources} />
-                            )}
-
-                            <SimpleGrid columns={{ base: 1, md: 2 }} gap={6}>
-                                <Card variant="translucent" p={6}>
-                                    <Text {...sectionLabelStyle} mb={4}>
-                                        Development
-                                    </Text>
-                                    <VStack align="stretch" gap={4}>
-                                        <HStack justify="space-between">
-                                            <Text color="fg.subtle">Developer</Text>
-                                            <Text
-                                                fontSize="sm"
-                                                fontWeight="medium"
-                                                color="fg.emphasized"
-                                            >
-                                                Unknown
-                                            </Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text color="fg.subtle">Publisher</Text>
-                                            <Text
-                                                fontSize="sm"
-                                                fontWeight="medium"
-                                                color="fg.emphasized"
-                                            >
-                                                Unknown
-                                            </Text>
-                                        </HStack>
-                                        <HStack justify="space-between">
-                                            <Text color="fg.subtle">Release Date</Text>
-                                            <Text
-                                                fontSize="sm"
-                                                fontWeight="medium"
-                                                color="fg.emphasized"
-                                            >
-                                                {formatReleaseDate(game.firstReleaseDate)}
-                                            </Text>
-                                        </HStack>
-                                    </VStack>
-                                </Card>
-
-                                <Card variant="translucent" p={6}>
-                                    <Text {...sectionLabelStyle} mb={4}>
-                                        Genres & Themes
-                                    </Text>
-                                    <Text {...sectionMetaStyle} mb={2}>
-                                        GENRES
-                                    </Text>
-                                    <Wrap mb={4} gap="xs">
-                                        {genres.map((item) => (
-                                            <Tag
-                                                key={item}
-                                                variant="surface"
-                                                colorScheme="gray"
-                                                color="fg.base"
-                                                textTransform="none"
-                                                px="sm"
-                                                py="2xs"
-                                            >
-                                                {item}
-                                            </Tag>
-                                        ))}
-                                    </Wrap>
-                                    <Text {...sectionMetaStyle} mb={2}>
-                                        THEMES
-                                    </Text>
-                                    <Wrap gap="xs">
-                                        {themes.map((item) => (
-                                            <Tag
-                                                key={item}
-                                                variant="surface"
-                                                colorScheme="gray"
-                                                color="fg.base"
-                                                textTransform="none"
-                                                px="sm"
-                                                py="2xs"
-                                            >
-                                                {item}
-                                            </Tag>
-                                        ))}
-                                    </Wrap>
-                                </Card>
-                            </SimpleGrid>
+                            </Box>
+                            <ScreenshotPreview
+                                sources={screenshotSources}
+                                visible
+                                onViewAll={() => setActiveTab("media")}
+                            />
+                            <RelatedGamesSection games={relatedGames} />
                         </VStack>
 
-                        <VStack align="stretch" gap={6}>
-                            <Card p={6}>
-                                <VStack align="stretch" gap={6}>
-                                    <Box>
-                                        <Text {...sectionLabelStyle} mb={3}>
-                                            Consoles
-                                        </Text>
-                                        <Wrap gap="md">
-                                            {platforms.map((platform) => (
-                                                <Tag
-                                                    key={platform}
-                                                    variant="surface"
-                                                    colorScheme="gray"
-                                                    size="md"
-                                                    rounded="lg"
-                                                    startIcon={<GithubIcon />}
-                                                    px="sm"
-                                                    py="2xs"
-                                                    color="fg.base"
-                                                >
-                                                    {platform}
-                                                </Tag>
-                                            ))}
-                                        </Wrap>
-                                    </Box>
-
-                                    <Box>
-                                        <Text {...sectionLabelStyle} mb={3}>
-                                            Multiplayer Modes
-                                        </Text>
-                                        <HStack bg="bg.panel" p={3} rounded="xl" justify="center">
-                                            <Icon as={UserIcon} color="yellow.500" />
-                                            <Text fontWeight="bold" fontSize="sm">
-                                                {modes.join(", ") || "Not specified"}
-                                            </Text>
-                                        </HStack>
-                                    </Box>
-
-                                    <Box>
-                                        <Text {...sectionLabelStyle} mb={3}>
-                                            Official Links
-                                        </Text>
-                                        <VStack align="stretch" gap={2}>
-                                            {websites.length > 0 ? (
-                                                websites.map((website) => (
-                                                    <Button
-                                                        key={website.id}
-                                                        as="a"
-                                                        href={website.url ?? undefined}
-                                                        target="_blank"
-                                                        rel="noreferrer"
-                                                        variant="ghost"
-                                                        colorScheme="gray"
-                                                        color="fg.base"
-                                                        justifyContent="space-between"
-                                                        endIcon={<span>›</span>}
-                                                        size="sm"
-                                                        _hover={{
-                                                            bg: "bg.subtle",
-                                                            color: "fg.base",
-                                                        }}
-                                                    >
-                                                        <HStack>
-                                                            <Icon
-                                                                as={
-                                                                    website.typeName
-                                                                        ?.toLowerCase()
-                                                                        .includes("official")
-                                                                        ? GlobeIcon
-                                                                        : Gamepad2Icon
-                                                                }
-                                                                color="fg.muted"
-                                                            />
-                                                            <Text>
-                                                                {website.typeName ??
-                                                                    "Official Link"}
-                                                            </Text>
-                                                        </HStack>
-                                                    </Button>
-                                                ))
-                                            ) : (
-                                                <Text color="fg.subtle" fontSize="sm">
-                                                    No official links available.
-                                                </Text>
-                                            )}
-                                        </VStack>
-                                    </Box>
-
-                                    <Box
-                                        bg="bg.info"
-                                        p={4}
-                                        rounded="xl"
-                                        border="1px solid"
-                                        borderColor="border.info"
-                                    >
-                                        <HStack>
-                                            <Icon as={Gamepad2Icon} color="fg.info" />
-                                            <VStack align="start" gap={0}>
-                                                <Text fontSize="xs" fontWeight="bold">
-                                                    {game.gameStatusName ?? "Game status"}
-                                                </Text>
-                                                <Text fontSize="xs" color="fg.subtle">
-                                                    {typeof rating === "number"
-                                                        ? `${rating.toFixed(1)} aggregated rating`
-                                                        : "Rating unavailable"}
-                                                </Text>
-                                            </VStack>
-                                        </HStack>
-                                    </Box>
-                                </VStack>
-                            </Card>
-
-                            <Card p={6}>
-                                <HStack gap={2} mb={4} align="center">
-                                    <Icon as={Gamepad2Icon} />
-                                    <Text {...sectionLabelStyle}>Release Details</Text>
-                                </HStack>
-                                <VStack align="stretch" gap={4} fontSize="xs">
-                                    <Box>
-                                        <Text {...sectionMetaStyle} mb={1}>
-                                            TYPE
-                                        </Text>
-                                        <Text color="fg.subtle">
-                                            {game.gameTypeName ?? "Unspecified"}
-                                        </Text>
-                                    </Box>
-                                    <Box>
-                                        <Text {...sectionMetaStyle} mb={1}>
-                                            RELEASE DATE
-                                        </Text>
-                                        <Text color="fg.subtle">
-                                            {formatReleaseDate(game.firstReleaseDate)}
-                                        </Text>
-                                    </Box>
-                                </VStack>
-                            </Card>
-                        </VStack>
+                        <OverviewPanel
+                            gameTypeName={game.gameTypeName}
+                            modes={modes}
+                            playerPerspectives={playerPerspectives}
+                            platforms={platforms}
+                            genres={genres}
+                            themes={themes}
+                        />
                     </Grid>
+                </Box>
+
+                <Box display={activeTab === "official-links" ? "block" : "none"}>
+                    <OfficialLinks websites={websites} externalGames={externalGames} />
+                </Box>
+
+                <Box display={activeTab === "media" ? "block" : "none"}>
+                    <MediaGrid sources={screenshotSources} videos={videos} />
+                </Box>
+
+                <Box display={activeTab === "details" ? "block" : "none"}>
+                    <VStack align="stretch" gap={8}>
+                        <OfficialLinks websites={websites} externalGames={externalGames} />
+                        <AlternativeNames names={alternativeNames} />
+                    </VStack>
                 </Box>
             </Box>
         </Box>

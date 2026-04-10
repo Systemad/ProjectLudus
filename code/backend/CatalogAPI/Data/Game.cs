@@ -89,6 +89,8 @@ public partial class Game
 
     public virtual ICollection<GameMode> GameModes { get; set; } = new List<GameMode>();
 
+    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
+
     public virtual ICollection<Genre> Genres { get; set; } = new List<Genre>();
 
     public virtual ICollection<Keyword> Keywords { get; set; } = new List<Keyword>();
@@ -98,6 +100,8 @@ public partial class Game
     public virtual ICollection<Platform> Platforms { get; set; } = new List<Platform>();
 
     public virtual ICollection<PlayerPerspective> PlayerPerspectives { get; set; } = new List<PlayerPerspective>();
+
+    public virtual ICollection<Game> SimilarGames { get; set; } = new List<Game>();
 
     public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
 }

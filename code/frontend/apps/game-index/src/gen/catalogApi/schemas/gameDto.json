@@ -11,7 +11,7 @@
         "url": { "type": ["null", "string"] },
         "checksum": { "type": ["null", "string"] },
         "parentGame": { "type": ["null", "integer"], "format": "int64" },
-        "cover": { "type": ["null", "integer"], "format": "int64" },
+        "cover": { "type": ["null", "string"] },
         "coverUrl": { "type": ["null", "string"] },
         "gameType": { "type": ["null", "integer"], "format": "int64" },
         "gameTypeName": { "type": ["null", "string"] },
@@ -28,6 +28,23 @@
         "versionParent": { "type": ["null", "integer"], "format": "int64" },
         "versionTitle": { "type": ["null", "string"] },
         "franchise": { "type": ["null", "integer"], "format": "int64" },
+        "involvedCompanies": {
+            "type": ["null", "array"],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": { "type": "integer", "format": "int64" },
+                    "name": { "type": "string" },
+                    "published": { "type": "boolean" },
+                    "developed": { "type": "boolean" }
+                },
+                "x-readme-ref-name": "InvolvedCompanyDto"
+            }
+        },
+        "similarGames": {
+            "type": ["null", "array"],
+            "items": { "$ref": "#/components/schemas/GameDto" }
+        },
         "platforms": { "type": ["null", "array"], "items": { "type": "string" } },
         "genres": { "type": ["null", "array"], "items": { "type": "string" } },
         "themes": { "type": ["null", "array"], "items": { "type": "string" } },
@@ -85,12 +102,13 @@
         "screenshots": {
             "type": ["null", "array"],
             "items": {
-                "required": ["id", "alphaChannel", "animated", "height", "width", "url"],
+                "required": ["id", "alphaChannel", "animated", "imageId", "height", "width", "url"],
                 "type": "object",
                 "properties": {
                     "id": { "type": "integer", "format": "int64" },
                     "alphaChannel": { "type": ["null", "boolean"] },
                     "animated": { "type": ["null", "boolean"] },
+                    "imageId": { "type": ["null", "string"] },
                     "height": { "type": ["null", "integer"], "format": "int64" },
                     "width": { "type": ["null", "integer"], "format": "int64" },
                     "url": { "type": ["null", "string"] }

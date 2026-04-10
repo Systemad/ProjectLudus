@@ -15,7 +15,7 @@ export function Footer() {
                 <SimpleGrid columns={{ base: 1, md: 3 }} gap="8">
                     <VStack align="stretch" gap="3">
                         <Heading as="h2" size="md" fontFamily="heading">
-                            GAMEX
+                            GAME-INDEX
                         </Heading>
                         <Text color="fg.muted" maxW="md">
                             Data-centric gaming discovery with a cinematic editorial surface.

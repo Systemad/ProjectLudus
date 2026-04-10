@@ -9,6 +9,7 @@ export const screenshotDtoSchema = z.object({
     id: z.number().int(),
     alphaChannel: z.nullable(z.boolean()),
     animated: z.nullable(z.boolean()),
+    imageId: z.nullable(z.string()),
     height: z.nullable(z.number().int()),
     width: z.nullable(z.number().int()),
     url: z.nullable(z.string()),

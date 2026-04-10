@@ -32,6 +32,7 @@ export type {
 } from "./types/GetByReleaseDateRangeEndpointsTypes/GetApiGamesReleaseDateRange.ts";
 export type { GetGameByIdResponse } from "./types/GetGameByIdResponse.ts";
 export type { HttpValidationProblemDetails } from "./types/HttpValidationProblemDetails.ts";
+export type { InvolvedCompanyDto } from "./types/InvolvedCompanyDto.ts";
 export type { PopularityGamesResponse } from "./types/PopularityGamesResponse.ts";
 export type { ReleaseDateDto } from "./types/ReleaseDateDto.ts";
 export type { ScreenshotDto } from "./types/ScreenshotDto.ts";
@@ -86,6 +87,7 @@ export {
 } from "./zod/getApiPopularityPopularitytypeidSchema.ts";
 export { getGameByIdResponseSchema } from "./zod/getGameByIdResponseSchema.ts";
 export { httpValidationProblemDetailsSchema } from "./zod/httpValidationProblemDetailsSchema.ts";
+export { involvedCompanyDtoSchema } from "./zod/involvedCompanyDtoSchema.ts";
 export { popularityGamesResponseSchema } from "./zod/popularityGamesResponseSchema.ts";
 export { releaseDateDtoSchema } from "./zod/releaseDateDtoSchema.ts";
 export { screenshotDtoSchema } from "./zod/screenshotDtoSchema.ts";

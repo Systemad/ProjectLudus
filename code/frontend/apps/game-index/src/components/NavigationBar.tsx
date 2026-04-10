@@ -12,12 +12,11 @@ import {
     Text,
 } from "ui";
 import { RouterLink, RouterLinkButton } from "./YamadaLink";
+import { linkStyle } from "@src/utils/sectionTextStyles";
 
 type NavigationBarProps = {
     active?: string;
 };
-
-const linkStyle = { color: "inherit", textDecoration: "none" };
 
 const navItems = [
     { id: "home" as const, label: "Home", to: "/" },

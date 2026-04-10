@@ -2,9 +2,23 @@ version: 2
 models:
     - name: mart_games__similar_games
       config:
-          enabled: false
-      description: ""
+          alias: games__similar_games
+      description: "Join table representing the similar-games relationship between games."
+      constraints:
+          - type: primary_key
+            columns: [game_id, similar_game_id]
+          - type: foreign_key
+            columns: [game_id]
+            to: ref('mart_games')
+            to_columns: [id]
+          - type: foreign_key
+            columns: [similar_game_id]
+            to: ref('mart_games')
+            to_columns: [id]
       columns:
-          - name: value
+          - name: game_id
             data_type: bigint
-            description: ""
+            description: "The source game in the similarity relationship."
+          - name: similar_game_id
+            data_type: bigint
+            description: "The related similar game."

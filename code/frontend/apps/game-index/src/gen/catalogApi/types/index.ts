@@ -26,6 +26,7 @@ export type {
 } from "./GetByReleaseDateRangeEndpointsTypes/GetApiGamesReleaseDateRange.ts";
 export type { GetGameByIdResponse } from "./GetGameByIdResponse.ts";
 export type { HttpValidationProblemDetails } from "./HttpValidationProblemDetails.ts";
+export type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
 export type { PopularityGamesResponse } from "./PopularityGamesResponse.ts";
 export type { ReleaseDateDto } from "./ReleaseDateDto.ts";
 export type { ScreenshotDto } from "./ScreenshotDto.ts";

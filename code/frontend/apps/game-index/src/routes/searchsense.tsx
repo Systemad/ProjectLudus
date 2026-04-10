@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Accordion, Box, Flex, Grid, Heading } from "ui";
 import { Configure, Pagination, InstantSearch, Stats, Hits } from "react-instantsearch";
-import Card from "@src/components/ui/Card";
 import { SEARCH_INDEX_NAME, searchClient } from "@src/Typesense/instantsearch";
 import { SearchFacetFilterGroup } from "@src/Typesense/Search/SearchFacetFilterGroup";
 import { SearchHeader } from "@src/Typesense/Search/SearchHeader";
 import { SearchHitCard } from "@src/Typesense/Search/SearchHitCard";
+import { CardSurface } from "@src/components/layout/Card";
 
 export const Route = createFileRoute("/searchsense")({
     component: RouteComponent,
@@ -108,7 +108,12 @@ function RouteComponent() {
                 />
 
                 <Grid className="typesense-layout">
-                    <Card as="aside" variant="translucent" className="typesense-facet-panel" p="md">
+                    <CardSurface
+                        as="aside"
+                        variant="translucent"
+                        className="typesense-facet-panel"
+                        p="md"
+                    >
                         <Heading size="sm" mb="sm">
                             Filters
                         </Heading>
@@ -123,7 +128,7 @@ function RouteComponent() {
                                 />
                             ))}
                         </Accordion.Root>
-                    </Card>
+                    </CardSurface>
 
                     <Box minW={0}>
                         <SearchHeader />

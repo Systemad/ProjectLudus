@@ -1,6 +1,0 @@
-{
-    "required": ["key", "index"],
-    "type": "object",
-    "properties": { "key": { "type": "string" }, "index": { "type": "string" } },
-    "x-readme-ref-name": "TypesenseKeyResponse"
-}

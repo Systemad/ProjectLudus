@@ -1,7 +1,8 @@
 with
-    source as (select * from {{ ref("stg_games__similar_games") }}),
-
-    renamed as (select value from source)
+    source as (
+        select *
+        from {{ ref('int_game__similar_game') }}
+    )
 
 select *
-from renamed
+from source

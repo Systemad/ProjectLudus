@@ -25,5 +25,5 @@ public partial class InvolvedCompany
 
     public string? Checksum { get; set; }
 
-    public virtual InvolvedCompanyCompany? InvolvedCompanyCompany { get; set; }
+    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
 }

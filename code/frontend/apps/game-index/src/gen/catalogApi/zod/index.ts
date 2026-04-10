@@ -23,6 +23,7 @@ export {
 } from "./getApiPopularityPopularitytypeidSchema.ts";
 export { getGameByIdResponseSchema } from "./getGameByIdResponseSchema.ts";
 export { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
+export { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
 export { popularityGamesResponseSchema } from "./popularityGamesResponseSchema.ts";
 export { releaseDateDtoSchema } from "./releaseDateDtoSchema.ts";
 export { screenshotDtoSchema } from "./screenshotDtoSchema.ts";

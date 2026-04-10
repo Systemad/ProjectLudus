@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: bridge_game__similar_game
+    config:
+      contract: { enforced: true }
+      alias: "game_similar_game"
+    description: "Join table linking games to their similar games."
+    constraints:
+      - type: primary_key
+        columns: [game_id, similar_game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [similar_game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: "The game that has a similar game relationship."
+      - name: similar_game_id
+        data_type: bigint
+        description: "The similar game referenced by the relationship."

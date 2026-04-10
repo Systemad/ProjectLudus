@@ -16,7 +16,7 @@ public sealed record GameDto
     public string? Url { get; init; }
     public string? Checksum { get; init; }
     public long? ParentGame { get; init; }
-    public long? Cover { get; init; }
+    public string? Cover { get; init; }
     public string? CoverUrl { get; init; }
     public long? GameType { get; init; }
     public string? GameTypeName { get; init; }
@@ -33,6 +33,8 @@ public sealed record GameDto
     public long? VersionParent { get; init; }
     public string? VersionTitle { get; init; }
     public long? Franchise { get; init; }
+    public IReadOnlyList<InvolvedCompanyDto>? InvolvedCompanies { get; init; }
+    public IReadOnlyList<GameDto>? SimilarGames { get; init; }
     public IReadOnlyList<string>? Platforms { get; init; }
     public IReadOnlyList<string>? Genres { get; init; }
     public IReadOnlyList<string>? Themes { get; init; }
@@ -45,7 +47,11 @@ public sealed record GameDto
     public IReadOnlyList<AlternativeNameDto>? AlternativeNames { get; init; }
     public IReadOnlyList<ExternalGameDto>? ExternalGames { get; init; }
 
-    public static GameDto From(Game game)
+    public static GameDto From(
+        Game game,
+        IReadOnlyList<InvolvedCompanyDto>? involvedCompanies = null,
+        IReadOnlyList<GameDto>? similarGames = null
+    )
     {
         return new GameDto
         {
@@ -59,7 +65,7 @@ public sealed record GameDto
             Url = game.Url,
             Checksum = game.Checksum,
             ParentGame = game.ParentGame,
-            Cover = game.Cover,
+            Cover = game.CoverNavigation?.ImageId,
             CoverUrl = game.CoverNavigation?.Url,
             GameType = game.GameType,
             GameTypeName = game.GameTypeNavigation?.Type,
@@ -76,6 +82,8 @@ public sealed record GameDto
             VersionParent = game.VersionParent,
             VersionTitle = game.VersionTitle,
             Franchise = game.Franchise,
+            InvolvedCompanies = involvedCompanies,
+            SimilarGames = similarGames,
             Platforms = game
                 .Platforms?.Select(p => p.Name ?? string.Empty)
                 .Where(n => !string.IsNullOrEmpty(n))
@@ -102,6 +110,28 @@ public sealed record GameDto
             Screenshots = game.Screenshots?.Select(ScreenshotDto.From).ToList(),
             AlternativeNames = game.AlternativeNames?.Select(AlternativeNameDto.From).ToList(),
             ExternalGames = game.ExternalGames?.Select(ExternalGameDto.From).ToList(),
+        };
+    }
+}
+
+public sealed record InvolvedCompanyDto
+{
+    public long Id { get; init; }
+    public string Name { get; init; } = string.Empty;
+    public bool Published { get; init; }
+    public bool Developed { get; init; }
+
+    public static InvolvedCompanyDto From(
+        CatalogAPI.Data.InvolvedCompany involvedCompany,
+        Company? company
+    )
+    {
+        return new InvolvedCompanyDto
+        {
+            Id = involvedCompany.Id,
+            Name = company?.Name ?? string.Empty,
+            Published = involvedCompany.Publisher is true,
+            Developed = involvedCompany.Developer is true,
         };
     }
 }
@@ -158,6 +188,7 @@ public sealed record ScreenshotDto(
     long Id,
     bool? AlphaChannel,
     bool? Animated,
+    string? ImageId,
     long? Height,
     long? Width,
     string? Url
@@ -168,6 +199,7 @@ public sealed record ScreenshotDto(
             screenshot.Id,
             screenshot.AlphaChannel,
             screenshot.Animated,
+            screenshot.ImageId,
             screenshot.Height,
             screenshot.Width,
             screenshot.Url

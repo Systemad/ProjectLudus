@@ -17,6 +17,10 @@ export type ScreenshotDto = {
      */
     animated: boolean | null;
     /**
+     * @type null,string
+     */
+    imageId: string | null;
+    /**
      * @type null,integer, int64
      */
     height: number | null;

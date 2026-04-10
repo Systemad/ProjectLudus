@@ -20,7 +20,8 @@ type Props = {
 };
 
 export default function Hero({ game }: Props) {
-    const coverImage = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_big") : "";
+    const coverImageId = game.cover != null ? String(game.cover) : (game.coverUrl ?? "");
+    const coverImage = coverImageId ? getIGDBImageUrl(coverImageId, "cover_big") : "";
     const rating = game.aggregatedRating ?? game.rating;
 
     return (

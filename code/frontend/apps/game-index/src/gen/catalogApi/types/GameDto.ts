@@ -5,6 +5,7 @@
 
 import type { AlternativeNameDto } from "./AlternativeNameDto.ts";
 import type { ExternalGameDto } from "./ExternalGameDto.ts";
+import type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
 import type { ReleaseDateDto } from "./ReleaseDateDto.ts";
 import type { ScreenshotDto } from "./ScreenshotDto.ts";
 import type { VideoDto } from "./VideoDto.ts";
@@ -52,9 +53,9 @@ export type GameDto = {
      */
     parentGame?: number | null;
     /**
-     * @type null,integer, int64
+     * @type null,string
      */
-    cover?: number | null;
+    cover?: string | null;
     /**
      * @type null,string
      */
@@ -119,6 +120,14 @@ export type GameDto = {
      * @type null,integer, int64
      */
     franchise?: number | null;
+    /**
+     * @type null,array
+     */
+    involvedCompanies?: InvolvedCompanyDto[] | null;
+    /**
+     * @type null,array
+     */
+    similarGames?: GameDto[] | null;
     /**
      * @type null,array
      */
