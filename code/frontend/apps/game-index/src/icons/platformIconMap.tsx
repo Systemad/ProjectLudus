@@ -16,6 +16,7 @@ import ItchIoIcon from "./Launchers/ItchIoIcon";
 import SteamIcon from "./Launchers/SteamIcon";
 import SteamIcon2 from "./Launchers/SteamIcon2";
 import UbisoftIcon from "./Launchers/UbisoftIcon";
+import { GlobeIcon, ShoppingCartIcon } from "ui";
 
 export const platformIconMap: Record<string, React.ReactNode> = {
     apple: <AppleIcon />,
@@ -40,4 +41,6 @@ export const platformIconMap: Record<string, React.ReactNode> = {
     source: <SourceEngineIcon />,
     unity: <UnityEngineIcon />,
     unreal: <UnrealEngineIcon />,
+    cart: <ShoppingCartIcon />,
+    globe: <GlobeIcon />,
 };

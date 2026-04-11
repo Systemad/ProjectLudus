@@ -2,11 +2,11 @@ import { Tooltip } from "ui";
 import { platformIconMap } from "./platformIconMap";
 
 interface PlatformIconProps {
-    type: string;
+    type?: string;
 }
 
 export function PlatformIcon({ type }: PlatformIconProps) {
-    const icon = platformIconMap[type.toLocaleLowerCase()];
+    const icon = platformIconMap[type?.toLocaleLowerCase() ?? "globe"];
     if (!icon) return null;
 
     return (

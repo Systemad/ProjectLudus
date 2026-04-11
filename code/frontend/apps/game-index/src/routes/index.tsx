@@ -1,6 +1,6 @@
 import { SimpleTable } from "@src/components/layout/SimpleTable";
 import { createFileRoute } from "@tanstack/react-router";
-import { Box, Image, SimpleGrid, Text, VStack, Heading } from "ui";
+import { Box, Image, SimpleGrid, Text, VStack, Heading, GridItem } from "ui";
 import { useGetApiPopularityPopularitytypeidSuspenseHook } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
@@ -20,10 +20,13 @@ function RouteComponent() {
         params: { limit: 25 },
     });
 
-    const totalIndexed =
-        steamMostWishlisted.games[0]?.totalVisits ??
-        steamMostPlayed.games[0]?.totalVisits ??
-        365000;
+    const { data: steamPeakHours } = useGetApiPopularityPopularitytypeidSuspenseHook({
+        popularityTypeId: 5,
+        params: { limit: 25 },
+    });
+
+    const totalIndexed = 360202;
+
     const latestUpdatedAt = Math.max(
         ...[...steamMostWishlisted.games, ...steamMostPlayed.games].map(
             (game) => game.updatedAt ?? 0,
@@ -33,7 +36,7 @@ function RouteComponent() {
         latestUpdatedAt > 0 ? new Date(latestUpdatedAt * 1000).toLocaleDateString() : "Unknown";
 
     return (
-        <Box maxW="6xl" mx="auto" w="full" px={{ base: "4", md: "6" }} py={{ base: "8", md: "10" }}>
+        <Box maxW="6xl" mx="auto" w="full" px={{ base: "4", md: "6" }} py={{ base: "2", md: "2" }}>
             <VStack align="stretch" gap="md">
                 <Box
                     rounded="md"
@@ -46,7 +49,7 @@ function RouteComponent() {
                     <VStack gap="xs" align="center">
                         <Heading>game-index.app</Heading>
                         <Text fontSize="sm" color="fg.muted">
-                            Discover, search, and explore the ultimate gaming database
+                            Discover, search, and explore games directly from IGDB
                         </Text>
                     </VStack>
                 </Box>
@@ -97,73 +100,112 @@ function RouteComponent() {
                 </Box>
 
                 <SimpleGrid columns={{ base: 1, lg: 2 }} gap="lg">
-                    <Box
-                        key={"1"}
-                        bg="bg.panel"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
-                        rounded="lg"
-                        p="md"
-                        minW={0}
-                    >
-                        <Text fontWeight="semibold" color="fg.base" mb="sm">
-                            Most Wishlisted Upcoming
-                        </Text>
+                    <GridItem>
+                        <Box
+                            key={"1"}
+                            bg="bg.panel"
+                            borderWidth="1px"
+                            borderColor="border.subtle"
+                            rounded="lg"
+                            p="md"
+                            minW={0}
+                        >
+                            <Text fontWeight="semibold" color="fg.base" mb="sm">
+                                Most Wishlisted Upcoming
+                            </Text>
 
-                        <SimpleTable
-                            headers={["#", "Title", "Release Date"]}
-                            rows={steamMostWishlisted.games
-                                .slice(0, 10)
-                                .map((b, index) => [
-                                    b.id ?? index + 1,
-                                    <Image
-                                        key={`thumb-${b.id ?? index + 1}`}
-                                        src={getIGDBImageUrl(b.coverUrl, "cover_big")}
-                                        alt={b?.name ?? ""}
-                                        w="12"
-                                        h="12"
-                                        rounded="md"
-                                        objectFit="cover"
-                                    />,
-                                    b.name ?? "Unknown",
-                                    formatReleaseDate(b.firstReleaseDate ?? null),
-                                ])}
-                            hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
-                        />
-                    </Box>
-                    <Box
-                        key={"2"}
-                        bg="bg.panel"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
-                        rounded="lg"
-                        p="md"
-                        minW={0}
-                    >
-                        <Text fontWeight="semibold" color="fg.base" mb="sm">
-                            Steam Global Top Sellers
-                        </Text>
+                            <SimpleTable
+                                headers={["#", "Title", "Release Date"]}
+                                rows={steamMostWishlisted.games
+                                    .slice(0, 10)
+                                    .map((b, index) => [
+                                        b.id ?? index + 1,
+                                        <Image
+                                            key={`thumb-${b.id ?? index + 1}`}
+                                            src={getIGDBImageUrl(b.coverUrl, "cover_big")}
+                                            alt={b?.name ?? ""}
+                                            w="12"
+                                            h="12"
+                                            rounded="md"
+                                            objectFit="cover"
+                                        />,
+                                        b.name ?? "Unknown",
+                                        formatReleaseDate(b.firstReleaseDate ?? null),
+                                    ])}
+                                hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
+                            />
+                        </Box>
+                    </GridItem>
+                    <GridItem>
+                        <Box
+                            key={"2"}
+                            bg="bg.panel"
+                            borderWidth="1px"
+                            borderColor="border.subtle"
+                            rounded="lg"
+                            p="md"
+                            minW={0}
+                        >
+                            <Text fontWeight="semibold" color="fg.base" mb="sm">
+                                Steam Global Top Sellers
+                            </Text>
 
-                        <SimpleTable
-                            headers={["#", "Title"]}
-                            rows={steamMostPlayed.games
-                                .slice(0, 10)
-                                .map((b, index) => [
-                                    b.id ?? index + 1,
-                                    <Image
-                                        key={`thumb-${b.id ?? index + 1}`}
-                                        src={getIGDBImageUrl(b.coverUrl, "cover_big")}
-                                        alt={b?.name ?? ""}
-                                        w="12"
-                                        h="12"
-                                        rounded="md"
-                                        objectFit="cover"
-                                    />,
-                                    b.name ?? "Unknown",
-                                ])}
-                            hoverCardGames={steamMostPlayed.games.slice(0, 10)}
-                        />
-                    </Box>
+                            <SimpleTable
+                                headers={["#", "Title"]}
+                                rows={steamMostPlayed.games
+                                    .slice(0, 10)
+                                    .map((b, index) => [
+                                        b.id ?? index + 1,
+                                        <Image
+                                            key={`thumb-${b.id ?? index + 1}`}
+                                            src={getIGDBImageUrl(b.coverUrl, "cover_big")}
+                                            alt={b?.name ?? ""}
+                                            w="12"
+                                            h="12"
+                                            rounded="md"
+                                            objectFit="cover"
+                                        />,
+                                        b.name ?? "Unknown",
+                                    ])}
+                                hoverCardGames={steamMostPlayed.games.slice(0, 10)}
+                            />
+                        </Box>
+                    </GridItem>
+                    <GridItem>
+                        <Box
+                            key={"2"}
+                            bg="bg.panel"
+                            borderWidth="1px"
+                            borderColor="border.subtle"
+                            rounded="lg"
+                            p="md"
+                            minW={0}
+                        >
+                            <Text fontWeight="semibold" color="fg.base" mb="sm">
+                                24hr Peak Players
+                            </Text>
+
+                            <SimpleTable
+                                headers={["#", "Title"]}
+                                rows={steamPeakHours.games
+                                    .slice(0, 10)
+                                    .map((b, index) => [
+                                        b.id ?? index + 1,
+                                        <Image
+                                            key={`thumb-${b.id ?? index + 1}`}
+                                            src={getIGDBImageUrl(b.coverUrl, "cover_big")}
+                                            alt={b?.name ?? ""}
+                                            w="12"
+                                            h="12"
+                                            rounded="md"
+                                            objectFit="cover"
+                                        />,
+                                        b.name ?? "Unknown",
+                                    ])}
+                                hoverCardGames={steamPeakHours.games.slice(0, 10)}
+                            />
+                        </Box>
+                    </GridItem>
                 </SimpleGrid>
             </VStack>
         </Box>

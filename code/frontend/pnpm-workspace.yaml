@@ -35,6 +35,7 @@ catalog:
     "@types/node": ^24
     "@yamada-ui/cli": ^2.1.3
     "@yamada-ui/react": ^2.1.5
+    country-flag-icons: ^1.6.16
     eslint-plugin-oxlint: ^1.58.0
     react-extract-colors: ^1.6.0
     react-instantsearch: ^7.29.0

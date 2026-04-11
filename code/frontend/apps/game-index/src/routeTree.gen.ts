@@ -9,17 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchsenseRouteImport } from './routes/searchsense'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 
-const SearchsenseRoute = SearchsenseRouteImport.update({
-  id: '/searchsense',
-  path: '/searchsense',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -45,14 +39,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/search': typeof SearchRoute
-  '/searchsense': typeof SearchsenseRoute
   '/games/$gameId': typeof GamesGameIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/search': typeof SearchRoute
-  '/searchsense': typeof SearchsenseRoute
   '/games/$gameId': typeof GamesGameIdRoute
 }
 export interface FileRoutesById {
@@ -60,40 +52,25 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/search': typeof SearchRoute
-  '/searchsense': typeof SearchsenseRoute
   '/games/$gameId': typeof GamesGameIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/search' | '/searchsense' | '/games/$gameId'
+  fullPaths: '/' | '/about' | '/search' | '/games/$gameId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/search' | '/searchsense' | '/games/$gameId'
-  id:
-    | '__root__'
-    | '/'
-    | '/about'
-    | '/search'
-    | '/searchsense'
-    | '/games/$gameId'
+  to: '/' | '/about' | '/search' | '/games/$gameId'
+  id: '__root__' | '/' | '/about' | '/search' | '/games/$gameId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   SearchRoute: typeof SearchRoute
-  SearchsenseRoute: typeof SearchsenseRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/searchsense': {
-      id: '/searchsense'
-      path: '/searchsense'
-      fullPath: '/searchsense'
-      preLoaderRoute: typeof SearchsenseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -129,7 +106,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   SearchRoute: SearchRoute,
-  SearchsenseRoute: SearchsenseRoute,
   GamesGameIdRoute: GamesGameIdRoute,
 }
 export const routeTree = rootRouteImport

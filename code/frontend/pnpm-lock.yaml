@@ -75,6 +75,9 @@ catalogs:
     '@yamada-ui/react':
       specifier: ^2.1.5
       version: 2.1.5
+    country-flag-icons:
+      specifier: ^1.6.16
+      version: 1.6.16
     eslint-plugin-oxlint:
       specifier: ^1.58.0
       version: 1.58.0
@@ -226,6 +229,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: ^1.0.0
         version: 1.0.0
+      country-flag-icons:
+        specifier: 'catalog:'
+        version: 1.6.16
       eslint:
         specifier: ^9.39.4
         version: 9.39.4(jiti@2.6.1)
@@ -2265,6 +2271,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  country-flag-icons@1.6.16:
+    resolution: {integrity: sha512-HxJVoE/aaZGcUMx1vK/u9430uKGB3ODZDDZJJOqVJQzoHk5v42c0fSp1rk4tDfyr1dVOJjwxRiaBPliBMo2Liw==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -6394,6 +6403,8 @@ snapshots:
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 5.9.3
+
+  country-flag-icons@1.6.16: {}
 
   cross-spawn@7.0.6:
     dependencies:

@@ -14,10 +14,8 @@ interface Website {
 interface PlatformIconsContainerProps {
     websites: Website[];
 }
-// TODO: USE LATER
 
 export function PlatformIcons({ websites }: PlatformIconsContainerProps) {
-    // Filter and deduplicate platform types
     const uniqueTypes = Array.from(
         new Set(
             websites

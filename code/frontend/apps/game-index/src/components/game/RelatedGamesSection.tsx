@@ -30,7 +30,7 @@ export default function RelatedGamesSection({ games }: Props) {
 
             {games.length > 0 ? (
                 <Wrap gap={4}>
-                    {games.map((game) => (
+                    {games.slice(0, 6).map((game) => (
                         <Box
                             key={game.id}
                             flexBasis={{

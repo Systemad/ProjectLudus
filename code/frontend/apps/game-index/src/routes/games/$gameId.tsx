@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Box, Button, Grid, Heading, HStack, Image, Tag, Text, VStack, Wrap } from "ui";
 import MediaGrid from "@src/components/game/MediaGrid";
 import AlternativeNames from "@src/components/game/AlternativeNames";
-import OfficialLinks from "@src/components/game/OfficialLinks";
+import { OfficialLinks } from "@src/components/game/OfficialLinks";
 import OverviewPanel from "@src/components/game/OverviewPanel";
 import RelatedGamesSection from "@src/components/game/RelatedGamesSection";
 import { ScreenshotPreview } from "@src/components/game/ScreenshotPreview";
@@ -58,7 +58,6 @@ function GameDetailPage() {
     const modes = game.gameModes ?? [];
     const playerPerspectives = game.playerPerspectives ?? [];
     const websites = game.websites?.filter((w) => w.url) ?? [];
-    const externalGames = game.externalGames ?? [];
     const videos = game.videos?.filter((v) => v.videoId) ?? [];
     const alternativeNames = (game.alternativeNames ?? [])
         .map((item) => item.name)
@@ -85,7 +84,6 @@ function GameDetailPage() {
 
     return (
         <Box w="full" color="fg.base">
-            {/* ── Hero ── */}
             <Box position="relative" overflow="hidden">
                 {coverImage && (
                     <Image
@@ -173,7 +171,6 @@ function GameDetailPage() {
                 </Box>
             </Box>
 
-            {/* ── Tab bar ── */}
             <Box borderBottomWidth="1px" borderColor="border.subtle">
                 <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }}>
                     <HStack gap={0}>
@@ -201,9 +198,7 @@ function GameDetailPage() {
                 </Box>
             </Box>
 
-            {/* ── Tab content ── */}
             <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py={8} pb={20}>
-                {/* Overview: story + screenshots (left) | sidebar (right) */}
                 <Box display={activeTab === "overview" ? "block" : "none"}>
                     <Grid
                         templateColumns={{ base: "1fr", lg: "1fr 300px" }}
@@ -239,7 +234,7 @@ function GameDetailPage() {
                 </Box>
 
                 <Box display={activeTab === "official-links" ? "block" : "none"}>
-                    <OfficialLinks websites={websites} externalGames={externalGames} />
+                    <OfficialLinks websites={websites} />
                 </Box>
 
                 <Box display={activeTab === "media" ? "block" : "none"}>
@@ -248,7 +243,7 @@ function GameDetailPage() {
 
                 <Box display={activeTab === "details" ? "block" : "none"}>
                     <VStack align="stretch" gap={8}>
-                        <OfficialLinks websites={websites} externalGames={externalGames} />
+                        <OfficialLinks websites={websites} />
                         <AlternativeNames names={alternativeNames} />
                     </VStack>
                 </Box>

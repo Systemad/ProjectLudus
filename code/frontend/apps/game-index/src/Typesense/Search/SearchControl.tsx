@@ -1,13 +1,10 @@
-import { Flex, Box, Button, Text } from "ui";
-import { useSortBy } from "react-instantsearch";
-import { SEARCH_INDEX_NAME } from "../instantsearch";
+import { Flex, Box, Text, Button } from "ui";
+import { useSearch, useNavigate } from "@tanstack/react-router";
+import { Route } from "@src/routes/search";
 
-type SortAnchor = (typeof SORT_ANCHOR_OPTIONS)[number]["value"];
-type SortDirection = (typeof SORT_DIRECTION_OPTIONS)[number]["value"];
-
-const SORT_ANCHOR_OPTIONS = [
+const SORT_FIELD_OPTIONS = [
     { label: "Relevancy", value: "relevancy" },
-    { label: "Release date", value: "first_release_date" },
+    { label: "First Release Date", value: "first_release_date" },
 ] as const;
 
 const SORT_DIRECTION_OPTIONS = [
@@ -15,31 +12,43 @@ const SORT_DIRECTION_OPTIONS = [
     { label: "Descending", value: "desc" },
 ] as const;
 
-const RELEVANCY_SORT_ITEM = {
-    label: "Relevancy",
-    value: SEARCH_INDEX_NAME,
-};
+type SortField = (typeof SORT_FIELD_OPTIONS)[number]["value"];
+type SortDirection = (typeof SORT_DIRECTION_OPTIONS)[number]["value"];
 
-const ALL_SORT_ITEMS = [
-    RELEVANCY_SORT_ITEM,
-    ...SORT_ANCHOR_OPTIONS.filter((option) => option.value !== "relevancy").flatMap((anchor) =>
-        SORT_DIRECTION_OPTIONS.map((direction) => ({
-            label: `${anchor.label} ${direction.label}`,
-            value: `${SEARCH_INDEX_NAME}/sort/${anchor.value}:${direction.value}`,
-        })),
-    ),
-];
+const RELEVANCY_SORT = "aggregated_rating:desc";
 
 export function SortControls() {
-    const { currentRefinement, refine } = useSortBy({ items: ALL_SORT_ITEMS });
+    const search = useSearch({ from: Route.fullPath });
+    const navigate = useNavigate({ from: Route.fullPath });
 
-    const match = currentRefinement.match(/\/sort\/([^:]+):(asc|desc)$/);
-    const anchor =
-        currentRefinement === SEARCH_INDEX_NAME
-            ? "relevancy"
-            : ((match?.[1] ?? "relevancy") as SortAnchor);
-    const direction = (match?.[2] ?? "desc") as SortDirection;
-    const isReplicaSort = anchor !== "relevancy";
+    const currentSort = search.sort ?? RELEVANCY_SORT;
+    const parsed = currentSort.match(/^([^:]+):(asc|desc)$/);
+
+    const field: SortField =
+        parsed?.[1] === "first_release_date" ? "first_release_date" : "relevancy";
+    const direction: SortDirection = parsed?.[2] === "asc" ? "asc" : "desc";
+    const isSortableField = field !== "relevancy";
+
+    const setSort = (nextSort: string) => {
+        navigate({
+            search: (prev) => ({ ...prev, sort: nextSort, page: 1 }),
+            replace: true,
+        });
+    };
+
+    const onFieldChange = (nextField: SortField) => {
+        if (nextField === "relevancy") {
+            setSort(RELEVANCY_SORT);
+            return;
+        }
+
+        setSort(`${nextField}:${direction}`);
+    };
+
+    const onDirectionChange = (nextDirection: SortDirection) => {
+        if (!isSortableField) return;
+        setSort(`${field}:${nextDirection}`);
+    };
 
     return (
         <Flex gap="sm" wrap="wrap" mb="sm" align="end">
@@ -48,19 +57,12 @@ export function SortControls() {
                     Sort field
                 </Text>
                 <Flex gap="xs" wrap="wrap">
-                    {SORT_ANCHOR_OPTIONS.map((option) => (
+                    {SORT_FIELD_OPTIONS.map((option) => (
                         <Button
                             key={option.value}
                             size="sm"
-                            variant={anchor === option.value ? "solid" : "outline"}
-                            onClick={() => {
-                                if (option.value === "relevancy") {
-                                    refine(SEARCH_INDEX_NAME);
-                                    return;
-                                }
-
-                                refine(`${SEARCH_INDEX_NAME}/sort/${option.value}:${direction}`);
-                            }}
+                            variant={field === option.value ? "solid" : "outline"}
+                            onClick={() => onFieldChange(option.value)}
                         >
                             {option.label}
                         </Button>
@@ -78,14 +80,10 @@ export function SortControls() {
                             key={option.value}
                             size="sm"
                             variant={
-                                direction === option.value && isReplicaSort ? "solid" : "outline"
+                                direction === option.value && isSortableField ? "solid" : "outline"
                             }
-                            disabled={!isReplicaSort}
-                            onClick={() => {
-                                if (!isReplicaSort) return;
-
-                                refine(`${SEARCH_INDEX_NAME}/sort/${anchor}:${option.value}`);
-                            }}
+                            disabled={!isSortableField}
+                            onClick={() => onDirectionChange(option.value)}
                         >
                             {option.label}
                         </Button>
