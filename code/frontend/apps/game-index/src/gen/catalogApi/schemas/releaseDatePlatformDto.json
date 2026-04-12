@@ -1,0 +1,9 @@
+{
+    "required": ["releaseDate", "platform"],
+    "type": "object",
+    "properties": {
+        "releaseDate": { "type": ["null", "integer"], "format": "int64" },
+        "platform": { "type": ["null", "string"] }
+    },
+    "x-readme-ref-name": "ReleaseDatePlatformDto"
+}

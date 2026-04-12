@@ -9,17 +9,24 @@ import OverviewPanel from "@src/components/game/OverviewPanel";
 import RelatedGamesSection from "@src/components/game/RelatedGamesSection";
 import { ScreenshotPreview } from "@src/components/game/ScreenshotPreview";
 import { linkStyle, sectionLabelStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
-import { type GameDto, useGetApiGamesGameidSuspenseHook } from "@src/gen/catalogApi";
+import {
+    useGetApiGamesGameidDetailsSuspenseHook,
+    useGetApiGamesGameidMediaSuspenseHook,
+    useGetApiGamesGameidPageReleaseDataSuspenseHook,
+    useGetApiGamesGameidSimilarGamesSuspenseHook,
+    useGetApiGamesGameidSuspenseHook,
+} from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
-type Tab = "overview" | "official-links" | "media" | "details";
+type Tab = "overview" | "official-links" | "media" | "details" | "release-dates";
 
 const TABS: { value: Tab; label: string }[] = [
     { value: "overview", label: "Overview" },
     { value: "official-links", label: "Official links" },
     { value: "media", label: "Media" },
     { value: "details", label: "Details" },
+    { value: "release-dates", label: "Release Dates" },
 ];
 
 export const Route = createFileRoute("/games/$gameId")({
@@ -28,11 +35,26 @@ export const Route = createFileRoute("/games/$gameId")({
 
 function GameDetailPage() {
     const { gameId } = Route.useParams();
-    const { data } = useGetApiGamesGameidSuspenseHook({ gameId: Number(gameId) });
-    const game = data?.game as GameDto | undefined;
+    const { data: overviewData } = useGetApiGamesGameidSuspenseHook({ gameId: Number(gameId) });
+    const { data: detailsData } = useGetApiGamesGameidDetailsSuspenseHook({
+        gameId: Number(gameId),
+    });
+    const { data: mediaData } = useGetApiGamesGameidMediaSuspenseHook({ gameId: Number(gameId) });
+    const { data: releaseData } = useGetApiGamesGameidPageReleaseDataSuspenseHook({
+        gameId: Number(gameId),
+    });
+    const { data: similarData } = useGetApiGamesGameidSimilarGamesSuspenseHook({
+        gameId: Number(gameId),
+    });
+    const overview = overviewData?.game;
+    const details = detailsData?.game;
+    const media = mediaData?.game;
+    const releasePageData = releaseData?.data;
+    const similarGames = similarData?.games ?? [];
     const [activeTab, setActiveTab] = useState<Tab>("overview");
+    const [storyExpanded, setStoryExpanded] = useState(false);
 
-    if (!game) {
+    if (!overview) {
         return (
             <Box maxW="7xl" mx="auto" px={{ base: "4", md: "6" }} py="20">
                 <VStack align="center" gap="6">
@@ -45,42 +67,45 @@ function GameDetailPage() {
         );
     }
 
-    const coverImageId = game.cover != null ? String(game.cover) : (game.coverUrl ?? "");
+    const coverImageId =
+        overview.cover != null ? String(overview.cover) : (overview.coverUrl ?? "");
     const coverImage = coverImageId ? getIGDBImageUrl(coverImageId, "cover_big") : "";
 
-    const screenshotSources = (game.screenshots ?? [])
-        .map((s) => getIGDBImageUrl(s.imageId, "screenshot_med"))
+    const storyText = overview.storyline ?? overview.summary ?? "No storyline available.";
+    const isStoryLong = storyText.length > 280;
+
+    const screenshotSources = (media?.screenshots ?? [])
+        .map((s) => getIGDBImageUrl(s, "screenshot_med"))
         .filter((src) => src.length > 0);
 
-    const genres = game.genres ?? [];
-    const themes = game.themes ?? [];
-    const platforms = game.platforms ?? [];
-    const modes = game.gameModes ?? [];
-    const playerPerspectives = game.playerPerspectives ?? [];
-    const websites = game.websites?.filter((w) => w.url) ?? [];
-    const videos = game.videos?.filter((v) => v.videoId) ?? [];
-    const alternativeNames = (game.alternativeNames ?? [])
+    const firstReleaseDate =
+        overview.releaseDates
+            ?.map((release) => release.releaseDate ?? 0)
+            .filter(Boolean)
+            .sort((a, b) => a - b)[0] ?? null;
+
+    const genres = overview.genres ?? [];
+    const themes = overview.themes ?? [];
+    const platforms = (overview.platforms ?? [])
+        .map((platform) => platform?.name)
+        .filter((name): name is string => Boolean(name));
+    const modes = details?.gameModes ?? [];
+    const playerPerspectives = details?.playerPerspectives ?? [];
+    const websites = details?.websites?.filter((w) => w.url) ?? [];
+    const videos = media?.videos ?? [];
+    const alternativeNames = (details?.alternativeNames ?? [])
         .map((item) => item.name)
         .filter((item): item is string => Boolean(item));
-    const relatedGames = (game.similarGames ?? [])
-        .map((item) => {
-            const coverUrl = item?.coverUrl ?? "";
-            const imageUrl = coverUrl.startsWith("http")
-                ? coverUrl
-                : item?.cover != null
-                  ? getIGDBImageUrl(String(item.cover), "cover_big")
-                  : coverUrl
-                    ? getIGDBImageUrl(coverUrl, "cover_big")
-                    : undefined;
-            return {
-                id: item?.id ?? -1,
-                name: item?.name ?? "",
-                imageUrl,
-            };
-        })
-        .filter((item) => item.id > 0 && item.name.length > 0);
-    const developers = (game.involvedCompanies ?? []).filter((c) => c.developed);
-    const publishers = (game.involvedCompanies ?? []).filter((c) => c.published);
+    const releaseDates = releasePageData?.releases ?? [];
+    const relatedGames = similarGames
+        .map((game) => ({
+            id: game.id ?? 0,
+            name: game.name ?? "Unknown",
+            imageUrl: getIGDBImageUrl(game.coverUrl, "cover_big"),
+        }))
+        .filter((game) => game.id > 0);
+    const developers = (details?.involvedCompanies ?? []).filter((c) => c.developed);
+    const publishers = (details?.involvedCompanies ?? []).filter((c) => c.published);
 
     return (
         <Box w="full" color="fg.base">
@@ -110,7 +135,7 @@ function GameDetailPage() {
                         >
                             <Image
                                 src={coverImage || undefined}
-                                alt={game.name ?? "Cover"}
+                                alt={overview.name ?? "Cover"}
                                 objectFit="cover"
                                 w="full"
                                 display="block"
@@ -119,14 +144,14 @@ function GameDetailPage() {
 
                         <VStack align="start" gap={2} flex={1} minW={0}>
                             <Text color="fg.muted" fontSize="sm">
-                                {formatReleaseDate(game.firstReleaseDate)}
+                                {formatReleaseDate(firstReleaseDate)}
                             </Text>
                             <Heading
                                 size={{ base: "2xl", md: "4xl" }}
                                 color="fg.base"
                                 lineHeight="1.1"
                             >
-                                {game.name ?? "Untitled game"}
+                                {overview.name ?? "Untitled game"}
                             </Heading>
                             <Wrap gap="xs">
                                 {genres.slice(0, 3).map((g) => (
@@ -164,7 +189,7 @@ function GameDetailPage() {
                                 )}
                             </HStack>
                             <Text color="fg.subtle" fontSize="sm" maxW="2xl" lineClamp={3} mt={1}>
-                                {game.summary ?? game.storyline ?? ""}
+                                {overview.summary ?? ""}
                             </Text>
                         </VStack>
                     </HStack>
@@ -210,9 +235,23 @@ function GameDetailPage() {
                                 <Text {...sectionLabelStyle} mb={3}>
                                     Story
                                 </Text>
-                                <Text color="fg.subtle" lineHeight="tall">
-                                    {game.storyline ?? game.summary ?? "No description available."}
+                                <Text
+                                    color="fg.subtle"
+                                    lineHeight="tall"
+                                    lineClamp={storyExpanded ? undefined : 5}
+                                >
+                                    {storyText}
                                 </Text>
+                                {isStoryLong ? (
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => setStoryExpanded((prev) => !prev)}
+                                        mt="2"
+                                    >
+                                        {storyExpanded ? "Show less" : "Read more"}
+                                    </Button>
+                                ) : null}
                             </Box>
                             <ScreenshotPreview
                                 sources={screenshotSources}
@@ -223,7 +262,7 @@ function GameDetailPage() {
                         </VStack>
 
                         <OverviewPanel
-                            gameTypeName={game.gameTypeName}
+                            gameTypeName={overview.gameTypeName}
                             modes={modes}
                             playerPerspectives={playerPerspectives}
                             platforms={platforms}
@@ -245,6 +284,86 @@ function GameDetailPage() {
                     <VStack align="stretch" gap={8}>
                         <OfficialLinks websites={websites} />
                         <AlternativeNames names={alternativeNames} />
+                    </VStack>
+                </Box>
+
+                <Box display={activeTab === "release-dates" ? "block" : "none"}>
+                    <VStack align="stretch" gap={8}>
+                        {releaseDates.length > 0 ? (
+                            <VStack align="stretch" gap={4}>
+                                {releaseDates.map((release) => (
+                                    <Box
+                                        key={`${release.platformSlug ?? "unknown"}-${release.region ?? "any"}-${release.releaseDate ?? ""}`}
+                                        rounded="lg"
+                                        bg="bg.surface"
+                                        borderWidth="1px"
+                                        borderColor="border.subtle"
+                                        p="md"
+                                    >
+                                        <HStack
+                                            align="start"
+                                            justify="space-between"
+                                            wrap="wrap"
+                                            gap="4"
+                                        >
+                                            <VStack align="start" gap={1}>
+                                                <Text fontSize="sm" color="fg.muted">
+                                                    Platform
+                                                </Text>
+                                                <Text fontWeight="semibold" color="fg.base">
+                                                    {release.platformName ?? "Unknown platform"}
+                                                </Text>
+                                            </VStack>
+
+                                            <VStack align="start" gap={1}>
+                                                <Text fontSize="sm" color="fg.muted">
+                                                    Release date
+                                                </Text>
+                                                <Text fontWeight="semibold" color="fg.base">
+                                                    {release.human ??
+                                                        (release.releaseDate
+                                                            ? new Date(
+                                                                  release.releaseDate * 1000,
+                                                              ).toLocaleDateString()
+                                                            : "Unknown")}
+                                                </Text>
+                                            </VStack>
+                                        </HStack>
+
+                                        {release.region ? (
+                                            <Text color="fg.subtle" fontSize="sm" mt="3">
+                                                Region: {release.region}
+                                            </Text>
+                                        ) : null}
+
+                                        <Wrap gap="2" mt="4">
+                                            {release.developers?.map((developer) => (
+                                                <Tag
+                                                    key={`dev-${developer.name ?? "unknown"}`}
+                                                    variant="surface"
+                                                    colorScheme="gray"
+                                                    size="sm"
+                                                >
+                                                    Dev: {developer.name ?? "Unknown"}
+                                                </Tag>
+                                            ))}
+                                            {release.publishers?.map((publisher) => (
+                                                <Tag
+                                                    key={`pub-${publisher.name ?? "unknown"}`}
+                                                    variant="surface"
+                                                    colorScheme="gray"
+                                                    size="sm"
+                                                >
+                                                    Pub: {publisher.name ?? "Unknown"}
+                                                </Tag>
+                                            ))}
+                                        </Wrap>
+                                    </Box>
+                                ))}
+                            </VStack>
+                        ) : (
+                            <Text color="fg.subtle">Release date data is not available.</Text>
+                        )}
                     </VStack>
                 </Box>
             </Box>

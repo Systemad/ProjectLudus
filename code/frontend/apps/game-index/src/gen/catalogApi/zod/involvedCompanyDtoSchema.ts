@@ -6,8 +6,8 @@
 import * as z from "zod";
 
 export const involvedCompanyDtoSchema = z.object({
-    id: z.optional(z.number().int()),
-    name: z.optional(z.string()),
-    published: z.optional(z.boolean()),
-    developed: z.optional(z.boolean()),
+    name: z.string(),
+    slug: z.string(),
+    published: z.boolean(),
+    developed: z.boolean(),
 });

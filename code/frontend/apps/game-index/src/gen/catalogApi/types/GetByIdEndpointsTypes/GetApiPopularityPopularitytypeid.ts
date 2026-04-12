@@ -14,9 +14,14 @@ export type GetApiPopularityPopularitytypeidPathParams = {
 
 export type GetApiPopularityPopularitytypeidQueryParams = {
     /**
-     * @type integer, int32
+     * @default 20
+     * @type integer | undefined, int32
      */
-    limit: number;
+    Limit?: number;
+    /**
+     * @type string | undefined
+     */
+    Date?: string;
 };
 
 /**

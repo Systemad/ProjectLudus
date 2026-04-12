@@ -71,6 +71,8 @@ public partial class Game
 
     public virtual GameType? GameTypeNavigation { get; set; }
 
+    public virtual ICollection<InvolvedCompany> InvolvedCompanies { get; set; } = new List<InvolvedCompany>();
+
     public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
 
     public virtual ICollection<ReleaseDate> ReleaseDates { get; set; } = new List<ReleaseDate>();

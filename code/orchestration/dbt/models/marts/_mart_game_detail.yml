@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: mart_game_detail
+    config:
+      alias: game_detail
+      contract: { enforced: true }
+    description: "A read-optimized view for game detail pages, including nested related metadata."
+    columns:
+      - name: id
+        data_type: bigint
+        description: "The game identifier."
+      - name: slug
+        data_type: character varying
+        description: "The game slug."
+      - name: name
+        data_type: character varying
+        description: "The game title."
+      - name: summary
+        data_type: character varying
+        description: "The game summary."
+      - name: storyline
+        data_type: character varying
+        description: "The game storyline."
+      - name: cover_src
+        data_type: character varying
+        description: "The game cover image URL."
+      - name: background_image
+        data_type: character varying
+        description: "The game background image URL."
+      - name: category
+        data_type: bigint
+        description: "The game category identifier."
+      - name: category_name
+        data_type: character varying
+        description: "The game category display name."
+      - name: genres
+        data_type: jsonb
+        description: "Genre objects for the game detail page."
+      - name: platforms
+        data_type: jsonb
+        description: "Platform objects for the game detail page."
+      - name: released_platforms
+        data_type: jsonb
+        description: "Released platform objects for the game detail page."
+      - name: developers
+        data_type: jsonb
+        description: "Developer company objects for the game detail page."
+      - name: videos
+        data_type: jsonb
+        description: "Video objects for the game detail page."
+      - name: screenshots
+        data_type: jsonb
+        description: "Screenshot objects for the game detail page."
+      - name: alternative_names
+        data_type: text[]
+        description: "Alternative names for the game."
+      - name: external_games
+        data_type: jsonb
+        description: "External game entries, including id, name, url, source, platform, category, and year."
+      - name: similar_games
+        data_type: jsonb
+        description: "Similar game entries, including id, name, cover_url, slug, and first_release_date."
+      - name: involved_company_names
+        data_type: text[]
+        description: "Names of involved companies for the game."
+      - name: editions_count
+        data_type: int
+        description: "Count of edition variants for the game."
+      - name: rating
+        data_type: jsonb
+        description: "User and critic rating summary for the game."
+      - name: release_dates
+        data_type: text[]
+        description: "Release dates for the game."
+      - name: website_urls
+        data_type: text[]
+        description: "Website URLs associated with the game."

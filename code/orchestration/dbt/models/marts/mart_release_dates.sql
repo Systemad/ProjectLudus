@@ -22,5 +22,9 @@ with
 
     )
 
-select *
-from renamed
+select rd.*
+from renamed rd
+inner join {{ ref("mart_games") }} mg on rd.game = mg.id
+inner join {{ ref("mart_platforms") }} mp on rd.platform = mp.id
+where rd.game is not null
+    and rd.platform is not null

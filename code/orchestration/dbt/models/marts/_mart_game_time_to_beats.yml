@@ -1,36 +1,41 @@
 version: 2
 models:
-    - name: mart_game_time_to_beats
+  - name: mart_game_time_to_beats
 
-      config:
-          enabled: false
+    config:
+      enabled: false
 
-      description: ""
-      columns:
-          - name: id
-            data_type: bigint
-            description: ""
-          - name: created_at
-            data_type: bigint
-            description: ""
-          - name: updated_at
-            data_type: bigint
-            description: ""
-          - name: game_id
-            data_type: bigint
-            description: ""
-          - name: hastily
-            data_type: bigint
-            description: ""
-          - name: normally
-            data_type: bigint
-            description: ""
-          - name: completely
-            data_type: bigint
-            description: ""
-          - name: count
-            data_type: bigint
-            description: ""
-          - name: checksum
-            data_type: character varying
-            description: ""
+    description: "Time-to-beats metrics for a game."
+    constraints:
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: created_at
+        data_type: bigint
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        description: ""
+      - name: game_id
+        data_type: bigint
+        description: "The game referenced by this time-to-beats record."
+      - name: hastily
+        data_type: bigint
+        description: ""
+      - name: normally
+        data_type: bigint
+        description: ""
+      - name: completely
+        data_type: bigint
+        description: ""
+      - name: count
+        data_type: bigint
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""

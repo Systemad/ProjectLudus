@@ -3,16 +3,34 @@ using System.Collections.Generic;
 
 namespace CatalogAPI.Data;
 
+/// <summary>
+/// Relationship rows that connect games with involved companies and their roles.
+/// </summary>
 public partial class InvolvedCompany
 {
+    /// <summary>
+    /// The uniqueness key for the involved-company relationship row.
+    /// </summary>
     public long Id { get; set; }
 
+    /// <summary>
+    /// The company involved with the game.
+    /// </summary>
     public long? Company { get; set; }
 
+    /// <summary>
+    /// The source record creation timestamp.
+    /// </summary>
     public long? CreatedAt { get; set; }
 
+    /// <summary>
+    /// True when the company is a developer for this game.
+    /// </summary>
     public bool? Developer { get; set; }
 
+    /// <summary>
+    /// The game referenced by this involved-company relationship.
+    /// </summary>
     public long? Game { get; set; }
 
     public bool? Porting { get; set; }
@@ -25,5 +43,7 @@ public partial class InvolvedCompany
 
     public string? Checksum { get; set; }
 
-    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
+    public virtual Company? CompanyNavigation { get; set; }
+
+    public virtual Game? GameNavigation { get; set; }
 }

@@ -8,7 +8,7 @@ with
             as games_developed_count,
             count(distinct case when ic.publisher then ic.game end)::int
             as games_published_count
-        from {{ ref("mart_involved_companies") }} ic
+        from {{ ref("bridge_involved_companies") }} ic
         group by ic.company
     )
 

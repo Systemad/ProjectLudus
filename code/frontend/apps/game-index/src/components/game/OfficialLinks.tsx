@@ -19,7 +19,7 @@ export function OfficialLinks({ websites }: Props) {
                 <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
                     {websites.map((website) => (
                         <Button
-                            key={website.id}
+                            key={website.name}
                             as="a"
                             href={website.url ?? undefined}
                             target="_blank"
@@ -36,19 +36,19 @@ export function OfficialLinks({ websites }: Props) {
                             }}
                         >
                             <HStack gap="2xs">
-                                {platformIconMap[website.typeName?.toLowerCase() ?? ""] ? (
-                                    platformIconMap[website.typeName?.toLowerCase() ?? ""]
+                                {platformIconMap[website.type?.toLowerCase() ?? ""] ? (
+                                    platformIconMap[website.type?.toLowerCase() ?? ""]
                                 ) : (
                                     <Icon
                                         as={
-                                            website.typeName?.toLowerCase().includes("official")
+                                            website.type?.toLowerCase().includes("official")
                                                 ? GlobeIcon
                                                 : Gamepad2Icon
                                         }
                                         color="fg.muted"
                                     />
                                 )}
-                                <Text>{website.typeName ?? "Official Link"}</Text>
+                                <Text>{website.type ?? "Official Link"}</Text>
                             </HStack>
                         </Button>
                     ))}

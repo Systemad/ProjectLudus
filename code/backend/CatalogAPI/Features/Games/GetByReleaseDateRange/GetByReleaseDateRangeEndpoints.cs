@@ -3,6 +3,7 @@ using CatalogAPI.Data;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
 
 // TODO
@@ -28,7 +29,7 @@ public static class GetByReleaseDateRangeEndpoints
         this IEndpointRouteBuilder routeBuilder
     )
     {
-        var group = routeBuilder.MapGroup("/api/games");
+        var group = routeBuilder.MapGroup("/api/games").CacheOutput("DefaultCache");
 
         group
             .MapGet("/release-date-range", GetGamesByReleaseDateRangeAsync)

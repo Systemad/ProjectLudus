@@ -1,6 +1,0 @@
-{
-    "required": ["game"],
-    "type": "object",
-    "properties": { "game": { "$ref": "#/components/schemas/GameDto" } },
-    "x-readme-ref-name": "GetGameByIdResponse"
-}

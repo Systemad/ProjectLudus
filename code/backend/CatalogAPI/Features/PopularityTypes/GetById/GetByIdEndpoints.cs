@@ -1,17 +1,21 @@
 using CatalogAPI.Context;
 using CatalogAPI.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.EntityFrameworkCore;
+using NodaTime;
+using NodaTime.Text;
 
 namespace CatalogAPI.Features.PopularityTypes.GetById;
 
 public static class GetByIdEndpoints
 {
-    public record PopularityGamesResponse(List<GamesSearch> Games);
+    private record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
+
+    private record PopularityGamesResponse(List<GamesSearch> Games);
 
     public static IEndpointRouteBuilder MapGetByIdEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
-        var group = routeBuilder.MapGroup("/api/popularity");
+        var group = routeBuilder.MapGroup("/api/popularity").CacheOutput("DefaultCache");
 
         group
             .MapGet("/{popularityTypeId:long}", GetPopularityRailAsync)
@@ -21,36 +25,53 @@ public static class GetByIdEndpoints
     }
 
     private static async Task<IResult> GetPopularityRailAsync(
-        long popularityTypeId,
-        int limit,
+        [AsParameters] GetPopTypesQuery request,
         AppDbContext db,
         CancellationToken cancellationToken
     )
     {
-        var topGameIds = await db
-            .PopularityPrimitives.Where(p =>
-                p.PopularityType == popularityTypeId && p.GameId.HasValue
-            )
-            .OrderByDescending(p => p.Value)
-            .Select(p => p.GameId!.Value)
-            .Take(limit)
-            .ToListAsync(cancellationToken);
+        var latestDate = await db
+            .PopularityPrimitives.Where(p => p.PopularityType == request.PopularityTypeId)
+            .MaxAsync(p => p.SnapshotDate, cancellationToken);
 
-        if (topGameIds.Count == 0)
+        if (latestDate is null)
             return Results.Ok(new PopularityGamesResponse([]));
 
-        var gamesDict = await db
-            .GamesSearches
-            .Where(g => g.Id.HasValue && topGameIds.Contains(g.Id.Value))
-            .Where(x => x.GameType == "Main Game")
-            .ToDictionaryAsync(g => g.Id!.Value, cancellationToken);
+        LocalDate targetDate;
+        if (!string.IsNullOrWhiteSpace(request.Date) && request.Date != "today")
+        {
+            var parseResult = LocalDatePattern.Iso.Parse(request.Date!);
+            if (!parseResult.Success)
+                return Results.BadRequest("Invalid date format. Use yyyy-MM-dd");
 
-        var orderedGames = topGameIds
-            .Distinct()
-            .Where(gamesDict.ContainsKey)
-            .Select(id => gamesDict[id])
-            .ToList();
+            targetDate = parseResult.Value;
+            if (targetDate > latestDate.Value)
+                return Results.Ok(new PopularityGamesResponse([]));
+        }
+        else
+        {
+            targetDate = latestDate.Value;
+        }
 
-        return Results.Ok(new PopularityGamesResponse(orderedGames));
+        var topGames = await db
+            .PopularityPrimitives.Where(p =>
+                p.PopularityType == request.PopularityTypeId
+                && p.SnapshotDate == targetDate
+                && p.GameId.HasValue
+            )
+            .GroupBy(p => p.GameId!.Value)
+            .Select(g => new { GameId = g.Key, MaxScore = g.Max(p => p.Value) })
+            .Join(
+                db.GamesSearches,
+                top => top.GameId,
+                g => g.Id,
+                (top, g) => new { Game = g, top.MaxScore }
+            )
+            .OrderByDescending(x => x.MaxScore)
+            .Take(request.Limit)
+            .Select(x => x.Game)
+            .ToListAsync(cancellationToken);
+
+        return Results.Ok(new PopularityGamesResponse(topGames));
     }
 }

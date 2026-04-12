@@ -5,19 +5,19 @@
 
 export type WebsiteDto = {
     /**
-     * @type integer, int64
+     * @type null,string
      */
-    id: number;
+    name: string | null;
     /**
-     * @type null,boolean
+     * @type null,string
      */
-    trusted: boolean | null;
+    type: string | null;
     /**
      * @type null,string
      */
     url: string | null;
     /**
-     * @type null,string
+     * @type null,boolean
      */
-    typeName: string | null;
+    trusted: boolean | null;
 };

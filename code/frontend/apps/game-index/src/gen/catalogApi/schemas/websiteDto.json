@@ -1,11 +1,11 @@
 {
-    "required": ["id", "trusted", "url", "typeName"],
+    "required": ["name", "type", "url", "trusted"],
     "type": "object",
     "properties": {
-        "id": { "type": "integer", "format": "int64" },
-        "trusted": { "type": ["null", "boolean"] },
+        "name": { "type": ["null", "string"] },
+        "type": { "type": ["null", "string"] },
         "url": { "type": ["null", "string"] },
-        "typeName": { "type": ["null", "string"] }
+        "trusted": { "type": ["null", "boolean"] }
     },
     "x-readme-ref-name": "WebsiteDto"
 }

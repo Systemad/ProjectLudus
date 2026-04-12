@@ -5,19 +5,19 @@
 
 export type InvolvedCompanyDto = {
     /**
-     * @type integer | undefined, int64
+     * @type string
      */
-    id?: number;
+    name: string;
     /**
-     * @type string | undefined
+     * @type string
      */
-    name?: string;
+    slug: string;
     /**
-     * @type boolean | undefined
+     * @type boolean
      */
-    published?: boolean;
+    published: boolean;
     /**
-     * @type boolean | undefined
+     * @type boolean
      */
-    developed?: boolean;
+    developed: boolean;
 };

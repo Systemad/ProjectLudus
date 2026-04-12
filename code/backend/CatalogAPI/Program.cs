@@ -50,6 +50,7 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
                 ds.UseNodaTime();
                 //ds.EnableDynamicJson();
             });
+            np.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
         }
     );
     optionsBuilder.UseSnakeCaseNamingConvention();
@@ -60,11 +61,11 @@ builder.EnrichNpgsqlDbContext<AppDbContext>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOutputCache(options =>
 {
+    options.DefaultExpirationTimeSpan = TimeSpan.FromHours(1);
     options.AddPolicy(
-        "Expire15Min",
-        outputCachePolicyBuilder => outputCachePolicyBuilder.Expire(TimeSpan.FromMinutes(15))
+        "DefaultCache",
+        outputCachePolicyBuilder => outputCachePolicyBuilder.Expire(TimeSpan.FromHours(1))
     );
-    //options.DefaultExpirationTimeSpan = TimeSpan.FromHours(1);
 });
 
 builder.Services.AddGamesServices();

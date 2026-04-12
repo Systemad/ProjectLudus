@@ -1,0 +1,9 @@
+{
+    "required": ["name", "slug"],
+    "type": "object",
+    "properties": {
+        "name": { "type": ["null", "string"] },
+        "slug": { "type": ["null", "string"] }
+    },
+    "x-readme-ref-name": "PlatformsDto"
+}

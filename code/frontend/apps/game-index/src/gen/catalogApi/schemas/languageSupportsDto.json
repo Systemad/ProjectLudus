@@ -1,0 +1,10 @@
+{
+    "required": ["language", "nativeName", "type"],
+    "type": "object",
+    "properties": {
+        "language": { "type": "string" },
+        "nativeName": { "type": ["null", "string"] },
+        "type": { "type": ["null", "string"] }
+    },
+    "x-readme-ref-name": "LanguageSupportsDto"
+}

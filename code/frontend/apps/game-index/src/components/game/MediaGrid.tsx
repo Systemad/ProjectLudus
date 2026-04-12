@@ -2,11 +2,11 @@
 
 import { AspectRatio, Grid, Image, Text } from "ui";
 import { CardSurface } from "../layout/Card";
-import type { VideoDto } from "@src/gen/catalogApi";
+import type { GameMediaVideo } from "@src/gen/catalogApi";
 
 type Props = {
     sources: string[];
-    videos?: VideoDto[];
+    videos?: GameMediaVideo[];
 };
 
 function MediaGrid({ sources, videos = [] }: Props) {
@@ -27,7 +27,7 @@ function MediaGrid({ sources, videos = [] }: Props) {
                     mb={sources.length > 0 ? 6 : 0}
                 >
                     {videos.map((video) => (
-                        <AspectRatio key={video.id} ratio={16 / 9}>
+                        <AspectRatio key={video.videoId} ratio={16 / 9}>
                             <iframe
                                 src={`https://www.youtube.com/embed/${video.videoId}`}
                                 title={video.name ?? "Video"}

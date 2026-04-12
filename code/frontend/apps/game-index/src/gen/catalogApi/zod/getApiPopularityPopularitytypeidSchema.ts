@@ -11,7 +11,8 @@ export const getApiPopularityPopularitytypeidPathParamsSchema = z.object({
 });
 
 export const getApiPopularityPopularitytypeidQueryParamsSchema = z.object({
-    limit: z.coerce.number().int(),
+    Limit: z.coerce.number().int().default(20),
+    Date: z.optional(z.string()),
 });
 
 /**

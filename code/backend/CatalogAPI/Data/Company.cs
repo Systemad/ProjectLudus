@@ -45,19 +45,19 @@ public partial class Company
 
     public virtual ICollection<Company> InverseParent { get; set; } = new List<Company>();
 
+    public virtual ICollection<InvolvedCompany> InvolvedCompanies { get; set; } = new List<InvolvedCompany>();
+
     public virtual CompanyLogo? LogoNavigation { get; set; }
 
     public virtual Company? Parent { get; set; }
 
-    public virtual ICollection<PlatformVersionCompany1> PlatformVersionCompany1s { get; set; } = new List<PlatformVersionCompany1>();
+    public virtual ICollection<PlatformVersionCompany> PlatformVersionCompanies { get; set; } = new List<PlatformVersionCompany>();
 
     public virtual DateFormat? StartDateFormatNavigation { get; set; }
 
     public virtual CompanyStatus? StatusNavigation { get; set; }
 
     public virtual ICollection<GameEngine> GameEngines { get; set; } = new List<GameEngine>();
-
-    public virtual ICollection<InvolvedCompany> InvolvedCompanies { get; set; } = new List<InvolvedCompany>();
 
     public virtual ICollection<PlatformVersion> PlatformVersions { get; set; } = new List<PlatformVersion>();
 }

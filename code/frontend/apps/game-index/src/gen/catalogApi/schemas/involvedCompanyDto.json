@@ -1,8 +1,9 @@
 {
+    "required": ["name", "slug", "published", "developed"],
     "type": "object",
     "properties": {
-        "id": { "type": "integer", "format": "int64" },
         "name": { "type": "string" },
+        "slug": { "type": "string" },
         "published": { "type": "boolean" },
         "developed": { "type": "boolean" }
     },

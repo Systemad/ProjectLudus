@@ -32,8 +32,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<ArtworkType> ArtworkTypes { get; set; }
 
-    public virtual DbSet<BridgeGameGameEngine> BridgeGameGameEngines { get; set; }
-
     public virtual DbSet<Character> Characters { get; set; }
 
     public virtual DbSet<CharacterGender> CharacterGenders { get; set; }
@@ -90,8 +88,6 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<GamesSearch> GamesSearches { get; set; }
 
-    public virtual DbSet<GamesSimilarGame> GamesSimilarGames { get; set; }
-
     public virtual DbSet<Genre> Genres { get; set; }
 
     public virtual DbSet<InvolvedCompany> InvolvedCompanies { get; set; }
@@ -101,10 +97,6 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Language> Languages { get; set; }
 
     public virtual DbSet<LanguageSupportType> LanguageSupportTypes { get; set; }
-
-    public virtual DbSet<MartCompanySearch> MartCompanySearches { get; set; }
-
-    public virtual DbSet<MartGamesSearch> MartGamesSearches { get; set; }
 
     public virtual DbSet<MartGamesSearchPopularityTest> MartGamesSearchPopularityTests { get; set; }
 
@@ -122,7 +114,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<PlatformVersion> PlatformVersions { get; set; }
 
-    public virtual DbSet<PlatformVersionCompany1> PlatformVersionCompanies1 { get; set; }
+    public virtual DbSet<PlatformVersionCompany> PlatformVersionCompanies { get; set; }
 
     public virtual DbSet<PlatformWebsite> PlatformWebsites { get; set; }
 
@@ -352,16 +344,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
         });
 
-        modelBuilder.Entity<BridgeGameGameEngine>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("bridge_game__game_engine");
-
-            entity.Property(e => e.GameEngineId).HasColumnName("game_engine_id");
-            entity.Property(e => e.GameId).HasColumnName("game_id");
-        });
-
         modelBuilder.Entity<Character>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("characters__dbt_tmp_pkey");
@@ -531,7 +513,7 @@ public partial class AppDbContext : DbContext
 
             entity.HasMany(d => d.PlatformVersions).WithMany(p => p.Companies)
                 .UsingEntity<Dictionary<string, object>>(
-                    "PlatformVersionCompany",
+                    "PlatformVersionCompany1",
                     r => r.HasOne<PlatformVersion>().WithMany()
                         .HasForeignKey("PlatformVersionId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
@@ -803,7 +785,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ExternalGame>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("external_games__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("external_games__dbt_tmp_pkey");
 
             entity.ToTable("external_games");
 
@@ -1371,7 +1353,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GamePopularityLatest>(entity =>
         {
-            entity.HasKey(e => new { e.GameId, e.PopularityType, e.ExternalPopularitySource }).HasName("game_popularity_latest__dbt_tmp_pkey1");
+            entity.HasKey(e => new { e.GameId, e.PopularityType, e.ExternalPopularitySource }).HasName("game_popularity_latest__dbt_tmp_pkey");
 
             entity.ToTable("game_popularity_latest", tb => tb.HasComment("Latest popularity snapshot per game, popularity type, and external source."));
 
@@ -1518,20 +1500,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
         });
 
-        modelBuilder.Entity<GamesSimilarGame>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("games__similar_games", tb => tb.HasComment("Join table representing the similar-games relationship between games."));
-
-            entity.Property(e => e.GameId)
-                .HasComment("The source game in the similarity relationship.")
-                .HasColumnName("game_id");
-            entity.Property(e => e.SimilarGameId)
-                .HasComment("The related similar game.")
-                .HasColumnName("similar_game_id");
-        });
-
         modelBuilder.Entity<Genre>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("genres__dbt_tmp_pkey");
@@ -1561,41 +1529,39 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("involved_companies__dbt_tmp_pkey");
 
-            entity.ToTable("involved_companies");
+            entity.ToTable("involved_companies", tb => tb.HasComment("Relationship rows that connect games with involved companies and their roles."));
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
+                .HasComment("The uniqueness key for the involved-company relationship row.")
                 .HasColumnName("id");
             entity.Property(e => e.Checksum)
                 .HasColumnType("character varying")
                 .HasColumnName("checksum");
-            entity.Property(e => e.Company).HasColumnName("company");
-            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
-            entity.Property(e => e.Developer).HasColumnName("developer");
-            entity.Property(e => e.Game).HasColumnName("game");
+            entity.Property(e => e.Company)
+                .HasComment("The company involved with the game.")
+                .HasColumnName("company");
+            entity.Property(e => e.CreatedAt)
+                .HasComment("The source record creation timestamp.")
+                .HasColumnName("created_at");
+            entity.Property(e => e.Developer)
+                .HasComment("True when the company is a developer for this game.")
+                .HasColumnName("developer");
+            entity.Property(e => e.Game)
+                .HasComment("The game referenced by this involved-company relationship.")
+                .HasColumnName("game");
             entity.Property(e => e.Porting).HasColumnName("porting");
             entity.Property(e => e.Publisher).HasColumnName("publisher");
             entity.Property(e => e.Supporting).HasColumnName("supporting");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
 
-            entity.HasMany(d => d.Companies).WithMany(p => p.InvolvedCompanies)
-                .UsingEntity<Dictionary<string, object>>(
-                    "InvolvedCompanyCompany",
-                    r => r.HasOne<Company>().WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("involved_company_company__dbt_tmp_company_id_fkey"),
-                    l => l.HasOne<InvolvedCompany>().WithMany()
-                        .HasForeignKey("InvolvedCompanyId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("involved_company_company__dbt_tmp_involved_company_id_fkey"),
-                    j =>
-                    {
-                        j.HasKey("InvolvedCompanyId", "CompanyId").HasName("involved_company_company__dbt_tmp_pkey");
-                        j.ToTable("involved_company_company");
-                        j.IndexerProperty<long>("InvolvedCompanyId").HasColumnName("involved_company_id");
-                        j.IndexerProperty<long>("CompanyId").HasColumnName("company_id");
-                    });
+            entity.HasOne(d => d.CompanyNavigation).WithMany(p => p.InvolvedCompanies)
+                .HasForeignKey(d => d.Company)
+                .HasConstraintName("involved_companies__dbt_tmp_company_fkey");
+
+            entity.HasOne(d => d.GameNavigation).WithMany(p => p.InvolvedCompanies)
+                .HasForeignKey(d => d.Game)
+                .HasConstraintName("involved_companies__dbt_tmp_game_fkey");
         });
 
         modelBuilder.Entity<Keyword>(entity =>
@@ -1664,90 +1630,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");
-            entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-        });
-
-        modelBuilder.Entity<MartCompanySearch>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("mart_company_search");
-
-            entity.Property(e => e.ChangedCompany)
-                .HasColumnType("character varying")
-                .HasColumnName("changed_company");
-            entity.Property(e => e.Description)
-                .HasColumnType("character varying")
-                .HasColumnName("description");
-            entity.Property(e => e.GamesDevelopedCount).HasColumnName("games_developed_count");
-            entity.Property(e => e.GamesPublishedCount).HasColumnName("games_published_count");
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.LogoUrl)
-                .HasColumnType("character varying")
-                .HasColumnName("logo_url");
-            entity.Property(e => e.Name)
-                .HasColumnType("character varying")
-                .HasColumnName("name");
-            entity.Property(e => e.ParentCompany)
-                .HasColumnType("character varying")
-                .HasColumnName("parent_company");
-            entity.Property(e => e.Slug)
-                .HasColumnType("character varying")
-                .HasColumnName("slug");
-            entity.Property(e => e.StartDate).HasColumnName("start_date");
-            entity.Property(e => e.StartYear).HasColumnName("start_year");
-            entity.Property(e => e.Status)
-                .HasColumnType("character varying")
-                .HasColumnName("status");
-            entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-            entity.Property(e => e.Url)
-                .HasColumnType("character varying")
-                .HasColumnName("url");
-        });
-
-        modelBuilder.Entity<MartGamesSearch>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("mart_games_search");
-
-            entity.Property(e => e.AggregatedRating).HasColumnName("aggregated_rating");
-            entity.Property(e => e.AggregatedRatingCount).HasColumnName("aggregated_rating_count");
-            entity.Property(e => e.CoverUrl)
-                .HasColumnType("character varying")
-                .HasColumnName("cover_url");
-            entity.Property(e => e.Developers).HasColumnName("developers");
-            entity.Property(e => e.FirstReleaseDate).HasColumnName("first_release_date");
-            entity.Property(e => e.GameEngines).HasColumnName("game_engines");
-            entity.Property(e => e.GameModes).HasColumnName("game_modes");
-            entity.Property(e => e.GameStatus)
-                .HasColumnType("character varying")
-                .HasColumnName("game_status");
-            entity.Property(e => e.GameType)
-                .HasColumnType("character varying")
-                .HasColumnName("game_type");
-            entity.Property(e => e.Genres).HasColumnName("genres");
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.MultiplayerModes).HasColumnName("multiplayer_modes");
-            entity.Property(e => e.Name)
-                .HasColumnType("character varying")
-                .HasColumnName("name");
-            entity.Property(e => e.Platforms).HasColumnName("platforms");
-            entity.Property(e => e.PlayerPerspectives).HasColumnName("player_perspectives");
-            entity.Property(e => e.Publishers).HasColumnName("publishers");
-            entity.Property(e => e.Rating).HasColumnName("rating");
-            entity.Property(e => e.RatingCount).HasColumnName("rating_count");
-            entity.Property(e => e.ReleaseYear).HasColumnName("release_year");
-            entity.Property(e => e.Storyline)
-                .HasColumnType("character varying")
-                .HasColumnName("storyline");
-            entity.Property(e => e.Summary)
-                .HasColumnType("character varying")
-                .HasColumnName("summary");
-            entity.Property(e => e.Themes).HasColumnName("themes");
-            entity.Property(e => e.TotalRating).HasColumnName("total_rating");
-            entity.Property(e => e.TotalRatingCount).HasColumnName("total_rating_count");
-            entity.Property(e => e.TotalVisits).HasColumnName("total_visits");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
         });
 
@@ -2002,7 +1884,7 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("platform_versions__dbt_tmp_platform_logo_fkey");
         });
 
-        modelBuilder.Entity<PlatformVersionCompany1>(entity =>
+        modelBuilder.Entity<PlatformVersionCompany>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("platform_version_companies__dbt_tmp_pkey");
 
@@ -2021,7 +1903,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Developer).HasColumnName("developer");
             entity.Property(e => e.Manufacturer).HasColumnName("manufacturer");
 
-            entity.HasOne(d => d.CompanyNavigation).WithMany(p => p.PlatformVersionCompany1s)
+            entity.HasOne(d => d.CompanyNavigation).WithMany(p => p.PlatformVersionCompanies)
                 .HasForeignKey(d => d.Company)
                 .HasConstraintName("platform_version_companies__dbt_tmp_company_fkey");
         });

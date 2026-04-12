@@ -50,7 +50,7 @@ with
         select
             ic.game as game_id,
             array_agg(distinct c.name order by c.name)::text[] as publishers
-        from {{ ref("mart_involved_companies") }} ic
+        from {{ ref("bridge_involved_companies") }} ic
         join {{ ref("mart_companies") }} c on ic.company = c.id
         where ic.publisher = true
         group by ic.game
@@ -59,7 +59,7 @@ with
         select
             ic.game as game_id,
             array_agg(distinct c.name order by c.name)::text[] as developers
-        from {{ ref("mart_involved_companies") }} ic
+        from {{ ref("bridge_involved_companies") }} ic
         join {{ ref("mart_companies") }} c on ic.company = c.id
         where ic.developer = true
         group by ic.game
