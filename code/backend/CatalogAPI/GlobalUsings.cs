@@ -1,0 +1,16 @@
+global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using CatalogAPI.Context;
+global using CatalogAPI.Data;
+global using CatalogAPI.Features.Games.Common.Dtos;
+global using CatalogAPI.Features.Games.GetByReleaseDateRange;
+global using CatalogAPI.Features.Games.Mappers;
+global using FluentValidation;
+global using FluentValidation.Results;
+global using Microsoft.AspNetCore.Http.HttpResults;
+global using Microsoft.AspNetCore.OpenApi;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.OpenApi;
+global using NodaTime;
+global using Riok.Mapperly.Abstractions;

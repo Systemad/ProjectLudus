@@ -1,11 +1,11 @@
-using System.Text.Json.Serialization;
-using CatalogAPI.Context;
+using CatalogAPI.Extensions;
+using CatalogAPI.Features.Companies;
 using CatalogAPI.Features.Games;
 using CatalogAPI.Features.PopularityTypes;
 using Microsoft.AspNetCore.Http.Json;
-using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using Scalar.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 });
 builder.Services.AddOpenApi(options =>
 {
+    options.AddOperationTransformer<RequiredParameterTransformer>();
+    options.AddSchemaTransformer<RequiredSchemaTransformer>();
     //options.AddSchemaTransformer<IntegerSchemaTransformer>();
     //options.AddSchemaTransformer<NumberSchemaTransformer>();
 
@@ -92,6 +94,7 @@ app.UseHttpsRedirection();
 app.UseOutputCache();
 
 app.UseGamesEndpoints();
+app.UseCompaniesEndpoints();
 app.UsePopularityEndpoints();
 
 app.Run();

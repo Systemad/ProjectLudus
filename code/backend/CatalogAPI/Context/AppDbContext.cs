@@ -1,8 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using CatalogAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
 namespace CatalogAPI.Context;
 
 public partial class AppDbContext : DbContext

@@ -1,8 +1,4 @@
-using CatalogAPI.Context;
-using CatalogAPI.Data;
 using Microsoft.AspNetCore.OutputCaching;
-using Microsoft.EntityFrameworkCore;
-using NodaTime;
 using NodaTime.Text;
 
 namespace CatalogAPI.Features.PopularityTypes.GetById;
@@ -11,7 +7,7 @@ public static class GetByIdEndpoints
 {
     private record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
 
-    private record PopularityGamesResponse(List<GamesSearch> Games);
+    private record PopularityGamesResponse(List<GamesSearchDto> Games);
 
     public static IEndpointRouteBuilder MapGetByIdEndpoints(this IEndpointRouteBuilder routeBuilder)
     {
@@ -72,6 +68,6 @@ public static class GetByIdEndpoints
             .Select(x => x.Game)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new PopularityGamesResponse(topGames));
+        return Results.Ok(new PopularityGamesResponse(GameSearchMapper.MapToDto(topGames)));
     }
 }

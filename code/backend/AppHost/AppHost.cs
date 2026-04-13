@@ -1,6 +1,7 @@
 using System.IO;
 using Aspire.Hosting.Docker.Resources.ServiceNodes.Swarm;
 using Aspire.Hosting.Yarp.Transforms;
+using Microsoft.Extensions.Hosting;
 
 // HTTPS
 // "ASPIRE_DASHBOARD_MCP_ENDPOINT_URL": "https://localhost:23015",
@@ -88,13 +89,16 @@ var bootstrap = builder.AddPythonApp(
 //.WithReference(typesense)
 
 var playApi = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
-var catalogApi = builder.AddProject<Projects.CatalogAPI>("catalogApi").WaitFor(catalogDb).WithReference(catalogDb);
+var catalogApi = builder
+    .AddProject<Projects.CatalogAPI>("catalogApi")
+    .WaitFor(catalogDb)
+    .WithReference(catalogDb);
 
 //.WithReference(typesense)
 //.WithExplicitStart();
 
 var frontend = builder
-    .AddViteApp("frontend", "../../web/apps/game-index", runScriptName: "dev2")
+    .AddViteApp("frontend", "../../frontend/apps/game-index", runScriptName: "vp run dev")
     .WithPnpm()
     .WithReference(playApi)
     .WaitFor(playApi)
@@ -104,15 +108,22 @@ var frontend = builder
 
 //api.PublishWithContainerFiles(frontend, "wwww");
 
-builder
+var yarp = builder
     .AddYarp("frontend-server")
     .WithExternalHttpEndpoints()
     .PublishWithStaticFiles(frontend)
     .WithConfiguration(yarp =>
     {
-        yarp.AddRoute("/api/{**catch-all}", playApi);
+        yarp.AddRoute("/api/games/{**catch-all}", catalogApi);
+        yarp.AddRoute("/api/companies/{**catch-all}", catalogApi);
         yarp.AddRoute("/api/{**catch-all}", catalogApi);
-    })
-    .WithExplicitStart();
+    });
+
+if (builder.Environment.IsDevelopment())
+{
+    yarp = yarp.WithHostPort(8081);
+}
+
+yarp.WithExplicitStart();
 
 builder.Build().Run();

@@ -1,5 +1,3 @@
-using FluentValidation;
-
 namespace CatalogAPI.Features.Games.GetByReleaseDateRange;
 
 public class GetByReleaseDateValidator : AbstractValidator<GetByReleaseDateRangeQuery>
