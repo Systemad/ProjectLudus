@@ -15,7 +15,7 @@ import type {
     GetApiGamesGameidPageReleaseDataQueryResponse,
     GetApiGamesGameidPageReleaseDataPathParams,
     GetApiGamesGameidPageReleaseData404,
-} from "../../types/GetGamePageReleaseDataEndpointsTypes/GetApiGamesGameidPageReleaseData.ts";
+} from "../../types/GetGamePageReleaseDataEndpointTypes/GetApiGamesGameidPageReleaseData.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 export const getApiGamesGameidPageReleaseDataQueryKey = ({

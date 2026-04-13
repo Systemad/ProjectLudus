@@ -14,7 +14,7 @@ import type {
 import type {
     GetApiGamesGameidSimilarGamesQueryResponse,
     GetApiGamesGameidSimilarGamesPathParams,
-} from "../../types/GetSimilairGamesEndpointsTypes/GetApiGamesGameidSimilarGames.ts";
+} from "../../types/GetSimilarGamesEndpointTypes/GetApiGamesGameidSimilarGames.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 export const getApiGamesGameidSimilarGamesSuspenseQueryKey = ({

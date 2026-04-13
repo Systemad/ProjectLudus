@@ -1,25 +1,21 @@
 "use client";
 
 import { HStack, Image, Tag, Text, VStack, Wrap, Card } from "ui";
-import type { GamesSearch } from "@src/gen/catalogApi";
+import type { GamesSearchDto } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
-    game: GamesSearch;
+    game: GamesSearchDto;
 };
 
 export default function HoveredGameCard({ game }: Props) {
     const title = game.name ?? "Unknown game";
     const releaseDate = formatReleaseDate(game.firstReleaseDate ?? null);
-    const developer = game.developers?.[0] ?? "Unknown";
-    const publisher = game.publishers?.[0] ?? "Unknown";
-    const tags = [...(game.genres ?? []), ...(game.gameModes ?? [])].slice(0, 3);
-    const features = [
-        ...(game.playerPerspectives ?? []),
-        ...(game.platforms ?? []),
-        ...(game.multiplayerModes ?? []),
-    ];
+    const developer = game.developers.length > 0 ? game.developers[0] : "Unknown";
+    const publisher = game.publishers.length > 0 ? game.publishers[0] : "Unknown";
+    const tags = [...game.genres, ...game.gameModes].slice(0, 3);
+    const features = [...game.playerPerspectives, ...game.platforms, ...game.multiplayerModes];
     const featuresSummary =
         features.length > 0
             ? `${features.slice(0, 2).join(", ")}${features.length > 2 ? ` +${features.length - 2} more` : ""}`

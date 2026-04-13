@@ -5,10 +5,23 @@
         "games": {
             "type": "array",
             "items": {
+                "required": [
+                    "id",
+                    "name",
+                    "themes",
+                    "genres",
+                    "gameModes",
+                    "platforms",
+                    "gameEngines",
+                    "playerPerspectives",
+                    "publishers",
+                    "developers",
+                    "multiplayerModes"
+                ],
                 "type": "object",
                 "properties": {
-                    "id": { "type": ["null", "integer"], "format": "int64" },
-                    "name": { "type": ["null", "string"] },
+                    "id": { "type": "integer", "format": "int64" },
+                    "name": { "type": "string" },
                     "summary": { "type": ["null", "string"] },
                     "storyline": { "type": ["null", "string"] },
                     "updatedAt": { "type": ["null", "integer"], "format": "int64" },
@@ -22,21 +35,15 @@
                     "totalRating": { "type": ["null", "number"], "format": "double" },
                     "totalRatingCount": { "type": ["null", "integer"], "format": "int32" },
                     "coverUrl": { "type": ["null", "string"] },
-                    "themes": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "genres": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "gameModes": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "platforms": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "gameEngines": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "playerPerspectives": {
-                        "type": ["null", "array"],
-                        "items": { "type": "string" }
-                    },
-                    "publishers": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "developers": { "type": ["null", "array"], "items": { "type": "string" } },
-                    "multiplayerModes": {
-                        "type": ["null", "array"],
-                        "items": { "type": "string" }
-                    },
+                    "themes": { "type": "array", "items": { "type": "string" } },
+                    "genres": { "type": "array", "items": { "type": "string" } },
+                    "gameModes": { "type": "array", "items": { "type": "string" } },
+                    "platforms": { "type": "array", "items": { "type": "string" } },
+                    "gameEngines": { "type": "array", "items": { "type": "string" } },
+                    "playerPerspectives": { "type": "array", "items": { "type": "string" } },
+                    "publishers": { "type": "array", "items": { "type": "string" } },
+                    "developers": { "type": "array", "items": { "type": "string" } },
+                    "multiplayerModes": { "type": "array", "items": { "type": "string" } },
                     "totalVisits": { "type": ["null", "integer"], "format": "int64" },
                     "igdbVisits": { "type": ["null", "number"], "format": "double" },
                     "igdbWantToPlay": { "type": ["null", "number"], "format": "double" },
@@ -54,7 +61,7 @@
                     "twitch24hrHoursWatched": { "type": ["null", "number"], "format": "double" },
                     "releaseYear": { "type": ["null", "integer"], "format": "int32" }
                 },
-                "x-readme-ref-name": "GamesSearch"
+                "x-readme-ref-name": "GamesSearchDto"
             }
         }
     },

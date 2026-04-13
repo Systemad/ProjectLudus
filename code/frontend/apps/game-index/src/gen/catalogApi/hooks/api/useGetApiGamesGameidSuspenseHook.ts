@@ -15,7 +15,7 @@ import type {
     GetApiGamesGameidQueryResponse,
     GetApiGamesGameidPathParams,
     GetApiGamesGameid404,
-} from "../../types/GetOverviewByIdEndpointsTypes/GetApiGamesGameid.ts";
+} from "../../types/GetOverviewEndpointTypes/GetApiGamesGameid.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 export const getApiGamesGameidSuspenseQueryKey = ({

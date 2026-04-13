@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod";
-import { getGameDetailsByIdResponseSchema } from "./getGameDetailsByIdResponseSchema.ts";
+import { getGameResponseSchema } from "./getGameResponseSchema.ts";
 
 export const getApiGamesGameidDetailsPathParamsSchema = z.object({
     gameId: z.coerce.number().int(),
@@ -13,7 +13,7 @@ export const getApiGamesGameidDetailsPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const getApiGamesGameidDetails200Schema = z.lazy(() => getGameDetailsByIdResponseSchema);
+export const getApiGamesGameidDetails200Schema = z.lazy(() => getGameResponseSchema);
 
 /**
  * @description Not Found

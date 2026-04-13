@@ -15,7 +15,7 @@ import type {
     GetApiGamesReleaseDateRangeQueryResponse,
     GetApiGamesReleaseDateRangeQueryParams,
     GetApiGamesReleaseDateRange400,
-} from "../../types/GetByReleaseDateRangeEndpointsTypes/GetApiGamesReleaseDateRange.ts";
+} from "../../types/GetByReleaseDateRangeEndpointTypes/GetApiGamesReleaseDateRange.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 export const getApiGamesReleaseDateRangeSuspenseQueryKey = (

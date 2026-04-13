@@ -3,11 +3,11 @@
  * Do not edit manually.
  */
 
-import type { GamesSearch } from "./GamesSearch.ts";
+import type { GamesSearchDto } from "./GamesSearchDto.ts";
 
 export type PopularityGamesResponse = {
     /**
      * @type array
      */
-    games: GamesSearch[];
+    games: GamesSearchDto[];
 };

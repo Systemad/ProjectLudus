@@ -1,0 +1,9 @@
+{
+    "required": ["name", "videoId"],
+    "type": "object",
+    "properties": {
+        "name": { "type": ["null", "string"] },
+        "videoId": { "type": ["null", "string"] }
+    },
+    "x-readme-ref-name": "GameMediaVideoDto"
+}

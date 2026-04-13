@@ -1,15 +1,29 @@
 export { alternativeNameDtoSchema } from "./alternativeNameDtoSchema.ts";
+export { companyGamesDtoSchema } from "./companyGamesDtoSchema.ts";
 export { companyInfoDtoSchema } from "./companyInfoDtoSchema.ts";
+export { companyOverviewDtoSchema } from "./companyOverviewDtoSchema.ts";
 export { franchiseDtoSchema } from "./franchiseDtoSchema.ts";
-export { gameDetailsSchema } from "./gameDetailsSchema.ts";
+export { gameDetailsDtoSchema } from "./gameDetailsDtoSchema.ts";
 export { gameEnginesDtoSchema } from "./gameEnginesDtoSchema.ts";
-export { gameMediaSchema } from "./gameMediaSchema.ts";
-export { gameMediaVideoSchema } from "./gameMediaVideoSchema.ts";
+export { gameMediaDtoSchema } from "./gameMediaDtoSchema.ts";
+export { gameMediaVideoDtoSchema } from "./gameMediaVideoDtoSchema.ts";
 export { gameOverviewDtoSchema } from "./gameOverviewDtoSchema.ts";
 export { gamePageReleaseDataDtoSchema } from "./gamePageReleaseDataDtoSchema.ts";
 export { gameReleaseDtoSchema } from "./gameReleaseDtoSchema.ts";
 export { gamesReleaseDateRangeResponseSchema } from "./gamesReleaseDateRangeResponseSchema.ts";
-export { gamesSearchSchema } from "./gamesSearchSchema.ts";
+export { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
+export {
+    getApiCompaniesCompanyidGames200Schema,
+    getApiCompaniesCompanyidGames404Schema,
+    getApiCompaniesCompanyidGamesPathParamsSchema,
+    getApiCompaniesCompanyidGamesQueryResponseSchema,
+} from "./getApiCompaniesCompanyidGamesSchema.ts";
+export {
+    getApiCompaniesCompanyid200Schema,
+    getApiCompaniesCompanyid404Schema,
+    getApiCompaniesCompanyidPathParamsSchema,
+    getApiCompaniesCompanyidQueryResponseSchema,
+} from "./getApiCompaniesCompanyidSchema.ts";
 export {
     getApiGamesGameidDetails200Schema,
     getApiGamesGameidDetails404Schema,
@@ -51,14 +65,17 @@ export {
     getApiPopularityPopularitytypeidQueryParamsSchema,
     getApiPopularityPopularitytypeidQueryResponseSchema,
 } from "./getApiPopularityPopularitytypeidSchema.ts";
-export { getGameDetailsByIdResponseSchema } from "./getGameDetailsByIdResponseSchema.ts";
-export { getGameMediaByIdResponseSchema } from "./getGameMediaByIdResponseSchema.ts";
-export { getGameOverviewByIdResponseSchema } from "./getGameOverviewByIdResponseSchema.ts";
+export { getCompanyGamesResponseSchema } from "./getCompanyGamesResponseSchema.ts";
+export { getCompanyResponseSchema } from "./getCompanyResponseSchema.ts";
+export { getGameMediaResponseSchema } from "./getGameMediaResponseSchema.ts";
+export { getGameOverviewResponseSchema } from "./getGameOverviewResponseSchema.ts";
 export { getGamePageReleaseDataResponseSchema } from "./getGamePageReleaseDataResponseSchema.ts";
-export { getSimilairGamesResponseSchema } from "./getSimilairGamesResponseSchema.ts";
+export { getGameResponseSchema } from "./getGameResponseSchema.ts";
+export { getSimilarGamesResponseSchema } from "./getSimilarGamesResponseSchema.ts";
 export { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
 export { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
 export { languageSupportsDtoSchema } from "./languageSupportsDtoSchema.ts";
+export { parentCompanyDtoSchema } from "./parentCompanyDtoSchema.ts";
 export { platformsDtoSchema } from "./platformsDtoSchema.ts";
 export { popularityGamesResponseSchema } from "./popularityGamesResponseSchema.ts";
 export { releaseDatePlatformDtoSchema } from "./releaseDatePlatformDtoSchema.ts";

@@ -11,5 +11,5 @@ export const httpValidationProblemDetailsSchema = z.object({
     status: z.number().int().nullish(),
     detail: z.string().nullish(),
     instance: z.string().nullish(),
-    errors: z.optional(z.object({}).catchall(z.array(z.string()))),
+    errors: z.object({}).catchall(z.array(z.string())),
 });

@@ -1,0 +1,26 @@
+{
+    "required": ["game"],
+    "type": "object",
+    "properties": {
+        "game": {
+            "type": "object",
+            "properties": {
+                "screenshots": { "type": ["null", "array"], "items": { "type": "string" } },
+                "videos": {
+                    "type": ["null", "array"],
+                    "items": {
+                        "required": ["name", "videoId"],
+                        "type": "object",
+                        "properties": {
+                            "name": { "type": ["null", "string"] },
+                            "videoId": { "type": ["null", "string"] }
+                        },
+                        "x-readme-ref-name": "GameMediaVideoDto"
+                    }
+                }
+            },
+            "x-readme-ref-name": "GameMediaDto"
+        }
+    },
+    "x-readme-ref-name": "GetGameMediaResponse"
+}

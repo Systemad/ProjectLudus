@@ -4,7 +4,7 @@
  */
 
 import * as z from "zod";
-import { getGameMediaByIdResponseSchema } from "./getGameMediaByIdResponseSchema.ts";
+import { getGameMediaResponseSchema } from "./getGameMediaResponseSchema.ts";
 
 export const getApiGamesGameidMediaPathParamsSchema = z.object({
     gameId: z.coerce.number().int(),
@@ -13,7 +13,7 @@ export const getApiGamesGameidMediaPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const getApiGamesGameidMedia200Schema = z.lazy(() => getGameMediaByIdResponseSchema);
+export const getApiGamesGameidMedia200Schema = z.lazy(() => getGameMediaResponseSchema);
 
 /**
  * @description Not Found

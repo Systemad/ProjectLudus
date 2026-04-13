@@ -9,7 +9,7 @@ import { releaseDatePlatformDtoSchema } from "./releaseDatePlatformDtoSchema.ts"
 import { releaseDatesDtoSchema } from "./releaseDatesDtoSchema.ts";
 
 export const gameOverviewDtoSchema = z.object({
-    id: z.optional(z.number().int()),
+    id: z.number().int(),
     slug: z.string().nullish(),
     name: z.string().nullish(),
     summary: z.string().nullish(),
@@ -20,7 +20,7 @@ export const gameOverviewDtoSchema = z.object({
     gameTypeName: z.string().nullish(),
     genres: z.array(z.string()).nullish(),
     themes: z.array(z.string()).nullish(),
-    isReleased: z.optional(z.boolean()),
+    isReleased: z.boolean(),
     platforms: z.array(z.lazy(() => platformsDtoSchema)).nullish(),
     releaseDatePlatform: z.array(z.lazy(() => releaseDatePlatformDtoSchema)).nullish(),
     releaseDates: z.array(z.lazy(() => releaseDatesDtoSchema)).nullish(),

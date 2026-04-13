@@ -9,9 +9,9 @@ import type { ReleaseDatesDto } from "./ReleaseDatesDto.ts";
 
 export type GameOverviewDto = {
     /**
-     * @type integer | undefined, int64
+     * @type integer, int64
      */
-    id?: number;
+    id: number;
     /**
      * @type null,string
      */
@@ -53,9 +53,9 @@ export type GameOverviewDto = {
      */
     themes?: string[] | null;
     /**
-     * @type boolean | undefined
+     * @type boolean
      */
-    isReleased?: boolean;
+    isReleased: boolean;
     /**
      * @type null,array
      */

@@ -15,7 +15,7 @@ import type {
     GetApiGamesGameidMediaQueryResponse,
     GetApiGamesGameidMediaPathParams,
     GetApiGamesGameidMedia404,
-} from "../../types/GetMediaByIdEndpointsTypes/GetApiGamesGameidMedia.ts";
+} from "../../types/GetMediaEndpointTypes/GetApiGamesGameidMedia.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 export const getApiGamesGameidMediaQueryKey = ({

@@ -7,9 +7,9 @@ import type { GameReleaseDto } from "./GameReleaseDto.ts";
 
 export type GamePageReleaseDataDto = {
     /**
-     * @type integer | undefined, int64
+     * @type integer, int64
      */
-    gameId?: number;
+    gameId: number;
     /**
      * @type null,string
      */

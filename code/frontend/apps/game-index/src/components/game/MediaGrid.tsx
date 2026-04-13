@@ -1,12 +1,12 @@
 "use client";
 
-import { AspectRatio, Grid, Image, Text } from "ui";
+import { AspectRatio, Grid, Image, Text, Accordion } from "ui";
 import { CardSurface } from "../layout/Card";
-import type { GameMediaVideo } from "@src/gen/catalogApi";
+import type { GameMediaVideoDto } from "@src/gen/catalogApi";
 
 type Props = {
     sources: string[];
-    videos?: GameMediaVideo[];
+    videos?: GameMediaVideoDto[];
 };
 
 function MediaGrid({ sources, videos = [] }: Props) {
@@ -20,42 +20,48 @@ function MediaGrid({ sources, videos = [] }: Props) {
 
     return (
         <CardSurface variant="translucent" p={6}>
-            {videos.length > 0 && (
-                <Grid
-                    templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-                    gap={4}
-                    mb={sources.length > 0 ? 6 : 0}
-                >
-                    {videos.map((video) => (
-                        <AspectRatio key={video.videoId} ratio={16 / 9}>
-                            <iframe
-                                src={`https://www.youtube.com/embed/${video.videoId}`}
-                                title={video.name ?? "Video"}
-                                width="100%"
-                                height="100%"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                style={{ borderRadius: "12px", border: "none" }}
-                            />
-                        </AspectRatio>
-                    ))}
-                </Grid>
-            )}
-            {sources.length > 0 && (
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-                    {sources.map((src, index) => (
-                        <Image
-                            key={`${src}-${index}`}
-                            src={src}
-                            alt={`Screenshot ${index + 1}`}
-                            objectFit="cover"
-                            w="full"
-                            h="full"
-                            borderRadius="xl"
-                        />
-                    ))}
-                </Grid>
-            )}
+            <Accordion.Root defaultIndex={0} multiple toggle>
+                <Accordion.Item index={0} button="Screenshots">
+                    {sources.length > 0 && (
+                        <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                            {sources.map((src, index) => (
+                                <Image
+                                    key={`${src}-${index}`}
+                                    src={src}
+                                    alt={`Screenshot ${index + 1}`}
+                                    objectFit="cover"
+                                    w="full"
+                                    h="full"
+                                    borderRadius="xl"
+                                />
+                            ))}
+                        </Grid>
+                    )}
+                </Accordion.Item>
+                <Accordion.Item index={1} button="Videos">
+                    {videos.length > 0 && (
+                        <Grid
+                            templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+                            gap={4}
+                            mb={sources.length > 0 ? 6 : 0}
+                        >
+                            {videos.map((video) => (
+                                <AspectRatio key={video.videoId} ratio={16 / 9}>
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${video.videoId}`}
+                                        title={video.name ?? "Video"}
+                                        width="100%"
+                                        height="100%"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                        style={{ borderRadius: "12px", border: "none" }}
+                                    />
+                                </AspectRatio>
+                            ))}
+                        </Grid>
+                    )}
+                </Accordion.Item>
+            </Accordion.Root>
         </CardSurface>
     );
 }

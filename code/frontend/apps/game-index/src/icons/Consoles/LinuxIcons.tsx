@@ -1,11 +1,6 @@
 import { Icon } from "ui";
 const LinuxIcon = () => (
-    <Icon
-        boxSize="1.5em"
-        viewBox="0 0 256 295"
-        fill="#0070D1"
-        xmlns="http://www.w3.org/2000/svg"
-    >
+    <Icon boxSize="1.5em" viewBox="0 0 256 295" fill="#0070D1" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient
                 id="linux__logosLinuxTux0"

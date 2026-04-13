@@ -25,9 +25,9 @@ export type HttpValidationProblemDetails = {
      */
     instance?: string | null;
     /**
-     * @type object | undefined
+     * @type object
      */
-    errors?: {
+    errors: {
         [key: string]: string[];
     };
 };

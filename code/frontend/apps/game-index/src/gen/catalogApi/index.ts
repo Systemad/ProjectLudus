@@ -1,3 +1,7 @@
+export type { GetApiCompaniesCompanyidGamesQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidGamesHook.ts";
+export type { GetApiCompaniesCompanyidGamesSuspenseQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidGamesSuspenseHook.ts";
+export type { GetApiCompaniesCompanyidQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidHook.ts";
+export type { GetApiCompaniesCompanyidSuspenseQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidSuspenseHook.ts";
 export type { GetApiGamesGameidDetailsQueryKey } from "./hooks/api/useGetApiGamesGameidDetailsHook.ts";
 export type { GetApiGamesGameidDetailsSuspenseQueryKey } from "./hooks/api/useGetApiGamesGameidDetailsSuspenseHook.ts";
 export type { GetApiGamesGameidQueryKey } from "./hooks/api/useGetApiGamesGameidHook.ts";
@@ -13,24 +17,19 @@ export type { GetApiGamesReleaseDateRangeSuspenseQueryKey } from "./hooks/api/us
 export type { GetApiPopularityPopularitytypeidQueryKey } from "./hooks/api/useGetApiPopularityPopularitytypeidHook.ts";
 export type { GetApiPopularityPopularitytypeidSuspenseQueryKey } from "./hooks/api/useGetApiPopularityPopularitytypeidSuspenseHook.ts";
 export type { AlternativeNameDto } from "./types/AlternativeNameDto.ts";
+export type { CompanyGamesDto } from "./types/CompanyGamesDto.ts";
 export type { CompanyInfoDto } from "./types/CompanyInfoDto.ts";
+export type { CompanyOverviewDto } from "./types/CompanyOverviewDto.ts";
 export type { FranchiseDto } from "./types/FranchiseDto.ts";
-export type { GameDetails } from "./types/GameDetails.ts";
+export type { GameDetailsDto } from "./types/GameDetailsDto.ts";
 export type { GameEnginesDto } from "./types/GameEnginesDto.ts";
-export type { GameMedia } from "./types/GameMedia.ts";
-export type { GameMediaVideo } from "./types/GameMediaVideo.ts";
+export type { GameMediaDto } from "./types/GameMediaDto.ts";
+export type { GameMediaVideoDto } from "./types/GameMediaVideoDto.ts";
 export type { GameOverviewDto } from "./types/GameOverviewDto.ts";
 export type { GamePageReleaseDataDto } from "./types/GamePageReleaseDataDto.ts";
 export type { GameReleaseDto } from "./types/GameReleaseDto.ts";
 export type { GamesReleaseDateRangeResponse } from "./types/GamesReleaseDateRangeResponse.ts";
-export type { GamesSearch } from "./types/GamesSearch.ts";
-export type {
-    GetApiGamesGameidDetails200,
-    GetApiGamesGameidDetails404,
-    GetApiGamesGameidDetailsPathParams,
-    GetApiGamesGameidDetailsQuery,
-    GetApiGamesGameidDetailsQueryResponse,
-} from "./types/GetByIdEndpointsTypes/GetApiGamesGameidDetails.ts";
+export type { GamesSearchDto } from "./types/GamesSearchDto.ts";
 export type {
     GetApiPopularityPopularitytypeid200,
     GetApiPopularityPopularitytypeidPathParams,
@@ -44,47 +43,87 @@ export type {
     GetApiGamesReleaseDateRangeQuery,
     GetApiGamesReleaseDateRangeQueryParams,
     GetApiGamesReleaseDateRangeQueryResponse,
-} from "./types/GetByReleaseDateRangeEndpointsTypes/GetApiGamesReleaseDateRange.ts";
-export type { GetGameDetailsByIdResponse } from "./types/GetGameDetailsByIdResponse.ts";
-export type { GetGameMediaByIdResponse } from "./types/GetGameMediaByIdResponse.ts";
-export type { GetGameOverviewByIdResponse } from "./types/GetGameOverviewByIdResponse.ts";
+} from "./types/GetByReleaseDateRangeEndpointTypes/GetApiGamesReleaseDateRange.ts";
+export type { GetCompanyGamesResponse } from "./types/GetCompanyGamesResponse.ts";
+export type { GetCompanyResponse } from "./types/GetCompanyResponse.ts";
+export type {
+    GetApiCompaniesCompanyid200,
+    GetApiCompaniesCompanyid404,
+    GetApiCompaniesCompanyidPathParams,
+    GetApiCompaniesCompanyidQuery,
+    GetApiCompaniesCompanyidQueryResponse,
+} from "./types/GetEndpointTypes/GetApiCompaniesCompanyid.ts";
+export type {
+    GetApiGamesGameidDetails200,
+    GetApiGamesGameidDetails404,
+    GetApiGamesGameidDetailsPathParams,
+    GetApiGamesGameidDetailsQuery,
+    GetApiGamesGameidDetailsQueryResponse,
+} from "./types/GetEndpointTypes/GetApiGamesGameidDetails.ts";
+export type { GetGameMediaResponse } from "./types/GetGameMediaResponse.ts";
+export type { GetGameOverviewResponse } from "./types/GetGameOverviewResponse.ts";
 export type {
     GetApiGamesGameidPageReleaseData200,
     GetApiGamesGameidPageReleaseData404,
     GetApiGamesGameidPageReleaseDataPathParams,
     GetApiGamesGameidPageReleaseDataQuery,
     GetApiGamesGameidPageReleaseDataQueryResponse,
-} from "./types/GetGamePageReleaseDataEndpointsTypes/GetApiGamesGameidPageReleaseData.ts";
+} from "./types/GetGamePageReleaseDataEndpointTypes/GetApiGamesGameidPageReleaseData.ts";
 export type { GetGamePageReleaseDataResponse } from "./types/GetGamePageReleaseDataResponse.ts";
+export type { GetGameResponse } from "./types/GetGameResponse.ts";
+export type {
+    GetApiCompaniesCompanyidGames200,
+    GetApiCompaniesCompanyidGames404,
+    GetApiCompaniesCompanyidGamesPathParams,
+    GetApiCompaniesCompanyidGamesQuery,
+    GetApiCompaniesCompanyidGamesQueryResponse,
+} from "./types/GetGamesEndpointTypes/GetApiCompaniesCompanyidGames.ts";
 export type {
     GetApiGamesGameidMedia200,
     GetApiGamesGameidMedia404,
     GetApiGamesGameidMediaPathParams,
     GetApiGamesGameidMediaQuery,
     GetApiGamesGameidMediaQueryResponse,
-} from "./types/GetMediaByIdEndpointsTypes/GetApiGamesGameidMedia.ts";
+} from "./types/GetMediaEndpointTypes/GetApiGamesGameidMedia.ts";
 export type {
     GetApiGamesGameid200,
     GetApiGamesGameid404,
     GetApiGamesGameidPathParams,
     GetApiGamesGameidQuery,
     GetApiGamesGameidQueryResponse,
-} from "./types/GetOverviewByIdEndpointsTypes/GetApiGamesGameid.ts";
+} from "./types/GetOverviewEndpointTypes/GetApiGamesGameid.ts";
 export type {
     GetApiGamesGameidSimilarGames200,
     GetApiGamesGameidSimilarGamesPathParams,
     GetApiGamesGameidSimilarGamesQuery,
     GetApiGamesGameidSimilarGamesQueryResponse,
-} from "./types/GetSimilairGamesEndpointsTypes/GetApiGamesGameidSimilarGames.ts";
-export type { GetSimilairGamesResponse } from "./types/GetSimilairGamesResponse.ts";
+} from "./types/GetSimilarGamesEndpointTypes/GetApiGamesGameidSimilarGames.ts";
+export type { GetSimilarGamesResponse } from "./types/GetSimilarGamesResponse.ts";
 export type { HttpValidationProblemDetails } from "./types/HttpValidationProblemDetails.ts";
 export type { InvolvedCompanyDto } from "./types/InvolvedCompanyDto.ts";
 export type { LanguageSupportsDto } from "./types/LanguageSupportsDto.ts";
+export type { ParentCompanyDto } from "./types/ParentCompanyDto.ts";
 export type { PlatformsDto } from "./types/PlatformsDto.ts";
 export type { PopularityGamesResponse } from "./types/PopularityGamesResponse.ts";
 export type { ReleaseDatePlatformDto } from "./types/ReleaseDatePlatformDto.ts";
 export type { ReleaseDatesDto } from "./types/ReleaseDatesDto.ts";
 export type { WebsiteDto } from "./types/WebsiteDto.ts";
+export { getApiCompaniesCompanyidGamesHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesHook.ts";
+export { getApiCompaniesCompanyidGamesQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidGamesHook.ts";
+export { getApiCompaniesCompanyidGamesQueryOptionsHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesHook.ts";
+export { useGetApiCompaniesCompanyidGamesHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesHook.ts";
+export { getApiCompaniesCompanyidGamesSuspenseHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesSuspenseHook.ts";
+export { getApiCompaniesCompanyidGamesSuspenseQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidGamesSuspenseHook.ts";
+export { getApiCompaniesCompanyidGamesSuspenseQueryOptionsHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesSuspenseHook.ts";
+export { useGetApiCompaniesCompanyidGamesSuspenseHook } from "./hooks/api/useGetApiCompaniesCompanyidGamesSuspenseHook.ts";
+export { getApiCompaniesCompanyidHook } from "./hooks/api/useGetApiCompaniesCompanyidHook.ts";
+export { getApiCompaniesCompanyidQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidHook.ts";
+export { getApiCompaniesCompanyidQueryOptionsHook } from "./hooks/api/useGetApiCompaniesCompanyidHook.ts";
+export { useGetApiCompaniesCompanyidHook } from "./hooks/api/useGetApiCompaniesCompanyidHook.ts";
+export { getApiCompaniesCompanyidSuspenseHook } from "./hooks/api/useGetApiCompaniesCompanyidSuspenseHook.ts";
+export { getApiCompaniesCompanyidSuspenseQueryKey } from "./hooks/api/useGetApiCompaniesCompanyidSuspenseHook.ts";
+export { getApiCompaniesCompanyidSuspenseQueryOptionsHook } from "./hooks/api/useGetApiCompaniesCompanyidSuspenseHook.ts";
+export { useGetApiCompaniesCompanyidSuspenseHook } from "./hooks/api/useGetApiCompaniesCompanyidSuspenseHook.ts";
 export { getApiGamesGameidDetailsHook } from "./hooks/api/useGetApiGamesGameidDetailsHook.ts";
 export { getApiGamesGameidDetailsQueryKey } from "./hooks/api/useGetApiGamesGameidDetailsHook.ts";
 export { getApiGamesGameidDetailsQueryOptionsHook } from "./hooks/api/useGetApiGamesGameidDetailsHook.ts";
@@ -142,17 +181,31 @@ export { getApiPopularityPopularitytypeidSuspenseQueryKey } from "./hooks/api/us
 export { getApiPopularityPopularitytypeidSuspenseQueryOptionsHook } from "./hooks/api/useGetApiPopularityPopularitytypeidSuspenseHook.ts";
 export { useGetApiPopularityPopularitytypeidSuspenseHook } from "./hooks/api/useGetApiPopularityPopularitytypeidSuspenseHook.ts";
 export { alternativeNameDtoSchema } from "./zod/alternativeNameDtoSchema.ts";
+export { companyGamesDtoSchema } from "./zod/companyGamesDtoSchema.ts";
 export { companyInfoDtoSchema } from "./zod/companyInfoDtoSchema.ts";
+export { companyOverviewDtoSchema } from "./zod/companyOverviewDtoSchema.ts";
 export { franchiseDtoSchema } from "./zod/franchiseDtoSchema.ts";
-export { gameDetailsSchema } from "./zod/gameDetailsSchema.ts";
+export { gameDetailsDtoSchema } from "./zod/gameDetailsDtoSchema.ts";
 export { gameEnginesDtoSchema } from "./zod/gameEnginesDtoSchema.ts";
-export { gameMediaSchema } from "./zod/gameMediaSchema.ts";
-export { gameMediaVideoSchema } from "./zod/gameMediaVideoSchema.ts";
+export { gameMediaDtoSchema } from "./zod/gameMediaDtoSchema.ts";
+export { gameMediaVideoDtoSchema } from "./zod/gameMediaVideoDtoSchema.ts";
 export { gameOverviewDtoSchema } from "./zod/gameOverviewDtoSchema.ts";
 export { gamePageReleaseDataDtoSchema } from "./zod/gamePageReleaseDataDtoSchema.ts";
 export { gameReleaseDtoSchema } from "./zod/gameReleaseDtoSchema.ts";
 export { gamesReleaseDateRangeResponseSchema } from "./zod/gamesReleaseDateRangeResponseSchema.ts";
-export { gamesSearchSchema } from "./zod/gamesSearchSchema.ts";
+export { gamesSearchDtoSchema } from "./zod/gamesSearchDtoSchema.ts";
+export {
+    getApiCompaniesCompanyidGames200Schema,
+    getApiCompaniesCompanyidGames404Schema,
+    getApiCompaniesCompanyidGamesPathParamsSchema,
+    getApiCompaniesCompanyidGamesQueryResponseSchema,
+} from "./zod/getApiCompaniesCompanyidGamesSchema.ts";
+export {
+    getApiCompaniesCompanyid200Schema,
+    getApiCompaniesCompanyid404Schema,
+    getApiCompaniesCompanyidPathParamsSchema,
+    getApiCompaniesCompanyidQueryResponseSchema,
+} from "./zod/getApiCompaniesCompanyidSchema.ts";
 export {
     getApiGamesGameidDetails200Schema,
     getApiGamesGameidDetails404Schema,
@@ -194,14 +247,17 @@ export {
     getApiPopularityPopularitytypeidQueryParamsSchema,
     getApiPopularityPopularitytypeidQueryResponseSchema,
 } from "./zod/getApiPopularityPopularitytypeidSchema.ts";
-export { getGameDetailsByIdResponseSchema } from "./zod/getGameDetailsByIdResponseSchema.ts";
-export { getGameMediaByIdResponseSchema } from "./zod/getGameMediaByIdResponseSchema.ts";
-export { getGameOverviewByIdResponseSchema } from "./zod/getGameOverviewByIdResponseSchema.ts";
+export { getCompanyGamesResponseSchema } from "./zod/getCompanyGamesResponseSchema.ts";
+export { getCompanyResponseSchema } from "./zod/getCompanyResponseSchema.ts";
+export { getGameMediaResponseSchema } from "./zod/getGameMediaResponseSchema.ts";
+export { getGameOverviewResponseSchema } from "./zod/getGameOverviewResponseSchema.ts";
 export { getGamePageReleaseDataResponseSchema } from "./zod/getGamePageReleaseDataResponseSchema.ts";
-export { getSimilairGamesResponseSchema } from "./zod/getSimilairGamesResponseSchema.ts";
+export { getGameResponseSchema } from "./zod/getGameResponseSchema.ts";
+export { getSimilarGamesResponseSchema } from "./zod/getSimilarGamesResponseSchema.ts";
 export { httpValidationProblemDetailsSchema } from "./zod/httpValidationProblemDetailsSchema.ts";
 export { involvedCompanyDtoSchema } from "./zod/involvedCompanyDtoSchema.ts";
 export { languageSupportsDtoSchema } from "./zod/languageSupportsDtoSchema.ts";
+export { parentCompanyDtoSchema } from "./zod/parentCompanyDtoSchema.ts";
 export { platformsDtoSchema } from "./zod/platformsDtoSchema.ts";
 export { popularityGamesResponseSchema } from "./zod/popularityGamesResponseSchema.ts";
 export { releaseDatePlatformDtoSchema } from "./zod/releaseDatePlatformDtoSchema.ts";

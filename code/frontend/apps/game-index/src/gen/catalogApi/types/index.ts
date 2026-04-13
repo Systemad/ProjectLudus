@@ -1,22 +1,17 @@
 export type { AlternativeNameDto } from "./AlternativeNameDto.ts";
+export type { CompanyGamesDto } from "./CompanyGamesDto.ts";
 export type { CompanyInfoDto } from "./CompanyInfoDto.ts";
+export type { CompanyOverviewDto } from "./CompanyOverviewDto.ts";
 export type { FranchiseDto } from "./FranchiseDto.ts";
-export type { GameDetails } from "./GameDetails.ts";
+export type { GameDetailsDto } from "./GameDetailsDto.ts";
 export type { GameEnginesDto } from "./GameEnginesDto.ts";
-export type { GameMedia } from "./GameMedia.ts";
-export type { GameMediaVideo } from "./GameMediaVideo.ts";
+export type { GameMediaDto } from "./GameMediaDto.ts";
+export type { GameMediaVideoDto } from "./GameMediaVideoDto.ts";
 export type { GameOverviewDto } from "./GameOverviewDto.ts";
 export type { GamePageReleaseDataDto } from "./GamePageReleaseDataDto.ts";
 export type { GameReleaseDto } from "./GameReleaseDto.ts";
 export type { GamesReleaseDateRangeResponse } from "./GamesReleaseDateRangeResponse.ts";
-export type { GamesSearch } from "./GamesSearch.ts";
-export type {
-    GetApiGamesGameidDetails200,
-    GetApiGamesGameidDetails404,
-    GetApiGamesGameidDetailsPathParams,
-    GetApiGamesGameidDetailsQuery,
-    GetApiGamesGameidDetailsQueryResponse,
-} from "./GetByIdEndpointsTypes/GetApiGamesGameidDetails.ts";
+export type { GamesSearchDto } from "./GamesSearchDto.ts";
 export type {
     GetApiPopularityPopularitytypeid200,
     GetApiPopularityPopularitytypeidPathParams,
@@ -30,42 +25,66 @@ export type {
     GetApiGamesReleaseDateRangeQuery,
     GetApiGamesReleaseDateRangeQueryParams,
     GetApiGamesReleaseDateRangeQueryResponse,
-} from "./GetByReleaseDateRangeEndpointsTypes/GetApiGamesReleaseDateRange.ts";
-export type { GetGameDetailsByIdResponse } from "./GetGameDetailsByIdResponse.ts";
-export type { GetGameMediaByIdResponse } from "./GetGameMediaByIdResponse.ts";
-export type { GetGameOverviewByIdResponse } from "./GetGameOverviewByIdResponse.ts";
+} from "./GetByReleaseDateRangeEndpointTypes/GetApiGamesReleaseDateRange.ts";
+export type { GetCompanyGamesResponse } from "./GetCompanyGamesResponse.ts";
+export type { GetCompanyResponse } from "./GetCompanyResponse.ts";
+export type {
+    GetApiCompaniesCompanyid200,
+    GetApiCompaniesCompanyid404,
+    GetApiCompaniesCompanyidPathParams,
+    GetApiCompaniesCompanyidQuery,
+    GetApiCompaniesCompanyidQueryResponse,
+} from "./GetEndpointTypes/GetApiCompaniesCompanyid.ts";
+export type {
+    GetApiGamesGameidDetails200,
+    GetApiGamesGameidDetails404,
+    GetApiGamesGameidDetailsPathParams,
+    GetApiGamesGameidDetailsQuery,
+    GetApiGamesGameidDetailsQueryResponse,
+} from "./GetEndpointTypes/GetApiGamesGameidDetails.ts";
+export type { GetGameMediaResponse } from "./GetGameMediaResponse.ts";
+export type { GetGameOverviewResponse } from "./GetGameOverviewResponse.ts";
 export type {
     GetApiGamesGameidPageReleaseData200,
     GetApiGamesGameidPageReleaseData404,
     GetApiGamesGameidPageReleaseDataPathParams,
     GetApiGamesGameidPageReleaseDataQuery,
     GetApiGamesGameidPageReleaseDataQueryResponse,
-} from "./GetGamePageReleaseDataEndpointsTypes/GetApiGamesGameidPageReleaseData.ts";
+} from "./GetGamePageReleaseDataEndpointTypes/GetApiGamesGameidPageReleaseData.ts";
 export type { GetGamePageReleaseDataResponse } from "./GetGamePageReleaseDataResponse.ts";
+export type { GetGameResponse } from "./GetGameResponse.ts";
+export type {
+    GetApiCompaniesCompanyidGames200,
+    GetApiCompaniesCompanyidGames404,
+    GetApiCompaniesCompanyidGamesPathParams,
+    GetApiCompaniesCompanyidGamesQuery,
+    GetApiCompaniesCompanyidGamesQueryResponse,
+} from "./GetGamesEndpointTypes/GetApiCompaniesCompanyidGames.ts";
 export type {
     GetApiGamesGameidMedia200,
     GetApiGamesGameidMedia404,
     GetApiGamesGameidMediaPathParams,
     GetApiGamesGameidMediaQuery,
     GetApiGamesGameidMediaQueryResponse,
-} from "./GetMediaByIdEndpointsTypes/GetApiGamesGameidMedia.ts";
+} from "./GetMediaEndpointTypes/GetApiGamesGameidMedia.ts";
 export type {
     GetApiGamesGameid200,
     GetApiGamesGameid404,
     GetApiGamesGameidPathParams,
     GetApiGamesGameidQuery,
     GetApiGamesGameidQueryResponse,
-} from "./GetOverviewByIdEndpointsTypes/GetApiGamesGameid.ts";
+} from "./GetOverviewEndpointTypes/GetApiGamesGameid.ts";
 export type {
     GetApiGamesGameidSimilarGames200,
     GetApiGamesGameidSimilarGamesPathParams,
     GetApiGamesGameidSimilarGamesQuery,
     GetApiGamesGameidSimilarGamesQueryResponse,
-} from "./GetSimilairGamesEndpointsTypes/GetApiGamesGameidSimilarGames.ts";
-export type { GetSimilairGamesResponse } from "./GetSimilairGamesResponse.ts";
+} from "./GetSimilarGamesEndpointTypes/GetApiGamesGameidSimilarGames.ts";
+export type { GetSimilarGamesResponse } from "./GetSimilarGamesResponse.ts";
 export type { HttpValidationProblemDetails } from "./HttpValidationProblemDetails.ts";
 export type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
 export type { LanguageSupportsDto } from "./LanguageSupportsDto.ts";
+export type { ParentCompanyDto } from "./ParentCompanyDto.ts";
 export type { PlatformsDto } from "./PlatformsDto.ts";
 export type { PopularityGamesResponse } from "./PopularityGamesResponse.ts";
 export type { ReleaseDatePlatformDto } from "./ReleaseDatePlatformDto.ts";

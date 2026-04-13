@@ -19,8 +19,8 @@ export default defineConfig(() => {
             path: `./src/gen/${name}`,
             clean: true,
             barrelType: "named",
-            format: "oxfmt",
-            lint: "oxlint",
+            format: "vp format", //"oxfmt",
+            lint: "vp lint", //"oxlint",
         },
         plugins: [
             pluginOas({ collisionDetection: true }),
@@ -55,8 +55,6 @@ export default defineConfig(() => {
                 },
                 client: {
                     dataReturnType: "data",
-                    //dataReturnType: "data",
-                    //importPath: "../../../client.ts",
                     baseURL: "",
                 },
                 mutation: {

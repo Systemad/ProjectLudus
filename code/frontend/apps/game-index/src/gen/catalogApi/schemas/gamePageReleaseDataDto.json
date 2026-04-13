@@ -1,4 +1,5 @@
 {
+    "required": ["gameId"],
     "type": "object",
     "properties": {
         "gameId": { "type": "integer", "format": "int64" },

@@ -1,8 +1,8 @@
-import { NativeTable } from "ui";
+import { Box, NativeTable } from "ui";
 import { PreviewCard } from "@base-ui/react/preview-card";
 import HoveredGameCard from "@src/components/home/HoveredGameCard";
-import type { GamesSearch } from "@src/gen/catalogApi";
-
+import type { GamesSearchDto } from "@src/gen/catalogApi";
+import styles from "./previewImage.module.css";
 export const SimpleTable = ({
     headers,
     rows,
@@ -10,7 +10,7 @@ export const SimpleTable = ({
 }: {
     headers: (string | JSX.Element)[];
     rows: (string | number | JSX.Element)[][];
-    hoverCardGames?: GamesSearch[];
+    hoverCardGames?: GamesSearchDto[];
 }) => {
     const TableContent = (
         <NativeTable.Root>
@@ -34,30 +34,28 @@ export const SimpleTable = ({
                                 const headerKey = `col-${j}`;
                                 const cellContent = cell;
 
-                                return (
+                                return hoverGame ? (
                                     <NativeTable.Td key={`row-${rowIndex}-${headerKey}`}>
                                         <PreviewCard.Root>
-                                            <PreviewCard.Trigger
-                                                href="#"
-                                                style={{
-                                                    color: "inherit",
-                                                    textDecoration: "none",
-                                                    display: "inline-block",
-                                                    width: "100%",
-                                                }}
-                                            >
-                                                {cellContent}
+                                            <PreviewCard.Trigger>
+                                                <Box display="flex" alignItems="center" h="full">
+                                                    {cellContent}
+                                                </Box>
                                             </PreviewCard.Trigger>
                                             <PreviewCard.Portal>
                                                 <PreviewCard.Positioner sideOffset={8}>
-                                                    <PreviewCard.Popup>
-                                                        {hoverGame != undefined && (
-                                                            <HoveredGameCard game={hoverGame} />
-                                                        )}
+                                                    <PreviewCard.Popup className={styles.Popup}>
+                                                        <HoveredGameCard game={hoverGame} />
                                                     </PreviewCard.Popup>
                                                 </PreviewCard.Positioner>
                                             </PreviewCard.Portal>
                                         </PreviewCard.Root>
+                                    </NativeTable.Td>
+                                ) : (
+                                    <NativeTable.Td key={`row-${rowIndex}-${headerKey}`}>
+                                        <Box display="flex" alignItems="center" h="full">
+                                            {cellContent}
+                                        </Box>
                                     </NativeTable.Td>
                                 );
                             })}

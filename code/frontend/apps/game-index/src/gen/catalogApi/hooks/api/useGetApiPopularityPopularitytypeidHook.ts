@@ -22,7 +22,7 @@ export const getApiPopularityPopularitytypeidQueryKey = (
     {
         popularityTypeId,
     }: { popularityTypeId: GetApiPopularityPopularitytypeidPathParams["popularityTypeId"] },
-    params?: GetApiPopularityPopularitytypeidQueryParams,
+    params: GetApiPopularityPopularitytypeidQueryParams,
 ) =>
     [
         "v1",
@@ -46,7 +46,7 @@ export async function getApiPopularityPopularitytypeidHook(
         params,
     }: {
         popularityTypeId: GetApiPopularityPopularitytypeidPathParams["popularityTypeId"];
-        params?: GetApiPopularityPopularitytypeidQueryParams;
+        params: GetApiPopularityPopularitytypeidQueryParams;
     },
     config: Partial<RequestConfig> & { client?: Client } = {},
 ) {
@@ -66,7 +66,7 @@ export function getApiPopularityPopularitytypeidQueryOptionsHook(
         params,
     }: {
         popularityTypeId: GetApiPopularityPopularitytypeidPathParams["popularityTypeId"];
-        params?: GetApiPopularityPopularitytypeidQueryParams;
+        params: GetApiPopularityPopularitytypeidQueryParams;
     },
     config: Partial<RequestConfig> & { client?: Client } = {},
 ) {
@@ -77,7 +77,7 @@ export function getApiPopularityPopularitytypeidQueryOptionsHook(
         GetApiPopularityPopularitytypeidQueryResponse,
         typeof queryKey
     >({
-        enabled: !!popularityTypeId,
+        enabled: !!(popularityTypeId && params),
         queryKey,
         queryFn: async ({ signal }) => {
             return getApiPopularityPopularitytypeidHook(
@@ -101,7 +101,7 @@ export function useGetApiPopularityPopularitytypeidHook<
         params,
     }: {
         popularityTypeId: GetApiPopularityPopularitytypeidPathParams["popularityTypeId"];
-        params?: GetApiPopularityPopularitytypeidQueryParams;
+        params: GetApiPopularityPopularitytypeidQueryParams;
     },
     options: {
         query?: Partial<

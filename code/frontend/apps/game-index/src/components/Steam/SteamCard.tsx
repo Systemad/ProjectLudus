@@ -1,6 +1,6 @@
 import { Box, Image, Text, VStack, Card } from "ui";
 import { Link } from "@tanstack/react-router";
-import type { GamesSearch } from "@src/gen/catalogApi/types/GamesSearch";
+import type { GamesSearchDto } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 
 function getCoverImageUrl(coverUrl?: string | null) {
@@ -9,7 +9,7 @@ function getCoverImageUrl(coverUrl?: string | null) {
     return `https://images.igdb.com/igdb/image/upload/t_cover_big/${coverUrl}.jpg`;
 }
 
-export function SteamCard({ game }: { game: GamesSearch }) {
+export function SteamCard({ game }: { game: GamesSearchDto }) {
     return (
         <Link
             to="/games/$gameId"

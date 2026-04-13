@@ -1,6 +1,7 @@
 import { SimpleTable } from "@src/components/layout/SimpleTable";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Box, Image, SimpleGrid, Text, VStack, Heading, GridItem, Loading } from "ui";
+import { CardSurface } from "@src/components/layout/Card";
 import {
     getApiPopularityPopularitytypeidSuspenseQueryOptionsHook,
     useGetApiPopularityPopularitytypeidSuspenseHook,
@@ -64,78 +65,45 @@ function RouteComponent() {
     return (
         <Box maxW="6xl" mx="auto" w="full" px={{ base: "4", md: "6" }} py={{ base: "2", md: "2" }}>
             <VStack align="stretch" gap="md">
-                <Box
-                    rounded="md"
-                    bg="bg.surface"
-                    borderWidth="0px"
-                    borderColor="border.subtle"
-                    p="md"
-                    textAlign="center"
-                >
+                <CardSurface variant="translucent" p="md" textAlign="center">
                     <VStack gap="xs" align="center">
                         <Heading>game-index.app</Heading>
                         <Text fontSize="sm" color="fg.muted">
                             Discover, search, and explore games directly from IGDB
                         </Text>
                     </VStack>
-                </Box>
-                <Box
-                    rounded="lg"
-                    bg="bg.panel"
-                    borderWidth="1px"
-                    borderColor="border.subtle"
-                    p="md"
-                >
+                </CardSurface>
+                <CardSurface variant="panel" p="md">
                     <VStack align="stretch" gap="sm">
                         <Text fontSize="lg" fontWeight="semibold" color="fg.base">
                             Database Stats
                         </Text>
 
                         <SimpleGrid columns={{ base: 1, md: 2 }} gap="sm">
-                            <Box
-                                rounded="md"
-                                bg="bg.surface"
-                                borderWidth="1px"
-                                borderColor="border.subtle"
-                                p="sm"
-                            >
+                            <CardSurface variant="translucent" p="sm">
                                 <Text color="fg.muted" fontSize="sm">
                                     Games Indexed
                                 </Text>
                                 <Text color="fg.base" fontSize="2xl" fontWeight="bold">
                                     {Number(totalIndexed).toLocaleString()}
                                 </Text>
-                            </Box>
+                            </CardSurface>
 
-                            <Box
-                                rounded="md"
-                                bg="bg.surface"
-                                borderWidth="1px"
-                                borderColor="border.subtle"
-                                p="sm"
-                            >
+                            <CardSurface variant="translucent" p="sm">
                                 <Text color="fg.muted" fontSize="sm">
                                     Last Indexed
                                 </Text>
                                 <Text color="fg.base" fontSize="2xl" fontWeight="bold">
                                     {lastIndexedLabel}
                                 </Text>
-                            </Box>
+                            </CardSurface>
                         </SimpleGrid>
                     </VStack>
-                </Box>
+                </CardSurface>
                 <Suspense fallback={<Loading.Rings color="blue.500" fontSize="5xl" />}>
                     <SimpleGrid columns={{ base: 1, lg: 2 }} gap="lg">
                         <GridItem>
-                            <Box
-                                key={"1"}
-                                bg="bg.panel"
-                                borderWidth="1px"
-                                borderColor="border.subtle"
-                                rounded="lg"
-                                p="md"
-                                minW={0}
-                            >
+                            <CardSurface key={"1"} variant="panel" rounded="lg" p="md" minW={0}>
                                 <Text fontWeight="semibold" color="fg.base" mb="sm">
                                     Most Wishlisted Upcoming
                                 </Text>
@@ -160,18 +128,10 @@ function RouteComponent() {
                                     ])}
                                     hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
                                 />
-                            </Box>
+                            </CardSurface>
                         </GridItem>
                         <GridItem>
-                            <Box
-                                key={"2"}
-                                bg="bg.panel"
-                                borderWidth="1px"
-                                borderColor="border.subtle"
-                                rounded="lg"
-                                p="md"
-                                minW={0}
-                            >
+                            <CardSurface key={"2"} variant="panel" rounded="lg" p="md" minW={0}>
                                 <Text fontWeight="semibold" color="fg.base" mb="sm">
                                     Steam Global Top Sellers
                                 </Text>
@@ -195,18 +155,10 @@ function RouteComponent() {
                                     ])}
                                     hoverCardGames={steamMostPlayed.games.slice(0, 10)}
                                 />
-                            </Box>
+                            </CardSurface>
                         </GridItem>
                         <GridItem>
-                            <Box
-                                key={"2"}
-                                bg="bg.panel"
-                                borderWidth="1px"
-                                borderColor="border.subtle"
-                                rounded="lg"
-                                p="md"
-                                minW={0}
-                            >
+                            <CardSurface key={"3"} variant="panel" rounded="lg" p="md" minW={0}>
                                 <Text fontWeight="semibold" color="fg.base" mb="sm">
                                     24hr Peak Players
                                 </Text>
@@ -230,7 +182,7 @@ function RouteComponent() {
                                     ])}
                                     hoverCardGames={steamPeakHours.games.slice(0, 10)}
                                 />
-                            </Box>
+                            </CardSurface>
                         </GridItem>
                     </SimpleGrid>
                 </Suspense>

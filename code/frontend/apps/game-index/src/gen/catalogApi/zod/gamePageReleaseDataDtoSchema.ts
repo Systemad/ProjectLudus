@@ -7,7 +7,7 @@ import * as z from "zod";
 import { gameReleaseDtoSchema } from "./gameReleaseDtoSchema.ts";
 
 export const gamePageReleaseDataDtoSchema = z.object({
-    gameId: z.optional(z.number().int()),
+    gameId: z.number().int(),
     gameName: z.string().nullish(),
     releases: z.array(z.lazy(() => gameReleaseDtoSchema)).nullish(),
 });
