@@ -32,7 +32,7 @@ with
         select
             ge.game_id,
             array_agg(distinct e.name order by e.name)::text[] as game_engines
-        from {{ ref("bridge_game__game_engine") }} ge
+        from {{ ref("bridge_game_game_engine") }} ge
         join {{ ref("mart_game_engines") }} e on ge.game_engine_id = e.id
         group by ge.game_id
     ),

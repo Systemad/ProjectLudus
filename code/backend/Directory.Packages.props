@@ -1,38 +1,38 @@
 <Project>
-  <PropertyGroup>
-    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageVersion Include="Riok.Mapperly" Version="5.0.0-next.4" />
-    <PackageVersion Include="FluentValidation" Version="12.1.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.5" />
-    <PackageVersion Include="Respawn" Version="7.0.0" />
-    <PackageVersion Include="TUnit.Aspire" Version="1.33.0" />
-    <PackageVersion Include="Aspire.Hosting.Testing" Version="13.2.2" />
-    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.2.2" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.2.2" />
-    <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
-    <PackageVersion Include="EFCore.ParadeDB.PgSearch" Version="1.0.3-alpha" />
-    <PackageVersion Include="linq2db" Version="6.1.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.4.0" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.4.0" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0" />
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.0" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.13.22" />
-    <PackageVersion Include="Thinktecture.EntityFrameworkCore.PostgreSQL" Version="10.1.0-beta03" />
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-    <PackageVersion Include="Aspire.Hosting.Docker" Version="13.2.2" />
-    <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.2.2" />
-    <PackageVersion Include="Aspire.Hosting.Yarp" Version="13.2.2" />
-    <PackageVersion Include="Jameak.CursorPagination" Version="1.1.1" />
-    <PackageVersion Include="Aspire.Hosting.Python" Version="13.2.2" />
-    <PackageVersion Include="Refit" Version="10.1.6" />
-  </ItemGroup>
+<PropertyGroup>
+  <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
+</PropertyGroup>
+<ItemGroup>
+  <PackageVersion Include="Riok.Mapperly" Version="5.0.0-next.4" />
+  <PackageVersion Include="FluentValidation" Version="12.1.1" />
+  <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.5" />
+  <PackageVersion Include="Respawn" Version="7.0.0" />
+  <PackageVersion Include="TUnit.Aspire" Version="1.33.0" />
+  <PackageVersion Include="Aspire.Hosting.Testing" Version="13.2.2" />
+  <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.2.2" />
+  <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.2.2" />
+  <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
+  <PackageVersion Include="EFCore.ParadeDB.PgSearch" Version="1.0.3-alpha" />
+  <PackageVersion Include="linq2db" Version="6.1.0" />
+  <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+  <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.3" />
+  <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.4.0" />
+  <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.4.0" />
+  <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0" />
+  <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.0" />
+  <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.0" />
+  <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
+  <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+  <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.0" />
+  <PackageVersion Include="Scalar.AspNetCore" Version="2.13.22" />
+  <PackageVersion Include="Thinktecture.EntityFrameworkCore.PostgreSQL" Version="10.1.0-beta03" />
+  <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+  <PackageVersion Include="Aspire.Hosting.Docker" Version="13.2.2" />
+  <PackageVersion Include="Aspire.Hosting.JavaScript" Version="13.2.2" />
+  <PackageVersion Include="Aspire.Hosting.Yarp" Version="13.2.2" />
+  <PackageVersion Include="Jameak.CursorPagination" Version="1.1.1" />
+  <PackageVersion Include="Aspire.Hosting.Python" Version="13.2.2" />
+  <PackageVersion Include="Refit" Version="10.1.6" />
+</ItemGroup>
 </Project>

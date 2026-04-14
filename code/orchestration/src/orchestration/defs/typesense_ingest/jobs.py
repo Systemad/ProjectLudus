@@ -81,6 +81,28 @@ NUMERIC_TYPE_HINTS: dict[str, dict[str, Any]] = {
     },
 }
 
+COMPANY_FACETS = [
+    "status",
+]
+
+COMPANY_SORT = [
+    "games_developed_count",
+    "games_published_count",
+    "start_year",
+]
+
+COMPANY_NUMERIC_TYPE_HINTS: dict[str, dict[str, Any]] = {
+    "games_developed_count": {
+        "name": "games_developed_count",
+        "x-typesense-type": "int64",
+    },
+    "games_published_count": {
+        "name": "games_published_count",
+        "x-typesense-type": "int64",
+    },
+    "start_year": {"name": "start_year", "x-typesense-type": "int64"},
+}
+
 
 _original_make_field_schema = TypesenseClient._make_field_schema
 
@@ -134,14 +156,51 @@ def _typesense_source():
     return games
 
 
+@dlt.source(name="postgres_to_typesense_companies")
+def _company_typesense_source():
+    companies_resource = sql_table(
+        credentials=dlt.secrets["destination.postgres.credentials"],
+        table="company_search",
+        schema="public",
+        defer_table_reflect=True,
+        write_disposition="replace",
+        # chunk_size=50000,
+    )
+
+    company_column_type_hints = cast(
+        TTableSchemaColumns,
+        {
+            **COMPANY_NUMERIC_TYPE_HINTS,
+        },
+    )
+    companies_resource.apply_hints(columns=company_column_type_hints)
+
+    companies = typesense_adapter(
+        companies_resource,
+        facet=COMPANY_FACETS,
+        sort=COMPANY_SORT,
+    )
+
+    return companies
+
+
 # dagster_dlt component loader expects a concrete DltSource object, not a source factory.
 typesense_source = _typesense_source()
+company_typesense_source = _company_typesense_source()
 
 
 typesense_source_pipeline = dlt.pipeline(
     pipeline_name="postgres_to_typesense_pipeline",
     destination=typesense_destination(),
     dataset_name="search",
+    progress="log",
+    dev_mode=False,
+)
+
+company_typesense_source_pipeline = dlt.pipeline(
+    pipeline_name="search_company_search_pipeline",
+    destination=typesense_destination(),
+    dataset_name="search_company_search",
     progress="log",
     dev_mode=False,
 )

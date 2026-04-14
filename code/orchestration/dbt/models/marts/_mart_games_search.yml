@@ -4,11 +4,21 @@ models:
   - name: mart_games_search
     config:
       alias: games_search
-      contract: { enforced: false }
+      contract: { enforced: true }
+
     description: "Search-ready games dataset with aggregated metrics for Typesense indexing"
     columns:
       - name: id
         data_type: bigint
+        constraints:
+          - type: primary_key
+            columns: [id]
+          - type: not_null
+            columns: [id]
+          - type: unique
+            columns: [id]
+        tests:
+          - not_null
       - name: name
         data_type: character varying
       - name: summary

@@ -98,7 +98,7 @@ export const theme = extendTheme({
     },
     semanticTokens: {
         colorSchemes,
-        colors,
+        //colors,
     },
     styles: {
         globalStyle,

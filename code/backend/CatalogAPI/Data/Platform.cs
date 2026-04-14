@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 public partial class Platform
@@ -31,6 +34,8 @@ public partial class Platform
     public string? Summary { get; set; }
 
     public virtual ICollection<ExternalGame> ExternalGames { get; set; } = new List<ExternalGame>();
+
+    public virtual ICollection<MultiplayerMode> MultiplayerModes { get; set; } = new List<MultiplayerMode>();
 
     public virtual PlatformFamily? PlatformFamilyNavigation { get; set; }
 

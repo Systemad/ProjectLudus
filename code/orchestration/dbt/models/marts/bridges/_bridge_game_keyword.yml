@@ -1,29 +1,33 @@
 version: 2
 models:
-    - name: bridge_game_keyword
+  - name: bridge_game_keyword
 
-      config:
-          contract: { enforced: true }
-          alias: "game_keyword"
-      constraints:
-          - type: primary_key
-            columns: [game_id, keyword_id]
+    config:
+      contract: { enforced: true }
+      alias: "game_keyword"
+    constraints:
+      - type: primary_key
+        columns: [game_id, keyword_id]
 
-          - type: foreign_key
-            columns: [game_id]
-            to: ref('mart_games')
-            to_columns: [id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
 
-          - type: foreign_key
-            columns: [keyword_id]
-            to: ref('mart_keywords')
-            to_columns: [id]
+      - type: foreign_key
+        columns: [keyword_id]
+        to: ref('mart_keywords')
+        to_columns: [id]
 
-      description: ""
-      columns:
-          - name: game_id
-            data_type: bigint
-            description: ""
-          - name: keyword_id
-            data_type: bigint
-            description: ""
+    description: ""
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null
+      - name: keyword_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null

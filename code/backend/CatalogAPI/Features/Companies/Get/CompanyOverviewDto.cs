@@ -11,7 +11,7 @@ public record CompanyOverviewDto(
     long? StartDate,
     long? Country,
     string? LogoId,
-    string? LogoUrl,
+    string? LogoImageId,
     ParentCompanyDto? ParentCompany,
     string? Status
 );

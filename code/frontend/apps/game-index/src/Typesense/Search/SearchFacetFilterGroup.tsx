@@ -1,20 +1,12 @@
 import { Accordion, Button, CheckboxCardGroup, ScrollArea, Text, Flex } from "ui";
 import { useRefinementList } from "react-instantsearch";
-import { Route } from "@src/routes/search";
-import { useNavigate } from "@tanstack/react-router";
 
 type SearchFacetFilterGroupProps = {
     title: string;
     attribute: string;
     index: number;
-    currentValues: string[];
 };
-export function SearchFacetFilterGroup({
-    title,
-    attribute,
-    index,
-    currentValues,
-}: SearchFacetFilterGroupProps) {
+export function SearchFacetFilterGroup({ title, attribute, index }: SearchFacetFilterGroupProps) {
     const { items, refine, canRefine, canToggleShowMore, isShowingMore, toggleShowMore } =
         useRefinementList({
             attribute,
@@ -24,23 +16,14 @@ export function SearchFacetFilterGroup({
             sortBy: ["isRefined:desc", "count:desc", "name:asc"],
         });
 
-    const navigate = useNavigate({ from: Route.fullPath });
+    const currentValues = items.filter((item) => item.isRefined).map((item) => item.value);
 
-    const handleChange = (values: string[]) => {
-        navigate({
-            search: (prev) => ({
-                ...prev,
-                [attribute]: values,
-                page: 1,
-            }),
-        });
-
-        const nextSet = new Set(values);
-        items.forEach((item) => {
-            if (nextSet.has(item.value) !== item.isRefined) {
-                refine(item.value);
-            }
-        });
+    const handleChange = (nextValues: string[]) => {
+        const toToggle = [
+            ...nextValues.filter((v) => !currentValues.includes(v)),
+            ...currentValues.filter((v) => !nextValues.includes(v)),
+        ];
+        for (const v of toToggle) refine(v);
     };
 
     return (

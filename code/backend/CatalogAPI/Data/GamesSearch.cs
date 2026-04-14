@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 /// <summary>
@@ -5,7 +8,7 @@ namespace CatalogAPI.Data;
 /// </summary>
 public partial class GamesSearch
 {
-    public long? Id { get; set; }
+    public long Id { get; set; }
 
     public string? Name { get; set; }
 

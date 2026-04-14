@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 public partial class GameEngine
@@ -23,6 +26,8 @@ public partial class GameEngine
     public virtual GameEngineLogo? LogoNavigation { get; set; }
 
     public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
+
+    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 
     public virtual ICollection<Platform> Platforms { get; set; } = new List<Platform>();
 }

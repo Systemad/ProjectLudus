@@ -9,16 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRouteImport } from './routes/search'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GamesSearchRouteImport } from './routes/games/search'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
+import { Route as CompaniesSearchRouteImport } from './routes/companies/search'
 
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -29,55 +25,73 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GamesSearchRoute = GamesSearchRouteImport.update({
+  id: '/games/search',
+  path: '/games/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GamesGameIdRoute = GamesGameIdRouteImport.update({
   id: '/games/$gameId',
   path: '/games/$gameId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompaniesSearchRoute = CompaniesSearchRouteImport.update({
+  id: '/companies/search',
+  path: '/companies/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/search': typeof SearchRoute
+  '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/games/search': typeof GamesSearchRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/search': typeof SearchRoute
+  '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/games/search': typeof GamesSearchRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/search': typeof SearchRoute
+  '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
+  '/games/search': typeof GamesSearchRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/search' | '/games/$gameId'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/companies/search'
+    | '/games/$gameId'
+    | '/games/search'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/search' | '/games/$gameId'
-  id: '__root__' | '/' | '/about' | '/search' | '/games/$gameId'
+  to: '/' | '/about' | '/companies/search' | '/games/$gameId' | '/games/search'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/companies/search'
+    | '/games/$gameId'
+    | '/games/search'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  SearchRoute: typeof SearchRoute
+  CompaniesSearchRoute: typeof CompaniesSearchRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
+  GamesSearchRoute: typeof GamesSearchRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -92,11 +106,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/games/search': {
+      id: '/games/search'
+      path: '/games/search'
+      fullPath: '/games/search'
+      preLoaderRoute: typeof GamesSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/games/$gameId': {
       id: '/games/$gameId'
       path: '/games/$gameId'
       fullPath: '/games/$gameId'
       preLoaderRoute: typeof GamesGameIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/companies/search': {
+      id: '/companies/search'
+      path: '/companies/search'
+      fullPath: '/companies/search'
+      preLoaderRoute: typeof CompaniesSearchRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -105,8 +133,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  SearchRoute: SearchRoute,
+  CompaniesSearchRoute: CompaniesSearchRoute,
   GamesGameIdRoute: GamesGameIdRoute,
+  GamesSearchRoute: GamesSearchRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

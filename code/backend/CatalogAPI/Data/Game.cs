@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 public partial class Game
@@ -70,6 +73,8 @@ public partial class Game
 
     public virtual ICollection<InvolvedCompany> InvolvedCompanies { get; set; } = new List<InvolvedCompany>();
 
+    public virtual ICollection<MultiplayerMode> MultiplayerModesNavigation { get; set; } = new List<MultiplayerMode>();
+
     public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
 
     public virtual ICollection<ReleaseDate> ReleaseDates { get; set; } = new List<ReleaseDate>();
@@ -85,6 +90,8 @@ public partial class Game
     public virtual ICollection<Game> DlcGames { get; set; } = new List<Game>();
 
     public virtual ICollection<Franchise> Franchises { get; set; } = new List<Franchise>();
+
+    public virtual ICollection<GameEngine> GameEngines { get; set; } = new List<GameEngine>();
 
     public virtual ICollection<GameMode> GameModes { get; set; } = new List<GameMode>();
 

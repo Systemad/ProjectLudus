@@ -4,11 +4,19 @@ models:
   - name: mart_company_search
     config:
       alias: company_search
-      contract: { enforced: false }
+      contract: { enforced: true }
+
     description: "Search-ready companies dataset for Typesense indexing"
     columns:
       - name: id
         data_type: bigint
+        constraints:
+          - type: primary_key
+            columns: [id]
+          - type: not_null
+            columns: [id]
+          - type: unique
+            columns: [id]
       - name: name
         data_type: character varying
       - name: description

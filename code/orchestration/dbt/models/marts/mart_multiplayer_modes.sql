@@ -24,3 +24,5 @@ with
 
 select *
 from formatted
+where game is not null
+    and platform is not null

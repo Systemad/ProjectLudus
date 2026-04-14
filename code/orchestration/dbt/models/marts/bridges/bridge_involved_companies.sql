@@ -19,3 +19,5 @@ with
 
 select *
 from formatted
+where game is not null
+    and company is not null

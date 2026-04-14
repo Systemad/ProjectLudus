@@ -6,5 +6,7 @@ select
 from {{ ref('stg_games__similar_games') }} t
 inner join {{ ref('stg_games') }} g on t._dlt_parent_id = g._dlt_id
 inner join {{ ref('stg_games') }} similar_game on t.value = similar_game.id
+inner join {{ ref('mart_games') }} mg on g.id = mg.id
+inner join {{ ref('mart_games') }} msg on similar_game.id = msg.id
 where g.id is not null
   and similar_game.id is not null

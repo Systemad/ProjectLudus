@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 public partial class PlatformType

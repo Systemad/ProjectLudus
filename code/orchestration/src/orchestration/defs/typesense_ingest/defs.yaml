@@ -7,3 +7,8 @@ attributes:
       translation:
         group_name: typesense_job
         description: "Create/refresh Typesense index from games_search"
+    - source: .jobs.company_typesense_source
+      pipeline: .jobs.company_typesense_source_pipeline
+      translation:
+        group_name: typesense_job
+        description: "Create/refresh Typesense index from company_search"

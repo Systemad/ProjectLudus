@@ -20,7 +20,8 @@ type NavigationBarProps = {
 
 const navItems = [
     { id: "home" as const, label: "Home", to: "/" },
-    { id: "search" as const, label: "Explore", to: "/search" },
+    { id: "search" as const, label: "Explore", to: "/games/search" },
+    { id: "companies" as const, label: "Companies", to: "/companies/search" },
 ];
 
 export function NavigationBar({ active: _active = "home" }: NavigationBarProps) {
@@ -88,29 +89,6 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                 </Text>
                             </RouterLinkButton>
                         ))}
-                        <RouterLinkButton
-                            to="/search"
-                            variant="ghost"
-                            rounded="2xl"
-                            px={{ base: "2", md: "3" }}
-                            py="1"
-                            minW="0"
-                            h="auto"
-                            activeProps={{ color: "fg.base" }}
-                            _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                        >
-                            <Text
-                                as="span"
-                                fontFamily="heading"
-                                fontWeight="bold"
-                                letterSpacing="tight"
-                                color="inherit"
-                                transitionProperty="color"
-                                transitionDuration="moderate"
-                            >
-                                Search
-                            </Text>
-                        </RouterLinkButton>
                     </HStack>
                 </Flex>
 

@@ -1,3 +1,6 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace CatalogAPI.Data;
 
 public partial class MultiplayerMode
@@ -29,6 +32,10 @@ public partial class MultiplayerMode
     public long? Onlinecoopmax { get; set; }
 
     public long? Offlinecoopmax { get; set; }
+
+    public virtual Game? GameNavigation { get; set; }
+
+    public virtual Platform? PlatformNavigation { get; set; }
 
     public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 }

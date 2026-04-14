@@ -1,3 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
+using NodaTime;
+
 namespace CatalogAPI.Data;
 
 public partial class PopularityPrimitive

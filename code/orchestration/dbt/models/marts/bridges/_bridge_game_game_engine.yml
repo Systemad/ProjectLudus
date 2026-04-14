@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: bridge_game_game_engine
+
+    config:
+      contract: { enforced: true }
+      alias: "game_game_engine"
+
+    constraints:
+      - type: primary_key
+        columns: [game_id, game_engine_id]
+
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+
+      - type: foreign_key
+        columns: [game_engine_id]
+        to: ref('mart_game_engines')
+        to_columns: [id]
+
+    description: "Join table linking games to game engines in a relational format."
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: "The game identifier."
+        constraints:
+          - type: not_null
+      - name: game_engine_id
+        data_type: bigint
+        description: "The game engine identifier."
+        constraints:
+          - type: not_null

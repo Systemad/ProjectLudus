@@ -21,9 +21,13 @@ models:
       - name: id
         data_type: bigint
         description: "The uniqueness key for the involved-company relationship row."
+        tests:
+          - not_null
       - name: company
         data_type: bigint
         description: "The company involved with the game."
+        tests:
+          - not_null
       - name: created_at
         data_type: bigint
         description: "The source record creation timestamp."
@@ -33,6 +37,8 @@ models:
       - name: game
         data_type: bigint
         description: "The game referenced by this involved-company relationship."
+        tests:
+          - not_null
       - name: porting
         data_type: boolean
         description: ""

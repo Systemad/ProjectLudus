@@ -1,55 +1,73 @@
 version: 2
 models:
-    - name: mart_multiplayer_modes
+  - name: mart_multiplayer_modes
 
-      config:
-          contract: { enforced: true }
-          alias: "multiplayer_modes"
-      constraints:
-          - type: primary_key
-            columns: [id]
+    config:
+      contract: { enforced: true }
+      alias: "multiplayer_modes"
+      post-hook:
+        - "create index if not exists idx_multiplayer_modes_game on {{ target.schema }}.multiplayer_modes (game)"
+        - "create index if not exists idx_multiplayer_modes_platform on {{ target.schema }}.multiplayer_modes (platform)"
+        - "create index if not exists idx_multiplayer_modes_coop_game on {{ target.schema }}.multiplayer_modes (game) where campaigncoop is true or offlinecoop is true or onlinecoop is true or lancoop is true"
+    constraints:
+      - type: primary_key
+        columns: [id]
 
-      description: ""
-      columns:
-          - name: id
-            data_type: bigint
-            description: ""
-          - name: campaigncoop
-            data_type: boolean
-            description: ""
-          - name: dropin
-            data_type: boolean
-            description: ""
-          - name: game
-            data_type: bigint
-            description: ""
-          - name: lancoop
-            data_type: boolean
-            description: ""
-          - name: offlinecoop
-            data_type: boolean
-            description: ""
-          - name: onlinecoop
-            data_type: boolean
-            description: ""
-          - name: platform
-            data_type: bigint
-            description: ""
-          - name: splitscreen
-            data_type: boolean
-            description: ""
-          - name: checksum
-            data_type: character varying
-            description: ""
-          - name: offlinemax
-            data_type: bigint
-            description: ""
-          - name: onlinemax
-            data_type: bigint
-            description: ""
-          - name: onlinecoopmax
-            data_type: bigint
-            description: ""
-          - name: offlinecoopmax
-            data_type: bigint
-            description: ""
+      - type: foreign_key
+        columns: [game]
+        to: ref('mart_games')
+        to_columns: [id]
+
+      - type: foreign_key
+        columns: [platform]
+        to: ref('mart_platforms')
+        to_columns: [id]
+
+    description: ""
+    columns:
+      - name: id
+        data_type: bigint
+        description: ""
+      - name: campaigncoop
+        data_type: boolean
+        description: ""
+      - name: dropin
+        data_type: boolean
+        description: ""
+      - name: game
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null
+      - name: lancoop
+        data_type: boolean
+        description: ""
+      - name: offlinecoop
+        data_type: boolean
+        description: ""
+      - name: onlinecoop
+        data_type: boolean
+        description: ""
+      - name: platform
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null
+      - name: splitscreen
+        data_type: boolean
+        description: ""
+      - name: checksum
+        data_type: character varying
+        description: ""
+      - name: offlinemax
+        data_type: bigint
+        description: ""
+      - name: onlinemax
+        data_type: bigint
+        description: ""
+      - name: onlinecoopmax
+        data_type: bigint
+        description: ""
+      - name: offlinecoopmax
+        data_type: bigint
+        description: ""

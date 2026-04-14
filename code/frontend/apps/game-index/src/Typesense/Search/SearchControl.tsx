@@ -1,94 +1,71 @@
-import { Flex, Box, Text, Button } from "ui";
-import { useSearch, useNavigate } from "@tanstack/react-router";
-import { Route } from "@src/routes/search";
+import { Flex, Box, Button, Select } from "ui";
 
-const SORT_FIELD_OPTIONS = [
-    { label: "Relevancy", value: "relevancy" },
-    { label: "First Release Date", value: "first_release_date" },
-] as const;
+export type SortFieldOption = {
+    label: string;
+    value: string;
+};
 
-const SORT_DIRECTION_OPTIONS = [
-    { label: "Ascending", value: "asc" },
-    { label: "Descending", value: "desc" },
-] as const;
+const DEFAULT_SORT_FIELD_OPTIONS: SortFieldOption[] = [{ label: "Relevancy", value: "relevancy" }];
+type SortDirection = "asc" | "desc";
 
-type SortField = (typeof SORT_FIELD_OPTIONS)[number]["value"];
-type SortDirection = (typeof SORT_DIRECTION_OPTIONS)[number]["value"];
+type SortControlsProps = {
+    currentSort?: string;
+    sortFieldOptions?: SortFieldOption[];
+    onSortChange: (nextSort: string) => void;
+};
 
-const RELEVANCY_SORT = "aggregated_rating:desc";
-
-export function SortControls() {
-    const search = useSearch({ from: Route.fullPath });
-    const navigate = useNavigate({ from: Route.fullPath });
-
-    const currentSort = search.sort ?? RELEVANCY_SORT;
-    const parsed = currentSort.match(/^([^:]+):(asc|desc)$/);
-
-    const field: SortField =
-        parsed?.[1] === "first_release_date" ? "first_release_date" : "relevancy";
+export function SortControls({
+    currentSort,
+    sortFieldOptions = DEFAULT_SORT_FIELD_OPTIONS,
+    onSortChange,
+}: SortControlsProps) {
+    const parsed = currentSort?.match(/^([^:]+):(asc|desc)$/);
+    const field: string = parsed?.[1] ?? "relevancy";
     const direction: SortDirection = parsed?.[2] === "asc" ? "asc" : "desc";
     const isSortableField = field !== "relevancy";
 
-    const setSort = (nextSort: string) => {
-        navigate({
-            search: (prev) => ({ ...prev, sort: nextSort, page: 1 }),
-            replace: true,
-        });
-    };
+    const isValidField =
+        field === "relevancy" || sortFieldOptions.some((option) => option.value === field);
+    const displayField = isValidField ? field : "relevancy";
 
-    const onFieldChange = (nextField: SortField) => {
+    const onFieldChange = (nextField: string) => {
         if (nextField === "relevancy") {
-            setSort(RELEVANCY_SORT);
+            onSortChange("relevancy");
             return;
         }
 
-        setSort(`${nextField}:${direction}`);
+        onSortChange(`${nextField}:${direction}`);
     };
 
     const onDirectionChange = (nextDirection: SortDirection) => {
         if (!isSortableField) return;
-        setSort(`${field}:${nextDirection}`);
+        onSortChange(`${field}:${nextDirection}`);
     };
 
     return (
-        <Flex gap="sm" wrap="wrap" mb="sm" align="end">
-            <Box minW={{ base: "100%", sm: "13rem" }}>
-                <Text fontSize="xs" color="fg.muted" mb="xs">
-                    Sort field
-                </Text>
-                <Flex gap="xs" wrap="wrap">
-                    {SORT_FIELD_OPTIONS.map((option) => (
-                        <Button
-                            key={option.value}
-                            size="sm"
-                            variant={field === option.value ? "solid" : "outline"}
-                            onClick={() => onFieldChange(option.value)}
-                        >
-                            {option.label}
-                        </Button>
-                    ))}
-                </Flex>
+        <Flex gap="sm" wrap="nowrap" align="end">
+            <Box minW={{ base: "10rem", sm: "13rem" }}>
+                <Select.Root
+                    size="sm"
+                    value={displayField}
+                    onChange={(value) => onFieldChange(value)}
+                    items={sortFieldOptions.map((option) => ({
+                        label: option.label,
+                        value: option.value,
+                    }))}
+                />
             </Box>
 
-            <Box minW={{ base: "100%", sm: "11rem" }}>
-                <Text fontSize="xs" color="fg.muted" mb="xs">
-                    Direction
-                </Text>
-                <Flex gap="xs" wrap="wrap">
-                    {SORT_DIRECTION_OPTIONS.map((option) => (
-                        <Button
-                            key={option.value}
-                            size="sm"
-                            variant={
-                                direction === option.value && isSortableField ? "solid" : "outline"
-                            }
-                            disabled={!isSortableField}
-                            onClick={() => onDirectionChange(option.value)}
-                        >
-                            {option.label}
-                        </Button>
-                    ))}
-                </Flex>
+            <Box>
+                <Button
+                    size="sm"
+                    variant="outline"
+                    disabled={!isSortableField}
+                    onClick={() => onDirectionChange(direction === "asc" ? "desc" : "asc")}
+                    minW="3rem"
+                >
+                    {direction === "asc" ? "↑" : "↓"}
+                </Button>
             </Box>
         </Flex>
     );

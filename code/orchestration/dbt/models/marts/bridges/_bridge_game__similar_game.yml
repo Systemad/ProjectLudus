@@ -21,6 +21,10 @@ models:
       - name: game_id
         data_type: bigint
         description: "The game that has a similar game relationship."
+        tests:
+          - not_null
       - name: similar_game_id
         data_type: bigint
         description: "The similar game referenced by the relationship."
+        tests:
+          - not_null
