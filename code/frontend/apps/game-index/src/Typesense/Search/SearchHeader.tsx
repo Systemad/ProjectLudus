@@ -7,32 +7,29 @@ type SearchHeaderProps = {
     searchPlaceholder: string;
     indexName: string;
     sortFieldOptions: SortFieldOption[];
+    defaultSort: string;
 };
 
 export function SearchHeader({
     searchPlaceholder,
     indexName,
     sortFieldOptions,
+    defaultSort,
 }: SearchHeaderProps) {
-    const isItems = [
-        { label: "Relevancy", value: indexName },
-        ...sortFieldOptions
-            .filter((o) => o.value !== "relevancy")
-            .flatMap((o) => [
-                { label: `${o.label} ↑`, value: `${indexName}/sort/${o.value}:asc` },
-                { label: `${o.label} ↓`, value: `${indexName}/sort/${o.value}:desc` },
-            ]),
-    ];
+    const isItems = sortFieldOptions.flatMap((option) => [
+        { label: `${option.label} ↑`, value: `${indexName}/sort/${option.value}:asc` },
+        { label: `${option.label} ↓`, value: `${indexName}/sort/${option.value}:desc` },
+    ]);
 
     const { currentRefinement, refine } = useSortBy({ items: isItems });
 
     const currentSort =
-        currentRefinement === indexName
-            ? "relevancy"
-            : currentRefinement.replace(`${indexName}/sort/`, "");
+        currentRefinement && currentRefinement.startsWith(`${indexName}/sort/`)
+            ? currentRefinement.replace(`${indexName}/sort/`, "")
+            : defaultSort;
 
     const onSortChange = (next: string) => {
-        refine(next === "relevancy" ? indexName : `${indexName}/sort/${next}`);
+        refine(`${indexName}/sort/${next}`);
     };
 
     return (

@@ -1,17 +1,15 @@
 import { Box, Flex, Heading, Image, Text } from "ui";
-import {
-    getCompanyLogoUrl,
-    getCompanyStatusLabel,
-    type CompanySearchHit,
-} from "./companySearchUtils";
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { SearchHitCardFrame } from "./SearchHitCardFrame";
+import type { CompanySearchHit } from "../utils/hits";
+import { getCompanyStatusLabel } from "../utils/searchUtils";
 
 type CompanyHitCardProps = {
     hit: CompanySearchHit;
 };
 
 export function CompanyHitCard({ hit }: CompanyHitCardProps) {
-    const imageUrl = getCompanyLogoUrl(hit.logo_url);
+    const imageUrl = getIGDBImageUrl(hit.logo_url, "logo_med");
 
     return (
         <SearchHitCardFrame>

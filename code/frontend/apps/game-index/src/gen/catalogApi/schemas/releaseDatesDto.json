@@ -1,9 +1,1 @@
-{
-    "required": ["releaseDate", "region"],
-    "type": "object",
-    "properties": {
-        "releaseDate": { "type": ["null", "integer"], "format": "int64" },
-        "region": { "type": ["null", "string"] }
-    },
-    "x-readme-ref-name": "ReleaseDatesDto"
-}
+{"required":["releaseDate","region"],"type":"object","properties":{"releaseDate":{"type":["null","integer"],"format":"int64"},"region":{"type":["null","string"]}},"x-readme-ref-name":"ReleaseDatesDto"}

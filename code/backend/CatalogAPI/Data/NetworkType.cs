@@ -13,7 +13,7 @@ public partial class NetworkType
 
     public string? Name { get; set; }
 
-    public string? EventNetworks { get; set; }
+    public string EventNetworks { get; set; } = null!;
 
     public string? Checksum { get; set; }
 

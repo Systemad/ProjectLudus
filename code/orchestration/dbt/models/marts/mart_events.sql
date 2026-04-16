@@ -13,12 +13,12 @@ with
             start_time,
             time_zone,
             live_stream_url,
-            games,
+            coalesce(games, '[]'::jsonb) as games,
             checksum,
             end_time,
             description,
-            videos,
-            event_networks
+            coalesce(videos, '[]'::jsonb) as videos,
+            coalesce(event_networks, '[]'::jsonb) as event_networks
 
         from source
 

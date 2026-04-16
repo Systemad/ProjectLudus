@@ -36,24 +36,32 @@ public partial class GamesSearchDto
 
     public string? CoverUrl { get; set; }
 
-    public List<string> Themes { get; set; } = new();
+    [Required]
+    public required List<string> Themes { get; set; } = [];
 
-    public List<string> Genres { get; set; } = new();
+    [Required]
+    public required List<string> Genres { get; set; } = [];
 
-    public List<string> GameModes { get; set; } = new();
+    [Required]
+    public required List<string> GameModes { get; set; } = [];
 
-    public List<string> Platforms { get; set; } = new();
+    [Required]
+    public required List<string> Platforms { get; set; } = [];
 
-    public List<string> GameEngines { get; set; } = new();
+    [Required]
+    public required List<string> GameEngines { get; set; } = [];
 
-    public List<string> PlayerPerspectives { get; set; } = new();
+    [Required]
+    public required List<string> PlayerPerspectives { get; set; } = [];
 
-    public List<string> Publishers { get; set; } = new();
+    [Required]
+    public required List<string> Publishers { get; set; } = [];
 
-    public List<string> Developers { get; set; } = new();
+    [Required]
+    public required List<string> Developers { get; set; } = [];
 
-    public List<string> MultiplayerModes { get; set; } = new();
-
+    [Required]
+    public required List<string> MultiplayerModes { get; set; } = [];
     public long? TotalVisits { get; set; }
 
     public double? IgdbVisits { get; set; }

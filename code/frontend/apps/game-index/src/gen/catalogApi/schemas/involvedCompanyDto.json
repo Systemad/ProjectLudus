@@ -1,11 +1,1 @@
-{
-    "required": ["name", "slug", "published", "developed"],
-    "type": "object",
-    "properties": {
-        "name": { "type": "string" },
-        "slug": { "type": "string" },
-        "published": { "type": "boolean" },
-        "developed": { "type": "boolean" }
-    },
-    "x-readme-ref-name": "InvolvedCompanyDto"
-}
+{"required":["name","slug","published","developed"],"type":"object","properties":{"name":{"type":"string"},"slug":{"type":"string"},"published":{"type":"boolean"},"developed":{"type":"boolean"}},"x-readme-ref-name":"InvolvedCompanyDto"}

@@ -1,5 +1,5 @@
 "use client";
-import { Box, HStack, Tag, Text, VStack, Wrap } from "ui";
+import { Box, HStack, Tag, Text, VStack, Wrap, For } from "ui";
 import { sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
 
@@ -22,31 +22,31 @@ function OverviewPanel({
 }: Props) {
     return (
         <VStack align="stretch" gap={6}>
-            {platforms.length > 0 && (
-                <Box>
-                    <Text {...sectionMetaStyle} mb={3}>
-                        PLATFORMS
-                    </Text>
-                    <VStack align="stretch" gap={2}>
-                        {platforms.map((platform) => (
+            <Box>
+                <Text {...sectionMetaStyle} mb={3}>
+                    PLATFORMS
+                </Text>
+                <VStack align="stretch" gap={2}>
+                    <For each={platforms}>
+                        {(platform) => (
                             <HStack key={platform} gap="xs">
                                 <PlatformIcon type={platform} />
                                 <Text color="fg.subtle" fontSize="sm">
                                     {platform}
                                 </Text>
                             </HStack>
-                        ))}
-                    </VStack>
-                </Box>
-            )}
+                        )}
+                    </For>
+                </VStack>
+            </Box>
 
-            {modes.length > 0 && (
-                <Box>
-                    <Text {...sectionMetaStyle} mb={3}>
-                        GAME MODES
-                    </Text>
-                    <Wrap gap="xs">
-                        {modes.map((mode) => (
+            <Box>
+                <Text {...sectionMetaStyle} mb={3}>
+                    GAME MODES
+                </Text>
+                <Wrap gap="xs">
+                    <For each={modes}>
+                        {(mode) => (
                             <Tag
                                 key={mode}
                                 variant="subtle"
@@ -56,18 +56,18 @@ function OverviewPanel({
                             >
                                 {mode}
                             </Tag>
-                        ))}
-                    </Wrap>
-                </Box>
-            )}
+                        )}
+                    </For>
+                </Wrap>
+            </Box>
 
-            {(genres.length > 0 || themes.length > 0) && (
-                <Box>
-                    <Text {...sectionMetaStyle} mb={3}>
-                        GENRES & THEMES
-                    </Text>
-                    <Wrap gap="xs">
-                        {[...genres, ...themes].map((item) => (
+            <Box>
+                <Text {...sectionMetaStyle} mb={3}>
+                    GENRES & THEMES
+                </Text>
+                <Wrap gap="xs">
+                    <For each={[...genres, ...themes]}>
+                        {(item) => (
                             <Tag
                                 key={item}
                                 variant="surface"
@@ -77,10 +77,10 @@ function OverviewPanel({
                             >
                                 {item}
                             </Tag>
-                        ))}
-                    </Wrap>
-                </Box>
-            )}
+                        )}
+                    </For>
+                </Wrap>
+            </Box>
 
             {playerPerspectives.length > 0 && (
                 <Box>

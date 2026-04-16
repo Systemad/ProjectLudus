@@ -2,12 +2,7 @@ import { Box, Image, Text, VStack, Card } from "ui";
 import { Link } from "@tanstack/react-router";
 import type { GamesSearchDto } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
-
-function getCoverImageUrl(coverUrl?: string | null) {
-    if (!coverUrl) return "";
-    if (coverUrl.startsWith("http")) return coverUrl;
-    return `https://images.igdb.com/igdb/image/upload/t_cover_big/${coverUrl}.jpg`;
-}
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 export function SteamCard({ game }: { game: GamesSearchDto }) {
     return (
@@ -27,7 +22,7 @@ export function SteamCard({ game }: { game: GamesSearchDto }) {
             >
                 <Box position="relative" maxH="80" w="full">
                     <Image
-                        src={getCoverImageUrl(game.coverUrl ?? undefined)}
+                        src={getIGDBImageUrl(game.coverUrl)}
                         alt={game.name ?? "Game cover"}
                         w="full"
                         h="full"

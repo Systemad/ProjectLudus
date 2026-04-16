@@ -13,7 +13,7 @@ public partial class AgeRating
 
     public long? RatingCategory { get; set; }
 
-    public string? RatingContentDescriptions { get; set; }
+    public string RatingContentDescriptions { get; set; } = null!;
 
     public string? Synopsis { get; set; }
 

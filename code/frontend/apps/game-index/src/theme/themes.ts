@@ -1,4 +1,5 @@
-import { defineConfig, defineSemanticTokens, defineStyles, extendTheme, type UsageTheme } from "ui";
+import { defineConfig, defineStyles, extendTheme, type UsageTheme } from "ui";
+import { colors } from "./colors";
 
 export const config = defineConfig({
     css: { varPrefix: "ui" },
@@ -7,42 +8,6 @@ export const config = defineConfig({
     defaultThemeScheme: "base",
     notice: { duration: 5000 },
     theme: { responsive: true },
-});
-
-const colors = defineSemanticTokens.colors({
-    bg: {
-        base: ["gray.950", "gray.950"],
-        panel: ["gray.900", "gray.900"],
-        float: ["transparentize(gray.900, 42%)", "transparentize(gray.900, 42%)"],
-        muted: ["gray.900", "gray.900"],
-        subtle: ["gray.800", "gray.800"],
-        emphasized: ["gray.700", "gray.700"],
-    },
-    fg: {
-        base: ["gray.50", "gray.50"],
-        contrast: ["#2d2100", "#2d2100"],
-        muted: ["gray.300", "gray.300"],
-        subtle: ["gray.400", "gray.400"],
-        emphasized: ["white", "white"],
-    },
-    border: {
-        base: ["whiteAlpha.200", "whiteAlpha.200"],
-        subtle: ["whiteAlpha.100", "whiteAlpha.100"],
-        emphasized: ["whiteAlpha.300", "whiteAlpha.300"],
-        contrast: ["yellow.500", "yellow.400"],
-    },
-});
-
-const colorSchemes = defineSemanticTokens.colorSchemes({
-    danger: "red",
-    error: "red",
-    info: "blue",
-    link: "yellow",
-    mono: ["black", "white"],
-    primary: "yellow",
-    secondary: "gray",
-    success: "green",
-    warning: "orange",
 });
 
 const layerStyles = defineStyles.layerStyle({
@@ -97,8 +62,7 @@ export const theme = extendTheme({
         mono: '"Manrope", ui-monospace, SFMono-Regular, monospace',
     },
     semanticTokens: {
-        colorSchemes,
-        //colors,
+        colors,
     },
     styles: {
         globalStyle,

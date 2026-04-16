@@ -11,7 +11,7 @@ public partial class Franchise
 
     public long? UpdatedAt { get; set; }
 
-    public string? Games { get; set; }
+    public string Games { get; set; } = null!;
 
     public string? Name { get; set; }
 

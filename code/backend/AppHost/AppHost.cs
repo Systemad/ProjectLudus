@@ -50,7 +50,7 @@ var catalogDb = postgres.AddDatabase("catalogdev");
 var playDb = postgres.AddDatabase("playdev");
 
 var typesense = builder
-    .AddContainer("typesense", "typesense/typesense:30.2.rc9")
+    .AddContainer("typesense", "typesense/typesense:30.2.rc12")
     .WithEndpoint(
         "http",
         c =>

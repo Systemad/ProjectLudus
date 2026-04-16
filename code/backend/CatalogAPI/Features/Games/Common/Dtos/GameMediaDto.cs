@@ -1,9 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CatalogAPI.Features.Games.Common.Dtos;
 
 public class GameMediaDto
 {
-    public List<string>? Screenshots { get; init; }
-    public List<GameMediaVideoDto>? Videos { get; init; }
+    [Required]
+    public required List<string> Screenshots { get; set; } = [];
+
+    [Required]
+    public required List<GameMediaVideoDto> Videos { get; set; } = [];
 }
 
-public record GameMediaVideoDto(string? Name, string? VideoId);
+public record GameMediaVideoDto([Required] string Name, [Required] string VideoId);

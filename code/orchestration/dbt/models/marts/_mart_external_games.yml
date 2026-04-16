@@ -79,6 +79,8 @@ models:
       - name: countries
         data_type: jsonb
         description: ""
+        constraints:
+          - type: not_null
       - name: game_release_format
         data_type: bigint
         description: ""

@@ -16,6 +16,7 @@ type SearchPageLayoutProps<THit extends Record<string, unknown>> = {
     searchPlaceholder: string;
     indexName: string;
     sortFieldOptions: SortFieldOption[];
+    defaultSort: string;
     facets: SearchFacetConfig[];
     hitComponent: NonNullable<HitsProps<THit>["hitComponent"]>;
 };
@@ -24,6 +25,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
     searchPlaceholder,
     indexName,
     sortFieldOptions,
+    defaultSort,
     facets,
     hitComponent,
 }: SearchPageLayoutProps<THit>) {
@@ -146,6 +148,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         searchPlaceholder={searchPlaceholder}
                         indexName={indexName}
                         sortFieldOptions={sortFieldOptions}
+                        defaultSort={defaultSort}
                     />
 
                     <Button

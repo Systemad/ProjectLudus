@@ -38,23 +38,23 @@ public partial class GamesSearch
 
     public string? CoverUrl { get; set; }
 
-    public List<string>? Themes { get; set; }
+    public List<string> Themes { get; set; } = null!;
 
-    public List<string>? Genres { get; set; }
+    public List<string> Genres { get; set; } = null!;
 
-    public List<string>? GameModes { get; set; }
+    public List<string> GameModes { get; set; } = null!;
 
-    public List<string>? Platforms { get; set; }
+    public List<string> Platforms { get; set; } = null!;
 
-    public List<string>? GameEngines { get; set; }
+    public List<string> GameEngines { get; set; } = null!;
 
-    public List<string>? PlayerPerspectives { get; set; }
+    public List<string> PlayerPerspectives { get; set; } = null!;
 
-    public List<string>? Publishers { get; set; }
+    public List<string> Publishers { get; set; } = null!;
 
-    public List<string>? Developers { get; set; }
+    public List<string> Developers { get; set; } = null!;
 
-    public List<string>? MultiplayerModes { get; set; }
+    public List<string> MultiplayerModes { get; set; } = null!;
 
     public long? TotalVisits { get; set; }
 

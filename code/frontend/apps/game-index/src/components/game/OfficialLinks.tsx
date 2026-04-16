@@ -1,7 +1,6 @@
 "use client";
 
-import { Button, GlobeIcon, Gamepad2Icon, Grid, HStack, Icon, Text } from "ui";
-import { CardSurface } from "../layout/Card";
+import { Button, GlobeIcon, Gamepad2Icon, Grid, HStack, Icon, Text, Box } from "ui";
 import { platformIconMap } from "@src/icons/platformIconMap";
 import type { WebsiteDto } from "@src/gen/catalogApi";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
@@ -11,7 +10,7 @@ type Props = {
 
 export function OfficialLinks({ websites }: Props) {
     return (
-        <CardSurface variant="translucent" p={6}>
+        <Box>
             <Text {...sectionLabelStyle} mb={3}>
                 Official Links
             </Text>
@@ -58,6 +57,6 @@ export function OfficialLinks({ websites }: Props) {
                     No official links available.
                 </Text>
             )}
-        </CardSurface>
+        </Box>
     );
 }

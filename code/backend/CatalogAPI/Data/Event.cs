@@ -23,7 +23,7 @@ public partial class Event
 
     public string? LiveStreamUrl { get; set; }
 
-    public string? Games { get; set; }
+    public string Games { get; set; } = null!;
 
     public string? Checksum { get; set; }
 
@@ -31,9 +31,9 @@ public partial class Event
 
     public string? Description { get; set; }
 
-    public string? Videos { get; set; }
+    public string Videos { get; set; } = null!;
 
-    public string? EventNetworks { get; set; }
+    public string EventNetworks { get; set; } = null!;
 
     public virtual EventLogo? EventLogoNavigation { get; set; }
 

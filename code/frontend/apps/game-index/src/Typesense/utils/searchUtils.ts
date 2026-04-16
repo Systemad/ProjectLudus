@@ -1,19 +1,4 @@
-export type GameSearchHit = {
-    id: string;
-    name?: string;
-    cover_url?: string;
-    aggregated_rating?: number;
-    aggregated_rating_count?: number;
-    developers?: string[] | string;
-    release_year?: number;
-    first_release_date?: number | string;
-};
-
-export function getCoverImageUrl(coverUrl?: string) {
-    if (!coverUrl) return "";
-    if (coverUrl.startsWith("http")) return coverUrl;
-    return `https://images.igdb.com/igdb/image/upload/t_cover_big/${coverUrl}.jpg`;
-}
+import type { GameSearchHit } from "./hits";
 
 export function getReleaseYear(hit: GameSearchHit) {
     if (typeof hit.release_year === "number") return String(hit.release_year);
@@ -39,4 +24,8 @@ export function getDevelopersLabel(developers?: string[] | string) {
         return developers.slice(0, 2).join(", ");
     }
     return developers;
+}
+
+export function getCompanyStatusLabel(status?: string) {
+    return status && status.trim().length > 0 ? status : "Unknown";
 }

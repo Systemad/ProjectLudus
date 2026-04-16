@@ -1,11 +1,1 @@
-{
-    "required": ["name", "type", "url", "trusted"],
-    "type": "object",
-    "properties": {
-        "name": { "type": ["null", "string"] },
-        "type": { "type": ["null", "string"] },
-        "url": { "type": ["null", "string"] },
-        "trusted": { "type": ["null", "boolean"] }
-    },
-    "x-readme-ref-name": "WebsiteDto"
-}
+{"required":["name","type","url","trusted"],"type":"object","properties":{"name":{"type":"string"},"type":{"type":["null","string"]},"url":{"type":"string"},"trusted":{"type":["null","boolean"]}},"x-readme-ref-name":"WebsiteDto"}

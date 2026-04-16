@@ -14,7 +14,7 @@ with
             category,
             media,
             platform,
-            countries,
+            coalesce(countries, '[]'::jsonb) as countries,
             external_game_source,
             game_release_format
 

@@ -1,6 +1,6 @@
 import { useDebouncedCallback } from "@mantine/hooks";
 import { Flex, Input } from "ui";
-import { useEffect, useState } from "react";
+import { useDeferredValue, useState } from "react";
 import { useSearchBox } from "react-instantsearch";
 
 const SEARCH_DEBOUNCE_MS = 250;
@@ -13,11 +13,8 @@ type SearchInputProps = {
 export function SearchInput({ placeholder = "Search...", compact = false }: SearchInputProps) {
     const { query, refine } = useSearchBox();
     const [inputValue, setInputValue] = useState(query);
+    const deferredInputValue = useDeferredValue(inputValue);
     const debouncedRefine = useDebouncedCallback((v: string) => refine(v), SEARCH_DEBOUNCE_MS);
-
-    useEffect(() => {
-        setInputValue(query);
-    }, [query]);
 
     return (
         <Flex
@@ -29,7 +26,7 @@ export function SearchInput({ placeholder = "Search...", compact = false }: Sear
         >
             <Input
                 placeholder={placeholder}
-                value={inputValue}
+                value={deferredInputValue}
                 onChange={(event) => {
                     const nextValue = event.currentTarget.value;
                     setInputValue(nextValue);

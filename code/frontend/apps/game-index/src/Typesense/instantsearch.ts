@@ -1,10 +1,10 @@
 import TypesenseInstantSearchAdapter from "typesense-instantsearch-adapter";
 
-export const GAMES_SEARCH_INDEX_NAME = "search___games_search";
-export const COMPANIES_SEARCH_INDEX_NAME = "company_search___company_search";
+export const GAMES_SEARCH_INDEX_NAME = "games___games_search";
+export const COMPANIES_SEARCH_INDEX_NAME = "companies___company_search";
 // process.env.NEXT_PUBLIC_TYPESENSE_API_KEY
 const baseServerConfig = {
-    apiKey: "qH3qAqXoEkRxKZcJDJeGe4bIm5g5ObnT",
+    apiKey: "I05YOA0UHZDjTBHvK7xcOrPY1zBP2eLv",
     nodes: [
         {
             host: "localhost",
@@ -31,6 +31,7 @@ export const companiesSearchClient = new TypesenseInstantSearchAdapter({
     additionalSearchParameters: {
         query_by: "name,status",
         query_by_weights: "12,4",
+        sort_by: "games_published_count:desc",
         text_match_type: "max_score",
     },
 }).searchClient;

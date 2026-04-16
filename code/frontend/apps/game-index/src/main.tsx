@@ -8,7 +8,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 
 import { router, queryClient } from "./router";
 import { UIProvider } from "ui";
-import { config, theme } from "./theme";
+import { config, theme } from "./theme/themes";
 
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

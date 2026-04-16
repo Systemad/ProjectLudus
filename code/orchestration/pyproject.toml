@@ -15,7 +15,8 @@ dependencies = [
     "dbt-core>=1.11.7",
     "dbt-postgres>=1.10.0",
     "typesense>=2.0.0",
-    "dlt-typesense @ git+https://github.com/marcopesani/dlt-typesense.git@main",
+    "dlt-typesense",
+    #"dlt-typesense @ file://${PACKAGE_ROOT}/lib/dlt-typesense",
     "psycopg[binary]>=3.2.0",
     "pyarrow>=23.0.1",
 ]
@@ -36,6 +37,12 @@ directory_type = "project"
 [tool.dg.project]
 root_module = "orchestration"
 registry_modules = ["orchestration.components.*"]
+
+[tool.uv.workspace]
+members = ["lib/dlt-typesense"]
+
+[tool.uv.sources]
+dlt-typesense = { workspace = true }
 
 [tool.hatch.metadata]
 allow-direct-references = true

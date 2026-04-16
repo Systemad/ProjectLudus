@@ -96,6 +96,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<LanguageSupportType> LanguageSupportTypes { get; set; }
 
+    public virtual DbSet<MartGamesSearchPopularityTest> MartGamesSearchPopularityTests { get; set; }
+
     public virtual DbSet<MultiplayerMode> MultiplayerModes { get; set; }
 
     public virtual DbSet<NetworkType> NetworkTypes { get; set; }
@@ -1635,6 +1637,29 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("name");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+        });
+
+        modelBuilder.Entity<MartGamesSearchPopularityTest>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("mart_games_search_popularity_test");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.IgdbPlayed).HasColumnName("igdb_played");
+            entity.Property(e => e.IgdbPlaying).HasColumnName("igdb_playing");
+            entity.Property(e => e.IgdbVisits).HasColumnName("igdb_visits");
+            entity.Property(e => e.IgdbWantToPlay).HasColumnName("igdb_want_to_play");
+            entity.Property(e => e.Name)
+                .HasColumnType("character varying")
+                .HasColumnName("name");
+            entity.Property(e => e.Steam24hrPeakPlayers).HasColumnName("steam_24hr_peak_players");
+            entity.Property(e => e.SteamGlobalTopSellers).HasColumnName("steam_global_top_sellers");
+            entity.Property(e => e.SteamMostWishlistedUpcoming).HasColumnName("steam_most_wishlisted_upcoming");
+            entity.Property(e => e.SteamNegativeReviews).HasColumnName("steam_negative_reviews");
+            entity.Property(e => e.SteamPositiveReviews).HasColumnName("steam_positive_reviews");
+            entity.Property(e => e.SteamTotalReviews).HasColumnName("steam_total_reviews");
+            entity.Property(e => e.Twitch24hrHoursWatched).HasColumnName("twitch_24hr_hours_watched");
         });
 
         modelBuilder.Entity<MultiplayerMode>(entity =>

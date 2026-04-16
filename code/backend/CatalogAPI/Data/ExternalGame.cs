@@ -29,7 +29,7 @@ public partial class ExternalGame
 
     public long? Platform { get; set; }
 
-    public string? Countries { get; set; }
+    public string Countries { get; set; } = null!;
 
     public long? GameReleaseFormat { get; set; }
 

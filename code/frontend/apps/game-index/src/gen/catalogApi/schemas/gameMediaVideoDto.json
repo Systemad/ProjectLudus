@@ -1,9 +1,1 @@
-{
-    "required": ["name", "videoId"],
-    "type": "object",
-    "properties": {
-        "name": { "type": ["null", "string"] },
-        "videoId": { "type": ["null", "string"] }
-    },
-    "x-readme-ref-name": "GameMediaVideoDto"
-}
+{"required":["name","videoId"],"type":"object","properties":{"name":{"type":"string"},"videoId":{"type":"string"}},"x-readme-ref-name":"GameMediaVideoDto"}

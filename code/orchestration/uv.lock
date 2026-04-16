@@ -8,6 +8,12 @@ resolution-markers = [
     "(python_full_version < '3.14' and platform_python_implementation == 'PyPy') or (python_full_version < '3.14' and sys_platform == 'emscripten')",
 ]
 
+[manifest]
+members = [
+    "dlt-typesense",
+    "orchestration",
+]
+
 [[package]]
 name = "about-time"
 version = "4.2.1"
@@ -795,14 +801,23 @@ wheels = [
 
 [[package]]
 name = "dlt-typesense"
-version = "0.1.0"
-source = { git = "https://github.com/marcopesani/dlt-typesense.git?rev=main#784d5221a5d848bf9217b7e219d23e4365ebd542" }
+version = "0.2.1"
+source = { editable = "lib/dlt-typesense" }
 dependencies = [
     { name = "black" },
     { name = "dlt" },
     { name = "flake8" },
     { name = "pytest" },
     { name = "typesense" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "black", specifier = ">=25.12.0" },
+    { name = "dlt", specifier = ">=1.20.0" },
+    { name = "flake8", specifier = ">=7.3.0" },
+    { name = "pytest", specifier = ">=9.0.2" },
+    { name = "typesense", specifier = ">=2.0.0" },
 ]
 
 [[package]]
@@ -1545,7 +1560,7 @@ requires-dist = [
     { name = "dagster-webserver", specifier = ">=1.12.20" },
     { name = "dbt-core", specifier = ">=1.11.7" },
     { name = "dbt-postgres", specifier = ">=1.10.0" },
-    { name = "dlt-typesense", git = "https://github.com/marcopesani/dlt-typesense.git?rev=main" },
+    { name = "dlt-typesense", editable = "lib/dlt-typesense" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.0" },
     { name = "pyarrow", specifier = ">=23.0.1" },
     { name = "typesense", specifier = ">=2.0.0" },

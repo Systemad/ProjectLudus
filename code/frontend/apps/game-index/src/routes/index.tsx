@@ -52,16 +52,6 @@ function RouteComponent() {
         params: { Limit: 25 },
     });
 
-    const totalIndexed = 360202;
-
-    const latestUpdatedAt = Math.max(
-        ...[...steamMostWishlisted.games, ...steamMostPlayed.games].map(
-            (game) => game.updatedAt ?? 0,
-        ),
-    );
-    const lastIndexedLabel =
-        latestUpdatedAt > 0 ? new Date(latestUpdatedAt * 1000).toLocaleDateString() : "Unknown";
-
     return (
         <Box maxW="6xl" mx="auto" w="full" px={{ base: "4", md: "6" }} py={{ base: "2", md: "2" }}>
             <VStack align="stretch" gap="md">
@@ -85,7 +75,7 @@ function RouteComponent() {
                                     Games Indexed
                                 </Text>
                                 <Text color="fg.base" fontSize="2xl" fontWeight="bold">
-                                    {Number(totalIndexed).toLocaleString()}
+                                    aaa
                                 </Text>
                             </CardSurface>
 
@@ -94,7 +84,7 @@ function RouteComponent() {
                                     Last Indexed
                                 </Text>
                                 <Text color="fg.base" fontSize="2xl" fontWeight="bold">
-                                    {lastIndexedLabel}
+                                    aaaaaaa
                                 </Text>
                             </CardSurface>
                         </SimpleGrid>
@@ -103,7 +93,7 @@ function RouteComponent() {
                 <Suspense fallback={<Loading.Rings color="blue.500" fontSize="5xl" />}>
                     <SimpleGrid columns={{ base: 1, lg: 2 }} gap="lg">
                         <GridItem>
-                            <CardSurface key={"1"} variant="panel" rounded="lg" p="md" minW={0}>
+                            <Box>
                                 <Text fontWeight="semibold" color="fg.base" mb="sm">
                                     Most Wishlisted Upcoming
                                 </Text>
@@ -128,7 +118,7 @@ function RouteComponent() {
                                     ])}
                                     hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
                                 />
-                            </CardSurface>
+                            </Box>
                         </GridItem>
                         <GridItem>
                             <CardSurface key={"2"} variant="panel" rounded="lg" p="md" minW={0}>

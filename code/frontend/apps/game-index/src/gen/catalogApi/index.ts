@@ -30,74 +30,21 @@ export type { GamePageReleaseDataDto } from "./types/GamePageReleaseDataDto.ts";
 export type { GameReleaseDto } from "./types/GameReleaseDto.ts";
 export type { GamesReleaseDateRangeResponse } from "./types/GamesReleaseDateRangeResponse.ts";
 export type { GamesSearchDto } from "./types/GamesSearchDto.ts";
-export type {
-    GetApiPopularityPopularitytypeid200,
-    GetApiPopularityPopularitytypeidPathParams,
-    GetApiPopularityPopularitytypeidQuery,
-    GetApiPopularityPopularitytypeidQueryParams,
-    GetApiPopularityPopularitytypeidQueryResponse,
-} from "./types/GetByIdEndpointsTypes/GetApiPopularityPopularitytypeid.ts";
-export type {
-    GetApiGamesReleaseDateRange200,
-    GetApiGamesReleaseDateRange400,
-    GetApiGamesReleaseDateRangeQuery,
-    GetApiGamesReleaseDateRangeQueryParams,
-    GetApiGamesReleaseDateRangeQueryResponse,
-} from "./types/GetByReleaseDateRangeEndpointTypes/GetApiGamesReleaseDateRange.ts";
+export type { GetApiPopularityPopularitytypeid200, GetApiPopularityPopularitytypeidPathParams, GetApiPopularityPopularitytypeidQuery, GetApiPopularityPopularitytypeidQueryParams, GetApiPopularityPopularitytypeidQueryResponse } from "./types/GetByIdEndpointsTypes/GetApiPopularityPopularitytypeid.ts";
+export type { GetApiGamesReleaseDateRange200, GetApiGamesReleaseDateRange400, GetApiGamesReleaseDateRangeQuery, GetApiGamesReleaseDateRangeQueryParams, GetApiGamesReleaseDateRangeQueryResponse } from "./types/GetByReleaseDateRangeEndpointTypes/GetApiGamesReleaseDateRange.ts";
 export type { GetCompanyGamesResponse } from "./types/GetCompanyGamesResponse.ts";
 export type { GetCompanyResponse } from "./types/GetCompanyResponse.ts";
-export type {
-    GetApiCompaniesCompanyid200,
-    GetApiCompaniesCompanyid404,
-    GetApiCompaniesCompanyidPathParams,
-    GetApiCompaniesCompanyidQuery,
-    GetApiCompaniesCompanyidQueryResponse,
-} from "./types/GetEndpointTypes/GetApiCompaniesCompanyid.ts";
-export type {
-    GetApiGamesGameidDetails200,
-    GetApiGamesGameidDetails404,
-    GetApiGamesGameidDetailsPathParams,
-    GetApiGamesGameidDetailsQuery,
-    GetApiGamesGameidDetailsQueryResponse,
-} from "./types/GetEndpointTypes/GetApiGamesGameidDetails.ts";
+export type { GetApiCompaniesCompanyid200, GetApiCompaniesCompanyid404, GetApiCompaniesCompanyidPathParams, GetApiCompaniesCompanyidQuery, GetApiCompaniesCompanyidQueryResponse } from "./types/GetEndpointTypes/GetApiCompaniesCompanyid.ts";
+export type { GetApiGamesGameidDetails200, GetApiGamesGameidDetails404, GetApiGamesGameidDetailsPathParams, GetApiGamesGameidDetailsQuery, GetApiGamesGameidDetailsQueryResponse } from "./types/GetEndpointTypes/GetApiGamesGameidDetails.ts";
 export type { GetGameMediaResponse } from "./types/GetGameMediaResponse.ts";
 export type { GetGameOverviewResponse } from "./types/GetGameOverviewResponse.ts";
-export type {
-    GetApiGamesGameidPageReleaseData200,
-    GetApiGamesGameidPageReleaseData404,
-    GetApiGamesGameidPageReleaseDataPathParams,
-    GetApiGamesGameidPageReleaseDataQuery,
-    GetApiGamesGameidPageReleaseDataQueryResponse,
-} from "./types/GetGamePageReleaseDataEndpointTypes/GetApiGamesGameidPageReleaseData.ts";
+export type { GetApiGamesGameidPageReleaseData200, GetApiGamesGameidPageReleaseData404, GetApiGamesGameidPageReleaseDataPathParams, GetApiGamesGameidPageReleaseDataQuery, GetApiGamesGameidPageReleaseDataQueryResponse } from "./types/GetGamePageReleaseDataEndpointTypes/GetApiGamesGameidPageReleaseData.ts";
 export type { GetGamePageReleaseDataResponse } from "./types/GetGamePageReleaseDataResponse.ts";
 export type { GetGameResponse } from "./types/GetGameResponse.ts";
-export type {
-    GetApiCompaniesCompanyidGames200,
-    GetApiCompaniesCompanyidGames404,
-    GetApiCompaniesCompanyidGamesPathParams,
-    GetApiCompaniesCompanyidGamesQuery,
-    GetApiCompaniesCompanyidGamesQueryResponse,
-} from "./types/GetGamesEndpointTypes/GetApiCompaniesCompanyidGames.ts";
-export type {
-    GetApiGamesGameidMedia200,
-    GetApiGamesGameidMedia404,
-    GetApiGamesGameidMediaPathParams,
-    GetApiGamesGameidMediaQuery,
-    GetApiGamesGameidMediaQueryResponse,
-} from "./types/GetMediaEndpointTypes/GetApiGamesGameidMedia.ts";
-export type {
-    GetApiGamesGameid200,
-    GetApiGamesGameid404,
-    GetApiGamesGameidPathParams,
-    GetApiGamesGameidQuery,
-    GetApiGamesGameidQueryResponse,
-} from "./types/GetOverviewEndpointTypes/GetApiGamesGameid.ts";
-export type {
-    GetApiGamesGameidSimilarGames200,
-    GetApiGamesGameidSimilarGamesPathParams,
-    GetApiGamesGameidSimilarGamesQuery,
-    GetApiGamesGameidSimilarGamesQueryResponse,
-} from "./types/GetSimilarGamesEndpointTypes/GetApiGamesGameidSimilarGames.ts";
+export type { GetApiCompaniesCompanyidGames200, GetApiCompaniesCompanyidGames404, GetApiCompaniesCompanyidGamesPathParams, GetApiCompaniesCompanyidGamesQuery, GetApiCompaniesCompanyidGamesQueryResponse } from "./types/GetGamesEndpointTypes/GetApiCompaniesCompanyidGames.ts";
+export type { GetApiGamesGameidMedia200, GetApiGamesGameidMedia404, GetApiGamesGameidMediaPathParams, GetApiGamesGameidMediaQuery, GetApiGamesGameidMediaQueryResponse } from "./types/GetMediaEndpointTypes/GetApiGamesGameidMedia.ts";
+export type { GetApiGamesGameid200, GetApiGamesGameid404, GetApiGamesGameidPathParams, GetApiGamesGameidQuery, GetApiGamesGameidQueryResponse } from "./types/GetOverviewEndpointTypes/GetApiGamesGameid.ts";
+export type { GetApiGamesGameidSimilarGames200, GetApiGamesGameidSimilarGamesPathParams, GetApiGamesGameidSimilarGamesQuery, GetApiGamesGameidSimilarGamesQueryResponse } from "./types/GetSimilarGamesEndpointTypes/GetApiGamesGameidSimilarGames.ts";
 export type { GetSimilarGamesResponse } from "./types/GetSimilarGamesResponse.ts";
 export type { HttpValidationProblemDetails } from "./types/HttpValidationProblemDetails.ts";
 export type { InvolvedCompanyDto } from "./types/InvolvedCompanyDto.ts";
@@ -194,59 +141,15 @@ export { gamePageReleaseDataDtoSchema } from "./zod/gamePageReleaseDataDtoSchema
 export { gameReleaseDtoSchema } from "./zod/gameReleaseDtoSchema.ts";
 export { gamesReleaseDateRangeResponseSchema } from "./zod/gamesReleaseDateRangeResponseSchema.ts";
 export { gamesSearchDtoSchema } from "./zod/gamesSearchDtoSchema.ts";
-export {
-    getApiCompaniesCompanyidGames200Schema,
-    getApiCompaniesCompanyidGames404Schema,
-    getApiCompaniesCompanyidGamesPathParamsSchema,
-    getApiCompaniesCompanyidGamesQueryResponseSchema,
-} from "./zod/getApiCompaniesCompanyidGamesSchema.ts";
-export {
-    getApiCompaniesCompanyid200Schema,
-    getApiCompaniesCompanyid404Schema,
-    getApiCompaniesCompanyidPathParamsSchema,
-    getApiCompaniesCompanyidQueryResponseSchema,
-} from "./zod/getApiCompaniesCompanyidSchema.ts";
-export {
-    getApiGamesGameidDetails200Schema,
-    getApiGamesGameidDetails404Schema,
-    getApiGamesGameidDetailsPathParamsSchema,
-    getApiGamesGameidDetailsQueryResponseSchema,
-} from "./zod/getApiGamesGameidDetailsSchema.ts";
-export {
-    getApiGamesGameidMedia200Schema,
-    getApiGamesGameidMedia404Schema,
-    getApiGamesGameidMediaPathParamsSchema,
-    getApiGamesGameidMediaQueryResponseSchema,
-} from "./zod/getApiGamesGameidMediaSchema.ts";
-export {
-    getApiGamesGameidPageReleaseData200Schema,
-    getApiGamesGameidPageReleaseData404Schema,
-    getApiGamesGameidPageReleaseDataPathParamsSchema,
-    getApiGamesGameidPageReleaseDataQueryResponseSchema,
-} from "./zod/getApiGamesGameidPageReleaseDataSchema.ts";
-export {
-    getApiGamesGameid200Schema,
-    getApiGamesGameid404Schema,
-    getApiGamesGameidPathParamsSchema,
-    getApiGamesGameidQueryResponseSchema,
-} from "./zod/getApiGamesGameidSchema.ts";
-export {
-    getApiGamesGameidSimilarGames200Schema,
-    getApiGamesGameidSimilarGamesPathParamsSchema,
-    getApiGamesGameidSimilarGamesQueryResponseSchema,
-} from "./zod/getApiGamesGameidSimilarGamesSchema.ts";
-export {
-    getApiGamesReleaseDateRange200Schema,
-    getApiGamesReleaseDateRange400Schema,
-    getApiGamesReleaseDateRangeQueryParamsSchema,
-    getApiGamesReleaseDateRangeQueryResponseSchema,
-} from "./zod/getApiGamesReleaseDateRangeSchema.ts";
-export {
-    getApiPopularityPopularitytypeid200Schema,
-    getApiPopularityPopularitytypeidPathParamsSchema,
-    getApiPopularityPopularitytypeidQueryParamsSchema,
-    getApiPopularityPopularitytypeidQueryResponseSchema,
-} from "./zod/getApiPopularityPopularitytypeidSchema.ts";
+export { getApiCompaniesCompanyidGames200Schema, getApiCompaniesCompanyidGames404Schema, getApiCompaniesCompanyidGamesPathParamsSchema, getApiCompaniesCompanyidGamesQueryResponseSchema } from "./zod/getApiCompaniesCompanyidGamesSchema.ts";
+export { getApiCompaniesCompanyid200Schema, getApiCompaniesCompanyid404Schema, getApiCompaniesCompanyidPathParamsSchema, getApiCompaniesCompanyidQueryResponseSchema } from "./zod/getApiCompaniesCompanyidSchema.ts";
+export { getApiGamesGameidDetails200Schema, getApiGamesGameidDetails404Schema, getApiGamesGameidDetailsPathParamsSchema, getApiGamesGameidDetailsQueryResponseSchema } from "./zod/getApiGamesGameidDetailsSchema.ts";
+export { getApiGamesGameidMedia200Schema, getApiGamesGameidMedia404Schema, getApiGamesGameidMediaPathParamsSchema, getApiGamesGameidMediaQueryResponseSchema } from "./zod/getApiGamesGameidMediaSchema.ts";
+export { getApiGamesGameidPageReleaseData200Schema, getApiGamesGameidPageReleaseData404Schema, getApiGamesGameidPageReleaseDataPathParamsSchema, getApiGamesGameidPageReleaseDataQueryResponseSchema } from "./zod/getApiGamesGameidPageReleaseDataSchema.ts";
+export { getApiGamesGameid200Schema, getApiGamesGameid404Schema, getApiGamesGameidPathParamsSchema, getApiGamesGameidQueryResponseSchema } from "./zod/getApiGamesGameidSchema.ts";
+export { getApiGamesGameidSimilarGames200Schema, getApiGamesGameidSimilarGamesPathParamsSchema, getApiGamesGameidSimilarGamesQueryResponseSchema } from "./zod/getApiGamesGameidSimilarGamesSchema.ts";
+export { getApiGamesReleaseDateRange200Schema, getApiGamesReleaseDateRange400Schema, getApiGamesReleaseDateRangeQueryParamsSchema, getApiGamesReleaseDateRangeQueryResponseSchema } from "./zod/getApiGamesReleaseDateRangeSchema.ts";
+export { getApiPopularityPopularitytypeid200Schema, getApiPopularityPopularitytypeidPathParamsSchema, getApiPopularityPopularitytypeidQueryParamsSchema, getApiPopularityPopularitytypeidQueryResponseSchema } from "./zod/getApiPopularityPopularitytypeidSchema.ts";
 export { getCompanyGamesResponseSchema } from "./zod/getCompanyGamesResponseSchema.ts";
 export { getCompanyResponseSchema } from "./zod/getCompanyResponseSchema.ts";
 export { getGameMediaResponseSchema } from "./zod/getGameMediaResponseSchema.ts";

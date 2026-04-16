@@ -60,7 +60,7 @@ public static class GetGamePageReleaseDataEndpoint
                     })
                     .ToList(),
             })
-            .SingleOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (releaseData is null)
             return Results.NotFound();

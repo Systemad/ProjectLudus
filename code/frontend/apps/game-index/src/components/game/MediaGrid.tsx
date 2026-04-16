@@ -1,68 +1,69 @@
 "use client";
 
-import { AspectRatio, Grid, Image, Text, Accordion } from "ui";
-import { CardSurface } from "../layout/Card";
+import { AspectRatio, Grid, Image, Accordion, For, EmptyState, BoxIcon } from "ui";
 import type { GameMediaVideoDto } from "@src/gen/catalogApi";
 
 type Props = {
-    sources: string[];
-    videos?: GameMediaVideoDto[];
+    screenshots: string[];
+    videos: GameMediaVideoDto[];
 };
 
-function MediaGrid({ sources, videos = [] }: Props) {
-    if (sources.length === 0 && videos.length === 0) {
-        return (
-            <CardSurface gridColumn={{ base: "span 1", md: "span 2" }} variant="translucent" p={6}>
-                <Text color="fg.subtle">No media available.</Text>
-            </CardSurface>
-        );
-    }
-
+function MediaGrid({ screenshots, videos }: Props) {
     return (
-        <CardSurface variant="translucent" p={6}>
-            <Accordion.Root defaultIndex={0} multiple toggle>
-                <Accordion.Item index={0} button="Screenshots">
-                    {sources.length > 0 && (
-                        <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
-                            {sources.map((src, index) => (
-                                <Image
-                                    key={`${src}-${index}`}
-                                    src={src}
-                                    alt={`Screenshot ${index + 1}`}
-                                    objectFit="cover"
-                                    w="full"
-                                    h="full"
-                                    borderRadius="xl"
+        <Accordion.Root defaultIndex={0} multiple toggle>
+            <Accordion.Item index={0} button="Screenshots">
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                    <For
+                        each={screenshots}
+                        fallback={
+                            <EmptyState.Root
+                                description="There are no items to show"
+                                indicator={<BoxIcon />}
+                            />
+                        }
+                    >
+                        {(screenshot, index) => {
+                            <Image
+                                key={`${screenshot}-${index}`}
+                                src={screenshot}
+                                alt={`Screenshot ${index + 1}`}
+                                objectFit="cover"
+                                w="full"
+                                h="full"
+                                borderRadius="xl"
+                            />;
+                        }}
+                    </For>
+                </Grid>
+            </Accordion.Item>
+            <Accordion.Item index={1} button="Videos">
+                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
+                    <For
+                        each={videos}
+                        fallback={
+                            <EmptyState.Root
+                                description="There are no items to show"
+                                indicator={<BoxIcon />}
+                            />
+                        }
+                    >
+                        {({ name, videoId }, index) => {
+                            <AspectRatio key={`${name}-${index}`} ratio={16 / 9}>
+                                <iframe
+                                    src={`https://www.youtube.com/embed/${videoId}`}
+                                    title={name ?? "Video"}
+                                    width="100%"
+                                    height="100%"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    style={{ borderRadius: "12px", border: "none" }}
                                 />
-                            ))}
-                        </Grid>
-                    )}
-                </Accordion.Item>
-                <Accordion.Item index={1} button="Videos">
-                    {videos.length > 0 && (
-                        <Grid
-                            templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-                            gap={4}
-                            mb={sources.length > 0 ? 6 : 0}
-                        >
-                            {videos.map((video) => (
-                                <AspectRatio key={video.videoId} ratio={16 / 9}>
-                                    <iframe
-                                        src={`https://www.youtube.com/embed/${video.videoId}`}
-                                        title={video.name ?? "Video"}
-                                        width="100%"
-                                        height="100%"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        style={{ borderRadius: "12px", border: "none" }}
-                                    />
-                                </AspectRatio>
-                            ))}
-                        </Grid>
-                    )}
-                </Accordion.Item>
-            </Accordion.Root>
-        </CardSurface>
+                            </AspectRatio>;
+                        }}
+                    </For>
+                </Grid>
+            </Accordion.Item>
+        </Accordion.Root>
     );
 }
 

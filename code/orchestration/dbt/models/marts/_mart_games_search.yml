@@ -49,22 +49,40 @@ models:
         data_type: character varying
       - name: themes
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: genres
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: game_modes
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: platforms
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: game_engines
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: player_perspectives
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: publishers
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: developers
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: multiplayer_modes
         data_type: text[]
+        constraints:
+          - type: not_null
       - name: total_visits
         data_type: bigint
       - name: igdb_visits

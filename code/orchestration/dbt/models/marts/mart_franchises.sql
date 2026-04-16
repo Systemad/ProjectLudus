@@ -3,7 +3,7 @@ with
 
     renamed as (
 
-        select id, created_at, updated_at, games, name, slug, url, checksum from source
+        select id, created_at, updated_at, coalesce(games, '[]'::jsonb) as games, name, slug, url, checksum from source
 
     )
 

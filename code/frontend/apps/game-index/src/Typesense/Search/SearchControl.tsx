@@ -5,40 +5,27 @@ export type SortFieldOption = {
     value: string;
 };
 
-const DEFAULT_SORT_FIELD_OPTIONS: SortFieldOption[] = [{ label: "Relevancy", value: "relevancy" }];
 type SortDirection = "asc" | "desc";
 
 type SortControlsProps = {
-    currentSort?: string;
-    sortFieldOptions?: SortFieldOption[];
+    currentSort: string;
+    sortFieldOptions: SortFieldOption[];
     onSortChange: (nextSort: string) => void;
 };
 
-export function SortControls({
-    currentSort,
-    sortFieldOptions = DEFAULT_SORT_FIELD_OPTIONS,
-    onSortChange,
-}: SortControlsProps) {
+export function SortControls({ currentSort, sortFieldOptions, onSortChange }: SortControlsProps) {
     const parsed = currentSort?.match(/^([^:]+):(asc|desc)$/);
-    const field: string = parsed?.[1] ?? "relevancy";
+    const fallbackField = sortFieldOptions[0]?.value ?? "";
+    const field = parsed?.[1] ?? fallbackField;
     const direction: SortDirection = parsed?.[2] === "asc" ? "asc" : "desc";
-    const isSortableField = field !== "relevancy";
-
-    const isValidField =
-        field === "relevancy" || sortFieldOptions.some((option) => option.value === field);
-    const displayField = isValidField ? field : "relevancy";
+    const isValidField = sortFieldOptions.some((option) => option.value === field);
+    const displayField = isValidField ? field : fallbackField;
 
     const onFieldChange = (nextField: string) => {
-        if (nextField === "relevancy") {
-            onSortChange("relevancy");
-            return;
-        }
-
         onSortChange(`${nextField}:${direction}`);
     };
 
     const onDirectionChange = (nextDirection: SortDirection) => {
-        if (!isSortableField) return;
         onSortChange(`${field}:${nextDirection}`);
     };
 
@@ -60,7 +47,6 @@ export function SortControls({
                 <Button
                     size="sm"
                     variant="outline"
-                    disabled={!isSortableField}
                     onClick={() => onDirectionChange(direction === "asc" ? "desc" : "asc")}
                     minW="3rem"
                 >

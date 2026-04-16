@@ -15,7 +15,6 @@ export function SearchHitCardFrame({ children }: SearchHitCardFrameProps) {
             gap="sm"
             p="sm"
             rounded="xl"
-            layerStyle="translucentPanel"
         >
             {children}
         </Box>
