@@ -2,6 +2,7 @@ import { SimpleTable } from "@src/components/layout/SimpleTable";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Box, Image, SimpleGrid, Text, VStack, Heading, GridItem, Loading } from "ui";
 import { CardSurface } from "@src/components/layout/Card";
+import { PageWrapper } from "@src/components/layout/PageWrapper";
 import {
     getApiPopularityPopularitytypeidSuspenseQueryOptionsHook,
     useGetApiPopularityPopularitytypeidSuspenseHook,
@@ -53,7 +54,7 @@ function RouteComponent() {
     });
 
     return (
-        <Box maxW="6xl" mx="auto" w="full" px={{ base: "4", md: "6" }} py={{ base: "2", md: "2" }}>
+        <PageWrapper py={{ base: "2", md: "2" }}>
             <VStack align="stretch" gap="md">
                 <CardSurface variant="translucent" p="md" textAlign="center">
                     <VStack gap="xs" align="center">
@@ -177,7 +178,7 @@ function RouteComponent() {
                     </SimpleGrid>
                 </Suspense>
             </VStack>
-        </Box>
+        </PageWrapper>
     );
 }
 

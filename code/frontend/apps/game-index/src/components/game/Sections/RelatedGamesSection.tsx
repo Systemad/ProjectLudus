@@ -1,9 +1,9 @@
 "use client";
 
 import type { GamesSearchDto } from "@src/gen/catalogApi";
-import { Box, Button, HStack, Text, Wrap } from "ui";
+import { Box, Button, HStack, Text, Wrap, For, EmptyState, Gamepad2Icon } from "ui";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
-import { RelatedGameImageCard } from "@src/components/game/RelatedGameImageCard";
+import { GameCard } from "@src/components/game/GameCard";
 
 type Props = {
     games: GamesSearchDto[];
@@ -23,9 +23,18 @@ export function RelatedGamesSection({ games }: Props) {
                 </Button>
             </HStack>
 
-            {games.length > 0 ? (
-                <Wrap gap={4}>
-                    {games.slice(0, 6).map((game) => (
+            <Wrap gap={4}>
+                <For
+                    each={games}
+                    limit={6}
+                    fallback={
+                        <EmptyState.Root
+                            description="No related games found"
+                            indicator={<Gamepad2Icon />}
+                        />
+                    }
+                >
+                    {(game) => (
                         <Box
                             key={String(game.id ?? game.name ?? "unknown")}
                             flexBasis={{
@@ -33,17 +42,14 @@ export function RelatedGamesSection({ games }: Props) {
                                 md: "calc(33.333% - 0.75rem)",
                                 lg: "calc(20% - 0.8rem)",
                             }}
-                            flexGrow={1}
                             minW={{ base: "9rem", sm: "10rem" }}
                             maxW={{ lg: "13rem" }}
                         >
-                            <RelatedGameImageCard game={game} />
+                            <GameCard game={game} />
                         </Box>
-                    ))}
-                </Wrap>
-            ) : (
-                <Text color="fg.subtle">No related games available.</Text>
-            )}
+                    )}
+                </For>
+            </Wrap>
         </Box>
     );
 }

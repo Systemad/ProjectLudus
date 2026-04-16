@@ -1,5 +1,5 @@
 import { Box, Button, Heading, HStack, Image, SimpleGrid, StarIcon, Text, VStack } from "ui";
-import type { Game } from "../../data/games";
+import type { Game } from "../../../data/games";
 
 type SimilarGamesSectionProps = {
     games: Game[];

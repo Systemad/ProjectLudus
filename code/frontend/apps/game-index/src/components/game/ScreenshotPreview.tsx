@@ -1,9 +1,19 @@
 "use client";
 
-import { Box, Button, Grid, Text, ChevronRightIcon, For, EmptyState, BoxIcon } from "ui";
-import { CardSurface } from "@src/components/layout/Card";
+import {
+    Box,
+    Button,
+    Text,
+    ChevronRightIcon,
+    For,
+    EmptyState,
+    BoxIcon,
+    Container,
+    Carousel,
+    Image,
+} from "ui";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
-import HoverImage from "../layout/HoverImage";
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
     screenshots: string[];
@@ -13,46 +23,60 @@ type Props = {
 
 export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Props) {
     return (
-        <CardSurface p={6} display={visible ? "block" : "none"}>
-            <Text {...sectionLabelStyle} mb={4}>
-                Screenshots
-            </Text>
+        <Container.Root
+            rounded="2xl"
+            variant="subtle"
+            display={visible ? "block" : "none"}
+            w="full"
+            minW={0}
+        >
+            <Container.Header>
+                <Text {...sectionLabelStyle}>Screenshots</Text>
+            </Container.Header>
 
-            <Grid
-                templateColumns={{ base: "1fr 1fr", md: "repeat(3, minmax(0,1fr))" }}
-                gap={3}
-                mb={4}
-            >
-                <For
-                    each={screenshots}
-                    limit={3}
-                    fallback={
-                        <EmptyState.Root
-                            description="No screenshots available"
-                            indicator={<BoxIcon />}
-                        />
-                    }
-                >
-                    {(screenshot, index) => {
-                        <HoverImage
-                            key={`${screenshot}-${index}`}
-                            src={screenshot}
-                            alt={`Screenshot ${index + 1}`}
-                        />;
-                    }}
-                </For>
-            </Grid>
-            <Box textAlign="right">
-                <Button
-                    variant="ghost"
-                    colorScheme="gray"
-                    size="sm"
-                    endIcon={<ChevronRightIcon boxSize="4" />}
-                    onClick={onViewAll}
-                >
-                    View all
-                </Button>
-            </Box>
-        </CardSurface>
+            <Container.Body w="full" minW={0} overflow="hidden">
+                <Carousel.Root size="sm" w="full" minW={0}>
+                    <Carousel.List>
+                        <For
+                            each={screenshots}
+                            limit={3}
+                            fallback={
+                                <EmptyState.Root
+                                    description="No screenshots available"
+                                    indicator={<BoxIcon />}
+                                />
+                            }
+                        >
+                            {(screenshot, index) => (
+                                <Image
+                                    key={`${screenshot}-${index}`}
+                                    src={getIGDBImageUrl(screenshot, "1080p")}
+                                    alt={`Screenshot ${index + 1}`}
+                                    w="full"
+                                    h="auto"
+                                    objectFit="cover"
+                                    display="block"
+                                />
+                            )}
+                        </For>
+                    </Carousel.List>
+                    <Carousel.PrevTrigger />
+                    <Carousel.NextTrigger />
+
+                    <Carousel.Indicators />
+                </Carousel.Root>
+                <Box textAlign="right">
+                    <Button
+                        variant="ghost"
+                        colorScheme="gray"
+                        size="sm"
+                        endIcon={<ChevronRightIcon boxSize="4" />}
+                        onClick={onViewAll}
+                    >
+                        View all
+                    </Button>
+                </Box>
+            </Container.Body>
+        </Container.Root>
     );
 }

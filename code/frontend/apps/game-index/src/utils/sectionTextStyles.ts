@@ -1,7 +1,7 @@
 export const linkStyle = { color: "inherit", textDecoration: "none" };
 
 export const sectionLabelStyle = {
-    fontSize: "sm",
+    fontSize: "xl",
     fontWeight: "semibold",
     color: "fg.emphasized",
     textTransform: "uppercase" as const,

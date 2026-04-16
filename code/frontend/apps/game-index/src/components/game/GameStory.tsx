@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { Box, Button, ChevronRightIcon, Text } from "ui";
+import { Box, Button, ChevronRightIcon, Text, Collapse, useBoolean, Container } from "ui";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
 
 type Props = {
@@ -9,39 +8,42 @@ type Props = {
 };
 
 export function GameStory({ storyText }: Props) {
-    const [expanded, setExpanded] = useState(false);
     const isLong = storyText.length > 280;
-
+    const [open, { toggle }] = useBoolean();
     return (
-        <Box>
-            <Text {...sectionLabelStyle} mb={3}>
-                Story
-            </Text>
-            <Text color="fg.subtle" lineHeight="tall" lineClamp={expanded ? undefined : 5}>
-                {storyText}
-            </Text>
-            {isLong ? (
-                <Box textAlign="right" mt="2">
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        disableRipple
-                        onClick={() => setExpanded((prev) => !prev)}
-                        endIcon={
-                            <ChevronRightIcon
-                                boxSize="4"
-                                transitionProperty="transform"
-                                transitionDuration="moderate"
-                                transform={expanded ? "rotate(90deg)" : "rotate(0deg)"}
-                            />
-                        }
-                    >
-                        {expanded ? "Show less" : "Read more"}
-                    </Button>
-                </Box>
-            ) : null}
-        </Box>
+        <Container.Root rounded="2xl" variant="subtle">
+            <Container.Header>
+                <Text {...sectionLabelStyle}>Story</Text>
+            </Container.Header>
+
+            <Container.Body>
+                <Collapse open={open} startingHeight={150}>
+                    <Text color="fg.subtle" lineHeight="tall">
+                        {storyText}
+                    </Text>
+                </Collapse>
+
+                {isLong ? (
+                    <Box textAlign="center">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            disableRipple
+                            onClick={toggle}
+                            endIcon={
+                                <ChevronRightIcon
+                                    boxSize="4"
+                                    transitionProperty="transform"
+                                    transitionDuration="moderate"
+                                    transform={open ? "rotate(90deg)" : "rotate(0deg)"}
+                                />
+                            }
+                        >
+                            {open ? "Read more" : "Show less"}
+                        </Button>
+                    </Box>
+                ) : null}
+            </Container.Body>
+        </Container.Root>
     );
 }
-
-export default GameStory;

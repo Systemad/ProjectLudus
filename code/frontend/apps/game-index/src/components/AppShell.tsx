@@ -17,7 +17,7 @@ export function AppShell({ active = "home", children, fullBleed = false }: AppSh
             {fullBleed ? (
                 <Box flex="1">{children}</Box>
             ) : (
-                <Box pt={{ base: "24", md: "28" }} px={{ base: "4", md: "6", xl: "8" }} flex="1">
+                <Box pt={{ base: "24", md: "28" }} flex="1">
                     {children}
                 </Box>
             )}

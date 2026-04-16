@@ -22,7 +22,7 @@ import { GameReleaseDates } from "@src/components/game/GameReleaseDates";
 import { GameStory } from "@src/components/game/GameStory";
 import { OfficialLinks } from "@src/components/game/OfficialLinks";
 import OverviewPanel from "@src/components/game/OverviewPanel";
-import { RelatedGamesSection } from "@src/components/game/RelatedGamesSection";
+import { RelatedGamesSection } from "@src/components/game/Sections/RelatedGamesSection";
 import { ScreenshotPreview } from "@src/components/game/ScreenshotPreview";
 import { linkStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import {
@@ -39,6 +39,7 @@ import {
 } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
+import { PageWrapper } from "@src/components/layout/PageWrapper";
 
 type Tab = "overview" | "official-links" | "media" | "details" | "release-dates";
 
@@ -96,14 +97,14 @@ function GameDetailPage() {
 
     if (!overview) {
         return (
-            <Box maxW="7xl" mx="auto" px={{ base: "4", md: "6" }} py="20">
+            <PageWrapper py="20">
                 <VStack align="center" gap="6">
                     <Heading>Game not found</Heading>
                     <Link to="/" style={linkStyle}>
                         <Button>Back to Home</Button>
                     </Link>
                 </VStack>
-            </Box>
+            </PageWrapper>
         );
     }
 
@@ -139,15 +140,23 @@ function GameDetailPage() {
                             alt=""
                             position="absolute"
                             inset={0}
+                            zIndex={0}
                             w="full"
                             h="full"
                             objectFit="cover"
-                            filter="blur(28px) brightness(0.3)"
+                            filter="blur(28px) brightness(0.45)"
                             transform="scale(1.1)"
                             pointerEvents="none"
                         />
                     )}
-                    <Box position="relative" maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py={8}>
+                    <Box
+                        position="absolute"
+                        inset={0}
+                        zIndex={1}
+                        bgGradient="linear(to-b, blackAlpha.450, blackAlpha.650)"
+                        pointerEvents="none"
+                    />
+                    <PageWrapper py="8" position="relative" zIndex={2}>
                         <HStack align="flex-start" gap={{ base: 4, md: 6 }}>
                             <Box
                                 flexShrink={0}
@@ -167,70 +176,98 @@ function GameDetailPage() {
                                 />
                             </Box>
 
-                            <VStack align="start" gap={2} flex={1} minW={0}>
-                                <Text color="fg.muted" fontSize="sm">
+                            <VStack align="start" gap={2} flex={1} minW={0} color="white">
+                                <Text color="white" fontSize="sm" opacity={0.95}>
                                     {formatReleaseDate(firstReleaseDate)}
                                 </Text>
                                 <Heading
                                     size={{ base: "2xl", md: "4xl" }}
-                                    color="fg.base"
+                                    color="white"
                                     lineHeight="1.1"
+                                    textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
                                 >
                                     {overview.name ?? "Untitled game"}
                                 </Heading>
                                 <Wrap gap="xs">
                                     <For each={overview.genres}>
-                                        {(genre) => {
+                                        {(genre) => (
                                             <Tag
                                                 key={genre}
-                                                variant="subtle"
+                                                variant="outline"
                                                 colorScheme="gray"
+                                                color="whiteAlpha.900"
+                                                borderColor="whiteAlpha.500"
+                                                bg="whiteAlpha.200"
                                                 size="sm"
                                                 textTransform="none"
                                             >
                                                 {genre}
-                                            </Tag>;
-                                        }}
+                                            </Tag>
+                                        )}
                                     </For>
                                 </Wrap>
                                 <HStack gap={6} mt={1} flexWrap="wrap">
                                     {developers.length > 0 && (
                                         <Box>
-                                            <Text {...sectionMetaStyle} fontSize="xs" mb="2xs">
+                                            <Text
+                                                {...sectionMetaStyle}
+                                                fontSize="xs"
+                                                color="white"
+                                                opacity={0.9}
+                                                mb="2xs"
+                                            >
                                                 DEVELOPER
                                             </Text>
-                                            <Text color="fg.subtle" fontSize="sm">
+                                            <Text
+                                                color="white"
+                                                fontSize="sm"
+                                                textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
+                                            >
                                                 {developers.map((c) => c.name).join(", ")}
                                             </Text>
                                         </Box>
                                     )}
                                     {publishers.length > 0 && (
                                         <Box>
-                                            <Text {...sectionMetaStyle} fontSize="xs" mb="2xs">
+                                            <Text
+                                                {...sectionMetaStyle}
+                                                fontSize="xs"
+                                                color="white"
+                                                opacity={0.9}
+                                                mb="2xs"
+                                            >
                                                 PUBLISHER
                                             </Text>
-                                            <Text color="fg.subtle" fontSize="sm">
+                                            <Text
+                                                color="white"
+                                                fontSize="sm"
+                                                textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
+                                            >
                                                 {publishers.map((c) => c.name).join(", ")}
                                             </Text>
                                         </Box>
                                     )}
                                 </HStack>
                                 <Text
-                                    color="fg.subtle"
+                                    color="white"
                                     fontSize="sm"
                                     maxW="2xl"
                                     lineClamp={3}
                                     mt={1}
+                                    opacity={0.95}
+                                    textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
                                 >
-                                    {overview.summary ?? ""}
+                                    {overview.summary ??
+                                        overview.storyline ??
+                                        "No summary available."}
                                 </Text>
                             </VStack>
                         </HStack>
-                    </Box>
+                    </PageWrapper>
                 </Box>
 
                 <Box borderBottomWidth="1px" borderColor="border.subtle">
-                    <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py="3">
+                    <PageWrapper py="3">
                         <SegmentedControl.Root
                             value={activeTab}
                             onChange={(value) => setActiveTab(value as Tab)}
@@ -262,10 +299,10 @@ function GameDetailPage() {
                                 </SegmentedControl.Item>
                             ))}
                         </SegmentedControl.Root>
-                    </Box>
+                    </PageWrapper>
                 </Box>
 
-                <Box maxW="6xl" mx="auto" px={{ base: 4, md: 6 }} py={8} pb={20}>
+                <PageWrapper py={8} pb={20}>
                     <Suspense
                         fallback={
                             <Box py="20" textAlign="center">
@@ -282,7 +319,7 @@ function GameDetailPage() {
                                 <VStack align="stretch" gap={8}>
                                     <GameStory storyText={storyText} />
                                     <ScreenshotPreview
-                                        screenshots={media?.screenshots}
+                                        screenshots={media.screenshots}
                                         visible
                                         onViewAll={() => setActiveTab("media")}
                                     />
@@ -310,7 +347,6 @@ function GameDetailPage() {
 
                         <Box display={activeTab === "details" ? "block" : "none"}>
                             <VStack align="stretch" gap={8}>
-                                <OfficialLinks websites={websites} />
                                 <AlternativeNames names={alternativeNames} />
                             </VStack>
                         </Box>
@@ -319,7 +355,7 @@ function GameDetailPage() {
                             <GameReleaseDates releaseDates={releasePageData?.releases} />
                         </Box>
                     </Suspense>
-                </Box>
+                </PageWrapper>
             </Box>
         </Suspense>
     );

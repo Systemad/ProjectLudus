@@ -8,19 +8,8 @@ import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 type Props = {
     game: GamesSearchDto;
 };
-/*
-                        <Image
-                            src={imageUrl}
-                            alt={name}
-                            w="full"
-                            h="full"
-                            objectFit="cover"
-                            transitionDuration="slower"
-                            transitionProperty="transform"
-                            _groupHover={{ transform: "scale(1.08)" }}
-                        />
-*/
-export function RelatedGameImageCard({ game }: Props) {
+
+export function GameCard({ game }: Props) {
     const name = game.name ?? "Unknown";
 
     const gameId = String(game.id);

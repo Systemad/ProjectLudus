@@ -1,7 +1,8 @@
 "use client";
 
-import { AspectRatio, Grid, Image, Accordion, For, EmptyState, BoxIcon } from "ui";
+import { AspectRatio, Grid, Accordion, For, EmptyState, BoxIcon } from "ui";
 import type { GameMediaVideoDto } from "@src/gen/catalogApi";
+import { HoverImage } from "../layout/Images/HoverImage";
 
 type Props = {
     screenshots: string[];
@@ -22,17 +23,14 @@ function MediaGrid({ screenshots, videos }: Props) {
                             />
                         }
                     >
-                        {(screenshot, index) => {
-                            <Image
+                        {(screenshot, index) => (
+                            <HoverImage
                                 key={`${screenshot}-${index}`}
                                 src={screenshot}
+                                size={"1080p"}
                                 alt={`Screenshot ${index + 1}`}
-                                objectFit="cover"
-                                w="full"
-                                h="full"
-                                borderRadius="xl"
-                            />;
-                        }}
+                            />
+                        )}
                     </For>
                 </Grid>
             </Accordion.Item>
@@ -47,7 +45,7 @@ function MediaGrid({ screenshots, videos }: Props) {
                             />
                         }
                     >
-                        {({ name, videoId }, index) => {
+                        {({ name, videoId }, index) => (
                             <AspectRatio key={`${name}-${index}`} ratio={16 / 9}>
                                 <iframe
                                     src={`https://www.youtube.com/embed/${videoId}`}
@@ -58,8 +56,8 @@ function MediaGrid({ screenshots, videos }: Props) {
                                     allowFullScreen
                                     style={{ borderRadius: "12px", border: "none" }}
                                 />
-                            </AspectRatio>;
-                        }}
+                            </AspectRatio>
+                        )}
                     </For>
                 </Grid>
             </Accordion.Item>
