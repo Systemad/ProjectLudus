@@ -78,6 +78,9 @@ catalogs:
     country-flag-icons:
       specifier: ^1.6.16
       version: 1.6.16
+    dayjs:
+      specifier: ^1.11.20
+      version: 1.11.20
     eslint-plugin-oxlint:
       specifier: ^1.58.0
       version: 1.58.0
@@ -87,12 +90,15 @@ catalogs:
     react-instantsearch:
       specifier: ^7.29.0
       version: 7.29.0
+    react-intersection-observer:
+      specifier: ^10.0.3
+      version: 10.0.3
     typesense-instantsearch-adapter:
       specifier: ^3.0.2
       version: 3.0.2
     vite-plus:
       specifier: ^0.1.16
-      version: 0.1.18
+      version: 0.1.16
     zod:
       specifier: ^4.3.6
       version: 4.3.6
@@ -153,6 +159,9 @@ importers:
       react-instantsearch:
         specifier: 'catalog:'
         version: 7.29.0(algoliasearch@5.50.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react-intersection-observer:
+        specifier: 'catalog:'
+        version: 10.0.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       ui:
         specifier: workspace:*
         version: link:../../packages/ui
@@ -232,6 +241,9 @@ importers:
       country-flag-icons:
         specifier: 'catalog:'
         version: 1.6.16
+      dayjs:
+        specifier: 'catalog:'
+        version: 1.11.20
       eslint:
         specifier: ^9.39.4
         version: 9.39.4(jiti@2.6.1)
@@ -4083,6 +4095,15 @@ packages:
       algoliasearch: '>= 3.1 < 6'
       react: '>= 16.8.0 < 20'
       react-dom: '>= 16.8.0 < 20'
+
+  react-intersection-observer@10.0.3:
+    resolution: {integrity: sha512-luICLMbs0zxTO/70Zy7K5jOXkABPEVSAF8T3FdZUlctsrIaPLmx8TZe2SSA+CY2HGWfz2INyNTnp82pxNNsShA==}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -8582,6 +8603,12 @@ snapshots:
       react-dom: 19.2.4(react@19.2.4)
       react-instantsearch-core: 7.29.0(algoliasearch@5.50.1)(react@19.2.4)
 
+  react-intersection-observer@10.0.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4):
+    dependencies:
+      react: 19.2.4
+    optionalDependencies:
+      react-dom: 19.2.4(react@19.2.4)
+
   react-is@16.13.1: {}
 
   react-redux@9.2.0(@types/react@19.2.14)(react@19.2.4)(redux@5.0.1):
@@ -8886,7 +8913,7 @@ snapshots:
       lines-and-columns: 1.2.4
       mz: 2.7.0
       pirates: 4.0.7
-      tinyglobby: 0.2.15
+      tinyglobby: 0.2.16
       ts-interface-checker: 0.1.13
 
   supports-color@5.5.0:

@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RadarRouteImport } from './routes/radar'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReleasesCalendarRouteImport } from './routes/releases/calendar'
 import { Route as GamesSearchRouteImport } from './routes/games/search'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
 import { Route as CompaniesSearchRouteImport } from './routes/companies/search'
 
+const RadarRoute = RadarRouteImport.update({
+  id: '/radar',
+  path: '/radar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -23,6 +30,11 @@ const AboutRoute = AboutRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReleasesCalendarRoute = ReleasesCalendarRouteImport.update({
+  id: '/releases/calendar',
+  path: '/releases/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GamesSearchRoute = GamesSearchRouteImport.update({
@@ -44,54 +56,80 @@ const CompaniesSearchRoute = CompaniesSearchRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
+  '/releases/calendar': typeof ReleasesCalendarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
+  '/releases/calendar': typeof ReleasesCalendarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
+  '/releases/calendar': typeof ReleasesCalendarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/radar'
     | '/companies/search'
     | '/games/$gameId'
     | '/games/search'
+    | '/releases/calendar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/companies/search' | '/games/$gameId' | '/games/search'
+  to:
+    | '/'
+    | '/about'
+    | '/radar'
+    | '/companies/search'
+    | '/games/$gameId'
+    | '/games/search'
+    | '/releases/calendar'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/radar'
     | '/companies/search'
     | '/games/$gameId'
     | '/games/search'
+    | '/releases/calendar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  RadarRoute: typeof RadarRoute
   CompaniesSearchRoute: typeof CompaniesSearchRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
   GamesSearchRoute: typeof GamesSearchRoute
+  ReleasesCalendarRoute: typeof ReleasesCalendarRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/radar': {
+      id: '/radar'
+      path: '/radar'
+      fullPath: '/radar'
+      preLoaderRoute: typeof RadarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -104,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/releases/calendar': {
+      id: '/releases/calendar'
+      path: '/releases/calendar'
+      fullPath: '/releases/calendar'
+      preLoaderRoute: typeof ReleasesCalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/games/search': {
@@ -133,9 +178,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  RadarRoute: RadarRoute,
   CompaniesSearchRoute: CompaniesSearchRoute,
   GamesGameIdRoute: GamesGameIdRoute,
   GamesSearchRoute: GamesSearchRoute,
+  ReleasesCalendarRoute: ReleasesCalendarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

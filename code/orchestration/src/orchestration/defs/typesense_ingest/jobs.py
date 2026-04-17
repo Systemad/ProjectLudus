@@ -31,6 +31,7 @@ GAMES_SORT = [
     "steam_global_top_sellers",
     "steam_most_wishlisted_upcoming",
     "twitch_24hr_hours_watched",
+    "first_release_date",
 ]
 
 COMPANY_FACETS = [

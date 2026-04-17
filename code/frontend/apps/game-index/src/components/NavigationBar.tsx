@@ -21,6 +21,8 @@ type NavigationBarProps = {
 const navItems = [
     { id: "home" as const, label: "Home", to: "/" },
     { id: "search" as const, label: "Explore", to: "/games/search" },
+    { id: "calendar" as const, label: "Calendar", to: "/releases/calendar" },
+    { id: "radar" as const, label: "Radar", to: "/radar" },
     { id: "companies" as const, label: "Companies", to: "/companies/search" },
 ];
 

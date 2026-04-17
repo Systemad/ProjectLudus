@@ -88,42 +88,42 @@ var bootstrap = builder.AddPythonApp(
 */
 //.WithReference(typesense)
 
-var playApi = builder.AddProject<Projects.PlayAPI>("playapi").WaitFor(playDb).WithReference(playDb);
+var playApi = builder
+    .AddProject<Projects.PlayAPI>("playapi")
+    .WaitFor(playDb)
+    .WithReference(playDb)
+    .WithExternalHttpEndpoints();
 var catalogApi = builder
     .AddProject<Projects.CatalogAPI>("catalogApi")
     .WaitFor(catalogDb)
-    .WithReference(catalogDb);
+    .WithReference(catalogDb)
+    .WithExternalHttpEndpoints();
 
 //.WithReference(typesense)
 //.WithExplicitStart();
 
 var frontend = builder
-    .AddViteApp("frontend", "../../frontend/apps/game-index", runScriptName: "vp run dev")
+    .AddJavaScriptApp("frontend", "../../frontend/apps/game-index", runScriptName: "dev")
     .WithPnpm()
-    .WithReference(playApi)
-    .WaitFor(playApi)
+    //WithReference(playApi)
+    //.WaitFor(playApi)
     .WithReference(catalogApi)
-    .WaitFor(catalogApi)
-    .WithExplicitStart();
+    .WaitFor(catalogApi);
 
 //api.PublishWithContainerFiles(frontend, "wwww");
 
 var yarp = builder
     .AddYarp("frontend-server")
-    .WithExternalHttpEndpoints()
-    .PublishWithStaticFiles(frontend)
     .WithConfiguration(yarp =>
     {
-        yarp.AddRoute("/api/games/{**catch-all}", catalogApi);
-        yarp.AddRoute("/api/companies/{**catch-all}", catalogApi);
+        // API routes take precedence over static files
         yarp.AddRoute("/api/{**catch-all}", catalogApi);
-    });
 
-if (builder.Environment.IsDevelopment())
-{
-    yarp = yarp.WithHostPort(8081);
-}
-
-yarp.WithExplicitStart();
+        //yarp.AddRoute("/api/games/{**catch-all}", catalogApi);
+        //yarp.AddRoute("/api/companies/{**catch-all}", catalogApi);
+        //yarp.AddRoute("/api/{**catch-all}", catalogApi);
+    })
+    .WithExternalHttpEndpoints()
+    .PublishWithStaticFiles(frontend);
 
 builder.Build().Run();

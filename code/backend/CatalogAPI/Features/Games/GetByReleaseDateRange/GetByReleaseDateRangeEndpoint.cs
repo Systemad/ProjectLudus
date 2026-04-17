@@ -41,6 +41,7 @@ public static class GetByReleaseDateRangeEndpoint
                 g.FirstReleaseDate!.Value >= query.From && g.FirstReleaseDate.Value <= query.To
             )
             .OrderByDescending(g => g.FirstReleaseDate)
+            .ThenByDescending(g => g.AggregatedRating)
             .Take(query.Limit)
             .ToListAsync(cancellationToken);
 

@@ -360,5 +360,3 @@ function GameDetailPage() {
         </Suspense>
     );
 }
-
-export default GameDetailPage;

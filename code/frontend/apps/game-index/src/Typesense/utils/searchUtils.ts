@@ -1,17 +1,12 @@
 import type { GameSearchHit } from "./hits";
+import { formatEpochDate, parseEpochSeconds } from "@src/utils/dateUtils";
 
 export function getReleaseYear(hit: GameSearchHit) {
     if (typeof hit.release_year === "number") return String(hit.release_year);
 
-    if (typeof hit.first_release_date === "number") {
-        return String(new Date(hit.first_release_date * 1000).getUTCFullYear());
-    }
-
-    if (typeof hit.first_release_date === "string") {
-        const parsed = new Date(hit.first_release_date);
-        if (!Number.isNaN(parsed.getTime())) {
-            return String(parsed.getUTCFullYear());
-        }
+    const epoch = parseEpochSeconds(hit.first_release_date);
+    if (typeof epoch === "number") {
+        return String(new Date(epoch * 1000).getUTCFullYear());
     }
 
     return "Unknown year";
@@ -24,6 +19,27 @@ export function getDevelopersLabel(developers?: string[] | string) {
         return developers.slice(0, 2).join(", ");
     }
     return developers;
+}
+
+export function getReleaseEpoch(hit: GameSearchHit): number | null {
+    return parseEpochSeconds(hit.first_release_date);
+}
+
+export function getReleaseDateLabel(hit: GameSearchHit): string {
+    return formatEpochDate(getReleaseEpoch(hit), {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+    });
+}
+
+export function getLimitedPlatforms(platforms?: string[] | string, limit = 3): string[] {
+    if (!platforms) return [];
+    if (Array.isArray(platforms)) {
+        return platforms.slice(0, limit);
+    }
+
+    return [platforms];
 }
 
 export function getCompanyStatusLabel(status?: string) {
