@@ -601,10 +601,45 @@ sources:
             data_type: bigint
           - name: description
             data_type: character varying
-          - name: videos
-            data_type: jsonb
-          - name: event_networks
-            data_type: jsonb
+
+      - name: events__games
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: events__videos
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
+      - name: events__event_networks
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
 
       - name: external_game_sources
         columns:

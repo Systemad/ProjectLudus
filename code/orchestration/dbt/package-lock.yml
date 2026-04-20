@@ -5,4 +5,7 @@ packages:
   - name: dbt_constraints
     package: Snowflake-Labs/dbt_constraints
     version: 1.0.8
-sha1_hash: 5e5a53ed5ff6097fd7cf32bc027a7a2e1d189561
+  - name: codegen
+    package: dbt-labs/codegen
+    version: 0.14.0
+sha1_hash: 88aaf69457978389ab5eb962471a2d0f5f203806

@@ -13,7 +13,7 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
     return (
         <Card.Root>
             <Card.Header>
-                <Box aspectRatio="3/2" overflow="hidden" rounded="lg" bg="blackAlpha.400">
+                <Box aspectRatio="3/2" overflow="hidden" rounded="lg" bg="bg.subtle">
                     {imageUrl ? (
                         <Image
                             src={imageUrl}

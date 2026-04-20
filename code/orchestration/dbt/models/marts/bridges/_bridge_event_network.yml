@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: bridge_event_network
+
+    config:
+      contract: { enforced: true }
+      alias: "event_network"
+
+    constraints:
+      - type: primary_key
+        columns: [ event_id, event_network_id ]
+
+      - type: foreign_key
+        columns: [ event_id ]
+        to: ref('mart_events')
+        to_columns: [ id ]
+
+      - type: foreign_key
+        columns: [ event_network_id ]
+        to: ref('mart_event_networks')
+        to_columns: [ id ]
+
+    description: ""
+    columns:
+      - name: event_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null
+      - name: event_network_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null

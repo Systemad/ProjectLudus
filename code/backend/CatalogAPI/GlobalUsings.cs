@@ -3,6 +3,7 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using CatalogAPI.Context;
 global using CatalogAPI.Data;
+global using CatalogAPI.Features;
 global using CatalogAPI.Features.Games.Common.Dtos;
 global using CatalogAPI.Features.Games.GetByReleaseDateRange;
 global using CatalogAPI.Features.Games.Mappers;

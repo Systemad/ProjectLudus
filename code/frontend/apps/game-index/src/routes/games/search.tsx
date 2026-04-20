@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GAMES_SEARCH_INDEX_NAME, gamesSearchClient } from "@src/Typesense/instantsearch";
 import { SearchPageLayout } from "@src/Typesense/Search/SearchPageLayout";
 import { GameHitCard } from "@src/Typesense/Search/GameHitCard";
-import { PageWrapper } from "@src/components/layout/PageWrapper";
+import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { Configure, InstantSearch } from "react-instantsearch";
 
 export const Route = createFileRoute("/games/search")({

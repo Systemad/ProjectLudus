@@ -9,19 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RadarRouteImport } from './routes/radar'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ReleasesCalendarRouteImport } from './routes/releases/calendar'
+import { Route as EventsIndexRouteImport } from './routes/events/index'
+import { Route as CalendarIndexRouteImport } from './routes/calendar/index'
 import { Route as GamesSearchRouteImport } from './routes/games/search'
 import { Route as GamesGameIdRouteImport } from './routes/games/$gameId'
+import { Route as EventsEventIdRouteImport } from './routes/events/$eventId'
 import { Route as CompaniesSearchRouteImport } from './routes/companies/search'
 
-const RadarRoute = RadarRouteImport.update({
-  id: '/radar',
-  path: '/radar',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -32,9 +28,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReleasesCalendarRoute = ReleasesCalendarRouteImport.update({
-  id: '/releases/calendar',
-  path: '/releases/calendar',
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarIndexRoute = CalendarIndexRouteImport.update({
+  id: '/calendar/',
+  path: '/calendar/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GamesSearchRoute = GamesSearchRouteImport.update({
@@ -47,6 +48,11 @@ const GamesGameIdRoute = GamesGameIdRouteImport.update({
   path: '/games/$gameId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EventsEventIdRoute = EventsEventIdRouteImport.update({
+  id: '/events/$eventId',
+  path: '/events/$eventId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompaniesSearchRoute = CompaniesSearchRouteImport.update({
   id: '/companies/search',
   path: '/companies/search',
@@ -56,80 +62,80 @@ const CompaniesSearchRoute = CompaniesSearchRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
-  '/releases/calendar': typeof ReleasesCalendarRoute
+  '/calendar/': typeof CalendarIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
-  '/releases/calendar': typeof ReleasesCalendarRoute
+  '/calendar': typeof CalendarIndexRoute
+  '/events': typeof EventsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/radar': typeof RadarRoute
   '/companies/search': typeof CompaniesSearchRoute
+  '/events/$eventId': typeof EventsEventIdRoute
   '/games/$gameId': typeof GamesGameIdRoute
   '/games/search': typeof GamesSearchRoute
-  '/releases/calendar': typeof ReleasesCalendarRoute
+  '/calendar/': typeof CalendarIndexRoute
+  '/events/': typeof EventsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
-    | '/radar'
     | '/companies/search'
+    | '/events/$eventId'
     | '/games/$gameId'
     | '/games/search'
-    | '/releases/calendar'
+    | '/calendar/'
+    | '/events/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/radar'
     | '/companies/search'
+    | '/events/$eventId'
     | '/games/$gameId'
     | '/games/search'
-    | '/releases/calendar'
+    | '/calendar'
+    | '/events'
   id:
     | '__root__'
     | '/'
     | '/about'
-    | '/radar'
     | '/companies/search'
+    | '/events/$eventId'
     | '/games/$gameId'
     | '/games/search'
-    | '/releases/calendar'
+    | '/calendar/'
+    | '/events/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  RadarRoute: typeof RadarRoute
   CompaniesSearchRoute: typeof CompaniesSearchRoute
+  EventsEventIdRoute: typeof EventsEventIdRoute
   GamesGameIdRoute: typeof GamesGameIdRoute
   GamesSearchRoute: typeof GamesSearchRoute
-  ReleasesCalendarRoute: typeof ReleasesCalendarRoute
+  CalendarIndexRoute: typeof CalendarIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/radar': {
-      id: '/radar'
-      path: '/radar'
-      fullPath: '/radar'
-      preLoaderRoute: typeof RadarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -144,11 +150,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/releases/calendar': {
-      id: '/releases/calendar'
-      path: '/releases/calendar'
-      fullPath: '/releases/calendar'
-      preLoaderRoute: typeof ReleasesCalendarRouteImport
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar/': {
+      id: '/calendar/'
+      path: '/calendar'
+      fullPath: '/calendar/'
+      preLoaderRoute: typeof CalendarIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/games/search': {
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GamesGameIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/events/$eventId': {
+      id: '/events/$eventId'
+      path: '/events/$eventId'
+      fullPath: '/events/$eventId'
+      preLoaderRoute: typeof EventsEventIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/companies/search': {
       id: '/companies/search'
       path: '/companies/search'
@@ -178,11 +198,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  RadarRoute: RadarRoute,
   CompaniesSearchRoute: CompaniesSearchRoute,
+  EventsEventIdRoute: EventsEventIdRoute,
   GamesGameIdRoute: GamesGameIdRoute,
   GamesSearchRoute: GamesSearchRoute,
-  ReleasesCalendarRoute: ReleasesCalendarRoute,
+  CalendarIndexRoute: CalendarIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

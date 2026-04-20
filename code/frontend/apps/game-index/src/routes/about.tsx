@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageWrapper } from "@src/components/layout/PageWrapper";
+import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { Text } from "ui";
 
 export const Route = createFileRoute("/about")({

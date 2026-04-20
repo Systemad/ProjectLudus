@@ -1,17 +1,17 @@
 namespace CatalogAPI.Features.Companies.Get;
 
-public static class GetEndpoint
+public static class GetCompanyEndpoint
 {
     public record GetCompanyResponse(CompanyOverviewDto Company);
 
-    public static IEndpointRouteBuilder MapGetEndpoint(this IEndpointRouteBuilder routeBuilder)
+    public static RouteHandlerBuilder MapGetCompanyEndpoint(this IEndpointRouteBuilder routeBuilder)
     {
-        routeBuilder
+        return routeBuilder
             .MapGet("/{companyId:long}", GetCompanyAsync)
+            .WithName("Companies/Get")
+            .WithTags("Companies")
             .Produces<GetCompanyResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-
-        return routeBuilder;
     }
 
     private static async Task<IResult> GetCompanyAsync(

@@ -10,15 +10,14 @@ with
             name,
             slug,
             event_logo,
-            start_time,
+            start_time as start_time_epoch,
+            to_timestamp(start_time::numeric) as start_time_utc,
             time_zone,
             live_stream_url,
-            coalesce(games, '[]'::jsonb) as games,
             checksum,
-            end_time,
-            description,
-            coalesce(videos, '[]'::jsonb) as videos,
-            coalesce(event_networks, '[]'::jsonb) as event_networks
+            end_time as end_time_epoch,
+            to_timestamp(end_time::numeric) as end_time_utc,
+            description
 
         from source
 

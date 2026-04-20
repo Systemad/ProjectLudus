@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Accordion, Box, Button, Drawer, Grid, Heading } from "ui";
 import { Hits, Pagination, Stats } from "react-instantsearch";
-import { CardSurface } from "@src/components/layout/Card";
 import { SearchFacetFilterGroup } from "./SearchFacetFilterGroup";
 import { SearchHeader } from "./SearchHeader";
 import type { SortFieldOption } from "./SearchControl";
@@ -118,11 +117,12 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
             }}
         >
             <Grid className="typesense-layout">
-                <CardSurface
+                <Box
                     as="aside"
-                    variant="translucent"
+                    layerStyle="translucentCard"
                     className="typesense-facet-panel typesense-facet-desktop"
                     p="md"
+                    rounded="2xl"
                 >
                     <Heading size="sm" mb="sm">
                         Filters
@@ -141,7 +141,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                             />
                         ))}
                     </Accordion.Root>
-                </CardSurface>
+                </Box>
 
                 <Box minW={0}>
                     <SearchHeader

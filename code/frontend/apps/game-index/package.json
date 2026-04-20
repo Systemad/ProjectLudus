@@ -20,6 +20,8 @@
         "@tanstack/react-router": "catalog:",
         "@tanstack/react-router-devtools": "catalog:",
         "@tanstack/react-router-ssr-query": "catalog:",
+        "date-fns": "catalog:",
+        "motion": "catalog:",
         "react-dom": "^19.2.4",
         "react-extract-colors": "catalog:",
         "react-instantsearch": "catalog:",

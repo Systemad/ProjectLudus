@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: bridge_event_game
+
+    config:
+      contract: { enforced: true }
+      alias: "event_game"
+
+    constraints:
+      - type: primary_key
+        columns: [ event_id, game_id ]
+
+      - type: foreign_key
+        columns: [ event_id ]
+        to: ref('mart_events')
+        to_columns: [ id ]
+
+      - type: foreign_key
+        columns: [ game_id ]
+        to: ref('mart_games')
+        to_columns: [ id ]
+
+    description: ""
+    columns:
+      - name: event_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null
+      - name: game_id
+        data_type: bigint
+        description: ""
+        tests:
+          - not_null

@@ -36,8 +36,10 @@ catalog:
   "@yamada-ui/cli": ^2.1.3
   "@yamada-ui/react": ^2.1.5
   country-flag-icons: ^1.6.16
+  date-fns: ^4.1.0
   dayjs: ^1.11.20
   eslint-plugin-oxlint: ^1.58.0
+  motion: ^12.38.0
   react-extract-colors: ^1.6.0
   react-instantsearch: ^7.29.0
   react-intersection-observer: ^10.0.3

@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 from .endpoints import Endpoints
 
-load_dotenv()
+load_dotenv(override=True)
 
 client_id = os.getenv("IGDB_CLIENT_ID")
 access_token = os.getenv("IGDB_ACCESS_TOKEN")
@@ -191,7 +191,16 @@ default = rest_api_source(
             },
             Endpoints.COMPANY_STATUSES.value,
             Endpoints.DATE_FORMATS.value,
-            Endpoints.EVENTS.value,
+            {
+                "max_table_nesting": 1,
+                "name": Endpoints.EVENTS.value,
+                "endpoint": {
+                    "path": Endpoints.EVENTS.value,
+                    "params": {
+                        "fields": "*",
+                    },
+                },
+            },
             Endpoints.EVENT_LOGOS.value,
             Endpoints.EVENT_NETWORKS.value,
             Endpoints.EXTERNAL_GAME_SOURCES.value,

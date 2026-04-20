@@ -7,13 +7,13 @@ import type { GamesSearchDto } from "./GamesSearchDto.ts";
 
 export type GamesReleaseDateRangeResponse = {
     /**
-     * @type integer, int64
+     * @type string, date
     */
-    from: number;
+    start: string;
     /**
-     * @type integer, int64
+     * @type string, date
     */
-    to: number;
+    end: string;
     /**
      * @type integer, int32
     */

@@ -13,14 +13,11 @@ with
             start_time,
             time_zone,
             live_stream_url,
-            games,
             checksum,
             _dlt_load_id,
             _dlt_id,
             end_time,
-            description,
-            videos,
-            event_networks
+            description
 
         from source
 

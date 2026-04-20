@@ -8,22 +8,22 @@ models:
 
     constraints:
       - type: primary_key
-        columns: [id]
+        columns: [ id ]
 
       - type: foreign_key
-        columns: [franchise]
+        columns: [ franchise ]
         to: ref('mart_franchises')
-        to_columns: [id]
+        to_columns: [ id ]
 
       - type: foreign_key
-        columns: [game_status]
+        columns: [ game_status ]
         to: ref('mart_game_statuses')
-        to_columns: [id]
+        to_columns: [ id ]
 
       - type: foreign_key
-        columns: [game_type]
+        columns: [ game_type ]
         to: ref('mart_game_types')
-        to_columns: [id]
+        to_columns: [ id ]
 
       #- type: foreign_key
       #  columns: [parent_game]
@@ -36,9 +36,9 @@ models:
       #  to_columns: [id]
 
       - type: foreign_key
-        columns: [cover]
+        columns: [ cover ]
         to: ref('mart_covers')
-        to_columns: [id]
+        to_columns: [ id ]
 
     description: ""
     columns:
@@ -75,8 +75,11 @@ models:
       - name: game_type
         data_type: bigint
         description: ""
-      - name: first_release_date
+      - name: first_release_date_epoch
         data_type: bigint
+        description: ""
+      - name: first_release_date_utc
+        data_type: timestamp with time zone
         description: ""
       - name: rating
         data_type: double precision

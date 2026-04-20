@@ -1,11 +1,14 @@
+using System.Text.Json.Serialization;
 using CatalogAPI.Extensions;
+using CatalogAPI.Features.Calendar;
 using CatalogAPI.Features.Companies;
+using CatalogAPI.Features.Events;
 using CatalogAPI.Features.Games;
 using CatalogAPI.Features.PopularityTypes;
 using Microsoft.AspNetCore.Http.Json;
+using NodaTime.Serialization.SystemTextJson;
 using Npgsql;
 using Scalar.AspNetCore;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +37,11 @@ builder.Services.Configure<JsonOptions>(options =>
 });
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
+    options.SerializerOptions.ConfigureForNodaTime(DateTimeZoneProviders.Tzdb);
     // Tell OpenApi generator to report number fields as integers/floats only, not strings
     options.SerializerOptions.NumberHandling = JsonNumberHandling.Strict;
 });
-
+builder.Services.AddValidation();
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -93,8 +97,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseOutputCache();
 
-app.UseGamesEndpoints();
-app.UseCompaniesEndpoints();
-app.UsePopularityEndpoints();
+app.MapCalendarFeature();
+app.MapGamesFeature();
+app.MapCompaniesFeature();
+app.MapPopularityTypesFeature();
+app.MapEventsFeature();
 
 app.Run();

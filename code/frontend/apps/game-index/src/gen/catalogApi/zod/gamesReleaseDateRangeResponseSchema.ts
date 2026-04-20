@@ -7,8 +7,8 @@ import * as z from "zod";
 import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
 
 export const gamesReleaseDateRangeResponseSchema = z.object({
-    "from": z.number().int(),
-"to": z.number().int(),
+    "start": z.string().date(),
+"end": z.string().date(),
 "limit": z.number().int(),
 "games": z.array(z.lazy(() => gamesSearchDtoSchema))
     })

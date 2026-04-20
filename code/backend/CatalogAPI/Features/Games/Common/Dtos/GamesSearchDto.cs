@@ -16,7 +16,10 @@ public partial class GamesSearchDto
 
     public long? UpdatedAt { get; set; }
 
-    public long? FirstReleaseDate { get; set; }
+    public long? FirstReleaseDateEpoch { get; set; }
+
+    [Required]
+    public required DateOnly FirstReleaseDate { get; set; }
 
     public string? GameType { get; set; }
 

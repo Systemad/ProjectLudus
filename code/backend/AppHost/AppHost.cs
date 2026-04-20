@@ -123,6 +123,7 @@ var yarp = builder
         //yarp.AddRoute("/api/companies/{**catch-all}", catalogApi);
         //yarp.AddRoute("/api/{**catch-all}", catalogApi);
     })
+    .WithHostPort(53489)
     .WithExternalHttpEndpoints()
     .PublishWithStaticFiles(frontend);
 

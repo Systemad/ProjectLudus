@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { COMPANIES_SEARCH_INDEX_NAME, companiesSearchClient } from "@src/Typesense/instantsearch";
 import { CompanyHitCard } from "@src/Typesense/Search/CompanyHitCard";
 import { SearchPageLayout } from "@src/Typesense/Search/SearchPageLayout";
-import { PageWrapper } from "@src/components/layout/PageWrapper";
+import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { Configure, InstantSearch } from "react-instantsearch";
 
 export const Route = createFileRoute("/companies/search")({

@@ -180,7 +180,8 @@ select
     g.summary,
     g.storyline,
     g.updated_at::bigint as updated_at,
-    g.first_release_date::bigint as first_release_date,
+    g.first_release_date_epoch::bigint as first_release_date_epoch,
+    g.first_release_date_utc as first_release_date_utc,
     gtype.game_type,
     gs.game_status,
     coalesce(g.aggregated_rating, 0)::float as aggregated_rating,
@@ -212,8 +213,8 @@ select
     gpop.steam_most_wishlisted_upcoming,
     gpop.twitch_24hr_hours_watched,
     case
-        when g.first_release_date is not null and g.first_release_date > 0
-        then extract(year from to_timestamp(g.first_release_date::numeric))::int
+        when g.first_release_date_epoch is not null and g.first_release_date_epoch > 0
+        then extract(year from to_timestamp(g.first_release_date_epoch::numeric))::int
         else null
     end as release_year
 from {{ ref("mart_games") }} g

@@ -78,12 +78,18 @@ catalogs:
     country-flag-icons:
       specifier: ^1.6.16
       version: 1.6.16
+    date-fns:
+      specifier: ^4.1.0
+      version: 4.1.0
     dayjs:
       specifier: ^1.11.20
       version: 1.11.20
     eslint-plugin-oxlint:
       specifier: ^1.58.0
       version: 1.58.0
+    motion:
+      specifier: ^12.38.0
+      version: 12.38.0
     react-extract-colors:
       specifier: ^1.6.0
       version: 1.6.0
@@ -150,6 +156,12 @@ importers:
       '@tanstack/react-router-ssr-query':
         specifier: 'catalog:'
         version: 1.166.10(@tanstack/query-core@5.96.2)(@tanstack/react-query@5.96.2(react@19.2.4))(@tanstack/react-router@1.168.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@tanstack/router-core@1.168.9)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      date-fns:
+        specifier: 'catalog:'
+        version: 4.1.0
+      motion:
+        specifier: 'catalog:'
+        version: 12.38.0(@emotion/is-prop-valid@1.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       react-dom:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
@@ -2916,6 +2928,9 @@ packages:
   data-uri-to-buffer@4.0.1:
     resolution: {integrity: sha512-0R9ikRb668HB7QDxT1vkpuUBtqc53YyAwMwGeUFKRojY/NWKvdZ+9UYtRfGmhqNbRkTSVpMbmyhXipFFv2cb/A==}
     engines: {node: '>= 12'}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   dayjs@1.11.20:
     resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
@@ -7348,6 +7363,8 @@ snapshots:
       type: 2.7.3
 
   data-uri-to-buffer@4.0.1: {}
+
+  date-fns@4.1.0: {}
 
   dayjs@1.11.20: {}
 

@@ -10,8 +10,6 @@ type Props = {
 };
 
 export function GameCard({ game }: Props) {
-    const name = game.name ?? "Unknown";
-
     const gameId = String(game.id);
 
     return (
@@ -20,12 +18,11 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <Box role="group">
+            <Box role="group" w={{ base: "32", md: "40" }} minW={{ base: "32", md: "40" }}>
                 <Box position="relative" rounded="xl" overflow="hidden">
                     <AspectRatio ratio={3 / 4}>
                         <Image
                             src={getIGDBImageUrl(game.coverUrl, "1080p")}
-                            alt={name}
                             w="full"
                             h="full"
                             objectFit="cover"
@@ -49,7 +46,7 @@ export function GameCard({ game }: Props) {
                         fontWeight="semibold"
                         lineHeight="short"
                     >
-                        {name}
+                        {game.name}
                     </Text>
                 </Box>
             </Box>

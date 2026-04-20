@@ -1,0 +1,70 @@
+namespace CatalogAPI.Features.Games.GetGamePageReleaseData;
+
+public static class Endpoint
+{
+    public record GetGamePageReleaseDataResponse(GamePageReleaseDataDto Data);
+
+    public static RouteHandlerBuilder MapGetGameReleaseDataEndpoint(
+        this IEndpointRouteBuilder routeBuilder
+    )
+    {
+        return routeBuilder
+            .MapGet("/{gameId:long}/page-release-data", GetGamePageReleaseData)
+            .WithName($"{EndpointMetadata.Games}/GetReleaseData")
+            .WithTags(EndpointMetadata.Games)
+            .Produces<GetGamePageReleaseDataResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+    }
+
+    private static async Task<IResult> GetGamePageReleaseData(
+        long gameId,
+        AppDbContext db,
+        CancellationToken cancellationToken
+    )
+    {
+        var releaseData = await db
+            .Games.Where(g => g.Id == gameId)
+            .Select(g => new GamePageReleaseDataDto
+            {
+                GameId = g.Id,
+                GameName = g.Name ?? string.Empty,
+                Releases = g
+                    .ReleaseDates.Where(rd => rd.PlatformNavigation != null)
+                    .Select(rd => new GameReleaseDto
+                    {
+                        PlatformName = rd.PlatformNavigation!.Name,
+                        PlatformSlug = rd.PlatformNavigation!.Slug,
+                        ReleaseDate = rd.Date,
+                        Region = rd.ReleaseRegionNavigation!.Region,
+                        Human = rd.Human,
+                        Developers = g
+                            .InvolvedCompanies.Where(ic =>
+                                ic.Developer == true && ic.CompanyNavigation!.Name != null
+                            )
+                            .Select(ic => new CompanyInfoDto(
+                                ic.CompanyNavigation!.Id,
+                                ic.CompanyNavigation!.Name!,
+                                ic.CompanyNavigation.Slug
+                            ))
+                            .ToList(),
+                        Publishers = g
+                            .InvolvedCompanies.Where(ic =>
+                                ic.Publisher == true && ic.CompanyNavigation!.Name != null
+                            )
+                            .Select(ic => new CompanyInfoDto(
+                                ic.CompanyNavigation!.Id,
+                                ic.CompanyNavigation!.Name!,
+                                ic.CompanyNavigation.Slug
+                            ))
+                            .ToList(),
+                    })
+                    .ToList(),
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (releaseData is null)
+            return Results.NotFound();
+
+        return Results.Ok(new GetGamePageReleaseDataResponse(releaseData));
+    }
+}

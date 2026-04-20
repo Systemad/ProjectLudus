@@ -9,15 +9,13 @@ public static class GetByIdEndpoints
 
     private record PopularityGamesResponse(List<GamesSearchDto> Games);
 
-    public static IEndpointRouteBuilder MapGetByIdEndpoints(this IEndpointRouteBuilder routeBuilder)
+    public static RouteHandlerBuilder MapGetByIdEndpoint(this IEndpointRouteBuilder routeBuilder)
     {
-        var group = routeBuilder.MapGroup("/api/popularity").CacheOutput("DefaultCache");
-
-        group
+        return routeBuilder
             .MapGet("/{popularityTypeId:long}", GetPopularityRailAsync)
+            .WithName("PopularityTypes/GetById")
+            .WithTags("PopularityTypes")
             .Produces<PopularityGamesResponse>(StatusCodes.Status200OK);
-
-        return routeBuilder;
     }
 
     private static async Task<IResult> GetPopularityRailAsync(

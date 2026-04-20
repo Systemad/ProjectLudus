@@ -1,6 +1,6 @@
 import { Box, NativeTable } from "ui";
 import { PreviewCard } from "@base-ui/react/preview-card";
-import HoveredGameCard from "@src/components/home/HoveredGameCard";
+import GamePreviewCard from "@src/components/home/GamePreviewCard/GamePreviewCard";
 import type { GamesSearchDto } from "@src/gen/catalogApi";
 import styles from "./previewImage.module.css";
 export const SimpleTable = ({
@@ -45,7 +45,7 @@ export const SimpleTable = ({
                                             <PreviewCard.Portal>
                                                 <PreviewCard.Positioner sideOffset={8}>
                                                     <PreviewCard.Popup className={styles.Popup}>
-                                                        <HoveredGameCard game={hoverGame} />
+                                                        <GamePreviewCard game={hoverGame} />
                                                     </PreviewCard.Popup>
                                                 </PreviewCard.Positioner>
                                             </PreviewCard.Portal>

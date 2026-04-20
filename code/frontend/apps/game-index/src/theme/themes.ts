@@ -4,29 +4,10 @@ import { colors } from "./colors";
 export const config = defineConfig({
     css: { varPrefix: "ui" },
     breakpoint: { direction: "up", identifier: "@media screen" },
-    defaultColorMode: "dark",
+    defaultColorMode: "light",
     defaultThemeScheme: "base",
     notice: { duration: 5000 },
     theme: { responsive: true },
-});
-
-const layerStyles = defineStyles.layerStyle({
-    translucentCard: {
-        bg: "transparentize(gray.900, 36%)",
-        backdropFilter: "blur(20px) saturate(120%)",
-        boxShadow:
-            "inset 0 1px 0 {colors.whiteAlpha.200}, inset 0 0 0 1px {colors.whiteAlpha.150}, 0 1px 0 {colors.whiteAlpha.50}, 0 20px 48px -34px {colors.blackAlpha.900}",
-    },
-    translucentPanel: {
-        bg: "transparentize(gray.900, 32%)",
-        backdropFilter: "blur(16px) saturate(115%)",
-        boxShadow:
-            "inset 0 1px 0 {colors.whiteAlpha.150}, inset 0 0 0 1px {colors.whiteAlpha.100}, 0 1px 0 {colors.whiteAlpha.50}, 0 16px 38px -30px {colors.blackAlpha.900}",
-    },
-    opaqueCard: {
-        bg: "bg.panel",
-        boxShadow: "inset 0 0 0 1px {colors.whiteAlpha.100}",
-    },
 });
 
 const globalStyle = defineStyles.globalStyle({
@@ -34,15 +15,15 @@ const globalStyle = defineStyles.globalStyle({
         minHeight: "100%",
     },
     body: {
-        colorScheme: "gray",
-        bg: "bg.base",
-        backgroundImage:
-            "radial-gradient(1400px 680px at 8% -18%, {colors.whiteAlpha.100} 0%, transparent 64%), radial-gradient(1200px 620px at 92% -10%, {colors.whiteAlpha.50} 0%, transparent 60%), linear-gradient(180deg, {colors.whiteAlpha.50} 0%, transparent 22%)",
-        backgroundAttachment: "fixed",
-        backgroundRepeat: "no-repeat",
-        color: "fg.base",
+        colorScheme: "emerald",
+        // bg: "bg.base",
+        //backgroundImage:
+        //    "radial-gradient(1400px 680px at 8% -18%, {colors.whiteAlpha.100} 0%, transparent 64%), radial-gradient(1200px 620px at 92% -10%, {colors.whiteAlpha.50} 0%, transparent 60%), linear-gradient(180deg, {colors.whiteAlpha.50} 0%, transparent 22%)",
+        //backgroundAttachment: "fixed",
+        //backgroundRepeat: "no-repeat",
+        //color: "fg.base",
         fontFamily: "body",
-        lineHeight: "moderate",
+        //lineHeight: "moderate",
         margin: "0",
         minHeight: "100%",
         overflowX: "hidden",
@@ -50,8 +31,8 @@ const globalStyle = defineStyles.globalStyle({
         scrollbarWidth: "thin",
         scrollBehavior: "smooth",
         scrollbarGutter: "stable",
-        transitionDuration: "moderate",
-        transitionProperty: "background-color, color, border-color",
+        //transitionDuration: "moderate",
+        //transitionProperty: "background-color, color, border-color",
     },
 });
 
@@ -66,6 +47,5 @@ export const theme = extendTheme({
     },
     styles: {
         globalStyle,
-        layerStyles,
     },
 }) as UsageTheme;

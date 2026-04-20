@@ -12,11 +12,11 @@ models:
         data_type: bigint
         constraints:
           - type: primary_key
-            columns: [id]
+            columns: [ id ]
           - type: not_null
-            columns: [id]
+            columns: [ id ]
           - type: unique
-            columns: [id]
+            columns: [ id ]
         tests:
           - not_null
       - name: name
@@ -27,8 +27,10 @@ models:
         data_type: text
       - name: updated_at
         data_type: bigint
-      - name: first_release_date
+      - name: first_release_date_epoch
         data_type: bigint
+      - name: first_release_date_utc
+        data_type: timestamp with time zone
       - name: game_type
         data_type: character varying
       - name: game_status

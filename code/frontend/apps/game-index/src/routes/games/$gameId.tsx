@@ -12,34 +12,35 @@ import {
     SegmentedControl,
     Tag,
     Text,
+    Motion,
     VStack,
     Wrap,
     For,
 } from "ui";
-import MediaGrid from "@src/components/game/MediaGrid";
-import AlternativeNames from "@src/components/game/AlternativeNames";
-import { GameReleaseDates } from "@src/components/game/GameReleaseDates";
-import { GameStory } from "@src/components/game/GameStory";
-import { OfficialLinks } from "@src/components/game/OfficialLinks";
-import OverviewPanel from "@src/components/game/OverviewPanel";
-import { RelatedGamesSection } from "@src/components/game/Sections/RelatedGamesSection";
-import { ScreenshotPreview } from "@src/components/game/ScreenshotPreview";
+import MediaGrid from "@src/features/games/components/MediaGrid";
+import AlternativeNames from "@src/features/games/components/AlternativeNames";
+import { GameReleaseDates } from "@src/features/games/components/GameReleaseDates";
+import { GameStory } from "@src/features/games/components/GameStory";
+import { OfficialLinks } from "@src/features/games/components/OfficialLinks";
+import OverviewPanel from "@src/features/games/components/OverviewPanel";
+import { RelatedGamesSection } from "@src/features/games/components/Sections/RelatedGamesSection";
+import { ScreenshotPreview } from "@src/features/games/components/ScreenshotPreview";
 import { linkStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import {
-    getApiGamesGameidDetailsSuspenseQueryOptionsHook,
-    getApiGamesGameidMediaSuspenseQueryOptionsHook,
-    getApiGamesGameidPageReleaseDataSuspenseQueryOptionsHook,
-    getApiGamesGameidSimilarGamesSuspenseQueryOptionsHook,
-    getApiGamesGameidSuspenseQueryOptionsHook,
-    useGetApiGamesGameidDetailsSuspenseHook,
-    useGetApiGamesGameidMediaSuspenseHook,
-    useGetApiGamesGameidPageReleaseDataSuspenseHook,
-    useGetApiGamesGameidSimilarGamesSuspenseHook,
-    useGetApiGamesGameidSuspenseHook,
+    gamesGetMediaSuspenseQueryOptionsHook,
+    gamesGetReleaseDataSuspenseQueryOptionsHook,
+    gamesGetOverviewSuspenseQueryOptionsHook,
+    gamesGetSimilarSuspenseQueryOptionsHook,
+    gamesGetSuspenseQueryOptionsHook,
+    useGamesGetMediaSuspenseHook,
+    useGamesGetReleaseDataSuspenseHook,
+    useGamesGetOverviewSuspenseHook,
+    useGamesGetSimilarSuspenseHook,
+    useGamesGetSuspenseHook,
 } from "@src/gen/catalogApi";
 import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { PageWrapper } from "@src/components/layout/PageWrapper";
+import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 
 type Tab = "overview" | "official-links" | "media" | "details" | "release-dates";
 
@@ -51,25 +52,27 @@ const TABS: { value: Tab; label: string }[] = [
     { value: "release-dates", label: "Release Dates" },
 ];
 
+const TAB_INDEX: Record<Tab, number> = {
+    overview: 0,
+    "official-links": 1,
+    media: 2,
+    details: 3,
+    "release-dates": 4,
+};
+
 export const Route = createFileRoute("/games/$gameId")({
     component: GameDetailPage,
     loader: async ({ params: { gameId }, context: { queryClient } }) => {
         const id = Number(gameId);
 
         await Promise.all([
-            queryClient.ensureQueryData(getApiGamesGameidSuspenseQueryOptionsHook({ gameId: id })),
+            queryClient.ensureQueryData(gamesGetOverviewSuspenseQueryOptionsHook({ gameId: id })),
+            queryClient.ensureQueryData(gamesGetSuspenseQueryOptionsHook({ gameId: id })),
+            queryClient.ensureQueryData(gamesGetMediaSuspenseQueryOptionsHook({ gameId: id })),
             queryClient.ensureQueryData(
-                getApiGamesGameidDetailsSuspenseQueryOptionsHook({ gameId: id }),
+                gamesGetReleaseDataSuspenseQueryOptionsHook({ gameId: id }),
             ),
-            queryClient.ensureQueryData(
-                getApiGamesGameidMediaSuspenseQueryOptionsHook({ gameId: id }),
-            ),
-            queryClient.ensureQueryData(
-                getApiGamesGameidPageReleaseDataSuspenseQueryOptionsHook({ gameId: id }),
-            ),
-            queryClient.ensureQueryData(
-                getApiGamesGameidSimilarGamesSuspenseQueryOptionsHook({ gameId: id }),
-            ),
+            queryClient.ensureQueryData(gamesGetSimilarSuspenseQueryOptionsHook({ gameId: id })),
         ]);
     },
 });
@@ -77,15 +80,15 @@ export const Route = createFileRoute("/games/$gameId")({
 function GameDetailPage() {
     const { gameId } = Route.useParams();
     const gameIdNumber = Number(gameId);
-    const { data: overviewData } = useGetApiGamesGameidSuspenseHook({ gameId: gameIdNumber });
-    const { data: detailsData } = useGetApiGamesGameidDetailsSuspenseHook({
+    const { data: overviewData } = useGamesGetOverviewSuspenseHook({ gameId: gameIdNumber });
+    const { data: detailsData } = useGamesGetSuspenseHook({
         gameId: gameIdNumber,
     });
-    const { data: mediaData } = useGetApiGamesGameidMediaSuspenseHook({ gameId: gameIdNumber });
-    const { data: releaseData } = useGetApiGamesGameidPageReleaseDataSuspenseHook({
+    const { data: mediaData } = useGamesGetMediaSuspenseHook({ gameId: gameIdNumber });
+    const { data: releaseData } = useGamesGetReleaseDataSuspenseHook({
         gameId: gameIdNumber,
     });
-    const { data: similarData } = useGetApiGamesGameidSimilarGamesSuspenseHook({
+    const { data: similarData } = useGamesGetSimilarSuspenseHook({
         gameId: gameIdNumber,
     });
     const overview = overviewData?.game;
@@ -94,6 +97,7 @@ function GameDetailPage() {
     const releasePageData = releaseData?.data;
     const similarGames = similarData?.games ?? [];
     const [activeTab, setActiveTab] = useState<Tab>("overview");
+    const [tabDirection, setTabDirection] = useState(1);
 
     if (!overview) {
         return (
@@ -130,8 +134,19 @@ function GameDetailPage() {
     const developers = (details?.involvedCompanies ?? []).filter((c) => c.developed);
     const publishers = (details?.involvedCompanies ?? []).filter((c) => c.published);
 
+    const handleTabChange = (value: string) => {
+        const nextTab = value as Tab;
+        const currentIndex = TAB_INDEX[activeTab];
+        const nextIndex = TAB_INDEX[nextTab];
+
+        if (nextIndex !== currentIndex) {
+            setTabDirection(nextIndex > currentIndex ? 1 : -1);
+            setActiveTab(nextTab);
+        }
+    };
+
     return (
-        <Suspense fallback={<Loading.Rings color="blue.500" fontSize="5xl" />}>
+        <Suspense fallback={<Loading.Rings color="primary.500" fontSize="5xl" />}>
             <Box w="full" color="fg.base">
                 <Box position="relative" overflow="hidden">
                     {coverImage && (
@@ -157,112 +172,118 @@ function GameDetailPage() {
                         pointerEvents="none"
                     />
                     <PageWrapper py="8" position="relative" zIndex={2}>
-                        <HStack align="flex-start" gap={{ base: 4, md: 6 }}>
-                            <Box
-                                flexShrink={0}
-                                w={{ base: "120px", md: "160px" }}
-                                h={{ base: "160px", md: "210px" }}
-                                rounded="xl"
-                                overflow="hidden"
-                                boxShadow="lg"
-                            >
-                                <Image
-                                    src={coverImage || undefined}
-                                    alt={overview.name ?? "Cover"}
-                                    objectFit="cover"
-                                    w="full"
-                                    h="full"
-                                    display="block"
-                                />
-                            </Box>
+                        <Motion
+                            initial={{ y: 18 }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 0.22, ease: "easeOut" }}
+                        >
+                            <HStack align="flex-start" gap={{ base: 4, md: 6 }}>
+                                <Box
+                                    flexShrink={0}
+                                    w={{ base: "120px", md: "160px" }}
+                                    h={{ base: "160px", md: "210px" }}
+                                    rounded="xl"
+                                    overflow="hidden"
+                                    boxShadow="lg"
+                                >
+                                    <Image
+                                        src={coverImage || undefined}
+                                        alt={overview.name ?? "Cover"}
+                                        objectFit="cover"
+                                        w="full"
+                                        h="full"
+                                        display="block"
+                                    />
+                                </Box>
 
-                            <VStack align="start" gap={2} flex={1} minW={0} color="white">
-                                <Text color="white" fontSize="sm" opacity={0.95}>
-                                    {formatReleaseDate(firstReleaseDate)}
-                                </Text>
-                                <Heading
-                                    size={{ base: "2xl", md: "4xl" }}
-                                    color="white"
-                                    lineHeight="1.1"
-                                    textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
-                                >
-                                    {overview.name ?? "Untitled game"}
-                                </Heading>
-                                <Wrap gap="xs">
-                                    <For each={overview.genres}>
-                                        {(genre) => (
-                                            <Tag
-                                                key={genre}
-                                                variant="outline"
-                                                colorScheme="gray"
-                                                color="whiteAlpha.900"
-                                                borderColor="whiteAlpha.500"
-                                                bg="whiteAlpha.200"
-                                                size="sm"
-                                                textTransform="none"
-                                            >
-                                                {genre}
-                                            </Tag>
+                                <VStack align="start" gap={2} flex={1} minW={0} color="white">
+                                    <Text color="white" fontSize="sm" opacity={0.95}>
+                                        {formatReleaseDate(firstReleaseDate)}
+                                    </Text>
+                                    <Heading
+                                        size={{ base: "2xl", md: "4xl" }}
+                                        color="white"
+                                        lineHeight="1.1"
+                                        textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
+                                    >
+                                        {overview.name ?? "Untitled game"}
+                                    </Heading>
+                                    <Wrap gap="xs">
+                                        <For each={overview.genres}>
+                                            {(genre) => (
+                                                <Tag
+                                                    key={genre}
+                                                    variant="outline"
+                                                    colorScheme="gray"
+                                                    color="whiteAlpha.900"
+                                                    borderColor="whiteAlpha.500"
+                                                    bg="whiteAlpha.200"
+                                                    size="sm"
+                                                    textTransform="none"
+                                                >
+                                                    {genre}
+                                                </Tag>
+                                            )}
+                                        </For>
+                                    </Wrap>
+                                    <HStack gap={6} mt={1} flexWrap="wrap">
+                                        {developers.length > 0 && (
+                                            <Box>
+                                                <Text
+                                                    {...sectionMetaStyle}
+                                                    fontSize="xs"
+                                                    color="white"
+                                                    opacity={0.9}
+                                                    mb="2xs"
+                                                >
+                                                    DEVELOPER
+                                                </Text>
+                                                <Text
+                                                    color="white"
+                                                    fontSize="sm"
+                                                    textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
+                                                >
+                                                    {developers.map((c) => c.name).join(", ")}
+                                                </Text>
+                                            </Box>
                                         )}
-                                    </For>
-                                </Wrap>
-                                <HStack gap={6} mt={1} flexWrap="wrap">
-                                    {developers.length > 0 && (
-                                        <Box>
-                                            <Text
-                                                {...sectionMetaStyle}
-                                                fontSize="xs"
-                                                color="white"
-                                                opacity={0.9}
-                                                mb="2xs"
-                                            >
-                                                DEVELOPER
-                                            </Text>
-                                            <Text
-                                                color="white"
-                                                fontSize="sm"
-                                                textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
-                                            >
-                                                {developers.map((c) => c.name).join(", ")}
-                                            </Text>
-                                        </Box>
-                                    )}
-                                    {publishers.length > 0 && (
-                                        <Box>
-                                            <Text
-                                                {...sectionMetaStyle}
-                                                fontSize="xs"
-                                                color="white"
-                                                opacity={0.9}
-                                                mb="2xs"
-                                            >
-                                                PUBLISHER
-                                            </Text>
-                                            <Text
-                                                color="white"
-                                                fontSize="sm"
-                                                textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
-                                            >
-                                                {publishers.map((c) => c.name).join(", ")}
-                                            </Text>
-                                        </Box>
-                                    )}
-                                </HStack>
-                                <Text
-                                    color="white"
-                                    fontSize="sm"
-                                    maxW="2xl"
-                                    lineClamp={3}
-                                    mt={1}
-                                    opacity={0.95}
-                                    textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
-                                >
-                                    {overview.summary ??
-                                        overview.storyline ??
-                                        "No summary available."}
-                                </Text>
-                            </VStack>
-                        </HStack>
+                                        {publishers.length > 0 && (
+                                            <Box>
+                                                <Text
+                                                    {...sectionMetaStyle}
+                                                    fontSize="xs"
+                                                    color="white"
+                                                    opacity={0.9}
+                                                    mb="2xs"
+                                                >
+                                                    PUBLISHER
+                                                </Text>
+                                                <Text
+                                                    color="white"
+                                                    fontSize="sm"
+                                                    textShadow="0 1px 1px rgba(0, 0, 0, 0.4)"
+                                                >
+                                                    {publishers.map((c) => c.name).join(", ")}
+                                                </Text>
+                                            </Box>
+                                        )}
+                                    </HStack>
+                                    <Text
+                                        color="white"
+                                        fontSize="sm"
+                                        maxW="2xl"
+                                        lineClamp={3}
+                                        mt={1}
+                                        opacity={0.95}
+                                        textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
+                                    >
+                                        {overview.summary ??
+                                            overview.storyline ??
+                                            "No summary available."}
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                        </Motion>
                     </PageWrapper>
                 </Box>
 
@@ -270,11 +291,18 @@ function GameDetailPage() {
                     <PageWrapper py="3">
                         <SegmentedControl.Root
                             value={activeTab}
-                            onChange={(value) => setActiveTab(value as Tab)}
+                            onChange={handleTabChange}
                             size="sm"
                             w="full"
                             colorScheme="emerald"
                             fullRounded
+                            indicatorProps={{
+                                transition: {
+                                    type: "tween",
+                                    duration: 0.16,
+                                    ease: [0.22, 1, 0.36, 1],
+                                },
+                            }}
                             css={{
                                 overflowX: "auto",
                                 WebkitOverflowScrolling: "touch",
@@ -294,6 +322,9 @@ function GameDetailPage() {
                                     fontSize="sm"
                                     h="full"
                                     fontWeight={activeTab === tab.value ? "semibold" : "normal"}
+                                    transitionProperty="color"
+                                    transitionDuration="0.18s"
+                                    transitionTimingFunction="ease-out"
                                 >
                                     {tab.label}
                                 </SegmentedControl.Item>
@@ -306,53 +337,65 @@ function GameDetailPage() {
                     <Suspense
                         fallback={
                             <Box py="20" textAlign="center">
-                                <Loading.Rings color="blue.500" fontSize="5xl" />
+                                <Loading.Rings color="primary.500" fontSize="5xl" />
                             </Box>
                         }
                     >
-                        <Box display={activeTab === "overview" ? "block" : "none"}>
-                            <Grid
-                                templateColumns={{ base: "1fr", lg: "1fr 300px" }}
-                                gap={{ base: 8, lg: 10 }}
-                                alignItems="start"
+                        <Box overflow="hidden">
+                            <Motion
+                                key={activeTab}
+                                initial={{ x: tabDirection > 0 ? 40 : -40 }}
+                                animate={{ x: 0 }}
+                                transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
                             >
-                                <VStack align="stretch" gap={8}>
-                                    <GameStory storyText={storyText} />
-                                    <ScreenshotPreview
+                                {activeTab === "overview" ? (
+                                    <Grid
+                                        templateColumns={{ base: "1fr", lg: "1fr 300px" }}
+                                        gap={{ base: 8, lg: 10 }}
+                                        alignItems="start"
+                                    >
+                                        <VStack align="stretch" gap={8}>
+                                            <GameStory storyText={storyText} />
+                                            <ScreenshotPreview
+                                                screenshots={media.screenshots}
+                                                visible
+                                                onViewAll={() => setActiveTab("media")}
+                                            />
+                                            <RelatedGamesSection games={similarGames} />
+                                        </VStack>
+
+                                        <OverviewPanel
+                                            gameTypeName={overview.gameTypeName}
+                                            modes={overview.genres}
+                                            playerPerspectives={details?.playerPerspectives}
+                                            platforms={platforms}
+                                            genres={overview.genres}
+                                            themes={overview.themes}
+                                        />
+                                    </Grid>
+                                ) : null}
+
+                                {activeTab === "official-links" ? (
+                                    <OfficialLinks websites={websites} />
+                                ) : null}
+
+                                {activeTab === "media" ? (
+                                    <MediaGrid
                                         screenshots={media.screenshots}
-                                        visible
-                                        onViewAll={() => setActiveTab("media")}
+                                        videos={media.videos}
                                     />
-                                    <RelatedGamesSection games={similarGames} />
-                                </VStack>
+                                ) : null}
 
-                                <OverviewPanel
-                                    gameTypeName={overview.gameTypeName}
-                                    modes={overview.genres}
-                                    playerPerspectives={details?.playerPerspectives}
-                                    platforms={platforms}
-                                    genres={overview.genres}
-                                    themes={overview.themes}
-                                />
-                            </Grid>
-                        </Box>
+                                {activeTab === "details" ? (
+                                    <VStack align="stretch" gap={8}>
+                                        <AlternativeNames names={alternativeNames} />
+                                    </VStack>
+                                ) : null}
 
-                        <Box display={activeTab === "official-links" ? "block" : "none"}>
-                            <OfficialLinks websites={websites} />
-                        </Box>
-
-                        <Box display={activeTab === "media" ? "block" : "none"}>
-                            <MediaGrid screenshots={media.screenshots} videos={media.videos} />
-                        </Box>
-
-                        <Box display={activeTab === "details" ? "block" : "none"}>
-                            <VStack align="stretch" gap={8}>
-                                <AlternativeNames names={alternativeNames} />
-                            </VStack>
-                        </Box>
-
-                        <Box display={activeTab === "release-dates" ? "block" : "none"}>
-                            <GameReleaseDates releaseDates={releasePageData?.releases} />
+                                {activeTab === "release-dates" ? (
+                                    <GameReleaseDates releaseDates={releasePageData?.releases} />
+                                ) : null}
+                            </Motion>
                         </Box>
                     </Suspense>
                 </PageWrapper>

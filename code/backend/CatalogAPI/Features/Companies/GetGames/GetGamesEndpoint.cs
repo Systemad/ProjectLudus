@@ -1,17 +1,19 @@
 namespace CatalogAPI.Features.Companies.GetGames;
 
-public static class GetGamesEndpoint
+public static class GetCompanyGamesEndpoint
 {
     public record GetCompanyGamesResponse(CompanyGamesDto CompanyGames);
 
-    public static IEndpointRouteBuilder MapGetGamesEndpoint(this IEndpointRouteBuilder routeBuilder)
+    public static RouteHandlerBuilder MapGetCompanyGamesEndpoint(
+        this IEndpointRouteBuilder routeBuilder
+    )
     {
-        routeBuilder
+        return routeBuilder
             .MapGet("/{companyId:long}/games", GetCompanyGamesAsync)
+            .WithName("Companies/GetGames")
+            .WithTags("Companies")
             .Produces<GetCompanyGamesResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
-
-        return routeBuilder;
     }
 
     private static async Task<IResult> GetCompanyGamesAsync(

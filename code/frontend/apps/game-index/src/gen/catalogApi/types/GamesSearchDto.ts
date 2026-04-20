@@ -28,7 +28,11 @@ export type GamesSearchDto = {
     /**
      * @type null,integer, int64
     */
-    firstReleaseDate?: number | null;
+    firstReleaseDateEpoch?: number | null;
+    /**
+     * @type string, date
+    */
+    firstReleaseDate: string;
     /**
      * @type null,string
     */
