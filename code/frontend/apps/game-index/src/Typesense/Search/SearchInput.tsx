@@ -32,14 +32,12 @@ export function SearchInput({ placeholder = "Search...", compact = false }: Sear
                     setInputValue(nextValue);
                     debouncedRefine(nextValue);
                 }}
-                size="lg"
-                rounded="xl"
+                size="md"
+                rounded="lg"
                 flex="1"
                 minW={compact ? "0" : { base: "100%", sm: "18rem" }}
-                bg="transparentize(gray.900, 34%)"
-                borderColor="whiteAlpha.200"
-                backdropFilter="blur(16px) saturate(115%)"
-                boxShadow="inset 0 1px 0 {colors.whiteAlpha.150}, inset 0 0 0 1px {colors.whiteAlpha.100}"
+                bg="bg.surface"
+                borderColor="border.subtle"
             />
         </Flex>
     );

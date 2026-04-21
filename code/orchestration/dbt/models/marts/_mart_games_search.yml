@@ -35,6 +35,8 @@ models:
         data_type: character varying
       - name: game_status
         data_type: character varying
+      - name: hypes
+        data_type: integer
       - name: aggregated_rating
         data_type: double precision
       - name: aggregated_rating_count

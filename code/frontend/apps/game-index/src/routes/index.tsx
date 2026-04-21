@@ -55,20 +55,20 @@ function RouteComponent() {
         <PageWrapper py={{ base: "2", md: "2" }}>
             <VStack align="stretch" gap="md">
                 <Container.Root
-                    p="md"
+                    p={{ base: "sm", md: "md" }}
                     rounded="2xl"
                     textAlign="center"
                     variant={"panel"}
                     colorScheme={"fuchsia"}
                 >
                     <VStack gap="xs" align="center">
-                        <Heading>game-index.app</Heading>
+                        <Heading fontSize={{ base: "2xl", md: "3xl" }}>game-index.app</Heading>
                         <Text fontSize="sm" color="fg.muted">
                             Discover, search, and explore games directly from IGDB
                         </Text>
                     </VStack>
                 </Container.Root>
-                <Container.Root p="md" rounded="2xl" variant={"panel"}>
+                <Container.Root p={{ base: "sm", md: "md" }} rounded="2xl" variant={"panel"}>
                     <VStack align="stretch" gap="sm">
                         <Text fontSize="lg" fontWeight="semibold" color="fg.base">
                             Database Stats
@@ -115,8 +115,8 @@ function RouteComponent() {
                                                     key={`thumb-${b.id ?? index + 1}`}
                                                     src={getIGDBImageUrl(b.coverUrl, "cover_big")}
                                                     alt={b?.name ?? ""}
-                                                    w="12"
-                                                    h="12"
+                                                    w={{ base: "10", md: "12" }}
+                                                    h={{ base: "10", md: "12" }}
                                                     rounded="md"
                                                     objectFit="cover"
                                                 />,
@@ -149,8 +149,8 @@ function RouteComponent() {
                                                 key={`thumb-${b.id ?? index + 1}`}
                                                 src={getIGDBImageUrl(b.coverUrl, "cover_big")}
                                                 alt={b?.name ?? ""}
-                                                w="12"
-                                                h="12"
+                                                w={{ base: "10", md: "12" }}
+                                                h={{ base: "10", md: "12" }}
                                                 rounded="md"
                                                 objectFit="cover"
                                             />,
@@ -183,8 +183,8 @@ function RouteComponent() {
                                                 key={`thumb-${b.id ?? index + 1}`}
                                                 src={getIGDBImageUrl(b.coverUrl, "cover_big")}
                                                 alt={b?.name ?? ""}
-                                                w="12"
-                                                h="12"
+                                                w={{ base: "10", md: "12" }}
+                                                h={{ base: "10", md: "12" }}
                                                 rounded="md"
                                                 objectFit="cover"
                                             />,

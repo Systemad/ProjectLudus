@@ -10,7 +10,7 @@ type Props = {
 export function PageWrapper({
     children,
     maxW = "7xl",
-    px = { base: "4", md: "6", xl: "8" },
+    px = { base: "3", md: "6", xl: "8" },
     py,
     pt,
     pb,

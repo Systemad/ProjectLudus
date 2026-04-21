@@ -1,21 +1,21 @@
 import AppleIcon from "./Consoles/AppleIcon";
 import LinuxIcons from "./Consoles/LinuxIcons";
-import PlaystationIcon from "./Consoles/PlaystationIcon";
+import { PlaystationIcon } from "./Consoles/PlaystationIcon";
 import WindowsIcon from "./Consoles/WindowsIcon";
 import XboxIcon from "./Consoles/XboxIcon";
 import CryEngineIcon from "./GameEngines/CryEngineIcon";
 import GodotEngineIcon from "./GameEngines/GodotEngineIcon";
-import SourceEngineIcon from "./GameEngines/SourceEngineIcon";
+import { SourceEngineIcon } from "./GameEngines/SourceEngineIcon";
 import UnityEngineIcon from "./GameEngines/UnityEngineIcon";
-import UnrealEngineIcon from "./GameEngines/UnrealEngineIcon";
+import { UnrealEngineIcon } from "./GameEngines/UnrealEngineIcon";
 import BattleNetIcon from "./Launchers/BattleNetIcon";
-import EAIcon from "./Launchers/EAIcon";
-import EpicGamesIcon from "./Launchers/EpicGamesIcon";
-import GOGIcon from "./Launchers/GOGIcon";
-import ItchIoIcon from "./Launchers/ItchIoIcon";
-import SteamIcon from "./Launchers/SteamIcon";
-import SteamIcon2 from "./Launchers/SteamIcon2";
-import UbisoftIcon from "./Launchers/UbisoftIcon";
+import { EAIcon } from "./Launchers/EAIcon";
+import { EpicGamesIcon } from "./Launchers/EpicGamesIcon";
+import { GOGIcon } from "./Launchers/GOGIcon";
+import { ItchIoIcon } from "./Launchers/ItchIoIcon";
+import { SteamIcon } from "./Launchers/SteamIcon";
+import { GitHubIcon } from "./Launchers/GitHubIcon";
+import { UbisoftIcon } from "./Launchers/UbisoftIcon";
 import { GlobeIcon, ShoppingCartIcon } from "ui";
 
 export const platformIconMap: Record<string, React.ReactNode> = {
@@ -27,7 +27,7 @@ export const platformIconMap: Record<string, React.ReactNode> = {
     xbox: <XboxIcon />,
     playstation: <PlaystationIcon />,
     steam: <SteamIcon />,
-    steam2: <SteamIcon2 />,
+    github: <GitHubIcon />,
     epic: <EpicGamesIcon />,
     battlenet: <BattleNetIcon />,
     "battle-net": <BattleNetIcon />,

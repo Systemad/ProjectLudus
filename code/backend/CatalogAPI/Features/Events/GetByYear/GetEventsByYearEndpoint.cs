@@ -40,7 +40,8 @@ public static class GetEventsByYearEndpoint
         );
 
         var eventDtos = await db
-            .Events.Where(e => e.StartTimeUtc >= yearStart && e.StartTimeUtc < nextYearStart)
+            .Events
+            .Where(e => e.StartTimeUtc >= yearStart && e.StartTimeUtc < nextYearStart)
             .OrderBy(e => e.StartTimeUtc)
             .Select(e => new EventDto
             {

@@ -8,7 +8,7 @@ import { calendarResponseSchema } from "./calendarResponseSchema.ts";
 import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
 
 export const calendarGetGamesPathParamsSchema = z.object({
-    "startDate": z.string().datetime()
+    "year": z.coerce.number().int()
     })
 
 /**

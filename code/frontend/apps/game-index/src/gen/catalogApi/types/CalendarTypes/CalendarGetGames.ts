@@ -8,9 +8,9 @@ import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetai
 
 export type CalendarGetGamesPathParams = {
     /**
-     * @type string, date-time
+     * @type integer, int32
     */
-    startDate: string;
+    year: number;
 };
 
 /**

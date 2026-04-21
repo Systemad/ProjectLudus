@@ -42,6 +42,10 @@ export type GamesSearchDto = {
     */
     gameStatus?: string | null;
     /**
+     * @type integer, int32
+    */
+    hypes: number;
+    /**
      * @type null,number, double
     */
     aggregatedRating?: number | null;

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Accordion, Box, Button, Drawer, Grid, Heading } from "ui";
-import { Hits, Pagination, Stats } from "react-instantsearch";
+import { appShellStickyTopOffset } from "@src/components/AppShell/layout.constants";
+import { Accordion, Box, Button, Drawer, Grid, Heading, Pagination, Text } from "ui";
+import { Hits, Stats, usePagination } from "react-instantsearch";
 import { SearchFacetFilterGroup } from "./SearchFacetFilterGroup";
 import { SearchHeader } from "./SearchHeader";
 import type { SortFieldOption } from "./SearchControl";
@@ -20,6 +21,32 @@ type SearchPageLayoutProps<THit extends Record<string, unknown>> = {
     hitComponent: NonNullable<HitsProps<THit>["hitComponent"]>;
 };
 
+function TypesensePagination() {
+    const { currentRefinement, nbPages, refine } = usePagination();
+
+    if (nbPages <= 1) {
+        return null;
+    }
+
+    return (
+        <Box mt="md" w="full" display="flex" justifyContent="center">
+            <Pagination.Root
+                page={currentRefinement + 1}
+                total={nbPages}
+                onChange={(page) => refine(page - 1)}
+                size="sm"
+                variant="outline"
+                colorScheme="gray"
+                justify="center"
+                wrap="wrap"
+                withEdges
+                siblings={1}
+                boundaries={1}
+            />
+        </Box>
+    );
+}
+
 export function SearchPageLayout<THit extends Record<string, unknown>>({
     searchPlaceholder,
     indexName,
@@ -32,16 +59,20 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
 
     return (
         <Box
-            p={{ base: "sm", md: "md" }}
+            p={{ base: "xs", md: "sm" }}
             display="grid"
-            gap="md"
+            gap={{ base: "sm", md: "md" }}
+            bg="bg.surface"
+            rounded="xl"
+            borderWidth="1px"
+            borderColor="border.subtle"
             css={{
                 ".typesense-layout": {
                     display: "grid",
                     gridTemplateColumns: "1fr",
-                    gap: "1rem",
+                    gap: "0.875rem",
                 },
-                "@media (min-width: 900px)": {
+                "@media (min-width: 48em)": {
                     ".typesense-layout": {
                         gridTemplateColumns: "280px 1fr",
                         alignItems: "start",
@@ -53,7 +84,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         display: "none",
                     },
                 },
-                "@media (max-width: 899px)": {
+                "@media (max-width: calc(48em - 1px))": {
                     ".typesense-facet-desktop": {
                         display: "none",
                     },
@@ -61,20 +92,21 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         display: "inline-flex",
                     },
                     ".typesense-hit-list": {
+                        gridTemplateColumns: "1fr",
+                    },
+                },
+                "@media (min-width: 30em) and (max-width: calc(48em - 1px))": {
+                    ".typesense-hit-list": {
                         gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                     },
                 },
                 ".typesense-facet-panel": {
                     position: "sticky",
-                    top: "1rem",
-                },
-                ".typesense-searchbox": {
-                    marginBottom: "1rem",
                 },
                 ".typesense-hit-list": {
                     display: "grid",
                     gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-                    gap: "0.875rem",
+                    gap: "0.75rem",
                     listStyle: "none",
                     margin: 0,
                     padding: 0,
@@ -82,47 +114,16 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                 ".typesense-hit-item": {
                     margin: 0,
                 },
-                ".typesense-pagination": {
-                    marginTop: "1rem",
-                },
-                ".typesense-pagination-list": {
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                    display: "flex",
-                    gap: "0.35rem",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                },
-                ".typesense-pagination-item": {
-                    margin: 0,
-                },
-                ".typesense-pagination-link": {
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minWidth: "2rem",
-                    height: "2rem",
-                    borderRadius: "0.5rem",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                    textDecoration: "none",
-                    color: "inherit",
-                    background: "rgba(18,18,20,0.55)",
-                    backdropFilter: "blur(10px) saturate(110%)",
-                },
-                ".typesense-pagination-item--selected .typesense-pagination-link": {
-                    background: "rgba(93, 163, 255, 0.18)",
-                    borderColor: "rgba(163, 210, 255, 0.35)",
-                },
             }}
         >
             <Grid className="typesense-layout">
                 <Box
                     as="aside"
-                    layerStyle="translucentCard"
+                    layerStyle="panel"
                     className="typesense-facet-panel typesense-facet-desktop"
-                    p="md"
-                    rounded="2xl"
+                    top={appShellStickyTopOffset}
+                    p="sm"
+                    rounded="lg"
                 >
                     <Heading size="sm" mb="sm">
                         Filters
@@ -156,6 +157,9 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         size="sm"
                         variant="outline"
                         mb="sm"
+                        w="full"
+                        justifyContent="center"
+                        colorScheme="gray"
                         onClick={() => setIsMobileFiltersOpen(true)}
                     >
                         Filters
@@ -167,7 +171,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         placement="block-end"
                         withCloseButton={false}
                     >
-                        <Drawer.Content>
+                        <Drawer.Content bg="bg.surface" borderTopRadius="xl">
                             <Drawer.Header>
                                 <Heading size="sm">Filters</Heading>
                             </Drawer.Header>
@@ -190,7 +194,12 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
 
                             <Drawer.Footer>
                                 <Box w="full" display="flex" justifyContent="end">
-                                    <Button size="sm" onClick={() => setIsMobileFiltersOpen(false)}>
+                                    <Button
+                                        size="sm"
+                                        variant="outline"
+                                        colorScheme="gray"
+                                        onClick={() => setIsMobileFiltersOpen(false)}
+                                    >
                                         Close
                                     </Button>
                                 </Box>
@@ -206,18 +215,12 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         }}
                     />
 
-                    <Pagination
-                        classNames={{
-                            root: "typesense-pagination",
-                            list: "typesense-pagination-list",
-                            item: "typesense-pagination-item",
-                            selectedItem: "typesense-pagination-item--selected",
-                            link: "typesense-pagination-link",
-                        }}
-                    />
+                    <TypesensePagination />
 
-                    <Box mt="sm" textAlign="end">
-                        <Stats />
+                    <Box mt="sm" textAlign={{ base: "start", md: "end" }}>
+                        <Text fontSize="sm" color="fg.subtle">
+                            <Stats />
+                        </Text>
                     </Box>
                 </Box>
             </Grid>

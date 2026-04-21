@@ -30,8 +30,8 @@ export function SortControls({ currentSort, sortFieldOptions, onSortChange }: So
     };
 
     return (
-        <Flex gap="sm" wrap="nowrap" align="end">
-            <Box minW={{ base: "10rem", sm: "13rem" }}>
+        <Flex gap="xs" wrap="nowrap" align="end" direction={{ base: "column", sm: "row" }} w="full">
+            <Box minW={{ base: "100%", sm: "10rem" }}>
                 <Select.Root
                     size="sm"
                     value={displayField}
@@ -47,8 +47,10 @@ export function SortControls({ currentSort, sortFieldOptions, onSortChange }: So
                 <Button
                     size="sm"
                     variant="outline"
+                    colorScheme="gray"
                     onClick={() => onDirectionChange(direction === "asc" ? "desc" : "asc")}
-                    minW="3rem"
+                    minW={{ base: "100%", sm: "3rem" }}
+                    w={{ base: "100%", sm: "auto" }}
                 >
                     {direction === "asc" ? "↑" : "↓"}
                 </Button>

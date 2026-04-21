@@ -18,7 +18,7 @@ import { useEventsGetByIdHook } from "@src/gen/catalogApi";
 import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { GameCard } from "@src/components/game/GameCard";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { differenceInHours, parseISO } from "date-fns";
+import { parseISO } from "date-fns";
 import {
     formatClientLocalDateTime,
     formatEventDateTime,
@@ -31,7 +31,13 @@ export const Route = createAnyFileRoute("/events/$eventId")({
     component: EventDetailPage,
 });
 
-function CountdownClock({ utc }: { utc: string | null | undefined }) {
+function CountdownClock({
+    startUtc,
+    endUtc,
+}: {
+    startUtc: string | null | undefined;
+    endUtc: string | null | undefined;
+}) {
     const [now, setNow] = useState(() => new Date());
 
     useEffect(() => {
@@ -39,7 +45,7 @@ function CountdownClock({ utc }: { utc: string | null | undefined }) {
         return () => window.clearInterval(timer);
     }, []);
 
-    if (!utc) {
+    if (!startUtc) {
         return (
             <VStack align="start" gap="1">
                 <Text
@@ -57,7 +63,35 @@ function CountdownClock({ utc }: { utc: string | null | undefined }) {
         );
     }
 
-    const target = parseISO(utc);
+    const target = parseISO(startUtc);
+    const endTarget = endUtc ? parseISO(endUtc) : null;
+
+    const formatHms = (ms: number) => {
+        const totalSeconds = Math.max(Math.floor(ms / 1000), 0);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    };
+
+    if (endTarget && endTarget <= now) {
+        return (
+            <VStack align="start" gap="1">
+                <Text
+                    fontSize="xs"
+                    color="fg.muted"
+                    textTransform="uppercase"
+                    letterSpacing="widest"
+                >
+                    Countdown
+                </Text>
+                <Text fontSize="2xl" fontWeight="bold">
+                    00:00:00
+                </Text>
+            </VStack>
+        );
+    }
 
     if (target <= now) {
         return (
@@ -77,23 +111,14 @@ function CountdownClock({ utc }: { utc: string | null | undefined }) {
         );
     }
 
-    const totalHours = differenceInHours(target, now);
-    const days = Math.floor(totalHours / 24);
-    const hours = totalHours % 24;
-
     return (
         <VStack align="start" gap="1">
             <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
                 Countdown
             </Text>
-            <HStack gap="3" align="baseline">
-                <Text fontSize="2xl" fontWeight="bold">
-                    {days}d
-                </Text>
-                <Text fontSize="xl" fontWeight="semibold" color="fg.muted">
-                    {hours}h
-                </Text>
-            </HStack>
+            <Text fontSize="2xl" fontWeight="bold">
+                {formatHms(target.getTime() - now.getTime())}
+            </Text>
         </VStack>
     );
 }
@@ -120,8 +145,8 @@ function EventDetailPage() {
     const logoUrl = event.logoImageId ? getIGDBImageUrl(event.logoImageId, "logo_med") : null;
 
     return (
-        <PageWrapper py={{ base: "4", md: "6" }}>
-            <VStack align="stretch" gap="8">
+        <PageWrapper py={{ base: "3", md: "6" }}>
+            <VStack align="stretch" gap={{ base: "6", md: "8" }}>
                 <VStack align="stretch" gap="4">
                     <Link
                         to="/events"
@@ -133,7 +158,7 @@ function EventDetailPage() {
                     </Link>
                     <Grid
                         templateColumns={{ base: "1fr", lg: "1.4fr 1fr" }}
-                        gap={{ base: "5", lg: "8" }}
+                        gap={{ base: "4", lg: "8" }}
                     >
                         <Box
                             rounded="2xl"
@@ -167,15 +192,15 @@ function EventDetailPage() {
                                     <Image
                                         src={logoUrl}
                                         alt={event.name}
-                                        maxW="56"
-                                        maxH="40"
+                                        maxW={{ base: "40", md: "56" }}
+                                        maxH={{ base: "28", md: "40" }}
                                         objectFit="contain"
                                     />
                                 </Box>
                             ) : null}
                         </Box>
 
-                        <VStack align="stretch" gap="5">
+                        <VStack align="stretch" gap={{ base: "4", md: "5" }}>
                             <VStack align="stretch" gap="2">
                                 <Text fontSize="sm" color="fg.muted">
                                     Event
@@ -188,7 +213,7 @@ function EventDetailPage() {
                                 ) : null}
                             </VStack>
 
-                            <SimpleGrid columns={{ base: 1, md: 2 }} gap="4">
+                            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: "3", md: "4" }}>
                                 <Box
                                     rounded="xl"
                                     borderWidth="1px"
@@ -196,7 +221,10 @@ function EventDetailPage() {
                                     bg="bg.panel"
                                     p="4"
                                 >
-                                    <CountdownClock utc={event.startTimeUtc} />
+                                    <CountdownClock
+                                        startUtc={event.startTimeUtc}
+                                        endUtc={event.endTimeUtc}
+                                    />
                                 </Box>
                                 <Box
                                     rounded="xl"
@@ -280,7 +308,13 @@ function EventDetailPage() {
 
                 <VStack align="stretch" gap="4">
                     <Heading fontSize="xl">Related Games</Heading>
-                    <HStack gap="4" overflowX="auto" overflowY="hidden" align="stretch" pb="2">
+                    <HStack
+                        gap={{ base: "3", md: "4" }}
+                        overflowX="auto"
+                        overflowY="hidden"
+                        align="stretch"
+                        pb="2"
+                    >
                         <For
                             each={event.games}
                             fallback={

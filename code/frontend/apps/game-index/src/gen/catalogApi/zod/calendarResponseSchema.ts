@@ -7,7 +7,6 @@ import * as z from "zod";
 import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
 
 export const calendarResponseSchema = z.object({
-    "weekStart": z.string().datetime(),
-"weekEnd": z.string().datetime(),
+    "year": z.number().int(),
 "games": z.array(z.lazy(() => gamesSearchDtoSchema))
     })

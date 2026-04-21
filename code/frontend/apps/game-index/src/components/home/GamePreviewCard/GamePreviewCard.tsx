@@ -22,30 +22,38 @@ export default function GamePreviewCard({ game }: Props) {
     const imageUrl = getIGDBImageUrl(game.coverUrl, "cover_big");
 
     return (
-        <Card.Root maxW="sm" rounded="xl">
+        <Card.Root
+            maxW="xs"
+            rounded="lg"
+            bg="bg.panel"
+            borderWidth="1px"
+            borderColor="border.default"
+            boxShadow="md"
+        >
             <Card.Header justifyContent="center">
-                <Image w="full" h="2xs" src={imageUrl} alt={title} objectFit="cover" rounded="xl" />
+                <Image w="full" h="3xs" src={imageUrl} alt={title} objectFit="cover" rounded="md" />
             </Card.Header>
-            <Card.Body>
-                <VStack align="stretch" gap="md">
-                    <Text fontSize="xl" fontWeight="bold" lineHeight="short">
+            <Card.Body p="sm">
+                <VStack align="stretch" gap="sm">
+                    <Text color="fg.base" fontSize="lg" fontWeight="bold" lineHeight="short">
                         {title}
                     </Text>
 
                     <VStack align="stretch" gap="xs">
-                        <Text color="fg.subtle" fontSize="md">
+                        <Text color="fg.subtle" fontSize="sm">
                             Developer: {""}
-                            <Text as="span" color="blue.400">
+                            <Text as="span" color="fg.base">
                                 {developer}
                             </Text>
                         </Text>
-                        <Text color="fg.subtle" fontSize="md">
+                        <Text color="fg.subtle" fontSize="sm">
                             Publisher: {""}
-                            <Text as="span" color="blue.400">
+                            <Text as="span" color="fg.base">
                                 {publisher}
                             </Text>
                         </Text>
-                        <Text color="fg.subtle" fontSize="md">
+                        <Text color="fg.subtle" fontSize="sm">
+                            Released: {""}
                             <Text as="span" color="fg.base">
                                 {game.firstReleaseDate}
                             </Text>
@@ -67,15 +75,15 @@ export default function GamePreviewCard({ game }: Props) {
                     </Wrap>
 
                     <HStack
-                        rounded="lg"
-                        bg="bg.panel"
+                        rounded="md"
+                        bg="bg.subtle"
                         borderWidth="1px"
                         borderColor="border.subtle"
-                        p="md"
-                        gap="sm"
+                        p="sm"
+                        gap="xs"
                         align="start"
                     >
-                        <Text color="fg.subtle" fontSize="md" lineHeight="short">
+                        <Text color="fg.subtle" fontSize="sm" lineHeight="short">
                             Features: {""}
                             <Text as="span" color="fg.base">
                                 {featuresSummary}

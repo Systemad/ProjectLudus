@@ -184,6 +184,7 @@ select
     g.first_release_date_utc as first_release_date_utc,
     gtype.game_type,
     gs.game_status,
+    coalesce(g.hypes, 0)::int as hypes,
     coalesce(g.aggregated_rating, 0)::float as aggregated_rating,
     coalesce(g.aggregated_rating_count, 0)::int as aggregated_rating_count,
     coalesce(g.rating, 0)::float as rating,

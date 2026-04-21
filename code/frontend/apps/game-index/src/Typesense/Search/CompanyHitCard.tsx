@@ -11,7 +11,13 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
     const imageUrl = getIGDBImageUrl(hit.logo_url, "logo_med");
 
     return (
-        <Card.Root>
+        <Card.Root
+            h="full"
+            rounded="lg"
+            bg="bg.surface"
+            borderWidth="1px"
+            borderColor="border.subtle"
+        >
             <Card.Header>
                 <Box aspectRatio="3/2" overflow="hidden" rounded="lg" bg="bg.subtle">
                     {imageUrl ? (
@@ -21,7 +27,7 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
                             w="full"
                             h="full"
                             objectFit="contain"
-                            p="sm"
+                            p={{ base: "xs", md: "sm" }}
                         />
                     ) : (
                         <Flex w="full" h="full" align="center" justify="center">
@@ -33,21 +39,21 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
                 </Box>
             </Card.Header>
 
-            <Card.Body>
+            <Card.Body p={{ base: "xs", md: "sm" }}>
                 <Flex direction="column" gap="xs">
-                    <Heading size="sm" lineClamp={2} minH="2.75rem">
+                    <Heading size="sm" lineClamp={2} minH="2.5rem" color="fg.base">
                         {hit.name ?? "Unknown company"}
                     </Heading>
 
-                    <Text fontSize="sm" color="fg.muted">
+                    <Text fontSize="sm" color="fg.subtle">
                         Status: {getCompanyStatusLabel(hit.status)}
                     </Text>
 
-                    <Text fontSize="sm" fontWeight="semibold">
+                    <Text fontSize="sm" fontWeight="semibold" color="fg.base">
                         Developed: {hit.games_developed_count ?? 0}
                     </Text>
 
-                    <Text fontSize="sm" fontWeight="semibold">
+                    <Text fontSize="sm" fontWeight="semibold" color="fg.base">
                         Published: {hit.games_published_count ?? 0}
                     </Text>
                 </Flex>

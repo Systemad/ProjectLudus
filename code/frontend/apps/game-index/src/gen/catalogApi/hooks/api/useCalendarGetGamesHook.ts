@@ -9,39 +9,39 @@ import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from
 import type { CalendarGetGamesQueryResponse, CalendarGetGamesPathParams, CalendarGetGames400 } from "../../types/CalendarTypes/CalendarGetGames.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-export const calendarGetGamesQueryKey = ({ startDate }: { startDate: CalendarGetGamesPathParams["startDate"] }) => ["v1", { url: '/api/calendar/:startDate', params: {startDate:startDate} }] as const
+export const calendarGetGamesQueryKey = ({ year }: { year: CalendarGetGamesPathParams["year"] }) => ["v1", { url: '/api/calendar/:year', params: {year:year} }] as const
 
 export type CalendarGetGamesQueryKey = ReturnType<typeof calendarGetGamesQueryKey>
 
 /**
- * {@link /api/calendar/:startDate}
+ * {@link /api/calendar/:year}
  */
-export async function calendarGetGamesHook({ startDate }: { startDate: CalendarGetGamesPathParams["startDate"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export async function calendarGetGamesHook({ year }: { year: CalendarGetGamesPathParams["year"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, unknown>({ method : "GET", url : `/api/calendar/${startDate}`, ... requestConfig })
+  const res = await request<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, unknown>({ method : "GET", url : `/api/calendar/${year}`, ... requestConfig })
   return res.data
 }
 
-export function calendarGetGamesQueryOptionsHook({ startDate }: { startDate: CalendarGetGamesPathParams["startDate"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function calendarGetGamesQueryOptionsHook({ year }: { year: CalendarGetGamesPathParams["year"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
-        const queryKey = calendarGetGamesQueryKey({ startDate })
+        const queryKey = calendarGetGamesQueryKey({ year })
         return queryOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, CalendarGetGamesQueryResponse, typeof queryKey>({
-         enabled: !!(startDate),
+         enabled: !!(year),
          queryKey,
          queryFn: async ({ signal }) => {
-            return calendarGetGamesHook({ startDate: startDate }, { ...config, signal: config.signal ?? signal })
+            return calendarGetGamesHook({ year: year }, { ...config, signal: config.signal ?? signal })
          },
         })
 
 }
 
 /**
- * {@link /api/calendar/:startDate}
+ * {@link /api/calendar/:year}
  */
-export function useCalendarGetGamesHook<TData = CalendarGetGamesQueryResponse, TQueryData = CalendarGetGamesQueryResponse, TQueryKey extends QueryKey = CalendarGetGamesQueryKey>({ startDate }: { startDate: CalendarGetGamesPathParams["startDate"] }, options: 
+export function useCalendarGetGamesHook<TData = CalendarGetGamesQueryResponse, TQueryData = CalendarGetGamesQueryResponse, TQueryKey extends QueryKey = CalendarGetGamesQueryKey>({ year }: { year: CalendarGetGamesPathParams["year"] }, options: 
 {
   query?: Partial<QueryObserverOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
@@ -50,11 +50,11 @@ export function useCalendarGetGamesHook<TData = CalendarGetGamesQueryResponse, T
 
          const { query: queryConfig = {}, client: config = {} } = options ?? {}
          const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesQueryKey({ startDate })
+         const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesQueryKey({ year })
          
 
          const query = useQuery({
-          ...calendarGetGamesQueryOptionsHook({ startDate }, config),
+          ...calendarGetGamesQueryOptionsHook({ year }, config),
           ...resolvedOptions,
           queryKey,
          } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<CalendarGetGames400>> & { queryKey: TQueryKey }

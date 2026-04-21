@@ -7,13 +7,9 @@ import type { GamesSearchDto } from "./GamesSearchDto.ts";
 
 export type CalendarResponse = {
     /**
-     * @type string, date-time
+     * @type integer, int32
     */
-    weekStart: string;
-    /**
-     * @type string, date-time
-    */
-    weekEnd: string;
+    year: number;
     /**
      * @type array
     */

@@ -3,7 +3,6 @@ const AppleIcon = () => (
     <Icon
         boxSize="1.5em"
         viewBox="0 0 814 1000"
-        fill="#0070D1"
         xmlSpace="preserve"
         xmlns="http://www.w3.org/2000/svg"
     >

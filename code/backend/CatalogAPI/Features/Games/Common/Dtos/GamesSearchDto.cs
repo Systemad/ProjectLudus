@@ -24,6 +24,9 @@ public partial class GamesSearchDto
     public string? GameType { get; set; }
 
     public string? GameStatus { get; set; }
+    
+    [Required]
+    public int Hypes { get; set; }
 
     public double? AggregatedRating { get; set; }
 

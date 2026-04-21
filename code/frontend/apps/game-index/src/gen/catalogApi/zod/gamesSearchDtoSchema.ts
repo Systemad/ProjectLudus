@@ -15,6 +15,7 @@ export const gamesSearchDtoSchema = z.object({
 "firstReleaseDate": z.string().date(),
 "gameType": z.string().nullish(),
 "gameStatus": z.string().nullish(),
+"hypes": z.number().int(),
 "aggregatedRating": z.number().nullish(),
 "aggregatedRatingCount": z.number().int().nullish(),
 "rating": z.number().nullish(),

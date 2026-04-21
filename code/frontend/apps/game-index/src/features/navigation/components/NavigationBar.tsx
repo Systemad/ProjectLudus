@@ -1,16 +1,18 @@
 import {
     Box,
     Button,
+    Drawer,
     Flex,
     Heading,
     HStack,
-    Input,
-    InputGroup,
-    MoonIcon,
-    SearchIcon,
-    SettingsIcon,
+    MenuIcon,
     Text,
+    VStack,
+    useDisclosure,
 } from "ui";
+import { useState } from "react";
+import { useMotionValueEvent, useScroll } from "motion/react";
+import { appShellNavInset } from "@src/components/AppShell/layout.constants";
 import { RouterLink, RouterLinkButton } from "@src/components/YamadaLink/YamadaLink";
 import { linkStyle } from "@src/utils/sectionTextStyles";
 
@@ -19,135 +21,195 @@ type NavigationBarProps = {
 };
 
 const navItems = [
-    { id: "home" as const, label: "Home", to: "/" },
-    { id: "search" as const, label: "Explore", to: "/games/search" },
+    { id: "search" as const, label: "Search", to: "/games/search" },
     { id: "calendar" as const, label: "Calendar", to: "/calendar" },
     { id: "events" as const, label: "Events", to: "/events" },
     { id: "companies" as const, label: "Companies", to: "/companies/search" },
 ];
 
 export function NavigationBar({ active: _active = "home" }: NavigationBarProps) {
+    const { open, onOpen, onClose } = useDisclosure();
+    const { scrollY } = useScroll();
+    const [isScrolled, setIsScrolled] = useState(() => scrollY.get() > 18);
+
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled((previous) => {
+            const next = latest > 18;
+            return previous === next ? previous : next;
+        });
+    });
+
     return (
-        <Flex
-            as="nav"
-            position="fixed"
-            insetX="0"
-            top="0"
-            zIndex="freeza"
-            borderBottomWidth="1px"
-            borderColor="border.subtle"
-            bg="bg.float"
-            backdropBlur="2xl"
-            boxShadow="0 2xl 3xl rgba(0, 0, 0, 0.28)"
-        >
+        <Box as="nav" position="fixed" insetX="0" top="0" zIndex="zarbon" pointerEvents="none">
             <Flex
                 w="full"
                 maxW="7xl"
                 mx="auto"
                 px={{ base: "4", md: "6", xl: "8" }}
-                py="4"
-                gap="6"
-                align="center"
+                pt={appShellNavInset}
+                pointerEvents="none"
             >
-                <Flex align="center" gap={{ base: "4", md: "10" }} flex="1">
-                    <RouterLink to="/" style={linkStyle}>
-                        <Heading
-                            as="span"
-                            fontFamily="heading"
-                            fontSize={{ base: "xl", md: "2xl" }}
-                            fontWeight="black"
-                            letterSpacing="tight"
-                            textTransform="uppercase"
-                            color="colorScheme.solid"
+                <Flex
+                    w="full"
+                    pointerEvents="auto"
+                    colorScheme="gray"
+                    rounded="full"
+                    borderWidth={isScrolled ? "1px" : "0"}
+                    borderColor={isScrolled ? "border.subtle" : "transparent"}
+                    bg={isScrolled ? "bg.surface" : "transparent"}
+                    backdropBlur="xl"
+                    boxShadow={isScrolled ? "lg" : "none"}
+                    px={{ base: "3", md: "4", xl: "5" }}
+                    py={{ base: "1.5", md: "2" }}
+                    gap={{ base: "3", md: "6" }}
+                    transitionProperty="background-color, border-color, box-shadow"
+                    transitionDuration="slower"
+                    transitionTimingFunction="ease-out"
+                    align="center"
+                    justify="space-between"
+                >
+                    <Flex align="center" gap={{ base: "2", md: "4" }} flex="1" minW="0">
+                        <Button
+                            display={{ base: "inline-flex", md: "none" }}
+                            aria-label="Open navigation"
+                            variant="ghost"
+                            color="gray.fg"
+                            onClick={onOpen}
                         >
-                            GAMEX
-                        </Heading>
-                    </RouterLink>
+                            <MenuIcon boxSize="4" />
+                        </Button>
 
-                    <HStack display={{ base: "none", md: "flex" }} gap="8">
+                        <Drawer.Root open={open} onClose={onClose} placement="inline-start">
+                            <Drawer.Overlay zIndex="beerus" />
+                            <Drawer.Content bg="bg.surface" colorScheme="gray" zIndex="beerus">
+                                <Drawer.CloseButton />
+                                <Drawer.Header>
+                                    <Heading
+                                        as="span"
+                                        fontFamily="heading"
+                                        fontSize="xl"
+                                        fontWeight="black"
+                                        letterSpacing="tight"
+                                        textTransform="uppercase"
+                                        bgClip="text"
+                                        bgGradient="linear(to-l, #C6426E, #642B73)"
+                                    >
+                                        Game-Index
+                                    </Heading>
+                                </Drawer.Header>
+
+                                <Drawer.Body>
+                                    <VStack align="stretch" gap="2">
+                                        {navItems.map((item) => (
+                                            <RouterLinkButton
+                                                key={`drawer-${item.id}`}
+                                                to={item.to}
+                                                variant="ghost"
+                                                color="gray.fg"
+                                                justifyContent="start"
+                                                rounded="lg"
+                                                px="3"
+                                                py="2"
+                                                w="full"
+                                                h="auto"
+                                                onClick={onClose}
+                                                activeProps={{
+                                                    bg: "gray.subtle",
+                                                    color: "gray.fg",
+                                                }}
+                                            >
+                                                <Text
+                                                    as="span"
+                                                    fontFamily="heading"
+                                                    fontWeight="bold"
+                                                    letterSpacing="tight"
+                                                    color="inherit"
+                                                >
+                                                    {item.label}
+                                                </Text>
+                                            </RouterLinkButton>
+                                        ))}
+                                    </VStack>
+                                </Drawer.Body>
+
+                                <Drawer.Footer>
+                                    <Drawer.CloseTrigger>
+                                        <Button variant="ghost">とじる</Button>
+                                    </Drawer.CloseTrigger>
+                                </Drawer.Footer>
+                            </Drawer.Content>
+                        </Drawer.Root>
+
+                        <RouterLink to="/" style={{ ...linkStyle, color: "inherit" }}>
+                            <Heading
+                                as="span"
+                                fontFamily="heading"
+                                fontSize={{ base: "xl", md: "2xl" }}
+                                fontWeight="black"
+                                letterSpacing="tight"
+                                textTransform="uppercase"
+                                bgClip="text"
+                                bgGradient="linear(to-l, #C6426E, #642B73)"
+                                whiteSpace="nowrap"
+                            >
+                                Game-Index
+                            </Heading>
+                        </RouterLink>
+                    </Flex>
+
+                    <HStack
+                        display={{ base: "none", md: "flex" }}
+                        gap={{ base: "2", lg: "3" }}
+                        flex="1"
+                        justify="center"
+                    >
                         {navItems.map((item) => (
                             <RouterLinkButton
                                 key={item.id}
                                 to={item.to}
                                 variant="ghost"
+                                color="gray.fg"
                                 rounded="full"
-                                px={{ base: "2", md: "3" }}
+                                px={{ md: "3", xl: "4" }}
                                 py="1"
                                 minW="0"
                                 h="auto"
-                                activeProps={{ color: "fg.base" }}
-                                _hover={{ bg: "bg.subtle", color: "fg.base" }}
+                                activeProps={{ bg: "gray.subtle", color: "gray.fg" }}
                             >
                                 <Text
                                     as="span"
                                     fontFamily="heading"
+                                    fontSize={{ base: "md", xl: "lg" }}
                                     fontWeight="bold"
                                     letterSpacing="tight"
                                     color="inherit"
-                                    transitionProperty="color"
-                                    transitionDuration="moderate"
                                 >
                                     {item.label}
                                 </Text>
                             </RouterLinkButton>
                         ))}
                     </HStack>
+
+                    <Flex flex="1" justify="flex-end" minW="0">
+                        <RouterLinkButton
+                            to="/games/search"
+                            display={{ base: "none", md: "inline-flex" }}
+                            variant="outline"
+                            colorScheme="gray"
+                            rounded="full"
+                            px={{ md: "4", xl: "5" }}
+                            py="1.5"
+                            fontSize={{ md: "md", xl: "lg" }}
+                            borderColor={isScrolled ? "border.emphasized" : "border.subtle"}
+                            bg={isScrolled ? "gray.subtle" : "transparent"}
+                            activeProps={{ bg: "gray.subtle", color: "gray.fg" }}
+                        >
+                            Browse games
+                        </RouterLinkButton>
+                    </Flex>
                 </Flex>
-
-                <Box display={{ base: "none", lg: "block" }} position="relative" flex="1">
-                    <InputGroup.Root>
-                        <InputGroup.Element>
-                            <SearchIcon
-                                position="absolute"
-                                insetInlineStart="4"
-                                top="50%"
-                                transform="translateY(-50%)"
-                                color="fg.subtle"
-                                pointerEvents="none"
-                            />
-                        </InputGroup.Element>
-                        <Input
-                            variant="filled"
-                            rounded="xl"
-                            placeholder="Search games and companies..."
-                        />
-                    </InputGroup.Root>
-                </Box>
-
-                <HStack gap="3">
-                    <Button
-                        aria-label="Theme control"
-                        variant="ghost"
-                        rounded="full"
-                        minW="10"
-                        h="10"
-                        px="0"
-                        borderWidth="1px"
-                        borderColor="border.base"
-                        bg="bg.subtle"
-                        color="fg.muted"
-                        _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                    >
-                        <MoonIcon boxSize="4" />
-                    </Button>
-                    <Button
-                        aria-label="Settings"
-                        variant="ghost"
-                        rounded="full"
-                        minW="10"
-                        h="10"
-                        px="0"
-                        borderWidth="1px"
-                        borderColor="border.base"
-                        bg="bg.subtle"
-                        color="fg.muted"
-                        _hover={{ bg: "bg.subtle", color: "fg.base" }}
-                    >
-                        <SettingsIcon boxSize="4" />
-                    </Button>
-                </HStack>
             </Flex>
-        </Flex>
+        </Box>
     );
 }
 

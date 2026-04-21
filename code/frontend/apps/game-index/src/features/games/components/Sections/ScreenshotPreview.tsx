@@ -12,7 +12,6 @@ import {
     Carousel,
     Image,
 } from "ui";
-import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
@@ -25,13 +24,25 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
     return (
         <Container.Root
             rounded="2xl"
-            variant="subtle"
+            variant="surface"
+            colorScheme="gray"
+            bg="bg.panel"
+            borderWidth="1px"
+            borderColor="border.subtle"
             display={visible ? "block" : "none"}
             w="full"
             minW={0}
         >
             <Container.Header>
-                <Text {...sectionLabelStyle}>Screenshots</Text>
+                <Text
+                    fontSize="xl"
+                    fontWeight="semibold"
+                    textTransform="uppercase"
+                    letterSpacing="wide"
+                    color="colorScheme.fg"
+                >
+                    Screenshots
+                </Text>
             </Container.Header>
 
             <Container.Body w="full" minW={0} overflow="hidden">

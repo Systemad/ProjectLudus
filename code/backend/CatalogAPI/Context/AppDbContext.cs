@@ -949,6 +949,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.FirstReleaseDateUtc).HasColumnName("first_release_date_utc");
             entity.Property(e => e.Franchise).HasColumnName("franchise");
             entity.Property(e => e.GameStatus).HasColumnName("game_status");
+            entity.Property(e => e.Hypes).HasColumnName("hypes");
             entity.Property(e => e.GameType).HasColumnName("game_type");
             entity.Property(e => e.Hypes).HasColumnName("hypes");
             entity.Property(e => e.Name)

@@ -5,8 +5,13 @@ import type { GamesSearchDto } from "@src/gen/catalogApi";
 import { AspectRatio, Box, Image, Text } from "ui";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
+type GameCardModel = Pick<GamesSearchDto, "name"> & {
+    id: number | string;
+    coverUrl?: string | null;
+};
+
 type Props = {
-    game: GamesSearchDto;
+    game: GameCardModel;
 };
 
 export function GameCard({ game }: Props) {
@@ -18,7 +23,7 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <Box role="group" w={{ base: "32", md: "40" }} minW={{ base: "32", md: "40" }}>
+            <Box role="group" w={{ base: "28", md: "40" }} minW={{ base: "28", md: "40" }}>
                 <Box position="relative" rounded="xl" overflow="hidden">
                     <AspectRatio ratio={3 / 4}>
                         <Image
@@ -43,6 +48,7 @@ export function GameCard({ game }: Props) {
                         right={3}
                         bottom={3}
                         color="white"
+                        fontSize={{ base: "sm", md: "md" }}
                         fontWeight="semibold"
                         lineHeight="short"
                     >

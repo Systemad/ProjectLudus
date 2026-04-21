@@ -10,7 +10,13 @@ export function Footer() {
                 py={{ base: "5", md: "7" }}
             >
                 <VStack align="center" gap="3" textAlign="center">
-                    <Heading as="h2" size="md" fontFamily="heading">
+                    <Heading
+                        as="h2"
+                        size="md"
+                        fontFamily="heading"
+                        bgClip="text"
+                        bgGradient="linear(to-l, #C6426E, #642B73)"
+                    >
                         GAME-INDEX
                     </Heading>
                     <Text color="fg.muted" maxW="md" fontSize="xs">
