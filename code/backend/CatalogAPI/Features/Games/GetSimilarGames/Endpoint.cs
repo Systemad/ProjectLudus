@@ -1,8 +1,10 @@
+using CatalogAPI.Features.Games.Common.Projections;
+
 namespace CatalogAPI.Features.Games.GetSimilarGames;
 
 public static class Endpoint
 {
-    private record GetSimilarGamesResponse(List<GamesSearchDto> Games);
+    private record GetSimilarGamesResponse(List<GameDto> Games);
 
     public static RouteHandlerBuilder MapGetSimilarGamesEndpoint(
         this IEndpointRouteBuilder routeBuilder
@@ -24,14 +26,11 @@ public static class Endpoint
         var similarGames = await db
             .Games.Where(g => g.Id == gameId)
             .SelectMany(g => g.SimilarGames)
-            .Join(
-                db.GamesSearches,
-                similar => similar.Id,
-                search => search.Id,
-                (_, search) => search
-            )
+            .Join(db.Games, similar => similar.Id, game => game.Id, (_, game) => game)
+            .Where(game => game.FirstReleaseDateUtc.HasValue)
+            .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new GetSimilarGamesResponse(GameSearchMapper.MapToDto(similarGames)));
+        return Results.Ok(new GetSimilarGamesResponse(similarGames));
     }
 }

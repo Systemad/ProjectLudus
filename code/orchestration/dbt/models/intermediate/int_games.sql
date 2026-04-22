@@ -23,7 +23,6 @@ with
             storyline,
             aggregated_rating,
             aggregated_rating_count,
-            status,
             game_status,
             hypes,
             version_parent,

@@ -22,6 +22,8 @@ export type { GamesGetSimilarSuspenseQueryKey } from "./api/useGamesGetSimilarSu
 export type { GamesGetSuspenseQueryKey } from "./api/useGamesGetSuspenseHook.ts";
 export type { PopularityTypesGetByIdQueryKey } from "./api/usePopularityTypesGetByIdHook.ts";
 export type { PopularityTypesGetByIdSuspenseQueryKey } from "./api/usePopularityTypesGetByIdSuspenseHook.ts";
+export type { StatsGetStatsQueryKey } from "./api/useStatsGetStatsHook.ts";
+export type { StatsGetStatsSuspenseQueryKey } from "./api/useStatsGetStatsSuspenseHook.ts";
 export { calendarGetGamesHook } from "./api/useCalendarGetGamesHook.ts";
 export { calendarGetGamesQueryKey } from "./api/useCalendarGetGamesHook.ts";
 export { calendarGetGamesQueryOptionsHook } from "./api/useCalendarGetGamesHook.ts";
@@ -118,3 +120,11 @@ export { popularityTypesGetByIdSuspenseHook } from "./api/usePopularityTypesGetB
 export { popularityTypesGetByIdSuspenseQueryKey } from "./api/usePopularityTypesGetByIdSuspenseHook.ts";
 export { popularityTypesGetByIdSuspenseQueryOptionsHook } from "./api/usePopularityTypesGetByIdSuspenseHook.ts";
 export { usePopularityTypesGetByIdSuspenseHook } from "./api/usePopularityTypesGetByIdSuspenseHook.ts";
+export { statsGetStatsHook } from "./api/useStatsGetStatsHook.ts";
+export { statsGetStatsQueryKey } from "./api/useStatsGetStatsHook.ts";
+export { statsGetStatsQueryOptionsHook } from "./api/useStatsGetStatsHook.ts";
+export { useStatsGetStatsHook } from "./api/useStatsGetStatsHook.ts";
+export { statsGetStatsSuspenseHook } from "./api/useStatsGetStatsSuspenseHook.ts";
+export { statsGetStatsSuspenseQueryKey } from "./api/useStatsGetStatsSuspenseHook.ts";
+export { statsGetStatsSuspenseQueryOptionsHook } from "./api/useStatsGetStatsSuspenseHook.ts";
+export { useStatsGetStatsSuspenseHook } from "./api/useStatsGetStatsSuspenseHook.ts";

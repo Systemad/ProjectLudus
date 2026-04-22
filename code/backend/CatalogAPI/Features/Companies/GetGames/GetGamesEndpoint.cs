@@ -1,3 +1,5 @@
+using CatalogAPI.Features.Games.Common.Projections;
+
 namespace CatalogAPI.Features.Companies.GetGames;
 
 public static class GetCompanyGamesEndpoint
@@ -30,37 +32,36 @@ public static class GetCompanyGamesEndpoint
                 ic.Company == companyId && (ic.Publisher == true || ic.Developer == true)
             )
             .Join(
-                db.GamesSearches,
+                db.Games,
                 ic => ic.Game,
-                search => search.Id,
-                (ic, search) =>
+                game => game.Id,
+                (ic, game) =>
                     new
                     {
-                        Search = search,
+                        Game = game,
                         ic.Publisher,
                         ic.Developer,
                     }
             )
-            .GroupBy(g => g.Search.Id)
+            .GroupBy(g => g.Game.Id)
             .Select(group => new
             {
-                Search = group.Select(g => g.Search).First(),
+                Game = group
+                    .Select(g => g.Game)
+                    .AsQueryable()
+                    .Select(GameDtoProjection.AsGameDto)
+                    .First(),
                 IsPublisher = group.Any(g => g.Publisher == true),
                 IsDeveloper = group.Any(g => g.Developer == true),
             })
             .ToListAsync(cancellationToken);
 
-        var publishedGames = games.Where(g => g.IsPublisher).Select(g => g.Search).ToList();
+        var publishedGames = games.Where(g => g.IsPublisher).Select(g => g.Game).ToList();
 
-        var developedGames = games.Where(g => g.IsDeveloper).Select(g => g.Search).ToList();
+        var developedGames = games.Where(g => g.IsDeveloper).Select(g => g.Game).ToList();
 
         return Results.Ok(
-            new GetCompanyGamesResponse(
-                new CompanyGamesDto(
-                    GameSearchMapper.MapToDto(publishedGames),
-                    GameSearchMapper.MapToDto(developedGames)
-                )
-            )
+            new GetCompanyGamesResponse(new CompanyGamesDto(publishedGames, developedGames))
         );
     }
 }

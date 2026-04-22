@@ -1,12 +1,12 @@
 "use client";
 
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import { Box, Button, HStack, Text, Wrap, For, EmptyState, Gamepad2Icon } from "ui";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
 import { GameCard } from "@src/features/games/components/Sections/GameCard";
 
 type Props = {
-    games: GamesSearchDto[];
+    games: GameDto[];
 };
 
 export function RelatedGamesSection({ games }: Props) {

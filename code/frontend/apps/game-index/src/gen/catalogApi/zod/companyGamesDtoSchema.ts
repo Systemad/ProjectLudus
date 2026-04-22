@@ -4,9 +4,9 @@
 */
 
 import * as z from "zod";
-import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
+import { gameDtoSchema } from "./gameDtoSchema.ts";
 
 export const companyGamesDtoSchema = z.object({
-    "publishedGames": z.array(z.lazy(() => gamesSearchDtoSchema)),
-"developedGames": z.array(z.lazy(() => gamesSearchDtoSchema))
+    "publishedGames": z.array(z.lazy(() => gameDtoSchema)),
+"developedGames": z.array(z.lazy(() => gameDtoSchema))
     })

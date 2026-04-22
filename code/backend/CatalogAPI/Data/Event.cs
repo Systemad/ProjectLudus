@@ -36,9 +36,9 @@ public partial class Event
 
     public virtual EventLogo? EventLogoNavigation { get; set; }
 
-    public virtual ICollection<EventNetwork> EventNetworks { get; set; } = new List<EventNetwork>();
+    public virtual ICollection<EventNetwork1> EventNetwork1s { get; set; } = new List<EventNetwork1>();
 
-    public virtual ICollection<EventNetwork> EventNetworksNavigation { get; set; } = new List<EventNetwork>();
+    public virtual ICollection<EventNetwork1> EventNetworks { get; set; } = new List<EventNetwork1>();
 
     public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 

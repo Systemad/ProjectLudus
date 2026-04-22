@@ -35,11 +35,6 @@ public class GameOverviewDto
     public required List<ReleaseDatesDto> ReleaseDates { get; set; } = [];
 }
 
-public class Rating
-{
-    public long Critics { get; set; }
-}
-
 public record ReleaseDatePlatformDto(long? ReleaseDate, string? Platform);
 
 public record PlatformsDto([Required] string Name, [Required] string? Slug);

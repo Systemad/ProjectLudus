@@ -1,5 +1,0 @@
-{
-    "dependencies": {
-        "@packages/ui": "workspace:*"
-    }
-}

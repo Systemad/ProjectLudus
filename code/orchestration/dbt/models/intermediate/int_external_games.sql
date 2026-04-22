@@ -13,8 +13,6 @@ select
     ext.url,
     ext.checksum,
     ext.year,
-    ext.category,
-    ext.media,
     ext.platform,
     ext.countries,
     ext.external_game_source,

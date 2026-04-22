@@ -41,7 +41,7 @@ public partial class PlatformVersion
 
     public long? MainManufacturer { get; set; }
 
-    public virtual PlatformVersionCompany1? MainManufacturerNavigation { get; set; }
+    public virtual PlatformVersionCompany? MainManufacturerNavigation { get; set; }
 
     public virtual PlatformLogo? PlatformLogoNavigation { get; set; }
 

@@ -1,4 +1,5 @@
 using CatalogAPI.Features.Events.Dtos;
+using CatalogAPI.Features.Games.Common.Projections;
 using CatalogAPI.Features.Games.GetMedia;
 
 namespace CatalogAPI.Features.Events.GetById;
@@ -44,19 +45,16 @@ public static class GetEventByIdEndpoint
                         v.VideoId ?? string.Empty
                     ))
                     .ToList(),
+                Games = e
+                    .Games.Where(g => g.FirstReleaseDateUtc.HasValue)
+                    .AsQueryable()
+                    .Select(GameDtoProjection.AsGameDto)
+                    .ToList(),
             })
-            .SingleOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (dto is null)
             return Results.NotFound();
-
-        var gamesByEvent = await db
-            .Events.Where(e => e.Id == id)
-            .SelectMany(e => e.Games.Select(g => new { GameId = g.Id }))
-            .Join(db.GamesSearches, eg => eg.GameId, s => s.Id, (_, s) => s)
-            .ToListAsync(cancellationToken);
-
-        dto.Games = GameSearchMapper.MapToDto(gamesByEvent);
 
         return Results.Ok(new EventDetailResponse(dto));
     }

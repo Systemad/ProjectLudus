@@ -15,6 +15,6 @@
             ref("stg_pop_steam_positive_reviews"),
             ref("stg_pop_steam_total_reviews"),
         ],
-        exclude=["_dlt_id", "_dlt_load_id", "popularity_source"],
+        exclude=["_dlt_id", "_dlt_load_id"],
     )
 }}

@@ -11,8 +11,6 @@ with
             url,
             checksum,
             year,
-            category,
-            media,
             platform,
             coalesce(countries, '[]'::jsonb) as countries,
             external_game_source,

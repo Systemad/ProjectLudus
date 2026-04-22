@@ -102,9 +102,6 @@ models:
       - name: aggregated_rating_count
         data_type: bigint
         description: ""
-      - name: status
-        data_type: bigint
-        description: ""
       - name: game_status
         data_type: bigint
         description: ""

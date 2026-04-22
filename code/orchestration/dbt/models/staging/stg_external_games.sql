@@ -13,8 +13,6 @@ with
             url,
             checksum,
             year,
-            category,
-            media,
             platform,
             countries,
             external_game_source,

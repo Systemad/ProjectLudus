@@ -23,10 +23,6 @@ public partial class ExternalGame
 
     public long? Year { get; set; }
 
-    public long? Category { get; set; }
-
-    public long? Media { get; set; }
-
     public long? Platform { get; set; }
 
     public string Countries { get; set; } = null!;

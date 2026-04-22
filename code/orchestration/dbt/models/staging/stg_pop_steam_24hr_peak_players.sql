@@ -6,7 +6,6 @@ renamed as (
         id,
         game_id,
         popularity_type,
-        popularity_source,
         value,
         calculated_at,
         created_at,

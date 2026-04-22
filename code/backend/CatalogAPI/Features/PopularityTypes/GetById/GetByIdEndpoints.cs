@@ -1,3 +1,4 @@
+using CatalogAPI.Features.Games.Common.Projections;
 using Microsoft.AspNetCore.OutputCaching;
 using NodaTime.Text;
 
@@ -7,7 +8,7 @@ public static class GetByIdEndpoints
 {
     private record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
 
-    private record PopularityGamesResponse(List<GamesSearchDto> Games);
+    private record PopularityGamesResponse(List<GameDto> Games);
 
     public static RouteHandlerBuilder MapGetByIdEndpoint(this IEndpointRouteBuilder routeBuilder)
     {
@@ -56,7 +57,7 @@ public static class GetByIdEndpoints
             .GroupBy(p => p.GameId!.Value)
             .Select(g => new { GameId = g.Key, MaxScore = g.Max(p => p.Value) })
             .Join(
-                db.GamesSearches,
+                db.Games,
                 top => top.GameId,
                 g => g.Id,
                 (top, g) => new { Game = g, top.MaxScore }
@@ -64,8 +65,9 @@ public static class GetByIdEndpoints
             .OrderByDescending(x => x.MaxScore)
             .Take(request.Limit)
             .Select(x => x.Game)
+            .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new PopularityGamesResponse(GameSearchMapper.MapToDto(topGames)));
+        return Results.Ok(new PopularityGamesResponse(topGames));
     }
 }

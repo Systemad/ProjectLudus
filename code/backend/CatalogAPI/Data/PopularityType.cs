@@ -7,8 +7,6 @@ public partial class PopularityType
 {
     public long Id { get; set; }
 
-    public long? PopularitySource { get; set; }
-
     public string? Name { get; set; }
 
     public long? CreatedAt { get; set; }

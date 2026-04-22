@@ -28,6 +28,7 @@ public partial class GamesSearch
     public string? GameStatus { get; set; }
 
     public int? Hypes { get; set; }
+
     public double? AggregatedRating { get; set; }
 
     public int? AggregatedRatingCount { get; set; }

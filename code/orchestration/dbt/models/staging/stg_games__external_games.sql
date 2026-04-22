@@ -17,8 +17,6 @@ with
             _dlt_list_idx,
             _dlt_id,
             year,
-            category,
-            media,
             platform,
             countries,
             game_release_format

@@ -58,7 +58,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<EventLogo> EventLogos { get; set; }
 
-    public virtual DbSet<EventNetwork> EventNetworks { get; set; }
+    public virtual DbSet<EventNetwork1> EventNetworks1 { get; set; }
 
     public virtual DbSet<ExternalGame> ExternalGames { get; set; }
 
@@ -112,7 +112,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<PlatformVersion> PlatformVersions { get; set; }
 
-    public virtual DbSet<PlatformVersionCompany1> PlatformVersionCompanies1 { get; set; }
+    public virtual DbSet<PlatformVersionCompany> PlatformVersionCompanies { get; set; }
 
     public virtual DbSet<PlatformWebsite> PlatformWebsites { get; set; }
 
@@ -148,7 +148,7 @@ public partial class AppDbContext : DbContext
     {
         modelBuilder.Entity<AgeRating>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("age_ratings__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("age_ratings__dbt_tmp_pkey");
 
             entity.ToTable("age_ratings");
 
@@ -178,7 +178,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<AgeRatingCategory>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("age_rating_categories__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("age_rating_categories__dbt_tmp_pkey");
 
             entity.ToTable("age_rating_categories");
 
@@ -202,7 +202,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<AgeRatingContentDescriptionType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("age_rating_content_description_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("age_rating_content_description_types__dbt_tmp_pkey");
 
             entity.ToTable("age_rating_content_description_types");
 
@@ -224,7 +224,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<AgeRatingContentDescriptionsV2>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("age_rating_content_descriptions_v2__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("age_rating_content_descriptions_v2__dbt_tmp_pkey");
 
             entity.ToTable("age_rating_content_descriptions_v2");
 
@@ -253,7 +253,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<AgeRatingOrganization>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("age_rating_organizations__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("age_rating_organizations__dbt_tmp_pkey");
 
             entity.ToTable("age_rating_organizations");
 
@@ -272,7 +272,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<AlternativeName>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("alternative_names__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("alternative_names__dbt_tmp_pkey");
 
             entity.ToTable("alternative_names");
 
@@ -297,7 +297,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Artwork>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("artworks__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("artworks__dbt_tmp_pkey");
 
             entity.ToTable("artworks");
 
@@ -322,7 +322,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ArtworkType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("artwork_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("artwork_types__dbt_tmp_pkey");
 
             entity.ToTable("artwork_types");
 
@@ -344,7 +344,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Character>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("characters__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("characters__dbt_tmp_pkey");
 
             entity.ToTable("characters");
 
@@ -393,7 +393,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CharacterGender>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("character_genders__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("character_genders__dbt_tmp_pkey");
 
             entity.ToTable("character_genders");
 
@@ -412,7 +412,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CharacterMugShot>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("character_mug_shots__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("character_mug_shots__dbt_tmp_pkey");
 
             entity.ToTable("character_mug_shots");
 
@@ -436,7 +436,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CharacterSpecy>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("character_species__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("character_species__dbt_tmp_pkey");
 
             entity.ToTable("character_species");
 
@@ -455,7 +455,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Company>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("companies__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("companies__dbt_tmp_pkey");
 
             entity.ToTable("companies");
 
@@ -463,7 +463,7 @@ public partial class AppDbContext : DbContext
                 .ValueGeneratedNever()
                 .HasColumnName("id");
             entity.Property(e => e.ChangeDate).HasColumnName("change_date");
-            entity.Property(e => e.ChangeDateCategory).HasColumnName("change_date_category");
+            entity.Property(e => e.ChangeDateFormat).HasColumnName("change_date_format");
             entity.Property(e => e.ChangedCompanyId).HasColumnName("changed_company_id");
             entity.Property(e => e.Checksum)
                 .HasColumnType("character varying")
@@ -491,7 +491,7 @@ public partial class AppDbContext : DbContext
 
             entity.HasOne(d => d.ChangedCompany).WithMany(p => p.InverseChangedCompany)
                 .HasForeignKey(d => d.ChangedCompanyId)
-                .HasConstraintName("companies_changed_company_id_fkey1");
+                .HasConstraintName("companies_changed_company_id_fkey");
 
             entity.HasOne(d => d.LogoNavigation).WithMany(p => p.Companies)
                 .HasForeignKey(d => d.Logo)
@@ -499,7 +499,7 @@ public partial class AppDbContext : DbContext
 
             entity.HasOne(d => d.Parent).WithMany(p => p.InverseParent)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("companies_parent_id_fkey1");
+                .HasConstraintName("companies_parent_id_fkey");
 
             entity.HasOne(d => d.StartDateFormatNavigation).WithMany(p => p.Companies)
                 .HasForeignKey(d => d.StartDateFormat)
@@ -511,7 +511,7 @@ public partial class AppDbContext : DbContext
 
             entity.HasMany(d => d.PlatformVersions).WithMany(p => p.Companies)
                 .UsingEntity<Dictionary<string, object>>(
-                    "PlatformVersionCompany",
+                    "PlatformVersionCompany1",
                     r => r.HasOne<PlatformVersion>().WithMany()
                         .HasForeignKey("PlatformVersionId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
@@ -522,7 +522,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("platform_version_company__dbt_tmp_company_id_fkey"),
                     j =>
                     {
-                        j.HasKey("CompanyId", "PlatformVersionId").HasName("platform_version_company__dbt_tmp_pkey1");
+                        j.HasKey("CompanyId", "PlatformVersionId").HasName("platform_version_company__dbt_tmp_pkey");
                         j.ToTable("platform_version_company");
                         j.IndexerProperty<long>("CompanyId").HasColumnName("company_id");
                         j.IndexerProperty<long>("PlatformVersionId").HasColumnName("platform_version_id");
@@ -531,7 +531,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CompanyLogo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("company_logos__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("company_logos__dbt_tmp_pkey");
 
             entity.ToTable("company_logos");
 
@@ -556,7 +556,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CompanySearch>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("company_search__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("company_search__dbt_tmp_pkey");
 
             entity.ToTable("company_search", tb => tb.HasComment("Search-ready companies dataset for Typesense indexing"));
 
@@ -594,7 +594,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CompanyStatus>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("company_statuses__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("company_statuses__dbt_tmp_pkey");
 
             entity.ToTable("company_statuses");
 
@@ -613,7 +613,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<CompanyWebsite>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("company_websites__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("company_websites__dbt_tmp_pkey");
 
             entity.ToTable("company_websites");
 
@@ -636,7 +636,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Cover>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("covers__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("covers__dbt_tmp_pkey");
 
             entity.ToTable("covers");
 
@@ -661,7 +661,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<DateFormat>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("date_formats__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("date_formats__dbt_tmp_pkey");
 
             entity.ToTable("date_formats");
 
@@ -680,7 +680,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Event>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("events__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("events__dbt_tmp_pkey");
 
             entity.ToTable("events");
 
@@ -717,10 +717,10 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.EventLogo)
                 .HasConstraintName("events__dbt_tmp_event_logo_fkey");
 
-            entity.HasMany(d => d.EventNetworksNavigation).WithMany(p => p.Events)
+            entity.HasMany(d => d.EventNetworks).WithMany(p => p.Events)
                 .UsingEntity<Dictionary<string, object>>(
-                    "EventNetwork1",
-                    r => r.HasOne<EventNetwork>().WithMany()
+                    "EventNetwork",
+                    r => r.HasOne<EventNetwork1>().WithMany()
                         .HasForeignKey("EventNetworkId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("event_network__dbt_tmp_event_network_id_fkey"),
@@ -749,7 +749,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("event_game__dbt_tmp_event_id_fkey"),
                     j =>
                     {
-                        j.HasKey("EventId", "GameId").HasName("event_game__dbt_tmp_pkey1");
+                        j.HasKey("EventId", "GameId").HasName("event_game__dbt_tmp_pkey");
                         j.ToTable("event_game");
                         j.IndexerProperty<long>("EventId").HasColumnName("event_id");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
@@ -768,7 +768,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("event_video__dbt_tmp_event_id_fkey"),
                     j =>
                     {
-                        j.HasKey("EventId", "VideoId").HasName("event_video__dbt_tmp_pkey1");
+                        j.HasKey("EventId", "VideoId").HasName("event_video__dbt_tmp_pkey");
                         j.ToTable("event_video");
                         j.IndexerProperty<long>("EventId").HasColumnName("event_id");
                         j.IndexerProperty<long>("VideoId").HasColumnName("video_id");
@@ -777,7 +777,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<EventLogo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("event_logos__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("event_logos__dbt_tmp_pkey");
 
             entity.ToTable("event_logos");
 
@@ -802,9 +802,9 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Width).HasColumnName("width");
         });
 
-        modelBuilder.Entity<EventNetwork>(entity =>
+        modelBuilder.Entity<EventNetwork1>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("event_networks__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("event_networks__dbt_tmp_pkey");
 
             entity.ToTable("event_networks");
 
@@ -822,25 +822,24 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("url");
 
-            entity.HasOne(d => d.EventNavigation).WithMany(p => p.EventNetworks)
+            entity.HasOne(d => d.EventNavigation).WithMany(p => p.EventNetwork1s)
                 .HasForeignKey(d => d.Event)
                 .HasConstraintName("event_networks__dbt_tmp_event_fkey");
 
-            entity.HasOne(d => d.NetworkTypeNavigation).WithMany(p => p.EventNetworksNavigation)
+            entity.HasOne(d => d.NetworkTypeNavigation).WithMany(p => p.EventNetwork1s)
                 .HasForeignKey(d => d.NetworkType)
                 .HasConstraintName("event_networks__dbt_tmp_network_type_fkey");
         });
 
         modelBuilder.Entity<ExternalGame>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("external_games__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("external_games__dbt_tmp_pkey");
 
             entity.ToTable("external_games");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
                 .HasColumnName("id");
-            entity.Property(e => e.Category).HasColumnName("category");
             entity.Property(e => e.Checksum)
                 .HasColumnType("character varying")
                 .HasColumnName("checksum");
@@ -851,7 +850,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.ExternalGameSource).HasColumnName("external_game_source");
             entity.Property(e => e.Game).HasColumnName("game");
             entity.Property(e => e.GameReleaseFormat).HasColumnName("game_release_format");
-            entity.Property(e => e.Media).HasColumnName("media");
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");
@@ -884,7 +882,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ExternalGameSource>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("external_game_sources__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("external_game_sources__dbt_tmp_pkey");
 
             entity.ToTable("external_game_sources");
 
@@ -903,7 +901,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Franchise>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("franchises__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("franchises__dbt_tmp_pkey");
 
             entity.ToTable("franchises");
 
@@ -931,7 +929,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Game>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("games__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("games__dbt_tmp_pkey");
 
             entity.ToTable("games");
 
@@ -949,7 +947,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.FirstReleaseDateUtc).HasColumnName("first_release_date_utc");
             entity.Property(e => e.Franchise).HasColumnName("franchise");
             entity.Property(e => e.GameStatus).HasColumnName("game_status");
-            entity.Property(e => e.Hypes).HasColumnName("hypes");
             entity.Property(e => e.GameType).HasColumnName("game_type");
             entity.Property(e => e.Hypes).HasColumnName("hypes");
             entity.Property(e => e.Name)
@@ -961,7 +958,6 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Slug)
                 .HasColumnType("character varying")
                 .HasColumnName("slug");
-            entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.Storyline)
                 .HasColumnType("character varying")
                 .HasColumnName("storyline");
@@ -1008,7 +1004,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("games_dlc__dbt_tmp_dlc_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("BaseGameId", "DlcGameId").HasName("games_dlc__dbt_tmp_pkey1");
+                        j.HasKey("BaseGameId", "DlcGameId").HasName("games_dlc__dbt_tmp_pkey");
                         j.ToTable("games_dlc");
                         j.IndexerProperty<long>("BaseGameId").HasColumnName("base_game_id");
                         j.IndexerProperty<long>("DlcGameId").HasColumnName("dlc_game_id");
@@ -1027,7 +1023,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("games_dlc__dbt_tmp_base_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("BaseGameId", "DlcGameId").HasName("games_dlc__dbt_tmp_pkey1");
+                        j.HasKey("BaseGameId", "DlcGameId").HasName("games_dlc__dbt_tmp_pkey");
                         j.ToTable("games_dlc");
                         j.IndexerProperty<long>("BaseGameId").HasColumnName("base_game_id");
                         j.IndexerProperty<long>("DlcGameId").HasColumnName("dlc_game_id");
@@ -1046,7 +1042,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_franchise__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "FranchiseId").HasName("game_franchise__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "FranchiseId").HasName("game_franchise__dbt_tmp_pkey");
                         j.ToTable("game_franchise");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("FranchiseId").HasColumnName("franchise_id");
@@ -1065,7 +1061,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_game_engine__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "GameEngineId").HasName("game_game_engine__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "GameEngineId").HasName("game_game_engine__dbt_tmp_pkey");
                         j.ToTable("game_game_engine", tb => tb.HasComment("Join table linking games to game engines in a relational format."));
                         j.IndexerProperty<long>("GameId")
                             .HasComment("The game identifier.")
@@ -1088,7 +1084,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_game_mode__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "GameModeId").HasName("game_game_mode__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "GameModeId").HasName("game_game_mode__dbt_tmp_pkey");
                         j.ToTable("game_game_mode");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("GameModeId").HasColumnName("game_mode_id");
@@ -1107,7 +1103,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_similar_game__dbt_tmp_similar_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "SimilarGameId").HasName("game_similar_game__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "SimilarGameId").HasName("game_similar_game__dbt_tmp_pkey");
                         j.ToTable("game_similar_game", tb => tb.HasComment("Join table linking games to their similar games."));
                         j.IndexerProperty<long>("GameId")
                             .HasComment("The game that has a similar game relationship.")
@@ -1130,7 +1126,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_genre__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "GenreId").HasName("game_genre__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "GenreId").HasName("game_genre__dbt_tmp_pkey");
                         j.ToTable("game_genre");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("GenreId").HasColumnName("genre_id");
@@ -1149,7 +1145,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_keyword__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "KeywordId").HasName("game_keyword__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "KeywordId").HasName("game_keyword__dbt_tmp_pkey");
                         j.ToTable("game_keyword");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("KeywordId").HasColumnName("keyword_id");
@@ -1168,8 +1164,9 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_multiplayer_mode__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "MultiplayerModeId").HasName("game_multiplayer_mode__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "MultiplayerModeId").HasName("game_multiplayer_mode__dbt_tmp_pkey");
                         j.ToTable("game_multiplayer_mode");
+                        j.HasIndex(new[] { "MultiplayerModeId" }, "idx_game_multiplayer_mode_multiplayer_mode_id");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("MultiplayerModeId").HasColumnName("multiplayer_mode_id");
                     });
@@ -1187,7 +1184,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_platform__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "PlatformId").HasName("game_platform__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "PlatformId").HasName("game_platform__dbt_tmp_pkey");
                         j.ToTable("game_platform");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("PlatformId").HasColumnName("platform_id");
@@ -1206,7 +1203,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_player_perspective__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "PlayerPerspectiveId").HasName("game_player_perspective__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "PlayerPerspectiveId").HasName("game_player_perspective__dbt_tmp_pkey");
                         j.ToTable("game_player_perspective");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("PlayerPerspectiveId").HasColumnName("player_perspective_id");
@@ -1225,7 +1222,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_similar_game__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "SimilarGameId").HasName("game_similar_game__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "SimilarGameId").HasName("game_similar_game__dbt_tmp_pkey");
                         j.ToTable("game_similar_game", tb => tb.HasComment("Join table linking games to their similar games."));
                         j.IndexerProperty<long>("GameId")
                             .HasComment("The game that has a similar game relationship.")
@@ -1248,7 +1245,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_theme__dbt_tmp_game_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameId", "ThemeId").HasName("game_theme__dbt_tmp_pkey1");
+                        j.HasKey("GameId", "ThemeId").HasName("game_theme__dbt_tmp_pkey");
                         j.ToTable("game_theme");
                         j.IndexerProperty<long>("GameId").HasColumnName("game_id");
                         j.IndexerProperty<long>("ThemeId").HasColumnName("theme_id");
@@ -1257,7 +1254,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameEngine>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_engines__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_engines__dbt_tmp_pkey");
 
             entity.ToTable("game_engines");
 
@@ -1300,7 +1297,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_engine_company__dbt_tmp_game_engine_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameEngineId", "CompanyId").HasName("game_engine_company__dbt_tmp_pkey1");
+                        j.HasKey("GameEngineId", "CompanyId").HasName("game_engine_company__dbt_tmp_pkey");
                         j.ToTable("game_engine_company");
                         j.IndexerProperty<long>("GameEngineId").HasColumnName("game_engine_id");
                         j.IndexerProperty<long>("CompanyId").HasColumnName("company_id");
@@ -1319,7 +1316,7 @@ public partial class AppDbContext : DbContext
                         .HasConstraintName("game_engine_platforms__dbt_tmp_game_engine_id_fkey"),
                     j =>
                     {
-                        j.HasKey("GameEngineId", "PlatformId").HasName("game_engine_platforms__dbt_tmp_pkey1");
+                        j.HasKey("GameEngineId", "PlatformId").HasName("game_engine_platforms__dbt_tmp_pkey");
                         j.ToTable("game_engine_platforms");
                         j.IndexerProperty<long>("GameEngineId").HasColumnName("game_engine_id");
                         j.IndexerProperty<long>("PlatformId").HasColumnName("platform_id");
@@ -1328,7 +1325,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameEngineLogo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_engine_logo__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_engine_logo__dbt_tmp_pkey");
 
             entity.ToTable("game_engine_logo");
 
@@ -1353,7 +1350,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameLocalization>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_localizations__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_localizations__dbt_tmp_pkey");
 
             entity.ToTable("game_localizations");
 
@@ -1387,7 +1384,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameMode>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_modes__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_modes__dbt_tmp_pkey");
 
             entity.ToTable("game_modes");
 
@@ -1412,7 +1409,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GamePopularityLatest>(entity =>
         {
-            entity.HasKey(e => new { e.GameId, e.PopularityType, e.ExternalPopularitySource }).HasName("game_popularity_latest__dbt_tmp_pkey1");
+            entity.HasKey(e => new { e.GameId, e.PopularityType, e.ExternalPopularitySource }).HasName("game_popularity_latest__dbt_tmp_pkey");
 
             entity.ToTable("game_popularity_latest", tb => tb.HasComment("Latest popularity snapshot per game, popularity type, and external source."));
 
@@ -1447,7 +1444,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameReleaseFormat>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_release_formats__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_release_formats__dbt_tmp_pkey");
 
             entity.ToTable("game_release_formats");
 
@@ -1466,7 +1463,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameStatus>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_statuses__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_statuses__dbt_tmp_pkey");
 
             entity.ToTable("game_statuses");
 
@@ -1485,7 +1482,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GameType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("game_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("game_types__dbt_tmp_pkey");
 
             entity.ToTable("game_types");
 
@@ -1504,7 +1501,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<GamesSearch>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("games_search__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("games_search__dbt_tmp_pkey");
 
             entity.ToTable("games_search", tb => tb.HasComment("Search-ready games dataset with aggregated metrics for Typesense indexing"));
 
@@ -1528,6 +1525,7 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("character varying")
                 .HasColumnName("game_type");
             entity.Property(e => e.Genres).HasColumnName("genres");
+            entity.Property(e => e.Hypes).HasColumnName("hypes");
             entity.Property(e => e.IgdbPlayed).HasColumnName("igdb_played");
             entity.Property(e => e.IgdbPlaying).HasColumnName("igdb_playing");
             entity.Property(e => e.IgdbVisits).HasColumnName("igdb_visits");
@@ -1560,7 +1558,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Genre>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("genres__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("genres__dbt_tmp_pkey");
 
             entity.ToTable("genres");
 
@@ -1585,7 +1583,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<InvolvedCompany>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("involved_companies__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("involved_companies__dbt_tmp_pkey");
 
             entity.ToTable("involved_companies", tb => tb.HasComment("Relationship rows that connect games with involved companies and their roles."));
 
@@ -1624,7 +1622,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Keyword>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("keywords__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("keywords__dbt_tmp_pkey");
 
             entity.ToTable("keywords");
 
@@ -1649,7 +1647,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Language>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("languages__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("languages__dbt_tmp_pkey");
 
             entity.ToTable("languages");
 
@@ -1674,7 +1672,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<LanguageSupportType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("language_support_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("language_support_types__dbt_tmp_pkey");
 
             entity.ToTable("language_support_types");
 
@@ -1716,9 +1714,15 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<MultiplayerMode>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("multiplayer_modes__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("multiplayer_modes__dbt_tmp_pkey");
 
             entity.ToTable("multiplayer_modes");
+
+            entity.HasIndex(e => e.Game, "idx_multiplayer_modes_coop_game").HasFilter("((campaigncoop IS TRUE) OR (offlinecoop IS TRUE) OR (onlinecoop IS TRUE) OR (lancoop IS TRUE))");
+
+            entity.HasIndex(e => e.Game, "idx_multiplayer_modes_game");
+
+            entity.HasIndex(e => e.Platform, "idx_multiplayer_modes_platform");
 
             entity.Property(e => e.Id)
                 .ValueGeneratedNever()
@@ -1750,7 +1754,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<NetworkType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("network_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("network_types__dbt_tmp_pkey");
 
             entity.ToTable("network_types");
 
@@ -1772,7 +1776,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Platform>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platforms__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platforms__dbt_tmp_pkey");
 
             entity.ToTable("platforms");
 
@@ -1822,7 +1826,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PlatformFamily>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_family__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_family__dbt_tmp_pkey");
 
             entity.ToTable("platform_family");
 
@@ -1842,7 +1846,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PlatformLogo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_logo__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_logo__dbt_tmp_pkey");
 
             entity.ToTable("platform_logo");
 
@@ -1867,7 +1871,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PlatformType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_types__dbt_tmp_pkey");
 
             entity.ToTable("platform_types");
 
@@ -1886,7 +1890,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PlatformVersion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_versions__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_versions__dbt_tmp_pkey");
 
             entity.ToTable("platform_versions");
 
@@ -1950,9 +1954,9 @@ public partial class AppDbContext : DbContext
                 .HasConstraintName("platform_versions__dbt_tmp_platform_logo_fkey");
         });
 
-        modelBuilder.Entity<PlatformVersionCompany1>(entity =>
+        modelBuilder.Entity<PlatformVersionCompany>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_version_companies__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_version_companies__dbt_tmp_pkey");
 
             entity.ToTable("platform_version_companies");
 
@@ -1969,14 +1973,14 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Developer).HasColumnName("developer");
             entity.Property(e => e.Manufacturer).HasColumnName("manufacturer");
 
-            entity.HasOne(d => d.CompanyNavigation).WithMany(p => p.PlatformVersionCompany1s)
+            entity.HasOne(d => d.CompanyNavigation).WithMany(p => p.PlatformVersionCompanies)
                 .HasForeignKey(d => d.Company)
                 .HasConstraintName("platform_version_companies__dbt_tmp_company_fkey");
         });
 
         modelBuilder.Entity<PlatformWebsite>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("platform_websites__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("platform_websites__dbt_tmp_pkey");
 
             entity.ToTable("platform_websites");
 
@@ -1995,7 +1999,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PlayerPerspective>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("player_perspectives__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("player_perspectives__dbt_tmp_pkey");
 
             entity.ToTable("player_perspectives");
 
@@ -2020,7 +2024,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PopularityPrimitive>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("popularity_primitives__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("popularity_primitives__dbt_tmp_pkey");
 
             entity.ToTable("popularity_primitives");
 
@@ -2050,7 +2054,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<PopularityType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("popularity_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("popularity_types__dbt_tmp_pkey");
 
             entity.ToTable("popularity_types");
 
@@ -2065,13 +2069,12 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Name)
                 .HasColumnType("character varying")
                 .HasColumnName("name");
-            entity.Property(e => e.PopularitySource).HasColumnName("popularity_source");
             entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
         });
 
         modelBuilder.Entity<Region>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("regions__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("regions__dbt_tmp_pkey");
 
             entity.ToTable("regions");
 
@@ -2096,7 +2099,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ReleaseDate>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("release_dates__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("release_dates__dbt_tmp_pkey");
 
             entity.ToTable("release_dates");
 
@@ -2143,7 +2146,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ReleaseDateRegion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("release_date_regions__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("release_date_regions__dbt_tmp_pkey");
 
             entity.ToTable("release_date_regions");
 
@@ -2162,7 +2165,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<ReleaseDateStatus>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("release_date_statuses__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("release_date_statuses__dbt_tmp_pkey");
 
             entity.ToTable("release_date_statuses");
 
@@ -2184,7 +2187,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Screenshot>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("screenshots__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("screenshots__dbt_tmp_pkey");
 
             entity.ToTable("screenshots");
 
@@ -2213,7 +2216,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Theme>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("themes__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("themes__dbt_tmp_pkey");
 
             entity.ToTable("themes");
 
@@ -2238,7 +2241,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Video>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("videos__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("videos__dbt_tmp_pkey");
 
             entity.ToTable("videos");
 
@@ -2263,7 +2266,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Website>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("websites__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("websites__dbt_tmp_pkey");
 
             entity.ToTable("websites");
 
@@ -2291,7 +2294,7 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<WebsiteType>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("website_types__dbt_tmp_pkey1");
+            entity.HasKey(e => e.Id).HasName("website_types__dbt_tmp_pkey");
 
             entity.ToTable("website_types");
 

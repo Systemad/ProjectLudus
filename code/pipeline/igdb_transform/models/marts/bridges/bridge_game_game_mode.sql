@@ -1,7 +1,0 @@
-{{ config(materialized="table") }}
-
-select g.id as game_id, t.value as game_mode_id
-from {{ ref("stg_games__game_modes") }} t
-inner join {{ ref("stg_games") }} g on t._dlt_parent_id = g._dlt_id
-inner join {{ ref("mart_games") }} mg on g.id = mg.id
-inner join {{ ref("mart_game_modes") }} mm on t.value = mm.id

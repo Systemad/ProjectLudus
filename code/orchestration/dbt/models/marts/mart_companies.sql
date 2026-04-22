@@ -8,7 +8,7 @@ with
             created_at,
             updated_at,
             change_date,
-            change_date_category,
+            change_date_format,
             country,
             description,
             logo,

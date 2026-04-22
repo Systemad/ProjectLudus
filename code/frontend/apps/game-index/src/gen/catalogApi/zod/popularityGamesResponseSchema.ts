@@ -4,8 +4,8 @@
 */
 
 import * as z from "zod";
-import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
+import { gameDtoSchema } from "./gameDtoSchema.ts";
 
 export const popularityGamesResponseSchema = z.object({
-    "games": z.array(z.lazy(() => gamesSearchDtoSchema))
+    "games": z.array(z.lazy(() => gameDtoSchema))
     })

@@ -13,27 +13,27 @@ models:
 
     constraints:
       - type: primary_key
-        columns: [id]
+        columns: [ id ]
 
       - type: foreign_key
-        columns: [game]
+        columns: [ game ]
         to: ref('mart_games')
-        to_columns: [id]
+        to_columns: [ id ]
 
       - type: foreign_key
-        columns: [platform]
+        columns: [ platform ]
         to: ref('mart_platforms')
-        to_columns: [id]
+        to_columns: [ id ]
 
       - type: foreign_key
-        columns: [external_game_source]
+        columns: [ external_game_source ]
         to: ref('mart_external_game_sources')
-        to_columns: [id]
+        to_columns: [ id ]
 
       - type: foreign_key
-        columns: [game_release_format]
+        columns: [ game_release_format ]
         to: ref('mart_game_release_formats')
-        to_columns: [id]
+        to_columns: [ id ]
 
     description: ""
     columns:
@@ -65,12 +65,6 @@ models:
         data_type: character varying
         description: ""
       - name: year
-        data_type: bigint
-        description: ""
-      - name: category
-        data_type: bigint
-        description: ""
-      - name: media
         data_type: bigint
         description: ""
       - name: platform

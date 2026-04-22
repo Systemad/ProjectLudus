@@ -1,25 +1,27 @@
 "use client";
 
 import { HStack, Image, Tag, Text, VStack, Wrap, Card } from "ui";
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
+import { formatReleaseDateLabel } from "@src/utils/releaseDateUtils";
 
 type Props = {
-    game: GamesSearchDto;
+    game: GameDto;
 };
 
 export default function GamePreviewCard({ game }: Props) {
     const title = game.name ?? "Unknown game";
-    const developer = game.developers.length > 0 ? game.developers[0] : "Unknown";
-    const publisher = game.publishers.length > 0 ? game.publishers[0] : "Unknown";
-    const tags = [...game.genres, ...game.gameModes].slice(0, 3);
-    const features = [...game.playerPerspectives, ...game.platforms, ...game.multiplayerModes];
+    const developer = game.developers?.[0]?.name ?? "Unknown";
+    const typeLabel = game.gameType ?? "Unknown";
+    const tags = [...game.genres, ...game.gameModes].slice(0, 3).map((feature) => feature.name);
+    const features = [...game.platforms, ...game.themes].map((feature) => feature.name);
     const featuresSummary =
         features.length > 0
             ? `${features.slice(0, 2).join(", ")}${features.length > 2 ? ` +${features.length - 2} more` : ""}`
             : "No additional features";
 
     const imageUrl = getIGDBImageUrl(game.coverUrl, "cover_big");
+    const releaseLabel = formatReleaseDateLabel(game.firstReleaseDate);
 
     return (
         <Card.Root
@@ -47,15 +49,15 @@ export default function GamePreviewCard({ game }: Props) {
                             </Text>
                         </Text>
                         <Text color="fg.subtle" fontSize="sm">
-                            Publisher: {""}
+                            Type: {""}
                             <Text as="span" color="fg.base">
-                                {publisher}
+                                {typeLabel}
                             </Text>
                         </Text>
                         <Text color="fg.subtle" fontSize="sm">
                             Released: {""}
                             <Text as="span" color="fg.base">
-                                {game.firstReleaseDate}
+                                {releaseLabel}
                             </Text>
                         </Text>
                     </VStack>

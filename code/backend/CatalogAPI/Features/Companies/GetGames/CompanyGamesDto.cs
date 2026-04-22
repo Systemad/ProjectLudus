@@ -1,6 +1,3 @@
 namespace CatalogAPI.Features.Companies.GetGames;
 
-public record CompanyGamesDto(
-    List<GamesSearchDto> PublishedGames,
-    List<GamesSearchDto> DevelopedGames
-);
+public record CompanyGamesDto(List<GameDto> PublishedGames, List<GameDto> DevelopedGames);

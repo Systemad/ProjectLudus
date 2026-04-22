@@ -8,6 +8,8 @@ import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetai
 
 export type CalendarGetGamesPathParams = {
     /**
+     * @minLength 1
+     * @maxLength 9999
      * @type integer, int32
     */
     year: number;

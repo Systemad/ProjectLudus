@@ -1,6 +1,0 @@
-{
-    "dbt.queryLimit": 100,
-    "dbt.enableNewLineagePanel": true,
-    "dbt.perspectiveTheme": "Vintage",
-    "github.copilot.editor.enableCodeActions": false
-}

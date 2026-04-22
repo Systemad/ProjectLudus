@@ -27,7 +27,7 @@ public class EventDto
     public string? LogoImageId { get; init; }
 
     [Required]
-    public List<GamesSearchDto> Games { get; set; } = [];
+    public List<GameDto> Games { get; set; } = [];
 
     [Required]
     public List<GameMediaVideoDto> Videos { get; set; } = [];

@@ -1,38 +1,40 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Suspense, useState } from "react";
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import { useCalendarGetGamesSuspenseHook } from "@src/gen/catalogApi";
 import PageWrapper from "@src/components/AppShell/PageWrapper";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
-import { format, getYear, parseISO } from "date-fns";
+import { format, getYear, isValid, parseISO } from "date-fns";
+import { formatReleaseDateLabel, isTbaReleaseDate } from "@src/utils/releaseDateUtils";
 import { Box, Collapse, Grid, GridItem, Heading, HStack, Image, Loading, Text, VStack } from "ui";
 
 export const Route = createFileRoute("/calendar/")({
     component: RouteComponent,
 });
 
-function isPlaceholderDate(firstReleaseDate: string | undefined, year: number) {
-    return firstReleaseDate === `${year}-12-31`;
-}
-
-function formatGameDayLabel(firstReleaseDate: string | undefined) {
+function getReleaseMonth(firstReleaseDate?: string | null) {
     if (!firstReleaseDate) {
         return null;
     }
 
-    return format(parseISO(firstReleaseDate), "MMM d");
+    const date = parseISO(firstReleaseDate);
+    if (!isValid(date)) {
+        return null;
+    }
+
+    return format(date, "MMMM");
 }
 
-function groupGamesByMonth(games: GamesSearchDto[]) {
-    const map = new Map<string, GamesSearchDto[]>();
+function groupGamesByMonth(games: GameDto[]) {
+    const map = new Map<string, GameDto[]>();
 
     for (const game of games) {
-        if (!game.firstReleaseDate) {
+        const key = getReleaseMonth(game.firstReleaseDate);
+        if (!key) {
             continue;
         }
 
-        const key = format(parseISO(game.firstReleaseDate), "MMMM");
         const group = map.get(key) ?? [];
         group.push(game);
         map.set(key, group);
@@ -41,29 +43,31 @@ function groupGamesByMonth(games: GamesSearchDto[]) {
     return Array.from(map.entries())
         .map(([month, groupedGames]) => ({
             month,
-            games: groupedGames.sort((left, right) =>
-                left.firstReleaseDate.localeCompare(right.firstReleaseDate),
-            ),
+            games: groupedGames.sort((left, right) => {
+                if (!left.firstReleaseDate && !right.firstReleaseDate) return 0;
+                if (!left.firstReleaseDate) return 1;
+                if (!right.firstReleaseDate) return -1;
+                return left.firstReleaseDate.localeCompare(right.firstReleaseDate);
+            }),
         }))
         .sort((left, right) => {
-            const leftDate = parseISO(left.games[0]?.firstReleaseDate ?? "9999-12-31");
-            const rightDate = parseISO(right.games[0]?.firstReleaseDate ?? "9999-12-31");
+            const leftDate = left.games[0]?.firstReleaseDate
+                ? parseISO(left.games[0].firstReleaseDate)
+                : parseISO("9999-12-31");
+            const rightDate = right.games[0]?.firstReleaseDate
+                ? parseISO(right.games[0].firstReleaseDate)
+                : parseISO("9999-12-31");
             return leftDate.getTime() - rightDate.getTime();
         });
 }
 
-function GameRow({
-    game,
-    isPlaceholder = false,
-}: {
-    game: GamesSearchDto;
-    isPlaceholder?: boolean;
-}) {
-    const dayLabel = isPlaceholder ? "Date TBA" : formatGameDayLabel(game.firstReleaseDate);
+function GameRow({ game, isPlaceholder = false }: { game: GameDto; isPlaceholder?: boolean }) {
+    const dayLabel = isPlaceholder ? "Date TBA" : formatReleaseDateLabel(game.firstReleaseDate);
     const imageUrl = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_small") : null;
     const gameId = String(game.id);
-    const studioLabel = game.developers[0] ?? game.publishers[0] ?? "Upcoming release";
-    const platformIcons = game.platforms?.slice(0, 4) ?? [];
+    const studioLabel = game.developers?.[0]?.name ?? "Upcoming release";
+    const platformIcons =
+        game.platforms?.slice(0, 4).map((platform) => platform.slug ?? platform.name) ?? [];
 
     return (
         <Link
@@ -151,7 +155,7 @@ function GameGroupCard({
     isPlaceholder = false,
 }: {
     title: string;
-    games: GamesSearchDto[];
+    games: GameDto[];
     emptyLabel: string;
     isPlaceholder?: boolean;
 }) {
@@ -213,8 +217,8 @@ function GameGroupCard({
 function GamesCalendarPage() {
     const year = getYear(new Date());
     const { data } = useCalendarGetGamesSuspenseHook({ year });
-    const tbaGames = data.games.filter((game) => isPlaceholderDate(game.firstReleaseDate, year));
-    const datedGames = data.games.filter((game) => !isPlaceholderDate(game.firstReleaseDate, year));
+    const tbaGames = data.games.filter((game) => isTbaReleaseDate(game.firstReleaseDate));
+    const datedGames = data.games.filter((game) => !isTbaReleaseDate(game.firstReleaseDate));
     const groups = groupGamesByMonth(datedGames);
 
     return (

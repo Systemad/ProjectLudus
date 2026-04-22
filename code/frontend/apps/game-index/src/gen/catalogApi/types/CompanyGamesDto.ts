@@ -3,15 +3,15 @@
 * Do not edit manually.
 */
 
-import type { GamesSearchDto } from "./GamesSearchDto.ts";
+import type { GameDto } from "./GameDto.ts";
 
 export type CompanyGamesDto = {
     /**
      * @type array
     */
-    publishedGames: GamesSearchDto[];
+    publishedGames: GameDto[];
     /**
      * @type array
     */
-    developedGames: GamesSearchDto[];
+    developedGames: GameDto[];
 };

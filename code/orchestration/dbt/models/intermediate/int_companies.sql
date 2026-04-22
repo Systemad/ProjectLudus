@@ -3,7 +3,7 @@ select
     base.created_at,
     base.updated_at,
     base.change_date,
-    base.change_date_category,
+    base.change_date_format,
     base.country,
     base.description,
     base.logo__id as logo,

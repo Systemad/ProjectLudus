@@ -1,7 +1,7 @@
 import { Box, NativeTable } from "ui";
 import { PreviewCard } from "@base-ui/react/preview-card";
 import GamePreviewCard from "@src/components/home/GamePreviewCard/GamePreviewCard";
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import styles from "./previewImage.module.css";
 
 export const SimpleTable = ({
@@ -11,7 +11,7 @@ export const SimpleTable = ({
 }: {
     headers: (string | JSX.Element)[];
     rows: (string | number | JSX.Element)[][];
-    hoverCardGames?: GamesSearchDto[];
+    hoverCardGames?: GameDto[];
 }) => {
     const TableContent = (
         <Box overflowX="auto" overflowY="hidden" w="full">

@@ -5,6 +5,7 @@ using CatalogAPI.Features.Companies;
 using CatalogAPI.Features.Events;
 using CatalogAPI.Features.Games;
 using CatalogAPI.Features.PopularityTypes;
+using CatalogAPI.Features.Stats;
 using Microsoft.AspNetCore.Http.Json;
 using NodaTime.Serialization.SystemTextJson;
 using Npgsql;
@@ -102,5 +103,6 @@ app.MapGamesFeature();
 app.MapCompaniesFeature();
 app.MapPopularityTypesFeature();
 app.MapEventsFeature();
+app.MapStatsFeature();
 
 app.Run();

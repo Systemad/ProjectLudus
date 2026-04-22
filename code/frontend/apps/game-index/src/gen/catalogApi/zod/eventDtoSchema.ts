@@ -4,8 +4,8 @@
 */
 
 import * as z from "zod";
+import { gameDtoSchema } from "./gameDtoSchema.ts";
 import { gameMediaVideoDtoSchema } from "./gameMediaVideoDtoSchema.ts";
-import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
 
 export const eventDtoSchema = z.object({
     "id": z.number().int(),
@@ -17,6 +17,6 @@ export const eventDtoSchema = z.object({
 "endTimeUtc": z.string().datetime().nullish(),
 "timeZone": z.string().nullish(),
 "logoImageId": z.string().nullish(),
-"games": z.array(z.lazy(() => gamesSearchDtoSchema)),
+"games": z.array(z.lazy(() => gameDtoSchema)),
 "videos": z.array(z.lazy(() => gameMediaVideoDtoSchema))
     })

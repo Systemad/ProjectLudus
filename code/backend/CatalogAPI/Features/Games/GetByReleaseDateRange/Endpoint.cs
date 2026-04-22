@@ -1,3 +1,4 @@
+using CatalogAPI.Features.Games.Common.Projections;
 using NodaTime.Extensions;
 
 namespace CatalogAPI.Features.Games.GetByReleaseDateRange;
@@ -8,7 +9,7 @@ public static class Endpoint
         DateOnly Start,
         DateOnly End,
         int Limit,
-        List<GamesSearchDto> Games
+        List<GameDto> Games
     );
 
     public static RouteHandlerBuilder MapGetGamesByReleaseDateRangeEndpoint(
@@ -47,21 +48,15 @@ public static class Endpoint
         ).ToInstant();
 
         var games = await db
-            .GamesSearches.Where(g =>
-                g.FirstReleaseDateUtc >= startUtc && g.FirstReleaseDateUtc <= endUtc
-            )
+            .Games.Where(g => g.FirstReleaseDateUtc >= startUtc && g.FirstReleaseDateUtc <= endUtc)
             .OrderBy(g => g.FirstReleaseDateUtc)
             .ThenByDescending(g => g.AggregatedRating)
             .Take(query.Limit)
+            .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
         return Results.Ok(
-            new GamesReleaseDateRangeResponse(
-                query.Start,
-                query.End,
-                query.Limit,
-                GameSearchMapper.MapToDto(games)
-            )
+            new GamesReleaseDateRangeResponse(query.Start, query.End, query.Limit, games)
         );
     }
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GamesSearchDto } from "./GamesSearchDto.ts";
+import type { GameDto } from "./GameDto.ts";
 
 export type GamesReleaseDateRangeResponse = {
     /**
@@ -21,5 +21,5 @@ export type GamesReleaseDateRangeResponse = {
     /**
      * @type array
     */
-    games: GamesSearchDto[];
+    games: GameDto[];
 };

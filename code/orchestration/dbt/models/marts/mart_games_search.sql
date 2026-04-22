@@ -106,67 +106,67 @@ with
             gpl.game_id,
             max(
                 case
-                    when gpl.popularity_type = 1 and pt.popularity_source = 121
+                    when gpl.popularity_type = 1 and pt.external_popularity_source = 121
                     then gpl.value
                 end
             )::float as igdb_visits,
             max(
                 case
-                    when gpl.popularity_type = 2 and pt.popularity_source = 121
+                    when gpl.popularity_type = 2 and pt.external_popularity_source = 121
                     then gpl.value
                 end
             )::float as igdb_want_to_play,
             max(
                 case
-                    when gpl.popularity_type = 3 and pt.popularity_source = 121
+                    when gpl.popularity_type = 3 and pt.external_popularity_source = 121
                     then gpl.value
                 end
             )::float as igdb_playing,
             max(
                 case
-                    when gpl.popularity_type = 4 and pt.popularity_source = 121
+                    when gpl.popularity_type = 4 and pt.external_popularity_source = 121
                     then gpl.value
                 end
             )::float as igdb_played,
             max(
                 case
-                    when gpl.popularity_type = 5 and pt.popularity_source = 1
+                    when gpl.popularity_type = 5 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_24hr_peak_players,
             max(
                 case
-                    when gpl.popularity_type = 6 and pt.popularity_source = 1
+                    when gpl.popularity_type = 6 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_positive_reviews,
             max(
                 case
-                    when gpl.popularity_type = 7 and pt.popularity_source = 1
+                    when gpl.popularity_type = 7 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_negative_reviews,
             max(
                 case
-                    when gpl.popularity_type = 8 and pt.popularity_source = 1
+                    when gpl.popularity_type = 8 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_total_reviews,
             max(
                 case
-                    when gpl.popularity_type = 9 and pt.popularity_source = 1
+                    when gpl.popularity_type = 9 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_global_top_sellers,
             max(
                 case
-                    when gpl.popularity_type = 10 and pt.popularity_source = 1
+                    when gpl.popularity_type = 10 and pt.external_popularity_source = 1
                     then gpl.value
                 end
             )::float as steam_most_wishlisted_upcoming,
             max(
                 case
-                    when gpl.popularity_type = 34 and pt.popularity_source = 14
+                    when gpl.popularity_type = 34 and pt.external_popularity_source = 14
                     then gpl.value
                 end
             )::float as twitch_24hr_hours_watched

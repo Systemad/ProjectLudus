@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GamesSearchDto } from "./GamesSearchDto.ts";
+import type { GameDto } from "./GameDto.ts";
 
 export type CalendarResponse = {
     /**
@@ -13,5 +13,5 @@ export type CalendarResponse = {
     /**
      * @type array
     */
-    games: GamesSearchDto[];
+    games: GameDto[];
 };

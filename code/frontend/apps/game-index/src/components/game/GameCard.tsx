@@ -1,11 +1,11 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import { AspectRatio, Box, Image, Text } from "ui";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
-type GameCardModel = Pick<GamesSearchDto, "name"> & {
+type GameCardModel = Pick<GameDto, "name"> & {
     id: number | string;
     coverUrl?: string | null;
 };

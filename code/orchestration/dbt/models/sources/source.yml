@@ -389,7 +389,7 @@ sources:
             data_type: bigint
           - name: change_date
             data_type: bigint
-          - name: change_date_category
+          - name: change_date_format
             data_type: bigint
           - name: country
             data_type: bigint

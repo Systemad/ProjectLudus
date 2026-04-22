@@ -1,12 +1,12 @@
 "use client";
 
 import { Link } from "@tanstack/react-router";
-import type { GamesSearchDto } from "@src/gen/catalogApi";
+import type { GameDto } from "@src/gen/catalogApi";
 import { AspectRatio, Box, Image, Text } from "ui";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
-    game: GamesSearchDto;
+    game: GameDto;
 };
 
 export function GameCard({ game }: Props) {

@@ -13,7 +13,7 @@ public partial class Company
 
     public long? ChangeDate { get; set; }
 
-    public long? ChangeDateCategory { get; set; }
+    public long? ChangeDateFormat { get; set; }
 
     public long? Country { get; set; }
 
@@ -51,7 +51,7 @@ public partial class Company
 
     public virtual Company? Parent { get; set; }
 
-    public virtual ICollection<PlatformVersionCompany1> PlatformVersionCompany1s { get; set; } = new List<PlatformVersionCompany1>();
+    public virtual ICollection<PlatformVersionCompany> PlatformVersionCompanies { get; set; } = new List<PlatformVersionCompany>();
 
     public virtual DateFormat? StartDateFormatNavigation { get; set; }
 

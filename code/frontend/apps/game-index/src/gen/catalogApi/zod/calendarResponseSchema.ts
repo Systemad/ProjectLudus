@@ -4,9 +4,9 @@
 */
 
 import * as z from "zod";
-import { gamesSearchDtoSchema } from "./gamesSearchDtoSchema.ts";
+import { gameDtoSchema } from "./gameDtoSchema.ts";
 
 export const calendarResponseSchema = z.object({
     "year": z.number().int(),
-"games": z.array(z.lazy(() => gamesSearchDtoSchema))
+"games": z.array(z.lazy(() => gameDtoSchema))
     })

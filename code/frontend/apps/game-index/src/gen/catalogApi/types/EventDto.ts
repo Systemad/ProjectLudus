@@ -3,8 +3,8 @@
 * Do not edit manually.
 */
 
+import type { GameDto } from "./GameDto.ts";
 import type { GameMediaVideoDto } from "./GameMediaVideoDto.ts";
-import type { GamesSearchDto } from "./GamesSearchDto.ts";
 
 export type EventDto = {
     /**
@@ -46,7 +46,7 @@ export type EventDto = {
     /**
      * @type array
     */
-    games: GamesSearchDto[];
+    games: GameDto[];
     /**
      * @type array
     */

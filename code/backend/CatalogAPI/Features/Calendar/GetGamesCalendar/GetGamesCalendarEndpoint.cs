@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using CatalogAPI.Features.Games.Common.Projections;
+
 namespace CatalogAPI.Features.Calendar.GetGamesCalendar;
 
 public static class GetGamesCalendarEndpoint
@@ -5,13 +8,7 @@ public static class GetGamesCalendarEndpoint
     private sealed record CalendarResponse
     {
         public required int Year { get; init; }
-        public required List<GamesSearchDto> Games { get; init; } = [];
-    }
-    
-    private static DateTime GetStartOfWeek(DateTime date)
-    {
-        var diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
-        return date.Date.AddDays(-diff);
+        public required List<GameDto> Games { get; init; } = [];
     }
     
     public static RouteHandlerBuilder MapGetGamesCalendarEndpoint(
@@ -28,21 +25,10 @@ public static class GetGamesCalendarEndpoint
 
     private static async Task<IResult> GetGamesCalendarAsync(
         AppDbContext db,
-        int year,
+        [Range(1, 9999)] int year,
         CancellationToken cancellationToken
     )
     {
-        
-        if (year is < 1 or > 9999)
-        {
-            return Results.ValidationProblem(
-                new Dictionary<string, string[]>
-                {
-                    [nameof(year)] = ["Year must be between 1 and 9999."],
-                }
-            );
-        }
-        
         var yearStart = Instant.FromUtc(year, 1, 1, 0, 0);
         var nextYearStart = yearStart.Plus(
             Duration.FromDays(DateTime.IsLeapYear(year) ? 366 : 365)
@@ -51,29 +37,32 @@ public static class GetGamesCalendarEndpoint
         var games = await db.GamesSearches
             .Where(e => e.FirstReleaseDateUtc >= yearStart && e.FirstReleaseDateUtc < nextYearStart)
             .OrderByDescending(g => 
-                // 1. Core Hype (High Weight)
                 ((g.Hypes ?? 0) * 3) + 
                 ((g.SteamMostWishlistedUpcoming ?? 0) * 6) +
-        
-                // 2. General Interest (Medium Weight)
-                //((g.Follows ?? 0) * 2) + 
                 (g.IgdbWantToPlay ?? 0) +
-        
-                // 3. Current Momentum (Low Weight)
-                ((g.IgdbVisits ?? 0) * 0.1)
+                ((g.IgdbVisits ?? 0) * 0.15)
             )
-            //.ThenBy(g => g.FirstReleaseDateUtc)
+            .Join(db.Games, game => game.Id, game => game.Id, (_, game) => game)
             .Take(50)
+            .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        var chronologicalHighlights = games
-            .OrderBy(g => g.FirstReleaseDateUtc)
-            .ToList();
-        
         return Results.Ok(new CalendarResponse
         {
             Year = year,
-            Games = GameSearchMapper.MapToDto(chronologicalHighlights)
+            Games = games.OrderBy(g => g.FirstReleaseDate).ToList()
         });
     }
 }
+
+/*
+        var games = await db.Games
+            .Where(e => e.FirstReleaseDateUtc >= yearStart && e.FirstReleaseDateUtc < nextYearStart)
+            .OrderByDescending(g =>
+                ((g.Hypes ?? 0) * 3) +
+                ((g.AggregatedRating ?? 0) * 2)
+            )
+            .Take(50)
+            .Select(GameDtoProjection.AsGameDto)
+            .ToListAsync(cancellationToken);
+*/

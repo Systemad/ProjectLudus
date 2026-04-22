@@ -46,8 +46,6 @@ public partial class Game
 
     public long? AggregatedRatingCount { get; set; }
 
-    public long? Status { get; set; }
-
     public long? GameStatus { get; set; }
 
     public long? Hypes { get; set; }

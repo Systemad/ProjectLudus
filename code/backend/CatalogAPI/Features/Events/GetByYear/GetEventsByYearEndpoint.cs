@@ -1,4 +1,5 @@
 using CatalogAPI.Features.Events.Dtos;
+using CatalogAPI.Features.Games.Common.Projections;
 
 namespace CatalogAPI.Features.Events.GetByYear;
 
@@ -40,8 +41,7 @@ public static class GetEventsByYearEndpoint
         );
 
         var eventDtos = await db
-            .Events
-            .Where(e => e.StartTimeUtc >= yearStart && e.StartTimeUtc < nextYearStart)
+            .Events.Where(e => e.StartTimeUtc >= yearStart && e.StartTimeUtc < nextYearStart)
             .OrderBy(e => e.StartTimeUtc)
             .Select(e => new EventDto
             {
@@ -54,31 +54,13 @@ public static class GetEventsByYearEndpoint
                 EndTimeUtc = e.EndTimeUtc != null ? e.EndTimeUtc.Value.ToDateTimeUtc() : null,
                 TimeZone = e.TimeZone,
                 LogoImageId = e.EventLogoNavigation != null ? e.EventLogoNavigation.ImageId : null,
+                Games = e
+                    .Games.AsQueryable()
+                    .Where(g => g.FirstReleaseDateUtc.HasValue)
+                    .Select(GameDtoProjection.AsGameDto)
+                    .ToList(),
             })
             .ToListAsync(cancellationToken);
-
-        var eventIds = eventDtos.Select(e => e.Id).ToList();
-
-        var gamesByEventId = await db
-            .Events.Where(e => eventIds.Contains(e.Id))
-            .SelectMany(e => e.Games.Select(g => new { EventId = e.Id, GameId = g.Id }))
-            .Join(
-                db.GamesSearches,
-                eg => eg.GameId,
-                s => s.Id,
-                (eg, s) => new { eg.EventId, Search = s }
-            )
-            .ToListAsync(cancellationToken);
-
-        var grouped = gamesByEventId
-            .GroupBy(x => x.EventId)
-            .ToDictionary(g => g.Key, g => g.Select(x => x.Search).ToList());
-
-        foreach (var dto in eventDtos)
-        {
-            if (grouped.TryGetValue(dto.Id, out var games))
-                dto.Games = GameSearchMapper.MapToDto(games);
-        }
 
         return Results.Ok(new EventsYearResponse(year, eventDtos));
     }

@@ -17,5 +17,5 @@ public partial class NetworkType
 
     public string? Checksum { get; set; }
 
-    public virtual ICollection<EventNetwork> EventNetworksNavigation { get; set; } = new List<EventNetwork>();
+    public virtual ICollection<EventNetwork1> EventNetwork1s { get; set; } = new List<EventNetwork1>();
 }

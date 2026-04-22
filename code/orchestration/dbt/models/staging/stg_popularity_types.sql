@@ -3,7 +3,6 @@ with
     renamed as (
         select
             id,
-            popularity_source,
             name,
             created_at,
             updated_at,
