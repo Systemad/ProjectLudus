@@ -52,7 +52,7 @@ function EventsPage() {
                 value={eventFilter}
                 onChange={(next) => setEventFilter(next as EventFilter)}
                 size="sm"
-                colorScheme="gray"
+                colorScheme="neutral"
                 fullRounded
                 maxW={{ base: "full", md: "sm" }}
             >
@@ -68,7 +68,7 @@ function EventsPage() {
                         <SegmentedControl.Item
                             key={filter.value}
                             value={filter.value}
-                            colorScheme="gray"
+                            colorScheme="neutral"
                         >
                             {filter.label}
                             <Text as="span" display={{ base: "none", md: "inline" }}>
@@ -95,7 +95,7 @@ function EventsPage() {
 
 function RouteComponent() {
     return (
-        <PageWrapper py={{ base: "4", md: "6" }}>
+        <PageWrapper maxW="9xl" py={{ base: "4", md: "6" }}>
             <Suspense fallback={<EventsPageLoadingState />}>
                 <EventsPage />
             </Suspense>

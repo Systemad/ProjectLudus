@@ -47,7 +47,7 @@ export function SortControls({ currentSort, sortFieldOptions, onSortChange }: So
                 <Button
                     size="sm"
                     variant="outline"
-                    colorScheme="gray"
+                    colorScheme="neutral"
                     onClick={() => onDirectionChange(direction === "asc" ? "desc" : "asc")}
                     minW={{ base: "100%", sm: "3rem" }}
                     w={{ base: "100%", sm: "auto" }}

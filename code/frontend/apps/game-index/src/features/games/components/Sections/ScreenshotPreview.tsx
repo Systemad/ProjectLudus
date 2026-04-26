@@ -25,13 +25,12 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
         <Container.Root
             rounded="2xl"
             variant="surface"
-            colorScheme="gray"
+            colorScheme="neutral"
             bg="bg.panel"
-            borderWidth="1px"
-            borderColor="border.subtle"
             display={visible ? "block" : "none"}
             w="full"
             minW={0}
+            border="none"
         >
             <Container.Header>
                 <Text
@@ -45,8 +44,8 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
                 </Text>
             </Container.Header>
 
-            <Container.Body w="full" minW={0} overflow="hidden">
-                <Carousel.Root size="sm" w="full" minW={0}>
+            <Container.Body w="full" overflow="hidden" gap="md">
+                <Carousel.Root size="sm" w="full" autoplay={true} delay={5000}>
                     <Carousel.List>
                         <For
                             each={screenshots}
@@ -59,15 +58,15 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
                             }
                         >
                             {(screenshot, index) => (
-                                <Image
-                                    key={`${screenshot}-${index}`}
-                                    src={getIGDBImageUrl(screenshot, "1080p")}
-                                    alt={`Screenshot ${index + 1}`}
-                                    w="full"
-                                    h="auto"
-                                    objectFit="cover"
-                                    display="block"
-                                />
+                                <Carousel.Item index={index}>
+                                    <Image
+                                        key={`${screenshot}-${index}`}
+                                        src={getIGDBImageUrl(screenshot, "1080p")}
+                                        alt={`Screenshot ${index + 1}`}
+                                        w="full"
+                                        h="auto"
+                                    />
+                                </Carousel.Item>
                             )}
                         </For>
                     </Carousel.List>
@@ -79,7 +78,7 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
                 <Box textAlign="right">
                     <Button
                         variant="ghost"
-                        colorScheme="gray"
+                        colorScheme="neutral"
                         size="sm"
                         endIcon={<ChevronRightIcon boxSize="4" />}
                         onClick={onViewAll}

@@ -3,7 +3,7 @@
 import { HStack, Image, Tag, Text, VStack, Wrap, Card } from "ui";
 import type { GameDto } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { formatReleaseDateLabel } from "@src/utils/releaseDateUtils";
+import { formatReleaseDateLabel } from "@src/utils/dateUtils";
 
 type Props = {
     game: GameDto;
@@ -24,14 +24,7 @@ export default function GamePreviewCard({ game }: Props) {
     const releaseLabel = formatReleaseDateLabel(game.firstReleaseDate);
 
     return (
-        <Card.Root
-            maxW="xs"
-            rounded="lg"
-            bg="bg.panel"
-            borderWidth="1px"
-            borderColor="border.default"
-            boxShadow="md"
-        >
+        <Card.Root maxW="xs" rounded="lg" bg="bg.panel" boxShadow="md" border="none">
             <Card.Header justifyContent="center">
                 <Image w="full" h="3xs" src={imageUrl} alt={title} objectFit="cover" rounded="md" />
             </Card.Header>
@@ -76,15 +69,7 @@ export default function GamePreviewCard({ game }: Props) {
                         ))}
                     </Wrap>
 
-                    <HStack
-                        rounded="md"
-                        bg="bg.subtle"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
-                        p="sm"
-                        gap="xs"
-                        align="start"
-                    >
+                    <HStack rounded="md" bg="bg.subtle" p="sm" gap="xs" align="start">
                         <Text color="fg.subtle" fontSize="sm" lineHeight="short">
                             Features: {""}
                             <Text as="span" color="fg.base">

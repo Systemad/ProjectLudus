@@ -36,7 +36,7 @@ function TypesensePagination() {
                 onChange={(page) => refine(page - 1)}
                 size="sm"
                 variant="outline"
-                colorScheme="gray"
+                colorScheme="neutral"
                 justify="center"
                 wrap="wrap"
                 withEdges
@@ -64,8 +64,6 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
             gap={{ base: "sm", md: "md" }}
             bg="bg.surface"
             rounded="xl"
-            borderWidth="1px"
-            borderColor="border.subtle"
             css={{
                 ".typesense-layout": {
                     display: "grid",
@@ -159,7 +157,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         mb="sm"
                         w="full"
                         justifyContent="center"
-                        colorScheme="gray"
+                        colorScheme="neutral"
                         onClick={() => setIsMobileFiltersOpen(true)}
                     >
                         Filters
@@ -197,7 +195,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                                     <Button
                                         size="sm"
                                         variant="outline"
-                                        colorScheme="gray"
+                                        colorScheme="neutral"
                                         onClick={() => setIsMobileFiltersOpen(false)}
                                     >
                                         Close

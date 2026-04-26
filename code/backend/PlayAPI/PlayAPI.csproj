@@ -4,6 +4,11 @@
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <RazorLangVersion>10.0</RazorLangVersion>
+        <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../docs/openapi</OpenApiDocumentsDirectory>
+        
+        <NoWarn>1591;</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -19,6 +24,11 @@
         <ProjectReference Include="..\ServiceDefaults\ServiceDefaults.csproj" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
         <PackageReference Include="Refit" />
+
+        <PackageReference Include="Microsoft.Extensions.ApiDescription.Server">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
 </Project>

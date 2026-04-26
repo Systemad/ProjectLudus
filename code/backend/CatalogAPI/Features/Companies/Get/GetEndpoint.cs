@@ -2,19 +2,9 @@ namespace CatalogAPI.Features.Companies.Get;
 
 public static class GetCompanyEndpoint
 {
-    public record GetCompanyResponse(CompanyOverviewDto Company);
+    public record Response(CompanyOverviewDto Company);
 
-    public static RouteHandlerBuilder MapGetCompanyEndpoint(this IEndpointRouteBuilder routeBuilder)
-    {
-        return routeBuilder
-            .MapGet("/{companyId:long}", GetCompanyAsync)
-            .WithName("Companies/Get")
-            .WithTags("Companies")
-            .Produces<GetCompanyResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
-    }
-
-    private static async Task<IResult> GetCompanyAsync(
+    public static async Task<IResult> HandleAsync(
         long companyId,
         AppDbContext db,
         CancellationToken cancellationToken
@@ -42,6 +32,6 @@ public static class GetCompanyEndpoint
         if (company is null)
             return Results.NotFound();
 
-        return Results.Ok(new GetCompanyResponse(company));
+        return Results.Ok(new Response(company));
     }
 }

@@ -14,13 +14,7 @@ import {
 
 function MonthCardSkeleton() {
     return (
-        <Box
-            borderWidth="1px"
-            borderColor="border.subtle"
-            rounded="xl"
-            p={{ base: "3", md: "4" }}
-            bg="bg.panel"
-        >
+        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel">
             <Skeleton>
                 <Heading fontSize="lg" fontWeight="semibold" mb="2">
                     September
@@ -40,8 +34,6 @@ function MonthCardSkeleton() {
                             gap={{ base: "2", md: "3" }}
                             rounded="md"
                             bg="bg.surface"
-                            borderWidth="1px"
-                            borderColor="border.subtle"
                         >
                             <HStack gap="3" minW="0" flex="1" w="full">
                                 <Skeleton>

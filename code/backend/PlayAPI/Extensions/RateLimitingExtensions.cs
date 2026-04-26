@@ -6,8 +6,6 @@ namespace PlayAPI.Extensions;
 
 public static class RateLimitingExtensions
 {
-    public const string GameVisitsPolicyName = "game-visits";
-
     public static IServiceCollection AddPlayApiRateLimiting(this IServiceCollection services)
     {
         services.AddRateLimiter(options =>
@@ -38,29 +36,8 @@ public static class RateLimitingExtensions
                         partitionKey: ipAddress,
                         factory: _ => new FixedWindowRateLimiterOptions
                         {
-                            PermitLimit = 240,
+                            PermitLimit = 100,
                             Window = TimeSpan.FromMinutes(1),
-                            QueueLimit = 0,
-                            AutoReplenishment = true,
-                        }
-                    );
-                }
-            );
-
-            options.AddPolicy<string>(
-                GameVisitsPolicyName,
-                httpContext =>
-                {
-                    var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-                    var gameId = httpContext.Request.RouteValues["gameId"]?.ToString() ?? "unknown";
-                    var currentDay = DateOnly.FromDateTime(DateTime.UtcNow).ToString("yyyy-MM-dd");
-
-                    return RateLimitPartition.GetFixedWindowLimiter(
-                        partitionKey: $"{ipAddress}:{gameId}:{currentDay}",
-                        factory: _ => new FixedWindowRateLimiterOptions
-                        {
-                            PermitLimit = 1,
-                            Window = TimeSpan.FromDays(1),
                             QueueLimit = 0,
                             AutoReplenishment = true,
                         }

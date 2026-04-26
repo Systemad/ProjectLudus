@@ -1,9 +1,10 @@
 "use client";
 
 import type { GameDto } from "@src/gen/catalogApi";
-import { Box, Button, HStack, Text, Wrap, For, EmptyState, Gamepad2Icon } from "ui";
+import { Box, HStack, Text, Wrap, For, EmptyState, Gamepad2Icon } from "ui";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
 import { GameCard } from "@src/features/games/components/Sections/GameCard";
+import { RouterLinkButton } from "@src/components/YamadaLink/YamadaLink";
 
 type Props = {
     games: GameDto[];
@@ -18,9 +19,14 @@ export function RelatedGamesSection({ games }: Props) {
                         Related games
                     </Text>
                 </Box>
-                <Button variant="ghost" colorScheme="gray" size="sm">
+                <RouterLinkButton
+                    to="/games/search"
+                    variant="ghost"
+                    colorScheme="neutral"
+                    size="sm"
+                >
                     Explore more games
-                </Button>
+                </RouterLinkButton>
             </HStack>
 
             <Wrap gap={4}>

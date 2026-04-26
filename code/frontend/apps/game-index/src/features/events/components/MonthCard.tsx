@@ -13,13 +13,7 @@ export function MonthCard({ group, now }: MonthCardProps) {
     const hasMore = group.events.length > 4;
 
     return (
-        <Box
-            borderWidth="1px"
-            borderColor="border.subtle"
-            rounded="xl"
-            p={{ base: "3", md: "4" }}
-            bg="bg.panel"
-        >
+        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel">
             <Text fontWeight="semibold" fontSize="lg" mb="2">
                 {group.month}
             </Text>
@@ -47,8 +41,6 @@ export function MonthCard({ group, now }: MonthCardProps) {
                         textAlign="center"
                         fontSize="sm"
                         color="fg.muted"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
                         rounded="lg"
                         bg="bg.subtle"
                     >

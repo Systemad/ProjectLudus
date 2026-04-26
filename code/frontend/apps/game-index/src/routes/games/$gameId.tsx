@@ -28,19 +28,16 @@ import { ScreenshotPreview } from "@src/features/games/components/Sections/Scree
 import { linkStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import {
     gamesGetMediaSuspenseQueryOptionsHook,
-    gamesGetReleaseDataSuspenseQueryOptionsHook,
     gamesGetOverviewSuspenseQueryOptionsHook,
-    gamesGetSimilarSuspenseQueryOptionsHook,
-    gamesGetSuspenseQueryOptionsHook,
     useGamesGetMediaSuspenseHook,
     useGamesGetReleaseDataSuspenseHook,
     useGamesGetOverviewSuspenseHook,
     useGamesGetSimilarSuspenseHook,
     useGamesGetSuspenseHook,
 } from "@src/gen/catalogApi";
-import { formatReleaseDate } from "@src/utils/formatReleaseDate";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { PageWrapper } from "@src/components/AppShell/PageWrapper";
+import { Format } from "ui";
 
 type Tab = "overview" | "official-links" | "media" | "details" | "release-dates";
 
@@ -67,12 +64,7 @@ export const Route = createFileRoute("/games/$gameId")({
 
         await Promise.all([
             queryClient.ensureQueryData(gamesGetOverviewSuspenseQueryOptionsHook({ gameId: id })),
-            queryClient.ensureQueryData(gamesGetSuspenseQueryOptionsHook({ gameId: id })),
             queryClient.ensureQueryData(gamesGetMediaSuspenseQueryOptionsHook({ gameId: id })),
-            queryClient.ensureQueryData(
-                gamesGetReleaseDataSuspenseQueryOptionsHook({ gameId: id }),
-            ),
-            queryClient.ensureQueryData(gamesGetSimilarSuspenseQueryOptionsHook({ gameId: id })),
         ]);
     },
 });
@@ -97,7 +89,6 @@ function GameDetailPage() {
     const releasePageData = releaseData?.data;
     const similarGames = similarData?.games ?? [];
     const [activeTab, setActiveTab] = useState<Tab>("overview");
-    const [tabDirection, setTabDirection] = useState(1);
 
     if (!overview) {
         return (
@@ -113,7 +104,6 @@ function GameDetailPage() {
     }
 
     const coverImage = getIGDBImageUrl(overview.cover, "cover_big");
-
     const storyText = overview.storyline ?? overview.summary ?? "No storyline available.";
 
     const firstReleaseDate =
@@ -140,7 +130,6 @@ function GameDetailPage() {
         const nextIndex = TAB_INDEX[nextTab];
 
         if (nextIndex !== currentIndex) {
-            setTabDirection(nextIndex > currentIndex ? 1 : -1);
             setActiveTab(nextTab);
         }
     };
@@ -164,13 +153,6 @@ function GameDetailPage() {
                             pointerEvents="none"
                         />
                     )}
-                    <Box
-                        position="absolute"
-                        inset={0}
-                        zIndex={1}
-                        bgGradient="linear(to-b, blackAlpha.450, blackAlpha.650)"
-                        pointerEvents="none"
-                    />
                     <PageWrapper py="8" position="relative" zIndex={2}>
                         <Motion
                             initial={{ y: 18 }}
@@ -197,8 +179,17 @@ function GameDetailPage() {
                                 </Box>
 
                                 <VStack align="start" gap={2} flex={1} minW={0} color="white">
-                                    <Text color="white" fontSize="sm" opacity={0.95}>
-                                        {formatReleaseDate(firstReleaseDate)}
+                                    <Text color="white" fontSize="sm">
+                                        {firstReleaseDate != null ? (
+                                            <Format.DateTime
+                                                value={new Date(firstReleaseDate * 1000)}
+                                                month="short"
+                                                day="numeric"
+                                                year="numeric"
+                                            />
+                                        ) : (
+                                            "Release date TBA"
+                                        )}
                                     </Text>
                                     <Heading
                                         size={{ base: "2xl", md: "4xl" }}
@@ -213,11 +204,7 @@ function GameDetailPage() {
                                             {(genre) => (
                                                 <Tag
                                                     key={genre}
-                                                    variant="outline"
-                                                    colorScheme="gray"
-                                                    color="whiteAlpha.900"
-                                                    borderColor="whiteAlpha.500"
-                                                    bg="whiteAlpha.200"
+                                                    variant="subtle"
                                                     size="sm"
                                                     textTransform="none"
                                                 >
@@ -233,7 +220,6 @@ function GameDetailPage() {
                                                     {...sectionMetaStyle}
                                                     fontSize="xs"
                                                     color="white"
-                                                    opacity={0.9}
                                                     mb="2xs"
                                                 >
                                                     DEVELOPER
@@ -253,7 +239,6 @@ function GameDetailPage() {
                                                     {...sectionMetaStyle}
                                                     fontSize="xs"
                                                     color="white"
-                                                    opacity={0.9}
                                                     mb="2xs"
                                                 >
                                                     PUBLISHER
@@ -274,7 +259,6 @@ function GameDetailPage() {
                                         maxW="2xl"
                                         lineClamp={3}
                                         mt={1}
-                                        opacity={0.95}
                                         textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
                                     >
                                         {overview.summary ??
@@ -287,7 +271,7 @@ function GameDetailPage() {
                     </PageWrapper>
                 </Box>
 
-                <Box borderBottomWidth="1px" borderColor="border.subtle">
+                <Box>
                     <PageWrapper py="3">
                         <SegmentedControl.Root
                             value={activeTab}
@@ -296,13 +280,6 @@ function GameDetailPage() {
                             w="full"
                             colorScheme="emerald"
                             fullRounded
-                            indicatorProps={{
-                                transition: {
-                                    type: "tween",
-                                    duration: 0.16,
-                                    ease: [0.22, 1, 0.36, 1],
-                                },
-                            }}
                             css={{
                                 overflowX: "auto",
                                 WebkitOverflowScrolling: "touch",
@@ -322,9 +299,6 @@ function GameDetailPage() {
                                     fontSize="sm"
                                     h="full"
                                     fontWeight={activeTab === tab.value ? "semibold" : "normal"}
-                                    transitionProperty="color"
-                                    transitionDuration="0.18s"
-                                    transitionTimingFunction="ease-out"
                                 >
                                     {tab.label}
                                 </SegmentedControl.Item>
@@ -342,60 +316,50 @@ function GameDetailPage() {
                         }
                     >
                         <Box overflow="hidden">
-                            <Motion
-                                key={activeTab}
-                                initial={{ x: tabDirection > 0 ? 40 : -40 }}
-                                animate={{ x: 0 }}
-                                transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
-                            >
-                                {activeTab === "overview" ? (
-                                    <Grid
-                                        templateColumns={{ base: "1fr", lg: "1fr 300px" }}
-                                        gap={{ base: 8, lg: 10 }}
-                                        alignItems="start"
-                                    >
-                                        <VStack align="stretch" gap={8}>
-                                            <GameStory storyText={storyText} />
-                                            <ScreenshotPreview
-                                                screenshots={media.screenshots}
-                                                visible
-                                                onViewAll={() => setActiveTab("media")}
-                                            />
-                                            <RelatedGamesSection games={similarGames} />
-                                        </VStack>
-
-                                        <OverviewPanel
-                                            gameTypeName={overview.gameTypeName}
-                                            modes={overview.genres}
-                                            playerPerspectives={details?.playerPerspectives}
-                                            platforms={platforms}
-                                            genres={overview.genres}
-                                            themes={overview.themes}
-                                        />
-                                    </Grid>
-                                ) : null}
-
-                                {activeTab === "official-links" ? (
-                                    <OfficialLinks websites={websites} />
-                                ) : null}
-
-                                {activeTab === "media" ? (
-                                    <MediaGrid
-                                        screenshots={media.screenshots}
-                                        videos={media.videos}
-                                    />
-                                ) : null}
-
-                                {activeTab === "details" ? (
+                            {activeTab === "overview" ? (
+                                <Grid
+                                    templateColumns={{ base: "1fr", lg: "1fr 300px" }}
+                                    gap={{ base: 8, lg: 10 }}
+                                    alignItems="start"
+                                >
                                     <VStack align="stretch" gap={8}>
-                                        <AlternativeNames names={alternativeNames} />
+                                        <GameStory storyText={storyText} />
+                                        <ScreenshotPreview
+                                            screenshots={media.screenshots}
+                                            visible
+                                            onViewAll={() => setActiveTab("media")}
+                                        />
+                                        <RelatedGamesSection games={similarGames} />
                                     </VStack>
-                                ) : null}
 
-                                {activeTab === "release-dates" ? (
-                                    <GameReleaseDates releaseDates={releasePageData?.releases} />
-                                ) : null}
-                            </Motion>
+                                    <OverviewPanel
+                                        gameTypeName={overview.gameTypeName}
+                                        modes={details.gameModes}
+                                        playerPerspectives={details?.playerPerspectives}
+                                        platforms={platforms}
+                                        genres={overview.genres}
+                                        themes={overview.themes}
+                                    />
+                                </Grid>
+                            ) : null}
+
+                            {activeTab === "official-links" ? (
+                                <OfficialLinks websites={websites} />
+                            ) : null}
+
+                            {activeTab === "media" ? (
+                                <MediaGrid screenshots={media.screenshots} videos={media.videos} />
+                            ) : null}
+
+                            {activeTab === "details" ? (
+                                <VStack align="stretch" gap={8}>
+                                    <AlternativeNames names={alternativeNames} />
+                                </VStack>
+                            ) : null}
+
+                            {activeTab === "release-dates" ? (
+                                <GameReleaseDates releaseDates={releasePageData?.releases} />
+                            ) : null}
                         </Box>
                     </Suspense>
                 </PageWrapper>

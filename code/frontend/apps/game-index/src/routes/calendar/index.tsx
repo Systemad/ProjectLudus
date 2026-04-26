@@ -5,64 +5,68 @@ import { useCalendarGetGamesSuspenseHook } from "@src/gen/catalogApi";
 import PageWrapper from "@src/components/AppShell/PageWrapper";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
-import { format, getYear, isValid, parseISO } from "date-fns";
-import { formatReleaseDateLabel, isTbaReleaseDate } from "@src/utils/releaseDateUtils";
-import { Box, Collapse, Grid, GridItem, Heading, HStack, Image, Loading, Text, VStack } from "ui";
+import { getYear } from "date-fns";
+import { getReleaseMonth, getReleaseMonthKey, isTbaReleaseDate } from "@src/utils/dateUtils";
+import {
+    Box,
+    Collapse,
+    Format,
+    Grid,
+    GridItem,
+    Heading,
+    HStack,
+    Image,
+    Loading,
+    Text,
+    VStack,
+    Wrap,
+} from "ui";
 
 export const Route = createFileRoute("/calendar/")({
     component: RouteComponent,
 });
 
-function getReleaseMonth(firstReleaseDate?: string | null) {
-    if (!firstReleaseDate) {
-        return null;
-    }
-
-    const date = parseISO(firstReleaseDate);
-    if (!isValid(date)) {
-        return null;
-    }
-
-    return format(date, "MMMM");
-}
-
 function groupGamesByMonth(games: GameDto[]) {
-    const map = new Map<string, GameDto[]>();
+    const map = new Map<string, { month: string; games: GameDto[] }>();
 
     for (const game of games) {
-        const key = getReleaseMonth(game.firstReleaseDate);
-        if (!key) {
+        const monthKey = getReleaseMonthKey(game.firstReleaseDate);
+        if (!monthKey) {
             continue;
         }
 
-        const group = map.get(key) ?? [];
-        group.push(game);
-        map.set(key, group);
+        const group = map.get(monthKey) ?? {
+            month: getReleaseMonth(game.firstReleaseDate)!,
+            games: [],
+        };
+
+        group.games.push(game);
+        map.set(monthKey, group);
     }
 
     return Array.from(map.entries())
-        .map(([month, groupedGames]) => ({
-            month,
-            games: groupedGames.sort((left, right) => {
-                if (!left.firstReleaseDate && !right.firstReleaseDate) return 0;
-                if (!left.firstReleaseDate) return 1;
-                if (!right.firstReleaseDate) return -1;
-                return left.firstReleaseDate.localeCompare(right.firstReleaseDate);
-            }),
-        }))
-        .sort((left, right) => {
-            const leftDate = left.games[0]?.firstReleaseDate
-                ? parseISO(left.games[0].firstReleaseDate)
-                : parseISO("9999-12-31");
-            const rightDate = right.games[0]?.firstReleaseDate
-                ? parseISO(right.games[0].firstReleaseDate)
-                : parseISO("9999-12-31");
-            return leftDate.getTime() - rightDate.getTime();
-        });
+        .sort(([leftKey], [rightKey]) => leftKey.localeCompare(rightKey))
+        .map(([, group]) => ({
+            month: group.month,
+            games: group.games.sort((left, right) =>
+                left.firstReleaseDate!.localeCompare(right.firstReleaseDate!),
+            ),
+        }));
 }
 
 function GameRow({ game, isPlaceholder = false }: { game: GameDto; isPlaceholder?: boolean }) {
-    const dayLabel = isPlaceholder ? "Date TBA" : formatReleaseDateLabel(game.firstReleaseDate);
+    const dayLabel = isPlaceholder ? (
+        "Date TBA"
+    ) : !isTbaReleaseDate(game.firstReleaseDate) && game.firstReleaseDate ? (
+        <Format.DateTime
+            value={new Date(game.firstReleaseDate)}
+            month="short"
+            day="2-digit"
+            year="numeric"
+        />
+    ) : (
+        "TBA"
+    );
     const imageUrl = game.coverUrl ? getIGDBImageUrl(game.coverUrl, "cover_small") : null;
     const gameId = String(game.id);
     const studioLabel = game.developers?.[0]?.name ?? "Upcoming release";
@@ -75,26 +79,8 @@ function GameRow({ game, isPlaceholder = false }: { game: GameDto; isPlaceholder
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <HStack
-                align="start"
-                px="2"
-                py="3"
-                gap="3"
-                rounded="md"
-                bg="bg.surface"
-                borderWidth="1px"
-                borderColor="border.subtle"
-            >
-                <Box
-                    flexShrink={0}
-                    w="10"
-                    h="12"
-                    rounded="md"
-                    overflow="hidden"
-                    bg="bg.subtle"
-                    borderWidth="1px"
-                    borderColor="border.subtle"
-                >
+            <HStack align="start" px="2" py="3" gap="3" rounded="md" bg="bg.surface">
+                <Box flexShrink={0} w="10" h="12" rounded="md" overflow="hidden" bg="bg.subtle">
                     {imageUrl ? (
                         <Image src={imageUrl} alt={game.name} w="full" h="full" objectFit="cover" />
                     ) : (
@@ -107,13 +93,14 @@ function GameRow({ game, isPlaceholder = false }: { game: GameDto; isPlaceholder
                 </Box>
 
                 <VStack align="stretch" gap="1" flex="1" minW="0">
-                    <HStack justify="space-between" align="flex-start" gap="3" minW="0">
+                    <HStack justify="space-between" align="flex-start" gap="3" minW="0" w="full">
                         <Text
                             fontWeight="medium"
                             fontSize="sm"
                             lineClamp={2}
                             minW="0"
                             color="fg.base"
+                            flex="1"
                         >
                             {game.name}
                         </Text>
@@ -124,21 +111,13 @@ function GameRow({ game, isPlaceholder = false }: { game: GameDto; isPlaceholder
                         )}
                     </HStack>
 
-                    <HStack justify="space-between" align="center" gap="3" minW="0">
-                        <Text fontSize="xs" color="fg.subtle" minW="0">
+                    <HStack justify="space-between" align="center" gap="2" minW="0" w="full">
+                        <Text fontSize="xs" color="fg.subtle" minW="0" flex="1" lineClamp={1}>
                             {studioLabel}
                         </Text>
-                        <HStack gap="1" wrap="wrap" justify="flex-end" flexShrink={0}>
+                        <HStack gap="2" align="center" flexShrink={0}>
                             {platformIcons.map((platform) => (
-                                <Box
-                                    key={platform}
-                                    boxSize="4"
-                                    display="grid"
-                                    placeItems="center"
-                                    fontSize="xs"
-                                >
-                                    <PlatformIcon type={platform} />
-                                </Box>
+                                <PlatformIcon type={platform} />
                             ))}
                         </HStack>
                     </HStack>
@@ -163,13 +142,7 @@ function GameGroupCard({
     const hasMore = games.length > 4;
 
     return (
-        <Box
-            borderWidth="1px"
-            borderColor="border.subtle"
-            rounded="xl"
-            p={{ base: "3", md: "4" }}
-            bg="bg.panel"
-        >
+        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel">
             <Text fontWeight="semibold" fontSize="lg" mb="2">
                 {title}
             </Text>
@@ -200,8 +173,6 @@ function GameGroupCard({
                             textAlign="center"
                             fontSize="sm"
                             color="fg.muted"
-                            borderWidth="1px"
-                            borderColor="border.subtle"
                             rounded="lg"
                             bg="bg.subtle"
                         >
@@ -233,14 +204,7 @@ function GamesCalendarPage() {
             </HStack>
 
             {groups.length === 0 ? (
-                <Box
-                    borderWidth="1px"
-                    borderColor="border.subtle"
-                    rounded="xl"
-                    bg="bg.panel"
-                    p={{ base: "6", md: "8" }}
-                    textAlign="center"
-                >
+                <Box rounded="xl" bg="bg.panel" p={{ base: "6", md: "8" }} textAlign="center">
                     <Text fontSize="lg" color="fg.base" fontWeight="semibold">
                         No scheduled games
                     </Text>

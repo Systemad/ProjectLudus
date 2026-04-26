@@ -1,9 +1,0 @@
-Lets focus on the UI. 
-I needs a lot of changes.
-I am giving some screenshots for some ideas
-
-Pasted Image 1: Game search browsing. Please note the images in the grid. I like them. Also note the ability to display in a grid or list. WIth a list. Pasted Image 2 shows list layout. Ignore the "Follow" button.
-
-Pasted Image 3: A game specific layout. 
-
-Please not the colors: Also, it might be worth replacing some colors in the semantic tokens? Right now,YamadaUI default theme for "bg.surface". "bg.panel" etc are too dark. Explore yamada-ui-llms-full.txt for documenation.

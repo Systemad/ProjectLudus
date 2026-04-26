@@ -2,6 +2,7 @@ import { SimpleTable } from "@src/components/layout/SimpleTable";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
     Box,
+    Format,
     HStack,
     Image,
     SimpleGrid,
@@ -18,7 +19,7 @@ import {
     useStatsGetStatsSuspenseHook,
 } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { formatReleaseDateLabel } from "@src/utils/releaseDateUtils";
+import { isTbaReleaseDate } from "@src/utils/dateUtils";
 import { Suspense } from "react";
 
 export const Route = createFileRoute("/")({
@@ -61,6 +62,7 @@ function RouteComponent() {
                         textAlign="center"
                         variant={"panel"}
                         colorScheme={"fuchsia"}
+                        border="none"
                     >
                         <VStack gap="xs" align="center">
                             <Heading fontSize={{ base: "2xl", md: "3xl" }}>game-index.app</Heading>
@@ -69,19 +71,15 @@ function RouteComponent() {
                             </Text>
                         </VStack>
                     </Container.Root>
-                    <Container.Root p={{ base: "sm", md: "md" }} rounded="2xl" variant={"panel"}>
+                    <Container.Root
+                        p={{ base: "sm", md: "md" }}
+                        rounded="2xl"
+                        variant={"panel"}
+                        border="none"
+                    >
                         <VStack align="stretch" gap="sm">
                             <HStack justify="center" align="stretch" gap="4" wrap="wrap">
-                                <Box
-                                    p="sm"
-                                    rounded="2xl"
-                                    flex="1"
-                                    minW="10rem"
-                                    maxW="20rem"
-                                    bg="bg.surface"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                >
+                                <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
                                     <Text color="fg.muted" fontSize="sm" textAlign="center">
                                         Games Indexed
                                     </Text>
@@ -95,16 +93,7 @@ function RouteComponent() {
                                     </Text>
                                 </Box>
 
-                                <Box
-                                    p="sm"
-                                    rounded="2xl"
-                                    flex="1"
-                                    minW="10rem"
-                                    maxW="20rem"
-                                    bg="bg.surface"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                >
+                                <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
                                     <Text color="fg.muted" fontSize="sm" textAlign="center">
                                         Companies Indexed
                                     </Text>
@@ -154,7 +143,17 @@ function RouteComponent() {
                                                     >
                                                         {b.name ?? "Unknown"}
                                                     </Link>,
-                                                    formatReleaseDateLabel(b.firstReleaseDate),
+                                                    !isTbaReleaseDate(b.firstReleaseDate) &&
+                                                    b.firstReleaseDate ? (
+                                                        <Format.DateTime
+                                                            value={new Date(b.firstReleaseDate)}
+                                                            month="short"
+                                                            day="2-digit"
+                                                            year="numeric"
+                                                        />
+                                                    ) : (
+                                                        "TBA"
+                                                    ),
                                                 ])}
                                             hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
                                         />

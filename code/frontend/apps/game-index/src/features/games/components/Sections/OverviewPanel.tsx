@@ -31,7 +31,7 @@ function OverviewPanel({
                         {(platform) => (
                             <HStack key={platform} gap="xs">
                                 <PlatformIcon type={platform} />
-                                <Text color="fg.subtle" fontSize="sm">
+                                <Text colorScheme="neutral" fontSize="sm">
                                     {platform}
                                 </Text>
                             </HStack>
@@ -50,7 +50,7 @@ function OverviewPanel({
                             <Tag
                                 key={mode}
                                 variant="subtle"
-                                colorScheme="gray"
+                                colorScheme="neutral"
                                 size="sm"
                                 textTransform="none"
                             >
@@ -71,7 +71,7 @@ function OverviewPanel({
                             <Tag
                                 key={item}
                                 variant="surface"
-                                colorScheme="gray"
+                                colorScheme="neutral"
                                 size="sm"
                                 textTransform="none"
                             >
@@ -98,9 +98,7 @@ function OverviewPanel({
                     <Text {...sectionMetaStyle} mb={3}>
                         TYPE
                     </Text>
-                    <Text color="fg.subtle" fontSize="sm">
-                        {gameTypeName}
-                    </Text>
+                    <Text fontSize="sm">{gameTypeName}</Text>
                 </Box>
             )}
         </VStack>

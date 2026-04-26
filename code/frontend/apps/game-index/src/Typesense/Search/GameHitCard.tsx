@@ -15,14 +15,7 @@ export function GameHitCard({ hit }: GameHitCardProps) {
     const releaseYear = getReleaseYear(hit);
 
     return (
-        <Card.Root
-            h="full"
-            rounded="lg"
-            bg="bg.surface"
-            borderWidth="1px"
-            borderColor="border.subtle"
-            overflow="hidden"
-        >
+        <Card.Root h="full" rounded="lg" bg="bg.surface" overflow="hidden" border="none">
             <Card.Header justifyContent="center">
                 <Image
                     src={imageUrl}
@@ -46,15 +39,7 @@ export function GameHitCard({ hit }: GameHitCardProps) {
                 </Flex>
             </Card.Body>
             <Card.Footer p={{ base: "xs", md: "sm" }} pt="0">
-                <Box
-                    rounded="md"
-                    bg="bg.panel"
-                    borderWidth="1px"
-                    borderColor="border.subtle"
-                    px="sm"
-                    py="xs"
-                    w="full"
-                >
+                <Box rounded="md" bg="bg.panel" px="sm" py="xs" w="full">
                     <Text fontSize="sm" color="fg.subtle" lineHeight="short">
                         Rating:{" "}
                         <Text as="span" color="fg.base" fontWeight="semibold">

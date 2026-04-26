@@ -8,7 +8,11 @@ public static class Map
     {
         var group = app.MapGroup("/api/popularity").CacheOutput("DefaultCache");
 
-        group.MapGetByIdEndpoint();
+        group
+            .MapGet("/{popularityTypeId:long}", GetByIdEndpoints.HandleAsync)
+            .WithName("PopularityTypes/GetById")
+            .WithTags("PopularityTypes")
+            .Produces<GetByIdEndpoints.Response>(StatusCodes.Status200OK);
 
         return app;
     }

@@ -5,25 +5,13 @@ namespace CatalogAPI.Features.Calendar.GetGamesCalendar;
 
 public static class GetGamesCalendarEndpoint
 {
-    private sealed record CalendarResponse
+    public sealed record Response
     {
         public required int Year { get; init; }
         public required List<GameDto> Games { get; init; } = [];
     }
-    
-    public static RouteHandlerBuilder MapGetGamesCalendarEndpoint(
-        this IEndpointRouteBuilder routeBuilder
-    )
-    {
-        return routeBuilder
-            .MapGet("/{year:int}", GetGamesCalendarAsync)
-            .WithName($"{EndpointMetadata.Calendar}/GetGames")
-            .WithTags(EndpointMetadata.Calendar)
-            .Produces<CalendarResponse>(StatusCodes.Status200OK)
-            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
-    }
 
-    private static async Task<IResult> GetGamesCalendarAsync(
+    public static async Task<IResult> HandleAsync(
         AppDbContext db,
         [Range(1, 9999)] int year,
         CancellationToken cancellationToken
@@ -34,24 +22,24 @@ public static class GetGamesCalendarEndpoint
             Duration.FromDays(DateTime.IsLeapYear(year) ? 366 : 365)
         );
 
-        var games = await db.GamesSearches
-            .Where(e => e.FirstReleaseDateUtc >= yearStart && e.FirstReleaseDateUtc < nextYearStart)
-            .OrderByDescending(g => 
-                ((g.Hypes ?? 0) * 3) + 
-                ((g.SteamMostWishlistedUpcoming ?? 0) * 6) +
-                (g.IgdbWantToPlay ?? 0) +
-                ((g.IgdbVisits ?? 0) * 0.15)
+        var games = await db
+            .GamesSearches.Where(e =>
+                e.FirstReleaseDateUtc >= yearStart && e.FirstReleaseDateUtc < nextYearStart
+            )
+            .OrderByDescending(g =>
+                ((g.Hypes ?? 0) * 3)
+                + ((g.SteamMostWishlistedUpcoming ?? 0) * 6)
+                + (g.IgdbWantToPlay ?? 0)
+                + ((g.IgdbVisits ?? 0) * 0.15)
             )
             .Join(db.Games, game => game.Id, game => game.Id, (_, game) => game)
             .Take(50)
             .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new CalendarResponse
-        {
-            Year = year,
-            Games = games.OrderBy(g => g.FirstReleaseDate).ToList()
-        });
+        return Results.Ok(
+            new Response { Year = year, Games = games.OrderBy(g => g.FirstReleaseDate).ToList() }
+        );
     }
 }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PlayAPI.Context;
 
@@ -17,52 +18,43 @@ namespace PlayAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PlayAPI.Data.GameVisitCount", b =>
+            modelBuilder.Entity("PlayAPI.Data.GameEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("Count")
-                        .HasColumnType("bigint")
-                        .HasColumnName("count");
+                    b.Property<Instant>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("integer")
+                        .HasColumnName("event_type");
 
                     b.Property<long>("GameId")
                         .HasColumnType("bigint")
                         .HasColumnName("game_id");
 
-                    b.Property<DateTime>("LastVisitedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("last_visited_at");
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("session_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_game_visit_counts");
+                        .HasName("pk_game_events");
 
-                    b.HasIndex("GameId")
-                        .IsUnique()
-                        .HasDatabaseName("ix_game_visit_counts_game_id");
-
-                    b.ToTable("game_visit_counts", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Count = 0L,
-                            GameId = -1L,
-                            LastVisitedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
+                    b.ToTable("game_events", (string)null);
                 });
 
-            modelBuilder.Entity("PlayAPI.Data.TypesenseKey", b =>
+            modelBuilder.Entity("PlayAPI.Data.GameMetric", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,19 +63,30 @@ namespace PlayAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("ExpiresAt")
+                    b.Property<Instant>("FirstVisitedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expires_at");
+                        .HasColumnName("first_visited_at");
 
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("key");
+                    b.Property<long>("GameId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("game_id");
+
+                    b.Property<Instant>("LastVisitedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("last_visited_at");
+
+                    b.Property<Guid>("SessionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("session_id");
+
+                    b.Property<int>("ViewCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("view_count");
 
                     b.HasKey("Id")
-                        .HasName("pk_typesense_keys");
+                        .HasName("pk_game_metrics");
 
-                    b.ToTable("typesense_keys", (string)null);
+                    b.ToTable("game_metrics", (string)null);
                 });
 #pragma warning restore 612, 618
         }

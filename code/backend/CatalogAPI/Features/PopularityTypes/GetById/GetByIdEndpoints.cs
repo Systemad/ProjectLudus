@@ -6,20 +6,11 @@ namespace CatalogAPI.Features.PopularityTypes.GetById;
 
 public static class GetByIdEndpoints
 {
-    private record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
+    public record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
 
-    private record PopularityGamesResponse(List<GameDto> Games);
+    public record Response(List<GameDto> Games);
 
-    public static RouteHandlerBuilder MapGetByIdEndpoint(this IEndpointRouteBuilder routeBuilder)
-    {
-        return routeBuilder
-            .MapGet("/{popularityTypeId:long}", GetPopularityRailAsync)
-            .WithName("PopularityTypes/GetById")
-            .WithTags("PopularityTypes")
-            .Produces<PopularityGamesResponse>(StatusCodes.Status200OK);
-    }
-
-    private static async Task<IResult> GetPopularityRailAsync(
+    public static async Task<IResult> HandleAsync(
         [AsParameters] GetPopTypesQuery request,
         AppDbContext db,
         CancellationToken cancellationToken
@@ -30,8 +21,7 @@ public static class GetByIdEndpoints
             .MaxAsync(p => p.SnapshotDate, cancellationToken);
 
         if (latestDate is null)
-            return Results.Ok(new PopularityGamesResponse([]));
-
+            return Results.Ok(new Response([]));
         LocalDate targetDate;
         if (!string.IsNullOrWhiteSpace(request.Date) && request.Date != "today")
         {
@@ -41,7 +31,7 @@ public static class GetByIdEndpoints
 
             targetDate = parseResult.Value;
             if (targetDate > latestDate.Value)
-                return Results.Ok(new PopularityGamesResponse([]));
+                return Results.Ok(new Response([]));
         }
         else
         {
@@ -68,6 +58,6 @@ public static class GetByIdEndpoints
             .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new PopularityGamesResponse(topGames));
+        return Results.Ok(new Response(topGames));
     }
 }

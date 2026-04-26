@@ -1,55 +1,66 @@
-export type ReleaseDatePreset = "week" | "month" | "year";
+const parseValidIsoDate = (value?: string | null) => {
+    if (!value) return null;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? null : date;
+};
 
-const DAY_SECONDS = 24 * 60 * 60;
+const isPlaceholderDate = (value?: string | null) => {
+    const date = parseValidIsoDate(value);
+    return !date || (date.getMonth() === 11 && date.getDate() === 31);
+};
 
-export function getCurrentEpochSeconds() {
-    return Math.floor(Date.now() / 1000);
-}
-
-export function parseEpochSeconds(value?: number | string | null): number | null {
-    if (typeof value === "number") {
-        return value;
-    }
-
+export const isTbaReleaseDate = (value?: string | null) => isPlaceholderDate(value);
+export const formatIsoDateTime = (value?: string | null, options?: Intl.DateTimeFormatOptions) => {
+    const date = parseValidIsoDate(value);
+    return date
+        ? new Intl.DateTimeFormat(undefined, {
+              weekday: "long",
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              ...options,
+          }).format(date)
+        : null;
+};
+export const formatReleaseDateLabel = (value?: string | null) => {
+    const date = parseValidIsoDate(value);
+    return date
+        ? new Intl.DateTimeFormat("en-US", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+          }).format(date)
+        : "TBA";
+};
+export const getReleaseMonth = (value?: string | null) => {
+    const date = parseValidIsoDate(value);
+    return date ? new Intl.DateTimeFormat("en-US", { month: "long" }).format(date) : null;
+};
+export const getReleaseMonthKey = (value?: string | null) => {
+    const date = parseValidIsoDate(value);
+    return date ? date.toISOString().slice(0, 7) : null;
+};
+export const parseEpochSeconds = (value?: number | string | null): number | null => {
+    if (typeof value === "number") return value;
     if (typeof value === "string") {
         const parsed = new Date(value);
-        if (!Number.isNaN(parsed.getTime())) {
-            return Math.floor(parsed.getTime() / 1000);
-        }
+        if (!Number.isNaN(parsed.getTime())) return Math.floor(parsed.getTime() / 1000);
     }
-
     return null;
-}
+};
 
-export function formatEpochDate(
+export const formatEpochDate = (
     epochSeconds?: number | null,
     options?: Intl.DateTimeFormatOptions,
-) {
-    if (typeof epochSeconds !== "number") {
-        return "Release date TBA";
-    }
-
-    return new Intl.DateTimeFormat("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-        timeZone: "UTC",
-        ...options,
-    }).format(new Date(epochSeconds * 1000));
-}
-
-export function getPresetDurationSeconds(preset: ReleaseDatePreset) {
-    if (preset === "week") return 7 * DAY_SECONDS;
-    if (preset === "month") return 30 * DAY_SECONDS;
-    return 365 * DAY_SECONDS;
-}
-
-export function getUpcomingEpochRange(
-    preset: ReleaseDatePreset,
-    fromEpoch = getCurrentEpochSeconds(),
-) {
-    return {
-        from: fromEpoch,
-        to: fromEpoch + getPresetDurationSeconds(preset),
-    };
-}
+) =>
+    typeof epochSeconds === "number"
+        ? new Intl.DateTimeFormat("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              timeZone: "UTC",
+              ...options,
+          }).format(new Date(epochSeconds * 1000))
+        : "Release date TBA";

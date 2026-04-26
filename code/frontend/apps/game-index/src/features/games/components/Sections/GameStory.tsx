@@ -37,10 +37,9 @@ export function GameStory({ storyText }: Props) {
         <Container.Root
             rounded="2xl"
             variant="surface"
-            colorScheme="gray"
+            colorScheme="zinc"
             bg="bg.panel"
-            borderWidth="1px"
-            borderColor="border.subtle"
+            border="none"
         >
             <Container.Header>
                 <Text
@@ -65,7 +64,7 @@ export function GameStory({ storyText }: Props) {
                     <Box textAlign="center">
                         <Button
                             variant="ghost"
-                            colorScheme="gray"
+                            colorScheme="neutral"
                             size="sm"
                             disableRipple
                             onClick={toggle}

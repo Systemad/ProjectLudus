@@ -1,4 +1,5 @@
-using PlayAPI.Features.Games.Analytics.RecordClick;
+using PlayAPI.Features.Games.Analytics.GameMetrics;
+using PlayAPI.Features.Games.Analytics.RecordEvent;
 
 namespace PlayAPI.Features.Games.Analytics;
 
@@ -6,7 +7,8 @@ public static class MapAnalyticEndpoints
 {
     public static IEndpointRouteBuilder MapGamesAnalyticsEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapRecordClickEndpoints();
+        app.MapRecordGameEventEndpoints();
+        app.MapGetGameMetricEndpoints();
         return app;
     }
 }

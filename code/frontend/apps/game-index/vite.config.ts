@@ -40,7 +40,7 @@ export default defineConfig({
         injectColorModeScript(),
     ],
     server: {
-        open: true,
+        open: false,
         proxy: {
             "/api": {
                 target,

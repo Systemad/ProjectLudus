@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, GlobeIcon, Gamepad2Icon, Grid, HStack, Icon, Text, Box } from "ui";
-import { platformIconMap } from "@src/icons/platformIconMap";
+import { Button, Grid, HStack, Text, Box } from "ui";
+import { PlatformIcon } from "@src/icons/PlatformIcon";
 import type { WebsiteDto } from "@src/gen/catalogApi";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
 type Props = {
@@ -24,30 +24,18 @@ export function OfficialLinks({ websites }: Props) {
                             target="_blank"
                             rel="noreferrer"
                             variant="ghost"
-                            colorScheme="gray"
-                            color="fg.base"
+                            colorScheme="link"
                             justifyContent="space-between"
                             endIcon={<span>›</span>}
                             size="sm"
                             _hover={{
                                 bg: "bg.subtle",
-                                color: "fg.base",
+                                color: "colorScheme.fg",
                             }}
                         >
                             <HStack gap="2xs">
-                                {platformIconMap[website.type?.toLowerCase() ?? ""] ? (
-                                    platformIconMap[website.type?.toLowerCase() ?? ""]
-                                ) : (
-                                    <Icon
-                                        as={
-                                            website.type?.toLowerCase().includes("official")
-                                                ? GlobeIcon
-                                                : Gamepad2Icon
-                                        }
-                                        color="fg.muted"
-                                    />
-                                )}
-                                <Text>{website.type ?? "Official Link"}</Text>
+                                <PlatformIcon type={website.type} />
+                                <Text color="inherit">{website.type ?? "Official Link"}</Text>
                             </HStack>
                         </Button>
                     ))}

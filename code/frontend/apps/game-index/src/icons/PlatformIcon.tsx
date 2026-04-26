@@ -1,17 +1,16 @@
-import { Tooltip } from "ui";
-import { platformIconMap } from "./platformIconMap";
+import { GlobeIcon, Icon, Tooltip } from "ui";
+import { iconMap } from "./platformIconMap";
 
 interface PlatformIconProps {
-    type?: string;
+    type?: string | null;
 }
 
 export function PlatformIcon({ type }: PlatformIconProps) {
-    const icon = platformIconMap[type?.toLocaleLowerCase() ?? "globe"];
-    if (!icon) return null;
+    const IconComponent = iconMap[type?.toLowerCase() ?? ""] ?? GlobeIcon;
 
     return (
-        <Tooltip content={type} placement="start">
-            {icon}
+        <Tooltip content={type ?? "Link"} placement="start">
+            <Icon as={IconComponent} boxSize="1rem" color="currentColor" />
         </Tooltip>
     );
 }

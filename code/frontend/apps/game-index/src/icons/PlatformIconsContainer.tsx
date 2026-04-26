@@ -1,5 +1,5 @@
 import { HStack } from "ui";
-import { platformIconMap } from "./platformIconMap";
+import { iconMap } from "./platformIconMap";
 import { PlatformIcon } from "./PlatformIcon";
 
 interface Website {
@@ -19,8 +19,8 @@ export function PlatformIcons({ websites }: PlatformIconsContainerProps) {
     const uniqueTypes = Array.from(
         new Set(
             websites
-                .filter((site) => site.type && platformIconMap[site.type.type])
-                .map((site) => site.type!.type),
+                .filter((site) => site.type && iconMap[site.type.type.toLowerCase()])
+                .map((site) => site.type!.type.toLowerCase()),
         ),
     );
 

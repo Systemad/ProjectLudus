@@ -9,8 +9,19 @@ public static class Map
     {
         var group = app.MapGroup("/api/companies").CacheOutput("DefaultCache");
 
-        group.MapGetCompanyEndpoint();
-        group.MapGetCompanyGamesEndpoint();
+        group
+            .MapGet("/{companyId:long}", GetCompanyEndpoint.HandleAsync)
+            .WithName("Companies/Get")
+            .WithTags("Companies")
+            .Produces<GetCompanyEndpoint.Response>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
+
+        group
+            .MapGet("/{companyId:long}/games", GetCompanyGamesEndpoint.HandleAsync)
+            .WithName("Companies/GetGames")
+            .WithTags("Companies")
+            .Produces<GetCompanyGamesEndpoint.Response>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
         return app;
     }

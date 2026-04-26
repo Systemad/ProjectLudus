@@ -1,8 +1,7 @@
 import type { EventDto } from "@src/gen/catalogApi";
 import { RouterLink } from "@src/components/YamadaLink/YamadaLink";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { formatEventDayLabel } from "@src/utils/eventDateTime";
-import { Box, HStack, Image, Text, VStack } from "ui";
+import { Box, Format, HStack, Image, Text, VStack } from "ui";
 import { isEventEnded } from "../utils/eventsList";
 
 type EventRowProps = {
@@ -11,9 +10,34 @@ type EventRowProps = {
 };
 
 export function EventRow({ event, now }: EventRowProps) {
-    const start = formatEventDayLabel(event.startTimeUtc, event.timeZone);
-    const end = formatEventDayLabel(event.endTimeUtc, event.timeZone);
-    const dateRange = start && end ? `${start}–${end}` : (start ?? null);
+    const start = event.startTimeUtc ? (
+        <Format.DateTime
+            value={new Date(event.startTimeUtc)}
+            month="short"
+            day="2-digit"
+            timeZone={event.timeZone ?? undefined}
+        />
+    ) : (
+        "TBA"
+    );
+    const end = event.endTimeUtc ? (
+        <Format.DateTime
+            value={new Date(event.endTimeUtc)}
+            month="short"
+            day="2-digit"
+            timeZone={event.timeZone ?? undefined}
+        />
+    ) : (
+        "TBA"
+    );
+    const dateRange =
+        start && end ? (
+            <>
+                {start}–{end}
+            </>
+        ) : (
+            start
+        );
     const imageUrl = getIGDBImageUrl(event.logoImageId, "logo_med");
     const isEnded = isEventEnded(event, now);
 
@@ -32,9 +56,7 @@ export function EventRow({ event, now }: EventRowProps) {
                 py={{ base: "2", md: "3" }}
                 gap={{ base: "2", md: "3" }}
                 rounded="md"
-                bg={isEnded ? "bg.panel" : "bg.surface"}
-                borderWidth="1px"
-                borderColor={isEnded ? "border.default" : "border.subtle"}
+                bg={isEnded ? "bg.subtle" : "bg.panel"}
             >
                 <HStack gap="3" minW="0" flex="1" w="full">
                     <Box
@@ -44,8 +66,6 @@ export function EventRow({ event, now }: EventRowProps) {
                         rounded="md"
                         overflow="hidden"
                         bg="bg.subtle"
-                        borderWidth="1px"
-                        borderColor="border.subtle"
                     >
                         {imageUrl ? (
                             <Image

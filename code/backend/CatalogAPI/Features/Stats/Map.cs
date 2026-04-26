@@ -8,7 +8,11 @@ public static class Map
     {
         var group = app.MapGroup("/api/stats").CacheOutput("DefaultCache");
 
-        group.MapGetStatsEndpoint();
+        group
+            .MapGet("/", GetStatsEndpoint.HandleAsync)
+            .WithName($"{EndpointMetadata.Stats}/GetStats")
+            .WithTags(EndpointMetadata.Stats)
+            .Produces<GetStatsEndpoint.Response>(StatusCodes.Status200OK);
 
         return app;
     }

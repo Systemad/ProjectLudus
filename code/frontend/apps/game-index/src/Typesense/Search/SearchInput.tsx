@@ -37,7 +37,6 @@ export function SearchInput({ placeholder = "Search...", compact = false }: Sear
                 flex="1"
                 minW={compact ? "0" : { base: "100%", sm: "18rem" }}
                 bg="bg.surface"
-                borderColor="border.subtle"
             />
         </Flex>
     );

@@ -1,0 +1,318 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "PlayAPI | v1",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/events": {
+      "post": {
+        "tags": [
+          "RecordGameEventEndpoints"
+        ],
+        "operationId": "GamesAnalytics/RecordGameEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordGameEventRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordGameEventResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/game-metrics": {
+      "get": {
+        "tags": [
+          "GetGameMetricEndpoints"
+        ],
+        "operationId": "GamesAnalytics/GetGameMetric",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "sessionId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGameMetricResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/game-stats": {
+      "get": {
+        "tags": [
+          "GetGameMetricEndpoints"
+        ],
+        "operationId": "GamesAnalytics/GetGameStats",
+        "parameters": [
+          {
+            "name": "gameId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGameStatsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GameEventType": {
+        "enum": [
+          "View",
+          "Click"
+        ]
+      },
+      "GetGameMetricResponse": {
+        "required": [
+          "gameId",
+          "sessionId",
+          "firstVisitedAt",
+          "lastVisitedAt",
+          "viewCount"
+        ],
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstVisitedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastVisitedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "viewCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetGameStatsResponse": {
+        "required": [
+          "gameId",
+          "firstVisitedAt",
+          "lastVisitedAt",
+          "totalViewCount",
+          "sessionCount"
+        ],
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "firstVisitedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastVisitedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalViewCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sessionCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "HttpValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "status": {
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
+          },
+          "detail": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "instance": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "RecordGameEventRequest": {
+        "required": [
+          "gameId",
+          "eventType",
+          "sessionId"
+        ],
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "eventType": {
+            "$ref": "#/components/schemas/GameEventType"
+          },
+          "sessionId": {
+            "type": "string"
+          }
+        }
+      },
+      "RecordGameEventResponse": {
+        "required": [
+          "gameId",
+          "eventType",
+          "sessionId",
+          "createdAt"
+        ],
+        "type": "object",
+        "properties": {
+          "gameId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "eventType": {
+            "$ref": "#/components/schemas/GameEventType"
+          },
+          "sessionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "RecordGameEventEndpoints"
+    },
+    {
+      "name": "GetGameMetricEndpoints"
+    }
+  ]
+}

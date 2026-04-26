@@ -19,7 +19,7 @@ export default function AlternativeNames({ names }: Props) {
                         <Tag
                             key={name}
                             variant="surface"
-                            colorScheme="gray"
+                            colorScheme="neutral"
                             textTransform="none"
                             maxW="full"
                             whiteSpace="normal"

@@ -6,21 +6,9 @@ namespace CatalogAPI.Features.Events.GetById;
 
 public static class GetEventByIdEndpoint
 {
-    private record EventDetailResponse(EventDto Event);
+    public record Response(EventDto Event);
 
-    public static RouteHandlerBuilder MapGetEventByIdEndpoint(
-        this IEndpointRouteBuilder routeBuilder
-    )
-    {
-        return routeBuilder
-            .MapGet("/{id:long}", GetEventByIdAsync)
-            .WithName($"{EndpointMetadata.Events}/GetById")
-            .WithTags(EndpointMetadata.Events)
-            .Produces<EventDetailResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
-    }
-
-    private static async Task<IResult> GetEventByIdAsync(
+    public static async Task<IResult> HandleAsync(
         long id,
         AppDbContext db,
         CancellationToken cancellationToken
@@ -56,6 +44,6 @@ public static class GetEventByIdEndpoint
         if (dto is null)
             return Results.NotFound();
 
-        return Results.Ok(new EventDetailResponse(dto));
+        return Results.Ok(new Response(dto));
     }
 }

@@ -79,15 +79,6 @@ var typesense = builder
         }
     );
 
-/*
-var bootstrap = builder.AddPythonApp(
-        "typesense-bootstrap",
-        "../python-bootstrap",
-        scriptPath: "bootstrap_typesense.py"
-    );
-*/
-//.WithReference(typesense)
-
 var playApi = builder
     .AddProject<Projects.PlayAPI>("playapi")
     .WaitFor(playDb)

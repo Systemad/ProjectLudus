@@ -57,7 +57,7 @@ export function GameReleaseDates({ releaseDates }: Props) {
                                     <Tag
                                         key={`dev-${developer.name}`}
                                         variant="surface"
-                                        colorScheme="gray"
+                                        colorScheme="neutral"
                                         size="md"
                                     >
                                         Developer: {developer.name}
@@ -69,7 +69,7 @@ export function GameReleaseDates({ releaseDates }: Props) {
                                     <Tag
                                         key={`pub-${publisher.name}`}
                                         variant="surface"
-                                        colorScheme="gray"
+                                        colorScheme="neutral"
                                         size="sm"
                                     >
                                         Publisher: {publisher.name}

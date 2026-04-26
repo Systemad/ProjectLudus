@@ -5,21 +5,9 @@ namespace CatalogAPI.Features.Events.GetByYear;
 
 public static class GetEventsByYearEndpoint
 {
-    private record EventsYearResponse(int Year, List<EventDto> Events);
+    public record Response(int Year, List<EventDto> Events);
 
-    public static RouteHandlerBuilder MapGetEventsByYearEndpoint(
-        this IEndpointRouteBuilder routeBuilder
-    )
-    {
-        return routeBuilder
-            .MapGet("/year/{year:int}", GetEventsByYearAsync)
-            .WithName($"{EndpointMetadata.Events}/GetByYear")
-            .WithTags(EndpointMetadata.Events)
-            .Produces<EventsYearResponse>(StatusCodes.Status200OK)
-            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
-    }
-
-    private static async Task<IResult> GetEventsByYearAsync(
+    public static async Task<IResult> HandleAsync(
         AppDbContext db,
         int year,
         CancellationToken cancellationToken
@@ -62,6 +50,6 @@ public static class GetEventsByYearEndpoint
             })
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new EventsYearResponse(year, eventDtos));
+        return Results.Ok(new Response(year, eventDtos));
     }
 }

@@ -10,6 +10,7 @@ import {
     HStack,
     Image,
     Loading,
+    SegmentedControl,
     SimpleGrid,
     Text,
     VStack,
@@ -18,12 +19,8 @@ import { useEventsGetByIdHook } from "@src/gen/catalogApi";
 import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { GameCard } from "@src/components/game/GameCard";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
+import { formatIsoDateTime } from "@src/utils/dateUtils";
 import { parseISO } from "date-fns";
-import {
-    formatClientLocalDateTime,
-    formatEventDateTime,
-    getClientTimeZone,
-} from "@src/utils/eventDateTime";
 
 const createAnyFileRoute = createFileRoute as any;
 
@@ -86,8 +83,8 @@ function CountdownClock({
                 >
                     Countdown
                 </Text>
-                <Text fontSize="2xl" fontWeight="bold">
-                    00:00:00
+                <Text fontSize="lg" fontWeight="bold">
+                    Event has been concluded
                 </Text>
             </VStack>
         );
@@ -126,6 +123,7 @@ function CountdownClock({
 function EventDetailPage() {
     const { eventId } = Route.useParams();
     const { data, isLoading } = useEventsGetByIdHook({ id: Number(eventId) });
+    const [showLocalTime, setShowLocalTime] = useState(true);
 
     if (isLoading || !data) {
         return (
@@ -138,14 +136,22 @@ function EventDetailPage() {
     }
 
     const { event } = data;
-    const localTimeZone = getClientTimeZone();
+    const localTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const coverUrl = event.games[0]?.coverUrl
         ? getIGDBImageUrl(event.games[0].coverUrl, "1080p")
         : null;
     const logoUrl = event.logoImageId ? getIGDBImageUrl(event.logoImageId, "logo_med") : null;
 
+    const timeZone = showLocalTime ? undefined : (event.timeZone ?? "UTC");
+    const formatEventDate = (value?: string | null) =>
+        formatIsoDateTime(value, { timeZone }) ?? "TBD";
+
+    const startTimeBox = formatEventDate(event.startTimeUtc);
+    const endTimeBox = formatEventDate(event.endTimeUtc);
+    const activeTimeZoneLabel = showLocalTime ? localTimeZone : (event.timeZone ?? "UTC");
+
     return (
-        <PageWrapper py={{ base: "3", md: "6" }}>
+        <PageWrapper maxW="9xl" py={{ base: "3", md: "6" }}>
             <VStack align="stretch" gap={{ base: "6", md: "8" }}>
                 <VStack align="stretch" gap="4">
                     <Link
@@ -163,8 +169,6 @@ function EventDetailPage() {
                         <Box
                             rounded="2xl"
                             overflow="hidden"
-                            borderWidth="1px"
-                            borderColor="border.subtle"
                             bg="bg.panel"
                             minH={{ base: "64", md: "80" }}
                             position="relative"
@@ -186,8 +190,6 @@ function EventDetailPage() {
                                     inset="0"
                                     display="grid"
                                     placeItems="center"
-                                    bg="blackAlpha.300"
-                                    backdropBlur="sm"
                                 >
                                     <Image
                                         src={logoUrl}
@@ -202,9 +204,26 @@ function EventDetailPage() {
 
                         <VStack align="stretch" gap={{ base: "4", md: "5" }}>
                             <VStack align="stretch" gap="2">
-                                <Text fontSize="sm" color="fg.muted">
-                                    Event
-                                </Text>
+                                <HStack justify="space-between" align="baseline" gap="3">
+                                    <Text fontSize="sm" color="fg.muted">
+                                        Event
+                                    </Text>
+                                    <SegmentedControl.Root
+                                        value={showLocalTime ? "my" : "event"}
+                                        onChange={(next) => setShowLocalTime(next === "my")}
+                                        size="sm"
+                                        colorScheme="neutral"
+                                        fullRounded
+                                        maxW={{ base: "full", md: "auto" }}
+                                    >
+                                        <SegmentedControl.Item value="my">
+                                            My time
+                                        </SegmentedControl.Item>
+                                        <SegmentedControl.Item value="event">
+                                            Event time
+                                        </SegmentedControl.Item>
+                                    </SegmentedControl.Root>
+                                </HStack>
                                 <Heading fontSize={{ base: "3xl", md: "4xl" }} lineHeight="shorter">
                                     {event.name}
                                 </Heading>
@@ -214,25 +233,13 @@ function EventDetailPage() {
                             </VStack>
 
                             <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: "3", md: "4" }}>
-                                <Box
-                                    rounded="xl"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                    bg="bg.panel"
-                                    p="4"
-                                >
+                                <Box rounded="xl" bg="bg.panel" p="4">
                                     <CountdownClock
                                         startUtc={event.startTimeUtc}
                                         endUtc={event.endTimeUtc}
                                     />
                                 </Box>
-                                <Box
-                                    rounded="xl"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                    bg="bg.panel"
-                                    p="4"
-                                >
+                                <Box rounded="xl" bg="bg.panel" p="4">
                                     <VStack align="start" gap="1">
                                         <Text
                                             fontSize="xs"
@@ -240,50 +247,15 @@ function EventDetailPage() {
                                             textTransform="uppercase"
                                             letterSpacing="widest"
                                         >
-                                            Event Time
+                                            {showLocalTime ? "Your Time" : "Event Time"}
                                         </Text>
-                                        <Text fontWeight="semibold">
-                                            {formatEventDateTime(
-                                                event.startTimeUtc,
-                                                event.timeZone,
-                                            )}
-                                        </Text>
+                                        <Text fontWeight="semibold">{startTimeBox}</Text>
                                         <Text fontSize="sm" color="fg.muted">
-                                            {event.timeZone ?? "UTC"}
+                                            {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
                                 </Box>
-                                <Box
-                                    rounded="xl"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                    bg="bg.panel"
-                                    p="4"
-                                >
-                                    <VStack align="start" gap="1">
-                                        <Text
-                                            fontSize="xs"
-                                            color="fg.muted"
-                                            textTransform="uppercase"
-                                            letterSpacing="widest"
-                                        >
-                                            Your Time
-                                        </Text>
-                                        <Text fontWeight="semibold">
-                                            {formatClientLocalDateTime(event.startTimeUtc)}
-                                        </Text>
-                                        <Text fontSize="sm" color="fg.muted">
-                                            {localTimeZone}
-                                        </Text>
-                                    </VStack>
-                                </Box>
-                                <Box
-                                    rounded="xl"
-                                    borderWidth="1px"
-                                    borderColor="border.subtle"
-                                    bg="bg.panel"
-                                    p="4"
-                                >
+                                <Box rounded="xl" bg="bg.panel" p="4">
                                     <VStack align="start" gap="1">
                                         <Text
                                             fontSize="xs"
@@ -293,11 +265,9 @@ function EventDetailPage() {
                                         >
                                             Ends
                                         </Text>
-                                        <Text fontWeight="semibold">
-                                            {formatClientLocalDateTime(event.endTimeUtc)}
-                                        </Text>
+                                        <Text fontWeight="semibold">{endTimeBox}</Text>
                                         <Text fontSize="sm" color="fg.muted">
-                                            Local client time
+                                            {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
                                 </Box>

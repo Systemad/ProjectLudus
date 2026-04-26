@@ -34,12 +34,6 @@ export function GameCard({ game }: Props) {
                             _groupHover={{ transform: "scale(1.08)" }}
                         />
                     </AspectRatio>
-                    <Box
-                        position="absolute"
-                        inset={0}
-                        bgGradient="linear(to-t, blackAlpha.900 4%, transparent 60%)"
-                        pointerEvents="none"
-                    />
                     <Text
                         position="absolute"
                         left={3}

@@ -1,46 +1,83 @@
-import AppleIcon from "./Consoles/AppleIcon";
-import LinuxIcons from "./Consoles/LinuxIcons";
-import { PlaystationIcon } from "./Consoles/PlaystationIcon";
-import WindowsIcon from "./Consoles/WindowsIcon";
-import XboxIcon from "./Consoles/XboxIcon";
-import CryEngineIcon from "./GameEngines/CryEngineIcon";
-import GodotEngineIcon from "./GameEngines/GodotEngineIcon";
-import { SourceEngineIcon } from "./GameEngines/SourceEngineIcon";
-import UnityEngineIcon from "./GameEngines/UnityEngineIcon";
-import { UnrealEngineIcon } from "./GameEngines/UnrealEngineIcon";
-import BattleNetIcon from "./Launchers/BattleNetIcon";
-import { EAIcon } from "./Launchers/EAIcon";
-import { EpicGamesIcon } from "./Launchers/EpicGamesIcon";
-import { GOGIcon } from "./Launchers/GOGIcon";
-import { ItchIoIcon } from "./Launchers/ItchIoIcon";
-import { SteamIcon } from "./Launchers/SteamIcon";
-import { GitHubIcon } from "./Launchers/GitHubIcon";
-import { UbisoftIcon } from "./Launchers/UbisoftIcon";
-import { GlobeIcon, ShoppingCartIcon } from "ui";
+import type { IconType } from "react-icons";
+import { BsNintendoSwitch } from "react-icons/bs";
+import {
+    FaApple,
+    FaBattleNet,
+    FaGamepad,
+    FaGithub,
+    FaItchIo,
+    FaLinux,
+    FaPlaystation,
+    FaShoppingCart,
+    FaSteam,
+    FaWindows,
+    FaXbox,
+    FaYoutube,
+    FaWikipediaW,
+    FaUnity,
+    FaGlobe,
+    FaTwitch,
+    FaDiscord,
+    FaAndroid,
+    FaAppStoreIos,
+    FaTwitter,
+} from "react-icons/fa";
+import {
+    SiCryengine,
+    SiEpicgames,
+    SiGogdotcom,
+    SiGodotengine,
+    SiSourceengine,
+    SiUbisoft,
+    SiUnrealengine,
+} from "react-icons/si";
+import { TbBrandElectronicArts } from "react-icons/tb";
 
-export const platformIconMap: Record<string, React.ReactNode> = {
-    apple: <AppleIcon />,
-    Mac: <AppleIcon />,
-    linux: <LinuxIcons />,
-    windows: <WindowsIcon />,
-    "pc (microsoft windows)": <WindowsIcon />,
-    xbox: <XboxIcon />,
-    playstation: <PlaystationIcon />,
-    steam: <SteamIcon />,
-    github: <GitHubIcon />,
-    epic: <EpicGamesIcon />,
-    battlenet: <BattleNetIcon />,
-    "battle-net": <BattleNetIcon />,
-    ea: <EAIcon />,
-    gog: <GOGIcon />,
-    itch: <ItchIoIcon />,
-    itchio: <ItchIoIcon />,
-    ubisoft: <UbisoftIcon />,
-    cryengine: <CryEngineIcon />,
-    godot: <GodotEngineIcon />,
-    source: <SourceEngineIcon />,
-    unity: <UnityEngineIcon />,
-    unreal: <UnrealEngineIcon />,
-    cart: <ShoppingCartIcon />,
-    globe: <GlobeIcon />,
+export const iconMap: Record<string, IconType> = {
+    apple: FaApple,
+    mac: FaApple,
+    linux: FaLinux,
+    windows: FaWindows,
+    "pc (microsoft windows)": FaWindows,
+    win: FaWindows,
+    xbox: FaXbox,
+    xboxone: FaXbox,
+    xbox360: FaXbox,
+    "series-x-s": FaXbox,
+    playstation: FaPlaystation,
+    ps3: FaPlaystation,
+    "ps4--1": FaPlaystation,
+    ps5: FaPlaystation,
+    steam: FaSteam,
+    github: FaGithub,
+    epic: SiEpicgames,
+    battlenet: FaBattleNet,
+    "battle-net": FaBattleNet,
+    ea: TbBrandElectronicArts,
+    gog: SiGogdotcom,
+    itch: FaItchIo,
+    itchio: FaItchIo,
+    ubisoft: SiUbisoft,
+    snes: FaGamepad,
+    wii: FaGamepad,
+    wiiu: FaGamepad,
+    "new-3ds": FaGamepad,
+    sfam: FaGamepad,
+    arcade: FaGamepad,
+    switch: BsNintendoSwitch,
+    "switch-2": BsNintendoSwitch,
+    cryengine: SiCryengine,
+    godot: SiGodotengine,
+    source: SiSourceengine,
+    unity: FaUnity,
+    unreal: SiUnrealengine,
+    cart: FaShoppingCart,
+    globe: FaGlobe,
+    youtube: FaYoutube,
+    twitch: FaTwitch,
+    wikipedia: FaWikipediaW,
+    discord: FaDiscord,
+    android: FaAndroid,
+    ios: FaAppStoreIos,
+    twitter: FaTwitter,
 };

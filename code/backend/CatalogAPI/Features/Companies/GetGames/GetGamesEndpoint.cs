@@ -4,21 +4,9 @@ namespace CatalogAPI.Features.Companies.GetGames;
 
 public static class GetCompanyGamesEndpoint
 {
-    public record GetCompanyGamesResponse(CompanyGamesDto CompanyGames);
+    public record Response(CompanyGamesDto CompanyGames);
 
-    public static RouteHandlerBuilder MapGetCompanyGamesEndpoint(
-        this IEndpointRouteBuilder routeBuilder
-    )
-    {
-        return routeBuilder
-            .MapGet("/{companyId:long}/games", GetCompanyGamesAsync)
-            .WithName("Companies/GetGames")
-            .WithTags("Companies")
-            .Produces<GetCompanyGamesResponse>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
-    }
-
-    private static async Task<IResult> GetCompanyGamesAsync(
+    public static async Task<IResult> HandleAsync(
         long companyId,
         AppDbContext db,
         CancellationToken cancellationToken
@@ -60,8 +48,6 @@ public static class GetCompanyGamesEndpoint
 
         var developedGames = games.Where(g => g.IsDeveloper).Select(g => g.Game).ToList();
 
-        return Results.Ok(
-            new GetCompanyGamesResponse(new CompanyGamesDto(publishedGames, developedGames))
-        );
+        return Results.Ok(new Response(new CompanyGamesDto(publishedGames, developedGames)));
     }
 }

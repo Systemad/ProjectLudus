@@ -1,5 +1,4 @@
 import type { EventDto } from "@src/gen/catalogApi";
-import { getEventMonthLabel } from "@src/utils/eventDateTime";
 import { parseISO } from "date-fns";
 
 export type EventFilter = "all" | "finished" | "upcoming";
@@ -40,7 +39,13 @@ export function groupByMonth(events: EventDto[], year: number): MonthGroup[] {
     }
 
     for (const event of events) {
-        const key = getEventMonthLabel(event.startTimeUtc, event.timeZone ?? userTz);
+        const date = event.startTimeUtc ? new Date(event.startTimeUtc) : null;
+        const key = date
+            ? new Intl.DateTimeFormat("en-US", {
+                  month: "long",
+                  timeZone: event.timeZone ?? userTz,
+              }).format(date)
+            : "Unknown";
         const group = map.get(key) ?? [];
         group.push(event);
         map.set(key, group);

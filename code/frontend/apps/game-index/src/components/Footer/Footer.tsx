@@ -2,17 +2,18 @@ import { Badge, Box, Heading, Text, VStack, Wrap, Flex } from "ui";
 import { EU } from "country-flag-icons/react/3x2";
 export function Footer() {
     return (
-        <Box borderTopWidth="1px" borderColor="border.subtle" mt="20" bg="bg.panel">
+        <Box mt="20" bg="bg.base">
             <Box
                 maxW="7xl"
                 mx="auto"
                 px={{ base: "4", md: "6", xl: "8" }}
                 py={{ base: "5", md: "7" }}
+                bg="bg.base"
             >
                 <VStack align="center" gap="3" textAlign="center">
                     <Heading
                         as="h2"
-                        size="md"
+                        size="lg"
                         fontFamily="heading"
                         bgClip="text"
                         bgGradient="linear(to-l, #C6426E, #642B73)"
@@ -25,20 +26,17 @@ export function Footer() {
                         respective owners.
                     </Text>
                     <Wrap gap="2" justify="center">
-                        <Badge rounded="full" px="3" py="1" bg="bg.subtle" color="fg.base">
-                            <Flex align="center" gap="1.5">
+                        <Badge
+                            rounded="full"
+                            px="sm"
+                            py="xs"
+                            colorScheme={"blue"}
+                            variant="surface"
+                        >
+                            <Flex align="center" gap="sm">
                                 <EU title="EU" style={{ width: "1.2em", height: "auto" }} />
                                 Made in EU
                             </Flex>
-                        </Badge>
-                        <Badge
-                            rounded="full"
-                            px="3"
-                            py="1"
-                            bg="colorScheme.bg"
-                            color="colorScheme.fg"
-                        >
-                            Github
                         </Badge>
                     </Wrap>
                 </VStack>
@@ -48,3 +46,9 @@ export function Footer() {
 }
 
 export default Footer;
+
+/*
+                      <Badge rounded="full" px="sm" py="xs" colorScheme={"gray"}>
+                            Github
+                        </Badge>
+*/

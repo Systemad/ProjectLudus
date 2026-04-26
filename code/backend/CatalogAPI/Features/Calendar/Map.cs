@@ -8,7 +8,12 @@ public static class Map
     {
         var group = app.MapGroup("/api/calendar").CacheOutput("DefaultCache");
 
-        group.MapGetGamesCalendarEndpoint();
+        group
+            .MapGet("/{year:int}", GetGamesCalendarEndpoint.HandleAsync)
+            .WithName($"{EndpointMetadata.Calendar}/GetGames")
+            .WithTags(EndpointMetadata.Calendar)
+            .Produces<GetGamesCalendarEndpoint.Response>(StatusCodes.Status200OK)
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
         return app;
     }
