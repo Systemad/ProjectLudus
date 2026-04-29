@@ -11,7 +11,7 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
     const imageUrl = getIGDBImageUrl(hit.logo_url, "logo_med");
 
     return (
-        <Card.Root h="full" rounded="lg" bg="bg.surface" border="none">
+        <Card.Root h="full" w="full" rounded="lg" bg="bg.surface" border="none">
             <Card.Header>
                 <Box aspectRatio="3/2" overflow="hidden" rounded="lg" bg="bg.subtle">
                     {imageUrl ? (

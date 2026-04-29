@@ -4,7 +4,7 @@ namespace CatalogAPI.Features.Companies.GetGames;
 
 public static class GetCompanyGamesEndpoint
 {
-    public record Response(CompanyGamesDto CompanyGames);
+    public record GetCompanyGamesResponse(CompanyGamesDto CompanyGames);
 
     public static async Task<IResult> HandleAsync(
         long companyId,
@@ -48,6 +48,8 @@ public static class GetCompanyGamesEndpoint
 
         var developedGames = games.Where(g => g.IsDeveloper).Select(g => g.Game).ToList();
 
-        return Results.Ok(new Response(new CompanyGamesDto(publishedGames, developedGames)));
+        return Results.Ok(
+            new GetCompanyGamesResponse(new CompanyGamesDto(publishedGames, developedGames))
+        );
     }
 }

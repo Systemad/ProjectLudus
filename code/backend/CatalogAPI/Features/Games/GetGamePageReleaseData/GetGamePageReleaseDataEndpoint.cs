@@ -2,7 +2,7 @@ namespace CatalogAPI.Features.Games.GetGamePageReleaseData;
 
 public static class GetGamePageReleaseDataEndpoint
 {
-    public record Response(GamePageReleaseDataDto Data);
+    public record GetGamePageReleaseDataResponse(GamePageReleaseDataDto Data);
 
     public static async Task<IResult> HandleAsync(
         long gameId,
@@ -53,6 +53,6 @@ public static class GetGamePageReleaseDataEndpoint
         if (releaseData is null)
             return Results.NotFound();
 
-        return Results.Ok(new Response(releaseData));
+        return Results.Ok(new GetGamePageReleaseDataResponse(releaseData));
     }
 }

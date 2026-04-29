@@ -88,6 +88,7 @@ export const resetStyle = defineStyles.resetStyle({
         lineHeight: 1.5,
         WebkitTapHighlightColor: "transparent",
         WebkitTextSizeAdjust: "100%",
+        scrollbarGutter: "stable",
     },
 
     "img, svg, video, canvas, audio, iframe, embed, object": {

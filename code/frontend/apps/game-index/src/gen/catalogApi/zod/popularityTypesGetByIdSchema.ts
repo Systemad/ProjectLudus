@@ -4,7 +4,7 @@
 */
 
 import * as z from "zod";
-import { popularityGamesResponseSchema } from "./popularityGamesResponseSchema.ts";
+import { getByIdResponseSchema } from "./getByIdResponseSchema.ts";
 
 export const popularityTypesGetByIdPathParamsSchema = z.object({
     "popularityTypeId": z.coerce.number().int()
@@ -18,6 +18,6 @@ export const popularityTypesGetByIdQueryParamsSchema = z.object({
 /**
  * @description OK
  */
-export const popularityTypesGetById200Schema = z.lazy(() => popularityGamesResponseSchema)
+export const popularityTypesGetById200Schema = z.lazy(() => getByIdResponseSchema)
 
 export const popularityTypesGetByIdQueryResponseSchema = z.lazy(() => popularityTypesGetById200Schema)

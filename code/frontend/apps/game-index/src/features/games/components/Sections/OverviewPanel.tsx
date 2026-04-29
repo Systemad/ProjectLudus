@@ -12,7 +12,7 @@ type Props = {
     themes: string[];
 };
 
-function OverviewPanel({
+export function OverviewPanel({
     gameTypeName,
     modes,
     playerPerspectives,
@@ -50,7 +50,7 @@ function OverviewPanel({
                             <Tag
                                 key={mode}
                                 variant="subtle"
-                                colorScheme="neutral"
+                                colorScheme="gray"
                                 size="sm"
                                 textTransform="none"
                             >
@@ -71,7 +71,7 @@ function OverviewPanel({
                             <Tag
                                 key={item}
                                 variant="surface"
-                                colorScheme="neutral"
+                                colorScheme="gray"
                                 size="sm"
                                 textTransform="none"
                             >
@@ -87,9 +87,21 @@ function OverviewPanel({
                     <Text {...sectionMetaStyle} mb={3}>
                         PERSPECTIVES
                     </Text>
-                    <Text color="fg.subtle" fontSize="sm">
-                        {playerPerspectives.join(", ")}
-                    </Text>
+                    <Wrap gap="xs">
+                        <For each={playerPerspectives}>
+                            {(perspective) => (
+                                <Tag
+                                    key={perspective}
+                                    variant="subtle"
+                                    colorScheme="gray"
+                                    size="sm"
+                                    textTransform="none"
+                                >
+                                    {perspective}
+                                </Tag>
+                            )}
+                        </For>
+                    </Wrap>
                 </Box>
             )}
 
@@ -98,11 +110,11 @@ function OverviewPanel({
                     <Text {...sectionMetaStyle} mb={3}>
                         TYPE
                     </Text>
-                    <Text fontSize="sm">{gameTypeName}</Text>
+                    <Tag variant="subtle" colorScheme="gray" size="sm" textTransform="none">
+                        {gameTypeName}
+                    </Tag>
                 </Box>
             )}
         </VStack>
     );
 }
-
-export default OverviewPanel;

@@ -1,0 +1,1 @@
+{"required":["id","name","gameType","firstReleaseDateUtc","hypes"],"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"coverUrl":{"type":["null","string"]},"gameType":{"type":"string"},"hypes":{"type":"integer","format":"int32"},"firstReleaseDateUtc":{"type":"string","format":"date-time"}},"x-readme-ref-name":"MostAnticipatedGame"}

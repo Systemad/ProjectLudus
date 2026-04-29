@@ -7,7 +7,7 @@ type Props = {
     names: string[];
 };
 
-export default function AlternativeNames({ names }: Props) {
+export function AlternativeNames({ names }: Props) {
     return (
         <Box>
             <Text {...sectionLabelStyle} mb={3}>

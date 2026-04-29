@@ -17,10 +17,18 @@ export function PageWrapper({
     ...rest
 }: Props) {
     return (
-        <Box w="full" maxW={maxW} mx="auto" px={px} py={py} pt={pt} pb={pb} {...rest}>
+        <Box
+            w="full"
+            maxW={maxW}
+            mx="auto"
+            px={px}
+            py={py}
+            pt={pt}
+            pb={pb}
+            animation="all 0.5s ease-in-out"
+            {...rest}
+        >
             {children}
         </Box>
     );
 }
-
-export default PageWrapper;

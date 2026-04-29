@@ -6,7 +6,7 @@ catalog:
             pass: pudGW.E7_u8eF8Qhnym)E0
             port: 5433
             schema: dbt_dev
-            threads: 2
+            threads: 4
             type: postgres
             user: postgres
     target: dev
@@ -18,7 +18,7 @@ dbt:
             pass: pudGW.E7_u8eF8Qhnym)E0
             port: 5433
             schema: public
-            threads: 2
+            threads: 4
             type: postgres
             user: postgres
     target: dev

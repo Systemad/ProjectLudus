@@ -108,6 +108,12 @@ models:
       - name: hypes
         data_type: bigint
         description: ""
+      - name: view_count
+        data_type: bigint
+        description: "Unique sessions per game"
+      - name: last_24h_visits
+        data_type: bigint
+        description: "Unique sessions in the last 24 hours per game"
       - name: version_parent
         data_type: bigint
         description: ""

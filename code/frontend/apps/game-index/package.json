@@ -28,6 +28,8 @@
         "react-intersection-observer": "catalog:",
         "ui": "workspace:*",
         "utils": "workspace:*",
+        "uuid": "catalog:",
+        "vanilla-cookieconsent": "catalog:",
         "zod": "catalog:",
         "zustand": "catalog:"
     },
@@ -67,7 +69,7 @@
         "typesense-instantsearch-adapter": "catalog:",
         "utils": "workspace:*",
         "vite": "catalog:",
-        "vite-plus": "catalog:"
+        "vite-plus": "^0.1.20"
     },
     "peerDependencies": {
         "react": "^19.2.4",

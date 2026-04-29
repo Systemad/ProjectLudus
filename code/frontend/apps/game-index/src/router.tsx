@@ -2,6 +2,7 @@ import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { routeTree } from "./routeTree.gen";
+import { ErrorComponent } from "@src/components/ErrorComponent/ErrorComponent";
 
 export const queryClient = new QueryClient({
     defaultOptions: {
@@ -17,25 +18,9 @@ export const router = createRouter({
     scrollRestoration: true,
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
-    defaultViewTransition: {
-        types: ({ fromLocation, toLocation }) => {
-            let direction = "none";
-
-            if (fromLocation) {
-                const fromIndex = fromLocation.state.__TSR_index;
-                const toIndex = toLocation.state.__TSR_index;
-                if (fromIndex !== toIndex) {
-                    direction = fromIndex > toIndex ? "right" : "left";
-                }
-            }
-
-            if (fromLocation?.state.__TSR_index === toLocation?.state.__TSR_index) {
-                direction = "none";
-            }
-
-            return [`slide-${direction}`];
-        },
-    },
+    defaultErrorComponent: ({ error, reset }) => (
+        <ErrorComponent error={error} />
+    ),
 });
 
 setupRouterSsrQueryIntegration({

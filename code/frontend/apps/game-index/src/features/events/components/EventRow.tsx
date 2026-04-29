@@ -1,51 +1,29 @@
 import type { EventDto } from "@src/gen/catalogApi";
 import { RouterLink } from "@src/components/YamadaLink/YamadaLink";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { Box, Format, HStack, Image, Text, VStack } from "ui";
+import { Box, HStack, Image, Text, VStack } from "ui";
 import { isEventEnded } from "../utils/eventsList";
 
-type EventRowProps = {
-    event: EventDto;
-    now: Date;
-};
+const monthDayFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit" });
 
-export function EventRow({ event, now }: EventRowProps) {
-    const start = event.startTimeUtc ? (
-        <Format.DateTime
-            value={new Date(event.startTimeUtc)}
-            month="short"
-            day="2-digit"
-            timeZone={event.timeZone ?? undefined}
-        />
-    ) : (
-        "TBA"
-    );
-    const end = event.endTimeUtc ? (
-        <Format.DateTime
-            value={new Date(event.endTimeUtc)}
-            month="short"
-            day="2-digit"
-            timeZone={event.timeZone ?? undefined}
-        />
-    ) : (
-        "TBA"
-    );
-    const dateRange =
-        start && end ? (
-            <>
-                {start}–{end}
-            </>
-        ) : (
-            start
-        );
+function formatDateRange(event: EventDto, now: Date) {
+    if (!event.startTimeUtc) return "TBA";
+
+    const start = monthDayFormatter.format(new Date(event.startTimeUtc));
+    const end = event.endTimeUtc ? monthDayFormatter.format(new Date(event.endTimeUtc)) : null;
+
+    return end ? `${start}–${end}` : start;
+}
+
+export function EventRow({ event, now }: { event: EventDto; now: Date }) {
     const imageUrl = getIGDBImageUrl(event.logoImageId, "logo_med");
     const isEnded = isEventEnded(event, now);
+    const dateRange = formatDateRange(event, now);
 
     return (
         <RouterLink
             to="/events/$eventId"
             params={{ eventId: String(event.id) }}
-            preload="intent"
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
             <HStack
@@ -74,6 +52,7 @@ export function EventRow({ event, now }: EventRowProps) {
                                 w="full"
                                 h="full"
                                 objectFit="cover"
+                                loading="lazy"
                             />
                         ) : (
                             <Box display="grid" placeItems="center" w="full" h="full">

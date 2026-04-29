@@ -5,47 +5,7 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/api/events": {
-      "post": {
-        "tags": [
-          "RecordGameEventEndpoints"
-        ],
-        "operationId": "GamesAnalytics/RecordGameEvent",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecordGameEventRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RecordGameEventResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/game-metrics": {
+    "/play/game-metrics": {
       "get": {
         "tags": [
           "GetGameMetricEndpoints"
@@ -59,14 +19,6 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            }
-          },
-          {
-            "name": "sessionId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
             }
           }
         ],
@@ -84,6 +36,9 @@
           "404": {
             "description": "Not Found"
           },
+          "204": {
+            "description": "No Content"
+          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -97,7 +52,7 @@
         }
       }
     },
-    "/api/game-stats": {
+    "/play/game-stats": {
       "get": {
         "tags": [
           "GetGameMetricEndpoints"
@@ -137,6 +92,101 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/play/events": {
+      "post": {
+        "tags": [
+          "RecordGameEventEndpoints"
+        ],
+        "operationId": "GamesAnalytics/RecordGameEvent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordGameEventRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordGameEventResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/play/cookies/consent": {
+      "post": {
+        "tags": [
+          "Cookie"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCookieConsentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCookieConsentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetCookieConsentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cookie"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cookie"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -262,8 +312,7 @@
       "RecordGameEventRequest": {
         "required": [
           "gameId",
-          "eventType",
-          "sessionId"
+          "eventType"
         ],
         "type": "object",
         "properties": {
@@ -273,9 +322,6 @@
           },
           "eventType": {
             "$ref": "#/components/schemas/GameEventType"
-          },
-          "sessionId": {
-            "type": "string"
           }
         }
       },
@@ -304,15 +350,29 @@
             "format": "date-time"
           }
         }
+      },
+      "SetCookieConsentRequest": {
+        "required": [
+          "consent"
+        ],
+        "type": "object",
+        "properties": {
+          "consent": {
+            "type": "boolean"
+          }
+        }
       }
     }
   },
   "tags": [
     {
+      "name": "GetGameMetricEndpoints"
+    },
+    {
       "name": "RecordGameEventEndpoints"
     },
     {
-      "name": "GetGameMetricEndpoints"
+      "name": "Cookie"
     }
   ]
 }

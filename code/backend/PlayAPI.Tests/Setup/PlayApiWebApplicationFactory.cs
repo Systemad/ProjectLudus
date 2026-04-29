@@ -14,7 +14,6 @@ public class PlayApiWebApplicationFactory : TestWebApplicationFactory<Program>, 
     [ClassDataSource<DatabaseContainer>(Shared = SharedType.PerTestSession)]
     public DatabaseContainer Database { get; init; } = null!;
 
-    
     public async Task InitializeAsync()
     {
         _ = Server;
@@ -23,22 +22,24 @@ public class PlayApiWebApplicationFactory : TestWebApplicationFactory<Program>, 
         var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         await dbContext.Database.MigrateAsync();
     }
-    
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         ArgumentNullException.ThrowIfNull(builder);
-        builder.UseSetting("ConnectionStrings:sandbox-db", Database.Container.GetConnectionString());
+        builder.UseSetting(
+            "ConnectionStrings:sandbox-db",
+            Database.Container.GetConnectionString()
+        );
         builder.ConfigureServices(services =>
         {
             //services.AddAuthentication(defaultScheme: "Test")
             //    .AddScheme<AuthenticationSchemeOptions, CustomerApiAuthenticationHandler>("Test", options => { });
 
-            services.AddDbContext<AppDbContext>(
-                options =>
-                    options.UseNpgsql(
-                        Database.Container.GetConnectionString(),
-                        x => x.MigrationsAssembly(typeof(Program).Assembly)
-                    )
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(
+                    Database.Container.GetConnectionString(),
+                    x => x.MigrationsAssembly(typeof(Program).Assembly)
+                )
             );
 
             /*
@@ -55,10 +56,11 @@ public class PlayApiWebApplicationFactory : TestWebApplicationFactory<Program>, 
 
         builder.UseEnvironment("IntegrationTest");
     }
+
     public static ApiClient CreateApiClient(HttpClient httpClient)
     {
         var authProvider = new AnonymousAuthenticationProvider();
-        using var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient);
+        var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient);
         return new ApiClient(adapter);
     }
 }

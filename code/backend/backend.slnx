@@ -3,7 +3,6 @@
     <File Path="global.json" />
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="AppHost/AppHost.csproj" />
   <Project Path="PlayAPI.Tests/PlayAPI.Tests.csproj" />
   <Project Path="CatalogAPI/CatalogAPI.csproj" />
   <Project Path="PlayAPI/PlayAPI.csproj" />

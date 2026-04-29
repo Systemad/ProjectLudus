@@ -4,7 +4,7 @@
 */
 
 import * as z from "zod";
-import { calendarResponseSchema } from "./calendarResponseSchema.ts";
+import { getGamesCalendarResponseSchema } from "./getGamesCalendarResponseSchema.ts";
 import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
 
 export const calendarGetGamesPathParamsSchema = z.object({
@@ -14,7 +14,7 @@ export const calendarGetGamesPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const calendarGetGames200Schema = z.lazy(() => calendarResponseSchema)
+export const calendarGetGames200Schema = z.lazy(() => getGamesCalendarResponseSchema)
 
 /**
  * @description Bad Request

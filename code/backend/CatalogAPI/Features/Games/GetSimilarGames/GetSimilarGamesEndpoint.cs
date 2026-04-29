@@ -4,7 +4,7 @@ namespace CatalogAPI.Features.Games.GetSimilarGames;
 
 public static class GetSimilarGamesEndpoint
 {
-    public record Response(List<GameDto> Games);
+    public record GetSimilarGamesResponse(List<GameDto> Games);
 
     public static async Task<IResult> HandleAsync(
         long gameId,
@@ -20,6 +20,6 @@ public static class GetSimilarGamesEndpoint
             .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new Response(similarGames));
+        return Results.Ok(new GetSimilarGamesResponse(similarGames));
     }
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { GamesReleaseDateRangeResponse } from "../GamesReleaseDateRangeResponse.ts";
+import type { GetByReleaseDateRangeResponse } from "../GetByReleaseDateRangeResponse.ts";
 import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
 
 export type GamesGetReleaseDateRangeQueryParams = {
@@ -24,7 +24,7 @@ export type GamesGetReleaseDateRangeQueryParams = {
 /**
  * @description OK
 */
-export type GamesGetReleaseDateRange200 = GamesReleaseDateRangeResponse;
+export type GamesGetReleaseDateRange200 = GetByReleaseDateRangeResponse;
 
 /**
  * @description Bad Request

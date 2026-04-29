@@ -9,7 +9,7 @@ type Props = {
     videos: GameMediaVideoDto[];
 };
 
-function MediaGrid({ screenshots, videos }: Props) {
+export function MediaGrid({ screenshots, videos }: Props) {
     return (
         <Accordion.Root defaultIndex={[0]} multiple toggle>
             <Accordion.Item index={0} button="Screenshots">
@@ -25,7 +25,7 @@ function MediaGrid({ screenshots, videos }: Props) {
                     >
                         {(screenshot, index) => (
                             <HoverImage
-                                key={`${screenshot}-${index}`}
+                                key={screenshot}
                                 src={screenshot}
                                 size={"1080p"}
                                 alt={`Screenshot ${index + 1}`}
@@ -45,8 +45,8 @@ function MediaGrid({ screenshots, videos }: Props) {
                             />
                         }
                     >
-                        {({ name, videoId }, index) => (
-                            <AspectRatio key={`${name}-${index}`} ratio={16 / 9}>
+                        {({ name, videoId }) => (
+                            <AspectRatio key={videoId} ratio={16 / 9}>
                                 <iframe
                                     src={`https://www.youtube.com/embed/${videoId}`}
                                     title={name ?? "Video"}
@@ -64,5 +64,3 @@ function MediaGrid({ screenshots, videos }: Props) {
         </Accordion.Root>
     );
 }
-
-export default MediaGrid;

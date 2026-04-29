@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
+using PlayAPISDK.Api.Cookies;
 using PlayAPISDK.Api.Events;
 using PlayAPISDK.Api.GameMetrics;
 using PlayAPISDK.Api.GameStats;
@@ -17,6 +18,11 @@ namespace PlayAPISDK.Api
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class ApiRequestBuilder : BaseRequestBuilder
     {
+        /// <summary>The cookies property</summary>
+        public global::PlayAPISDK.Api.Cookies.CookiesRequestBuilder Cookies
+        {
+            get => new global::PlayAPISDK.Api.Cookies.CookiesRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The events property</summary>
         public global::PlayAPISDK.Api.Events.EventsRequestBuilder Events
         {

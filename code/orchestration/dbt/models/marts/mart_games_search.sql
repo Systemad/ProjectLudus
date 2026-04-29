@@ -97,10 +97,6 @@ with
     game_statuses as (
         select id, status as game_status from {{ ref("mart_game_statuses") }}
     ),
-    game_clicks as (
-        select game_id, count::bigint as total_visits
-        from {{ source("igdb_source", "game_visit_counts") }}
-    ),
     game_popularity as (
         select
             gpl.game_id,
@@ -201,7 +197,8 @@ select
     coalesce(pub.publishers, array[]::text[]) as publishers,
     coalesce(dev.developers, array[]::text[]) as developers,
     coalesce(gmm.multiplayer_modes, array[]::text[]) as multiplayer_modes,
-    coalesce(gc.total_visits, 0)::bigint as total_visits,
+    coalesce(g.view_count, 0)::bigint as view_count,
+    coalesce(g.last_24h_visits, 0)::bigint as last_24h_visits,
     gpop.igdb_visits,
     gpop.igdb_want_to_play,
     gpop.igdb_playing,
@@ -231,5 +228,4 @@ left join game_multiplayer_modes gmm on g.id = gmm.game_id
 left join game_types gtype on g.game_type = gtype.id
 left join game_statuses gs on g.game_status = gs.id
 left join {{ ref("mart_covers") }} img on g.cover = img.id
-left join game_clicks gc on g.id = gc.game_id
 left join game_popularity gpop on g.id = gpop.game_id

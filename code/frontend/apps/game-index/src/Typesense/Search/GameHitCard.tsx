@@ -15,16 +15,16 @@ export function GameHitCard({ hit }: GameHitCardProps) {
     const releaseYear = getReleaseYear(hit);
 
     return (
-        <Card.Root h="full" rounded="lg" bg="bg.surface" overflow="hidden" border="none">
-            <Card.Header justifyContent="center">
+        <Card.Root h="full" w="full" rounded="lg" bg="bg.surface" overflow="hidden" border="none">
+            <Box>
                 <Image
                     src={imageUrl}
                     alt={hit.name ? `${hit.name} cover` : "Game cover"}
                     w="full"
-                    h={{ base: "4xs", md: "3xs" }}
+                    aspectRatio={3 / 4}
                     objectFit="cover"
                 />
-            </Card.Header>
+            </Box>
             <Card.Body p={{ base: "xs", md: "sm" }}>
                 <Heading size="sm" lineClamp={2} minH="2.5rem" color="fg.base">
                     {hit.name ?? "Untitled game"}

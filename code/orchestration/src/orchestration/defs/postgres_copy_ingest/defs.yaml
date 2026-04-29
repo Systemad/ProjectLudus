@@ -1,9 +1,0 @@
-type: dagster_dlt.DltLoadCollectionComponent
-
-attributes:
-  loads:
-    - source: .gameclickcount_copy.gameclickcount_copy_source
-      pipeline: .gameclickcount_copy.gameclickcount_copy_pipeline
-      translation:
-        group_name: gameclickcount_copy
-        description: "Copy gameclickcount from source Postgres into igdb_source.game_visit_counts"

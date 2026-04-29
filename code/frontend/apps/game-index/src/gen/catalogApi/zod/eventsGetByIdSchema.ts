@@ -4,7 +4,7 @@
 */
 
 import * as z from "zod";
-import { eventDetailResponseSchema } from "./eventDetailResponseSchema.ts";
+import { getEventByIdResponseSchema } from "./getEventByIdResponseSchema.ts";
 
 export const eventsGetByIdPathParamsSchema = z.object({
     "id": z.coerce.number().int()
@@ -13,7 +13,7 @@ export const eventsGetByIdPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const eventsGetById200Schema = z.lazy(() => eventDetailResponseSchema)
+export const eventsGetById200Schema = z.lazy(() => getEventByIdResponseSchema)
 
 /**
  * @description Not Found

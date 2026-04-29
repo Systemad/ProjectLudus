@@ -4,7 +4,7 @@ namespace CatalogAPI.Features.Games.GetMedia;
 
 public static class GetGameMediaEndpoint
 {
-    public record Response(GameMediaDto Game);
+    public record GetGameMediaResponse(GameMediaDto Game);
 
     public static async Task<IResult> HandleAsync(
         long gameId,
@@ -32,6 +32,6 @@ public static class GetGameMediaEndpoint
         if (gameMediaDto is null)
             return Results.NotFound();
 
-        return Results.Ok(new Response(gameMediaDto));
+        return Results.Ok(new GetGameMediaResponse(gameMediaDto));
     }
 }

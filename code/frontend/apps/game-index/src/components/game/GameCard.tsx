@@ -23,11 +23,12 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <Box role="group" w={{ base: "28", md: "40" }} minW={{ base: "28", md: "40" }}>
+            <Box role="group" w="full" minW="9rem" flexShrink={0}>
                 <Box position="relative" rounded="xl" overflow="hidden">
                     <AspectRatio ratio={3 / 4}>
                         <Image
                             src={getIGDBImageUrl(game.coverUrl, "1080p")}
+                            alt={game.name ? `${game.name} cover` : "Game cover"}
                             w="full"
                             h="full"
                             objectFit="cover"

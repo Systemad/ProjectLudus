@@ -60,7 +60,7 @@ export function ScreenshotPreview({ screenshots, visible = true, onViewAll }: Pr
                             {(screenshot, index) => (
                                 <Carousel.Item index={index}>
                                     <Image
-                                        key={`${screenshot}-${index}`}
+                                        key={screenshot}
                                         src={getIGDBImageUrl(screenshot, "1080p")}
                                         alt={`Screenshot ${index + 1}`}
                                         w="full"

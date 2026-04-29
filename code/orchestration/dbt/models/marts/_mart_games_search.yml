@@ -87,7 +87,9 @@ models:
         data_type: text[]
         constraints:
           - type: not_null
-      - name: total_visits
+      - name: view_count
+        data_type: bigint
+      - name: last_24h_visits
         data_type: bigint
       - name: igdb_visits
         data_type: double precision

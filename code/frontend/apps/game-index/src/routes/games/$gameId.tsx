@@ -17,12 +17,12 @@ import {
     Wrap,
     For,
 } from "ui";
-import MediaGrid from "@src/features/games/components/Sections/MediaGrid";
-import AlternativeNames from "@src/features/games/components/Sections/AlternativeNames";
+import { MediaGrid } from "@src/features/games/components/Sections/MediaGrid";
+import { AlternativeNames } from "@src/features/games/components/Sections/AlternativeNames";
 import { GameReleaseDates } from "@src/features/games/components/Sections/GameReleaseDates";
 import { GameStory } from "@src/features/games/components/Sections/GameStory";
 import { OfficialLinks } from "@src/features/games/components/Sections/OfficialLinks";
-import OverviewPanel from "@src/features/games/components/Sections/OverviewPanel";
+import { OverviewPanel } from "@src/features/games/components/Sections/OverviewPanel";
 import { RelatedGamesSection } from "@src/features/games/components/Sections/RelatedGamesSection";
 import { ScreenshotPreview } from "@src/features/games/components/Sections/ScreenshotPreview";
 import { linkStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";

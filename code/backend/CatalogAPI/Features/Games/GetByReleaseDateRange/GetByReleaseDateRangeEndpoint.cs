@@ -5,7 +5,7 @@ namespace CatalogAPI.Features.Games.GetByReleaseDateRange;
 
 public static class GetByReleaseDateRangeEndpoint
 {
-    public record Response(
+    public record GetByReleaseDateRangeResponse(
         DateOnly Start,
         DateOnly End,
         int Limit,
@@ -44,7 +44,7 @@ public static class GetByReleaseDateRangeEndpoint
             .ToListAsync(cancellationToken);
 
         return Results.Ok(
-            new Response(query.Start, query.End, query.Limit, games)
+            new GetByReleaseDateRangeResponse(query.Start, query.End, query.Limit, games)
         );
     }
 }

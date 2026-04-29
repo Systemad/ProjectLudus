@@ -2,7 +2,7 @@ namespace CatalogAPI.Features.Games.GetOverview;
 
 public static class GetGameOverviewEndpoint
 {
-    public record Response(GameOverviewDto Game);
+    public record GetGameOverviewResponse(GameOverviewDto Game);
 
     public static async Task<IResult> HandleAsync(
         long gameId,
@@ -54,6 +54,6 @@ public static class GetGameOverviewEndpoint
         if (gameOverview is null)
             return Results.NotFound();
 
-        return Results.Ok(new Response(gameOverview));
+        return Results.Ok(new GetGameOverviewResponse(gameOverview));
     }
 }

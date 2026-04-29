@@ -6,7 +6,7 @@ namespace CatalogAPI.Features.Events.GetById;
 
 public static class GetEventByIdEndpoint
 {
-    public record Response(EventDto Event);
+    public record GetEventByIdResponse(EventDto Event);
 
     public static async Task<IResult> HandleAsync(
         long id,
@@ -44,6 +44,6 @@ public static class GetEventByIdEndpoint
         if (dto is null)
             return Results.NotFound();
 
-        return Results.Ok(new Response(dto));
+        return Results.Ok(new GetEventByIdResponse(dto));
     }
 }

@@ -1,0 +1,1 @@
+{"required":["consent"],"type":"object","properties":{"consent":{"type":"boolean"}},"x-readme-ref-name":"SetCookieConsentRequest"}

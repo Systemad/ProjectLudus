@@ -22,7 +22,7 @@ namespace PlayAPISDK.Api.GameMetrics
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public GameMetricsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/game-metrics?gameId={gameId}{&sessionId*}", pathParameters)
+        public GameMetricsRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/game-metrics?gameId={gameId}", pathParameters)
         {
         }
         /// <summary>
@@ -30,7 +30,7 @@ namespace PlayAPISDK.Api.GameMetrics
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public GameMetricsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/game-metrics?gameId={gameId}{&sessionId*}", rawUrl)
+        public GameMetricsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/game-metrics?gameId={gameId}", rawUrl)
         {
         }
         /// <returns>A <see cref="global::PlayAPISDK.Models.GetGameMetricResponse"/></returns>
@@ -85,8 +85,6 @@ namespace PlayAPISDK.Api.GameMetrics
         {
             [QueryParameter("gameId")]
             public long? GameId { get; set; }
-            [QueryParameter("sessionId")]
-            public Guid? SessionId { get; set; }
         }
         /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.

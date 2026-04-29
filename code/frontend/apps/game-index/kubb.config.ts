@@ -4,6 +4,7 @@ import { pluginTs } from "@kubb/plugin-ts";
 import { pluginReactQuery } from "@kubb/plugin-react-query";
 import { pluginZod } from "@kubb/plugin-zod";
 import { QueryKey } from "@kubb/plugin-react-query/components";
+import { pluginClient } from "@kubb/plugin-client";
 
 const schemas = [
     { name: "catalogApi", path: "http://localhost:5141/openapi/v1.json" },
@@ -74,6 +75,35 @@ export default defineConfig(() => {
                     path: "zod",
                 },
             }),
+            /*
+            pluginClient({
+                output: {
+                    path: "./clients/axios",
+                    barrelType: "named",
+                    footer: "",
+                },
+                group: {
+                    type: "tag",
+                    name: ({ group }) => `${group}Service`,
+                },
+                transformers: {
+                    name: (name, type) => {
+                        return `${name}Client`;
+                    },
+                },
+                operations: true,
+                parser: "client",
+                include: [
+                    {
+                        type: "tag",
+                        pattern: "Cookie",
+                    },
+                ],
+                pathParamsType: "object",
+                dataReturnType: "full",
+                client: "axios",
+            }),
+            */
         ],
     }));
 });

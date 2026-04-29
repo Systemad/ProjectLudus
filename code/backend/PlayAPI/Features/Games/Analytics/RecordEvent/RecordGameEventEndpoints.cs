@@ -1,15 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using PlayAPI.Data;
+using PlayAPI.Features.Cookies;
 
 namespace PlayAPI.Features.Games.Analytics.RecordEvent;
 
 public static class RecordGameEventEndpoints
 {
-    public sealed record RecordGameEventRequest(
-        long GameId,
-        GameEventType EventType,
-        string SessionId
-    );
+    public sealed record RecordGameEventRequest(long GameId, GameEventType EventType);
 
     public sealed record RecordGameEventResponse(
         [Required] long GameId,
@@ -20,12 +17,14 @@ public static class RecordGameEventEndpoints
 
     public static IEndpointRouteBuilder MapRecordGameEventEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/events");
+        var group = app.MapGroup("/play/events");
 
         group
             .MapPost("", HandleAsync)
+            .AddEndpointFilter<ConsentFilter>()
             .WithName("GamesAnalytics/RecordGameEvent")
             .Produces<RecordGameEventResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
         return app;
@@ -34,27 +33,15 @@ public static class RecordGameEventEndpoints
     private static async Task<IResult> HandleAsync(
         RecordGameEventRequest request,
         RecordGameEventService service,
+        ICookieService cookieService,
+        HttpContext httpContext,
         CancellationToken cancellationToken
     )
     {
         var validationErrors = new Dictionary<string, string[]>();
-
         if (request.GameId <= 0)
         {
             validationErrors[nameof(request.GameId)] = ["GameId must be greater than 0."];
-        }
-
-        if (string.IsNullOrWhiteSpace(request.SessionId))
-        {
-            validationErrors[nameof(request.SessionId)] = ["SessionId is required."];
-        }
-
-        if (!Guid.TryParse(request.SessionId, out var sessionId))
-        {
-            validationErrors[nameof(request.SessionId)] =
-            [
-                "SessionId must be a valid UUID."
-            ];
         }
 
         if (validationErrors.Count > 0)
@@ -62,10 +49,16 @@ public static class RecordGameEventEndpoints
             return Results.ValidationProblem(validationErrors);
         }
 
+        var sessionId = cookieService.GetSessionId(httpContext);
+        if (!sessionId.HasValue)
+        {
+            return Results.NoContent();
+        }
+
         var result = await service.RecordAsync(
             request.GameId,
             request.EventType,
-            sessionId,
+            sessionId.Value,
             cancellationToken
         );
 

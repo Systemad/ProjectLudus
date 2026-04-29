@@ -1,15 +1,8 @@
 from dagster import AssetSelection, define_asset_job, in_process_executor
 
-igdb_default_dlt_job = define_asset_job(
-    name="igdb_default_dlt_job",
-    selection=AssetSelection.groups("igdb_default"),
-    tags={"type": "dlt"},
-    executor_def=in_process_executor,
-)
-
-igdb_popularity_dlt_job = define_asset_job(
-    name="igdb_popularity_dlt_job",
-    selection=AssetSelection.groups("igdb_popularity_data"),
+igdb_dlt_job = define_asset_job(
+    name="igdb_dlt_job",
+    selection=AssetSelection.groups("igdb_default", "igdb_popularity_data"),
     tags={"type": "dlt"},
     executor_def=in_process_executor,
 )
@@ -27,9 +20,9 @@ make_typesense_index_job = define_asset_job(
     executor_def=in_process_executor,
 )
 
-gameclickcount_copy_job = define_asset_job(
-    name="gameclickcount_copy_job",
-    selection=AssetSelection.groups("gameclickcount_copy"),
+metric_copy_job = define_asset_job(
+    name="metric_copy_job",
+    selection=AssetSelection.groups("metric_copy"),
     tags={"type": "dlt", "target": "postgres"},
     executor_def=in_process_executor,
 )
@@ -41,7 +34,7 @@ full_pipeline_job = define_asset_job(
         "igdb_default",
         "igdb_dbt_transformations",
         "typesense_job",
-        "gameclickcount_copy",
+        "metric_copy",
     ),
     executor_def=in_process_executor,
 )

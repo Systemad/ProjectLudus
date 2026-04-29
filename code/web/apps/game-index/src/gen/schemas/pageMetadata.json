@@ -1,1 +1,0 @@
-{"required":["nextPageCursor","hasNextPage","hasPreviousPage"],"type":"object","properties":{"nextPageCursor":{"type":["null","string"]},"hasNextPage":{"type":"boolean"},"hasPreviousPage":{"type":"boolean"}},"x-readme-ref-name":"PageMetadata"}

@@ -4,7 +4,7 @@
 */
 
 import * as z from "zod";
-import { gamesReleaseDateRangeResponseSchema } from "./gamesReleaseDateRangeResponseSchema.ts";
+import { getByReleaseDateRangeResponseSchema } from "./getByReleaseDateRangeResponseSchema.ts";
 import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
 
 export const gamesGetReleaseDateRangeQueryParamsSchema = z.object({
@@ -16,7 +16,7 @@ export const gamesGetReleaseDateRangeQueryParamsSchema = z.object({
 /**
  * @description OK
  */
-export const gamesGetReleaseDateRange200Schema = z.lazy(() => gamesReleaseDateRangeResponseSchema)
+export const gamesGetReleaseDateRange200Schema = z.lazy(() => getByReleaseDateRangeResponseSchema)
 
 /**
  * @description Bad Request

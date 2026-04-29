@@ -79,12 +79,12 @@ Notes:
 -   The exact service name for Postgres may vary (e.g., `postgres`, `db`, `catalog-primary`). Search `rendered.yml` for the Postgres service and its `environment:` section.
 -   Keep `.env.aspire` out of source control and restrict access.
 
-## dlt secrets example (new gameclickcount copy)
+## dlt secrets example (new playdev metric copy)
 
 For the Postgres-to-Postgres copy pipeline, define credentials in `.dlt/secrets.toml`.
 
 ```toml
-[sources.gameclickcount_postgres.credentials]
+[sources.playdev_postgres.credentials]
 drivername = "postgresql"
 host = "SOURCE_POSTGRES_HOST"
 port = 5432
@@ -101,7 +101,7 @@ username = "CATALOG_POSTGRES_USER"
 password = "CATALOG_POSTGRES_PASSWORD"
 ```
 
-This configuration copies `public.game_visit_counts` from the source database into `igdb_source.game_visit_counts` in the catalog database.
+This configuration copies `public.game_metrics` from the source database into `igdb_source.game_metrics` in the catalog database.
 
 ## CI / Production recommendation
 

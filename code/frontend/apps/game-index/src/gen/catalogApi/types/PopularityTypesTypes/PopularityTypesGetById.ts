@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { PopularityGamesResponse } from "../PopularityGamesResponse.ts";
+import type { GetByIdResponse } from "../GetByIdResponse.ts";
 
 export type PopularityTypesGetByIdPathParams = {
     /**
@@ -27,7 +27,7 @@ export type PopularityTypesGetByIdQueryParams = {
 /**
  * @description OK
 */
-export type PopularityTypesGetById200 = PopularityGamesResponse;
+export type PopularityTypesGetById200 = GetByIdResponse;
 
 export type PopularityTypesGetByIdQueryResponse = PopularityTypesGetById200;
 

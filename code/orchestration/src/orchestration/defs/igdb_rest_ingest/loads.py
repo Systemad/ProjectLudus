@@ -283,16 +283,8 @@ default = rest_api_source(
 )
 
 
-popularity_pipeline = dlt.pipeline(
-    pipeline_name="igdb_popularity_pipeline",
-    destination="postgres",
-    dataset_name="igdb_source",
-    progress="log",
-    dev_mode=False,
-)
-
-default_pipeline = dlt.pipeline(
-    pipeline_name="igdb_default_pipeline",
+pipeline = dlt.pipeline(
+    pipeline_name="igdb_pipeline",
     destination="postgres",
     dataset_name="igdb_source",
     progress="log",

@@ -11,9 +11,10 @@ type MonthCardProps = {
 export function MonthCard({ group, now }: MonthCardProps) {
     const [expanded, setExpanded] = useState(false);
     const hasMore = group.events.length > 4;
+    const groupId = `event-group-${group.month.replace(/\s+/g, "-")}`;
 
     return (
-        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel">
+        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel" h="full">
             <Text fontWeight="semibold" fontSize="lg" mb="2">
                 {group.month}
             </Text>
@@ -24,7 +25,7 @@ export function MonthCard({ group, now }: MonthCardProps) {
                 >
                     {(event) => <EventRow key={event.id} event={event} now={now} />}
                 </For>
-                <Collapse open={expanded}>
+                <Collapse open={expanded} id={groupId}>
                     <VStack gap="2" align="stretch">
                         <For each={group.events.slice(4)}>
                             {(event) => <EventRow key={event.id} event={event} now={now} />}
@@ -34,7 +35,10 @@ export function MonthCard({ group, now }: MonthCardProps) {
                 {hasMore && (
                     <Box
                         as="button"
+                        type="button"
                         onClick={() => setExpanded((v) => !v)}
+                        aria-expanded={expanded}
+                        aria-controls={groupId}
                         mt="2"
                         py="2"
                         w="full"

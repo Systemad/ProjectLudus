@@ -10,8 +10,6 @@ import {
     VStack,
     useDisclosure,
 } from "ui";
-import { useState } from "react";
-import { useMotionValueEvent, useScroll } from "motion/react";
 import { appShellNavInset } from "@src/components/AppShell/layout.constants";
 import { RouterLink, RouterLinkButton } from "@src/components/YamadaLink/YamadaLink";
 import { linkStyle } from "@src/utils/sectionTextStyles";
@@ -29,15 +27,6 @@ const navItems = [
 
 export function NavigationBar({ active: _active = "home" }: NavigationBarProps) {
     const { open, onOpen, onClose } = useDisclosure();
-    const { scrollY } = useScroll();
-    const [isScrolled, setIsScrolled] = useState(() => scrollY.get() > 18);
-
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        setIsScrolled((previous) => {
-            const next = latest > 18;
-            return previous === next ? previous : next;
-        });
-    });
 
     return (
         <>
@@ -53,14 +42,14 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                     <Flex
                         w="full"
                         pointerEvents="auto"
-                        colorScheme="neutral"
                         rounded="full"
-                        bg="bg.surface"
-                        boxShadow={isScrolled ? "lg" : "none"}
+                        bg="bg.panel / 80"
+                        backdropFilter="blur(20px) saturate(120%)"
+                        boxShadow="0 2px 8px rgba(0,0,0,0.4)"
                         px={{ base: "3", md: "4", xl: "5" }}
                         py={{ base: "1.5", md: "2" }}
                         gap={{ base: "3", md: "6" }}
-                        transitionProperty="background-color, border-color, box-shadow"
+                        transitionProperty="background-color, backdrop-filter, box-shadow"
                         transitionDuration="slower"
                         transitionTimingFunction="ease-out"
                         align="center"
@@ -105,13 +94,14 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     key={item.id}
                                     to={item.to}
                                     variant="ghost"
-                                    color="fg.base"
+                                    color="white"
                                     rounded="full"
                                     px={{ md: "3", xl: "4" }}
                                     py="1"
                                     minW="0"
                                     h="auto"
-                                    activeProps={{ bg: "bg.subtle", color: "fg.base" }}
+                                    _hover={{ bg: "rgba(255,255,255,0.08)" }}
+                                    activeProps={{ bg: "rgba(255,255,255,0.15)", color: "white" }}
                                 >
                                     <Text
                                         as="span"
@@ -137,9 +127,10 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                 px={{ md: "4", xl: "5" }}
                                 py="1.5"
                                 fontSize={{ md: "md", xl: "lg" }}
-                                bg="bg.subtle"
-                                color="fg.base"
-                                activeProps={{ bg: "bg.subtle", color: "fg.base" }}
+                                bg="rgba(255,255,255,0.08)"
+                                color="white"
+                                _hover={{ bg: "rgba(255,255,255,0.16)" }}
+                                activeProps={{ bg: "rgba(255,255,255,0.15)", color: "white" }}
                             >
                                 Browse games
                             </RouterLinkButton>
@@ -178,7 +169,7 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     key={`drawer-${item.id}`}
                                     to={item.to}
                                     variant="ghost"
-                                    color="fg.base"
+                                    color="white"
                                     justifyContent="start"
                                     rounded="lg"
                                     px="3"
@@ -186,9 +177,10 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     w="full"
                                     h="auto"
                                     onClick={onClose}
+                                    _hover={{ bg: "rgba(255,255,255,0.08)" }}
                                     activeProps={{
-                                        bg: "bg.subtle",
-                                        color: "fg.base",
+                                        bg: "rgba(255,255,255,0.15)",
+                                        color: "white",
                                     }}
                                 >
                                     <Text
@@ -215,5 +207,3 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
         </>
     );
 }
-
-export default NavigationBar;

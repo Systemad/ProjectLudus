@@ -6,7 +6,7 @@ namespace CatalogAPI.Features.Stats.GetStats;
 
 public static class GetStatsEndpoint
 {
-    public sealed record Response(
+    public sealed record GetStatsResponse(
         long TotalGames,
         long TotalCompanies,
         long TotalPlatforms,
@@ -24,7 +24,7 @@ public static class GetStatsEndpoint
         var totalEvents = await db.Events.LongCountAsync(cancellationToken);
 
         return Results.Ok(
-            new Response(
+            new GetStatsResponse(
                 TotalGames: totalGames,
                 TotalCompanies: totalCompanies,
                 TotalPlatforms: totalPlatforms,

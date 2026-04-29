@@ -1,0 +1,1 @@
+{"required":["gameId","eventType"],"type":"object","properties":{"gameId":{"type":"integer","format":"int64"},"eventType":{"enum":["View","Click"],"x-readme-ref-name":"GameEventType"}},"x-readme-ref-name":"RecordGameEventRequest"}

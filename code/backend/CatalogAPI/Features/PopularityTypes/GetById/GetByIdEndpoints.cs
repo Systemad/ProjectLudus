@@ -8,7 +8,7 @@ public static class GetByIdEndpoints
 {
     public record GetPopTypesQuery(long PopularityTypeId, int Limit = 20, string? Date = null);
 
-    public record Response(List<GameDto> Games);
+    public record GetByIdResponse(List<GameDto> Games);
 
     public static async Task<IResult> HandleAsync(
         [AsParameters] GetPopTypesQuery request,
@@ -21,7 +21,7 @@ public static class GetByIdEndpoints
             .MaxAsync(p => p.SnapshotDate, cancellationToken);
 
         if (latestDate is null)
-            return Results.Ok(new Response([]));
+            return Results.Ok(new GetByIdResponse([]));
         LocalDate targetDate;
         if (!string.IsNullOrWhiteSpace(request.Date) && request.Date != "today")
         {
@@ -31,7 +31,7 @@ public static class GetByIdEndpoints
 
             targetDate = parseResult.Value;
             if (targetDate > latestDate.Value)
-                return Results.Ok(new Response([]));
+                return Results.Ok(new GetByIdResponse([]));
         }
         else
         {
@@ -58,6 +58,6 @@ public static class GetByIdEndpoints
             .Select(GameDtoProjection.AsGameDto)
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new Response(topGames));
+        return Results.Ok(new GetByIdResponse(topGames));
     }
 }

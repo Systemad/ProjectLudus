@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "@packages/ui": "workspace:*"
-  },
-  "devDependencies": {
-    "@yamada-ui/cli": "^2.0.9"
-  },
-  "packageManager": "pnpm@10.33.0"
-}

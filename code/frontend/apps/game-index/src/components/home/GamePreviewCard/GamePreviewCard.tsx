@@ -9,7 +9,7 @@ type Props = {
     game: GameDto;
 };
 
-export default function GamePreviewCard({ game }: Props) {
+export function GamePreviewCard({ game }: Props) {
     const title = game.name ?? "Unknown game";
     const developer = game.developers?.[0]?.name ?? "Unknown";
     const typeLabel = game.gameType ?? "Unknown";

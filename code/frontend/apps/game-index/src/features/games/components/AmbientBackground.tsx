@@ -4,7 +4,7 @@ type AmbientBackgroundProps = {
     gradient: string;
 };
 
-export default function AmbientBackground({ gradient }: AmbientBackgroundProps) {
+export function AmbientBackground({ gradient }: AmbientBackgroundProps) {
     return (
         <>
             <Box

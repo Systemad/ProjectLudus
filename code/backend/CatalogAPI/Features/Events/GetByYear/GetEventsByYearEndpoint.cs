@@ -5,7 +5,7 @@ namespace CatalogAPI.Features.Events.GetByYear;
 
 public static class GetEventsByYearEndpoint
 {
-    public record Response(int Year, List<EventDto> Events);
+    public record GetEventsByYearResponse(int Year, List<EventDto> Events);
 
     public static async Task<IResult> HandleAsync(
         AppDbContext db,
@@ -50,6 +50,6 @@ public static class GetEventsByYearEndpoint
             })
             .ToListAsync(cancellationToken);
 
-        return Results.Ok(new Response(year, eventDtos));
+        return Results.Ok(new GetEventsByYearResponse(year, eventDtos));
     }
 }

@@ -5,7 +5,6 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <RazorLangVersion>10.0</RazorLangVersion>
         <OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)/../docs/openapi</OpenApiDocumentsDirectory>
         
         <NoWarn>1591;</NoWarn>

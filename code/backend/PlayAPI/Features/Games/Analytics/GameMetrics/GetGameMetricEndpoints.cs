@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using PlayAPI.Context;
+using PlayAPI.Features.Cookies;
 
 namespace PlayAPI.Features.Games.Analytics.GameMetrics;
 
@@ -22,17 +24,17 @@ public static class GetGameMetricEndpoints
         [Required] int SessionCount
     );
 
-    public static IEndpointRouteBuilder MapGetGameMetricEndpoints(
-        this IEndpointRouteBuilder app
-    )
+    public static IEndpointRouteBuilder MapGetGameMetricEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/game-metrics", HandleGameMetricAsync)
+        app.MapGet("/play/game-metrics", HandleGameMetricAsync)
+            .AddEndpointFilter<ConsentFilter>()
             .WithName("GamesAnalytics/GetGameMetric")
             .Produces<GetGameMetricResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
-        app.MapGet("/api/game-stats", HandleGameStatsAsync)
+        app.MapGet("/play/game-stats", HandleGameStatsAsync)
             .WithName("GamesAnalytics/GetGameStats")
             .Produces<GetGameStatsResponse>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
@@ -43,7 +45,8 @@ public static class GetGameMetricEndpoints
 
     private static async Task<IResult> HandleGameMetricAsync(
         long gameId,
-        Guid? sessionId,
+        ICookieService cookieService,
+        HttpContext httpContext,
         AppDbContext db,
         CancellationToken cancellationToken
     )
@@ -55,21 +58,16 @@ public static class GetGameMetricEndpoints
             validationErrors[nameof(gameId)] = ["GameId must be greater than 0."];
         }
 
+        var sessionId = cookieService.GetSessionId(httpContext);
         if (!sessionId.HasValue)
         {
-            validationErrors[nameof(sessionId)] = ["SessionId is required."];
+            return Results.NoContent();
         }
 
-        if (validationErrors.Count > 0)
-        {
-            return Results.ValidationProblem(validationErrors);
-        }
-
-        var session = sessionId.GetValueOrDefault();
         var stats = await db
             .GameMetrics.AsNoTracking()
             .FirstOrDefaultAsync(
-                s => s.GameId == gameId && s.SessionId == session,
+                s => s.GameId == gameId && s.SessionId == sessionId.GetValueOrDefault(),
                 cancellationToken
             );
 

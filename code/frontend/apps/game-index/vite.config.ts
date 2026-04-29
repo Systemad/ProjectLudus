@@ -8,7 +8,7 @@ import { COLOR_MODE_STORAGE_KEY, getStorageScript } from "ui";
 // https://vite.dev/config/
 // http://localhost:5141
 //const target = "http://localhost:53489";
-const target = "http://localhost:5141"; //process.env.CATALOGAPI_HTTPS || process.env.CATALOGAPI_HTTP;
+const YARP_TARGET = "https://localhost:58352";
 
 function injectColorModeScript(): Plugin {
     return {
@@ -42,13 +42,12 @@ export default defineConfig({
     server: {
         open: false,
         proxy: {
-            "/api": {
-                target,
-                changeOrigin: true,
-            },
+            "/api": { target: YARP_TARGET, changeOrigin: true },
+            "/catalog": { target: YARP_TARGET, changeOrigin: true },
+            "/play": { target: YARP_TARGET, changeOrigin: true },
         },
     },
 });
 /*
-
+allowedHosts: ['host.docker.internal']
 */

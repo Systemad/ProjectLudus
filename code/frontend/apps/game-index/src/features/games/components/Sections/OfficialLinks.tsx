@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Grid, HStack, Text, Box } from "ui";
+import { Button, Grid, HStack, Text, Box, ExternalLinkIcon } from "ui";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
 import type { WebsiteDto } from "@src/gen/catalogApi";
 import { sectionLabelStyle } from "@src/utils/sectionTextStyles";
@@ -24,19 +24,17 @@ export function OfficialLinks({ websites }: Props) {
                             target="_blank"
                             rel="noreferrer"
                             variant="ghost"
-                            colorScheme="link"
-                            justifyContent="space-between"
-                            endIcon={<span>›</span>}
+                            colorScheme="neutral"
+                            justifyContent="flex-start"
+                            leftIcon={<ExternalLinkIcon />}
                             size="sm"
                             _hover={{
                                 bg: "bg.subtle",
                                 color: "colorScheme.fg",
                             }}
                         >
-                            <HStack gap="2xs">
-                                <PlatformIcon type={website.type} />
-                                <Text color="inherit">{website.type ?? "Official Link"}</Text>
-                            </HStack>
+                            <PlatformIcon type={website.type} />
+                            <Text color="inherit">{website.type ?? "Official Link"}</Text>
                         </Button>
                     ))}
                 </Grid>

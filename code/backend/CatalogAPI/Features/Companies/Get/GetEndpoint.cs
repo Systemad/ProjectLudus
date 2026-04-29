@@ -2,7 +2,7 @@ namespace CatalogAPI.Features.Companies.Get;
 
 public static class GetCompanyEndpoint
 {
-    public record Response(CompanyOverviewDto Company);
+    public record GetCompanyResponse(CompanyOverviewDto Company);
 
     public static async Task<IResult> HandleAsync(
         long companyId,
@@ -32,6 +32,6 @@ public static class GetCompanyEndpoint
         if (company is null)
             return Results.NotFound();
 
-        return Results.Ok(new Response(company));
+        return Results.Ok(new GetCompanyResponse(company));
     }
 }

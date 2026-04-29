@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { EventsYearResponse } from "../EventsYearResponse.ts";
+import type { GetEventsByYearResponse } from "../GetEventsByYearResponse.ts";
 import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
 
 export type EventsGetByYearPathParams = {
@@ -16,7 +16,7 @@ export type EventsGetByYearPathParams = {
 /**
  * @description OK
 */
-export type EventsGetByYear200 = EventsYearResponse;
+export type EventsGetByYear200 = GetEventsByYearResponse;
 
 /**
  * @description Bad Request

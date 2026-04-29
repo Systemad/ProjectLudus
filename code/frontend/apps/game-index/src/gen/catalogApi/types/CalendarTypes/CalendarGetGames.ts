@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { CalendarResponse } from "../CalendarResponse.ts";
+import type { GetGamesCalendarResponse } from "../GetGamesCalendarResponse.ts";
 import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
 
 export type CalendarGetGamesPathParams = {
@@ -18,7 +18,7 @@ export type CalendarGetGamesPathParams = {
 /**
  * @description OK
 */
-export type CalendarGetGames200 = CalendarResponse;
+export type CalendarGetGames200 = GetGamesCalendarResponse;
 
 /**
  * @description Bad Request

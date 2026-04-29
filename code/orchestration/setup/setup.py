@@ -25,7 +25,7 @@ RULES: list[dict[str, Any]] = [
         "event_type": "click",
         "params": {
             "destination_collection": "search___games_search",
-            "counter_field": "total_visits",
+            "counter_field": "view_count",
             "weight": 1,
         },
     },

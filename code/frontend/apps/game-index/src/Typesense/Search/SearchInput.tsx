@@ -25,18 +25,20 @@ export function SearchInput({ placeholder = "Search...", compact = false }: Sear
             mb={compact ? "0" : undefined}
         >
             <Input
+                aria-label={placeholder}
                 placeholder={placeholder}
                 value={deferredInputValue}
+                colorScheme="gray"
                 onChange={(event) => {
                     const nextValue = event.currentTarget.value;
                     setInputValue(nextValue);
                     debouncedRefine(nextValue);
                 }}
-                size="md"
-                rounded="lg"
+                size="xl"
+                variant="filled"
+                rounded="xl"
                 flex="1"
                 minW={compact ? "0" : { base: "100%", sm: "18rem" }}
-                bg="bg.surface"
             />
         </Flex>
     );

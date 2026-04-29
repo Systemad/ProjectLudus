@@ -5,7 +5,7 @@ namespace CatalogAPI.Features.Calendar.GetGamesCalendar;
 
 public static class GetGamesCalendarEndpoint
 {
-    public sealed record Response
+    public sealed record GetGamesCalendarResponse
     {
         public required int Year { get; init; }
         public required List<GameDto> Games { get; init; } = [];
@@ -38,7 +38,11 @@ public static class GetGamesCalendarEndpoint
             .ToListAsync(cancellationToken);
 
         return Results.Ok(
-            new Response { Year = year, Games = games.OrderBy(g => g.FirstReleaseDate).ToList() }
+            new GetGamesCalendarResponse
+            {
+                Year = year,
+                Games = games.OrderBy(g => g.FirstReleaseDate).ToList(),
+            }
         );
     }
 }

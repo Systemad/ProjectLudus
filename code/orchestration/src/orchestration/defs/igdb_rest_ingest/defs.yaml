@@ -3,13 +3,13 @@ type: dagster_dlt.DltLoadCollectionComponent
 attributes:
     loads:
         - source: .loads.popularity
-          pipeline: .loads.popularity_pipeline
+          pipeline: .loads.pipeline
           translation:
               group_name: igdb_popularity_data
               description: "Load popularity data from IGDB"
 
         - source: .loads.default
-          pipeline: .loads.default_pipeline
+          pipeline: .loads.pipeline
           translation:
               group_name: igdb_default
               description: "Load default data from IGDB"

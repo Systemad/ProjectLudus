@@ -20,6 +20,8 @@ GAMES_FACETS = [
 GAMES_SORT = [
     "aggregated_rating",
     "release_year",
+    "view_count",
+    "last_24h_visits",
     "igdb_visits",
     "igdb_want_to_play",
     "igdb_playing",

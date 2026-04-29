@@ -1,85 +1,122 @@
 "use client";
 
-import { Box, For, HStack, Tag, Text, VStack, Wrap } from "ui";
+import { Box, Container, For, Grid, GridItem, HStack, Text, VStack } from "ui";
 import type { GameReleaseDto } from "@src/gen/catalogApi/types/GameReleaseDto";
+import { PlatformIcon } from "@src/icons/PlatformIcon";
+import {
+    EU,
+    US,
+    AU,
+    NZ,
+    JP,
+    CN,
+    KR,
+    BR,
+} from "country-flag-icons/react/3x2";
 
 type Props = {
     releaseDates: GameReleaseDto[];
 };
 
+const regionFlagMap: Record<string, typeof EU> = {
+    europe: EU,
+    north_america: US,
+    australia: AU,
+    new_zealand: NZ,
+    japan: JP,
+    china: CN,
+    korea: KR,
+    brazil: BR,
+};
+
 export function GameReleaseDates({ releaseDates }: Props) {
     return (
-        <VStack align="stretch" gap={8}>
+        <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap="4">
             <For
                 each={releaseDates}
                 fallback={<Text color="fg.subtle">Release date data is not available.</Text>}
             >
-                {(release) => (
-                    <Box
-                        key={`${release.platformSlug ?? "unknown"}-${release.region ?? "any"}-${release.releaseDate ?? ""}`}
-                        rounded="lg"
-                        p="md"
-                    >
-                        <HStack align="start" justify="space-between" wrap="wrap" gap="4">
-                            <VStack align="start" gap={1}>
-                                <Text fontSize="sm" color="fg.muted">
-                                    Platform
-                                </Text>
-                                <Text fontWeight="semibold" color="fg.base">
-                                    {release.platformName ?? "Unknown platform"}
-                                </Text>
-                            </VStack>
+                {(release) => {
+                    const RegionFlag = release.region
+                        ? regionFlagMap[release.region.toLowerCase()]
+                        : null;
 
-                            <VStack align="start" gap={1}>
-                                <Text fontSize="sm" color="fg.muted">
-                                    Release date
-                                </Text>
-                                <Text fontWeight="semibold" color="fg.base">
-                                    {release.human ??
-                                        (release.releaseDate
-                                            ? new Date(
-                                                  release.releaseDate * 1000,
-                                              ).toLocaleDateString()
-                                            : "Unknown")}
-                                </Text>
-                            </VStack>
-                        </HStack>
+                    return (
+                        <GridItem
+                            key={`${release.platformSlug ?? "unknown"}-${release.region ?? "any"}-${release.releaseDate ?? ""}`}
+                        >
+                            <Container.Root rounded="lg" p="md">
+                                <VStack align="stretch" gap="3">
+                                    <HStack align="start" justify="space-between" gap="4">
+                                        <VStack align="start" gap="1">
+                                            <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+                                                Platform
+                                            </Text>
+                                            <HStack gap="1.5" align="center">
+                                                {release.platformSlug && (
+                                                    <PlatformIcon type={release.platformSlug} />
+                                                )}
+                                                <Text fontSize="sm" fontWeight="semibold" color="fg.base">
+                                                    {release.platformName ?? "Unknown platform"}
+                                                </Text>
+                                            </HStack>
+                                        </VStack>
 
-                        {release.region ? (
-                            <Text color="fg.subtle" fontSize="sm" mt="3">
-                                Region: {release.region}
-                            </Text>
-                        ) : null}
+                                        <VStack align="end" gap="1">
+                                            <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+                                                Release date
+                                            </Text>
+                                            <Text fontSize="sm" fontWeight="semibold" color="fg.base">
+                                                {release.human ??
+                                                    (release.releaseDate
+                                                        ? new Date(release.releaseDate * 1000).toLocaleDateString()
+                                                        : "Unknown")}
+                                            </Text>
+                                        </VStack>
+                                    </HStack>
 
-                        <Wrap gap="2" mt="4">
-                            <For each={release.developers}>
-                                {(developer) => (
-                                    <Tag
-                                        key={`dev-${developer.name}`}
-                                        variant="surface"
-                                        colorScheme="neutral"
-                                        size="md"
-                                    >
-                                        Developer: {developer.name}
-                                    </Tag>
-                                )}
-                            </For>
-                            <For each={release.publishers}>
-                                {(publisher) => (
-                                    <Tag
-                                        key={`pub-${publisher.name}`}
-                                        variant="surface"
-                                        colorScheme="neutral"
-                                        size="sm"
-                                    >
-                                        Publisher: {publisher.name}
-                                    </Tag>
-                                )}
-                            </For>
-                        </Wrap>
-                    </Box>
-                )}
+                                    {release.region ? (
+                                        <Box>
+                                            <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+                                                Region
+                                            </Text>
+                                            <HStack gap="1.5" align="center" mt="1">
+                                                {RegionFlag && <RegionFlag style={{ width: "1.2em", height: "1em" }} />}
+                                                <Text fontSize="sm" fontWeight="semibold" color="fg.base">
+                                                    {release.region}
+                                                </Text>
+                                            </HStack>
+                                        </Box>
+                                    ) : null}
+
+                                    <HStack gap="4" wrap="wrap">
+                                        {release.developers.length > 0 && (
+                                            <Box>
+                                                <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+                                                    Developer{release.developers.length > 1 ? "s" : ""}
+                                                </Text>
+                                                <Text fontSize="sm" fontWeight="semibold" color="fg.base">
+                                                    {release.developers.map((d) => d.name).join(", ")}
+                                                </Text>
+                                            </Box>
+                                        )}
+                                        {release.publishers.length > 0 && (
+                                            <Box>
+                                                <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+                                                    Publisher{release.publishers.length > 1 ? "s" : ""}
+                                                </Text>
+                                                <Text fontSize="sm" fontWeight="semibold" color="fg.base">
+                                                    {release.publishers.map((p) => p.name).join(", ")}
+                                                </Text>
+                                            </Box>
+                                        )}
+                                    </HStack>
+                                </VStack>
+                            </Container.Root>
+                        </GridItem>
+                    );
+                }}
             </For>
-        </VStack>
+        </Grid>
     );
 }

@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-import type { EventDetailResponse } from "../EventDetailResponse.ts";
+import type { GetEventByIdResponse } from "../GetEventByIdResponse.ts";
 
 export type EventsGetByIdPathParams = {
     /**
@@ -15,7 +15,7 @@ export type EventsGetByIdPathParams = {
 /**
  * @description OK
 */
-export type EventsGetById200 = EventDetailResponse;
+export type EventsGetById200 = GetEventByIdResponse;
 
 /**
  * @description Not Found

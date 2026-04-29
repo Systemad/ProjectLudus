@@ -1,30 +1,66 @@
-import { SimpleTable } from "@src/components/layout/SimpleTable";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-    Box,
-    Format,
-    HStack,
-    Image,
-    SimpleGrid,
-    Text,
-    VStack,
-    Heading,
-    GridItem,
-    Loading,
-    Container,
-} from "ui";
+import { Box, Flex, HStack, Text, VStack, Heading, Loading, Container, SimpleGrid, Format } from "ui";
 import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import {
+    useMostAnticipatedGetSuspenseHook,
     usePopularityTypesGetByIdSuspenseHook,
     useStatsGetStatsSuspenseHook,
 } from "@src/gen/catalogApi";
-import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { isTbaReleaseDate } from "@src/utils/dateUtils";
 import { Suspense } from "react";
+import { differenceInDays, differenceInHours, differenceInMinutes } from "date-fns";
+import { GameTableGrid } from "@src/features/home/components/GameTableGrid";
+import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 export const Route = createFileRoute("/")({
     component: RouteComponent,
 });
+
+function StatsPanel({ stats }: { stats: { totalGames: number; totalCompanies: number } }) {
+    return (
+        <Container.Root p={{ base: "sm", md: "md" }} rounded="2xl" variant={"panel"} border="none">
+            <VStack align="stretch" gap="sm">
+                <HStack justify="center" align="stretch" gap="4" wrap="wrap">
+                    <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
+                        <Text color="fg.muted" fontSize="sm" textAlign="center">
+                            Games Indexed
+                        </Text>
+                        <Text color="fg.base" fontSize="2xl" fontWeight="bold" textAlign="center">
+                            {stats?.totalGames ?? 0}
+                        </Text>
+                    </Box>
+                    <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
+                        <Text color="fg.muted" fontSize="sm" textAlign="center">
+                            Companies Indexed
+                        </Text>
+                        <Text color="fg.base" fontSize="2xl" fontWeight="bold" textAlign="center">
+                            {stats?.totalCompanies ?? 0}
+                        </Text>
+                    </Box>
+                </HStack>
+            </VStack>
+        </Container.Root>
+    );
+}
+
+function Hero() {
+    return (
+        <Container.Root
+            p={{ base: "sm", md: "md" }}
+            rounded="2xl"
+            textAlign="center"
+            variant={"panel"}
+            colorScheme={"fuchsia"}
+            border="none"
+        >
+            <VStack gap="xs" align="center">
+                <Heading fontSize={{ base: "2xl", md: "3xl" }}>game-index.app</Heading>
+                <Text fontSize="sm" color="fg.muted">
+                    Discover, search, and explore games directly from IGDB
+                </Text>
+            </VStack>
+        </Container.Root>
+    );
+}
 
 function RouteComponent() {
     const { data: steamMostWishlisted } = usePopularityTypesGetByIdSuspenseHook({
@@ -43,11 +79,12 @@ function RouteComponent() {
     });
 
     const { data: stats } = useStatsGetStatsSuspenseHook();
+    const { data: mostAnticipated } = useMostAnticipatedGetSuspenseHook();
 
     return (
         <Suspense
             fallback={
-                <PageWrapper py={{ base: "2", md: "2" }}>
+                <PageWrapper py={{ base: "4", md: "6" }}>
                     <VStack align="center" justify="center" minH="60vh">
                         <Loading.Rings color="blue.500" fontSize="5xl" />
                     </VStack>
@@ -55,209 +92,148 @@ function RouteComponent() {
             }
         >
             <PageWrapper py={{ base: "2", md: "2" }}>
-                <VStack align="stretch" gap="md">
-                    <Container.Root
-                        p={{ base: "sm", md: "md" }}
-                        rounded="2xl"
-                        textAlign="center"
-                        variant={"panel"}
-                        colorScheme={"fuchsia"}
-                        border="none"
-                    >
-                        <VStack gap="xs" align="center">
-                            <Heading fontSize={{ base: "2xl", md: "3xl" }}>game-index.app</Heading>
-                            <Text fontSize="sm" color="fg.muted">
-                                Discover, search, and explore games directly from IGDB
-                            </Text>
-                        </VStack>
-                    </Container.Root>
-                    <Container.Root
-                        p={{ base: "sm", md: "md" }}
-                        rounded="2xl"
-                        variant={"panel"}
-                        border="none"
-                    >
-                        <VStack align="stretch" gap="sm">
-                            <HStack justify="center" align="stretch" gap="4" wrap="wrap">
-                                <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
-                                    <Text color="fg.muted" fontSize="sm" textAlign="center">
-                                        Games Indexed
-                                    </Text>
-                                    <Text
-                                        color="fg.base"
-                                        fontSize="2xl"
-                                        fontWeight="bold"
-                                        textAlign="center"
-                                    >
-                                        {stats?.totalGames ?? 0}
-                                    </Text>
-                                </Box>
+                <VStack align="stretch" gap="xl">
+                    <Hero />
 
-                                <Box p="sm" rounded="2xl" flex="1" minW="10rem" maxW="20rem">
-                                    <Text color="fg.muted" fontSize="sm" textAlign="center">
-                                        Companies Indexed
-                                    </Text>
-                                    <Text
-                                        color="fg.base"
-                                        fontSize="2xl"
-                                        fontWeight="bold"
-                                        textAlign="center"
+                    <Box>
+                        <Flex justify="space-between" align="baseline" mb="3">
+                            <Text fontWeight="semibold" color="fg.base">
+                                Most Anticipated
+                            </Text>
+                            <Link to="/events" style={{ color: "inherit", textDecoration: "none" }}>
+                                <Text fontSize="sm" color="fg.muted">
+                                    View all
+                                </Text>
+                            </Link>
+                        </Flex>
+                        <SimpleGrid columns={{ base: 2 }} gap="4">
+                            {mostAnticipated.games.slice(0, 4).map((game) => {
+                                const releaseDate = new Date(game.firstReleaseDateUtc);
+                                const now = new Date();
+                                const days = Math.max(0, differenceInDays(releaseDate, now));
+                                const hours = Math.max(0, differenceInHours(releaseDate, now) % 24);
+                                const minutes = Math.max(
+                                    0,
+                                    differenceInMinutes(releaseDate, now) % 60,
+                                );
+
+                                return (
+                                    <Link
+                                        key={game.id}
+                                        to="/games/$gameId"
+                                        params={{ gameId: String(game.id) }}
+                                        style={{ color: "inherit", textDecoration: "none" }}
                                     >
-                                        {stats?.totalCompanies ?? 0}
-                                    </Text>
-                                </Box>
-                            </HStack>
-                        </VStack>
-                    </Container.Root>
-                    <Suspense fallback={<Loading.Rings color="blue.500" fontSize="5xl" />}>
-                        <SimpleGrid columns={{ base: 1, lg: 2 }} gap="lg">
-                            <GridItem>
-                                <Container.Root rounded="2xl">
-                                    <Container.Header>
-                                        <Text fontWeight="semibold" color="fg.base" mb="sm">
-                                            Most Wishlisted Upcoming
-                                        </Text>
-                                    </Container.Header>
-                                    <Container.Body>
-                                        <SimpleTable
-                                            headers={["#", "Title", "Release Date"]}
-                                            rows={steamMostWishlisted.games
-                                                .slice(0, 10)
-                                                .map((b, index) => [
-                                                    b.id ?? index + 1,
-                                                    <Image
-                                                        key={`thumb-${b.id ?? index + 1}`}
-                                                        src={getIGDBImageUrl(
-                                                            b.coverUrl,
-                                                            "cover_big",
-                                                        )}
-                                                        alt={b?.name ?? ""}
-                                                        w={{ base: "10", md: "12" }}
-                                                        h={{ base: "10", md: "12" }}
-                                                        rounded="md"
-                                                        objectFit="cover"
-                                                    />,
-                                                    <Link
-                                                        to="/games/$gameId"
-                                                        params={{ gameId: String(b.id) }}
+                                        <Box
+                                            h="56"
+                                            rounded="xl"
+                                            bgImage={getIGDBImageUrl(game.coverUrl, "1080p")}
+                                            bgSize="cover"
+                                            bgPosition="center"
+                                            position="relative"
+                                            overflow="hidden"
+                                        >
+                                            <Box
+                                                position="absolute"
+                                                inset={0}
+                                                bg="linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 60%)"
+                                            />
+                                            <VStack
+                                                position="absolute"
+                                                inset={0}
+                                                p="4"
+                                                justify="space-between"
+                                                align="stretch"
+                                            >
+                                                <VStack gap="0" align="flex-start">
+                                                    <Text
+                                                        fontSize="xl"
+                                                        fontWeight="bold"
+                                                        color="white"
                                                     >
-                                                        {b.name ?? "Unknown"}
-                                                    </Link>,
-                                                    !isTbaReleaseDate(b.firstReleaseDate) &&
-                                                    b.firstReleaseDate ? (
+                                                        {game.name}
+                                                    </Text>
+                                                    <Text fontSize="md" color="whiteAlpha.800">
                                                         <Format.DateTime
-                                                            value={new Date(b.firstReleaseDate)}
+                                                            value={
+                                                                new Date(game.firstReleaseDateUtc)
+                                                            }
                                                             month="short"
                                                             day="2-digit"
                                                             year="numeric"
                                                         />
-                                                    ) : (
-                                                        "TBA"
-                                                    ),
-                                                ])}
-                                            hoverCardGames={steamMostWishlisted.games.slice(0, 10)}
-                                        />
-                                    </Container.Body>
-                                </Container.Root>
-                            </GridItem>
-                            <GridItem>
-                                <Container.Root rounded="2xl">
-                                    <Container.Header>
-                                        <Text fontWeight="semibold" color="fg.base" mb="sm">
-                                            Steam Global Top Sellers
-                                        </Text>
-                                    </Container.Header>
-                                    <Container.Body>
-                                        <SimpleTable
-                                            headers={["#", "Title"]}
-                                            rows={steamMostPlayed.games
-                                                .slice(0, 10)
-                                                .map((b, index) => [
-                                                    b.id ?? index + 1,
-                                                    <Image
-                                                        key={`thumb-${b.id ?? index + 1}`}
-                                                        src={getIGDBImageUrl(
-                                                            b.coverUrl,
-                                                            "cover_big",
-                                                        )}
-                                                        alt={b?.name ?? ""}
-                                                        w={{ base: "10", md: "12" }}
-                                                        h={{ base: "10", md: "12" }}
-                                                        rounded="md"
-                                                        objectFit="cover"
-                                                    />,
-                                                    <Link
-                                                        to="/games/$gameId"
-                                                        params={{ gameId: String(b.id) }}
-                                                    >
-                                                        {b.name ?? "Unknown"}
-                                                    </Link>,
-                                                ])}
-                                            hoverCardGames={steamMostPlayed.games.slice(0, 10)}
-                                        />
-                                    </Container.Body>
-                                </Container.Root>
-                            </GridItem>
-                            <GridItem>
-                                <Container.Root rounded="2xl">
-                                    <Container.Header>
-                                        <Text fontWeight="semibold" color="fg.base" mb="sm">
-                                            24hr Peak Players
-                                        </Text>
-                                    </Container.Header>
+                                                    </Text>
+                                                </VStack>
 
-                                    <Container.Body>
-                                        <SimpleTable
-                                            headers={["#", "Title"]}
-                                            rows={steamPeakHours.games
-                                                .slice(0, 10)
-                                                .map((b, index) => [
-                                                    b.id ?? index + 1,
-                                                    <Image
-                                                        key={`thumb-${b.id ?? index + 1}`}
-                                                        src={getIGDBImageUrl(
-                                                            b.coverUrl,
-                                                            "cover_big",
-                                                        )}
-                                                        alt={b?.name ?? ""}
-                                                        w={{ base: "10", md: "12" }}
-                                                        h={{ base: "10", md: "12" }}
-                                                        rounded="md"
-                                                        objectFit="cover"
-                                                    />,
-                                                    <Link
-                                                        to="/games/$gameId"
-                                                        params={{ gameId: String(b.id) }}
-                                                    >
-                                                        {b.name ?? "Unknown"}
-                                                    </Link>,
-                                                ])}
-                                            hoverCardGames={steamPeakHours.games.slice(0, 10)}
-                                        />
-                                    </Container.Body>
-                                </Container.Root>
-                            </GridItem>
+                                                <HStack gap="3" justify="center" w="full">
+                                                    {[
+                                                        {
+                                                            value: String(days).padStart(2, "0"),
+                                                            label: "Days",
+                                                        },
+                                                        {
+                                                            value: String(hours).padStart(2, "0"),
+                                                            label: "Hours",
+                                                        },
+                                                        {
+                                                            value: String(minutes).padStart(2, "0"),
+                                                            label: "Mins",
+                                                        },
+                                                    ].map((unit) => (
+                                                        <VStack
+                                                            key={unit.label}
+                                                            gap="1"
+                                                            align="center"
+                                                            bg="whiteAlpha.200"
+                                                            backdropFilter="blur(4px)"
+                                                            rounded="xl"
+                                                            px="4"
+                                                            py="3"
+                                                            minW="16"
+                                                        >
+                                                            <Text
+                                                                fontSize="3xl"
+                                                                fontWeight="bold"
+                                                                color="white"
+                                                                lineHeight="1.1"
+                                                            >
+                                                                {unit.value}
+                                                            </Text>
+                                                            <Text
+                                                                fontSize="sm"
+                                                                color="whiteAlpha.700"
+                                                                lineHeight="1"
+                                                            >
+                                                                {unit.label}
+                                                            </Text>
+                                                        </VStack>
+                                                    ))}
+                                                </HStack>
+                                            </VStack>
+                                        </Box>
+                                    </Link>
+                                );
+                            })}
                         </SimpleGrid>
+                    </Box>
+
+                    <StatsPanel stats={stats} />
+
+                    <Suspense fallback={<Loading.Rings color="blue.500" fontSize="5xl" />}>
+                        <GameTableGrid
+                            tables={[
+                                {
+                                    title: "Most Wishlisted Upcoming",
+                                    games: steamMostWishlisted.games,
+                                    showReleaseDate: true,
+                                },
+                                { title: "Steam Global Top Sellers", games: steamMostPlayed.games },
+                                { title: "24hr Peak Players", games: steamPeakHours.games },
+                            ]}
+                        />
                     </Suspense>
                 </VStack>
             </PageWrapper>
         </Suspense>
     );
 }
-
-/*
-                            <HoverCard key={id as string} openDelay={300} closeDelay={200}>
-                                <HoverCardTrigger asChild>{TableRowContent}</HoverCardTrigger>
-                                <HoverCardContent
-                                    side="left"
-                                    align="start"
-                                    sideOffset={5}
-                                    className="w-80 bg-transparent p-0 border-0"
-                                >
-                                    {customRenderHoverCard
-                                        ? customRenderHoverCard(id as string)
-                                        : renderHoverCard(hoverCardType, id as string)}
-                                </HoverCardContent>
-                            </HoverCard>
-
-*/

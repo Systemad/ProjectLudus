@@ -29,14 +29,13 @@ function TypesensePagination() {
     }
 
     return (
-        <Box mt="md" w="full" display="flex" justifyContent="center">
+        <Box mt="lg" w="full" display="flex" justifyContent="center">
             <Pagination.Root
                 page={currentRefinement + 1}
                 total={nbPages}
                 onChange={(page) => refine(page - 1)}
                 size="sm"
-                variant="outline"
-                colorScheme="neutral"
+                colorScheme="gray"
                 justify="center"
                 wrap="wrap"
                 withEdges
@@ -58,72 +57,36 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
     return (
-        <Box
-            p={{ base: "xs", md: "sm" }}
-            display="grid"
-            gap={{ base: "sm", md: "md" }}
-            bg="bg.surface"
-            rounded="xl"
-            css={{
-                ".typesense-layout": {
-                    display: "grid",
-                    gridTemplateColumns: "1fr",
-                    gap: "0.875rem",
-                },
-                "@media (min-width: 48em)": {
-                    ".typesense-layout": {
-                        gridTemplateColumns: "280px 1fr",
-                        alignItems: "start",
-                    },
-                    ".typesense-facet-desktop": {
-                        display: "block",
-                    },
-                    ".typesense-mobile-filter-trigger": {
-                        display: "none",
-                    },
-                },
-                "@media (max-width: calc(48em - 1px))": {
-                    ".typesense-facet-desktop": {
-                        display: "none",
-                    },
-                    ".typesense-mobile-filter-trigger": {
-                        display: "inline-flex",
-                    },
+        <Box p={{ base: "xs", md: "sm" }} bg="bg.surface" rounded="xl">
+            <Grid
+                templateColumns={{ base: "1fr", md: "280px 1fr" }}
+                gap={{ base: "sm", md: "md" }}
+                alignItems="start"
+                css={{
                     ".typesense-hit-list": {
-                        gridTemplateColumns: "1fr",
+                        display: "grid",
+                        gridTemplateColumns:
+                            "repeat(auto-fill, minmax(clamp(140px, 25vw, 200px), 1fr))",
+                        gap: "1rem",
+                        listStyle: "none",
+                        margin: 0,
+                        padding: 0,
                     },
-                },
-                "@media (min-width: 30em) and (max-width: calc(48em - 1px))": {
-                    ".typesense-hit-list": {
-                        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                    ".typesense-hit-item": {
+                        margin: 0,
                     },
-                },
-                ".typesense-facet-panel": {
-                    position: "sticky",
-                },
-                ".typesense-hit-list": {
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-                    gap: "0.75rem",
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                },
-                ".typesense-hit-item": {
-                    margin: 0,
-                },
-            }}
-        >
-            <Grid className="typesense-layout">
+                }}
+            >
                 <Box
                     as="aside"
                     layerStyle="panel"
-                    className="typesense-facet-panel typesense-facet-desktop"
+                    display={{ base: "none", md: "block" }}
+                    position="sticky"
                     top={appShellStickyTopOffset}
                     p="sm"
                     rounded="lg"
                 >
-                    <Heading size="sm" mb="sm">
+                    <Heading size="md" mb="sm">
                         Filters
                     </Heading>
 
@@ -151,13 +114,12 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                     />
 
                     <Button
-                        className="typesense-mobile-filter-trigger"
+                        display={{ base: "inline-flex", md: "none" }}
                         size="sm"
-                        variant="outline"
                         mb="sm"
                         w="full"
+                        colorScheme={"gray"}
                         justifyContent="center"
-                        colorScheme="neutral"
                         onClick={() => setIsMobileFiltersOpen(true)}
                     >
                         Filters
@@ -175,19 +137,21 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                             </Drawer.Header>
 
                             <Drawer.Body>
-                                <Accordion.Root
-                                    multiple
-                                    defaultIndex={facets.slice(0, 2).map((_, index) => index)}
-                                >
-                                    {facets.map((facet, index) => (
-                                        <SearchFacetFilterGroup
-                                            key={`mobile-${facet.attribute}`}
-                                            title={facet.title}
-                                            attribute={facet.attribute}
-                                            index={index}
-                                        />
-                                    ))}
-                                </Accordion.Root>
+                                {isMobileFiltersOpen && (
+                                    <Accordion.Root
+                                        multiple
+                                        defaultIndex={[0, 1]}
+                                    >
+                                        {facets.map((facet, index) => (
+                                            <SearchFacetFilterGroup
+                                                key={`mobile-${facet.attribute}`}
+                                                title={facet.title}
+                                                attribute={facet.attribute}
+                                                index={index}
+                                            />
+                                        ))}
+                                    </Accordion.Root>
+                                )}
                             </Drawer.Body>
 
                             <Drawer.Footer>

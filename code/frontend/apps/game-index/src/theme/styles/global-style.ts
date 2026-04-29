@@ -20,8 +20,8 @@ export const globalStyle = defineStyles.globalStyle({
         fontFamily: "body",
         lineHeight: "moderate",
         overflowX: "hidden",
+        overflowY: "scroll",
         transitionDuration: "moderate",
         transitionProperty: "background-color",
-        scrollbarGutter: "stable",
     },
 });

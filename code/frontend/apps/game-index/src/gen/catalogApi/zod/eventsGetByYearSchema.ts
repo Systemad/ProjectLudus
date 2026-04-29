@@ -4,7 +4,7 @@
 */
 
 import * as z from "zod";
-import { eventsYearResponseSchema } from "./eventsYearResponseSchema.ts";
+import { getEventsByYearResponseSchema } from "./getEventsByYearResponseSchema.ts";
 import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
 
 export const eventsGetByYearPathParamsSchema = z.object({
@@ -14,7 +14,7 @@ export const eventsGetByYearPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const eventsGetByYear200Schema = z.lazy(() => eventsYearResponseSchema)
+export const eventsGetByYear200Schema = z.lazy(() => getEventsByYearResponseSchema)
 
 /**
  * @description Bad Request

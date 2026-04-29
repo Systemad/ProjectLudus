@@ -3,19 +3,25 @@ version: 2
 sources:
   - name: igdb_source
     tables:
-      - name: game_visit_counts
+      - name: game_metrics
         columns:
           - name: id
             data_type: integer
 
+          - name: session_id
+            data_type: uuid
+
           - name: game_id
             data_type: bigint
 
-          - name: count
-            data_type: bigint
+          - name: first_visited_at
+            data_type: timestamp with time zone
 
           - name: last_visited_at
             data_type: timestamp with time zone
+
+          - name: view_count
+            data_type: integer
 
       - name: _dlt_loads
         columns:

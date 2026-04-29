@@ -1,4 +1,4 @@
-import { Accordion, Button, CheckboxCardGroup, ScrollArea, Text, Flex } from "ui";
+import { Accordion, Button, CheckboxCardGroup, Text, Flex } from "ui";
 import { useRefinementList } from "react-instantsearch";
 
 type SearchFacetFilterGroupProps = {
@@ -31,42 +31,40 @@ export function SearchFacetFilterGroup({ title, attribute, index }: SearchFacetF
             <Accordion.Panel px="xs" pb="sm">
                 {canRefine ? (
                     <>
-                        <ScrollArea maxH="sm" pr="xs">
-                            <CheckboxCardGroup.Root
-                                orientation="vertical"
-                                size="sm"
-                                value={currentValues}
-                                onChange={handleChange}
-                            >
-                                {items.map((item) => (
-                                    <CheckboxCardGroup.Item.Root
-                                        key={item.value}
-                                        value={item.value}
-                                    >
-                                        <Flex>
-                                            <Text
-                                                as="span"
-                                                fontSize="sm"
-                                                lineClamp={1}
-                                                minW={0}
-                                                flex="1"
-                                            >
-                                                {item.label}
-                                            </Text>
-                                            <Text
-                                                as="span"
-                                                fontSize="xs"
-                                                color="fg.muted"
-                                                whiteSpace="nowrap"
-                                                ml="auto"
-                                            >
-                                                {item.count}
-                                            </Text>
-                                        </Flex>
-                                    </CheckboxCardGroup.Item.Root>
-                                ))}
-                            </CheckboxCardGroup.Root>
-                        </ScrollArea>
+                        <CheckboxCardGroup.Root
+                            orientation="vertical"
+                            size="sm"
+                            value={currentValues}
+                            onChange={handleChange}
+                        >
+                            {items.map((item) => (
+                                <CheckboxCardGroup.Item.Root
+                                    key={item.value}
+                                    value={item.value}
+                                >
+                                    <Flex>
+                                        <Text
+                                            as="span"
+                                            fontSize="sm"
+                                            lineClamp={1}
+                                            minW={0}
+                                            flex="1"
+                                        >
+                                            {item.label}
+                                        </Text>
+                                        <Text
+                                            as="span"
+                                            fontSize="xs"
+                                            color="fg.muted"
+                                            whiteSpace="nowrap"
+                                            ml="auto"
+                                        >
+                                            {item.count}
+                                        </Text>
+                                    </Flex>
+                                </CheckboxCardGroup.Item.Root>
+                            ))}
+                        </CheckboxCardGroup.Root>
 
                         {canToggleShowMore && (
                             <Button size="xs" variant="ghost" mt="xs" onClick={toggleShowMore}>

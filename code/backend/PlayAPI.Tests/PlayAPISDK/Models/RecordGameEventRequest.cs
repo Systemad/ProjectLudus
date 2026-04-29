@@ -18,14 +18,6 @@ namespace PlayAPISDK.Models
         public global::PlayAPISDK.Models.GameEventType? EventType { get; set; }
         /// <summary>The gameId property</summary>
         public long? GameId { get; set; }
-        /// <summary>The sessionId property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? SessionId { get; set; }
-#nullable restore
-#else
-        public string SessionId { get; set; }
-#endif
         /// <summary>
         /// Instantiates a new <see cref="global::PlayAPISDK.Models.RecordGameEventRequest"/> and sets the default values.
         /// </summary>
@@ -53,7 +45,6 @@ namespace PlayAPISDK.Models
             {
                 { "eventType", n => { EventType = n.GetEnumValue<global::PlayAPISDK.Models.GameEventType>(); } },
                 { "gameId", n => { GameId = n.GetLongValue(); } },
-                { "sessionId", n => { SessionId = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -65,7 +56,6 @@ namespace PlayAPISDK.Models
             _ = writer ?? throw new ArgumentNullException(nameof(writer));
             writer.WriteEnumValue<global::PlayAPISDK.Models.GameEventType>("eventType", EventType);
             writer.WriteLongValue("gameId", GameId);
-            writer.WriteStringValue("sessionId", SessionId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }
