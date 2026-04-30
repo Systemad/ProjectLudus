@@ -1,0 +1,15 @@
+type: dagster_dlt.DltLoadCollectionComponent
+
+attributes:
+    loads:
+        - source: .sources.umami_source
+          pipeline: .loads.pipeline
+          translation:
+              group_name: umami
+              description: "Load analytics data from Umami"
+
+requirements:
+    env:
+        - UMAMI_BASE_URL
+        - UMAMI_WEBSITE_ID
+        - UMAMI_API_KEY

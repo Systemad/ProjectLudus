@@ -20,9 +20,9 @@ make_typesense_index_job = define_asset_job(
     executor_def=in_process_executor,
 )
 
-metric_copy_job = define_asset_job(
-    name="metric_copy_job",
-    selection=AssetSelection.groups("metric_copy"),
+umami_job = define_asset_job(
+    name="umami_job",
+    selection=AssetSelection.groups("umami"),
     tags={"type": "dlt", "target": "postgres"},
     executor_def=in_process_executor,
 )
@@ -34,7 +34,7 @@ full_pipeline_job = define_asset_job(
         "igdb_default",
         "igdb_dbt_transformations",
         "typesense_job",
-        "metric_copy",
+        "umami",
     ),
     executor_def=in_process_executor,
 )

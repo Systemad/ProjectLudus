@@ -1,6 +1,6 @@
-import { Badge, Box, Heading, Text, VStack, Wrap, Flex, Button } from "ui";
+import { Badge, Box, Heading, Text, VStack, Wrap, Flex } from "ui";
 import { EU } from "country-flag-icons/react/3x2";
-import * as CookieConsent from "vanilla-cookieconsent";
+
 export function Footer() {
     return (
         <Box as="footer" mt="20" bg="bg.base">
@@ -40,18 +40,6 @@ export function Footer() {
                             </Flex>
                         </Badge>
                     </Wrap>
-                    <Button
-                        variant="link"
-                        size="sm"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            CookieConsent.showPreferences();
-                        }}
-                        color="fg.muted"
-                        fontSize="xs"
-                    >
-                        Cookie Preferences
-                    </Button>
                 </VStack>
             </Box>
         </Box>

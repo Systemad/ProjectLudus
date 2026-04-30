@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: mart_game_pageviews
+    description: "Daily aggregated pageview data per game from Umami"
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: game_id
+        data_type: bigint
+        description: "Game ID matching games.id"
+        constraints:
+          - type: not_null
+        tests:
+          - not_null
+
+      - name: date
+        data_type: date
+        description: "Date of the snapshot"
+        constraints:
+          - type: not_null
+
+      - name: iso_year
+        data_type: integer
+        description: "ISO year"
+
+      - name: iso_week
+        data_type: integer
+        description: "ISO week number (1-53)"
+
+      - name: pageviews
+        data_type: bigint
+        description: "Total page views for the day"
+
+      - name: updated_at
+        data_type: timestamp with time zone
+        description: "When the row was last updated"

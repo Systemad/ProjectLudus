@@ -2375,3 +2375,14 @@ sources:
             data_type: character varying
           - name: _dlt_id
             data_type: character varying
+
+      - name: umami_pageviews_by_path
+        columns:
+          - name: x
+            data_type: character varying
+          - name: y
+            data_type: bigint
+          - name: _dlt_load_id
+            data_type: character varying
+          - name: _dlt_id
+            data_type: character varying

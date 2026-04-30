@@ -8,7 +8,7 @@ import { COLOR_MODE_STORAGE_KEY, getStorageScript } from "ui";
 // https://vite.dev/config/
 // http://localhost:5141
 //const target = "http://localhost:53489";
-const YARP_TARGET = "https://localhost:58352";
+const YARP_TARGET = "http://localhost:53489";
 
 function injectColorModeScript(): Plugin {
     return {

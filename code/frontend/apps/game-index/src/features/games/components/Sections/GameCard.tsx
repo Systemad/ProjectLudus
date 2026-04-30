@@ -11,7 +11,6 @@ type Props = {
 
 export function GameCard({ game }: Props) {
     const name = game.name ?? "Unknown";
-
     const gameId = String(game.id);
 
     return (

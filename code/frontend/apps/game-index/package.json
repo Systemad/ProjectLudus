@@ -29,7 +29,6 @@
         "ui": "workspace:*",
         "utils": "workspace:*",
         "uuid": "catalog:",
-        "vanilla-cookieconsent": "catalog:",
         "zod": "catalog:",
         "zustand": "catalog:"
     },

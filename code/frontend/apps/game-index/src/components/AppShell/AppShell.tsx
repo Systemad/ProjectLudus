@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { Footer } from "@src/components/Footer/Footer";
 import { NavigationBar } from "@src/features/navigation/components/NavigationBar";
 import { appShellContentOffset } from "./layout.constants";
-import { CookieConsentComponent } from "@src/features/cookies/CookieConsent";
 
 export type AppShellProps = {
     active?: string;
@@ -17,7 +16,9 @@ export function AppShell({ active = "home", children, fullBleed = false }: AppSh
             <NavigationBar active={active} />
 
             {fullBleed ? (
-                <Box as="main" flex="1">{children}</Box>
+                <Box as="main" flex="1">
+                    {children}
+                </Box>
             ) : (
                 <Box as="main" pt={appShellContentOffset} flex="1">
                     {children}
@@ -25,7 +26,6 @@ export function AppShell({ active = "home", children, fullBleed = false }: AppSh
             )}
 
             <Footer />
-            <CookieConsentComponent />
         </Box>
     );
 }

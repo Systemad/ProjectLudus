@@ -8,13 +8,12 @@ from orchestration.defs.jobs import (
     full_pipeline_job,
     igdb_dlt_job,
     make_typesense_index_job,
-    metric_copy_job,
+    umami_job,
 )
 from orchestration.defs.schedules import pipeline_schedule
 from orchestration.defs.sensors import (
     after_dbt_transformation_success,
     after_igdb_dlt_success,
-    after_metric_copy_success,
 )
 
 defs = dg.Definitions.merge(
@@ -24,13 +23,12 @@ defs = dg.Definitions.merge(
             igdb_dlt_job,
             dbt_transformation_job,
             make_typesense_index_job,
-            metric_copy_job,
+            umami_job,
             full_pipeline_job,
         ],
         schedules=[pipeline_schedule],
         sensors=[
             after_igdb_dlt_success,
-            after_metric_copy_success,
             after_dbt_transformation_success,
         ],
     ),
