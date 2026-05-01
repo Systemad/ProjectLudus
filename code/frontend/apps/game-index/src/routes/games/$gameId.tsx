@@ -29,15 +29,14 @@ import { linkStyle, sectionMetaStyle } from "@src/utils/sectionTextStyles";
 import {
     gamesGetMediaSuspenseQueryOptionsHook,
     gamesGetOverviewSuspenseQueryOptionsHook,
-    useGamesGetMediaSuspenseHook,
-    useGamesGetReleaseDataSuspenseHook,
-    useGamesGetOverviewSuspenseHook,
-    useGamesGetSimilarSuspenseHook,
-    useGamesGetSuspenseHook,
+    gamesGetReleaseDataSuspenseQueryOptionsHook,
+    gamesGetSimilarSuspenseQueryOptionsHook,
+    gamesGetSuspenseQueryOptionsHook,
 } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { PageWrapper } from "@src/components/AppShell/PageWrapper";
 import { Format } from "ui";
+import { useSuspenseQueries } from "@tanstack/react-query";
 
 type Tab = "overview" | "official-links" | "media" | "details" | "release-dates";
 
@@ -72,16 +71,21 @@ export const Route = createFileRoute("/games/$gameId")({
 function GameDetailPage() {
     const { gameId } = Route.useParams();
     const gameIdNumber = Number(gameId);
-    const { data: overviewData } = useGamesGetOverviewSuspenseHook({ gameId: gameIdNumber });
-    const { data: detailsData } = useGamesGetSuspenseHook({
-        gameId: gameIdNumber,
-    });
-    const { data: mediaData } = useGamesGetMediaSuspenseHook({ gameId: gameIdNumber });
-    const { data: releaseData } = useGamesGetReleaseDataSuspenseHook({
-        gameId: gameIdNumber,
-    });
-    const { data: similarData } = useGamesGetSimilarSuspenseHook({
-        gameId: gameIdNumber,
+
+    const [
+        { data: overviewData },
+        { data: detailsData },
+        { data: mediaData },
+        { data: releaseData },
+        { data: similarData },
+    ] = useSuspenseQueries({
+        queries: [
+            gamesGetOverviewSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
+            gamesGetSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
+            gamesGetMediaSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
+            gamesGetReleaseDataSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
+            gamesGetSimilarSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
+        ],
     });
     const overview = overviewData?.game;
     const details = detailsData?.game;

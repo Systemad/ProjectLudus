@@ -8,7 +8,7 @@ import { defineConfig } from "ui";
 export const config = defineConfig({
     css: { varPrefix: "ui" },
     breakpoint: { direction: "up", identifier: "@media screen" },
-    defaultColorMode: "dark",
+    defaultColorMode: "light",
     defaultThemeScheme: "base",
     notice: { duration: 5000 },
     theme: { responsive: true },

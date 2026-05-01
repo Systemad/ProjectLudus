@@ -94,14 +94,15 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     key={item.id}
                                     to={item.to}
                                     variant="ghost"
-                                    color="white"
+                                    color="fg.base"
+                                    colorScheme="blackAlpha"
                                     rounded="full"
                                     px={{ md: "3", xl: "4" }}
                                     py="1"
                                     minW="0"
                                     h="auto"
-                                    _hover={{ bg: "rgba(255,255,255,0.08)" }}
-                                    activeProps={{ bg: "rgba(255,255,255,0.15)", color: "white" }}
+                                    _hover={{ bg: "rgba(255,255,255,0.12)" }}
+                                    activeProps={{ bg: "rgba(255,255,255,0.18)", color: "fg.base" }}
                                 >
                                     <Text
                                         as="span"
@@ -121,16 +122,15 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                             <RouterLinkButton
                                 to="/games/search"
                                 display={{ base: "none", md: "inline-flex" }}
-                                variant="outline"
-                                colorScheme="neutral"
+                                variant="solid"
                                 rounded="full"
                                 px={{ md: "4", xl: "5" }}
                                 py="1.5"
                                 fontSize={{ md: "md", xl: "lg" }}
-                                bg="rgba(255,255,255,0.08)"
+                                bg="teal.400"
                                 color="white"
-                                _hover={{ bg: "rgba(255,255,255,0.16)" }}
-                                activeProps={{ bg: "rgba(255,255,255,0.15)", color: "white" }}
+                                _hover={{ bg: "teal.300" }}
+                                activeProps={{ bg: "teal.500", color: "white" }}
                             >
                                 Browse games
                             </RouterLinkButton>
@@ -146,7 +146,7 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                 withCloseButton={false}
             >
                 <Drawer.Overlay zIndex="beerus" />
-                <Drawer.Content bg="bg.surface" colorScheme="neutral" zIndex="beerus">
+                <Drawer.Content bg="bg.surface" zIndex="beerus">
                     <Drawer.CloseButton />
                     <Drawer.Header>
                         <Heading
@@ -169,7 +169,8 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     key={`drawer-${item.id}`}
                                     to={item.to}
                                     variant="ghost"
-                                    color="white"
+                                    color="fg.base"
+                                    colorScheme="blackAlpha"
                                     justifyContent="start"
                                     rounded="lg"
                                     px="3"
@@ -177,10 +178,10 @@ export function NavigationBar({ active: _active = "home" }: NavigationBarProps) 
                                     w="full"
                                     h="auto"
                                     onClick={onClose}
-                                    _hover={{ bg: "rgba(255,255,255,0.08)" }}
+                                    _hover={{ bg: "rgba(255,255,255,0.12)" }}
                                     activeProps={{
-                                        bg: "rgba(255,255,255,0.15)",
-                                        color: "white",
+                                        bg: "rgba(255,255,255,0.18)",
+                                        color: "fg.base",
                                     }}
                                 >
                                     <Text

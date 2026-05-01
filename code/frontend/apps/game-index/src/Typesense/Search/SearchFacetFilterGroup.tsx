@@ -35,13 +35,11 @@ export function SearchFacetFilterGroup({ title, attribute, index }: SearchFacetF
                             orientation="vertical"
                             size="sm"
                             value={currentValues}
+                            variant="subtle"
                             onChange={handleChange}
                         >
                             {items.map((item) => (
-                                <CheckboxCardGroup.Item.Root
-                                    key={item.value}
-                                    value={item.value}
-                                >
+                                <CheckboxCardGroup.Item.Root key={item.value} value={item.value}>
                                     <Flex>
                                         <Text
                                             as="span"

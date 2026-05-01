@@ -2,7 +2,7 @@ type: dagster_dlt.DltLoadCollectionComponent
 
 attributes:
     loads:
-        - source: .sources.umami_source
+        - source: .loads.umami
           pipeline: .loads.pipeline
           translation:
               group_name: umami

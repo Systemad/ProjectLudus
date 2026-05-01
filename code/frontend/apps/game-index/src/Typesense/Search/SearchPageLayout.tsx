@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { appShellStickyTopOffset } from "@src/components/AppShell/layout.constants";
-import { Accordion, Box, Button, Drawer, Grid, Heading, Pagination, Text } from "ui";
-import { Hits, Stats, usePagination } from "react-instantsearch";
+import { Accordion, Box, Button, Drawer, Grid, Heading, Pagination } from "ui";
+import { Hits, usePagination } from "react-instantsearch";
 import { SearchFacetFilterGroup } from "./SearchFacetFilterGroup";
 import { SearchHeader } from "./SearchHeader";
 import type { SortFieldOption } from "./SearchControl";
@@ -35,7 +35,6 @@ function TypesensePagination() {
                 total={nbPages}
                 onChange={(page) => refine(page - 1)}
                 size="sm"
-                colorScheme="gray"
                 justify="center"
                 wrap="wrap"
                 withEdges
@@ -79,7 +78,6 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
             >
                 <Box
                     as="aside"
-                    layerStyle="panel"
                     display={{ base: "none", md: "block" }}
                     position="sticky"
                     top={appShellStickyTopOffset}
@@ -92,6 +90,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
 
                     <Accordion.Root
                         multiple
+                        variant="panel"
                         defaultIndex={facets.slice(0, 2).map((_, index) => index)}
                     >
                         {facets.map((facet, index) => (
@@ -138,10 +137,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
 
                             <Drawer.Body>
                                 {isMobileFiltersOpen && (
-                                    <Accordion.Root
-                                        multiple
-                                        defaultIndex={[0, 1]}
-                                    >
+                                    <Accordion.Root multiple defaultIndex={[0, 1]}>
                                         {facets.map((facet, index) => (
                                             <SearchFacetFilterGroup
                                                 key={`mobile-${facet.attribute}`}
@@ -178,12 +174,6 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                     />
 
                     <TypesensePagination />
-
-                    <Box mt="sm" textAlign={{ base: "start", md: "end" }}>
-                        <Text fontSize="sm" color="fg.subtle">
-                            <Stats />
-                        </Text>
-                    </Box>
                 </Box>
             </Grid>
         </Box>

@@ -26,7 +26,7 @@ config = umami_source(
 # Inject auth into client config
 config["client"]["auth"] = BearerTokenAuth(token=api_key)
 
-umami_source_instance = rest_api_source(
+umami = rest_api_source(
     name="umami",
     config=config,
 )

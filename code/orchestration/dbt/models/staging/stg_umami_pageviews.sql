@@ -1,6 +1,6 @@
 with
     source as (
-        select * from {{ source("igdb_source", "umami_pageviews_by_path") }}
+        select * from {{ source("umami_source", "pageviews_by_path") }}
     ),
     renamed as (
         select

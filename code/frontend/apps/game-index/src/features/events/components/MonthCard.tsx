@@ -45,8 +45,9 @@ export function MonthCard({ group, now }: MonthCardProps) {
                         textAlign="center"
                         fontSize="sm"
                         color="fg.muted"
-                        rounded="lg"
                         bg="bg.subtle"
+                        rounded="lg"
+                        _hover={{ bg: "rgba(255,255,255,0.08)" }}
                     >
                         {expanded ? "Show less" : "Expand all"}
                     </Box>

@@ -13,8 +13,7 @@ export const globalStyle = defineStyles.globalStyle({
         color: "fg.subtle",
     },
     body: {
-        colorScheme: "emerald",
-        //colorScheme: "mono",
+        colorScheme: "gray",
         bg: "bg",
         color: "fg",
         fontFamily: "body",

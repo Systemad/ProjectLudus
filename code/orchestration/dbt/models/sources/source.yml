@@ -2376,7 +2376,10 @@ sources:
           - name: _dlt_id
             data_type: character varying
 
-      - name: umami_pageviews_by_path
+  - name: umami_source
+    schema: analytics
+    tables:
+      - name: pageviews_by_path
         columns:
           - name: x
             data_type: character varying

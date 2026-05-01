@@ -1,4 +1,4 @@
-{{ config(materialized="incremental", unique_key=["game_id", "date"]) }}
+{{ config(materialized="incremental", unique_key=["game_id", "date"], on_schema_change="append_new_columns") }}
 
 with source as (
     select * from {{ ref("stg_umami_pageviews") }}
