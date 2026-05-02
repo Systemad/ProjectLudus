@@ -45,14 +45,6 @@ code/
 - **DLT**: Data ingestion
 - **dbt-core**: Data transformation
 
-## Data Flow
-
-1. External data sources (IGDB) → DLT (ingestion)
-2. DLT → Dagster (orchestration)
-3. Dagster → dbt (transformation)
-4. Transformed data → PostgreSQL
-5. PostgreSQL → CatalogAPI → Frontend
-
 ## Stack
 
 | Layer | Technology |
@@ -62,14 +54,3 @@ code/
 | Database | PostgreSQL |
 | Orchestration | Dagster, DLT, dbt-core |
 
-## Key Features
-
-- **Search**: Typesense-powered search with faceted filtering
-- **Game Catalog**: IGDB-sourced game data with full metadata
-- **Data Pipeline**: Automated ETL from IGDB → PostgreSQL → Typesense
-
-## Potential Todo / Features
-
-- Personalized recommendations
-- Discovery features (trending, similar games, curated lists)
-- More search filters and sorting options
