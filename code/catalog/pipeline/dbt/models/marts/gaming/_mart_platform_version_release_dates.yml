@@ -1,0 +1,49 @@
+version: 2
+models:
+  - name: mart_platform_version_release_dates
+    config:
+      enabled: true
+      alias: platform_version_release_dates
+      contract: { enforced: true }
+    description: "Release dates for specific platform versions."
+    constraints:
+      - type: primary_key
+        columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: date
+        data_type: bigint
+        description: "Release date (Unix timestamp)."
+      - name: human
+        data_type: character varying
+        description: "Human-readable release date."
+      - name: m
+        data_type: bigint
+        description: "Month."
+      - name: y
+        data_type: bigint
+        description: "Year."
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: date_format
+        data_type: bigint
+        description: "FK to date_formats.id."
+      - name: release_region
+        data_type: bigint
+        description: "FK to release_date_regions.id."

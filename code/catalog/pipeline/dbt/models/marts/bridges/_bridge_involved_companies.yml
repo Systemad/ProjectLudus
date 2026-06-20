@@ -1,0 +1,70 @@
+version: 2
+models:
+  - name: bridge_involved_companies
+    config:
+      enabled: true
+      contract: { enforced: true }
+      alias: "involved_companies"
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [game]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [company]
+        to: ref('mart_companies')
+        to_columns: [id]
+    description: "Relationship rows that connect games with involved companies and their roles."
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "The uniqueness key for the involved-company relationship row."
+      - name: company
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "The company involved with the game."
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "The source record creation timestamp."
+      - name: developer
+        data_type: boolean
+        constraints:
+          - type: not_null
+        description: "True when the company is a developer for this game."
+      - name: game
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "The game referenced by this involved-company relationship."
+      - name: porting
+        data_type: boolean
+        constraints:
+          - type: not_null
+        description: ""
+      - name: publisher
+        data_type: boolean
+        constraints:
+          - type: not_null
+        description: ""
+      - name: supporting
+        data_type: boolean
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

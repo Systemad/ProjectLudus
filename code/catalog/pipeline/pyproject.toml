@@ -1,0 +1,38 @@
+[project]
+name = "game-data-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+#readme = "README.md"
+requires-python = ">=3.13,<3.15"
+dependencies = [
+    "alive-progress>=3.3.0",
+    "dbt-core>=1.11.8",
+    "dbt-postgres>=1.11.0b1",
+    "dlt-typesense",
+    "prefect[dbt,docker]>=3.7",
+    "psycopg[binary]>=3.3.4",
+    "typesense>=2.0.0",
+    "niquests>=3.18.8",
+    "prefect-dbt>=0.7.24",
+    "prefect-docker>=0.7.1",
+    "sqlfluff>=4.2.1",
+    "sqlfluff-templater-dbt>=4.2.1",
+    "dlt>=1.27.2",
+    "python-dotenv>=1.0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+force-include = { "pyproject.toml" = "pyproject.toml" }
+
+[tool.uv.workspace]
+members = ["lib/dlt-typesense"]
+
+[tool.uv.sources]
+dlt-typesense = { workspace = true }
+
+[tool.hatch.metadata]
+allow-direct-references = true

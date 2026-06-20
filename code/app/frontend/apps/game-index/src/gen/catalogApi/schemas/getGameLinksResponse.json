@@ -1,0 +1,1 @@
+{"required":["websites"],"type":"object","properties":{"websites":{"type":"array","items":{"required":["name","type","url","trusted"],"type":"object","properties":{"name":{"type":"string"},"type":{"type":["null","string"]},"url":{"type":"string"},"trusted":{"type":["null","boolean"]}},"x-readme-ref-name":"WebsiteDto"}}},"x-readme-ref-name":"GetGameLinksResponse"}

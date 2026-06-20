@@ -1,0 +1,26 @@
+{
+  "ref": [
+    "genres",
+    "themes",
+    "game_modes",
+    "game_types",
+    "game_statuses",
+    "player_perspectives",
+    "game_release_formats",
+    "platform_types",
+    "platform_families",
+    "website_types",
+    "languages",
+    "language_support_types",
+    "regions",
+    "release_date_regions",
+    "release_date_statuses",
+    "company_statuses",
+    "collection_types",
+    "date_formats"
+  ],
+  "default": [
+    "games",
+    "companies"
+  ]
+}

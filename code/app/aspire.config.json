@@ -1,0 +1,8 @@
+{
+  "appHost": {
+    "path": "AppHost.cs"
+  },
+  "features": {
+    "defaultWatchEnabled": "true"
+  }
+}

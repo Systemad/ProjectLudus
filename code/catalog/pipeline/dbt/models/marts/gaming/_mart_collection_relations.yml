@@ -1,0 +1,54 @@
+version: 2
+models:
+  - name: mart_collection_relations
+    config:
+      enabled: true
+      alias: collection_relations
+      contract: { enforced: true }
+    description: "Hierarchy links between collections (child-parent)."
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [child_collection]
+        to: ref('mart_collections')
+        to_columns: [id]
+        on_delete: cascade
+      - type: foreign_key
+        columns: [parent_collection]
+        to: ref('mart_collections')
+        to_columns: [id]
+        on_delete: cascade
+      - type: foreign_key
+        columns: [type]
+        to: ref('mart_collection_relation_types')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: child_collection
+        data_type: bigint
+        description: "FK to mart_collections.id."
+      - name: parent_collection
+        data_type: bigint
+        description: "FK to mart_collections.id."
+      - name: type
+        data_type: bigint
+        description: "FK to mart_collection_relation_types.id."
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

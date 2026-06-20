@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: mart_collection_relation_types
+    config:
+      enabled: true
+      alias: collection_relation_types
+      contract: { enforced: true }
+    description: "Lookup table for collection relation types."
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [allowed_child_type]
+        to: ref('mart_collection_types')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [allowed_parent_type]
+        to: ref('mart_collection_types')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: "Type name."
+      - name: description
+        data_type: character varying
+        description: "Type description."
+      - name: allowed_child_type
+        data_type: bigint
+        description: "FK to mart_collection_types.id — allowed type for child."
+      - name: allowed_parent_type
+        data_type: bigint
+        description: "FK to mart_collection_types.id — allowed type for parent."
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

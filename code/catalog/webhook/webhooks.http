@@ -1,0 +1,26 @@
+### Variables
+@baseUrl = http://localhost:5000
+@secret = caseda-anne-toksik
+
+### List all subscriptions
+GET {{baseUrl}}/admin/webhooks
+X-Secret: {{secret}}
+
+### Reconcile (re-register missing, sync local table)
+POST {{baseUrl}}/admin/webhooks/sync
+X-Secret: {{secret}}
+
+### Test a webhook
+POST {{baseUrl}}/admin/webhooks/test
+X-Secret: {{secret}}
+Content-Type: application/json
+
+{
+  "webhookId": 147896,
+  "endpoint": "games",
+  "entityId": 1337
+}
+
+### Unregister a webhook by ID
+DELETE {{baseUrl}}/admin/webhooks/145681
+X-Secret: {{secret}}

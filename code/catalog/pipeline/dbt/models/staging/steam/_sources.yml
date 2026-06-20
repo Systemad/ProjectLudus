@@ -1,0 +1,53 @@
+version: 2
+
+sources:
+  - name: steam
+    schema: steam
+    tables:
+      - name: steam_player_stats_hourly
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: bucket
+            data_type: timestamp with time zone
+          - name: peak_players
+            data_type: int
+          - name: avg_players
+            data_type: int
+
+      - name: steam_player_stats_daily
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: bucket
+            data_type: timestamp with time zone
+          - name: peak_players
+            data_type: int
+          - name: avg_players
+            data_type: int
+
+      - name: steam_pricing_hourly
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: bucket
+            data_type: timestamp with time zone
+          - name: min_price
+            data_type: int
+          - name: max_price
+            data_type: int
+          - name: avg_price
+            data_type: int
+
+      - name: steam_pricing_daily
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: bucket
+            data_type: timestamp with time zone
+          - name: min_price
+            data_type: int
+          - name: max_price
+            data_type: int
+          - name: avg_price
+            data_type: int

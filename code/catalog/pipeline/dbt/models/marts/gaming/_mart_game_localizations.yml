@@ -1,0 +1,66 @@
+version: 2
+models:
+    - name: mart_game_localizations
+
+      config:
+          alias: game_localizations
+          contract: { enforced: true }
+
+      constraints:
+          - type: primary_key
+            columns: [id]
+
+          - type: foreign_key
+            columns: [game]
+            to: ref('mart_games')
+            to_columns: [id]
+            on_delete: cascade
+
+          - type: foreign_key
+            columns: [region]
+            to: ref('mart_regions')
+            to_columns: [id]
+
+          - type: foreign_key
+            columns: [cover]
+            to: ref('mart_covers')
+            to_columns: [id]
+
+      description: ""
+      columns:
+          - name: id
+            data_type: bigint
+            description: ""
+          - name: name
+            data_type: character varying
+            constraints:
+              - type: not_null
+            description: ""
+          - name: game
+            data_type: bigint
+            constraints:
+              - type: not_null
+            description: ""
+          - name: region
+            data_type: bigint
+            constraints:
+              - type: not_null
+            description: ""
+          - name: created_at
+            data_type: bigint
+            constraints:
+              - type: not_null
+            description: ""
+          - name: updated_at
+            data_type: bigint
+            constraints:
+              - type: not_null
+            description: ""
+          - name: checksum
+            data_type: character varying
+            constraints:
+              - type: not_null
+            description: ""
+          - name: cover
+            data_type: bigint
+            description: ""

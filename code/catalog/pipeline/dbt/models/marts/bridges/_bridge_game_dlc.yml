@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: bridge_game_dlc
+    config:
+      contract: { enforced: true }
+      alias: "games_dlc"
+    description: "Join table linking games to their DLCs."
+    constraints:
+      - type: primary_key
+        columns: [dlc_source_id, dlc_game_id]
+      - type: foreign_key
+        columns: [dlc_source_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [dlc_game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: dlc_source_id
+        data_type: bigint
+      - name: dlc_game_id
+        data_type: bigint

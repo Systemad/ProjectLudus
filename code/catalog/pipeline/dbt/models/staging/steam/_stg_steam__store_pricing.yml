@@ -1,0 +1,40 @@
+version: 2
+
+models:
+  - name: stg_steam__store_pricing
+    config:
+      contract:
+        enforced: true
+      on_schema_change: append_new_columns
+    constraints:
+      - type: primary_key
+        columns: [game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: steam_app_id
+        data_type: bigint
+      - name: initial_cents
+        data_type: int
+      - name: final_cents
+        data_type: int
+      - name: discount_percent
+        data_type: int
+      - name: currency
+        data_type: text
+      - name: initial_formatted
+        data_type: text
+      - name: final_formatted
+        data_type: text
+      - name: high_30d
+        data_type: int
+      - name: low_30d
+        data_type: int
+      - name: captured_at
+        data_type: timestamp with time zone

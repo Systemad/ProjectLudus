@@ -1,0 +1,54 @@
+version: 2
+models:
+  - name: mart_collection_memberships
+    config:
+      enabled: true
+      alias: collection_memberships
+      contract: { enforced: true }
+    description: "Links games to collections with a membership type."
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [game]
+        to: ref('mart_games')
+        to_columns: [id]
+        on_delete: cascade
+      - type: foreign_key
+        columns: [collection]
+        to: ref('mart_collections')
+        to_columns: [id]
+        on_delete: cascade
+      - type: foreign_key
+        columns: [type]
+        to: ref('mart_collection_membership_types')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: game
+        data_type: bigint
+        description: "FK to mart_games.id."
+      - name: collection
+        data_type: bigint
+        description: "FK to mart_collections.id."
+      - name: type
+        data_type: bigint
+        description: "FK to mart_collection_membership_types.id."
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

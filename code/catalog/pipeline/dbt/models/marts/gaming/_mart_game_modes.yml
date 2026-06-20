@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: mart_game_modes
+    config:
+      enabled: true
+      contract: { enforced: true }
+      alias: game_modes
+    constraints:
+      - type: primary_key
+        columns: [id]
+    description: "game_modes lookup table."
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "Primary key."
+        data_tests:
+          - unique
+          - not_null
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: slug
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: url
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

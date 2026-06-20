@@ -1,0 +1,20 @@
+using CatalogAPI.Features.Calendar.GetGamesCalendar;
+
+namespace CatalogAPI.Features.Calendar;
+
+public static class Map
+{
+    public static IEndpointRouteBuilder MapCalendarFeature(this IEndpointRouteBuilder app)
+    {
+        var group = app.MapGroup("/catalog/calendar").CacheOutput("DefaultCache");
+
+        group
+            .MapGet("/{year:int}", GetGamesCalendar.Endpoint.HandleAsync)
+            .WithName($"{EndpointMetadata.Calendar}/GetGames")
+            .WithTags(EndpointMetadata.Calendar)
+            .Produces<GetGamesCalendarResponse>(StatusCodes.Status200OK)
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
+
+        return app;
+    }
+}

@@ -1,0 +1,265 @@
+version: 2
+
+sources:
+  - name: igdb_ref
+    schema: igdb_ref
+    tables:
+      - name: genres
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: themes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: game_modes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: game_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: type
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: game_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: status
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: player_perspectives
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: url
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: game_release_formats
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: format
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: platform_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: checksum
+            data_type: character varying
+
+      - name: platform_families
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: slug
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: website_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: type
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: languages
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: native_name
+            data_type: character varying
+          - name: locale
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: language_support_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: regions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: category
+            data_type: character varying
+          - name: identifier
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: release_date_regions
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: region
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: release_date_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: company_statuses
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: collection_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: description
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: date_formats
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: format
+            data_type: character varying
+          - name: checksum
+            data_type: character varying

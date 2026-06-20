@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: mart_games_search
+    config:
+      alias: games_search
+      contract: { enforced: true }
+
+    description: "Search-ready games dataset with aggregated metrics for Typesense indexing"
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: primary_key
+            columns: [ id ]
+          - type: not_null
+            columns: [ id ]
+          - type: unique
+            columns: [ id ]
+        tests:
+          - not_null
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+      - name: summary
+        data_type: text
+      - name: storyline
+        data_type: text
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: first_release_date_epoch
+        data_type: bigint
+      - name: first_release_date_utc
+        data_type: timestamp with time zone
+      - name: game_type
+        data_type: character varying
+      - name: game_status
+        data_type: character varying
+      - name: hypes
+        data_type: integer
+      - name: aggregated_rating
+        data_type: double precision
+      - name: aggregated_rating_count
+        data_type: integer
+      - name: rating
+        data_type: double precision
+      - name: rating_count
+        data_type: integer
+      - name: total_rating
+        data_type: double precision
+      - name: total_rating_count
+        data_type: integer
+      - name: cover_url
+        data_type: character varying
+      - name: themes
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: genres
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: game_modes
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: platforms
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: game_engines
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: player_perspectives
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: publishers
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: developers
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: multiplayer_modes
+        data_type: text[]
+        constraints:
+          - type: not_null
+      - name: release_year
+        data_type: integer

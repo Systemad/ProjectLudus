@@ -1,0 +1,71 @@
+version: 2
+
+sources:
+  - name: steam_raw
+    schema: steam_raw
+    tables:
+      - name: concurrent_users
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: steam_app_id
+            data_type: bigint
+          - name: current_players
+            data_type: bigint
+          - name: captured_at
+            data_type: timestamp with time zone
+
+      - name: store_pricing
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: steam_app_id
+            data_type: bigint
+          - name: initial_cents
+            data_type: int
+          - name: final_cents
+            data_type: int
+          - name: discount_percent
+            data_type: int
+          - name: currency
+            data_type: text
+          - name: initial_formatted
+            data_type: text
+          - name: final_formatted
+            data_type: text
+          - name: captured_at
+            data_type: timestamp with time zone
+
+      - name: store_details
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: steam_app_id
+            data_type: bigint
+          - name: header_url
+            data_type: text
+          - name: capsule_url
+            data_type: text
+          - name: captured_at
+            data_type: timestamp with time zone
+
+      - name: reviews
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: steam_app_id
+            data_type: bigint
+          - name: num_reviews
+            data_type: int
+          - name: review_score
+            data_type: int
+          - name: review_score_desc
+            data_type: text
+          - name: total_positive
+            data_type: int
+          - name: total_negative
+            data_type: int
+          - name: total_reviews
+            data_type: int
+          - name: captured_at
+            data_type: timestamp with time zone

@@ -1,0 +1,13 @@
+{{ config(materialized="view") }}
+
+select
+    g.id as similar_source_id,
+    similar_game.id as similar_game_id
+from {{ ref('stg_games__similar_games') }} as t
+inner join {{ ref('stg_games') }} as g on t._dlt_parent_id = g._dlt_id
+inner join {{ ref('stg_games') }} as similar_game on t.value = similar_game.id
+inner join {{ ref('int_games') }} as mg on g.id = mg.id
+inner join {{ ref('int_games') }} as msg on similar_game.id = msg.id
+where
+    g.id is not null
+    and similar_game.id is not null

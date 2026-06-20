@@ -1,0 +1,12 @@
+{
+    "$schema": "https://aspire.dev/reference/cli/configuration/schema.json",
+    "appHost": {
+        "path": "./AppHost.cs"
+    },
+    "channel": "stable",
+    "features": {
+        "defaultWatchEnabled": true,
+        "showAllTemplates": true,
+        "updateNotificationsEnabled": true
+    }
+}

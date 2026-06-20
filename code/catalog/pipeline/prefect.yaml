@@ -1,0 +1,61 @@
+pull:
+  - prefect.deployments.steps.set_working_directory:
+      directory: /app
+
+definitions:
+  work_pools:
+    pipeline_pool: &pipeline_pool
+      name: pipeline-pool
+      job_variables:
+        image: "pipeline-worker:latest"
+        image_pull_policy: "Never"
+        networks:
+          - dokploy-network
+        env:
+          PREFECT_API_URL: "{{ $PREFECT_API_URL }}"
+          DLT_DATA_DIR: "{{ $DLT_DATA_DIR }}"
+          DATA_WRITER__BUFFER_MAX_ITEMS: "{{ $DATA_WRITER__BUFFER_MAX_ITEMS }}"
+          DATA_WRITER__FILE_MAX_ITEMS: "{{ $DATA_WRITER__FILE_MAX_ITEMS }}"
+          DATA_WRITER__FILE_MAX_BYTES: "{{ $DATA_WRITER__FILE_MAX_BYTES }}"
+          NORMALIZE__WORKERS: "{{ $NORMALIZE__WORKERS }}"
+          DESTINATION__POSTGRES__CREDENTIALS__USERNAME: "{{ $DESTINATION__POSTGRES__CREDENTIALS__USERNAME }}"
+          DESTINATION__POSTGRES__CREDENTIALS__PASSWORD: "{{ $DESTINATION__POSTGRES__CREDENTIALS__PASSWORD }}"
+          DESTINATION__POSTGRES__CREDENTIALS__HOST: "{{ $DESTINATION__POSTGRES__CREDENTIALS__HOST }}"
+          DESTINATION__POSTGRES__CREDENTIALS__PORT: "{{ $DESTINATION__POSTGRES__CREDENTIALS__PORT }}"
+          DESTINATION__POSTGRES__CREDENTIALS__DATABASE: "{{ $DESTINATION__POSTGRES__CREDENTIALS__DATABASE }}"
+          IGDB_CLIENT_ID: "{{ $IGDB_CLIENT_ID }}"
+          IGDB_ACCESS_TOKEN: "{{ $IGDB_ACCESS_TOKEN }}"
+          STEAM_API_KEY: "{{ $STEAM_API_KEY }}"
+
+deployments:
+  - name: analytics-hourly
+    entrypoint: flows/analytics.py:steam_ccu_pipeline
+    schedule:
+      cron: "0 * * * *"
+      timezone: "Europe/Stockholm"
+    concurrency_limit: 1
+    work_pool: *pipeline_pool
+
+  - name: igdb-daily
+    entrypoint: flows/igdb.py:igdb_pipeline
+    schedule:
+      cron: "0 22 * * *"
+      timezone: "Europe/Stockholm"
+    concurrency_limit: 1
+    work_pool: *pipeline_pool
+
+  - name: steam-store
+    entrypoint: flows/steam_store.py:steam_details_pipeline
+    schedule:
+      cron: "0 6 */3 * *"
+      timezone: "Europe/Stockholm"
+    concurrency_limit: 1
+    work_pool: *pipeline_pool
+
+  - name: steam-game-index
+    entrypoint: flows/steam_game_index.py:steam_game_index
+    schedule:
+      cron: "0 10 * * 0"
+      timezone: "Europe/Stockholm"
+    concurrency_limit: 1
+    work_pool: *pipeline_pool

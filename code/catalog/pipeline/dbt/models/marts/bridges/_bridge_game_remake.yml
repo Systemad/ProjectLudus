@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: bridge_game_remake
+    config:
+      contract: { enforced: true }
+      alias: "game_remake"
+    description: "Join table linking games to their remakes."
+    constraints:
+      - type: primary_key
+        columns: [remake_source_id, remake_id]
+      - type: foreign_key
+        columns: [remake_source_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [remake_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: remake_source_id
+        data_type: bigint
+      - name: remake_id
+        data_type: bigint

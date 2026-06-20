@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: bridge_game_expansion
+    config:
+      contract: { enforced: true }
+      alias: "game_expansion"
+    description: "Join table linking games to their expansions."
+    constraints:
+      - type: primary_key
+        columns: [expansion_source_id, expansion_id]
+      - type: foreign_key
+        columns: [expansion_source_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [expansion_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: expansion_source_id
+        data_type: bigint
+      - name: expansion_id
+        data_type: bigint

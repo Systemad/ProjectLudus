@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: bridge_game_remaster
+    config:
+      contract: { enforced: true }
+      alias: "game_remaster"
+    description: "Join table linking games to their remasters."
+    constraints:
+      - type: primary_key
+        columns: [remaster_source_id, remaster_id]
+      - type: foreign_key
+        columns: [remaster_source_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [remaster_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: remaster_source_id
+        data_type: bigint
+      - name: remaster_id
+        data_type: bigint

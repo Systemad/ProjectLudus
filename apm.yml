@@ -1,0 +1,15 @@
+name: ProjectLudus
+version: 1.0.0
+description: APM project for ProjectLudus
+author: Systemad
+dependencies:
+  apm:
+  - microsoft/aspire-skills
+  - dotnet/skills/plugins/dotnet
+  - dotnet/skills/plugins/dotnet-data
+  - dotnet/skills/plugins/dotnet11
+  - dotnet/skills/plugins/dotnet-aspnetcore
+
+  mcp: []
+includes: auto
+scripts: {}

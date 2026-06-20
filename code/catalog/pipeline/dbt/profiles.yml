@@ -1,0 +1,24 @@
+catalog:
+    outputs:
+        prod:
+            dbname: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__DATABASE', 'catalogdb') }}"
+            host: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__HOST') }}"
+            pass: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__PASSWORD') }}"
+            port: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__PORT') | int }}"
+            schema: dbt_dev
+            threads: 4
+            type: postgres
+            user: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__USERNAME') }}"
+    target: prod
+dbt:
+    outputs:
+        prod:
+            dbname: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__DATABASE', 'catalogdb') }}"
+            host: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__HOST') }}"
+            pass: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__PASSWORD') }}"
+            port: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__PORT') | int }}"
+            schema: public
+            threads: 4
+            type: postgres
+            user: "{{ env_var('DESTINATION__POSTGRES__CREDENTIALS__USERNAME') }}"
+    target: prod

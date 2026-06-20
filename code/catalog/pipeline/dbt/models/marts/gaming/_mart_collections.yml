@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: mart_collections
+    config:
+      enabled: true
+      alias: collections
+      contract: { enforced: true }
+    description: "Game collections (series, bundles, etc.)."
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [type]
+        to: ref('mart_collection_types')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: "Collection name."
+      - name: slug
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: "Collection slug."
+      - name: url
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: "Collection URL."
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: type
+        data_type: bigint
+        description: "FK to mart_collection_types.id."

@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: bridge_game_fork
+    config:
+      contract: { enforced: true }
+      alias: "game_fork"
+    description: "Join table linking games to their forks."
+    constraints:
+      - type: primary_key
+        columns: [fork_source_id, fork_id]
+      - type: foreign_key
+        columns: [fork_source_id]
+        to: ref('mart_games')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [fork_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: fork_source_id
+        data_type: bigint
+      - name: fork_id
+        data_type: bigint

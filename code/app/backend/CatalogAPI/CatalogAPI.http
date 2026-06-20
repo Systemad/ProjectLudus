@@ -1,0 +1,101 @@
+@baseUrl = http://localhost:5141
+
+### Get game overview
+GET {{baseUrl}}/catalog/games/1
+Accept: application/json
+
+### Get game details
+GET {{baseUrl}}/catalog/games/1/details
+Accept: application/json
+
+### Get game hero
+GET {{baseUrl}}/catalog/games/1/hero
+Accept: application/json
+
+### Get game links
+GET {{baseUrl}}/catalog/games/1/links
+Accept: application/json
+
+### Get game media
+GET {{baseUrl}}/catalog/games/1/media
+Accept: application/json
+
+### Get game release data
+GET {{baseUrl}}/catalog/games/1/page-release-data
+Accept: application/json
+
+### Get similar games
+GET {{baseUrl}}/catalog/games/1/similar-games
+Accept: application/json
+
+### Game not found
+GET {{baseUrl}}/catalog/games/999999
+Accept: application/json
+
+### Get games by release date range
+GET {{baseUrl}}/catalog/games/release-date-range?start=2025-01-01&end=2025-12-31
+Accept: application/json
+
+### Get company by ID
+GET {{baseUrl}}/catalog/companies/1
+Accept: application/json
+
+### Company not found
+GET {{baseUrl}}/catalog/companies/999999
+Accept: application/json
+
+### Get company games
+GET {{baseUrl}}/catalog/companies/1/games
+Accept: application/json
+
+### Get events list
+GET {{baseUrl}}/catalog/events/
+Accept: application/json
+
+### Get event by ID
+GET {{baseUrl}}/catalog/events/1
+Accept: application/json
+
+### Event not found
+GET {{baseUrl}}/catalog/events/999999
+Accept: application/json
+
+### Get steam chart
+GET {{baseUrl}}/catalog/steam/chart
+Accept: application/json
+
+### Get steam concurrent users chart
+GET {{baseUrl}}/catalog/steam/concurrent-users/1/chart
+Accept: application/json
+
+### Get steam pricing
+GET {{baseUrl}}/catalog/steam/pricing/730
+Accept: application/json
+
+### Get steam reviews
+GET {{baseUrl}}/catalog/steam/reviews/730
+Accept: application/json
+
+### Get IGDB most anticipated
+GET {{baseUrl}}/catalog/igdb/most-anticipated?limit=10
+Accept: application/json
+
+### Get IGDB popscore
+GET {{baseUrl}}/catalog/igdb/popscore
+Accept: application/json
+
+### Get IGDB stats
+GET {{baseUrl}}/catalog/igdb/stats
+Accept: application/json
+
+### Get homepage upcoming
+GET {{baseUrl}}/catalog/homepage/upcoming
+Accept: application/json
+
+### Get homepage popularity tables
+GET {{baseUrl}}/catalog/homepage/popularity-tables
+Accept: application/json
+
+### Get OpenAPI document
+GET {{baseUrl}}/openapi/v1.json
+Accept: application/json

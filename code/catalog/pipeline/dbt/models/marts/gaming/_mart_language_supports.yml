@@ -1,0 +1,53 @@
+version: 2
+models:
+  - name: mart_language_supports
+    config:
+      enabled: true
+      alias: language_supports
+      contract: { enforced: true }
+    constraints:
+      - type: primary_key
+        columns: [id]
+      - type: foreign_key
+        columns: [game]
+        to: ref('mart_games')
+        to_columns: [id]
+        on_delete: cascade
+      - type: foreign_key
+        columns: [language]
+        to: ref('mart_languages')
+        to_columns: [id]
+      - type: foreign_key
+        columns: [language_support_type]
+        to: ref('mart_language_support_types')
+        to_columns: [id]
+    columns:
+      - name: id
+        data_type: bigint
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: game
+        data_type: bigint
+        description: "FK to mart_games.id — the game this language support belongs to."
+        data_tests: [not_null]
+      - name: language
+        data_type: bigint
+        description: "FK to languages.id — the supported language."
+      - name: language_support_type
+        data_type: bigint
+        description: "FK to language_support_types.id — type of support (interface, subtitles, audio)."
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

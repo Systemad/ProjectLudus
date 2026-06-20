@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_steam__reviews
+    config:
+      contract:
+        enforced: true
+      on_schema_change: append_new_columns
+    constraints:
+      - type: primary_key
+        columns: [game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: steam_app_id
+        data_type: bigint
+      - name: num_reviews
+        data_type: int
+      - name: review_score
+        data_type: int
+      - name: review_score_desc
+        data_type: text
+      - name: total_positive
+        data_type: int
+      - name: total_negative
+        data_type: int
+      - name: total_reviews
+        data_type: int

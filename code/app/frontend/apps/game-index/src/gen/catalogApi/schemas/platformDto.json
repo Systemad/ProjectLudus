@@ -1,0 +1,1 @@
+{"required":["id","name","slug"],"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"slug":{"type":"string"}},"x-readme-ref-name":"PlatformDto"}

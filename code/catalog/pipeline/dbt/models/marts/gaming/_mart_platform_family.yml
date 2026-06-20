@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: mart_platform_family
+    config:
+      enabled: true
+      contract: { enforced: true }
+      alias: platform_family
+    constraints:
+      - type: primary_key
+        columns: [id]
+    description: "platform_family lookup table."
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "Primary key."
+        data_tests:
+          - unique
+          - not_null
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: slug
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+
