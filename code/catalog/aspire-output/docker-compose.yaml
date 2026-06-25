@@ -51,6 +51,8 @@ services:
       - "pipeline-pool"
       - "--type"
       - "docker"
+
+    restart: always
     environment:
       PREFECT_API_URL: "http://prefect-server:4200/api"
       #PREFECT_API_URL: "${PREFECT_API_URL}"
