@@ -12,6 +12,8 @@ using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 using Aspire.Hosting.Docker.Resources.ComposeNodes;
 using Aspire.Hosting.Pipelines;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -118,7 +120,9 @@ builder.Pipeline.AddStep(
 var prefectServer = builder
     .AddContainer("prefect-server", "prefecthq/prefect:3-python3.13")
     .WithArgs("prefect", "server", "start", "--host", "0.0.0.0", "--port", "4200")
-    .WithEndpoint(port: 4200, targetPort: 4200)
+    .WithHttpEndpoint(targetPort: 4200, port: 4200, name: "http")
+    .WithExternalHttpEndpoints()
+    .WithHttpHealthCheck("/api/health")
     .WithEnvironment("PREFECT_API_DATABASE_CONNECTION_URL", prefectUrl)
     .WaitFor(grateMigration)
     .PublishAsDockerComposeService(
@@ -130,19 +134,6 @@ var prefectServer = builder
 
 var pipeline = builder
     .AddContainer("pipeline-worker", "prefecthq/prefect", "3-python3.13")
-    //.AddDockerfile("pipeline-worker", "./pipeline")
-    /*
-    .PublishAsDockerComposeService(
-        (resource, service) =>
-        {
-            service.Build = new DockerComposeBuild
-            {
-                Context = "./pipeline",
-                Dockerfile = "Dockerfile",
-            };
-        }
-    )
-    */
     .WithArgs("prefect", "worker", "start", "--pool", "pipeline-pool", "--type", "docker")
     .WithBindMount("/var/run/docker.sock", "/var/run/docker.sock")
     .WithVolume("dlt-data", "/data/dlt")
