@@ -21,6 +21,8 @@ services:
       - "4200"
     environment:
       PREFECT_API_DATABASE_CONNECTION_URL: "postgresql+asyncpg://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/prefect"
+      PREFECT_API_URL: "${PREFECT_API_URL}"
+      PREFECT_UI_URL: "${PREFECT_UI_URL}"
     ports:
       - "4200:4200"
     networks:
@@ -37,8 +39,7 @@ services:
       - "--type"
       - "docker"
     environment:
-      PREFECT_API_URL: "${PREFECT_API_URL}"
-      PREFECT_UI_URL: "${PREFECT_UI_URL}"
+      PREFECT_API_URL: "http://prefect-server:4200/api"
       IGDB__CLIENT_ID: "${IGDB_CLIENT_ID}"
       IGDB__ACCESS_TOKEN: "${IGDB_ACCESS_TOKEN}"
       STEAM__API_KEY: "${STEAM_API_KEY}"

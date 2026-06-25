@@ -124,6 +124,8 @@ var prefectServer = builder
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/api/health")
     .WithEnvironment("PREFECT_API_DATABASE_CONNECTION_URL", prefectUrl)
+    .WithEnvironment("PREFECT_API_URL", prefectApiUrl)
+    .WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
     .WaitFor(grateMigration)
     .PublishAsDockerComposeService(
         (resource, service) =>
@@ -137,8 +139,9 @@ var pipeline = builder
     .WithArgs("prefect", "worker", "start", "--pool", "pipeline-pool", "--type", "docker")
     .WithBindMount("/var/run/docker.sock", "/var/run/docker.sock")
     .WithVolume("dlt-data", "/data/dlt")
-    .WithEnvironment("PREFECT_API_URL", prefectApiUrl)
-    .WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
+    //.WithEnvironment("PREFECT_API_URL", prefectApiUrl)
+    //.WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
+    .WithEnvironment("PREFECT_API_URL", "http://prefectServer:4200/api")
     .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
     .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
     .WithEnvironment("STEAM__API_KEY", steamApiKey)
