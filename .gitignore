@@ -797,3 +797,5 @@ apm_modules/
 
 
 opencode.jsonc
+appsettings.development.json
+appsettings.production.json

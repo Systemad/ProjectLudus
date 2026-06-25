@@ -48,6 +48,7 @@ default = rest_api_source(
             "character_genders",
             {
                 "name": "character_mug_shots",
+                "write_disposition": "replace",
                 "endpoint": {
                     "path": "character_mug_shots",
                     "method": "POST",
@@ -116,6 +117,7 @@ default = rest_api_source(
             {
                 "max_table_nesting": 1,
                 "name": "platform_versions",
+                "write_disposition": "replace",
                 "endpoint": {
                     "path": "platform_versions",
                     "data": _NO_INC_QUERY,
@@ -124,6 +126,7 @@ default = rest_api_source(
             },
             {
                 "name": "platform_version_companies",
+                "write_disposition": "replace",
                 "endpoint": {
                     "path": "platform_version_companies",
                     "data": _NO_INC_QUERY,
@@ -133,6 +136,7 @@ default = rest_api_source(
             "platform_version_release_dates",
             {
                 "name": "platform_websites",
+                "write_disposition": "replace",
                 "endpoint": {
                     "path": "platform_websites",
                     "data": _NO_INC_QUERY,

@@ -1,10 +1,10 @@
 lockfile_version: '1'
-generated_at: '2026-06-15T21:40:59.631694+00:00'
+generated_at: '2026-06-23T15:55:49.203682+00:00'
 apm_version: 0.20.0
 dependencies:
 - repo_url: dotnet/skills
   host: github.com
-  resolved_commit: 05597a329ccf594487e9d7289afbf04f6904c320
+  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
   virtual_path: plugins/dotnet
   is_virtual: true
   package_type: marketplace_plugin
@@ -27,10 +27,10 @@ dependencies:
     .agents/skills/nuget-trusted-publishing/SKILL.md: sha256:e12a67e1239989a36b8835b715daf94a4223c89fbc21336bb24107f51363c3e5
     .agents/skills/nuget-trusted-publishing/references/package-types.md: sha256:f413d6ee9fc24c5b886dfcb0f7063b2bfa16bd8e6a5c938ca103ffd001b4f3b6
     .agents/skills/nuget-trusted-publishing/references/publish-workflow.md: sha256:632b8e8db22115237ce305ddbca00a41d3cbb10869f1cdc3116e329a35ab70df
-  content_hash: sha256:b9c1067aff2b2936fcb1b0c465fb44c84ef79bba3d3304126f217a907709e046
+  content_hash: sha256:33ae61cb15291d8044407feab2f7603c75aee6d96310f92af685ee009499425d
 - repo_url: dotnet/skills
   host: github.com
-  resolved_commit: 05597a329ccf594487e9d7289afbf04f6904c320
+  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
   virtual_path: plugins/dotnet-aspnetcore
   is_virtual: true
   package_type: marketplace_plugin
@@ -48,10 +48,10 @@ dependencies:
     .agents/skills/convert-blazor-server-to-webapp/SKILL.md: sha256:679607e47f22a3106e1773ef74d52249de743988fb8171d7e4a6e80d504cab59
     .agents/skills/dotnet-webapi/SKILL.md: sha256:70e10d74aa367ee63060b64edc397c5998c03da0fbdaf120f5aa8c94d373b77d
     .agents/skills/minimal-api-file-upload/SKILL.md: sha256:18232bea3b8bdfdc6b9cc3a2081e193b923150431b90d7c033f57943a96af21e
-  content_hash: sha256:3147a9e73c6ea9bb923bc9bfa93dd7ed3a3965a44708d8e68ff11bdd7cc608c7
+  content_hash: sha256:a60783d8dbfd604655bf2ed2f5b54aaf3ba91143c2be7b75b9f8c39bff1b6d19
 - repo_url: dotnet/skills
   host: github.com
-  resolved_commit: 05597a329ccf594487e9d7289afbf04f6904c320
+  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
   virtual_path: plugins/dotnet-data
   is_virtual: true
   package_type: marketplace_plugin
@@ -60,10 +60,10 @@ dependencies:
   - .agents/skills/optimizing-ef-core-queries/SKILL.md
   deployed_file_hashes:
     .agents/skills/optimizing-ef-core-queries/SKILL.md: sha256:f5eb7b623031da6b217e75aca465f8258d3545ea51ab954491b3c4c52e91429f
-  content_hash: sha256:d5674890b2bc75a67b93bc7019112944aa3811072c415ad85c859f5be4e1a9d7
+  content_hash: sha256:0b36e6d06951a31843da7dde67bd18caab75ab2ac5fc331baee3fd8e6ccdbed9
 - repo_url: dotnet/skills
   host: github.com
-  resolved_commit: 05597a329ccf594487e9d7289afbf04f6904c320
+  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
   virtual_path: plugins/dotnet11
   is_virtual: true
   package_type: marketplace_plugin
@@ -72,7 +72,7 @@ dependencies:
   - .agents/skills/system-text-json-net11/SKILL.md
   deployed_file_hashes:
     .agents/skills/system-text-json-net11/SKILL.md: sha256:bb4aa3443fc7d7de5e4c6c9049f749530c8f915aec0d9bb094efb910f4ed79b6
-  content_hash: sha256:de48acaac265b5b1c24f3f131548cb9da9a64097159980ed8a3e021f493419e8
+  content_hash: sha256:28b8f72c45687dfc7908f2ea6ae35acc865bc19dc3cb2df8625cb7109b27f0bc
 - repo_url: microsoft/aspire-skills
   host: github.com
   resolved_commit: 035607cfa7d52caa769a4c466989da481b9d3e86

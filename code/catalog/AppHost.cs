@@ -1,8 +1,8 @@
 #!/usr/bin/env dotnet run
 
-#:sdk Aspire.AppHost.Sdk@13.4.4
-#:package Aspire.Hosting.PostgreSQL@13.4.4
-#:package Aspire.Hosting.Docker@13.4.4
+#:sdk Aspire.AppHost.Sdk@13.4.6
+#:package Aspire.Hosting.PostgreSQL@13.4.6
+#:package Aspire.Hosting.Docker@13.4.6
 #:property ExperimentalFileBasedProgramEnableIncludeDirective=true
 #:property ExperimentalFileBasedProgramEnableTransitiveDirectives=true
 
@@ -10,6 +10,7 @@
 
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
+using Aspire.Hosting.Docker.Resources.ComposeNodes;
 using Aspire.Hosting.Pipelines;
 using Microsoft.Extensions.Logging;
 
@@ -17,11 +18,19 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var compose = builder.AddDockerComposeEnvironment("compose");
 
+compose.ConfigureComposeFile(f =>
+{
+    f.Networks.Add("dokploy-network", new Network { Name = "dokploy-network", External = true });
+});
+
 var pgHost = builder.AddParameter("pg-host");
 var pgPort = builder.AddParameter("pg-port");
 var pgUser = builder.AddParameter("pg-user");
 var pgPass = builder.AddParameter("pg-password", secret: true);
 var pgDb = builder.AddParameter("pg-database");
+
+var prefectApiUrl = builder.AddParameter("prefect-api-url");
+var prefectUiUrl = builder.AddParameter("prefect-ui-url");
 
 var igdbClientId = builder.AddParameter("igdb-client-id");
 var igdbAccessToken = builder.AddParameter("igdb-access-token", secret: true);
@@ -39,6 +48,7 @@ var migrationConnectionString = ReferenceExpression.Create(
     $"Host={pgHost.Resource};Port={pgPort.Resource};Username={pgUser.Resource};Password={pgPass.Resource};Database={pgDb.Resource}"
 );
 
+/*
 var webhook = builder
     .AddCSharpApp("igdb-webhook", "./webhook/App.cs")
     .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
@@ -46,7 +56,7 @@ var webhook = builder
     .WithEnvironment("IGDB__WEBHOOK_SECRET", webhookSecret)
     .WithEnvironment("IGDB__WEBHOOK_URL", webhookUrl)
     .WithEndpoint(port: 8000);
-
+*/
 var grateMigration = builder
     .AddDotnetTool("grate-migration", "grate")
     .WithArgs(
@@ -72,7 +82,7 @@ if (builder.ExecutionContext.IsRunMode)
     var catalogdb = pg.AddDatabase("catalogdb");
     var prefectdb = pg.AddDatabase("prefect");
 
-    webhook.WithReference(catalogdb).WaitFor(pg);
+    //webhook.WithReference(catalogdb).WaitFor(pg);
 
     // THIS is the important dependency
     grateMigration.WaitFor(pg);
@@ -103,21 +113,41 @@ builder.Pipeline.AddStep(
 );
 #pragma warning restore ASPIREPIPELINES001
 
-webhook.WaitFor(grateMigration);
-
+//webhook.WaitFor(grateMigration);
+#pragma warning disable ASPIREPIPELINES003
 var prefectServer = builder
     .AddContainer("prefect-server", "prefecthq/prefect:3-python3.13")
     .WithArgs("prefect", "server", "start", "--host", "0.0.0.0", "--port", "4200")
     .WithEndpoint(port: 4200, targetPort: 4200)
     .WithEnvironment("PREFECT_API_DATABASE_CONNECTION_URL", prefectUrl)
-    .WaitFor(grateMigration);
+    .WaitFor(grateMigration)
+    .PublishAsDockerComposeService(
+        (resource, service) =>
+        {
+            service.Networks = new List<string> { "aspire", "dokploy-network" };
+        }
+    );
 
 var pipeline = builder
-    .AddDockerfile("pipeline-worker", "./pipeline")
+    .AddContainer("pipeline-worker", "prefecthq/prefect", "3-python3.13")
+    //.AddDockerfile("pipeline-worker", "./pipeline")
+    /*
+    .PublishAsDockerComposeService(
+        (resource, service) =>
+        {
+            service.Build = new DockerComposeBuild
+            {
+                Context = "./pipeline",
+                Dockerfile = "Dockerfile",
+            };
+        }
+    )
+    */
     .WithArgs("prefect", "worker", "start", "--pool", "pipeline-pool", "--type", "docker")
     .WithBindMount("/var/run/docker.sock", "/var/run/docker.sock")
     .WithVolume("dlt-data", "/data/dlt")
-    .WithEnvironment("PREFECT_API_URL", "http://prefect-server:4200/api")
+    .WithEnvironment("PREFECT_API_URL", prefectApiUrl)
+    .WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
     .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
     .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
     .WithEnvironment("STEAM__API_KEY", steamApiKey)
@@ -134,6 +164,14 @@ var pipeline = builder
     .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__PASSWORD", pgPass)
     .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__DATABASE", pgDb)
     .WaitFor(prefectServer)
-    .WaitFor(grateMigration);
+    .WaitFor(grateMigration)
+    .PublishAsDockerComposeService(
+        (resource, service) =>
+        {
+            service.Networks = new List<string> { "aspire", "dokploy-network" };
+        }
+    );
+
+#pragma warning restore ASPIREPIPELINES003
 
 builder.Build().Run();

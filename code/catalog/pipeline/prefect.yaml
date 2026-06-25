@@ -7,8 +7,8 @@ definitions:
     pipeline_pool: &pipeline_pool
       name: pipeline-pool
       job_variables:
-        image: "pipeline-worker:latest"
-        image_pull_policy: "Never"
+        image: "ghcr.io/systemad/pipeline-worker:latest"
+        image_pull_policy: "Always"
         networks:
           - dokploy-network
         env:

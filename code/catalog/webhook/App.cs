@@ -6,8 +6,9 @@
 #:property ExperimentalFileBasedProgramEnableIncludeDirective=true
 #:property ExperimentalFileBasedProgramEnableTransitiveDirectives=true
 
-#:project ../Data/Data.csproj
 #:sdk Microsoft.NET.Sdk.Web
+
+#:project ../Data/Data.csproj
 #:include WebhookFilters.cs
 #:include WebhookManager.cs
 
@@ -41,7 +42,7 @@ group.MapPost(
     "/igdb-webhook",
     async (
         HttpRequest request,
-        AppDbContext db,
+        //WebhookDbContext db,
         IOptions<IGDBOptions> options,
         ILogger<Program> logger
     ) =>
@@ -55,20 +56,20 @@ group.MapPost(
 
         var endpoint = request.Headers["X-Endpoint"].ToString();
         var eventType = request.Headers["X-Operation"].ToString();
-
-        db.WebhookEvents.Add(
-            new WebhookEvent
-            {
-                Id = Guid.NewGuid(),
-                EntityId = entity.Id,
-                ReceivedAt = DateTimeOffset.UtcNow,
-                Endpoint = endpoint,
-                EventType = eventType,
-                Payload = raw,
-            }
-        );
-        await db.SaveChangesAsync();
-
+        /*
+                db.WebhookEvents.Add(
+                    new WebhookEvent
+                    {
+                        Id = Guid.NewGuid(),
+                        EntityId = entity.Id,
+                        ReceivedAt = DateTimeOffset.UtcNow,
+                        Endpoint = endpoint,
+                        EventType = eventType,
+                        Payload = raw,
+                    }
+                );
+                await db.SaveChangesAsync();
+            */
         logger.LogInformation(
             "[{Time}] {EventType} {Endpoint} — {Id}",
             DateTime.UtcNow,
@@ -121,8 +122,8 @@ group.MapDelete(
 
 await app.Services.GetRequiredService<WebhookManager>().SyncAsync();
 await app.RunAsync();
-
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+/*
+public class WebhookDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<WebhookEvent> WebhookEvents { get; set; }
 
@@ -136,3 +137,4 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         });
     }
 }
+*/

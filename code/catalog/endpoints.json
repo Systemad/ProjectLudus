@@ -21,6 +21,37 @@
   ],
   "default": [
     "games",
-    "companies"
+    "companies",
+    "platforms",
+    "characters",
+    "collections",
+    "events",
+    "franchises",
+    "game_engines",
+    "game_localizations",
+    "network_types",
+    "age_rating_categories",
+    "age_rating_content_description_types",
+    "age_rating_content_descriptions_v2",
+    "age_rating_organizations",
+    "artwork_types",
+    "character_genders",
+    "character_species",
+    "collection_membership_types",
+    "collection_memberships",
+    "collection_relation_types",
+    "collection_relations",
+    "event_logos",
+    "event_networks",
+    "external_game_sources",
+    "game_time_to_beats",
+    "keywords",
+    "platform_version_release_dates"
+  ],
+  "replace": [
+    "character_mug_shots",
+    "platform_versions",
+    "platform_version_companies",
+    "platform_websites"
   ]
 }

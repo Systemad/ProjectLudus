@@ -1,0 +1,79 @@
+services:
+  compose-dashboard:
+    image: "mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest"
+    ports:
+      - "18888"
+    expose:
+      - "18889"
+      - "18890"
+    networks:
+      - "aspire"
+    restart: "always"
+  prefect-server:
+    image: "prefecthq/prefect:3-python3.13"
+    command:
+      - "prefect"
+      - "server"
+      - "start"
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "4200"
+    environment:
+      PREFECT_API_DATABASE_CONNECTION_URL: "postgresql+asyncpg://${PG_USER}:${PG_PASSWORD}@${PG_HOST}:${PG_PORT}/prefect"
+    expose:
+      - "4200"
+    networks:
+      - "aspire"
+      - "dokploy-network"
+  pipeline-worker:
+    image: "prefecthq/prefect:3-python3.13"
+    command:
+      - "prefect"
+      - "worker"
+      - "start"
+      - "--pool"
+      - "pipeline-pool"
+      - "--type"
+      - "docker"
+    environment:
+      PREFECT_API_URL: "${PREFECT_API_URL}"
+      PREFECT_UI_URL: "${PREFECT_UI_URL}"
+      IGDB__CLIENT_ID: "${IGDB_CLIENT_ID}"
+      IGDB__ACCESS_TOKEN: "${IGDB_ACCESS_TOKEN}"
+      STEAM__API_KEY: "${STEAM_API_KEY}"
+      DESTINATION__TYPESENSE__CREDENTIALS__API_KEY: "${TYPESENSE_API_KEY}"
+      UMAMI__API_KEY: "${UMAMI_API_KEY}"
+      DLT_DATA_DIR: "/data/dlt"
+      DATA_WRITER__BUFFER_MAX_ITEMS: "500"
+      DATA_WRITER__FILE_MAX_ITEMS: "5000"
+      DATA_WRITER__FILE_MAX_BYTES: "500000"
+      NORMALIZE__WORKERS: "1"
+      DESTINATION__POSTGRES__CREDENTIALS__HOST: "${PG_HOST}"
+      DESTINATION__POSTGRES__CREDENTIALS__PORT: "${PG_PORT}"
+      DESTINATION__POSTGRES__CREDENTIALS__USERNAME: "${PG_USER}"
+      DESTINATION__POSTGRES__CREDENTIALS__PASSWORD: "${PG_PASSWORD}"
+      DESTINATION__POSTGRES__CREDENTIALS__DATABASE: "${PG_DATABASE}"
+    volumes:
+      - type: "bind"
+        target: "/var/run/docker.sock"
+        source: "/var/run/docker.sock"
+        read_only: false
+      - type: "volume"
+        target: "/data/dlt"
+        source: "dlt-data"
+        read_only: false
+    depends_on:
+      prefect-server:
+        condition: "service_started"
+    networks:
+      - "aspire"
+      - "dokploy-network"
+networks:
+  aspire:
+    driver: "bridge"
+  dokploy-network:
+    external: true
+volumes:
+  dlt-data:
+    driver: "local"
