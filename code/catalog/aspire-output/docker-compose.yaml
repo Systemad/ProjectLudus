@@ -52,7 +52,8 @@ services:
       - "--type"
       - "docker"
     environment:
-      PREFECT_API_URL: "http://prefect-server:4200/api"
+      #PREFECT_API_URL: "http://prefect-server:4200/api"
+      PREFECT_API_URL: "${PREFECT_API_URL}"
       IGDB__CLIENT_ID: "${IGDB_CLIENT_ID}"
       IGDB__ACCESS_TOKEN: "${IGDB_ACCESS_TOKEN}"
       STEAM__API_KEY: "${STEAM_API_KEY}"
