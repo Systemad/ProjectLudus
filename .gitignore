@@ -794,3 +794,6 @@ code/catalog/infrastructure/.config/2.0.5/
 
 # APM dependencies
 apm_modules/
+
+
+opencode.jsonc
