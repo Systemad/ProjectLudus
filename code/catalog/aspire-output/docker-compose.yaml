@@ -42,7 +42,8 @@ services:
       retries: 3
       start_period: 60s
   pipeline-worker:
-    image: "prefecthq/prefect:3-python3.13"
+    image: "ghcr.io/systemad/pipeline-worker:latest"
+    #image: "prefecthq/prefect:3-python3.13"
     command:
       - "prefect"
       - "worker"
