@@ -1,5 +1,5 @@
-import psycopg
 import dlt
+import psycopg
 
 
 def get_connection():

@@ -1,3 +1,22 @@
+build:
+  - prefect.deployments.steps.run_shell_script:
+      id: get-commit-hash
+      script: git rev-parse --short HEAD
+      stream_output: false
+
+  - prefect_docker.deployments.steps.build_docker_image:
+      id: build-image
+      requires: prefect-docker
+      image_name: ghcr.io/systemad/pipeline-worker
+      tag: "{{ get-commit-hash.stdout }}"
+      dockerfile: Dockerfile
+      build_backend: buildx
+
+push:
+  - prefect_docker.deployments.steps.push_docker_image:
+      requires: prefect-docker
+      image_name: "{{ build-image.image_name }}"
+      tag: "{{ build-image.tag }}"
 pull:
   - prefect.deployments.steps.set_working_directory:
       directory: /app
@@ -7,44 +26,52 @@ definitions:
     pipeline_pool: &pipeline_pool
       name: pipeline-pool
       job_variables:
-        image: "ghcr.io/systemad/pipeline-worker:latest"
-        image_pull_policy: "Always"
+        image: "{{ build-image.image }}"
         networks:
           - dokploy-network
         env:
-          PREFECT_API_URL: "{{ $PREFECT_API_URL }}"
-          DLT_DATA_DIR: "{{ $DLT_DATA_DIR }}"
-          DATA_WRITER__BUFFER_MAX_ITEMS: "{{ $DATA_WRITER__BUFFER_MAX_ITEMS }}"
-          DATA_WRITER__FILE_MAX_ITEMS: "{{ $DATA_WRITER__FILE_MAX_ITEMS }}"
-          DATA_WRITER__FILE_MAX_BYTES: "{{ $DATA_WRITER__FILE_MAX_BYTES }}"
-          NORMALIZE__WORKERS: "{{ $NORMALIZE__WORKERS }}"
-          DESTINATION__POSTGRES__CREDENTIALS__USERNAME: "{{ $DESTINATION__POSTGRES__CREDENTIALS__USERNAME }}"
-          DESTINATION__POSTGRES__CREDENTIALS__PASSWORD: "{{ $DESTINATION__POSTGRES__CREDENTIALS__PASSWORD }}"
-          DESTINATION__POSTGRES__CREDENTIALS__HOST: "{{ $DESTINATION__POSTGRES__CREDENTIALS__HOST }}"
-          DESTINATION__POSTGRES__CREDENTIALS__PORT: "{{ $DESTINATION__POSTGRES__CREDENTIALS__PORT }}"
-          DESTINATION__POSTGRES__CREDENTIALS__DATABASE: "{{ $DESTINATION__POSTGRES__CREDENTIALS__DATABASE }}"
-          IGDB_CLIENT_ID: "{{ $IGDB_CLIENT_ID }}"
-          IGDB_ACCESS_TOKEN: "{{ $IGDB_ACCESS_TOKEN }}"
-          STEAM_API_KEY: "{{ $STEAM_API_KEY }}"
+          PREFECT_API_URL: "http://prefect-server:4200/api"
+          DESTINATION__POSTGRES__CREDENTIALS__HOST: "catalog-database-jgic3j"
+          DESTINATION__POSTGRES__CREDENTIALS__PORT: "5432"
+          DESTINATION__POSTGRES__CREDENTIALS__DATABASE: "catalogdb"
+          DESTINATION__POSTGRES__CREDENTIALS__USERNAME: "casedan"
+          DESTINATION__POSTGRES__CREDENTIALS__PASSWORD: "{{ prefect.blocks.secret.db-password }}"
+          IGDB__CLIENT_ID: "{{ prefect.blocks.secret.igdb-client-id }}"
+          IGDB__ACCESS_TOKEN: "{{ prefect.blocks.secret.igdb-access-token }}"
+          STEAM__API_KEY: "{{ prefect.blocks.secret.steam-api-key }}"
+          DESTINATION__TYPESENSE__CREDENTIALS__API_KEY: "{{ prefect.blocks.secret.typesense-api-key }}"
+          UMAMI__API_KEY: "{{ prefect.blocks.secret.umami-api-key }}"
+          DLT_DATA_DIR: "{{ prefect.variables.dlt_data_dir }}"
+          DATA_WRITER__BUFFER_MAX_ITEMS: "{{ prefect.variables.data_writer_buffer_max_items }}"
+          DATA_WRITER__FILE_MAX_ITEMS: "{{ prefect.variables.data_writer_file_max_items }}"
+          DATA_WRITER__FILE_MAX_BYTES: "{{ prefect.variables.data_writer_file_max_bytes }}"
+          NORMALIZE__WORKERS: "{{ prefect.variables.normalize_workers }}"
 
 deployments:
   - name: analytics-hourly
+    version: "{{ build-image.tag }}"
     entrypoint: flows/analytics.py:steam_ccu_pipeline
     schedule:
       cron: "0 * * * *"
       timezone: "Europe/Stockholm"
-    concurrency_limit: 1
+    concurrency_limit:
+      limit: 1
+      collision_strategy: ENQUEUE
     work_pool: *pipeline_pool
 
   - name: igdb-daily
+    version: "{{ build-image.tag }}"
     entrypoint: flows/igdb.py:igdb_pipeline
     schedule:
       cron: "0 22 * * *"
       timezone: "Europe/Stockholm"
-    concurrency_limit: 1
+    concurrency_limit:
+      limit: 1
+      collision_strategy: ENQUEUE
     work_pool: *pipeline_pool
 
   - name: steam-store
+    version: "{{ build-image.tag }}"
     entrypoint: flows/steam_store.py:steam_details_pipeline
     schedule:
       cron: "0 6 */3 * *"
@@ -53,6 +80,7 @@ deployments:
     work_pool: *pipeline_pool
 
   - name: steam-game-index
+    version: "{{ build-image.tag }}"
     entrypoint: flows/steam_game_index.py:steam_game_index
     schedule:
       cron: "0 10 * * 0"

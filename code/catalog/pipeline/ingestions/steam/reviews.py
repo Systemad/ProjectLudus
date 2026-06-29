@@ -63,17 +63,16 @@ def run():
             return
 
         with conn.cursor() as cur:
-            for row in sql_rows:
-                cur.execute(
-                    "INSERT INTO steam_raw.reviews "
-                    "(game_id, steam_app_id, num_reviews, review_score, review_score_desc, "
-                    "total_positive, total_negative, total_reviews, captured_at) "
-                    "VALUES (%(game_id)s, %(steam_app_id)s, %(num_reviews)s, %(review_score)s, "
-                    "%(review_score_desc)s, %(total_positive)s, %(total_negative)s, "
-                    "%(total_reviews)s, %(captured_at)s) "
-                    "ON CONFLICT DO NOTHING",
-                    row,
-                )
+            cur.executemany(
+                "INSERT INTO steam_raw.reviews "
+                "(game_id, steam_app_id, num_reviews, review_score, review_score_desc, "
+                "total_positive, total_negative, total_reviews, captured_at) "
+                "VALUES (%(game_id)s, %(steam_app_id)s, %(num_reviews)s, %(review_score)s, "
+                "%(review_score_desc)s, %(total_positive)s, %(total_negative)s, "
+                "%(total_reviews)s, %(captured_at)s) "
+                "ON CONFLICT DO NOTHING",
+                sql_rows,
+            )
         conn.commit()
         logger.info("Inserted %d review rows.", len(sql_rows))
     finally:

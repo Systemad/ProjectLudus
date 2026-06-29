@@ -68,12 +68,11 @@ def write_tracked_games(rows: list[tuple[int, int]]):
     with conn:
         conn.execute("TRUNCATE TABLE steam.tracked_games")
         with conn.cursor() as cur:
-            for game_id, steam_app_id in rows:
-                cur.execute(
-                    "INSERT INTO steam.tracked_games (game_id, steam_app_id, refreshed_at) "
-                    "VALUES (%s, %s, %s)",
-                    (game_id, steam_app_id, now),
-                )
+            cur.executemany(
+                "INSERT INTO steam.tracked_games (game_id, steam_app_id, refreshed_at) "
+                "VALUES (%s, %s, %s)",
+                [(game_id, steam_app_id, now) for game_id, steam_app_id in rows],
+            )
     conn.close()
 
 

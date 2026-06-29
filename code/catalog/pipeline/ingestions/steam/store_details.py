@@ -65,17 +65,16 @@ def run():
 
         logger.info("API requests done, inserting %d rows...", len(details_rows))
         with conn.cursor() as cur:
-            for row in details_rows:
-                cur.execute(
-                    "INSERT INTO steam_raw.store_details "
-                    "(game_id, steam_app_id, header_url, capsule_url, captured_at) "
-                    "VALUES (%(game_id)s, %(steam_app_id)s, %(header_url)s, %(capsule_url)s, %(captured_at)s) "
-                    "ON CONFLICT (game_id) DO UPDATE SET"
-                    " header_url = EXCLUDED.header_url,"
-                    " capsule_url = EXCLUDED.capsule_url,"
-                    " captured_at = EXCLUDED.captured_at",
-                    row,
-                )
+            cur.executemany(
+                "INSERT INTO steam_raw.store_details "
+                "(game_id, steam_app_id, header_url, capsule_url, captured_at) "
+                "VALUES (%(game_id)s, %(steam_app_id)s, %(header_url)s, %(capsule_url)s, %(captured_at)s) "
+                "ON CONFLICT (game_id) DO UPDATE SET"
+                " header_url = EXCLUDED.header_url,"
+                " capsule_url = EXCLUDED.capsule_url,"
+                " captured_at = EXCLUDED.captured_at",
+                details_rows,
+            )
         conn.commit()
         logger.info("Inserted %d detail rows.", len(details_rows))
     finally:

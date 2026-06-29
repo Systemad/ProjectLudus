@@ -2,7 +2,7 @@ import dlt
 from dlt.sources.rest_api import (
     rest_api_source,
 )
-from utilities.igdb_client import IGDB__CLIENT_ID, get_igdb_auth
+from utilities.igdb_client import get_igdb_auth, get_igdb_client_id
 from utilities.paginator import IGDBPaginator
 
 _INC_QUERY = "fields *; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;"
@@ -13,7 +13,7 @@ default = rest_api_source(
     config={
         "client": {
             "base_url": "https://api.igdb.com/v4/",
-            "headers": {"Client-Id": IGDB__CLIENT_ID},
+            "headers": {"Client-Id": get_igdb_client_id()},
             "auth": get_igdb_auth(),
             "paginator": IGDBPaginator(limit=500),
         },
@@ -183,5 +183,3 @@ pipeline = dlt.pipeline(
 
 def run():
     pipeline.run(default)
-
-

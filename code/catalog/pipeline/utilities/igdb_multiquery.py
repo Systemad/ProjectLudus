@@ -28,6 +28,3 @@ def build_external_games_multiquery(batches: list[list[int]]) -> str:
 
 def flatten_multiquery(row: dict) -> list[dict]:
     return row.get("result", [])
-
-
-# get_igdb_headers is imported from utils.igdb_client

@@ -100,17 +100,16 @@ def run():
             return
 
         with conn.cursor() as cur:
-            for row in pricing_rows:
-                cur.execute(
-                    "INSERT INTO steam_raw.store_pricing "
-                    "(game_id, steam_app_id, initial_cents, final_cents, discount_percent, "
-                    "currency, initial_formatted, final_formatted, captured_at) "
-                    "VALUES (%(game_id)s, %(steam_app_id)s, %(initial_cents)s, %(final_cents)s, "
-                    "%(discount_percent)s, %(currency)s, %(initial_formatted)s, %(final_formatted)s, "
-                    "%(captured_at)s) "
-                    "ON CONFLICT DO NOTHING",
-                    row,
-                )
+            cur.executemany(
+                "INSERT INTO steam_raw.store_pricing "
+                "(game_id, steam_app_id, initial_cents, final_cents, discount_percent, "
+                "currency, initial_formatted, final_formatted, captured_at) "
+                "VALUES (%(game_id)s, %(steam_app_id)s, %(initial_cents)s, %(final_cents)s, "
+                "%(discount_percent)s, %(currency)s, %(initial_formatted)s, %(final_formatted)s, "
+                "%(captured_at)s) "
+                "ON CONFLICT DO NOTHING",
+                pricing_rows,
+            )
         conn.commit()
         logger.info("Inserted %d pricing rows.", len(pricing_rows))
     finally:

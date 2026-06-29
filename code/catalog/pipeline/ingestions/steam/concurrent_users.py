@@ -49,17 +49,19 @@ def steam_ccu():
                 bar()
 
         with conn.cursor() as cur:
-            for row in sql_rows:
-                cur.execute(
-                    "INSERT INTO steam_raw.concurrent_users (game_id, steam_app_id, current_players, captured_at) "
-                    "VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING",
+            cur.executemany(
+                "INSERT INTO steam_raw.concurrent_users (game_id, steam_app_id, current_players, captured_at) "
+                "VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING",
+                [
                     (
                         row["game_id"],
                         row["steam_app_id"],
                         row["current_players"],
                         row["captured_at"],
-                    ),
-                )
+                    )
+                    for row in sql_rows
+                ],
+            )
         conn.commit()
     finally:
         if conn:
