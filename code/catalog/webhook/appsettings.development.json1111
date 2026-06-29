@@ -1,9 +1,0 @@
-{
-    "ConnectionStrings": {
-        "DefaultConnection": "Host=localhost;Port=5433;Username=casedan;Password=testpass;Database=catalogdb"
-    },
-    "IGDB": {
-        "WEBHOOK_URL": "https://smee.io/WOe9jgUdK5UY0mX",
-        "WEBHOOK_SECRET": "epic-secret-2020202"
-    }
-}

@@ -12,9 +12,7 @@ using CmdScale.EntityFrameworkCore.TimescaleDB;
 using Data.Context;
 using Microsoft.AspNetCore.Http.Json;
 using Scalar.AspNetCore;
-// dotnet ef dbcontext scaffold --project CatalogAPI\CatalogAPI.csproj --startup-project CatalogAPI\CatalogAPI.csproj --configuration Debug --no-build "Host=localhost;Port=5433;Username=postgres;Password=pudGW.E7_u8eF8Qhnym)E0;Database=catalogdev" CmdScale.EntityFrameworkCore.TimescaleDB.Design --context AppDbContext --context-dir Context --force --output-dir Data --schema igdb --schema steam --no-onconfiguring
 
-// dotnet ef dbcontext scaffold --startup-file App.cs --no-build "Host=65.109.131.166;Port=5433;Database=catalogdb;Username=casedan;Password=K5aIfDjpPLKXVR5UgwYG" CmdScale.EntityFrameworkCore.TimescaleDB.Design --file Modelss.cs --schema igdb --schema steam --no-onconfiguring
 var builder = WebApplication.CreateBuilder(args);
     
 builder.Services.ConfigureHttpJsonOptions(options =>

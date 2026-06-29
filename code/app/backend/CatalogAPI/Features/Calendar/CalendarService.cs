@@ -1,6 +1,7 @@
 using Data;
 using CatalogAPI.Features.Games.Common.Dtos;
 using CatalogAPI.Features.Games.Common.Projections;
+using Data.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogAPI.Features.Calendar;

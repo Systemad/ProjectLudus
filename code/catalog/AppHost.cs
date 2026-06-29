@@ -139,8 +139,9 @@ var pipeline = builder
     .WithArgs("prefect", "worker", "start", "--pool", "pipeline-pool", "--type", "docker")
     .WithBindMount("/var/run/docker.sock", "/var/run/docker.sock")
     .WithVolume("dlt-data", "/data/dlt")
-    //.WithEnvironment("PREFECT_API_URL", prefectApiUrl)
-    //.WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
+    .WithEnvironment("PREFECT_API_URL", prefectApiUrl)
+    .WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
+    /*
     .WithEnvironment("PREFECT_API_URL", "http://prefectServer:4200/api")
     .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
     .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
@@ -157,6 +158,7 @@ var pipeline = builder
     .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__USERNAME", pgUser)
     .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__PASSWORD", pgPass)
     .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__DATABASE", pgDb)
+    */
     .WaitFor(prefectServer)
     .WaitFor(grateMigration)
     .PublishAsDockerComposeService(
