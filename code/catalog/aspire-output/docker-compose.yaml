@@ -44,13 +44,19 @@ services:
   pipeline-worker:
     image: "prefecthq/prefect:3-python3.13"
     command:
-      - "prefect"
-      - "worker"
-      - "start"
-      - "--pool"
-      - "pipeline-pool"
-      - "--type"
-      - "docker"
+      [
+        "sh",
+        "-c",
+        "pip install prefect-docker && prefect worker start --pool pipeline-pool --type docker",
+      ]
+    #command:
+    #  - "prefect"
+    #  - "worker"
+    #  - "start"
+    #  - "--pool"
+    #  - "pipeline-pool"
+    #  - "--type"
+    #  - "docker"
     restart: always
 
     volumes:
