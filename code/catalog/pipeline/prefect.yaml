@@ -9,6 +9,7 @@ build:
       requires: prefect-docker
       image_name: ghcr.io/systemad/pipeline-worker
       tag: "{{ get-commit-hash.stdout }}"
+      pull: true
       dockerfile: Dockerfile
       build_backend: buildx
 
@@ -17,6 +18,8 @@ push:
       requires: prefect-docker
       image_name: "{{ build-image.image_name }}"
       tag: "{{ build-image.tag }}"
+      credentials: "{{ prefect.blocks.docker-registry-credentials.ghcr }}"
+
 pull:
   - prefect.deployments.steps.set_working_directory:
       directory: /app
@@ -27,6 +30,8 @@ definitions:
       name: pipeline-pool
       job_variables:
         image: "{{ build-image.image }}"
+        image_pull_policy: "Always"
+        docker_registry_credentials: "{{ prefect.blocks.docker-registry-credentials.ghcr }}"
         networks:
           - dokploy-network
         env:
@@ -76,7 +81,9 @@ deployments:
     schedule:
       cron: "0 6 */3 * *"
       timezone: "Europe/Stockholm"
-    concurrency_limit: 1
+    concurrency_limit:
+      limit: 1
+      collision_strategy: ENQUEUE
     work_pool: *pipeline_pool
 
   - name: steam-game-index
@@ -85,5 +92,7 @@ deployments:
     schedule:
       cron: "0 10 * * 0"
       timezone: "Europe/Stockholm"
-    concurrency_limit: 1
+    concurrency_limit:
+      limit: 1
+      collision_strategy: ENQUEUE
     work_pool: *pipeline_pool
