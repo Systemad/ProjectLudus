@@ -8,178 +8,179 @@ from utilities.paginator import IGDBPaginator
 _INC_QUERY = "fields *; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;"
 _NO_INC_QUERY = "fields *; limit 500;"
 
-default = rest_api_source(
-    name="igdb",
-    config={
-        "client": {
-            "base_url": "https://api.igdb.com/v4/",
-            "headers": {"Client-Id": get_igdb_client_id()},
-            "auth": get_igdb_auth(),
-            "paginator": IGDBPaginator(limit=500),
-        },
-        "resource_defaults": {
-            "primary_key": "id",
-            "write_disposition": "merge",
-            "max_table_nesting": 0,
-            "endpoint": {
-                "method": "POST",
-                "data": _INC_QUERY,
-                "incremental": {
-                    "cursor_path": "updated_at",
-                    "initial_value": 0,
-                    "on_cursor_value_missing": "include",
-                },
+
+def _make_source():
+    return rest_api_source(
+        name="igdb",
+        config={
+            "client": {
+                "base_url": "https://api.igdb.com/v4/",
+                "headers": {"Client-Id": get_igdb_client_id()},
+                "auth": get_igdb_auth(),
+                "paginator": IGDBPaginator(limit=500),
             },
-        },
-        "resources": [
-            "age_rating_categories",
-            "age_rating_content_description_types",
-            "age_rating_content_descriptions_v2",
-            "age_rating_organizations",
-            "artwork_types",
-            {
-                "max_table_nesting": 1,
-                "name": "characters",
+            "resource_defaults": {
+                "primary_key": "id",
+                "write_disposition": "merge",
+                "max_table_nesting": 0,
                 "endpoint": {
-                    "path": "characters",
-                    "data": _INC_QUERY,
-                },
-            },
-            "character_genders",
-            {
-                "name": "character_mug_shots",
-                "write_disposition": "replace",
-                "endpoint": {
-                    "path": "character_mug_shots",
                     "method": "POST",
-                    "data": _NO_INC_QUERY,
-                    "incremental": None,
-                },
-            },
-            "character_species",
-            {
-                "max_table_nesting": 1,
-                "name": "collections",
-                "endpoint": {
-                    "path": "collections",
                     "data": _INC_QUERY,
+                    "incremental": {
+                        "cursor_path": "updated_at",
+                        "initial_value": 0,
+                        "on_cursor_value_missing": "include",
+                    },
                 },
             },
-            "collection_memberships",
-            "collection_membership_types",
-            "collection_relations",
-            "collection_relation_types",
-            {
-                "max_table_nesting": 1,
-                "name": "companies",
-                "endpoint": {
-                    "path": "companies",
-                    "data": "fields *,logo.*,websites.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+            "resources": [
+                "age_rating_categories",
+                "age_rating_content_description_types",
+                "age_rating_content_descriptions_v2",
+                "age_rating_organizations",
+                "artwork_types",
+                {
+                    "max_table_nesting": 1,
+                    "name": "characters",
+                    "endpoint": {
+                        "path": "characters",
+                        "data": _INC_QUERY,
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 1,
-                "name": "events",
-                "endpoint": {
-                    "path": "events",
-                    "data": _INC_QUERY,
+                "character_genders",
+                {
+                    "name": "character_mug_shots",
+                    "write_disposition": "replace",
+                    "endpoint": {
+                        "path": "character_mug_shots",
+                        "method": "POST",
+                        "data": _NO_INC_QUERY,
+                        "incremental": None,
+                    },
                 },
-            },
-            "event_logos",
-            "event_networks",
-            "external_game_sources",
-            {
-                "max_table_nesting": 1,
-                "name": "franchises",
-                "endpoint": {
-                    "path": "franchises",
-                    "data": _INC_QUERY,
+                "character_species",
+                {
+                    "max_table_nesting": 1,
+                    "name": "collections",
+                    "endpoint": {
+                        "path": "collections",
+                        "data": _INC_QUERY,
+                    },
                 },
-            },
-            "game_time_to_beats",
-            "keywords",
-            {
-                "max_table_nesting": 1,
-                "name": "network_types",
-                "endpoint": {
-                    "path": "network_types",
-                    "data": _INC_QUERY,
+                "collection_memberships",
+                "collection_membership_types",
+                "collection_relations",
+                "collection_relation_types",
+                {
+                    "max_table_nesting": 1,
+                    "name": "companies",
+                    "endpoint": {
+                        "path": "companies",
+                        "data": "fields *,logo.*,websites.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 1,
-                "name": "platforms",
-                "endpoint": {
-                    "path": "platforms",
-                    "data": "fields *,platform_family.*,platform_logo.*,platform_type.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                {
+                    "max_table_nesting": 1,
+                    "name": "events",
+                    "endpoint": {
+                        "path": "events",
+                        "data": _INC_QUERY,
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 1,
-                "name": "platform_versions",
-                "write_disposition": "replace",
-                "endpoint": {
-                    "path": "platform_versions",
-                    "data": _NO_INC_QUERY,
-                    "incremental": None,
+                "event_logos",
+                "event_networks",
+                "external_game_sources",
+                {
+                    "max_table_nesting": 1,
+                    "name": "franchises",
+                    "endpoint": {
+                        "path": "franchises",
+                        "data": _INC_QUERY,
+                    },
                 },
-            },
-            {
-                "name": "platform_version_companies",
-                "write_disposition": "replace",
-                "endpoint": {
-                    "path": "platform_version_companies",
-                    "data": _NO_INC_QUERY,
-                    "incremental": None,
+                "game_time_to_beats",
+                "keywords",
+                {
+                    "max_table_nesting": 1,
+                    "name": "network_types",
+                    "endpoint": {
+                        "path": "network_types",
+                        "data": _INC_QUERY,
+                    },
                 },
-            },
-            "platform_version_release_dates",
-            {
-                "name": "platform_websites",
-                "write_disposition": "replace",
-                "endpoint": {
-                    "path": "platform_websites",
-                    "data": _NO_INC_QUERY,
-                    "incremental": None,
+                {
+                    "max_table_nesting": 1,
+                    "name": "platforms",
+                    "endpoint": {
+                        "path": "platforms",
+                        "data": "fields *,platform_family.*,platform_logo.*,platform_type.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 1,
-                "name": "game_localizations",
-                "endpoint": {
-                    "path": "game_localizations",
-                    "data": "fields *,cover.*,region.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                {
+                    "max_table_nesting": 1,
+                    "name": "platform_versions",
+                    "write_disposition": "replace",
+                    "endpoint": {
+                        "path": "platform_versions",
+                        "data": _NO_INC_QUERY,
+                        "incremental": None,
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 1,
-                "name": "game_engines",
-                "endpoint": {
-                    "path": "game_engines",
-                    "data": "fields *,logo.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                {
+                    "name": "platform_version_companies",
+                    "write_disposition": "replace",
+                    "endpoint": {
+                        "path": "platform_version_companies",
+                        "data": _NO_INC_QUERY,
+                        "incremental": None,
+                    },
                 },
-            },
-            {
-                "max_table_nesting": 2,
-                "name": "games",
-                "endpoint": {
-                    "path": "games",
-                    "data": "fields *,age_ratings.*,artworks.*,alternative_names.*,game_localizations.*,external_games.*,websites.*,release_dates.*,cover.*,screenshots.*,multiplayer_modes.*,language_supports.*,involved_companies.*,videos.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                "platform_version_release_dates",
+                {
+                    "name": "platform_websites",
+                    "write_disposition": "replace",
+                    "endpoint": {
+                        "path": "platform_websites",
+                        "data": _NO_INC_QUERY,
+                        "incremental": None,
+                    },
                 },
-            },
-        ],
-    },
-)
-
-
-pipeline = dlt.pipeline(
-    pipeline_name="igdb_pipeline",
-    destination="postgres",
-    dataset_name="igdb_source",
-    progress="log",
-    dev_mode=False,
-)
+                {
+                    "max_table_nesting": 1,
+                    "name": "game_localizations",
+                    "endpoint": {
+                        "path": "game_localizations",
+                        "data": "fields *,cover.*,region.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                    },
+                },
+                {
+                    "max_table_nesting": 1,
+                    "name": "game_engines",
+                    "endpoint": {
+                        "path": "game_engines",
+                        "data": "fields *,logo.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                    },
+                },
+                {
+                    "max_table_nesting": 2,
+                    "name": "games",
+                    "endpoint": {
+                        "path": "games",
+                        "data": "fields *,age_ratings.*,artworks.*,alternative_names.*,game_localizations.*,external_games.*,websites.*,release_dates.*,cover.*,screenshots.*,multiplayer_modes.*,language_supports.*,involved_companies.*,videos.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
+                    },
+                },
+            ],
+        },
+    )
 
 
 def run():
+    default = _make_source()
+    pipeline = dlt.pipeline(
+        pipeline_name="igdb_pipeline",
+        destination="postgres",
+        dataset_name="igdb_source",
+        progress="log",
+        dev_mode=False,
+    )
     pipeline.run(default)
