@@ -799,3 +799,4 @@ apm_modules/
 opencode.jsonc
 appsettings.development.json
 appsettings.production.json
+set-env.ps1
