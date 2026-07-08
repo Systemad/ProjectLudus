@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useRef, useState } from "react";
-import { Grid, GridItem, Heading, HStack, SegmentedControl, Text, VStack } from "ui";
+import { Grid } from "@astryxdesign/core/Grid";
+import { Text, Heading } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
+import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
 import { useEventsGetListSuspenseHook } from "@src/gen/catalogApi";
 import { PageWrapper } from "@src/app/page-wrapper";
 import { MonthCard } from "@src/features/event/components/month-card";
@@ -45,24 +49,22 @@ function EventsPage() {
     }, [data, eventFilter, year, now]);
 
     return (
-        <PageWrapper maxW="9xl" py={{ base: "4", md: "6" }}>
-            <VStack align="stretch" gap="6">
-                <HStack justify="space-between" align="baseline" wrap="wrap" gap="3">
-                    <Heading fontSize="2xl" fontWeight="bold">
+        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(1rem, 3vw, 1.5rem)">
+            <VStack hAlign="stretch" gap={6}>
+                <HStack hAlign="between" gap={3} style={{alignItems: "baseline", flexWrap: "wrap"}}>
+                    <Heading level={2}>
                         {year}
                     </Heading>
-                    <Text fontSize="sm" color="fg.muted">
+                    <Text color="secondary" style={{fontSize: "0.875rem"}}>
                         {processed.filteredEvents.length} events
                     </Text>
                 </HStack>
 
-                <SegmentedControl.Root
+                <SegmentedControl
                     value={eventFilter}
                     onChange={(next) => setEventFilter(next as EventFilter)}
+                    label="View"
                     size="sm"
-                    colorScheme="neutral"
-                    fullRounded
-                    maxW={{ base: "full", md: "sm" }}
                 >
                     {EVENT_FILTERS.map((filter) => {
                         const count =
@@ -73,28 +75,20 @@ function EventsPage() {
                                   : processed.upcomingCount;
 
                         return (
-                            <SegmentedControl.Item
+                            <SegmentedControlItem
                                 key={filter.value}
                                 value={filter.value}
-                                colorScheme="neutral"
-                            >
-                                {filter.label}
-                                <Text as="span" display={{ base: "none", md: "inline" }}>
-                                    {` (${count})`}
-                                </Text>
-                            </SegmentedControl.Item>
+                                label={`${filter.label} (${count})`}
+                            />
                         );
                     })}
-                </SegmentedControl.Root>
+                </SegmentedControl>
 
-                <Grid
-                    templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4, 1fr)" }}
-                    gap="4"
-                >
+                <Grid columns={{minWidth: 280}} gap={4}>
                     {processed.groups.map((g) => (
-                        <GridItem key={g.month}>
+                        <div key={g.month}>
                             <MonthCard group={g} now={now} />
-                        </GridItem>
+                        </div>
                     ))}
                 </Grid>
             </VStack>

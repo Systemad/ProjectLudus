@@ -6,17 +6,10 @@ from utilities.database import get_connection
 import dlt
 import niquests
 
-BASE_URL = os.getenv("UMAMI__BASE_URL")
-WEBSITE_ID = os.getenv("UMAMI__WEBSITE_ID")
-API_KEY = os.getenv("UMAMI__API_KEY")
 
-if not BASE_URL or not WEBSITE_ID or not API_KEY:
-    raise ValueError(
-        "Missing required environment variables: UMAMI__BASE_URL, UMAMI__WEBSITE_ID, and/or UMAMI__API_KEY"
-    )
-
-
-def fetch_today_pageviews() -> list[dict]:
+def fetch_today_pageviews(
+    base_url: str, website_id: str, api_key: str
+) -> list[dict]:
     today = date.today()
     start = datetime(today.year, today.month, today.day, tzinfo=timezone.utc)
     end = start + timedelta(days=1)
@@ -28,8 +21,8 @@ def fetch_today_pageviews() -> list[dict]:
         "limit": "250",
     }
     resp = niquests.get(
-        f"{BASE_URL}/v1/websites/{WEBSITE_ID}/metrics",
-        headers={"Authorization": f"Bearer {API_KEY}"},
+        f"{base_url}/v1/websites/{website_id}/metrics",
+        headers={"Authorization": f"Bearer {api_key}"},
         params=payload,
     )
     resp.raise_for_status()
@@ -62,6 +55,15 @@ def insert_pageviews(rows: list[dict]):
 
 
 def run():
-    rows = fetch_today_pageviews()
+    base_url = os.environ.get("UMAMI__BASE_URL")
+    website_id = os.environ.get("UMAMI__WEBSITE_ID")
+    api_key = os.environ.get("UMAMI__API_KEY")
+    if not base_url or not website_id or not api_key:
+        raise ValueError(
+            "Missing required environment variables: UMAMI__BASE_URL, "
+            "UMAMI__WEBSITE_ID, and/or UMAMI__API_KEY"
+        )
+
+    rows = fetch_today_pageviews(base_url, website_id, api_key)
     if rows:
         insert_pageviews(rows)

@@ -1,11 +1,11 @@
-import { Icon } from "ui";
 export const GitHubIcon = () => (
-    <Icon
+    <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 65 65"
         fill="#fff"
-        boxSize="1.5em"
+        width="1.5em"
+        height="1.5em"
     >
         <path
             fill-rule="evenodd"
@@ -14,5 +14,5 @@ export const GitHubIcon = () => (
             transform="scale(64)"
             fill="#ffff"
         />
-    </Icon>
+    </svg>
 );

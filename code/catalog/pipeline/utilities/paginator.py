@@ -1,5 +1,5 @@
 from dlt.sources.helpers.rest_client.paginators import BasePaginator
-from dlt.sources.rest_api.config_setup import register_paginator
+
 
 class IGDBPaginator(BasePaginator):
     def __init__(self, limit=500):
@@ -17,9 +17,7 @@ class IGDBPaginator(BasePaginator):
 
     def update_request(self, request):
         if not isinstance(request.data, str):
-            raise TypeError(
-                "IGDBPaginator expects request.data to be a string"
-            )
+            raise TypeError("IGDBPaginator expects request.data to be a string")
 
         parts = [
             p.strip()
@@ -35,4 +33,4 @@ class IGDBPaginator(BasePaginator):
         request.data = "; ".join(parts) + ";"
 
 
-register_paginator("igdb_offset", IGDBPaginator)
+# register_paginator("igdb_offset", IGDBPaginator)

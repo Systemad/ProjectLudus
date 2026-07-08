@@ -3,7 +3,10 @@ import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
 import { isTbaReleaseDate } from "@src/utils/dateUtils";
 import { Link } from "@tanstack/react-router";
-import { Box, Format, HStack, Image, Text, VStack } from "ui";
+import { Text } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Timestamp } from "@astryxdesign/core/Timestamp";
 
 export function GameRow({
     game,
@@ -15,12 +18,7 @@ export function GameRow({
     const dayLabel = isPlaceholder ? (
         "Date TBA"
     ) : !isTbaReleaseDate(game.firstReleaseDate) && game.firstReleaseDate ? (
-        <Format.DateTime
-            value={new Date(game.firstReleaseDate)}
-            month="short"
-            day="2-digit"
-            year="numeric"
-        />
+        <Timestamp value={new Date(game.firstReleaseDate).toISOString()} format="date" />
     ) : (
         "TBA"
     );
@@ -36,50 +34,45 @@ export function GameRow({
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <HStack align="start" px="2" py="3" gap="3" rounded="md" bg="bg.surface">
-                <Box flexShrink={0} w="10" h="12" rounded="md" overflow="hidden" bg="bg.subtle">
+            <HStack vAlign="start" gap={3} style={{paddingLeft: "0.5rem", paddingRight: "0.5rem", paddingTop: "0.75rem", paddingBottom: "0.75rem", borderRadius: "var(--radius-md)", background: "var(--bg-surface)"}}>
+                <div style={{ flexShrink: 0, width: "2.5rem", height: "3rem", borderRadius: "var(--radius-md)", overflow: "hidden", background: "var(--bg-subtle)" }}>
                     {imageUrl ? (
-                        <Image
+                        <img
                             src={imageUrl}
                             alt={game.name}
-                            w="full"
-                            h="full"
-                            objectFit="cover"
+                            style={{ width: "100%", height: "100%", objectFit: "cover" }}
                             loading="lazy"
                         />
                     ) : (
-                        <Box display="grid" placeItems="center" w="full" h="full">
-                            <Text fontSize="xs" color="fg.muted" fontWeight="semibold">
+                        <div style={{ display: "grid", placeItems: "center", width: "100%", height: "100%" }}>
+                            <Text color="secondary" weight="semibold" style={{fontSize: "0.75rem"}}>
                                 {game.name.slice(0, 1)}
                             </Text>
-                        </Box>
+                        </div>
                     )}
-                </Box>
+                </div>
 
-                <VStack align="stretch" gap="1" flex="1" minW="0">
-                    <HStack justify="space-between" align="flex-start" gap="3" minW="0" w="full">
+                <VStack hAlign="stretch" gap={1} style={{flex: 1, minWidth: 0}}>
+                    <HStack hAlign="between" vAlign="start" gap={3} style={{minWidth: 0, width: "100%"}}>
                         <Text
-                            fontWeight="medium"
-                            fontSize="sm"
-                            lineClamp={2}
-                            minW="0"
-                            color="fg.base"
-                            flex="1"
+                            weight="medium"
+                            maxLines={2}
+                            style={{fontSize: "0.875rem", minWidth: 0, flex: 1}}
                         >
                             {game.name}
                         </Text>
                         {dayLabel && (
-                            <Text fontSize="xs" color="fg.subtle" textAlign="end" flexShrink={0}>
+                            <Text style={{fontSize: "0.75rem", flexShrink: 0, color: "var(--fg-tertiary)"}} justify="end">
                                 {dayLabel}
                             </Text>
                         )}
                     </HStack>
 
-                    <HStack justify="space-between" align="center" gap="2" minW="0" w="full">
-                        <Text fontSize="xs" color="fg.subtle" minW="0" flex="1" lineClamp={1}>
+                    <HStack hAlign="between" vAlign="center" gap={2} style={{minWidth: 0, width: "100%"}}>
+                        <Text maxLines={1} style={{fontSize: "0.75rem", minWidth: 0, flex: 1, color: "var(--fg-tertiary)"}}>
                             {studioLabel}
                         </Text>
-                        <HStack gap="2" align="center" flexShrink={0}>
+                        <HStack gap={2} vAlign="center" style={{flexShrink: 0}}>
                             {platformIcons.map((platform) => (
                                 <PlatformIcon key={platform} type={platform} tooltip={platform} />
                             ))}

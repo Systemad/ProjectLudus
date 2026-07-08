@@ -5,15 +5,14 @@ from datetime import datetime, timezone
 from alive_progress import alive_bar
 from utilities._tracked_games import get_tracked_games
 from utilities.database import get_connection
-from utilities.rate_limit import STEAM_SAFE_LIMITER, create_steam_session
-
-STEAM__API_KEY = os.getenv("STEAM__API_KEY")
+from utilities.rate_limit import get_steam_limiter, create_steam_session
 
 logger = logging.getLogger(__name__)
 
 
 def steam_ccu():
-    if not STEAM__API_KEY:
+    steam_api_key = os.environ.get("STEAM__API_KEY")
+    if steam_api_key is None:
         raise ValueError("Missing required environment variable: STEAM__API_KEY")
 
     conn = None
@@ -22,7 +21,7 @@ def steam_ccu():
         rows = get_tracked_games(conn)
 
         session = create_steam_session(
-            limiter=STEAM_SAFE_LIMITER, include_retry_hook=True
+            limiter=get_steam_limiter(), include_retry_hook=True
         )
         sql_rows = []
         with alive_bar(len(rows), title="concurrent_users") as bar:
@@ -30,7 +29,7 @@ def steam_ccu():
                 try:
                     resp = session.get(
                         "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/",
-                        params={"appid": str(steam_app_id), "key": STEAM__API_KEY},
+                        params={"appid": str(steam_app_id), "key": steam_api_key},
                     )
                     resp.raise_for_status()
                     body = resp.json()

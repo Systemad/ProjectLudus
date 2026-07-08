@@ -1,5 +1,5 @@
 import type { GameBrowseDto } from "@src/gen/catalogApi";
-import { Text } from "ui";
+import { Text } from "@astryxdesign/core/Text";
 
 import { SteamIcon } from "@src/icons/Launchers/SteamIcon";
 import { steamReviewColor, steamReviewRating } from "@src/utils/SteamReviewUtils";
@@ -20,7 +20,7 @@ export function HotReleasesTable({ games }: Props) {
                 {
                     header: "Rating",
                     render: (g) => (
-                        <Text color={steamReviewColor(g.review)}>
+                        <Text style={{color: steamReviewColor(g.review)}}>
                             {steamReviewRating(g.review)}
                         </Text>
                     ),

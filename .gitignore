@@ -800,3 +800,4 @@ opencode.jsonc
 appsettings.development.json
 appsettings.production.json
 set-env.ps1
+opencode.jsonc.openchamber.backup

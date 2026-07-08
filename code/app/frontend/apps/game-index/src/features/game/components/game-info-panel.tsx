@@ -1,14 +1,15 @@
 "use client";
 
-import { Heading, Text, VStack } from "ui";
+import { Text, Heading } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/VStack";
 
 export function IGDBInfo() {
     return (
-        <VStack align="stretch" gap="4">
-            <Heading fontSize="xl" fontWeight="bold" color="fg.base">
+        <VStack hAlign="stretch" gap={4}>
+            <Heading level={3}>
                 IGDB
             </Heading>
-            <Text color="fg.muted">IGDB-specific game data coming soon.</Text>
+            <Text color="secondary">IGDB-specific game data coming soon.</Text>
         </VStack>
     );
 }

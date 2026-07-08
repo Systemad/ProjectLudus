@@ -31,7 +31,7 @@ function RouteComponent() {
         >
             <Configure hitsPerPage={24} />
 
-            <PageWrapper py={{ base: "2", md: "4" }}>
+            <PageWrapper paddingBlock="clamp(0.5rem, 2vw, 1rem)">
                 <SearchPageLayout
                     searchPlaceholder="Search games..."
                     indexName={GAMES_SEARCH_INDEX_NAME}

@@ -1,4 +1,5 @@
-import { Accordion, Button, CheckboxCardGroup, Text, Flex } from "ui";
+import { Button } from "@astryxdesign/core/Button";
+import { Text } from "@astryxdesign/core/Text";
 import { useRefinementList } from "react-instantsearch";
 
 type SearchFacetFilterGroupProps = {
@@ -6,7 +7,7 @@ type SearchFacetFilterGroupProps = {
     attribute: string;
     index: number;
 };
-export function SearchFacetFilterGroup({ title, attribute, index }: SearchFacetFilterGroupProps) {
+export function SearchFacetFilterGroup({ title, attribute }: SearchFacetFilterGroupProps) {
     const { items, refine, canRefine, canToggleShowMore, isShowingMore, toggleShowMore } =
         useRefinementList({
             attribute,
@@ -27,55 +28,78 @@ export function SearchFacetFilterGroup({ title, attribute, index }: SearchFacetF
     };
 
     return (
-        <Accordion.Item button={title} index={index}>
-            <Accordion.Panel px="xs" pb="sm">
+        <div style={{marginBottom: "0.75rem"}}>
+            <details>
+                <summary style={{cursor: "pointer", fontWeight: 600, marginBottom: "0.25rem", padding: "0.25rem 0"}}>
+                    {title}
+                </summary>
+                <div style={{ padding: "0.25rem 0" }}>
                 {canRefine ? (
                     <>
-                        <CheckboxCardGroup.Root
-                            orientation="vertical"
-                            size="sm"
-                            value={currentValues}
-                            variant="subtle"
-                            onChange={handleChange}
-                        >
-                            {items.map((item) => (
-                                <CheckboxCardGroup.Item.Root key={item.value} value={item.value}>
-                                    <Flex>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                            {items.map((item) => {
+                                const isChecked = currentValues.includes(item.value);
+                                return (
+                                    <label
+                                        key={item.value}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: "0.5rem",
+                                            padding: "0.25rem 0.5rem",
+                                            borderRadius: "var(--radius-sm)",
+                                            cursor: "pointer",
+                                            fontSize: "0.875rem",
+                                            background: isChecked ? "var(--bg-subtle)" : "transparent",
+                                        }}
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            checked={isChecked}
+                                            onChange={() => {
+                                                const next = isChecked
+                                                    ? currentValues.filter((v) => v !== item.value)
+                                                    : [...currentValues, item.value];
+                                                handleChange(next);
+                                            }}
+                                            style={{ accentColor: "var(--color-primary)" }}
+                                        />
                                         <Text
                                             as="span"
-                                            fontSize="sm"
-                                            lineClamp={1}
-                                            minW={0}
-                                            flex="1"
+                                            style={{
+                                                fontSize: "0.875rem",
+                                                WebkitLineClamp: 1,
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                minWidth: 0,
+                                                flex: "1",
+                                            }}
                                         >
                                             {item.label}
                                         </Text>
                                         <Text
                                             as="span"
-                                            fontSize="xs"
-                                            color="fg.muted"
-                                            whiteSpace="nowrap"
-                                            ml="auto"
+                                            color="secondary"
+                                            style={{ fontSize: "0.75rem", whiteSpace: "nowrap", marginLeft: "auto" }}
                                         >
                                             {item.count}
                                         </Text>
-                                    </Flex>
-                                </CheckboxCardGroup.Item.Root>
-                            ))}
-                        </CheckboxCardGroup.Root>
+                                    </label>
+                                );
+                            })}
+                        </div>
 
                         {canToggleShowMore && (
-                            <Button size="xs" variant="ghost" mt="xs" onClick={toggleShowMore}>
-                                {isShowingMore ? "Show less" : "Show more"}
-                            </Button>
+                            <Button size="sm" variant="ghost" label={isShowingMore ? "Show less" : "Show more"} onClick={toggleShowMore} />
                         )}
                     </>
                 ) : (
-                    <Text color="fg.muted" fontSize="sm">
+                    <Text color="secondary" style={{fontSize: "0.875rem"}}>
                         No options found
                     </Text>
                 )}
-            </Accordion.Panel>
-        </Accordion.Item>
+                </div>
+            </details>
+        </div>
     );
 }

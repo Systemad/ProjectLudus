@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import type { GameBrowseDto } from "@src/gen/catalogApi";
 
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { Box, Text } from "ui";
+import { Text } from "@astryxdesign/core/Text";
 
 type GameCardModel = Pick<GameBrowseDto, "name"> & {
     id: number | string;
@@ -24,31 +24,33 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <Box role="group" width="100%" minWidth="9rem" flexShrink={0}>
-                <Box position="relative" borderRadius={800} overflow="hidden">
-                    <Box style={{ aspectRatio: "3/4" }}>
-                        <Box
-                            as="img"
+            <div role="group" style={{ width: "100%", minWidth: "9rem", flexShrink: 0 }}>
+                <div style={{ position: "relative", borderRadius: 800, overflow: "hidden" }}>
+                    <div style={{ aspectRatio: "3/4" }}>
+                        <img
                             src={getIGDBImageUrl(game.coverUrl, "1080p")}
                             alt={game.name ? `${game.name} cover` : "Game cover"}
-                            width="100%"
-                            height="100%"
-                            style={{ objectFit: "cover", transition: "transform 0.5s" }}
-                            _groupHover={{ transform: "scale(1.08)" }}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                transition: "transform 0.5s",
+                            }}
                         />
-                    </Box>
+                    </div>
                     <Text
-                        position="absolute"
-                        left={3}
-                        right={3}
-                        bottom={3}
-                        color="fgInverse"
-                        font="body1"
+                        style={{
+                            position: "absolute",
+                            left: "0.75rem",
+                            right: "0.75rem",
+                            bottom: "0.75rem",
+                            color: "white",
+                        }}
                     >
                         {game.name}
                     </Text>
-                </Box>
-            </Box>
+                </div>
+            </div>
         </Link>
     );
 }

@@ -44,6 +44,7 @@ definitions:
           IGDB__CLIENT_ID: "{{ prefect.blocks.secret.igdb-client-id }}"
           IGDB__ACCESS_TOKEN: "{{ prefect.blocks.secret.igdb-access-token }}"
           STEAM__API_KEY: "{{ prefect.blocks.secret.steam-api-key }}"
+          DESTINATION__TYPESENSE__CREDENTIALS__URL: "typesense:8108"
           DESTINATION__TYPESENSE__CREDENTIALS__API_KEY: "{{ prefect.blocks.secret.typesense-api-key }}"
           UMAMI__API_KEY: "{{ prefect.blocks.secret.umami-api-key }}"
           DLT_DATA_DIR: "{{ prefect.variables.dlt_data_dir }}"

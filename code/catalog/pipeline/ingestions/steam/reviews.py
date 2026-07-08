@@ -5,7 +5,7 @@ import niquests
 from alive_progress import alive_bar
 from utilities._tracked_games import get_tracked_games
 from utilities.database import get_connection
-from utilities.rate_limit import STEAM_SAFE_LIMITER, create_steam_session
+from utilities.rate_limit import get_steam_limiter, create_steam_session
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,7 @@ def run():
         rows = get_tracked_games(conn)
 
         now = datetime.now(timezone.utc)
-        session = create_steam_session(limiter=STEAM_SAFE_LIMITER, include_retry_hook=False)
+        session = create_steam_session(limiter=get_steam_limiter(), include_retry_hook=False)
         sql_rows = []
 
         with alive_bar(len(rows), title="steam_reviews") as bar:

@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: mart_steam_store_details
+    config:
+      alias: steam_details
+      contract: { enforced: true }
+    constraints:
+      - type: primary_key
+        columns: [game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: steam_app_id
+        data_type: bigint
+      - name: header_url
+        data_type: text
+      - name: capsule_url
+        data_type: text

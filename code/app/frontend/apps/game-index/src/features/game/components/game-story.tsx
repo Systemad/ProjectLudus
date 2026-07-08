@@ -1,6 +1,6 @@
 "use client";
 
-import { Text } from "ui";
+import { Text } from "@astryxdesign/core/Text";
 
 type Props = {
     storyText: string;
@@ -8,7 +8,7 @@ type Props = {
 
 export function GameStory({ storyText }: Props) {
     return (
-        <Text lineHeight="tall" color="fg.base" lineClamp={5}>
+        <Text style={{lineHeight: 1.8}} maxLines={5}>
             {storyText}
         </Text>
     );

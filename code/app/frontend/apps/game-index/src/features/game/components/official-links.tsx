@@ -1,6 +1,9 @@
 "use client";
 
-import { Button, Grid, Text, Box, ExternalLinkIcon } from "ui";
+import { Button } from "@astryxdesign/core/Button";
+import { Grid } from "@astryxdesign/core/Grid";
+import { Text } from "@astryxdesign/core/Text";
+import { LuExternalLink } from "react-icons/lu";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
 import type { WebsiteDto } from "@src/gen/catalogApi";
 type Props = {
@@ -9,37 +12,30 @@ type Props = {
 
 export function OfficialLinks({ websites }: Props) {
     return (
-        <Box>
-            <Text mb={3}>Official Links</Text>
+        <div>
+            <Text style={{marginBottom: "0.75rem"}}>Official Links</Text>
             {websites.length > 0 ? (
-                <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={3}>
+                <Grid columns={{minWidth: 280}} gap={3}>
                     {websites.map((website) => (
                         <Button
                             key={website.name}
+                            label={website.type ?? "Official Link"}
                             as="a"
                             href={website.url ?? undefined}
                             target="_blank"
                             rel="noreferrer"
                             variant="ghost"
-                            colorScheme="neutral"
-                            justifyContent="flex-start"
                             size="sm"
-                            _hover={{
-                                bg: "bg.subtle",
-                                color: "colorScheme.fg",
-                            }}
-                        >
-                            <ExternalLinkIcon />
-                            <PlatformIcon type={website.type!} tooltip={website.type!} />
-                            <Text color="inherit">{website.type ?? "Official Link"}</Text>
-                        </Button>
+                            icon={<LuExternalLink />}
+                            endContent={<PlatformIcon type={website.type!} tooltip={website.type!} />}
+                        />
                     ))}
                 </Grid>
             ) : (
-                <Text color="fg.subtle" fontSize="sm">
+                <Text style={{color: "var(--fg-tertiary)", fontSize: "0.875rem"}}>
                     No official links available.
                 </Text>
             )}
-        </Box>
+        </div>
     );
 }

@@ -1,110 +1,85 @@
-import {
-    Box,
-    For,
-    Grid,
-    GridItem,
-    Heading,
-    HStack,
-    Loading,
-    Skeleton,
-    SkeletonText,
-    Text,
-    VStack,
-} from "ui";
+import { Card } from "@astryxdesign/core/Card";
+import { Spinner } from "@astryxdesign/core/Spinner";
+import { Skeleton } from "@astryxdesign/core/Skeleton";
+import { Grid } from "@astryxdesign/core/Grid";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Text } from "@astryxdesign/core/Text";
 
 function MonthCardSkeleton() {
     return (
-        <Box rounded="xl" p={{ base: "3", md: "4" }} bg="bg.panel">
-            <Skeleton>
-                <Heading fontSize="lg" fontWeight="semibold" mb="2">
-                    September
-                </Heading>
-            </Skeleton>
+        <Card padding={3}>
+            <Skeleton width="100%" height="1.5rem" />
 
-            <VStack gap="2" align="stretch">
-                <For each={[0, 1, 2]}>
-                    {(index) => (
-                        <HStack
-                            key={index}
-                            justify="space-between"
-                            align={{ base: "stretch", md: "start" }}
-                            direction={{ base: "column", md: "row" }}
-                            px="2"
-                            py={{ base: "2", md: "3" }}
-                            gap={{ base: "2", md: "3" }}
-                            rounded="md"
-                            bg="bg.surface"
-                        >
-                            <HStack gap="3" minW="0" flex="1" w="full">
-                                <Skeleton>
-                                    <Box
-                                        w={{ base: "9", md: "10" }}
-                                        h={{ base: "11", md: "12" }}
-                                        rounded="md"
-                                    />
-                                </Skeleton>
-
-                                <VStack align="start" gap="1" minW="0" flex="1">
-                                    <SkeletonText lineClamp={1} w="full" />
-                                    <Skeleton>
-                                        <Text fontSize="xs">Upcoming</Text>
-                                    </Skeleton>
-                                </VStack>
-                            </HStack>
-
+            <VStack gap={2} hAlign="stretch">
+                {[0, 1, 2].map((index) => (
+                    <HStack
+                        key={index}
+                        hAlign="between"
+                        vAlign="start"
+                        gap={3}
+                        style={{
+                            flexDirection: "column",
+                            paddingLeft: "0.5rem",
+                            paddingRight: "0.5rem",
+                            paddingTop: "0.5rem",
+                            paddingBottom: "0.75rem",
+                            borderRadius: "var(--radius-md)",
+                            background: "var(--bg-surface)",
+                        }}
+                    >
+                        <HStack gap={3} style={{minWidth: 0, flex: 1, width: "100%"}}>
                             <Skeleton>
-                                <Text fontSize="xs">Sep 14-Sep 18</Text>
+                                <div
+                                    style={{
+                                        width: "2.25rem",
+                                        height: "2.75rem",
+                                        borderRadius: "var(--radius-md)",
+                                    }}
+                                />
                             </Skeleton>
+
+                            <VStack hAlign="start" gap={1} style={{ minWidth: 0, flex: "1" }}>
+                                <Skeleton width="100%" />
+                                <Skeleton width="4rem" height="0.75rem" />
+                            </VStack>
                         </HStack>
-                    )}
-                </For>
+
+                        <Skeleton width="8rem" height="0.75rem" />
+                    </HStack>
+                ))}
             </VStack>
-        </Box>
+        </Card>
     );
 }
 
 export function EventsPageLoadingState() {
     return (
-        <VStack align="stretch" gap="6">
-            <VStack align="stretch" gap="3">
-                <HStack justify="space-between" align="baseline" wrap="wrap" gap="3">
-                    <Skeleton>
-                        <Heading fontSize="2xl" fontWeight="bold">
-                            2026
-                        </Heading>
-                    </Skeleton>
-                    <Skeleton>
-                        <Text fontSize="sm">12 events</Text>
-                    </Skeleton>
+        <VStack hAlign="stretch" gap={6}>
+            <VStack hAlign="stretch" gap={3}>
+                <HStack hAlign="between" wrap="wrap" gap={3} style={{alignItems: "baseline"}}>
+                    <Skeleton width="8rem" height="2.25rem" />
+                    <Skeleton width="5rem" height="1rem" />
                 </HStack>
 
-                <HStack gap="2" maxW={{ base: "full", md: "sm" }}>
-                    <For each={[0, 1, 2]}>
-                        {(index) => (
-                            <Skeleton key={index} flex="1">
-                                <Box h="8" rounded="full" />
-                            </Skeleton>
-                        )}
-                    </For>
+                <HStack gap={2} style={{maxWidth: "24rem"}}>
+                    {[0, 1, 2].map((index) => (
+                        <Skeleton key={index} width="100%" height="2rem" radius="rounded" />
+                    ))}
                 </HStack>
 
-                <HStack gap="2" align="center" color="fg.subtle">
-                    <Loading.Dots color="fg.subtle" fontSize="lg" />
-                    <Text fontSize="sm">Loading events...</Text>
+                <HStack gap={2} vAlign="center" style={{color: "var(--fg-tertiary)"}}>
+                    <Spinner size="lg" />
+                    <Text style={{fontSize: "0.875rem"}}>Loading events...</Text>
                 </HStack>
             </VStack>
 
-            <Grid
-                templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4, 1fr)" }}
-                gap="4"
-            >
-                <For each={[0, 1, 2, 3, 4, 5, 6, 7]}>
-                    {(index) => (
-                        <GridItem key={index}>
-                            <MonthCardSkeleton />
-                        </GridItem>
-                    )}
-                </For>
+            <Grid columns={{minWidth: 280}} gap={4}>
+                {[0, 1, 2, 3, 4, 5, 6, 7].map((index) => (
+                    <div key={index}>
+                        <MonthCardSkeleton />
+                    </div>
+                ))}
             </Grid>
         </VStack>
     );

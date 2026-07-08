@@ -1,4 +1,5 @@
-import { GlobeIcon, Icon, Tooltip } from "ui";
+import { Tooltip } from "@astryxdesign/core/Tooltip";
+import { LuGlobe } from "react-icons/lu";
 import { iconMap } from "./platformIconMap";
 
 interface PlatformIconProps {
@@ -8,11 +9,11 @@ interface PlatformIconProps {
 }
 
 export function PlatformIcon({ type, tooltip, boxSize = "1rem" }: PlatformIconProps) {
-    const IconComponent = iconMap[type] ?? GlobeIcon;
+    const IconComponent = iconMap[type] ?? LuGlobe;
 
     return (
         <Tooltip content={tooltip} placement="start">
-            <Icon as={IconComponent} boxSize={boxSize} color="currentColor" />
+            <IconComponent style={{ width: boxSize, height: boxSize, color: "currentColor" }} />
         </Tooltip>
     );
 }

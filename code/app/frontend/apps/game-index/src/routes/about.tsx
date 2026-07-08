@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageWrapper } from "@src/app/page-wrapper";
-import { Text } from "ui";
+import { Text } from "@astryxdesign/core/Text";
 
 export const Route = createFileRoute("/about")({
     component: About,
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/about")({
 
 function About() {
     return (
-        <PageWrapper py={{ base: "4", md: "6" }}>
+        <PageWrapper paddingBlock="clamp(1rem, 3vw, 1.5rem)">
             <Text>Hello from About!</Text>
         </PageWrapper>
     );

@@ -1,7 +1,9 @@
 import type { EventDto } from "@src/gen/catalogApi";
 import { RouterLink } from "@src/components/router-link";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { Box, HStack, Image, Text, VStack } from "ui";
+import { Text } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
 import { isEventEnded } from "../utils/events-list";
 
 const monthDayFormatter = new Intl.DateTimeFormat("en-US", { month: "short", day: "2-digit" });
@@ -27,53 +29,55 @@ export function EventRow({ event, now }: { event: EventDto; now: Date }) {
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
             <HStack
-                justify="space-between"
-                align={{ base: "stretch", md: "start" }}
-                direction={{ base: "column", md: "row" }}
-                px={{ base: "2", md: "2" }}
-                py={{ base: "2", md: "3" }}
-                gap={{ base: "2", md: "3" }}
-                rounded="md"
-                bg={isEnded ? "bg.subtle" : "bg.panel"}
+                hAlign="between"
+                vAlign="start"
+                gap={3}
+                style={{
+                    flexDirection: "column",
+                    paddingLeft: "0.5rem",
+                    paddingRight: "0.5rem",
+                    paddingTop: "0.5rem",
+                    paddingBottom: "0.75rem",
+                    borderRadius: "var(--radius-md)",
+                    background: isEnded ? "var(--bg-subtle)" : "var(--bg-panel)",
+                }}
             >
-                <HStack gap="3" minW="0" flex="1" w="full">
-                    <Box
-                        flexShrink={0}
-                        w={{ base: "9", md: "10" }}
-                        h={{ base: "11", md: "12" }}
-                        rounded="md"
-                        overflow="hidden"
-                        bg="bg.subtle"
+                <HStack gap={3} style={{minWidth: 0, flex: 1, width: "100%"}}>
+                    <div
+                        style={{
+                            flexShrink: 0,
+                            width: "2.25rem",
+                            height: "2.75rem",
+                            borderRadius: "var(--radius-md)",
+                            overflow: "hidden",
+                            background: "var(--bg-subtle)",
+                        }}
                     >
                         {imageUrl ? (
-                            <Image
+                            <img
                                 src={imageUrl}
                                 alt={event.name}
-                                w="full"
-                                h="full"
-                                objectFit="cover"
+                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 loading="lazy"
                             />
                         ) : (
-                            <Box display="grid" placeItems="center" w="full" h="full">
-                                <Text fontSize="xs" color="fg.muted" fontWeight="semibold">
-                                    {event.name.slice(0, 1)}
-                                </Text>
-                            </Box>
+                            <div style={{ display: "grid", placeItems: "center", width: "100%", height: "100%" }}>
+                            <Text color="secondary" weight="semibold" style={{fontSize: "0.75rem"}}>
+                                {event.name.slice(0, 1)}
+                            </Text>
+                            </div>
                         )}
-                    </Box>
+                    </div>
 
-                    <VStack align="start" gap="0" minW="0">
+                    <VStack hAlign="start" gap={0} style={{minWidth: 0}}>
                         <Text
-                            fontWeight="medium"
-                            fontSize="sm"
-                            lineClamp={2}
-                            minW="0"
-                            color={isEnded ? "fg.subtle" : "fg.base"}
+                            weight="medium"
+                            maxLines={2}
+                            style={{fontSize: "0.875rem", minWidth: 0, color: isEnded ? "var(--fg-subtle)" : "var(--fg-base)"}}
                         >
                             {event.name}
                         </Text>
-                        <Text fontSize="xs" color={isEnded ? "fg.muted" : "fg.subtle"}>
+                        <Text style={{fontSize: "0.75rem", color: isEnded ? "var(--fg-muted)" : "var(--fg-subtle)"}}>
                             {isEnded ? "Finished" : "Upcoming"}
                         </Text>
                     </VStack>
@@ -81,10 +85,7 @@ export function EventRow({ event, now }: { event: EventDto; now: Date }) {
 
                 {dateRange && (
                     <Text
-                        fontSize="xs"
-                        color={isEnded ? "fg.muted" : "fg.subtle"}
-                        flexShrink={0}
-                        alignSelf={{ base: "start", md: "center" }}
+                        style={{ fontSize: "0.75rem", flexShrink: 0, color: isEnded ? "var(--color-text-tertiary)" : "var(--color-text-secondary)" }}
                     >
                         {dateRange}
                     </Text>

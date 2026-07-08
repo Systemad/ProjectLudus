@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
-import { Box, For, Heading, HStack, Image, Text } from "ui";
+import { HStack } from "@astryxdesign/core/HStack";
+import { Text } from "@astryxdesign/core/Text";
 
 import type { EventDto } from "@src/gen/catalogApi";
 import { RouterLink } from "@src/components/router-link";
@@ -24,91 +25,105 @@ export function EventCarousel({ events }: Props) {
 
     return (
         <>
-            <HStack justify="space-between" align="baseline">
-                <Heading size="2xl">Upcoming Events</Heading>
-                <Link to="/events" style={{ color: "inherit", fontSize: "sm" }}>
+            <HStack hAlign="between" style={{alignItems: "baseline"}}>
+                <Text as="h2" style={{fontSize: "1.5rem"}}>Upcoming Events</Text>
+                <Link to="/events" style={{ color: "inherit", fontSize: "0.875rem" }}>
                     Browse all
                 </Link>
             </HStack>
-            <Box
-                display="grid"
-                gridTemplateColumns="repeat(auto-fit, minmax(min(260px, 100%), 1fr))"
-                gap="md"
+            <div
+                style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
+                    gap: "md",
+                }}
             >
-                <For each={events} limit={4}>
-                    {(event) => (
-                        <RouterLink
-                            key={event.id}
-                            to="/events/$eventId"
-                            params={{ eventId: String(event.id) }}
+                {events?.slice(0, 4).map((event) => (
+                    <RouterLink
+                        key={event.id}
+                        to="/events/$eventId"
+                        params={{ eventId: String(event.id) }}
+                        style={{
+                            color: "inherit",
+                            textDecoration: "none",
+                            display: "block",
+                        }}
+                    >
+                        <div
                             style={{
-                                color: "inherit",
-                                textDecoration: "none",
-                                display: "block",
+                                position: "relative",
+                                borderRadius: "var(--radius-lg)",
+                                overflow: "hidden",
+                                background: "var(--bg-panel)",
+                                height: "100%",
+                                minHeight: "16rem",
                             }}
                         >
-                            <Box
-                                position="relative"
-                                rounded="lg"
-                                overflow="hidden"
-                                bg="bg.panel"
-                                h="full"
-                                minH="64"
-                            >
-                                {event.logoImageId && (
-                                    <Image
-                                        src={getIGDBImageUrl(event.logoImageId, "1080p")}
-                                        alt=""
-                                        position="absolute"
-                                        inset="0"
-                                        w="full"
-                                        h="full"
-                                        objectFit="cover"
-                                    />
-                                )}
-                                <Box
-                                    position="absolute"
-                                    inset="0"
-                                    bgGradient="linear(to-b, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.85) 100%)"
+                            {event.logoImageId && (
+                                <img
+                                    src={getIGDBImageUrl(event.logoImageId, "1080p")}
+                                    alt=""
+                                    style={{
+                                        position: "absolute",
+                                        inset: "0",
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                    }}
                                 />
-                                <Box
-                                    position="relative"
-                                    p="4"
-                                    h="full"
-                                    w="full"
-                                    display="flex"
-                                    flexDirection="column"
-                                    alignItems="center"
-                                    justifyContent="center"
-                                    textAlign="center"
-                                    gap="1.5"
+                            )}
+                            <div
+                                style={{
+                                    position: "absolute",
+                                    inset: "0",
+                                    background: "linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.85) 100%)",
+                                }}
+                            />
+                            <div
+                                style={{
+                                    position: "relative",
+                                    padding: "1rem",
+                                    height: "100%",
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    textAlign: "center",
+                                    gap: "0.375rem",
+                                }}
+                            >
+                                <Text
+                                    style={{fontSize: "0.875rem", textShadow: "0 2px 8px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.6)"}}
                                 >
-                                    <Text
-                                        fontSize="sm"
-                                        textShadow="0 2px 8px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.6)"
-                                    >
-                                        {formatDateRange(event)}
-                                    </Text>
-                                    <Heading
-                                        size="md"
-                                        lineClamp={2}
-                                        color="white"
-                                        textShadow="0 2px 8px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.6)"
-                                    >
-                                        {event.name}
-                                    </Heading>
-                                    <Box>
-                                        <EventCountdown
-                                            targetUtc={event.startTimeUtc}
-                                            started={isEventEnded(event, now)}
-                                        />
-                                    </Box>
-                                </Box>
-                            </Box>
-                        </RouterLink>
-                    )}
-                </For>
-            </Box>
+                                    {formatDateRange(event)}
+                                </Text>
+                                <Text
+                                    as="h3"
+                                    style={{
+                                        color: "white",
+                                        textShadow: "0 2px 8px rgba(0,0,0,0.95), 0 1px 2px rgba(0,0,0,0.6)",
+                                        WebkitLineClamp: 2,
+                                        overflow: "hidden",
+                                        display: "-webkit-box",
+                                        WebkitBoxOrient: "vertical",
+                                        fontSize: "1.125rem",
+                                        fontWeight: 600,
+                                    }}
+                                >
+                                    {event.name}
+                                </Text>
+                                <div>
+                                    <EventCountdown
+                                        targetUtc={event.startTimeUtc}
+                                        started={isEventEnded(event, now)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </RouterLink>
+                ))}
+            </div>
         </>
     );
 }

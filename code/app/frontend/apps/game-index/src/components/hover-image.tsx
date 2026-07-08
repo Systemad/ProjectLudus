@@ -1,6 +1,5 @@
-"use client";
+import { HoverCard } from "@astryxdesign/core/HoverCard";
 import { getIGDBImageUrl, type ImageSize } from "@src/utils/ImageHelper";
-import { Box, Image, useHover } from "ui";
 
 type Props = {
     src: string;
@@ -10,28 +9,35 @@ type Props = {
 };
 
 export function HoverImage({ src, size = "thumb", alt }: Props) {
-    const { hovered, ref } = useHover();
-    const imageUrl = getIGDBImageUrl(src, size);
+    const thumbUrl = getIGDBImageUrl(src, size);
+    const largeUrl = getIGDBImageUrl(src, "1080p");
     return (
-        <Box
-            ref={ref}
-            position="relative"
-            borderRadius="lg"
-            overflow="hidden"
-            boxShadow={hovered ? "lg" : "md"}
-            transition="all 0.3s ease-in-out"
-            w="full"
-            h="full"
+        <HoverCard
+            placement="above"
+            content={
+                <img
+                    src={largeUrl}
+                    alt={alt}
+                    style={{
+                        maxWidth: 400,
+                        borderRadius: "var(--radius-container)",
+                        display: "block",
+                    }}
+                />
+            }
         >
-            <Image
-                src={imageUrl}
-                alt={alt}
-                w="full"
-                objectFit="cover"
-                display="block"
-                transition="transform 0.3s ease-in-out"
-                _hover={{ transform: "scale(1.1)" }}
-            />
-        </Box>
+            <div style={{ width: "100%", height: "100%" }}>
+                <img
+                    src={thumbUrl}
+                    alt={alt}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                    }}
+                />
+            </div>
+        </HoverCard>
     );
 }

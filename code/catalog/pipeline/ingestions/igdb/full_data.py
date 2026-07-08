@@ -1,15 +1,31 @@
 import dlt
+import requests
 from dlt.sources.rest_api import (
     rest_api_source,
 )
-from utilities.igdb_client import get_igdb_auth, get_igdb_client_id
+from utilities.igdb_client import get_igdb_auth, get_igdb_client_id, get_igdb_headers
 from utilities.paginator import IGDBPaginator
 
 _INC_QUERY = "fields *; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;"
 _NO_INC_QUERY = "fields *; limit 500;"
 
+_FIELDS_A = (
+    "fields *,age_ratings.*,artworks.*,alternative_names.*,cover.*,"
+    "multiplayer_modes.*,screenshots.*,videos.*; "
+    "where updated_at > {cursor}; limit 500; offset {offset}; sort updated_at desc;"
+)
+
+_FIELDS_B = (
+    "fields id,updated_at,game_localizations.*,external_games.*,"
+    "involved_companies.*,language_supports.*,release_dates.*,websites.*; "
+    "where updated_at > {cursor}; limit 500; offset {offset}; sort updated_at desc;"
+)
+
 
 def _make_source():
+    from dlt.sources.rest_api.config_setup import register_paginator
+
+    register_paginator("igdb_offset", IGDBPaginator)
     return rest_api_source(
         name="igdb",
         config={
@@ -161,21 +177,59 @@ def _make_source():
                         "data": "fields *,logo.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
                     },
                 },
-                {
-                    "max_table_nesting": 2,
-                    "name": "games",
-                    "endpoint": {
-                        "path": "games",
-                        "data": "fields *,age_ratings.*,artworks.*,alternative_names.*,game_localizations.*,external_games.*,websites.*,release_dates.*,cover.*,screenshots.*,multiplayer_modes.*,language_supports.*,involved_companies.*,videos.*; where updated_at > {incremental.start_value}; limit 500; sort updated_at desc;",
-                    },
-                },
             ],
         },
     )
 
 
+def _make_igdb_session() -> requests.Session:
+    session = requests.Session()
+    session.headers.update(get_igdb_headers())
+    return session
+
+
+def _fetch_games(session, body_template, cursor, offset):
+    body = body_template.format(cursor=cursor, offset=offset)
+    response = session.post("https://api.igdb.com/v4/games", data=body)
+    response.raise_for_status()
+    return response.json()
+
+
+@dlt.resource(
+    name="games", primary_key="id", write_disposition="merge", max_table_nesting=2
+)
+def games_resource(
+    cursor=dlt.sources.incremental(
+        "updated_at", initial_value=0, on_cursor_value_missing="include"
+    ),
+):
+    session = _make_igdb_session()
+    start = cursor.start_value
+    offset = 0
+
+    while True:
+        page_a = _fetch_games(session, _FIELDS_A, start, offset)
+        page_b = _fetch_games(session, _FIELDS_B, start, offset)
+
+        merged = {}
+        for game in page_a:
+            merged[game["id"]] = game
+        for game in page_b:
+            gid = game["id"]
+            if gid in merged:
+                merged[gid].update(game)
+            else:
+                merged[gid] = game
+
+        yield list(merged.values())
+
+        if len(page_a) < 500:
+            break
+        offset += 500
+
+
 def run():
-    default = _make_source()
+    igdb_source = _make_source()
     pipeline = dlt.pipeline(
         pipeline_name="igdb_pipeline",
         destination="postgres",
@@ -183,4 +237,5 @@ def run():
         progress="log",
         dev_mode=False,
     )
-    pipeline.run(default)
+    pipeline.run(igdb_source)
+    pipeline.run(games_resource)

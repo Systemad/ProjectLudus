@@ -1,6 +1,5 @@
-import { Icon } from "ui";
 export const UnrealEngineIcon = () => (
-    <Icon boxSize="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
             fill="#fff"
             fill-rule="evenodd"
@@ -13,5 +12,5 @@ export const UnrealEngineIcon = () => (
             d="M128 4.8a123.2 123.2 0 100 246.4 123.2 123.2 0 000-246.4zm0 241.5a118.3 118.3 0 110-236.6 118.3 118.3 0 010 236.6z"
             clip-rule="evenodd"
         />
-    </Icon>
+    </svg>
 );

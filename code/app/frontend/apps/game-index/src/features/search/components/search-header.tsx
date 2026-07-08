@@ -1,4 +1,6 @@
-import { Box, Flex, Select, Text } from "ui";
+import { Selector } from "@astryxdesign/core/Selector";
+import { Text } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
 import { useSortBy } from "react-instantsearch";
 import { Stats } from "react-instantsearch";
 import type { SortFieldOption } from "./search-control";
@@ -46,40 +48,41 @@ export function SearchHeader({
     };
 
     return (
-        <Box mb="md">
+        <div style={{ marginBottom: "1rem" }}>
             <SearchInput placeholder={searchPlaceholder} />
 
-            <Flex gap="sm" align="center" justify="space-between" wrap="wrap" mt="3">
-                <Flex gap="sm" align="center" wrap="wrap">
-                    <Select.Root
+            <HStack gap={3} vAlign="center" hAlign="between" wrap="wrap" style={{marginTop: "0.75rem"}}>
+                <HStack gap={3} vAlign="center" wrap="wrap">
+                    <Selector
                         size="sm"
                         value={field}
                         onChange={(value) => onFieldChange(value)}
-                        items={sortFieldOptions.map((option) => ({
-                            label: option.label,
-                            value: option.value,
-                        }))}
-                        aria-label="Sort by"
+                        options={sortFieldOptions.map((option) => option.value)}
+                        label="Sort by"
+                        isLabelHidden
                     />
 
-                    <Box
-                        as="button"
-                        type="button"
+                    <div
+                        role="button"
+                        tabIndex={0}
                         onClick={onDirectionChange}
-                        px="3"
-                        py="1.5"
-                        rounded="md"
-                        fontSize="sm"
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onDirectionChange(); } }}
+                        style={{
+                            padding: "0.375rem 0.75rem",
+                            borderRadius: "var(--radius-md)",
+                            fontSize: "0.875rem",
+                            cursor: "pointer",
+                        }}
                         aria-label={`Sort ${direction === "asc" ? "descending" : "ascending"}`}
                     >
                         {direction === "asc" ? "↑ Ascending" : "↓ Descending"}
-                    </Box>
-                </Flex>
+                    </div>
+                </HStack>
 
-                <Text fontSize="sm" color="fg.subtle">
+                <Text style={{fontSize: "0.875rem", color: "var(--fg-tertiary)"}}>
                     <Stats />
                 </Text>
-            </Flex>
-        </Box>
+            </HStack>
+        </div>
     );
 }

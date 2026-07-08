@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Loading, SimpleGrid, VStack } from "ui";
+import { Spinner } from "@astryxdesign/core/Spinner";
+import { Grid } from "@astryxdesign/core/Grid";
+import { VStack } from "@astryxdesign/core/VStack";
 import { Suspense } from "react";
 import { useSuspenseQueries } from "@tanstack/react-query";
 
@@ -37,20 +39,20 @@ function RouteComponent() {
     return (
         <Suspense
             fallback={
-                <PageWrapper py={{ base: "4", md: "6" }}>
-                    <VStack align="center" justify="center" minH="60vh">
-                        <Loading.Rings color="blue.500" fontSize="5xl" />
+                <PageWrapper paddingBlock="clamp(1rem, 3vw, 1.5rem)">
+                    <VStack hAlign="center" vAlign="center" style={{minHeight: "60vh"}}>
+                        <Spinner size="xl" />
                     </VStack>
                 </PageWrapper>
             }
         >
-            <PageWrapper py={{ base: "2", md: "2" }}>
-                <VStack align="stretch" gap="md">
-                    <SimpleGrid columns={{ base: 1, md: 2 }} gap="md">
+            <PageWrapper paddingBlock="clamp(0.5rem, 2vw, 0.5rem)">
+                <VStack hAlign="stretch" gap={4}>
+                    <Grid columns={{minWidth: 320}} gap={4}>
                         <MostPlayedTable games={mostPlayed.games} />
                         <PopularReleasesTable games={popularReleases.games} />
                         <HotReleasesTable games={hotReleases.games} />
-                    </SimpleGrid>
+                    </Grid>
                     <EventCarousel events={upcomingEvents?.events} />
                 </VStack>
             </PageWrapper>

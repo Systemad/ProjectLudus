@@ -1,7 +1,7 @@
-import { Box } from "ui";
+import { AppShell as AstryxAppShell } from "@astryxdesign/core/AppShell";
 import type { ReactNode } from "react";
-import { Footer } from "@src/app/footer";
 import { NavigationBar } from "@src/app/navigation-bar";
+import { Footer } from "@src/app/footer";
 
 export type AppShellProps = {
     active?: string;
@@ -10,12 +10,15 @@ export type AppShellProps = {
 
 export function AppShell({ active = "home", children }: AppShellProps) {
     return (
-        <Box minH="dvh" color="fg.base" display="flex" flexDirection="column">
-            <NavigationBar active={active} />
-            <Box as="main" flex="1">
+        <>
+            <AstryxAppShell
+                contentPadding={4}
+                height="auto"
+                topNav={<NavigationBar active={active} />}
+            >
                 {children}
-            </Box>
+            </AstryxAppShell>
             <Footer />
-        </Box>
+        </>
     );
 }

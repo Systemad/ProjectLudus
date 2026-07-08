@@ -1,4 +1,6 @@
-import { Box, HStack, Text, VStack } from "ui";
+import { Text } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
 
 function computeRemaining(targetUtc: string) {
     const diff = new Date(targetUtc).getTime() - Date.now();
@@ -13,31 +15,35 @@ function computeRemaining(targetUtc: string) {
 
 function DigitBox({ digit }: { digit: string }) {
     return (
-        <Box
-            bg="bg.emphasized"
-            rounded="sm"
-            px="1.5"
-            py="0.5"
-            minW="7"
-            textAlign="center"
-            fontSize="lg"
-            fontWeight="bold"
-            fontFamily="mono"
+        <div
+            style={{
+                background: "var(--bg-emphasized)",
+                borderRadius: "var(--radius-sm)",
+                paddingLeft: "0.375rem",
+                paddingRight: "0.375rem",
+                paddingTop: "0.125rem",
+                paddingBottom: "0.125rem",
+                minWidth: "1.75rem",
+                textAlign: "center",
+                fontSize: "1.125rem",
+                fontWeight: "bold",
+                fontFamily: "monospace",
+            }}
         >
             {digit}
-        </Box>
+        </div>
     );
 }
 
 function DigitPair({ value, label }: { value: number; label: string }) {
     const padded = String(Math.min(value, 99)).padStart(2, "0");
     return (
-        <VStack gap="0.5" align="center">
-            <HStack gap="0.5">
+        <VStack gap={0.5} hAlign="center">
+            <HStack gap={0.5}>
                 <DigitBox digit={padded[0]} />
                 <DigitBox digit={padded[1]} />
             </HStack>
-            <Text fontSize="xs" letterSpacing="wide" textShadow="0 1px 4px rgba(0,0,0,0.85)">
+            <Text style={{fontSize: "0.75rem", letterSpacing: "0.05em", textShadow: "0 1px 4px rgba(0,0,0,0.85)"}}>
                 {label}
             </Text>
         </VStack>
@@ -52,42 +58,38 @@ type Props = {
 export function EventCountdown({ targetUtc, started }: Props) {
     if (started || !targetUtc) {
         return (
-            <Box
-                bg="success"
-                color="white"
-                rounded="sm"
-                px="3"
-                py="1"
-                textAlign="center"
-                fontSize="sm"
-                fontWeight="bold"
+            <div
+                style={{
+                    background: "var(--color-success, #22c55e)",
+                    color: "white",
+                    borderRadius: "var(--radius-sm)",
+                    paddingLeft: "0.75rem",
+                    paddingRight: "0.75rem",
+                    paddingTop: "0.25rem",
+                    paddingBottom: "0.25rem",
+                    textAlign: "center",
+                    fontSize: "0.875rem",
+                    fontWeight: "bold",
+                }}
             >
                 Started
-            </Box>
+            </div>
         );
     }
 
     const { days, hours, minutes } = computeRemaining(targetUtc);
 
     return (
-        <HStack gap="3" justify="center">
+        <HStack gap={3} hAlign="center">
             <DigitPair value={days} label="DAYS" />
             <Text
-                fontSize="xl"
-                fontFamily="mono"
-                alignSelf="center"
-                mb="4"
-                textShadow="0 1px 4px rgba(0,0,0,0.85)"
+                style={{fontSize: "1.25rem", fontFamily: "monospace", marginBottom: "1rem", textShadow: "0 1px 4px rgba(0,0,0,0.85)"}}
             >
                 :
             </Text>
             <DigitPair value={hours} label="HOURS" />
             <Text
-                fontSize="xl"
-                fontFamily="mono"
-                alignSelf="center"
-                mb="4"
-                textShadow="0 1px 4px rgba(0,0,0,0.85)"
+                style={{fontSize: "1.25rem", fontFamily: "monospace", marginBottom: "1rem", textShadow: "0 1px 4px rgba(0,0,0,0.85)"}}
             >
                 :
             </Text>

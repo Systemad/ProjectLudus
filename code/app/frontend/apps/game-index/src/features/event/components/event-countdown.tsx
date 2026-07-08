@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { parseISO } from "date-fns";
-import { Text, VStack } from "ui";
+import { Text } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/VStack";
 
 export function CountdownClock({
     startUtc,
@@ -18,16 +19,14 @@ export function CountdownClock({
 
     if (!startUtc) {
         return (
-            <VStack align="start" gap="1">
+            <VStack hAlign="start" gap={1}>
                 <Text
-                    fontSize="xs"
-                    color="fg.muted"
-                    textTransform="uppercase"
-                    letterSpacing="widest"
+                    color="secondary"
+                    style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                 >
                     Countdown
                 </Text>
-                <Text fontSize="2xl" fontWeight="bold">
+                <Text weight="bold" style={{fontSize: "1.5rem"}}>
                     TBD
                 </Text>
             </VStack>
@@ -48,16 +47,14 @@ export function CountdownClock({
 
     if (endTarget && endTarget <= now) {
         return (
-            <VStack align="start" gap="1">
+            <VStack hAlign="start" gap={1}>
                 <Text
-                    fontSize="xs"
-                    color="fg.muted"
-                    textTransform="uppercase"
-                    letterSpacing="widest"
+                    color="secondary"
+                    style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                 >
                     Countdown
                 </Text>
-                <Text fontSize="lg" fontWeight="bold">
+                <Text weight="bold" style={{fontSize: "1.125rem"}}>
                     Event has been concluded
                 </Text>
             </VStack>
@@ -66,16 +63,14 @@ export function CountdownClock({
 
     if (target <= now) {
         return (
-            <VStack align="start" gap="1">
+            <VStack hAlign="start" gap={1}>
                 <Text
-                    fontSize="xs"
-                    color="fg.muted"
-                    textTransform="uppercase"
-                    letterSpacing="widest"
+                    color="secondary"
+                    style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                 >
                     Countdown
                 </Text>
-                <Text fontSize="2xl" fontWeight="bold">
+                <Text weight="bold" style={{fontSize: "1.5rem"}}>
                     Started
                 </Text>
             </VStack>
@@ -83,11 +78,11 @@ export function CountdownClock({
     }
 
     return (
-        <VStack align="start" gap="1">
-            <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+        <VStack hAlign="start" gap={1}>
+            <Text color="secondary" style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}>
                 Countdown
             </Text>
-            <Text fontSize="2xl" fontWeight="bold">
+            <Text weight="bold" style={{fontSize: "1.5rem"}}>
                 {formatHms(target.getTime() - now.getTime())}
             </Text>
         </VStack>
@@ -119,16 +114,14 @@ export function EventCountdown({
 
     if (!targetUtc) {
         return (
-            <VStack align="start" gap="1">
+            <VStack hAlign="start" gap={1}>
                 <Text
-                    fontSize="xs"
-                    color="fg.muted"
-                    textTransform="uppercase"
-                    letterSpacing="widest"
+                    color="secondary"
+                    style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                 >
                     Countdown
                 </Text>
-                <Text fontSize="lg" fontWeight="bold">
+                <Text weight="bold" style={{fontSize: "1.125rem"}}>
                     TBD
                 </Text>
             </VStack>
@@ -137,16 +130,14 @@ export function EventCountdown({
 
     if (started) {
         return (
-            <VStack align="start" gap="1">
+            <VStack hAlign="start" gap={1}>
                 <Text
-                    fontSize="xs"
-                    color="fg.muted"
-                    textTransform="uppercase"
-                    letterSpacing="widest"
+                    color="secondary"
+                    style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                 >
                     Countdown
                 </Text>
-                <Text fontSize="lg" fontWeight="bold">
+                <Text weight="bold" style={{fontSize: "1.125rem"}}>
                     Started
                 </Text>
             </VStack>
@@ -156,11 +147,11 @@ export function EventCountdown({
     const diff = parseISO(targetUtc).getTime() - now.getTime();
 
     return (
-        <VStack align="start" gap="1">
-            <Text fontSize="xs" color="fg.muted" textTransform="uppercase" letterSpacing="widest">
+        <VStack hAlign="start" gap={1}>
+            <Text color="secondary" style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}>
                 Countdown
             </Text>
-            <Text fontSize="xl" fontWeight="bold">
+            <Text weight="bold" style={{fontSize: "1.25rem"}}>
                 {formatHmsShort(diff)}
             </Text>
         </VStack>

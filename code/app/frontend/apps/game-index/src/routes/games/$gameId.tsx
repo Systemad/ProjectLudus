@@ -1,22 +1,14 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import {
-    Box,
-    Button,
-    DataList,
-    Heading,
-    Image,
-    Loading,
-    Tabs,
-    Tag,
-    For,
-    Text,
-    HStack,
-    VStack,
-    Wrap,
-} from "ui";
+import { Text, Heading } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Button } from "@astryxdesign/core/Button";
+import { Badge } from "@astryxdesign/core/Badge";
+import { Spinner } from "@astryxdesign/core/Spinner";
+import { TabList, Tab } from "@astryxdesign/core/TabList";
 import { MediaGrid } from "@src/features/game/components/media-grid";
 import { GameReleaseDates } from "@src/features/game/components/game-release-dates";
 import { GameStory } from "@src/features/game/components/game-story";
@@ -40,9 +32,13 @@ export const Route = createFileRoute("/games/$gameId")({
     component: GameDetailPage,
 });
 
+const TAB_VALUES = ["players", "steam", "igdb", "releases", "screenshots", "links", "related"] as const;
+type TabValue = (typeof TAB_VALUES)[number];
+
 function GameDetailPage() {
     const { gameId } = Route.useParams();
     const gameIdNumber = Number(gameId);
+    const [selectedTab, setSelectedTab] = useState<TabValue>("players");
 
     const heroQuery = useSuspenseQuery(
         gamesGetHeroSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
@@ -67,11 +63,11 @@ function GameDetailPage() {
 
     if (!hero) {
         return (
-            <PageWrapper py="20">
-                <VStack align="center" gap="6">
-                    <Heading>Game not found</Heading>
+            <PageWrapper paddingBlock="5rem">
+                <VStack hAlign="center" gap={6}>
+                    <Heading level={1}>Game not found</Heading>
                     <Link to="/" style={linkStyle}>
-                        <Button>Back to Home</Button>
+                        <Button label="Back to Home" />
                     </Link>
                 </VStack>
             </PageWrapper>
@@ -81,174 +77,127 @@ function GameDetailPage() {
     const coverImage = getIGDBImageUrl(hero.cover, "720p");
 
     return (
-        <Suspense fallback={<Loading.Rings color="primary.500" fontSize="5xl" />}>
-            <PageWrapper pt="0" maxW="8xl">
-                <Box position="relative" overflow="hidden" mb={{ base: 6, md: 10 }}>
-                    <Box position="absolute" inset={0} zIndex={-1}>
+        <Suspense fallback={<Spinner size="xl" />}>
+            <PageWrapper paddingTop="0" maxWidth="var(--spacing-8xl, 896px)">
+                <div style={{ position: "relative", overflow: "hidden", marginBottom: "1.5rem" }}>
+                    <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
                         {coverImage && (
-                            <Image
+                            <img
                                 src={coverImage}
                                 alt=""
-                                w="full"
-                                h="full"
-                                objectFit="cover"
-                                filter="blur(80px) brightness(0.3)"
-                                transform="scale(1.2)"
-                                pointerEvents="none"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    objectFit: "cover",
+                                    filter: "blur(80px) brightness(0.3)",
+                                    transform: "scale(1.2)",
+                                    pointerEvents: "none",
+                                }}
                             />
                         )}
-                        <Box
-                            position="absolute"
-                            inset={0}
-                            bgGradient="linear(to-b, blackAlpha.400 0%, blackAlpha.200 35%, oklch(21.35% .0146 225deg) 100%)"
+                        <div
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 35%, oklch(21.35% .0146 225deg) 100%)",
+                            }}
                         />
-                    </Box>
+                    </div>
 
-                    <Box w="full" color="fg.base" position="relative" zIndex={1}>
-                        <HStack align="flex-start" gap={{ base: 4, md: 6 }}>
-                            <Box
-                                flexShrink={0}
-                                w={{ base: "120px", md: "160px" }}
-                                h={{ base: "160px", md: "210px" }}
-                                rounded="xl"
-                                overflow="hidden"
-                                boxShadow="lg"
+                    <div style={{ width: "100%", color: "white", position: "relative", zIndex: 1 }}>
+                        <HStack vAlign="start" gap={4}>
+                            <div
+                                style={{
+                                    flexShrink: 0,
+                                    width: "120px",
+                                    height: "160px",
+                                    borderRadius: "var(--radius-xl)",
+                                    overflow: "hidden",
+                                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
+                                }}
                             >
-                                <Image
+                                <img
                                     src={coverImage}
                                     alt={hero.name ?? "Cover"}
-                                    objectFit="cover"
-                                    w="full"
-                                    h="full"
-                                    display="block"
+                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                                 />
-                            </Box>
+                            </div>
 
-                            <VStack align="start" gap={2} flex={1} minW={0} color="white">
+                            <VStack hAlign="start" gap={2} style={{flex: 1, minWidth: 0, color: "white"}}>
                                 <Heading
-                                    size={{ base: "2xl", md: "4xl" }}
-                                    color="white"
-                                    lineHeight="1.1"
-                                    textShadow="0 1px 2px rgba(0, 0, 0, 0.45)"
+                                    level={1}
+                                    style={{fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: "white", lineHeight: 1.1, textShadow: "0 1px 2px rgba(0, 0, 0, 0.45)"}}
                                 >
                                     {hero.name ?? "Untitled game"}
                                 </Heading>
 
-                                <Wrap gap="xs">
-                                    <For each={hero.genres}>
-                                        {(genre) => (
-                                            <Tag
-                                                key={genre.name}
-                                                variant="subtle"
-                                                size="sm"
-                                                textTransform="none"
-                                            >
-                                                {genre.name}
-                                            </Tag>
-                                        )}
-                                    </For>
-                                </Wrap>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}>
+                                    {hero.genres.map((genre: { name: string }) => (
+                                        <Badge
+                                            key={genre.name}
+                                            variant="info"
+                                            label={genre.name}
+                                            style={{ textTransform: "none" }}
+                                        />
+                                    ))}
+                                </div>
 
-                                <DataList.Root
-                                    variant="grid"
-                                    items={[
-                                        {
-                                            term: "Release Date",
-                                            description: hero.firstReleaseDate ?? "TBA",
-                                        },
-                                        {
-                                            term: "Developer",
-                                            description:
-                                                hero.companies
-                                                    .filter((c) => c.developer)
-                                                    .map((c) => c.companyName)
-                                                    .join(", ") || "—",
-                                        },
-                                        {
-                                            term: "Publisher",
-                                            description:
-                                                hero.companies
-                                                    .filter((c) => c.publisher)
-                                                    .map((c) => c.companyName)
-                                                    .join(", ") || "—",
-                                        },
-                                        {
-                                            term: "Game Mode",
-                                            description:
-                                                hero.gameModes.map((m) => m.name).join(", ") || "—",
-                                        },
-                                        {
-                                            term: "Perspective",
-                                            description:
-                                                hero.playerPerspectives
-                                                    .map((p) => p.name)
-                                                    .join(", ") || "—",
-                                        },
-                                        {
-                                            term: "Platforms",
-                                            description:
-                                                hero.platforms.map((p) => p.name).join(", ") || "—",
-                                        },
-                                    ]}
-                                />
+                                <dl style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.25rem 0.75rem", fontSize: "0.875rem" }}>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Release Date</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.firstReleaseDate ?? "TBA"}</dd>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Developer</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.companies.filter((c: { developer: boolean }) => c.developer).map((c: { companyName: string }) => c.companyName).join(", ") || "—"}</dd>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Publisher</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.companies.filter((c: { publisher: boolean }) => c.publisher).map((c: { companyName: string }) => c.companyName).join(", ") || "—"}</dd>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Game Mode</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.gameModes.map((m: { name: string }) => m.name).join(", ") || "—"}</dd>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Perspective</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.playerPerspectives.map((p: { name: string }) => p.name).join(", ") || "—"}</dd>
+                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Platforms</dt>
+                                    <dd style={{ margin: 0, color: "white" }}>{hero.platforms.map((p: { name: string }) => p.name).join(", ") || "—"}</dd>
+                                </dl>
 
                                 <GameStory storyText={hero.summary ?? "No summary available."} />
                             </VStack>
                         </HStack>
-                    </Box>
-                </Box>
+                    </div>
+                </div>
 
-                <Tabs.Root orientation="horizontal" lazy mt={{ base: 6, md: 10 }}>
-                    <Tabs.List>
-                        <Tabs.Tab index={0}>Players</Tabs.Tab>
-                        <Tabs.Tab index={1}>Steam Store</Tabs.Tab>
-                        <Tabs.Tab index={2}>IGDB</Tabs.Tab>
-                        <Tabs.Tab index={3}>Release Dates</Tabs.Tab>
-                        <Tabs.Tab index={4}>Screenshots</Tabs.Tab>
-                        <Tabs.Tab index={5}>Links</Tabs.Tab>
-                        <Tabs.Tab index={6}>Related Games</Tabs.Tab>
-                    </Tabs.List>
+                <TabList value={selectedTab} onChange={(val) => setSelectedTab(val as TabValue)}>
+                    <Tab value="players" label="Players" />
+                    <Tab value="steam" label="Steam Store" />
+                    <Tab value="igdb" label="IGDB" />
+                    <Tab value="releases" label="Release Dates" />
+                    <Tab value="screenshots" label="Screenshots" />
+                    <Tab value="links" label="Links" />
+                    <Tab value="related" label="Related Games" />
+                </TabList>
 
-                    <Tabs.Panels>
-                        <Tabs.Panel index={0}>
-                            <PlayerStats gameId={gameIdNumber} />
-                        </Tabs.Panel>
-
-                        <Tabs.Panel index={1}>
-                            <Suspense
-                                fallback={<Loading.Rings color="primary.500" fontSize="xl" />}
-                            >
-                                <PricingInfo gameId={gameIdNumber} />
-                            </Suspense>
-                        </Tabs.Panel>
-
-                        <Tabs.Panel index={2}>
-                            <IGDBInfo />
-                        </Tabs.Panel>
-
-                        <Tabs.Panel index={3}>
-                            <GameReleaseDates releaseDates={releasePageData?.releases} />
-                        </Tabs.Panel>
-                        <Tabs.Panel index={4}>
-                            {media ? (
-                                <MediaGrid screenshots={media.screenshots} videos={media.videos} />
-                            ) : (
-                                <Text color="fg.muted">No media available.</Text>
-                            )}
-                        </Tabs.Panel>
-                        <Tabs.Panel index={5}>
-                            <Suspense
-                                fallback={<Loading.Rings color="primary.500" fontSize="xl" />}
-                            >
-                                <LinksTabContent gameId={gameIdNumber} />
-                            </Suspense>
-                        </Tabs.Panel>
-
-                        <Tabs.Panel index={6}>
-                            <RelatedGamesSection games={similarGames} />
-                        </Tabs.Panel>
-                    </Tabs.Panels>
-                </Tabs.Root>
+                <div style={{ marginTop: "1.5rem" }}>
+                    {selectedTab === "players" && <PlayerStats gameId={gameIdNumber} />}
+                    {selectedTab === "steam" && (
+                        <Suspense fallback={<Spinner size="lg" />}>
+                            <PricingInfo gameId={gameIdNumber} />
+                        </Suspense>
+                    )}
+                    {selectedTab === "igdb" && <IGDBInfo />}
+                    {selectedTab === "releases" && (
+                        <GameReleaseDates releaseDates={releasePageData?.releases} />
+                    )}
+                    {selectedTab === "screenshots" && (
+                        media ? (
+                            <MediaGrid screenshots={media.screenshots} videos={media.videos} />
+                        ) : (
+                            <Text color="secondary">No media available.</Text>
+                        )
+                    )}
+                    {selectedTab === "links" && (
+                        <Suspense fallback={<Spinner size="lg" />}>
+                            <LinksTabContent gameId={gameIdNumber} />
+                        </Suspense>
+                    )}
+                    {selectedTab === "related" && <RelatedGamesSection games={similarGames} />}
+                </div>
             </PageWrapper>
         </Suspense>
     );

@@ -6,7 +6,11 @@ import { getYear } from "date-fns";
 import { isTbaReleaseDate } from "@src/utils/dateUtils";
 import { groupGamesByMonth } from "@src/features/calendar/utils/group-games-by-month";
 import { GameGroupCard } from "@src/features/calendar/components/calendar-game-card";
-import { Box, Grid, GridItem, Heading, Loading, Text, VStack } from "ui";
+import { Card } from "@astryxdesign/core/Card";
+import { Grid } from "@astryxdesign/core/Grid";
+import { Text, Heading } from "@astryxdesign/core/Text";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Spinner } from "@astryxdesign/core/Spinner";
 
 export const Route = createFileRoute("/calendar/")({
     component: RouteComponent,
@@ -20,38 +24,35 @@ function GamesCalendarPage() {
     const groups = groupGamesByMonth(datedGames);
 
     return (
-        <VStack align="stretch" gap="6">
-            <Box>
-                <Heading fontSize="2xl" fontWeight="bold">
+        <VStack hAlign="stretch" gap={6}>
+            <div>
+                <Heading level={2}>
                     {year}
                 </Heading>
-                <Text fontSize="sm" color="fg.muted" mt="1">
+                <Text color="secondary" style={{fontSize: "0.875rem", marginTop: "0.25rem"}}>
                     Most anticipated releases this year
                 </Text>
-            </Box>
+            </div>
 
             {groups.length === 0 ? (
-                <Box rounded="xl" bg="bg.panel" p={{ base: "6", md: "8" }} textAlign="center">
-                    <Text fontSize="lg" color="fg.base" fontWeight="semibold">
+                <Card padding={6} style={{textAlign: "center"}}>
+                    <Text weight="semibold" style={{fontSize: "1.125rem"}}>
                         No scheduled games
                     </Text>
-                    <Text fontSize="sm" color="fg.muted" mt="1">
+                    <Text color="secondary" style={{fontSize: "0.875rem", marginTop: "0.25rem"}}>
                         Games with placeholder dates are listed separately.
                     </Text>
-                </Box>
+                </Card>
             ) : (
-                <Grid
-                    templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4, 1fr)" }}
-                    gap="4"
-                >
+                <Grid columns={{minWidth: 280}} gap={4}>
                     {groups.map((group) => (
-                        <GridItem key={group.month}>
+                        <div key={group.month}>
                             <GameGroupCard
                                 title={group.month}
                                 games={group.games}
                                 emptyLabel="No games scheduled"
                             />
-                        </GridItem>
+                    </div>
                     ))}
                 </Grid>
             )}
@@ -68,15 +69,15 @@ function GamesCalendarPage() {
 
 function LoadingFallback() {
     return (
-        <Box display="grid" placeItems="center" minH="64">
-            <Loading.Rings color="primary.500" fontSize="5xl" />
-        </Box>
+        <div style={{ display: "grid", placeItems: "center", minHeight: "16rem" }}>
+            <Spinner size="xl" />
+        </div>
     );
 }
 
 function RouteComponent() {
     return (
-        <PageWrapper maxW="9xl" py={{ base: "4", md: "6" }}>
+        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(1rem, 3vw, 1.5rem)">
             <Suspense fallback={<LoadingFallback />}>
                 <GamesCalendarPage />
             </Suspense>

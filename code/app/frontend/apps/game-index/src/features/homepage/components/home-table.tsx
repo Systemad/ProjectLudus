@@ -1,20 +1,10 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import { Box, Image, NativeTable, Text } from "ui";
+import { Card } from "@astryxdesign/core/Card";
+import { Text } from "@astryxdesign/core/Text";
 
 import type { GameBrowseDto } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import {
-    PreviewCardArrow,
-    PreviewCardArrowSvg,
-    PreviewCardPopup,
-    PreviewCardPortal,
-    PreviewCardPositioner,
-    PreviewCardRoot,
-    PreviewCardTrigger,
-    createPreviewCardHandle,
-} from "@src/components/preview-card";
-import { GamePreviewCard } from "@src/components/game-preview-card";
 
 type Column = {
     header: string;
@@ -30,55 +20,54 @@ type Props = {
 };
 
 export function HomeTable({ title, icon, games, columns }: Props) {
-    const previewHandle = createPreviewCardHandle<GameBrowseDto>();
-
     return (
-        <Box rounded="xl" bg="bg.panel" padding="sm">
-            <NativeTable.Root variant="line" highlightOnHover={true}>
-                <NativeTable.Thead>
-                    <NativeTable.Tr>
-                        <NativeTable.Th colSpan={2} ps="0" fontWeight={400} fontSize="lg">
-                            <Box display="inline-flex" alignItems="center" gap="2">
+        <Card padding={2}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                <thead>
+                    <tr>
+                        <th colSpan={2} style={{ padding: "0", fontWeight: 400, fontSize: "1.125rem", textAlign: "left", borderBottom: "1px solid var(--border-color, var(--bg-subtle))", paddingBottom: "0.5rem" }}>
+                            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                                 {icon}
                                 <Text>{title}</Text>
-                            </Box>
-                        </NativeTable.Th>
+                            </div>
+                        </th>
                         {columns.map((col) => (
-                            <NativeTable.Th
+                            <th
                                 key={col.header}
-                                numeric={col.numeric}
-                                textAlign="center"
+                                style={{
+                                    textAlign: col.numeric ? "right" : "center",
+                                    borderBottom: "1px solid var(--border-color, var(--bg-subtle))",
+                                    paddingBottom: "0.5rem",
+                                    fontWeight: 400,
+                                    fontSize: "0.875rem",
+                                    color: "var(--fg-muted)",
+                                }}
                             >
                                 {col.header}
-                            </NativeTable.Th>
+                            </th>
                         ))}
-                    </NativeTable.Tr>
-                </NativeTable.Thead>
-                <NativeTable.Tbody>
+                    </tr>
+                </thead>
+                <tbody>
                     {games.map((game) => (
-                        <NativeTable.Tr key={game.id}>
-                            <NativeTable.Td p={0} verticalAlign="middle" w="1">
-                                <PreviewCardTrigger
-                                    handle={previewHandle}
-                                    payload={game}
-                                    style={{ display: "inline-flex", alignItems: "center" }}
+                        <tr key={game.id} style={{ borderBottom: "1px solid var(--border-color, var(--bg-subtle))" }}>
+                            <td style={{ padding: 0, verticalAlign: "middle", width: "1px" }}>
+                                <Link
+                                    to="/games/$gameId"
+                                    params={{ gameId: String(game.id) }}
+                                    style={{ display: "inline-flex", alignItems: "center", color: "inherit", textDecoration: "none" }}
                                 >
-                                    <Image
+                                    <img
                                         src={
                                             game.steam?.headerUrl ??
                                             getIGDBImageUrl(game.coverUrl, "cover_small")
                                         }
-                                        h="40px"
-                                        display="block"
+                                        style={{ height: "40px", display: "block", width: "7rem", objectFit: "cover", borderRadius: "var(--radius-sm)" }}
                                         alt={game.name ?? "Game cover"}
-                                        w="28"
-                                        backgroundSize={"contain"}
-                                        objectFit="cover"
-                                        rounded="sm"
                                     />
-                                </PreviewCardTrigger>
-                            </NativeTable.Td>
-                            <NativeTable.Td verticalAlign="middle">
+                                </Link>
+                            </td>
+                            <td style={{ verticalAlign: "middle", padding: "0.5rem" }}>
                                 <Link
                                     to="/games/$gameId"
                                     params={{ gameId: String(game.id) }}
@@ -89,36 +78,24 @@ export function HomeTable({ title, icon, games, columns }: Props) {
                                 >
                                     <Text>{game.name}</Text>
                                 </Link>
-                            </NativeTable.Td>
+                            </td>
                             {columns.map((col) => (
-                                <NativeTable.Td
+                                <td
                                     key={col.header}
-                                    numeric={col.numeric}
-                                    textAlign="center"
-                                    verticalAlign="middle"
+                                    style={{
+                                        textAlign: col.numeric ? "right" : "center",
+                                        verticalAlign: "middle",
+                                        padding: "0.5rem",
+                                    }}
                                 >
                                     {col.render(game)}
-                                </NativeTable.Td>
+                                </td>
                             ))}
-                        </NativeTable.Tr>
+                        </tr>
                     ))}
-                </NativeTable.Tbody>
-            </NativeTable.Root>
+                </tbody>
+            </table>
 
-            <PreviewCardRoot handle={previewHandle}>
-                {({ payload }) => (
-                    <PreviewCardPortal>
-                        <PreviewCardPositioner sideOffset={8}>
-                            <PreviewCardPopup>
-                                <PreviewCardArrow>
-                                    <PreviewCardArrowSvg />
-                                </PreviewCardArrow>
-                                {payload && <GamePreviewCard game={payload} />}
-                            </PreviewCardPopup>
-                        </PreviewCardPositioner>
-                    </PreviewCardPortal>
-                )}
-            </PreviewCardRoot>
-        </Box>
+        </Card>
     );
 }

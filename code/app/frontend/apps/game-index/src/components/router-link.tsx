@@ -1,8 +1,10 @@
 import type { LinkComponent } from "@tanstack/react-router";
 import { createLink } from "@tanstack/react-router";
-import { Button, IconButton, Link } from "ui";
+import { Link as AstryxLink } from "@astryxdesign/core/Link";
+import { Button } from "@astryxdesign/core/Button";
+import { IconButton } from "@astryxdesign/core/IconButton";
 
-const CreatedLink = createLink(Link);
+const CreatedLink = createLink(AstryxLink);
 
 export const RouterLink: LinkComponent<typeof CreatedLink> = (props) => {
     return <CreatedLink {...props} />;

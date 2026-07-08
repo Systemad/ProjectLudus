@@ -1,7 +1,7 @@
 "use client";
 
-import { Box, Tag, Text, Wrap } from "ui";
-import { sectionLabelStyle } from "@src/features/game/utils/section-text-styles";
+import { Text } from "@astryxdesign/core/Text";
+import { Badge } from "@astryxdesign/core/Badge";
 
 type Props = {
     names: string[];
@@ -9,29 +9,29 @@ type Props = {
 
 export function AlternativeNames({ names }: Props) {
     return (
-        <Box>
-            <Text {...sectionLabelStyle} mb={3}>
+        <div>
+            <Text style={{fontSize: "1.25rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.75rem"}}>
                 Alternative names
             </Text>
             {names.length > 0 ? (
-                <Wrap gap="xs">
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}>
                     {names.map((name) => (
-                        <Tag
+                        <Badge
                             key={name}
-                            variant="surface"
-                            colorScheme="neutral"
-                            textTransform="none"
-                            maxW="full"
-                            whiteSpace="normal"
-                            wordBreak="break-word"
-                        >
-                            {name}
-                        </Tag>
+                            variant="neutral"
+                            label={name}
+                            style={{
+                                textTransform: "none",
+                                maxWidth: "100%",
+                                whiteSpace: "normal",
+                                wordBreak: "break-word",
+                            }}
+                        />
                     ))}
-                </Wrap>
+                </div>
             ) : (
-                <Text color="fg.subtle">No alternative names available.</Text>
+                <Text style={{color: "var(--fg-tertiary)"}}>No alternative names available.</Text>
             )}
-        </Box>
+        </div>
     );
 }

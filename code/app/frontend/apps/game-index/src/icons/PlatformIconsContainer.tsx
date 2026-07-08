@@ -1,4 +1,4 @@
-import { HStack } from "ui";
+import { HStack } from "@astryxdesign/core/HStack";
 import { iconMap } from "./platformIconMap";
 import { PlatformIcon } from "./PlatformIcon";
 
@@ -25,7 +25,7 @@ export function PlatformIcons({ websites }: PlatformIconsContainerProps) {
     );
 
     return (
-        <HStack gap="xs">
+        <HStack gap={2}>
             {uniqueTypes.map((type) => (
                 <PlatformIcon key={type} type={type} tooltip={type} />
             ))}

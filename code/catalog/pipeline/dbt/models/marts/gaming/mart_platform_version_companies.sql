@@ -1,20 +1,21 @@
 with
 source as (select * from {{ ref("stg_platform_version_companies") }}),
+companies as (select id from {{ ref("mart_companies") }}),
 
-renamed as (
+validated as (
 
     select
-        id,
-        company,
-        developer,
-        manufacturer,
-        checksum,
-        comment
-    from source
+        s.id,
+        s.company,
+        s.developer,
+        s.manufacturer,
+        s.checksum,
+        s.comment
+    from source s
+    inner join companies c on s.company = c.id
 
 )
 
 select *
-from renamed
-where company is not null
+from validated
 

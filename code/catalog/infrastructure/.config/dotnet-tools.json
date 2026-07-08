@@ -2,8 +2,10 @@
   "isRoot": true,
   "tools": {
     "grate": {
-      "version": "2.0.5",
-      "commands": ["grate"]
+      "version": "2.1.5",
+      "commands": [
+        "grate"
+      ]
     }
   }
 }

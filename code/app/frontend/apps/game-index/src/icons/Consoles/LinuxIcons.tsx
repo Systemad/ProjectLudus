@@ -1,6 +1,6 @@
-import { Icon } from "ui";
+
 const LinuxIcon = () => (
-    <Icon boxSize="1.5em" viewBox="0 0 256 295" fill="#0070D1" xmlns="http://www.w3.org/2000/svg">
+    <svg width="1.5em" height="1.5em" viewBox="0 0 256 295" fill="#0070D1" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient
                 id="logosLinuxTux0"
@@ -260,6 +260,6 @@ const LinuxIcon = () => (
                 transform="translate(10)"
             />
         </g>
-    </Icon>
+    </svg>
 );
 export default LinuxIcon;

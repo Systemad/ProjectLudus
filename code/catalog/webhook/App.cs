@@ -7,20 +7,24 @@
 #:property ExperimentalFileBasedProgramEnableTransitiveDirectives=true
 
 #:sdk Microsoft.NET.Sdk.Web
+#:package Npgsql.DependencyInjection@10.0.3
 
-#:project ../Data/Data.csproj
 #:include WebhookFilters.cs
 #:include WebhookManager.cs
+#:include WebhookModels.cs
 
 using System.Text.Json;
-using Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Npgsql;
+using NpgsqlTypes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
-builder.AddDatabaseConfigurations("catalogdb");
+builder.Services.AddNpgsqlDataSource(
+    builder.Configuration.GetConnectionString("catalogdb")
+        ?? throw new InvalidOperationException("Connection string 'catalogdb' not found.")
+);
+
 builder.Services.AddOptions<IGDBOptions>().Bind(builder.Configuration.GetSection("IGDB"));
 builder.Services.AddHttpClient<WebhookManager>(
     (sp, client) =>
@@ -40,14 +44,13 @@ var group = app.MapGroup("").AddEndpointFilter<WebhookSecretFilter>();
 
 group.MapPost(
     "/igdb-webhook",
-    async (
+    static async (
         HttpRequest request,
-        //WebhookDbContext db,
+        NpgsqlConnection connection,
         IOptions<IGDBOptions> options,
         ILogger<Program> logger
     ) =>
     {
-        //var payload = await JsonSerializer.DeserializeAsync<object>(request.Body);
         var raw = await new StreamReader(request.Body).ReadToEndAsync();
         var entity = JsonSerializer.Deserialize<IgdbBase>(raw);
 
@@ -56,20 +59,25 @@ group.MapPost(
 
         var endpoint = request.Headers["X-Endpoint"].ToString();
         var eventType = request.Headers["X-Operation"].ToString();
-        /*
-                db.WebhookEvents.Add(
-                    new WebhookEvent
-                    {
-                        Id = Guid.NewGuid(),
-                        EntityId = entity.Id,
-                        ReceivedAt = DateTimeOffset.UtcNow,
-                        Endpoint = endpoint,
-                        EventType = eventType,
-                        Payload = raw,
-                    }
-                );
-                await db.SaveChangesAsync();
-            */
+
+        await using var cmd = new NpgsqlCommand(
+            "INSERT INTO igdb_source.webhook_events (id, entity_id, endpoint, event_type, payload, processed) VALUES (@p1), (@p2), (@p3), (@p4), (@p5), (@p6)",
+            connection
+        )
+        {
+            Parameters =
+            {
+                new("p1", Guid.NewGuid()) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Uuid },
+                new("p2", entity.Id) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Bigint },
+                new("p3", endpoint) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Text },
+                new("p4", eventType) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Text },
+                new("p5", raw) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Jsonb },
+                new("p6", false) { NpgsqlDbType = NpgsqlTypes.NpgsqlDbType.Boolean },
+            },
+        };
+
+        await cmd.ExecuteNonQueryAsync();
+
         logger.LogInformation(
             "[{Time}] {EventType} {Endpoint} — {Id}",
             DateTime.UtcNow,
@@ -122,19 +130,3 @@ group.MapDelete(
 
 await app.Services.GetRequiredService<WebhookManager>().SyncAsync();
 await app.RunAsync();
-/*
-public class WebhookDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
-{
-    public DbSet<WebhookEvent> WebhookEvents { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<WebhookEvent>(entity =>
-        {
-            entity.ToTable("webhook_events");
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Payload).HasColumnType("jsonb");
-        });
-    }
-}
-*/

@@ -1,5 +1,4 @@
 import logging
-from pathlib import Path
 
 from ingestions.steam.reviews import run as run_steam_reviews
 from ingestions.steam.store_details import run as run_steam_details
@@ -17,8 +16,6 @@ from flows.steam_game_index import (
 )
 
 logger = logging.getLogger(__name__)
-
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 @task

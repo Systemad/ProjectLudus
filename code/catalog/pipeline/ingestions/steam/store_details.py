@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from alive_progress import alive_bar
 from utilities._tracked_games import get_tracked_games
 from utilities.database import get_connection
-from utilities.rate_limit import APPDETAILS_LIMITER, create_steam_session
+from utilities.rate_limit import get_appdetails_limiter, create_steam_session
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +20,7 @@ def run():
 
         now = datetime.now(timezone.utc)
         session = create_steam_session(
-            limiter=APPDETAILS_LIMITER, include_retry_hook=False
+            limiter=get_appdetails_limiter(), include_retry_hook=False
         )
         details_rows = []
 

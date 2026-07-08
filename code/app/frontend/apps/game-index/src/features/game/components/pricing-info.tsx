@@ -2,7 +2,10 @@
 
 import { useMemo } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { Text, Tag, VStack, Table } from "ui";
+import { Text } from "@astryxdesign/core/Text";
+import { Badge } from "@astryxdesign/core/Badge";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Table } from "@astryxdesign/core/Table";
 import { steamGetPricingSuspenseQueryOptionsHook } from "@src/gen/catalogApi";
 
 type PricingRow = {
@@ -30,49 +33,49 @@ export function PricingInfo({ gameId }: Props) {
     const columns = useMemo(
         () => [
             {
+                key: "currency",
                 header: "Currency",
-                accessor: (row: PricingRow) => <Text font="body1">{row.currency ?? "—"}</Text>,
+                renderCell: (row: PricingRow) => <Text>{row.currency ?? "—"}</Text>,
             },
             {
+                key: "currentPrice",
                 header: "Current Price",
-                accessor: (row: PricingRow) => {
+                renderCell: (row: PricingRow) => {
                     const cents = row.currentCents;
                     const discount = row.discountPercent;
-                    if (cents == null) return <Text color="fgMuted">—</Text>;
+                    if (cents == null) return <Text color="secondary">—</Text>;
                     return (
-                        <Text as="span" font="body1" display="inline-flex" align="center" gap={2}>
+                        <Text style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                             {formatCurrency(cents, row.currency)}
                             {discount != null && discount > 0 && (
-                                <Tag variant="subtle" colorScheme={"red"} size="sm">
-                                    -{discount}%
-                                </Tag>
+                                <Badge variant="error" label={`-${discount}%`} />
                             )}
                         </Text>
                     );
                 },
             },
             {
+                key: "lowestPrice",
                 header: "Lowest Price",
-                accessor: (row: PricingRow) => {
+                renderCell: (row: PricingRow) => {
                     const cents = row.lowCents;
-                    if (cents == null) return <Text color="fgMuted">—</Text>;
+                    if (cents == null) return <Text color="secondary">—</Text>;
                     return (
-                        <Text as="span" font="body1" display="inline-flex" align="center" gap={2}>
+                        <Text style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                             {formatCurrency(cents, row.currency)}
                             {row.currentCents != null && row.currentCents < cents && (
-                                <Tag variant="subtle" colorScheme={"red"} size="sm">
-                                    -{Math.round((1 - row.currentCents / cents) * 100)}%
-                                </Tag>
+                                <Badge variant="error" label={`-${Math.round((1 - row.currentCents / cents) * 100)}%`} />
                             )}
                         </Text>
                     );
                 },
             },
             {
+                key: "highestPrice",
                 header: "Highest Price",
-                accessor: (row: PricingRow) => {
+                renderCell: (row: PricingRow) => {
                     const cents = row.highCents;
-                    if (cents == null) return <Text color="fgMuted">—</Text>;
+                    if (cents == null) return <Text color="secondary">—</Text>;
                     return formatCurrency(cents, row.currency);
                 },
             },
@@ -94,12 +97,12 @@ export function PricingInfo({ gameId }: Props) {
     );
 
     return (
-        <VStack align="stretch" gap={4}>
-            <Text font="title2" color="fg">
+        <VStack hAlign="stretch" gap={4}>
+            <Text style={{fontSize: "1.125rem", fontWeight: 600}}>
                 Pricing
             </Text>
             {pricing?.finalCents == null ? (
-                <Text color="fgMuted">No pricing data available.</Text>
+                <Text color="secondary">No pricing data available.</Text>
             ) : (
                 <Table columns={columns} data={data} />
             )}

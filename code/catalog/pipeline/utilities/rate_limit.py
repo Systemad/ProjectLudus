@@ -4,8 +4,12 @@ import niquests
 
 logger = logging.getLogger(__name__)
 
-STEAM_SAFE_LIMITER = niquests.TokenBucketLimiter(rate=3.0, capacity=3)
-APPDETAILS_LIMITER = niquests.TokenBucketLimiter(rate=0.5, capacity=1)
+def get_steam_limiter():
+    return niquests.TokenBucketLimiter(rate=3.0, capacity=3)
+
+
+def get_appdetails_limiter():
+    return niquests.TokenBucketLimiter(rate=0.5, capacity=1)
 
 
 def log_steam_response(response, *args, **kwargs):

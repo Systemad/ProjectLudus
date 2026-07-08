@@ -1,10 +1,10 @@
-import { Box, Card, Heading, HStack, Image, Text, VStack } from "ui";
-import { useExtractColors } from "react-extract-colors";
-
+import { Card } from "@astryxdesign/core/Card";
+import { Heading, Text } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
 import type { GameBrowseDto } from "@src/gen/catalogApi";
 import { PlatformIcon } from "@src/icons/PlatformIcon";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { hslToColorScheme } from "@src/utils/colorUtils";
 import { steamReviewColor, steamReviewRating } from "@src/utils/SteamReviewUtils";
 
 type Props = {
@@ -13,13 +13,6 @@ type Props = {
 
 export function GamePreviewCard({ game }: Props) {
     const coverSrc = game.steam?.headerUrl ?? getIGDBImageUrl(game.coverUrl, "1080p");
-    const { dominantColor } = useExtractColors(coverSrc, {
-        format: "hsl",
-        maxColors: 5,
-        sortBy: "vibrance",
-        crossOrigin: "anonymous",
-    });
-    const colorScheme = hslToColorScheme(dominantColor);
     const players = game.steam?.currentPlayers?.toLocaleString();
     const releaseDate = game.firstReleaseDate
         ? new Date(game.firstReleaseDate).toLocaleDateString("en-US", {
@@ -32,82 +25,76 @@ export function GamePreviewCard({ game }: Props) {
     const ratingText = steamReviewRating(game.review);
 
     return (
-        <Card.Root w="64" colorScheme={colorScheme} variant="subtle" overflow="hidden" rounded="xl">
-            <Card.Header p="sm">
-                <Image
-                    src={coverSrc}
-                    alt={game.name}
-                    w="full"
-                    rounded="xl"
-                    aspectRatio={16 / 9}
-                    objectFit="cover"
-                />
-            </Card.Header>
+        <Card width="100%">
+            <img
+                src={coverSrc}
+                alt={game.name}
+                style={{ width: "100%", borderRadius: "0.75rem", aspectRatio: "16 / 9", objectFit: "cover" }}
+            />
 
-            <Card.Body p="sm">
-                <Heading size="md" lineClamp={1}>
-                    {game.name}
-                </Heading>
+            <Heading level={4} maxLines={1}>
+                {game.name}
+            </Heading>
 
-                <VStack align="stretch" gap="1" fontSize="sm">
-                    {players && (
-                        <HStack gap="xs">
-                            <Text>👥</Text>
-                            <Text>{players} current players</Text>
-                        </HStack>
-                    )}
-                    {releaseDate && (
-                        <HStack gap="xs">
-                            <Text>📅</Text>
-                            <Text>{releaseDate}</Text>
-                        </HStack>
-                    )}
-                    {game.pricing?.finalFormatted && (
-                        <HStack gap="xs">
-                            <Text>💰</Text>
-                            <Text>{game.pricing.finalFormatted}</Text>
-                        </HStack>
-                    )}
-                    {ratingText !== "N/A" && (
-                        <HStack gap="xs">
-                            <Text>⭐</Text>
-                            <Text color={ratingColor}>{ratingText} - Overwhelmingly positive</Text>
-                        </HStack>
-                    )}
-                    {game.platforms && game.platforms.length > 0 && (
-                        <HStack gap="1" align="center" justify="center">
-                            {game.platforms.slice(0, 4).map((p) => (
-                                <PlatformIcon
-                                    key={p.slug}
-                                    type={p.slug}
-                                    tooltip={p.name}
-                                    boxSize="1.25rem"
-                                />
-                            ))}
-                            {game.platforms.length > 4 && (
-                                <Text fontSize="xs" color="fg.muted">
-                                    +{game.platforms.length - 4}
-                                </Text>
-                            )}
-                        </HStack>
-                    )}
-                </VStack>
-            </Card.Body>
+            <VStack hAlign="stretch" gap={1} style={{fontSize: "0.875rem"}}>
+                {players && (
+                    <HStack gap={2}>
+                        <Text>👥</Text>
+                        <Text>{players} current players</Text>
+                    </HStack>
+                )}
+                {releaseDate && (
+                    <HStack gap={2}>
+                        <Text>📅</Text>
+                        <Text>{releaseDate}</Text>
+                    </HStack>
+                )}
+                {game.pricing?.finalFormatted && (
+                    <HStack gap={2}>
+                        <Text>💰</Text>
+                        <Text>{game.pricing.finalFormatted}</Text>
+                    </HStack>
+                )}
+                {ratingText !== "N/A" && (
+                    <HStack gap={2}>
+                        <Text>⭐</Text>
+                        <Text style={{color: ratingColor}}>{ratingText} - Overwhelmingly positive</Text>
+                    </HStack>
+                )}
+                {game.platforms && game.platforms.length > 0 && (
+                    <HStack gap={1} vAlign="center" hAlign="center">
+                        {game.platforms.slice(0, 4).map((p) => (
+                            <PlatformIcon
+                                key={p.slug}
+                                type={p.slug}
+                                tooltip={p.name}
+                                boxSize="1.25rem"
+                            />
+                        ))}
+                        {game.platforms.length > 4 && (
+                            <Text color="secondary" style={{fontSize: "0.75rem"}}>
+                                +{game.platforms.length - 4}
+                            </Text>
+                        )}
+                    </HStack>
+                )}
+            </VStack>
 
-            <Card.Footer pt="sm" p={"sm"}>
-                <Box
-                    rounded="lg"
-                    bg="warning"
-                    color="white"
-                    w="full"
-                    textAlign="center"
-                    py="1"
-                    fontSize="xs"
-                    fontWeight="bold"
-                >
-                    ⚠ Early Access
-                </Box>
-            </Card.Footer>
-        </Card.Root>
+            <div
+                style={{
+                    borderRadius: "0.5rem",
+                    backgroundColor: "var(--color-warning)",
+                    color: "white",
+                    width: "100%",
+                    textAlign: "center",
+                    paddingTop: "0.25rem",
+                    paddingBottom: "0.25rem",
+                    fontSize: "0.75rem",
+                    fontWeight: "bold",
+                }}
+            >
+                ⚠ Early Access
+            </div>
+        </Card>
     );
 }

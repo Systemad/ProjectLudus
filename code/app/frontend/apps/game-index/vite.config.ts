@@ -3,27 +3,12 @@ import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import path from "path";
-import type { Plugin } from "vite";
-import { COLOR_MODE_STORAGE_KEY, getStorageScript } from "ui";
+
 // https://vite.dev/config/
 // http://localhost:5141
 //const target = "http://localhost:53489";
 // services__myservice__https__0
 const YARP_TARGET = process.env.services__catalogApi__https__0 || "http://localhost:5141";
-
-function injectColorModeScript(): Plugin {
-    return {
-        name: "inject-color-mode-script",
-        transformIndexHtml(html) {
-            const content = getStorageScript(
-                "colorMode",
-                COLOR_MODE_STORAGE_KEY,
-            )({ defaultValue: "dark" });
-
-            return html.replace("<body>", `<body><script>${content}</script>`);
-        },
-    };
-}
 
 export default defineConfig({
     resolve: {
@@ -38,7 +23,6 @@ export default defineConfig({
         }),
         react(),
         babel({ presets: [reactCompilerPreset()] }),
-        injectColorModeScript(),
     ],
     server: {
         open: false,

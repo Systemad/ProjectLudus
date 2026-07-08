@@ -1,6 +1,5 @@
 import { getIGDBImageUrl, type ImageSize } from "@src/utils/ImageHelper";
-import type { ImageProps } from "ui";
-import { Image } from "ui";
+import type { ImgHTMLAttributes } from "react";
 
 type Props = {
     imageId: string;
@@ -13,10 +12,10 @@ export function IGDBImage({
     imageSize = "thumb",
     retina = false,
     ...rest
-}: Props & ImageProps) {
+}: Props & ImgHTMLAttributes<HTMLImageElement>) {
     const { ...other } = rest;
 
     const url = getIGDBImageUrl(imageId, imageSize, retina);
 
-    return <Image src={url} borderRadius={"lg"} {...other}></Image>;
+    return <img src={url} style={{ borderRadius: "0.5rem" }} {...other} />;
 }

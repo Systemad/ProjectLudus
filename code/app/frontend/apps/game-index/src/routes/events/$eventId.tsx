@@ -1,20 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-    Box,
-    EmptyState,
-    For,
-    Gamepad2Icon,
-    Grid,
-    Heading,
-    HStack,
-    Image,
-    Loading,
-    SegmentedControl,
-    SimpleGrid,
-    Text,
-    VStack,
-} from "ui";
+import { Card } from "@astryxdesign/core/Card";
+import { Text, Heading } from "@astryxdesign/core/Text";
+import { HStack } from "@astryxdesign/core/HStack";
+import { VStack } from "@astryxdesign/core/VStack";
+import { Grid } from "@astryxdesign/core/Grid";
+import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
+import { Spinner } from "@astryxdesign/core/Spinner";
+import { EmptyState } from "@astryxdesign/core/EmptyState";
 import { useEventsGetByIdHook } from "@src/gen/catalogApi";
 import { PageWrapper } from "@src/app/page-wrapper";
 import { GameCard } from "@src/features/game/components/game-card";
@@ -35,10 +28,10 @@ function EventDetailPage() {
 
     if (isLoading || !data) {
         return (
-            <PageWrapper py={{ base: "4", md: "6" }}>
-                <Box display="grid" placeItems="center" minH="64">
-                    <Loading.Rings color="primary.500" fontSize="5xl" />
-                </Box>
+            <PageWrapper paddingBlock="clamp(1rem, 3vw, 1.5rem)">
+                <div style={{ display: "grid", placeItems: "center", minHeight: "16rem" }}>
+                    <Spinner size="xl" />
+                </div>
             </PageWrapper>
         );
     }
@@ -59,151 +52,134 @@ function EventDetailPage() {
     const activeTimeZoneLabel = showLocalTime ? localTimeZone : (event.timeZone ?? "UTC");
 
     return (
-        <PageWrapper maxW="9xl" py={{ base: "3", md: "6" }}>
-            <VStack align="stretch" gap={{ base: "6", md: "8" }}>
-                <VStack align="stretch" gap="4">
+        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(0.75rem, 3vw, 1.5rem)">
+            <VStack hAlign="stretch" gap={6}>
+                <VStack hAlign="stretch" gap={4}>
                     <Link
                         to="/events"
                         style={{ color: "inherit", textDecoration: "none", width: "fit-content" }}
                     >
-                        <Text fontSize="sm" color="fg.muted">
+                        <Text color="secondary" style={{fontSize: "0.875rem"}}>
                             Back to events
                         </Text>
                     </Link>
-                    <Grid
-                        templateColumns={{ base: "1fr", lg: "1.4fr 1fr" }}
-                        gap={{ base: "4", lg: "8" }}
-                    >
-                        <Box
-                            rounded="2xl"
-                            overflow="hidden"
-                            bg="bg.panel"
-                            minH={{ base: "64", md: "80" }}
-                            position="relative"
+                    <Grid columns={{minWidth: 300}} gap={4}>
+                        <div
+                            style={{
+                                borderRadius: "var(--radius-2xl)",
+                                overflow: "hidden",
+                                background: "var(--bg-panel)",
+                                minHeight: "16rem",
+                                position: "relative",
+                            }}
                         >
                             {coverUrl ? (
-                                <Image
+                                <img
                                     src={coverUrl}
                                     alt={event.name}
-                                    w="full"
-                                    h="full"
-                                    objectFit="cover"
+                                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
                                 />
                             ) : (
-                                <Box w="full" h="full" bg="bg.subtle" />
+                                <div style={{ width: "100%", height: "100%", background: "var(--bg-subtle)" }} />
                             )}
                             {logoUrl ? (
-                                <Box
-                                    position="absolute"
-                                    inset="0"
-                                    display="grid"
-                                    placeItems="center"
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        inset: 0,
+                                        display: "grid",
+                                        placeItems: "center",
+                                    }}
                                 >
-                                    <Image
+                                    <img
                                         src={logoUrl}
                                         alt={event.name}
-                                        maxW={{ base: "40", md: "56" }}
-                                        maxH={{ base: "28", md: "40" }}
-                                        objectFit="contain"
+                                        style={{
+                                            maxWidth: "10rem",
+                                            maxHeight: "7rem",
+                                            objectFit: "contain",
+                                        }}
                                     />
-                                </Box>
+                                </div>
                             ) : null}
-                        </Box>
+                        </div>
 
-                        <VStack align="stretch" gap={{ base: "4", md: "5" }}>
-                            <VStack align="stretch" gap="2">
-                                <HStack justify="space-between" align="baseline" gap="3">
-                                    <Text fontSize="sm" color="fg.muted">
+                        <VStack hAlign="stretch" gap={4}>
+                            <VStack hAlign="stretch" gap={2}>
+                                <HStack hAlign="between" gap={3} style={{alignItems: "baseline"}}>
+                                    <Text color="secondary" style={{fontSize: "0.875rem"}}>
                                         Event
                                     </Text>
-                                    <SegmentedControl.Root
+                                    <SegmentedControl
                                         value={showLocalTime ? "my" : "event"}
                                         onChange={(next) => setShowLocalTime(next === "my")}
+                                        label="Time display"
                                         size="sm"
-                                        colorScheme="neutral"
-                                        fullRounded
-                                        maxW={{ base: "full", md: "auto" }}
                                     >
-                                        <SegmentedControl.Item value="my">
-                                            My time
-                                        </SegmentedControl.Item>
-                                        <SegmentedControl.Item value="event">
-                                            Event time
-                                        </SegmentedControl.Item>
-                                    </SegmentedControl.Root>
+                                        <SegmentedControlItem value="my" label="My time" />
+                                        <SegmentedControlItem value="event" label="Event time" />
+                                    </SegmentedControl>
                                 </HStack>
-                                <Heading fontSize={{ base: "3xl", md: "4xl" }} lineHeight="shorter">
-                                    {event.name}
-                                </Heading>
+                            <Heading level={1} style={{fontSize: "clamp(1.875rem, 4vw, 2.5rem)", lineHeight: "1.1"}}>
+                                {event.name}
+                            </Heading>
                                 {event.description ? (
-                                    <Text color="fg.muted">{event.description}</Text>
+                                    <Text color="secondary">{event.description}</Text>
                                 ) : null}
                             </VStack>
 
-                            <SimpleGrid columns={{ base: 1, md: 2 }} gap={{ base: "3", md: "4" }}>
-                                <Box rounded="xl" bg="bg.panel" p="4">
+                            <Grid columns={2} gap={3}>
+                                <Card>
                                     <CountdownClock
                                         startUtc={event.startTimeUtc}
                                         endUtc={event.endTimeUtc}
                                     />
-                                </Box>
-                                <Box rounded="xl" bg="bg.panel" p="4">
-                                    <VStack align="start" gap="1">
+                                </Card>
+                                <Card>
+                                <VStack hAlign="start" gap={1}>
                                         <Text
-                                            fontSize="xs"
-                                            color="fg.muted"
-                                            textTransform="uppercase"
-                                            letterSpacing="widest"
+                                            color="secondary"
+                                            style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                                         >
                                             {showLocalTime ? "Your Time" : "Event Time"}
                                         </Text>
-                                        <Text fontWeight="semibold">{startTimeBox}</Text>
-                                        <Text fontSize="sm" color="fg.muted">
+                                        <Text weight="semibold">{startTimeBox}</Text>
+                                        <Text color="secondary" style={{fontSize: "0.875rem"}}>
                                             {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
-                                </Box>
-                                <Box rounded="xl" bg="bg.panel" p="4">
-                                    <VStack align="start" gap="1">
+                                </Card>
+                                <Card>
+                                    <VStack hAlign="start" gap={1}>
                                         <Text
-                                            fontSize="xs"
-                                            color="fg.muted"
-                                            textTransform="uppercase"
-                                            letterSpacing="widest"
+                                            color="secondary"
+                                            style={{fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.25em"}}
                                         >
                                             Ends
                                         </Text>
-                                        <Text fontWeight="semibold">{endTimeBox}</Text>
-                                        <Text fontSize="sm" color="fg.muted">
+                                        <Text weight="semibold">{endTimeBox}</Text>
+                                        <Text color="secondary" style={{fontSize: "0.875rem"}}>
                                             {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
-                                </Box>
-                            </SimpleGrid>
+                                </Card>
+                            </Grid>
                         </VStack>
                     </Grid>
                 </VStack>
 
-                <VStack align="stretch" gap="4">
-                    <Heading fontSize="xl">Related Games</Heading>
+                <VStack hAlign="stretch" gap={4}>
+                    <Heading level={3}>Related Games</Heading>
                     <HStack
-                        gap={{ base: "3", md: "4" }}
-                        overflowX="auto"
-                        overflowY="hidden"
-                        align="stretch"
-                        pb="2"
+                        gap={3}
+                        vAlign="stretch"
+                        style={{overflowX: "auto", overflowY: "hidden", paddingBottom: "0.5rem"}}
                     >
-                        <For
-                            each={event.games}
-                            fallback={
-                                <EmptyState.Root
-                                    description="No related games linked to this event yet."
-                                    indicator={<Gamepad2Icon />}
-                                />
-                            }
-                        >
-                            {(game) => <GameCard key={game.id} game={game} />}
-                        </For>
+                        {event.games.length > 0 ? (
+                            event.games.map((game) => <GameCard key={game.id} game={game} />)
+                        ) : (
+                            <EmptyState title="No games yet" description="No related games linked to this event yet." />
+                        )}
                     </HStack>
                 </VStack>
             </VStack>

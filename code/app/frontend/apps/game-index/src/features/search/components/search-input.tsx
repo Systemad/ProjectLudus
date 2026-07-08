@@ -1,5 +1,6 @@
 import { useDebouncedCallback } from "@mantine/hooks";
-import { Flex, Input } from "ui";
+import { HStack } from "@astryxdesign/core/HStack";
+import { TextInput } from "@astryxdesign/core/TextInput";
 import { useDeferredValue, useState } from "react";
 import { useSearchBox } from "react-instantsearch";
 
@@ -17,29 +18,25 @@ export function SearchInput({ placeholder = "Search...", compact = false }: Sear
     const debouncedRefine = useDebouncedCallback((v: string) => refine(v), SEARCH_DEBOUNCE_MS);
 
     return (
-        <Flex
+        <HStack
             className={compact ? undefined : "typesense-searchbox"}
-            gap="sm"
-            align="center"
+            gap={3}
+            vAlign="center"
             wrap={compact ? "nowrap" : "wrap"}
-            mb={compact ? "0" : undefined}
+            style={compact ? {} : {marginBottom: "0"}}
         >
-            <Input
-                aria-label={placeholder}
+            <TextInput
+                label={placeholder}
+                isLabelHidden
                 placeholder={placeholder}
                 value={deferredInputValue}
-                colorScheme="gray"
-                onChange={(event) => {
-                    const nextValue = event.currentTarget.value;
+                onChange={(nextValue) => {
                     setInputValue(nextValue);
                     debouncedRefine(nextValue);
                 }}
-                size="xl"
-                variant="filled"
-                rounded="xl"
-                flex="1"
-                minW={compact ? "0" : { base: "100%", sm: "18rem" }}
+                size="lg"
+                hasClear
             />
-        </Flex>
+        </HStack>
     );
 }

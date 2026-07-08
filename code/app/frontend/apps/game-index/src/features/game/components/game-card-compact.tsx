@@ -2,7 +2,8 @@
 
 import { Link } from "@tanstack/react-router";
 import type { GameBrowseDto } from "@src/gen/catalogApi";
-import { AspectRatio, Box, Image, Text } from "ui";
+import { AspectRatio } from "@astryxdesign/core/AspectRatio";
+import { Text } from "@astryxdesign/core/Text";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 
 type Props = {
@@ -19,33 +20,36 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <Box role="group">
-                <Box position="relative" rounded="xl" overflow="hidden">
+            <div role="group">
+                <div style={{ position: "relative", borderRadius: "var(--radius-xl)", overflow: "hidden" }}>
                     <AspectRatio ratio={3 / 4}>
-                        <Image
+                        <img
                             src={getIGDBImageUrl(game.coverUrl, "1080p")}
                             alt={name}
-                            w="full"
-                            h="full"
-                            objectFit="cover"
-                            transitionDuration="slower"
-                            transitionProperty="transform"
-                            _groupHover={{ transform: "scale(1.08)" }}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                transitionDuration: "0.5s",
+                                transitionProperty: "transform",
+                            }}
                         />
                     </AspectRatio>
                     <Text
-                        position="absolute"
-                        left={3}
-                        right={3}
-                        bottom={3}
-                        color="white"
-                        fontWeight="semibold"
-                        lineHeight="short"
+                        style={{
+                            position: "absolute",
+                            left: "0.75rem",
+                            right: "0.75rem",
+                            bottom: "0.75rem",
+                            color: "white",
+                            fontWeight: 600,
+                            lineHeight: "1.25",
+                        }}
                     >
                         {name}
                     </Text>
-                </Box>
-            </Box>
+                </div>
+            </div>
         </Link>
     );
 }

@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: mart_steam_player_counts
+    config:
+      alias: steam_latest_player_counts
+      contract: { enforced: true }
+    constraints:
+      - type: primary_key
+        columns: [game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: steam_app_id
+        data_type: bigint
+      - name: current_players
+        data_type: bigint
+      - name: captured_at
+        data_type: timestamp with time zone
+      - name: peak_24h
+        data_type: bigint
+      - name: sparkline_7d
+        data_type: int[]

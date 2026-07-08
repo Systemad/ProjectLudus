@@ -1,4 +1,4 @@
-import { Text } from "ui";
+import { Text } from "@astryxdesign/core/Text";
 import type { SteamPricingData } from "@src/gen/catalogApi";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 export function PricingCell({ pricing }: Props) {
     if (!pricing || pricing.finalCents == null) {
         return (
-            <Text color="fgMuted" font="label1">
+            <Text color="secondary">
                 —
             </Text>
         );
@@ -16,7 +16,7 @@ export function PricingCell({ pricing }: Props) {
 
     if (pricing.finalCents === 0) {
         return (
-            <Text color="fgMuted" font="label1">
+            <Text color="secondary">
                 Free
             </Text>
         );
@@ -24,8 +24,8 @@ export function PricingCell({ pricing }: Props) {
 
     if (pricing.initialCents != null && pricing.initialCents > pricing.finalCents) {
         return (
-            <Text as="span" font="body1">
-                <Text as="s" color="fgMuted" font="label1">
+            <Text as="span">
+                <Text as="span" color="secondary" style={{textDecoration: "line-through"}}>
                     {pricing.initialFormatted ??
                         new Intl.NumberFormat("de-DE", {
                             style: "currency",

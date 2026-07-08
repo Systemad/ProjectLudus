@@ -1,8 +1,8 @@
 "use client";
 
 import type { GameBrowseDto } from "@src/gen/catalogApi";
-import { Box, HStack, Text, Wrap, For, EmptyState, Gamepad2Icon } from "ui";
-import { sectionLabelStyle } from "@src/features/game/utils/section-text-styles";
+import { HStack } from "@astryxdesign/core/HStack";
+import { Text } from "@astryxdesign/core/Text";
 import { GameCard } from "@src/features/game/components/game-card-compact";
 import { RouterLinkButton } from "@src/components/router-link";
 
@@ -12,50 +12,41 @@ type Props = {
 
 export function RelatedGamesSection({ games }: Props) {
     return (
-        <Box>
-            <HStack justify="space-between" align="start" mb={4} gap={4} flexWrap="wrap">
-                <Box>
-                    <Text {...sectionLabelStyle} mb={1}>
+        <div>
+            <HStack hAlign="between" gap={4} style={{alignItems: "start", marginBottom: "1rem", flexWrap: "wrap"}}>
+                <div>
+                    <Text style={{fontSize: "1.25rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "0.25rem"}}>
                         Related games
                     </Text>
-                </Box>
+                </div>
                 <RouterLinkButton
                     to="/games/search"
                     variant="ghost"
-                    colorScheme="neutral"
                     size="sm"
-                >
-                    Explore more games
-                </RouterLinkButton>
+                    label="Explore more games"
+                />
             </HStack>
 
-            <Wrap gap={4}>
-                <For
-                    each={games}
-                    limit={6}
-                    fallback={
-                        <EmptyState.Root
-                            description="No related games found"
-                            indicator={<Gamepad2Icon />}
-                        />
-                    }
-                >
-                    {(game) => (
-                        <Box
+            {games.length > 0 ? (
+                <HStack wrap="wrap" gap={4}>
+                    {games.slice(0, 6).map((game) => (
+                        <div
                             key={String(game.id ?? game.name ?? "unknown")}
-                            flexBasis={{
-                                base: "calc(50% - 0.5rem)",
-                                md: "calc(33.333% - 0.75rem)",
-                                lg: "calc(20% - 0.8rem)",
+                            style={{
+                                flexBasis: "calc(50% - 0.5rem)",
+                                minWidth: "9rem",
+                                maxWidth: "13rem",
                             }}
-                            minW={{ base: "9rem", sm: "10rem" }}
-                            maxW={{ lg: "13rem" }}
                         >
                             <GameCard game={game} />
-                        </Box>
-                    )}
-                </For>
-            </Wrap>
-        </Box>
+                        </div>
+                    ))}
+                </HStack>
+            ) : (
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem", padding: "2rem", color: "var(--fg-muted)" }}>
+                    <Text style={{fontSize: "0.875rem"}}>No related games found</Text>
+                </div>
+            )}
+        </div>
     );
 }

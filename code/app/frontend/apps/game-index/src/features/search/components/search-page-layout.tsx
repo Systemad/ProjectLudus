@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { appShellStickyTopOffset } from "@src/app/layout-constants";
-import { Accordion, Box, Button, Drawer, Grid, Heading, Pagination } from "ui";
+import { Button } from "@astryxdesign/core/Button";
+import { Grid } from "@astryxdesign/core/Grid";
+import { Text } from "@astryxdesign/core/Text";
+import { Pagination } from "@astryxdesign/core/Pagination";
 import { Hits, usePagination } from "react-instantsearch";
 import type { HitsProps } from "react-instantsearch";
 import type { SortFieldOption } from "./search-control";
@@ -29,19 +31,15 @@ function TypesensePagination() {
     }
 
     return (
-        <Box mt="lg" w="full" display="flex" justifyContent="center">
-            <Pagination.Root
+        <div style={{ marginTop: "1rem", width: "100%", display: "flex", justifyContent: "center" }}>
+            <Pagination
                 page={currentRefinement + 1}
-                total={nbPages}
+                totalPages={nbPages}
                 onChange={(page) => refine(page - 1)}
                 size="sm"
-                justify="center"
-                wrap="wrap"
-                withEdges
-                siblings={1}
-                boundaries={1}
+                siblingCount={1}
             />
-        </Box>
+        </div>
     );
 }
 
@@ -56,55 +54,37 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
     return (
-        <Box p={{ base: "xs", md: "sm" }} bg="bg.surface" rounded="xl">
-            <Grid
-                templateColumns={{ base: "1fr", md: "280px 1fr" }}
-                gap={{ base: "sm", md: "md" }}
-                alignItems="start"
-                css={{
-                    ".typesense-hit-list": {
-                        display: "grid",
-                        gridTemplateColumns:
-                            "repeat(auto-fill, minmax(clamp(140px, 25vw, 200px), 1fr))",
-                        gap: "1rem",
-                        listStyle: "none",
-                        margin: 0,
-                        padding: 0,
-                    },
-                    ".typesense-hit-item": {
-                        margin: 0,
-                    },
-                }}
+        <div style={{ padding: "0.25rem", background: "var(--bg-surface)", borderRadius: "var(--radius-xl)" }}>
+            <Grid columns={{minWidth: 280}} gap={4}
+                style={{
+                    "--typesense-hit-grid": "repeat(auto-fill, minmax(clamp(140px, 25vw, 200px), 1fr))",
+                } as React.CSSProperties}
             >
-                <Box
-                    as="aside"
-                    display={{ base: "none", md: "block" }}
-                    position="sticky"
-                    top={appShellStickyTopOffset}
-                    p="sm"
-                    rounded="lg"
+                <div
+                    style={{
+                        display: "none",
+                        position: "sticky",
+                        top: "6rem",
+                        padding: "0.5rem",
+                        borderRadius: "var(--radius-lg)",
+                    }}
+                    className="desktop-aside"
                 >
-                    <Heading size="md" mb="sm">
+                    <Text as="h2" style={{fontSize: "1.125rem", fontWeight: 600, marginBottom: "0.5rem"}}>
                         Filters
-                    </Heading>
+                    </Text>
 
-                    <Accordion.Root
-                        multiple
-                        variant="panel"
-                        defaultIndex={facets.slice(0, 2).map((_, index) => index)}
-                    >
-                        {facets.map((facet, index) => (
-                            <SearchFacetFilterGroup
-                                key={facet.attribute}
-                                title={facet.title}
-                                attribute={facet.attribute}
-                                index={index}
-                            />
-                        ))}
-                    </Accordion.Root>
-                </Box>
+                    {facets.map((facet, index) => (
+                        <SearchFacetFilterGroup
+                            key={facet.attribute}
+                            title={facet.title}
+                            attribute={facet.attribute}
+                            index={index}
+                        />
+                    ))}
+                </div>
 
-                <Box minW={0}>
+                <div style={{ minWidth: 0 }}>
                     <SearchHeader
                         searchPlaceholder={searchPlaceholder}
                         indexName={indexName}
@@ -113,57 +93,55 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                     />
 
                     <Button
-                        display={{ base: "inline-flex", md: "none" }}
                         size="sm"
-                        mb="sm"
-                        w="full"
-                        colorScheme={"gray"}
-                        justifyContent="center"
+                        label="Filters"
                         onClick={() => setIsMobileFiltersOpen(true)}
-                    >
-                        Filters
-                    </Button>
+                        style={{display: "inline-flex"}}
+                    />
 
-                    <Drawer.Root
-                        open={isMobileFiltersOpen}
-                        onClose={() => setIsMobileFiltersOpen(false)}
-                        placement="block-end"
-                        withCloseButton={false}
-                    >
-                        <Drawer.Content borderTopRadius="xl">
-                            <Drawer.Header>
-                                <Heading size="sm">Filters</Heading>
-                            </Drawer.Header>
-
-                            <Drawer.Body>
-                                {isMobileFiltersOpen && (
-                                    <Accordion.Root multiple defaultIndex={[0, 1]}>
-                                        {facets.map((facet, index) => (
-                                            <SearchFacetFilterGroup
-                                                key={`mobile-${facet.attribute}`}
-                                                title={facet.title}
-                                                attribute={facet.attribute}
-                                                index={index}
-                                            />
-                                        ))}
-                                    </Accordion.Root>
-                                )}
-                            </Drawer.Body>
-
-                            <Drawer.Footer>
-                                <Box w="full" display="flex" justifyContent="end">
+                    {isMobileFiltersOpen && (
+                        <div
+                            style={{
+                                position: "fixed",
+                                inset: 0,
+                                zIndex: 1000,
+                                background: "rgba(0,0,0,0.5)",
+                                display: "flex",
+                                alignItems: "flex-end",
+                            }}
+                            onClick={() => setIsMobileFiltersOpen(false)}
+                        >
+                            <div
+                                style={{
+                                    width: "100%",
+                                    maxHeight: "80vh",
+                                    overflowY: "auto",
+                                    background: "var(--bg-surface)",
+                                    borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
+                                    padding: "1rem",
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <Text as="h2" style={{fontSize: "0.875rem", fontWeight: 600, marginBottom: "0.75rem"}}>Filters</Text>
+                                {facets.map((facet, index) => (
+                                    <SearchFacetFilterGroup
+                                        key={`mobile-${facet.attribute}`}
+                                        title={facet.title}
+                                        attribute={facet.attribute}
+                                        index={index}
+                                    />
+                                ))}
+                                <div style={{ width: "100%", display: "flex", justifyContent: "end", marginTop: "0.75rem" }}>
                                     <Button
                                         size="sm"
-                                        variant="outline"
-                                        colorScheme="neutral"
+                                        variant="secondary"
+                                        label="Close"
                                         onClick={() => setIsMobileFiltersOpen(false)}
-                                    >
-                                        Close
-                                    </Button>
-                                </Box>
-                            </Drawer.Footer>
-                        </Drawer.Content>
-                    </Drawer.Root>
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     <Hits<THit>
                         hitComponent={hitComponent}
@@ -174,8 +152,8 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                     />
 
                     <TypesensePagination />
-                </Box>
+                </div>
             </Grid>
-        </Box>
+        </div>
     );
 }

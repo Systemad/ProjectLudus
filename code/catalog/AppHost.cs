@@ -50,15 +50,6 @@ var migrationConnectionString = ReferenceExpression.Create(
     $"Host={pgHost.Resource};Port={pgPort.Resource};Username={pgUser.Resource};Password={pgPass.Resource};Database={pgDb.Resource}"
 );
 
-/*
-var webhook = builder
-    .AddCSharpApp("igdb-webhook", "./webhook/App.cs")
-    .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
-    .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
-    .WithEnvironment("IGDB__WEBHOOK_SECRET", webhookSecret)
-    .WithEnvironment("IGDB__WEBHOOK_URL", webhookUrl)
-    .WithEndpoint(port: 8000);
-*/
 var grateMigration = builder
     .AddDotnetTool("grate-migration", "grate")
     .WithArgs(
@@ -70,6 +61,16 @@ var grateMigration = builder
         "./infrastructure/db/grate",
         "--silent"
     );
+
+var webhook = builder
+    .AddCSharpApp("igdb-webhook", "./webhook/App.cs")
+    .WithEnvironment("ConnectionStrings__catalogdb", migrationConnectionString)
+    .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
+    .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
+    .WithEnvironment("IGDB__WEBHOOK_SECRET", webhookSecret)
+    .WithEnvironment("IGDB__WEBHOOK_URL", webhookUrl)
+    .WithEndpoint(port: 8000)
+    .WaitFor(grateMigration);
 
 if (builder.ExecutionContext.IsRunMode)
 {
@@ -136,35 +137,23 @@ var prefectServer = builder
 
 var pipeline = builder
     .AddContainer("pipeline-worker", "prefecthq/prefect", "3-python3.13")
-    .WithArgs("prefect", "worker", "start", "--pool", "pipeline-pool", "--type", "docker")
+    .WithArgs(
+        "sh",
+        "-c",
+        "pip install --no-cache-dir prefect-docker && prefect worker start --pool pipeline-pool --type docker"
+    )
     .WithBindMount("/var/run/docker.sock", "/var/run/docker.sock")
+    .WithBindMount("/root/.docker/config.json", "/root/.docker/config.json")
     .WithVolume("dlt-data", "/data/dlt")
     .WithEnvironment("PREFECT_API_URL", prefectApiUrl)
     .WithEnvironment("PREFECT_UI_URL", prefectUiUrl)
-    /*
-    .WithEnvironment("PREFECT_API_URL", "http://prefectServer:4200/api")
-    .WithEnvironment("IGDB__CLIENT_ID", igdbClientId)
-    .WithEnvironment("IGDB__ACCESS_TOKEN", igdbAccessToken)
-    .WithEnvironment("STEAM__API_KEY", steamApiKey)
-    .WithEnvironment("DESTINATION__TYPESENSE__CREDENTIALS__API_KEY", typesenseApiKey)
-    .WithEnvironment("UMAMI__API_KEY", umamiApiKey)
-    .WithEnvironment("DLT_DATA_DIR", "/data/dlt")
-    .WithEnvironment("DATA_WRITER__BUFFER_MAX_ITEMS", "500")
-    .WithEnvironment("DATA_WRITER__FILE_MAX_ITEMS", "5000")
-    .WithEnvironment("DATA_WRITER__FILE_MAX_BYTES", "500000")
-    .WithEnvironment("NORMALIZE__WORKERS", "1")
-    .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__HOST", pgHost)
-    .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__PORT", pgPort)
-    .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__USERNAME", pgUser)
-    .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__PASSWORD", pgPass)
-    .WithEnvironment("DESTINATION__POSTGRES__CREDENTIALS__DATABASE", pgDb)
-    */
     .WaitFor(prefectServer)
     .WaitFor(grateMigration)
     .PublishAsDockerComposeService(
         (resource, service) =>
         {
             service.Networks = new List<string> { "aspire", "dokploy-network" };
+            service.Restart = "always";
         }
     );
 

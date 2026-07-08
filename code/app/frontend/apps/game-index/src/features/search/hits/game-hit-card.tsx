@@ -1,4 +1,5 @@
-import { Box, Flex, Heading, Image, Text, Card } from "ui";
+import { Card } from "@astryxdesign/core/Card";
+import { Text } from "@astryxdesign/core/Text";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import type { GameSearchHit } from "../utils/hits";
 import { getDevelopersLabel, getReleaseYear } from "../utils/search-utils";
@@ -15,40 +16,49 @@ export function GameHitCard({ hit }: GameHitCardProps) {
     const releaseYear = getReleaseYear(hit);
 
     return (
-        <Card.Root h="full" w="full" rounded="lg" overflow="hidden" border="none">
-            <Box>
-                <Image
+        <Card width="100%">
+            <div>
+                <img
                     src={imageUrl}
                     alt={hit.name ? `${hit.name} cover` : "Game cover"}
-                    w="full"
-                    aspectRatio={3 / 4}
-                    objectFit="cover"
+                    style={{
+                        width: "100%",
+                        aspectRatio: "3 / 4",
+                        objectFit: "cover",
+                    }}
                 />
-            </Box>
-            <Card.Body p={{ base: "xs", md: "sm" }}>
-                <Heading size="sm" lineClamp={2} minH="2.5rem" color="fg.base">
-                    {hit.name ?? "Untitled game"}
-                </Heading>
-                <Flex direction="column" gap="2xs" mt="xs">
-                    <Text fontSize="sm" color="fg.subtle" lineClamp={1}>
-                        {getDevelopersLabel(hit.developers)}
+            </div>
+            <Text
+                as="h3"
+                style={{
+                    fontSize: "0.875rem",
+                    WebkitLineClamp: 2,
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    minHeight: "2.5rem",
+                    color: "var(--fg-base)",
+                }}
+            >
+                {hit.name ?? "Untitled game"}
+            </Text>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.125rem", marginTop: "0.25rem" }}>
+                <Text style={{ fontSize: "0.875rem", color: "var(--fg-tertiary)", WebkitLineClamp: 1, overflow: "hidden" }}>
+                    {getDevelopersLabel(hit.developers)}
+                </Text>
+                <Text color="secondary" style={{fontSize: "0.875rem"}}>
+                    Released: {releaseYear}
+                </Text>
+            </div>
+            <div style={{ borderRadius: "var(--radius-md)", background: "var(--bg-panel)", padding: "0.25rem 0.5rem", width: "100%" }}>
+                <Text style={{ fontSize: "0.875rem", color: "var(--fg-tertiary)", lineHeight: "1.25" }}>
+                    Rating:{" "}
+                    <Text as="span" style={{fontWeight: 600}}>
+                        {rating !== null ? `${rating}/100` : "No rating yet"}
                     </Text>
-                    <Text fontSize="sm" color="fg.muted">
-                        Released: {releaseYear}
-                    </Text>
-                </Flex>
-            </Card.Body>
-            <Card.Footer p={{ base: "xs", md: "sm" }} pt="0">
-                <Box rounded="md" bg="bg.panel" px="sm" py="xs" w="full">
-                    <Text fontSize="sm" color="fg.subtle" lineHeight="short">
-                        Rating:{" "}
-                        <Text as="span" color="fg.base" fontWeight="semibold">
-                            {rating !== null ? `${rating}/100` : "No rating yet"}
-                        </Text>
-                        {rating !== null ? ` (${votes} votes)` : ""}
-                    </Text>
-                </Box>
-            </Card.Footer>
-        </Card.Root>
+                    {rating !== null ? ` (${votes} votes)` : ""}
+                </Text>
+            </div>
+        </Card>
     );
 }

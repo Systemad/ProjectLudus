@@ -1,0 +1,32 @@
+version: 2
+models:
+  - name: mart_steam_reviews
+    config:
+      alias: steam_reviews
+      contract: { enforced: true }
+    constraints:
+      - type: primary_key
+        columns: [game_id]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: steam_app_id
+        data_type: bigint
+      - name: num_reviews
+        data_type: int
+      - name: review_score
+        data_type: int
+      - name: review_score_desc
+        data_type: text
+      - name: total_positive
+        data_type: int
+      - name: total_negative
+        data_type: int
+      - name: total_reviews
+        data_type: int

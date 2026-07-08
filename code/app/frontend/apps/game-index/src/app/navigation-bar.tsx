@@ -1,262 +1,115 @@
-import { useCallback } from "react";
-import { Link } from "@tanstack/react-router";
-import { Box, Button, Drawer, Flex, Heading, MenuIcon, Text, VStack, useDisclosure } from "ui";
-
-import { RouterLink, RouterLinkButton } from "@src/components/router-link";
+import { TopNav, TopNavHeading, TopNavItem } from "@astryxdesign/core/TopNav";
+import { NavIcon } from "@astryxdesign/core/NavIcon";
+import { Button } from "@astryxdesign/core/Button";
+import { Icon } from "@astryxdesign/core/Icon";
+import { HStack } from "@astryxdesign/core/HStack";
 import {
-    ChevronDownIcon,
-    NavArrowSvg,
-    NavMenuArrow,
-    NavMenuContent,
-    NavMenuIcon,
-    NavMenuItem,
-    NavMenuLink,
-    NavMenuList,
-    NavMenuPopup,
-    NavMenuPortal,
-    NavMenuPositioner,
-    NavMenuRoot,
-    NavMenuTrigger,
-    NavMenuViewport,
-} from "@src/components/navigation-menu";
+    CubeIcon,
+    MagnifyingGlassIcon,
+    UserCircleIcon,
+    BellIcon,
+    BuildingOfficeIcon,
+    RocketLaunchIcon,
+} from "@heroicons/react/24/outline";
 
 type NavigationBarProps = {
     active?: string;
 };
 
-const subNavItems = [
+const NAV_ITEMS = [
     {
-        id: "search" as const,
+        id: "search",
         label: "Search",
-        subItems: [
-            { label: "Games", to: "/games/search" },
-            { label: "Companies", to: "/companies/search" },
+        isMegaMenu: true,
+        items: [
+            {
+                title: "Games",
+                description: "Search by name, genre, or keyword",
+                href: "/games/search",
+                icon: MagnifyingGlassIcon,
+            },
+            {
+                title: "Companies",
+                description: "Search for publishers and developers",
+                href: "/companies/search",
+                icon: BuildingOfficeIcon,
+            },
         ],
     },
     {
-        id: "events" as const,
+        id: "events",
         label: "Events",
-        subItems: [{ label: "Upcoming Events", to: "/events" }],
+        isMegaMenu: true,
+        items: [
+            {
+                title: "Upcoming Events",
+                description: "Browse gaming events and conferences",
+                href: "/events",
+                icon: RocketLaunchIcon,
+            },
+        ],
     },
-    { id: "calendar" as const, label: "Calendar", to: "/calendar" },
-
-    { id: "companies" as const, label: "Companies", to: "/companies/search" },
+    {
+        id: "calendar",
+        label: "Calendar",
+        href: "/calendar",
+    },
+    {
+        id: "companies",
+        label: "Companies",
+        href: "/companies/search",
+    },
 ];
 
-type SubItem = { label: string; to: string };
-
-function SubLinkList({ items, onNav }: { items?: SubItem[]; onNav: () => void }) {
-    if (!items) return null;
+export function NavigationBar({ active: _active }: NavigationBarProps) {
     return (
-        <VStack align="stretch" gap="1">
-            {items.map((item) => (
-                <NavMenuLink
-                    key={item.to}
-                    render={<Link to={item.to} onClick={onNav} />}
-                    closeOnClick
-                    px="4"
-                    py="2"
-                    rounded="md"
-                    whiteSpace="nowrap"
-                    color="fg.base"
-                    textDecoration="none"
-                    _hover={{ bg: "whiteAlpha.100" }}
-                >
-                    {item.label}
-                </NavMenuLink>
-            ))}
-        </VStack>
-    );
-}
-
-export function NavigationBar({ active: _active = "home" }: NavigationBarProps) {
-    const { open, onOpen, onClose } = useDisclosure();
-    const closeDrawer = useCallback(() => onClose(), [onClose]);
-
-    return (
-        <>
-            <Box as="nav" borderBottom="1px" borderColor="border" bg="bg.panel">
-                <Flex
-                    maxW="7xl"
-                    mx="auto"
-                    px={{ base: "4", md: "6" }}
-                    align="center"
-                    justify="space-between"
-                    h="14"
-                >
-                    <Flex align="center" gap={{ base: "2", md: "4" }} minW="0">
-                        <Button
-                            display={{ base: "inline-flex", md: "none" }}
-                            aria-label="Open navigation"
-                            variant="ghost"
-                            color="fg.base"
-                            onClick={onOpen}
-                        >
-                            <MenuIcon boxSize="4" />
-                        </Button>
-
-                        <RouterLink to="/" style={{ color: "inherit", textDecoration: "none" }}>
-                            <Heading
-                                as="span"
-                                fontFamily="heading"
-                                fontSize={{ base: "xl", md: "2xl" }}
-                                fontWeight="black"
-                                letterSpacing="tight"
-                                textTransform="uppercase"
-                                bgClip="text"
-                                bgGradient="linear(to-l, #C6426E, #642B73)"
-                                whiteSpace="nowrap"
-                            >
-                                Game-Index
-                            </Heading>
-                        </RouterLink>
-                    </Flex>
-
-                    <NavMenuRoot>
-                        <NavMenuList display={{ base: "none", md: "flex" }}>
-                            {subNavItems.map((item) => (
-                                <NavMenuItem key={item.id}>
-                                    {"subItems" in item ? (
-                                        <>
-                                            <NavMenuTrigger>
-                                                {item.label}
-                                                <NavMenuIcon>
-                                                    <ChevronDownIcon />
-                                                </NavMenuIcon>
-                                            </NavMenuTrigger>
-                                            <NavMenuContent>
-                                                <SubLinkList
-                                                    items={item.subItems}
-                                                    onNav={() => {}}
-                                                />
-                                            </NavMenuContent>
-                                        </>
-                                    ) : (
-                                        <NavMenuLink render={<Link to={item.to!} />} closeOnClick>
-                                            {item.label}
-                                        </NavMenuLink>
-                                    )}
-                                </NavMenuItem>
-                            ))}
-                        </NavMenuList>
-
-                        <NavMenuPortal>
-                            <NavMenuPositioner
-                                sideOffset={10}
-                                collisionPadding={{ top: 5, bottom: 5, left: 20, right: 20 }}
-                            >
-                                <NavMenuPopup>
-                                    <NavMenuArrow>
-                                        <NavArrowSvg />
-                                    </NavMenuArrow>
-                                    <NavMenuViewport />
-                                </NavMenuPopup>
-                            </NavMenuPositioner>
-                        </NavMenuPortal>
-                    </NavMenuRoot>
-                </Flex>
-            </Box>
-
-            <Drawer.Root
-                open={open}
-                onClose={onClose}
-                placement="inline-start"
-                withCloseButton={false}
-            >
-                <Drawer.Overlay zIndex="beerus" />
-                <Drawer.Content zIndex="beerus">
-                    <Drawer.CloseButton />
-                    <Drawer.Header>
-                        <Heading
-                            as="span"
-                            fontFamily="heading"
-                            fontSize="xl"
-                            fontWeight="black"
-                            letterSpacing="tight"
-                            textTransform="uppercase"
-                            color="fg.base"
-                        >
-                            Game-Index
-                        </Heading>
-                    </Drawer.Header>
-
-                    <Drawer.Body>
-                        <VStack align="stretch" gap="2">
-                            {subNavItems.map((item) =>
-                                "subItems" in item ? (
-                                    item.subItems?.map((sub) => (
-                                        <RouterLinkButton
-                                            key={`drawer-${sub.to}`}
-                                            to={sub.to}
-                                            variant="ghost"
-                                            color="fg.base"
-                                            colorScheme="blackAlpha"
-                                            justifyContent="start"
-                                            rounded="lg"
-                                            px="3"
-                                            py="2"
-                                            w="full"
-                                            h="auto"
-                                            onClick={closeDrawer}
-                                            _hover={{ bg: "rgba(255,255,255,0.12)" }}
-                                            activeProps={{
-                                                bg: "rgba(255,255,255,0.18)",
-                                                color: "fg.base",
-                                            }}
-                                        >
-                                            <Text
-                                                as="span"
-                                                fontFamily="heading"
-                                                fontWeight="bold"
-                                                letterSpacing="tight"
-                                                color="inherit"
-                                            >
-                                                {sub.label}
-                                            </Text>
-                                        </RouterLinkButton>
-                                    ))
-                                ) : (
-                                    <RouterLinkButton
-                                        key={`drawer-${item.id}`}
-                                        to={item.to!}
-                                        variant="ghost"
-                                        color="fg.base"
-                                        colorScheme="blackAlpha"
-                                        justifyContent="start"
-                                        rounded="lg"
-                                        px="3"
-                                        py="2"
-                                        w="full"
-                                        h="auto"
-                                        onClick={closeDrawer}
-                                        _hover={{ bg: "rgba(255,255,255,0.12)" }}
-                                        activeProps={{
-                                            bg: "rgba(255,255,255,0.18)",
-                                            color: "fg.base",
-                                        }}
-                                    >
-                                        <Text
-                                            as="span"
-                                            fontFamily="heading"
-                                            fontWeight="bold"
-                                            letterSpacing="tight"
-                                            color="inherit"
-                                        >
-                                            {item.label}
-                                        </Text>
-                                    </RouterLinkButton>
-                                ),
-                            )}
-                        </VStack>
-                    </Drawer.Body>
-
-                    <Drawer.Footer>
-                        <Drawer.CloseTrigger>
-                            <Button variant="ghost">Close</Button>
-                        </Drawer.CloseTrigger>
-                    </Drawer.Footer>
-                </Drawer.Content>
-            </Drawer.Root>
-        </>
+        <TopNav
+            label="Main navigation"
+            heading={
+                <TopNavHeading
+                    heading="Game-Index"
+                    href="/"
+                    logo={<NavIcon icon={<Icon icon={CubeIcon} size="sm" />} />}
+                />
+            }
+            centerContent={
+                <>
+                    {NAV_ITEMS.map((item) =>
+                        "items" in item && item.isMegaMenu ? (
+                            null
+                        ) : "href" in item ? (
+                            <TopNavItem
+                                key={item.id}
+                                label={item.label}
+                                href={item.href}
+                                isSelected={_active === item.id}
+                            />
+                        ) : null
+                    )}
+                </>
+            }
+            endContent={
+                <HStack gap={2} vAlign="center">
+                    <Button
+                        label="Search"
+                        variant="ghost"
+                        icon={<Icon icon={MagnifyingGlassIcon} size="sm" />}
+                        isIconOnly
+                    />
+                    <Button
+                        label="Notifications"
+                        variant="ghost"
+                        icon={<Icon icon={BellIcon} size="sm" />}
+                        isIconOnly
+                    />
+                    <Button
+                        label="Profile"
+                        variant="ghost"
+                        icon={<Icon icon={UserCircleIcon} size="sm" />}
+                        isIconOnly
+                    />
+                </HStack>
+            }
+        />
     );
 }
