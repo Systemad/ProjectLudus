@@ -40,6 +40,11 @@ renamed as (
             {% endif %}
         _dlt_load_id,
         _dlt_id,
+        {% if "company_size" in companies_column_names %}
+            company_size,
+        {% else %}
+            null::bigint as company_size,
+        {% endif %}
         nullif(parent, 0)::bigint as parent,
         nullif(changed_company_id, 0)::bigint as changed_company_id
     from source

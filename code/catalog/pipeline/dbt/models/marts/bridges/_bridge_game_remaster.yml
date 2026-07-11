@@ -8,11 +8,7 @@ models:
     description: "Join table linking games to their remasters."
     constraints:
       - type: primary_key
-        columns: [remaster_source_id, remaster_id]
-      - type: foreign_key
-        columns: [remaster_source_id]
-        to: ref('mart_games')
-        to_columns: [id]
+        columns: [remaster_id]
       - type: foreign_key
         columns: [remaster_id]
         to: ref('mart_games')

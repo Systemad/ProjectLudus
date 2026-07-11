@@ -6,18 +6,20 @@
 
 with
 source as (select * from {{ ref("stg_collection_memberships") }}),
+games as (select id from {{ ref("mart_games") }}),
 
 renamed as (
 
     select
-        id,
-        created_at,
-        updated_at,
-        game,
-        collection,
-        type,
-        checksum
-    from source
+        s.id,
+        s.created_at,
+        s.updated_at,
+        s.game,
+        s.collection,
+        s.type,
+        s.checksum
+    from source s
+    inner join games g on s.game = g.id
 
 )
 

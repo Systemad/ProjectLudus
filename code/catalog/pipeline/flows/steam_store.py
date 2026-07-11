@@ -10,8 +10,9 @@ from utilities.dbt_runner import run_dbt
 
 from flows.igdb import dlt_igdb_default
 from flows.steam_game_index import (
-    fetch_popularity_primitives,
+    fetch_popularity_data,
     fetch_steam_app_ids,
+    write_popularity_scores,
     write_tracked_games,
 )
 
@@ -53,19 +54,20 @@ def fill_igdb_gaps():
 
 @task
 def dbt_build_steam():
-    run_dbt("+staging.steam")
+    run_dbt("+marts.steam")
 
 
 @flow
 def steam_game_index_phase():
-    """Discover tracked games from IGDB popularity and fill gaps."""
-    game_ids = fetch_popularity_primitives()
+    """Discover tracked games from IGDB popularity, save scores, and fill gaps."""
+    game_ids, score_rows = fetch_popularity_data()
     if not game_ids:
         return
     results = fetch_steam_app_ids(game_ids)
     if not results:
         return
     write_tracked_games(results)
+    write_popularity_scores(score_rows)
     fill_igdb_gaps()
 
 

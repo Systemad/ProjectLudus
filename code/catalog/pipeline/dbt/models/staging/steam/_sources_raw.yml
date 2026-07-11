@@ -69,3 +69,16 @@ sources:
             data_type: int
           - name: captured_at
             data_type: timestamp with time zone
+
+      - name: popularity_scores
+        columns:
+          - name: game_id
+            data_type: bigint
+          - name: popularity_type
+            data_type: bigint
+          - name: value
+            data_type: double precision
+          - name: calculated_at
+            data_type: bigint
+          - name: fetched_at
+            data_type: timestamp with time zone

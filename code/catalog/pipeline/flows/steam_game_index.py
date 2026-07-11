@@ -16,7 +16,7 @@ from utilities.igdb_multiquery import (
 
 
 @task(retries=0)
-def fetch_popularity_primitives() -> set[int]:
+def fetch_popularity_data() -> tuple[set[int], list[tuple]]:
     resp = niquests.post(
         MULTIQUERY_URL,
         headers=get_igdb_headers(),
@@ -25,10 +25,21 @@ def fetch_popularity_primitives() -> set[int]:
     )
     resp.raise_for_status()
     game_ids: set[int] = set()
+    rows: list[tuple] = []
+    now = datetime.now(timezone.utc)
     for entry in resp.json():
         for record in flatten_multiquery(entry):
             game_ids.add(record["game_id"])
-    return game_ids
+            rows.append(
+                (
+                    record["game_id"],
+                    record["popularity_type"],
+                    record["value"],
+                    record["calculated_at"],
+                    now,
+                )
+            )
+    return game_ids, rows
 
 
 @task(retries=0)
@@ -76,15 +87,32 @@ def write_tracked_games(rows: list[tuple[int, int]]):
     conn.close()
 
 
+@task(retries=0)
+def write_popularity_scores(rows: list[tuple]):
+    if not rows:
+        return
+    conn = get_connection()
+    with conn:
+        with conn.cursor() as cur:
+            cur.executemany(
+                "INSERT INTO steam_raw.popularity_scores "
+                "(game_id, popularity_type, value, calculated_at, fetched_at) "
+                "VALUES (%s, %s, %s, %s, %s)",
+                rows,
+            )
+    conn.close()
+
+
 @flow
 def steam_game_index():
-    game_ids = fetch_popularity_primitives()
+    game_ids, score_rows = fetch_popularity_data()
     if not game_ids:
         return
     results = fetch_steam_app_ids(game_ids)
     if not results:
         return
     write_tracked_games(results)
+    write_popularity_scores(score_rows)
 
 
 if __name__ == "__main__":

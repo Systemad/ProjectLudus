@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: mart_popularity_primitive
+    config:
+      alias: popularity_primitive
+      contract: { enforced: true }
+    constraints:
+      - type: primary_key
+        columns: [game_id, popularity_type]
+      - type: foreign_key
+        columns: [game_id]
+        to: ref('mart_games')
+        to_columns: [id]
+    columns:
+      - name: game_id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: popularity_type
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: value
+        data_type: double precision
+      - name: calculated_at
+        data_type: bigint
+      - name: captured_at
+        data_type: timestamp with time zone

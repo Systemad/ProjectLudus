@@ -21,6 +21,7 @@ formatted as (
         i.checksum
     from {{ ref("stg_involved_companies") }} as i
     inner join {{ ref("mart_companies") }} as c on i.company = c.id
+    inner join {{ ref("mart_games") }} as g on i.game = g.id
 
 )
 

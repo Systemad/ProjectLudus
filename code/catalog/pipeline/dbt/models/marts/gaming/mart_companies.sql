@@ -25,6 +25,7 @@ renamed as (
         checksum,
         status,
         start_date_format,
+        company_size,
         parent_id,
         changed_company_id
 

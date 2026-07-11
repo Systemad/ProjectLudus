@@ -8,11 +8,7 @@ models:
     description: "Join table linking games to their forks."
     constraints:
       - type: primary_key
-        columns: [fork_source_id, fork_id]
-      - type: foreign_key
-        columns: [fork_source_id]
-        to: ref('mart_games')
-        to_columns: [id]
+        columns: [fork_id]
       - type: foreign_key
         columns: [fork_id]
         to: ref('mart_games')

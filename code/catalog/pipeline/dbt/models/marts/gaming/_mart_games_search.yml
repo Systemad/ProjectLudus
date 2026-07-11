@@ -93,3 +93,5 @@ models:
           - type: not_null
       - name: release_year
         data_type: integer
+      - name: popularity_score
+        data_type: double precision

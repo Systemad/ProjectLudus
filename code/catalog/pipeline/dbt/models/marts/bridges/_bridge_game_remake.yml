@@ -8,11 +8,7 @@ models:
     description: "Join table linking games to their remakes."
     constraints:
       - type: primary_key
-        columns: [remake_source_id, remake_id]
-      - type: foreign_key
-        columns: [remake_source_id]
-        to: ref('mart_games')
-        to_columns: [id]
+        columns: [remake_id]
       - type: foreign_key
         columns: [remake_id]
         to: ref('mart_games')

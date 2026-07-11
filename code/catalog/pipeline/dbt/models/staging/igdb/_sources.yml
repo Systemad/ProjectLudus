@@ -472,6 +472,19 @@ sources:
           - name: _dlt_id
             data_type: character varying
 
+      - name: companies__company_type_histories
+        columns:
+          - name: value
+            data_type: bigint
+          - name: _dlt_root_id
+            data_type: character varying
+          - name: _dlt_parent_id
+            data_type: character varying
+          - name: _dlt_list_idx
+            data_type: bigint
+          - name: _dlt_id
+            data_type: character varying
+
       - name: company_statuses
         columns:
           - name: id

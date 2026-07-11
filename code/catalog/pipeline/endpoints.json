@@ -16,6 +16,9 @@
     "release_date_regions",
     "release_date_statuses",
     "company_statuses",
+    "company_sizes",
+    "company_types",
+    "popularity_types",
     "collection_types",
     "date_formats"
   ],

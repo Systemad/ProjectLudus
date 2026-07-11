@@ -6,26 +6,29 @@
 
 with
 source as (select * from {{ ref("stg_language_supports") }}),
+games as (select id from {{ ref("mart_games") }}),
 
 renamed as (
 
     select
-        id,
-        game,
-        language,
-        language_support_type,
-        created_at,
-        updated_at,
-        checksum
+        s.id,
+        s.game,
+        s.language,
+        s.language_support_type,
+        s.created_at,
+        s.updated_at,
+        s.checksum
 
-    from source
+    from source s
+    inner join games g on s.game = g.id
 
 )
 
 select *
 from renamed
+where id is not null
 {% if is_incremental() %}
-where updated_at > (select max(updated_at) from {{ this }})
+and updated_at > (select max(updated_at) from {{ this }})
 {% endif %}
 
 

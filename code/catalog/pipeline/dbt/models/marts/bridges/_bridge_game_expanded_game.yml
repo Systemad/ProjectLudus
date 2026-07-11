@@ -8,11 +8,7 @@ models:
     description: "Join table linking games to their expanded games."
     constraints:
       - type: primary_key
-        columns: [expanded_source_id, expanded_game_id]
-      - type: foreign_key
-        columns: [expanded_source_id]
-        to: ref('mart_games')
-        to_columns: [id]
+        columns: [expanded_game_id]
       - type: foreign_key
         columns: [expanded_game_id]
         to: ref('mart_games')

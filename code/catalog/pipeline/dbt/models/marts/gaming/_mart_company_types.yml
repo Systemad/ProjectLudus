@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: mart_company_types
+    config:
+      enabled: true
+      contract: { enforced: true }
+      alias: company_types
+    constraints:
+      - type: primary_key
+        columns: [id]
+    description: "company_types lookup table."
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: "Primary key."
+        data_tests:
+          - unique
+          - not_null
+      - name: created_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: updated_at
+        data_type: bigint
+        constraints:
+          - type: not_null
+        description: ""
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""
+      - name: checksum
+        data_type: character varying
+        constraints:
+          - type: not_null
+        description: ""

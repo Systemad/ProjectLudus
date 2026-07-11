@@ -14,6 +14,7 @@ select
     base.checksum,
     base.status,
     base.start_date_format,
+    base.company_size,
     case when p.id is not null then base.parent end as parent_id,
     case
         when c.id is not null then base.changed_company_id

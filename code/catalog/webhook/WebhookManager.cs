@@ -66,7 +66,7 @@ public class WebhookManager(
 
     public EndpointConfig GetConfig()
     {
-        var json = File.ReadAllText("../endpoints.json");
+        var json = File.ReadAllText("../pipeline/endpoints.json");
         return JsonSerializer.Deserialize<EndpointConfig>(
             json,
             new JsonSerializerOptions { PropertyNameCaseInsensitive = true }

@@ -8,20 +8,21 @@ with
 formatted as (
 
     select
-        id,
-        created_at,
-        game,
-        name,
-        uid,
-        updated_at,
-        url,
-        checksum,
-        year,
-        platform,
-        external_game_source,
-        game_release_format
+        e.id,
+        e.created_at,
+        e.game,
+        e.name,
+        e.uid,
+        e.updated_at,
+        e.url,
+        e.checksum,
+        e.year,
+        e.platform,
+        e.external_game_source,
+        e.game_release_format
 
-    from {{ ref("int_external_games") }}
+    from {{ ref("int_external_games") }} e
+    inner join {{ ref("mart_games") }} g on e.game = g.id
 
 ),
 

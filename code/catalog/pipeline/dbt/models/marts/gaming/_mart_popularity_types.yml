@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: mart_popularity_types
+    config:
+      enabled: true
+      contract: { enforced: true }
+      alias: popularity_types
+    constraints:
+      - type: primary_key
+        columns: [id]
+    description: "popularity_types lookup table."
+    columns:
+      - name: id
+        data_type: bigint
+        constraints:
+          - type: not_null
+      - name: name
+        data_type: character varying
+        constraints:
+          - type: not_null
+      - name: created_at
+        data_type: bigint
+      - name: updated_at
+        data_type: bigint

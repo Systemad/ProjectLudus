@@ -127,6 +127,15 @@ game_statuses as (
         id,
         status as game_status
     from {{ ref("mart_game_statuses") }}
+),
+
+popularity as (
+    select
+        game_id,
+        max(case when popularity_type = 10 then value end) as followers,
+        max(case when popularity_type = 1 then value end) as visits
+    from {{ ref("mart_popularity_primitive") }}
+    group by game_id
 )
 
 select
@@ -164,8 +173,13 @@ select
                 extract(
                     year from to_timestamp(g.first_release_date_epoch::numeric)
                 )::int
-    end as release_year
+    end as release_year,
+    coalesce(p.followers, 0) * 0.5
+        + coalesce(g.hypes, 0) * 0.3
+        + coalesce(p.visits, 0) * 0.2
+    as popularity_score
 from {{ ref("mart_games") }} as g
+left join popularity p on g.id = p.game_id
 left join game_themes as gth on g.id = gth.game_id
 left join game_genres as gg on g.id = gg.game_id
 left join game_modes as gm on g.id = gm.game_id

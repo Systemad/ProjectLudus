@@ -4,4 +4,6 @@
     on_schema_change="append_new_columns"
 ) }}
 
-select * from {{ ref("stg_steam__player_counts") }}
+select s.*
+from {{ ref("stg_steam__reviews") }} s
+inner join {{ ref("mart_games") }} g on s.game_id = g.id

@@ -236,6 +236,32 @@ sources:
           - name: checksum
             data_type: character varying
 
+      - name: company_sizes
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
+      - name: company_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: checksum
+            data_type: character varying
+
       - name: collection_types
         columns:
           - name: id
@@ -250,6 +276,17 @@ sources:
             data_type: character varying
           - name: checksum
             data_type: character varying
+
+      - name: popularity_types
+        columns:
+          - name: id
+            data_type: bigint
+          - name: name
+            data_type: character varying
+          - name: created_at
+            data_type: bigint
+          - name: updated_at
+            data_type: bigint
 
       - name: date_formats
         columns:

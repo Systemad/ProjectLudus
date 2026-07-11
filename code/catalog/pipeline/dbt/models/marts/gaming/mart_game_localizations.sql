@@ -9,16 +9,17 @@ with
 formatted as (
 
     select
-        id,
-        name,
-        game,
-        region,
-        created_at,
-        updated_at,
-        checksum,
-        cover
+        l.id,
+        l.name,
+        l.game,
+        l.region,
+        l.created_at,
+        l.updated_at,
+        l.checksum,
+        l.cover
 
-    from {{ ref("int_game_localizations") }}
+    from {{ ref("int_game_localizations") }} l
+    inner join {{ ref("mart_games") }} g on l.game = g.id
 
 )
 
