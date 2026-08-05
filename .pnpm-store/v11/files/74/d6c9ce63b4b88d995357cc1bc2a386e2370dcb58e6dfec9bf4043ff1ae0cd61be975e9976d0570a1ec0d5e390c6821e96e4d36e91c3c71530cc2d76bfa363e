@@ -1,0 +1,8 @@
+import { type McpServerProxy } from '@expo/mcp-tunnel';
+/**
+ * Adds MCP capabilities to the server.
+ * @param server - The MCP server to add capabilities to.
+ * @param projectRoot - The project root directory.
+ */
+export declare function addMcpCapabilities(server: McpServerProxy, projectRoot: string): void;
+//# sourceMappingURL=index.d.ts.map

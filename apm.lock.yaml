@@ -1,10 +1,12 @@
 lockfile_version: '1'
-generated_at: '2026-06-23T15:55:49.203682+00:00'
-apm_version: 0.20.0
+generated_at: '2026-07-23T19:06:43.159591+00:00'
+apm_version: 0.26.0
 dependencies:
 - repo_url: dotnet/skills
+  name: dotnet
   host: github.com
-  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.2.0
   virtual_path: plugins/dotnet
   is_virtual: true
   package_type: marketplace_plugin
@@ -19,6 +21,8 @@ dependencies:
   - .agents/skills/nuget-trusted-publishing/SKILL.md
   - .agents/skills/nuget-trusted-publishing/references/package-types.md
   - .agents/skills/nuget-trusted-publishing/references/publish-workflow.md
+  - .agents/skills/setup-local-sdk
+  - .agents/skills/setup-local-sdk/SKILL.md
   deployed_file_hashes:
     .agents/skills/csharp-scripts/SKILL.md: sha256:acc0ea3c023127db9ef4be653686b543808597a252a1ab06a3754a3ae93572f9
     .agents/skills/dotnet-pinvoke/SKILL.md: sha256:6de683aad84b2fe0ac972c8fcce3589a32e064332da68e0447e22df5e95232f1
@@ -27,10 +31,13 @@ dependencies:
     .agents/skills/nuget-trusted-publishing/SKILL.md: sha256:e12a67e1239989a36b8835b715daf94a4223c89fbc21336bb24107f51363c3e5
     .agents/skills/nuget-trusted-publishing/references/package-types.md: sha256:f413d6ee9fc24c5b886dfcb0f7063b2bfa16bd8e6a5c938ca103ffd001b4f3b6
     .agents/skills/nuget-trusted-publishing/references/publish-workflow.md: sha256:632b8e8db22115237ce305ddbca00a41d3cbb10869f1cdc3116e329a35ab70df
-  content_hash: sha256:33ae61cb15291d8044407feab2f7603c75aee6d96310f92af685ee009499425d
+    .agents/skills/setup-local-sdk/SKILL.md: sha256:6b4904db9ae950da582f85dc2f4cf2adf586776d84ce805a273edb4045f1a74e
+  content_hash: sha256:592e88ca7cdd4e1922c6cdaca07fbaeddc14eabc1f050a61b215d77cfa470f7e
 - repo_url: dotnet/skills
+  name: dotnet-aspnetcore
   host: github.com
-  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.1.0
   virtual_path: plugins/dotnet-aspnetcore
   is_virtual: true
   package_type: marketplace_plugin
@@ -48,10 +55,12 @@ dependencies:
     .agents/skills/convert-blazor-server-to-webapp/SKILL.md: sha256:679607e47f22a3106e1773ef74d52249de743988fb8171d7e4a6e80d504cab59
     .agents/skills/dotnet-webapi/SKILL.md: sha256:70e10d74aa367ee63060b64edc397c5998c03da0fbdaf120f5aa8c94d373b77d
     .agents/skills/minimal-api-file-upload/SKILL.md: sha256:18232bea3b8bdfdc6b9cc3a2081e193b923150431b90d7c033f57943a96af21e
-  content_hash: sha256:a60783d8dbfd604655bf2ed2f5b54aaf3ba91143c2be7b75b9f8c39bff1b6d19
+  content_hash: sha256:07d74990066b5456cb2ab55a5c29480256a67cb7e6c200dd80c34482d55213a0
 - repo_url: dotnet/skills
+  name: dotnet-data
   host: github.com
-  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.1.0
   virtual_path: plugins/dotnet-data
   is_virtual: true
   package_type: marketplace_plugin
@@ -60,10 +69,299 @@ dependencies:
   - .agents/skills/optimizing-ef-core-queries/SKILL.md
   deployed_file_hashes:
     .agents/skills/optimizing-ef-core-queries/SKILL.md: sha256:f5eb7b623031da6b217e75aca465f8258d3545ea51ab954491b3c4c52e91429f
-  content_hash: sha256:0b36e6d06951a31843da7dde67bd18caab75ab2ac5fc331baee3fd8e6ccdbed9
+  content_hash: sha256:aada7518ea4c8c782dfb8443929262569e245e029fa1da4cf870d0aa4bdc2c16
 - repo_url: dotnet/skills
+  name: dotnet-msbuild
   host: github.com
-  resolved_commit: 35ace775b36f0cb1c032b43e84d85a8fade2f631
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.1.0
+  virtual_path: plugins/dotnet-msbuild
+  is_virtual: true
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/binlog-failure-analysis
+  - .agents/skills/binlog-failure-analysis/SKILL.md
+  - .agents/skills/binlog-generation
+  - .agents/skills/binlog-generation/SKILL.md
+  - .agents/skills/build-parallelism
+  - .agents/skills/build-parallelism/SKILL.md
+  - .agents/skills/build-perf-baseline
+  - .agents/skills/build-perf-baseline/SKILL.md
+  - .agents/skills/build-perf-diagnostics
+  - .agents/skills/build-perf-diagnostics/SKILL.md
+  - .agents/skills/check-bin-obj-clash
+  - .agents/skills/check-bin-obj-clash/SKILL.md
+  - .agents/skills/copy-to-output-directory
+  - .agents/skills/copy-to-output-directory/SKILL.md
+  - .agents/skills/directory-build-organization
+  - .agents/skills/directory-build-organization/SKILL.md
+  - .agents/skills/directory-build-organization/references/common-patterns.md
+  - .agents/skills/directory-build-organization/references/multi-level-examples.md
+  - .agents/skills/directory-build-organization/references/targetframework-props-pitfall.md
+  - .agents/skills/eval-performance
+  - .agents/skills/eval-performance/SKILL.md
+  - .agents/skills/extension-points
+  - .agents/skills/extension-points/SKILL.md
+  - .agents/skills/including-generated-files
+  - .agents/skills/including-generated-files/SKILL.md
+  - .agents/skills/incremental-build
+  - .agents/skills/incremental-build/SKILL.md
+  - .agents/skills/item-management
+  - .agents/skills/item-management/SKILL.md
+  - .agents/skills/msbuild-antipatterns
+  - .agents/skills/msbuild-antipatterns/SKILL.md
+  - .agents/skills/msbuild-antipatterns/references/additional-antipatterns.md
+  - .agents/skills/msbuild-antipatterns/references/incremental-build-inputs-outputs.md
+  - .agents/skills/msbuild-antipatterns/references/private-assets.md
+  - .agents/skills/msbuild-modernization
+  - .agents/skills/msbuild-modernization/SKILL.md
+  - .agents/skills/msbuild-server
+  - .agents/skills/msbuild-server/SKILL.md
+  - .agents/skills/property-patterns
+  - .agents/skills/property-patterns/SKILL.md
+  - .agents/skills/resolve-project-references
+  - .agents/skills/resolve-project-references/SKILL.md
+  - .agents/skills/target-authoring
+  - .agents/skills/target-authoring/SKILL.md
+  - .codex/agents/build-perf.toml
+  - .codex/agents/msbuild-code-review.toml
+  - .codex/agents/msbuild.toml
+  deployed_file_hashes:
+    .agents/skills/binlog-failure-analysis/SKILL.md: sha256:0424369ec57d99dd244605ce01f84ff2b62fdc24acd26c4103e3b378735e403b
+    .agents/skills/binlog-generation/SKILL.md: sha256:6a35bd9871239d314e36836bd425c93e50c295e9794166aef620bbd0754bca85
+    .agents/skills/build-parallelism/SKILL.md: sha256:1d5bf8518ef43108fac23c47b28a08e49b7486d41c2f25078632b2758dd6eab8
+    .agents/skills/build-perf-baseline/SKILL.md: sha256:9546a5d3a22432142a193cec052405e7a64977a9b57ca2268f975b20c512a909
+    .agents/skills/build-perf-diagnostics/SKILL.md: sha256:8575541b9b13f28c44ab62a248c3b141eb0fbb906893b46981b4b0546bb995a2
+    .agents/skills/check-bin-obj-clash/SKILL.md: sha256:160357b3e5926d4e762fb68c47b3fce42957b2ebc116bbabe112eae80c9dd210
+    .agents/skills/copy-to-output-directory/SKILL.md: sha256:f099db9b3165ca2e49e4c3117612ef2d4e133af67c4a33b9b32775c9b493e52c
+    .agents/skills/directory-build-organization/SKILL.md: sha256:19236a9a5ccac500f1d2bc4023bbe5c427e4ec598220af7366257de686835ff8
+    .agents/skills/directory-build-organization/references/common-patterns.md: sha256:6e651cb87034e162e8a966228cbf837612e434c564fd7f9928d38ef44a12e7f3
+    .agents/skills/directory-build-organization/references/multi-level-examples.md: sha256:6120bf2b385eb2cf348c66173bb27ade493d570db8c497881cc8319f448c820a
+    .agents/skills/directory-build-organization/references/targetframework-props-pitfall.md: sha256:a5f0b84a3138e5fdf1fdf103268493006756a1c86312952926f3a10c3e5dd738
+    .agents/skills/eval-performance/SKILL.md: sha256:54f04e50c459aaaa466cfcad4e5742be1ad3df65a96107ccfc16e1501a03c0f2
+    .agents/skills/extension-points/SKILL.md: sha256:fa274ec554b0a40f43060782a4aba9d9152ac0b162e93943ddbccbfd0bab25f8
+    .agents/skills/including-generated-files/SKILL.md: sha256:921f3cbe3078d13f6429e0ec820dbb95832c4cb4df896d80de0449c4c37c2246
+    .agents/skills/incremental-build/SKILL.md: sha256:05db7b97519627bcaaa9fd7d3212e8a6a2d68fb686c6ebf8a0472bf3a6ff8657
+    .agents/skills/item-management/SKILL.md: sha256:86d3ba145c9b334b337161cb2d25af7bfa4db20d7ca4fc3cc879461c519d0568
+    .agents/skills/msbuild-antipatterns/SKILL.md: sha256:08b36b41196b1282fc96bee299cbabf10e876969be0d9abb5b40ae4f15665ae4
+    .agents/skills/msbuild-antipatterns/references/additional-antipatterns.md: sha256:4a62a12ba5173eb5c3d8b66e2ec4a9f0248e815aacd065664175b6db72adb6d9
+    .agents/skills/msbuild-antipatterns/references/incremental-build-inputs-outputs.md: sha256:006a123ea16f95aeb216ae9e2a59be48fc82f15e66ecccdbb92fdcf03b05fdc4
+    .agents/skills/msbuild-antipatterns/references/private-assets.md: sha256:1e678c0ef9667d9df92ff71ca12737ac3a4ed26050d73e5197a2478356e0b4f5
+    .agents/skills/msbuild-modernization/SKILL.md: sha256:6abc8b21c8fbd78e59d2358783d75b0febaa5dde0bb0d9495e41a1d9d99e246d
+    .agents/skills/msbuild-server/SKILL.md: sha256:4b2d14f7bcef2e00c67a10513fba8267df03d98e82d90042e61d965f6ff3cd7b
+    .agents/skills/property-patterns/SKILL.md: sha256:d20ac0adca21952f0dba7501595b2bb7c9ae5cff1b236e5ef912fbd3a32da838
+    .agents/skills/resolve-project-references/SKILL.md: sha256:5aa288d6f2204bdf7c3519a74596b9c7c501e9e655c1cd0369a3b877fa732fd9
+    .agents/skills/target-authoring/SKILL.md: sha256:e39b9ad0bfe65746c8110f971847a1dd8988feccc10b8ad19674ab544926bcc0
+    .codex/agents/build-perf.toml: sha256:dec02f38936d48b79667564b9482b681c9eaeb51ceccfd5692db04c2debfe933
+    .codex/agents/msbuild-code-review.toml: sha256:3b4f2070038029da4c458bfb6574f1af3fc319295052bb39ed3440e3a858e899
+    .codex/agents/msbuild.toml: sha256:15372beb4a02b50744d748a0a4b4b6a497c1212edb9b0e37e51540543985e15b
+  content_hash: sha256:6f33b21031896d01dd6a9d20ff8b3db38e6df240b8aff8b8f73569cc2c88472a
+- repo_url: dotnet/skills
+  name: dotnet-test
+  host: github.com
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.2.0
+  virtual_path: plugins/dotnet-test
+  is_virtual: true
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/assertion-quality
+  - .agents/skills/assertion-quality/SKILL.md
+  - .agents/skills/code-testing-agent
+  - .agents/skills/code-testing-agent/SKILL.md
+  - .agents/skills/code-testing-agent/unit-test-generation.prompt.md
+  - .agents/skills/code-testing-extensions
+  - .agents/skills/code-testing-extensions/SKILL.md
+  - .agents/skills/code-testing-extensions/extensions/cpp-examples.md
+  - .agents/skills/code-testing-extensions/extensions/cpp.md
+  - .agents/skills/code-testing-extensions/extensions/dotnet-examples.md
+  - .agents/skills/code-testing-extensions/extensions/dotnet.md
+  - .agents/skills/code-testing-extensions/extensions/go-examples.md
+  - .agents/skills/code-testing-extensions/extensions/go.md
+  - .agents/skills/code-testing-extensions/extensions/java-examples.md
+  - .agents/skills/code-testing-extensions/extensions/java.md
+  - .agents/skills/code-testing-extensions/extensions/kotlin-examples.md
+  - .agents/skills/code-testing-extensions/extensions/kotlin.md
+  - .agents/skills/code-testing-extensions/extensions/powershell-examples.md
+  - .agents/skills/code-testing-extensions/extensions/powershell.md
+  - .agents/skills/code-testing-extensions/extensions/python-examples.md
+  - .agents/skills/code-testing-extensions/extensions/python.md
+  - .agents/skills/code-testing-extensions/extensions/ruby-examples.md
+  - .agents/skills/code-testing-extensions/extensions/ruby.md
+  - .agents/skills/code-testing-extensions/extensions/rust-examples.md
+  - .agents/skills/code-testing-extensions/extensions/rust.md
+  - .agents/skills/code-testing-extensions/extensions/swift.md
+  - .agents/skills/code-testing-extensions/extensions/typescript-examples.md
+  - .agents/skills/code-testing-extensions/extensions/typescript.md
+  - .agents/skills/coverage-analysis
+  - .agents/skills/coverage-analysis/SKILL.md
+  - .agents/skills/coverage-analysis/references/guidelines.md
+  - .agents/skills/coverage-analysis/references/output-format.md
+  - .agents/skills/coverage-analysis/scripts/Compute-CrapScores.ps1
+  - .agents/skills/coverage-analysis/scripts/Extract-MethodCoverage.ps1
+  - .agents/skills/crap-score
+  - .agents/skills/crap-score/SKILL.md
+  - .agents/skills/detect-static-dependencies
+  - .agents/skills/detect-static-dependencies/SKILL.md
+  - .agents/skills/filter-syntax
+  - .agents/skills/filter-syntax/SKILL.md
+  - .agents/skills/find-untested-sources
+  - .agents/skills/find-untested-sources/SKILL.md
+  - .agents/skills/find-untested-sources/scripts/Find-UntestedSources.cs
+  - .agents/skills/find-untested-sources/scripts/find_untested_sources.py
+  - .agents/skills/generate-testability-wrappers
+  - .agents/skills/generate-testability-wrappers/SKILL.md
+  - .agents/skills/grade-tests
+  - .agents/skills/grade-tests/SKILL.md
+  - .agents/skills/migrate-static-to-wrapper
+  - .agents/skills/migrate-static-to-wrapper/SKILL.md
+  - .agents/skills/mtp-hot-reload
+  - .agents/skills/mtp-hot-reload/SKILL.md
+  - .agents/skills/platform-detection
+  - .agents/skills/platform-detection/SKILL.md
+  - .agents/skills/run-tests
+  - .agents/skills/run-tests/SKILL.md
+  - .agents/skills/test-analysis-extensions
+  - .agents/skills/test-analysis-extensions/SKILL.md
+  - .agents/skills/test-analysis-extensions/extensions/cpp.md
+  - .agents/skills/test-analysis-extensions/extensions/dotnet.md
+  - .agents/skills/test-analysis-extensions/extensions/go.md
+  - .agents/skills/test-analysis-extensions/extensions/java.md
+  - .agents/skills/test-analysis-extensions/extensions/kotlin.md
+  - .agents/skills/test-analysis-extensions/extensions/powershell.md
+  - .agents/skills/test-analysis-extensions/extensions/python.md
+  - .agents/skills/test-analysis-extensions/extensions/ruby.md
+  - .agents/skills/test-analysis-extensions/extensions/rust.md
+  - .agents/skills/test-analysis-extensions/extensions/swift.md
+  - .agents/skills/test-analysis-extensions/extensions/typescript.md
+  - .agents/skills/test-anti-patterns
+  - .agents/skills/test-anti-patterns/SKILL.md
+  - .agents/skills/test-gap-analysis
+  - .agents/skills/test-gap-analysis/SKILL.md
+  - .agents/skills/test-smell-detection
+  - .agents/skills/test-smell-detection/SKILL.md
+  - .agents/skills/test-smell-detection/references/test-smell-catalog.md
+  - .agents/skills/test-tagging
+  - .agents/skills/test-tagging/SKILL.md
+  - .agents/skills/writing-mstest-tests
+  - .agents/skills/writing-mstest-tests/SKILL.md
+  - .codex/agents/code-testing-builder.toml
+  - .codex/agents/code-testing-fixer.toml
+  - .codex/agents/code-testing-generator.toml
+  - .codex/agents/code-testing-implementer.toml
+  - .codex/agents/code-testing-linter.toml
+  - .codex/agents/code-testing-planner.toml
+  - .codex/agents/code-testing-researcher.toml
+  - .codex/agents/code-testing-tester.toml
+  - .codex/agents/test-quality-auditor.toml
+  - .codex/agents/testability-migration.toml
+  deployed_file_hashes:
+    .agents/skills/assertion-quality/SKILL.md: sha256:efc92d1cbea09cf01e5e3b723bffa72ff4f6f8be352a2cd89fb502d6d27194e8
+    .agents/skills/code-testing-agent/SKILL.md: sha256:1604eb4ed3c4b7516f76c2d40b97da24480725a233bf99b6e1eea3b69e41f411
+    .agents/skills/code-testing-agent/unit-test-generation.prompt.md: sha256:e7b84df89ffec5ca88f9de0f6ee1056c2806c2a567b203fe4e077d212d89fe06
+    .agents/skills/code-testing-extensions/SKILL.md: sha256:211d1cdfc77a36bee0f2d2ee9095689899bceebe6adc5bfedcb8b5de5fa7fb47
+    .agents/skills/code-testing-extensions/extensions/cpp-examples.md: sha256:68a46d9304efc0120c35eea73d5155dd21ccc84eb5dc8461118fe37289d6c1fc
+    .agents/skills/code-testing-extensions/extensions/cpp.md: sha256:9a2d89347ab8c5a02a32ae2feb60d7e9cf0094f7417d129f676c8e0933090f2a
+    .agents/skills/code-testing-extensions/extensions/dotnet-examples.md: sha256:034c4683312db43fbd4c6355c2006af054f740015b1483815b74cbfa07d82c11
+    .agents/skills/code-testing-extensions/extensions/dotnet.md: sha256:35e4a548d535729a433426c6b0c472ba56c721d43aa85cb156e56d30739c88c9
+    .agents/skills/code-testing-extensions/extensions/go-examples.md: sha256:4815e383e0b068e63bcbacc88cc6a6b5ee19823843da973e232e44596335e629
+    .agents/skills/code-testing-extensions/extensions/go.md: sha256:4024cdf22cc092cb120406a74c49e58ab5af4802fa446e12416f399df7a94807
+    .agents/skills/code-testing-extensions/extensions/java-examples.md: sha256:cdfcc33e33c21d0c1bee85c032f06065edb002e6e24992cd4c29078263645b47
+    .agents/skills/code-testing-extensions/extensions/java.md: sha256:25b32c779b49e17dff4cbb44fa3003cd33edba27592a9f1d0ab28c135eb04125
+    .agents/skills/code-testing-extensions/extensions/kotlin-examples.md: sha256:a02cae6ec0a133ad12039f4cd616ed3b5cb9e4d34b12a803a98fccb2c603f739
+    .agents/skills/code-testing-extensions/extensions/kotlin.md: sha256:7553070dbf0254c1bb91c293ae8ce4313a68450cf1a451975d9f92d5367eb906
+    .agents/skills/code-testing-extensions/extensions/powershell-examples.md: sha256:c526ce52c4f7451f37d122a284e55a01dd4db986a6f49c64111b3918ba536725
+    .agents/skills/code-testing-extensions/extensions/powershell.md: sha256:90dd9616f65be68c63ce0a3c50a974f6aa53ad0cbeffe379a3c8309252f03715
+    .agents/skills/code-testing-extensions/extensions/python-examples.md: sha256:93301c314fc5ea903d42fd6a697d0e0fa9e1469460ff8581f5a787ee6bce5746
+    .agents/skills/code-testing-extensions/extensions/python.md: sha256:299b75668830dbe88747bff89355d825d7508f82937a87a3ed8d6953032efa96
+    .agents/skills/code-testing-extensions/extensions/ruby-examples.md: sha256:bc9d746417daa759f18cf0767beee969ce72f95cc41f29a0b7f4cc80fdd89563
+    .agents/skills/code-testing-extensions/extensions/ruby.md: sha256:9d6cc5ed7ba9269d259c39fa9754cfc93d496b5fd3abcf81bd91833a27268bbe
+    .agents/skills/code-testing-extensions/extensions/rust-examples.md: sha256:f8b46a1047ad2a8f06c4d0242d67c033064b7226d39821aa6240b60813ed009f
+    .agents/skills/code-testing-extensions/extensions/rust.md: sha256:6228a43826eb47112bee333ba34ebbb692770907da235af20296d8938e96ceea
+    .agents/skills/code-testing-extensions/extensions/swift.md: sha256:6765fb1f54ffbe34ecd25099ea5c735bae1c2f8f93bb7ac21d3b1fa0821d2adb
+    .agents/skills/code-testing-extensions/extensions/typescript-examples.md: sha256:b2178b3c89a456ef06d9dbb317602b4a266a0fd93300c07647eb4eb9fd3ea0c5
+    .agents/skills/code-testing-extensions/extensions/typescript.md: sha256:011f96ef5cfc6d9d334ac1e8d32f322d1b31de9e716e6ec8e0400dd228020d49
+    .agents/skills/coverage-analysis/SKILL.md: sha256:9b7714ede78411831bc2a4f6cd0eeddd8f34512206a9cfc57267cc218464c27e
+    .agents/skills/coverage-analysis/references/guidelines.md: sha256:8e7bced5e4deb5e11b008f1d6f8ee69bd5f9a2bb743c9ccceb75f54a7f2790f1
+    .agents/skills/coverage-analysis/references/output-format.md: sha256:f2328f0250002c25276f51373ab3b935b15b41be09c161db02d3e22316ad78c4
+    .agents/skills/coverage-analysis/scripts/Compute-CrapScores.ps1: sha256:5c43c1dedbd464500eab3380cf142176bd288d8652ae0aeba45d7fedf830f526
+    .agents/skills/coverage-analysis/scripts/Extract-MethodCoverage.ps1: sha256:37b3c6377dd5f654f2a0b88ceaeb4c77d8798134cbb0c9584532e7b2835f6f5b
+    .agents/skills/crap-score/SKILL.md: sha256:0be501bff5042394d5b8388ce3cff8582d429ba83009d81bba5d6799df12ad45
+    .agents/skills/detect-static-dependencies/SKILL.md: sha256:eefe4323542ea7c73d9d0ae6a650d095d546881eb3b0a8c56c99a8477f536ed8
+    .agents/skills/filter-syntax/SKILL.md: sha256:ab2c30569d6c859e0f340880c7182ab87c4fe108fa65f618815d3ac85aedee52
+    .agents/skills/find-untested-sources/SKILL.md: sha256:e34e66819ed7789840572818c93e3d0ce197b49a0589fa8f0dd2d24ed91ccaca
+    .agents/skills/find-untested-sources/scripts/Find-UntestedSources.cs: sha256:b6f01c528bcfbeae5f4a88c5953ece8274850c902b90f9a591b4e62ed6161e70
+    .agents/skills/find-untested-sources/scripts/find_untested_sources.py: sha256:231dc55cd7558f54d09b292396370cb25f2430501bfb063266c62609ae55715f
+    .agents/skills/generate-testability-wrappers/SKILL.md: sha256:f7c2c3b9dc320bbe702e5c91ff9b0aa06a59285be0bc0c38cf4083bd538acabb
+    .agents/skills/grade-tests/SKILL.md: sha256:c42c8a98e2995d3487da4e151b58691fed16ac8ed1840c5b39bb2819b1a41516
+    .agents/skills/migrate-static-to-wrapper/SKILL.md: sha256:058e7739a29232628c591e9eaffdcdbf29ea05056ff20b609397a1b534caf6be
+    .agents/skills/mtp-hot-reload/SKILL.md: sha256:2779894f8761a1b465f57b3fd81f13db5fab5516765ef8df246a99df151203a3
+    .agents/skills/platform-detection/SKILL.md: sha256:53fbe0c99edcd7c8366293826b2624bcd8ed22af4a4eb4a1529698f5db25e2b7
+    .agents/skills/run-tests/SKILL.md: sha256:62a44beebf3d8ec988d171b3907cd3248b064b68ea6a1e9016ac32c6bc7100f5
+    .agents/skills/test-analysis-extensions/SKILL.md: sha256:ec6f69ed00a627c0319a2bbdcfd71fcfab84eaae28900b2f814af3b27e44bd70
+    .agents/skills/test-analysis-extensions/extensions/cpp.md: sha256:da2de0bb820edaf523731bf36381d2a7e71009561072204773be548e43911d50
+    .agents/skills/test-analysis-extensions/extensions/dotnet.md: sha256:ef257a931a25501697fde8a36e027ba9195ff624ff701dd5fd276d746c0d25be
+    .agents/skills/test-analysis-extensions/extensions/go.md: sha256:a885da2e49efbedfe30307c196ec71876433571ce3e5c781e6741ee9a77ab8c3
+    .agents/skills/test-analysis-extensions/extensions/java.md: sha256:05f3bd254cad71e2b4ac36a3483e2a8fef41dba0ac6a983925754b60bc50758b
+    .agents/skills/test-analysis-extensions/extensions/kotlin.md: sha256:ef1176cc48c807bfb6e57329df6ee093f6e2475cd629980ffc477d85d879605c
+    .agents/skills/test-analysis-extensions/extensions/powershell.md: sha256:2dbbac3f475b7f7f4f817597379789af228e034d4c179460403757af26240f9b
+    .agents/skills/test-analysis-extensions/extensions/python.md: sha256:e532c6eb1d362e8c0a14b90cb906a84449f0a03330ff432a72d484c79ece0e5d
+    .agents/skills/test-analysis-extensions/extensions/ruby.md: sha256:422044981b8672c26f6c47ac9f828aa25f03eac5cc0c9a2354843a6980a297bc
+    .agents/skills/test-analysis-extensions/extensions/rust.md: sha256:d92041fc8142311070e9c02a5590ac9d10eef0baa4aa9136e163e2c526871725
+    .agents/skills/test-analysis-extensions/extensions/swift.md: sha256:41f4b7c9b8827de0737778ca24de5de26ccd1a3f5ff58d6f58a135fc576c4c52
+    .agents/skills/test-analysis-extensions/extensions/typescript.md: sha256:7dd98060c3941ec791f1128ef67d77cad2733ee8381e39f14ccdc19ad48f90ef
+    .agents/skills/test-anti-patterns/SKILL.md: sha256:7f2742ee23ca9c91d5c68fdd81e4e6b0bc21aaa4c570b4538454e0899a1b16ec
+    .agents/skills/test-gap-analysis/SKILL.md: sha256:3a0a70911a37f680eb7ad7926b65be071cc1657a96900c91e0fa189e02b78b4a
+    .agents/skills/test-smell-detection/SKILL.md: sha256:d5597861bb37d83743d2e97a6909139429524cccf37aabd61988f9d5a9840733
+    .agents/skills/test-smell-detection/references/test-smell-catalog.md: sha256:001e04c54d73940df65090c6915e87b07aac8cddcc26be139c7d9770dc0a8b99
+    .agents/skills/test-tagging/SKILL.md: sha256:874745af561a9b04b67f19adf587cb3b58f60d0e186345f1c799dfa23cf589e0
+    .agents/skills/writing-mstest-tests/SKILL.md: sha256:4a77c52d525c824fae1522624b0b0f9af00293d935f9a8b24fe642b1fb1b9e51
+    .codex/agents/code-testing-builder.toml: sha256:f23b4cb4e08eab97c342f912085fdc0eb9a2c143425f195391db63eb48f09727
+    .codex/agents/code-testing-fixer.toml: sha256:2992f0ca31429d7a2684c9b09dde71a5050580061bffd454a3d6fb2455426035
+    .codex/agents/code-testing-generator.toml: sha256:f4b5ba87c1b4fcef647b4ae19f26734a08550d0af756271baa2fa1c2059114d2
+    .codex/agents/code-testing-implementer.toml: sha256:92251fa879f07c2d9a8a060bda3f6e3d8f976e3e41d17c13a13c87752d7c915a
+    .codex/agents/code-testing-linter.toml: sha256:5883d2ccef6956474d80837c803516eb19fd4c2bbe3579f075290caebf64948b
+    .codex/agents/code-testing-planner.toml: sha256:74c9856503dbaa3533d590678adb416e38d74e71a2d4f3069dfe20c40700ca43
+    .codex/agents/code-testing-researcher.toml: sha256:50702d35d32784aedd2349c348d980d4bdb9faba2a2c36e10e5f1f6658acb098
+    .codex/agents/code-testing-tester.toml: sha256:a264083e9a65e23d67b20cabdbfcb64255d0970217748b0baff786f62549a9b3
+    .codex/agents/test-quality-auditor.toml: sha256:75983d1f2d4f441ec6ad7bd292b3ce97ab6c3db32f187270e2303196f622e02e
+    .codex/agents/testability-migration.toml: sha256:d5abe0a0abfddbb0878088b2ff988cfb027f5e6ac44c9e91a9257e381407e931
+  content_hash: sha256:1f244551fe5dfce8256823b70e5d103e3a9ea4048dc623f49375c416a86a5631
+- repo_url: dotnet/skills
+  name: dotnet-test-migration
+  host: github.com
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.1.0
+  virtual_path: plugins/dotnet-test-migration
+  is_virtual: true
+  package_type: marketplace_plugin
+  deployed_files:
+  - .agents/skills/migrate-mstest-v1v2-to-v3
+  - .agents/skills/migrate-mstest-v1v2-to-v3/SKILL.md
+  - .agents/skills/migrate-mstest-v3-to-v4
+  - .agents/skills/migrate-mstest-v3-to-v4/SKILL.md
+  - .agents/skills/migrate-vstest-to-mtp
+  - .agents/skills/migrate-vstest-to-mtp/SKILL.md
+  - .agents/skills/migrate-xunit-to-mstest
+  - .agents/skills/migrate-xunit-to-mstest/SKILL.md
+  - .agents/skills/migrate-xunit-to-mstest/references/mapping-cheatsheet.md
+  - .agents/skills/migrate-xunit-to-xunit-v3
+  - .agents/skills/migrate-xunit-to-xunit-v3/SKILL.md
+  - .codex/agents/test-migration.toml
+  deployed_file_hashes:
+    .agents/skills/migrate-mstest-v1v2-to-v3/SKILL.md: sha256:554769e0134cfa4252334e4d6d6d2df66f555acf06536c618c8324f71511f1c1
+    .agents/skills/migrate-mstest-v3-to-v4/SKILL.md: sha256:20efaa1256c5aae30ee03e810f7f5ac328c94b20b0853773ee928ce8493ab25c
+    .agents/skills/migrate-vstest-to-mtp/SKILL.md: sha256:cfd50c87a6a35623ba88743f9b0da120e5691ff77bb4c90d2565b41d9c30f700
+    .agents/skills/migrate-xunit-to-mstest/SKILL.md: sha256:8f5698b60a8444441bc96d65066be80855b0955e28eb41edcb89c822b7deb220
+    .agents/skills/migrate-xunit-to-mstest/references/mapping-cheatsheet.md: sha256:a43b068446a17b76e7c973e784b9af45db7a8e1b6db0d00cb55498e1c263f704
+    .agents/skills/migrate-xunit-to-xunit-v3/SKILL.md: sha256:0481be42764236a4bf8aa67d1e8ff75f7000913dbdcb80312b0d612c2ceaeb34
+    .codex/agents/test-migration.toml: sha256:e71596c100f45a20afe287a54e4289286b131dc0325e355dfdafe858cf1cefc0
+  content_hash: sha256:251ebdf5f79c7eff24c52301a38658dced604b998464b18bf8409dce7e00c0e3
+- repo_url: dotnet/skills
+  name: dotnet11
+  host: github.com
+  resolved_commit: 15c336709e26872711641461084a02e56da1914f
+  version: 0.1.0
   virtual_path: plugins/dotnet11
   is_virtual: true
   package_type: marketplace_plugin
@@ -72,10 +370,12 @@ dependencies:
   - .agents/skills/system-text-json-net11/SKILL.md
   deployed_file_hashes:
     .agents/skills/system-text-json-net11/SKILL.md: sha256:bb4aa3443fc7d7de5e4c6c9049f749530c8f915aec0d9bb094efb910f4ed79b6
-  content_hash: sha256:28b8f72c45687dfc7908f2ea6ae35acc865bc19dc3cb2df8625cb7109b27f0bc
+  content_hash: sha256:53632bcac998958cba5c2900bbbe89c1c525d778056c949a2cc372910165a993
 - repo_url: microsoft/aspire-skills
+  name: aspire
   host: github.com
-  resolved_commit: 035607cfa7d52caa769a4c466989da481b9d3e86
+  resolved_commit: eb82f66f30c15af637d3eb999bdf9dca72e2c2b4
+  version: 0.0.1
   package_type: marketplace_plugin
   deployed_files:
   - .agents/skills/aspire
@@ -132,7 +432,7 @@ dependencies:
   - .agents/skills/aspireify/references/validation.md
   deployed_file_hashes:
     .agents/skills/aspire-deployment/SKILL.md: sha256:70d784758d975b22b942608eace642f7bb3103defbb12643e4d744d0078b52b1
-    .agents/skills/aspire-deployment/evals/eval.yaml: sha256:21e4bb0992808a81027d2b9ab01f482a5147db8b345ee01b3f78d313c65ac532
+    .agents/skills/aspire-deployment/evals/eval.yaml: sha256:caf7d89aef732fdc68344b7406b7d99d5bea069ca218d0649df70ddaea3e8fc9
     .agents/skills/aspire-deployment/evals/fixtures: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
     .agents/skills/aspire-deployment/references/aws.md: sha256:8ebaf752bd385a3144018708140910f249479697aeeebcf8012dd0d1951c583a
     .agents/skills/aspire-deployment/references/azure.md: sha256:a0d2e661dc19f993bb6695b7fdbb527fb4996651fe9e1209b8f440efe3b0c6b3
@@ -144,29 +444,29 @@ dependencies:
     .agents/skills/aspire-deployment/references/kubernetes.md: sha256:eb270fd25fc58cc14641107bcca85ef59d01731aec2fcc378573db4d938ed3be
     .agents/skills/aspire-deployment/references/preflight.md: sha256:d744493c6cc5bed4a7499b7ded7e482fa71cfb4eb95b67047cdb3abb5e092df0
     .agents/skills/aspire-init/SKILL.md: sha256:0c1f6584751389d89d478bb942fa4901bc058f4d3d7aa225034c748df2224f9d
-    .agents/skills/aspire-init/evals/eval.yaml: sha256:bb6f62e01de0a66e8b5ba51dc5a9b41352bd85701a3b39956dc025d3fa7ada4a
+    .agents/skills/aspire-init/evals/eval.yaml: sha256:69c8e39e555d0b3b1bc97bbabdd43a5e696106c6eca43b73e4c443ae83b62e1b
     .agents/skills/aspire-init/references/init-workflow.md: sha256:74a6819dfa35e51a95f73b31ae5d65f8edbc72581ead65456289ce3323caec86
     .agents/skills/aspire-init/references/templates.md: sha256:b6890317230af1553404f73b222da7304a5d1b1b3876484f76981f4695334e8d
     .agents/skills/aspire-monitoring/SKILL.md: sha256:798ca7187a4058fdf10bbb413872befe4b6c7e9f74b0bd33777a3eae260b9b25
-    .agents/skills/aspire-monitoring/evals/eval.yaml: sha256:84f99a6d8f81cec3bfee66f6a6b47901e128cadf817d1280bf66f2d129fe279e
+    .agents/skills/aspire-monitoring/evals/eval.yaml: sha256:a0c3bdcd16bd98f32021744fa775776d5e3fd15b471d78256baef9f2cc8656fa
     .agents/skills/aspire-monitoring/evals/fixtures: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
     .agents/skills/aspire-monitoring/references/diagnostics-bridge.md: sha256:5b4018ff2e01e3872733acebc35421fe06522b9faf6747e9e3b31d5a852f5f49
     .agents/skills/aspire-monitoring/references/monitoring.md: sha256:19588b53725c9679026bf717c7392fd27d2144f606e622e595b8308f4517869b
     .agents/skills/aspire-monitoring/references/playwright-handoff.md: sha256:915db809d8b5f5e44ffd5a5e4a2eb18ffb37ff8f4e4a4d496f53146909d54a7d
     .agents/skills/aspire-orchestration/SKILL.md: sha256:1cd0a3b668586a82faa43cb04030be73bdcbcff891123d8c20d62ae1aa8630fb
-    .agents/skills/aspire-orchestration/evals/eval.yaml: sha256:943f87400b869d45375d75f2eaa22281c8869475919433919f00e1574c419f8d
+    .agents/skills/aspire-orchestration/evals/eval.yaml: sha256:469b3bc1f53e44db71d36f360b55c4320a20266c69dda9a8e284b2ffe6b9dd51
     .agents/skills/aspire-orchestration/evals/fixtures: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
     .agents/skills/aspire-orchestration/references/agent-workflows.md: sha256:9bd6f92a7e716d44c8b18b8e8f0e3447ffc2ade11a75446f19e24c72df8a1af9
-    .agents/skills/aspire-orchestration/references/app-commands.md: sha256:1fe0cbb4c3035339f7dc498444c1c5b7185e7df888523d52e7cde9a4347773e6
+    .agents/skills/aspire-orchestration/references/app-commands.md: sha256:f283b6f76da64decf7212d8785dc339990fe69ea6f43e998bba482f696a01299
     .agents/skills/aspire-orchestration/references/detection.md: sha256:fa8d3f4a08e7cbabf07671b35c434fae48dfa2b9fef4180699ed2866f3992898
     .agents/skills/aspire-orchestration/references/resource-management.md: sha256:7a5c24f87ed3140877959526b25caac7d98b556d5544bbb21676a1059bd6e80b
     .agents/skills/aspire-orchestration/references/safety-guardrails.md: sha256:2e27b9d89e87447d1ae6c6d894634bbbc9be9a292a67f146666e0db683764366
     .agents/skills/aspire/SKILL.md: sha256:7b23346492639ed41b458fd7a4f3efb7f6e0b82871d4116d34871cb0eacd7332
-    .agents/skills/aspire/evals/eval.yaml: sha256:91f16fc846762d7cff0f135d3067bbe55200b54d6b74a4982a08f9b9858db890
+    .agents/skills/aspire/evals/eval.yaml: sha256:56bd34f440138b3ef472a49f4fb24a304059f8f501882f3499f678038c678ca5
     .agents/skills/aspire/evals/fixtures: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
     .agents/skills/aspire/references/aspire-13-3-breaking-changes.md: sha256:a8000f1f07a32d234fe2b4e7ee2899985975933277e49c3d24faef4a395ac667
     .agents/skills/aspireify/SKILL.md: sha256:93a7453e5b520ef28f127681ee5ef341e1e852eb1fe8aa75c6d89e763822f2cf
-    .agents/skills/aspireify/evals/eval.yaml: sha256:283a9522ab52af2a9d8ef024be9d12eaf7235987225e140fec3fddc1abd829f5
+    .agents/skills/aspireify/evals/eval.yaml: sha256:90cc4fecbe95b5c23efcf288953c5e89f646ba8e4d3aa5a34c3a533808bb3364
     .agents/skills/aspireify/references/apphost-wiring.md: sha256:2793e84fe58018f0e36476d69d857fc270556b3738a67bc78c878f3479603407
     .agents/skills/aspireify/references/csharp-authoring.md: sha256:21a49c48f228cd4db7273ad52112c1e79105e20a6e06df81a0ac9446d9fc2e21
     .agents/skills/aspireify/references/docker-compose.md: sha256:79e733a4955610b5d22c774d2d8d1dca7eecc9acb423c91542bb3d83beb34686
@@ -177,10 +477,2049 @@ dependencies:
     .agents/skills/aspireify/references/service-defaults.md: sha256:2c9e616a02305e06c9e5704615890032c3249bc0ee20772ecba762bf6890c3eb
     .agents/skills/aspireify/references/typescript-authoring.md: sha256:4e55d0def9f541ff5922f03f59a8311e73378bb1c180a3b5e7cff3ea133cf5d1
     .agents/skills/aspireify/references/validation.md: sha256:f1035d891f022e376b5b61d5f05fddaf9e6d31f698b0cd544493101e882f91f8
-  content_hash: sha256:fcc30ba96ef55566bd89aea16d624086aee1c7c4ca7eaa552bea2d5e69fc4b0d
+  content_hash: sha256:8f1f36e655e8f0b316857a2d6e5358d0a217049a5924eae0b7206e70102fa5af
+  declared_license: MIT
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/csharp-scripts
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/csharp-scripts/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:acc0ea3c023127db9ef4be653686b543808597a252a1ab06a3754a3ae93572f9
+- kind: project-relative
+  target: agents
+  value: .agents/skills/dotnet-pinvoke
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/dotnet-pinvoke/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:6de683aad84b2fe0ac972c8fcce3589a32e064332da68e0447e22df5e95232f1
+- kind: project-relative
+  target: agents
+  value: .agents/skills/dotnet-pinvoke/references/diagnostics.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:5c3596bc66f89a20dc1216d133fda6cdcf3af951e8ce41bc35c4fc90861528a7
+- kind: project-relative
+  target: agents
+  value: .agents/skills/dotnet-pinvoke/references/type-mapping.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:b8987c9264dc44704dbfdcfe8071f702c7d976cf3aabb6b686850df600c36d7c
+- kind: project-relative
+  target: agents
+  value: .agents/skills/nuget-trusted-publishing
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/nuget-trusted-publishing/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:e12a67e1239989a36b8835b715daf94a4223c89fbc21336bb24107f51363c3e5
+- kind: project-relative
+  target: agents
+  value: .agents/skills/nuget-trusted-publishing/references/package-types.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:f413d6ee9fc24c5b886dfcb0f7063b2bfa16bd8e6a5c938ca103ffd001b4f3b6
+- kind: project-relative
+  target: agents
+  value: .agents/skills/nuget-trusted-publishing/references/publish-workflow.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:632b8e8db22115237ce305ddbca00a41d3cbb10869f1cdc3116e329a35ab70df
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:70d784758d975b22b942608eace642f7bb3103defbb12643e4d744d0078b52b1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:caf7d89aef732fdc68344b7406b7d99d5bea069ca218d0649df70ddaea3e8fc9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/evals/fixtures
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/aws.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:8ebaf752bd385a3144018708140910f249479697aeeebcf8012dd0d1951c583a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/azure.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:a0d2e661dc19f993bb6695b7fdbb527fb4996651fe9e1209b8f440efe3b0c6b3
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/cicd.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:04b0813750583c61f71e950ff51ba72d5eee2dd67d3de78f6050fbb8c2b3a9a2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/docker-compose.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:7e050e319f4adcd43cf0908b858c895f6d5f7086ffeca99cf3077b394a64bbdb
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/github-actions-azure-csharp.yml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:edd51e0076ba1a0c6d2cbf79e101d0c9b025a43ce2d1ceef0accb68a168bd719
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/github-actions-azure-typescript.yml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:fd736072eb233ff88f1120f4a49277489a2d9ef69916e7a800813976d8a2ff35
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/javascript.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:032832652c021aec9bf8443de8363cb8bcee83d740e4678ab02bcf8c151bbb1e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/kubernetes.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:eb270fd25fc58cc14641107bcca85ef59d01731aec2fcc378573db4d938ed3be
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-deployment/references/preflight.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:d744493c6cc5bed4a7499b7ded7e482fa71cfb4eb95b67047cdb3abb5e092df0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-init
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-init/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:0c1f6584751389d89d478bb942fa4901bc058f4d3d7aa225034c748df2224f9d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-init/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:69c8e39e555d0b3b1bc97bbabdd43a5e696106c6eca43b73e4c443ae83b62e1b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-init/references/init-workflow.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:74a6819dfa35e51a95f73b31ae5d65f8edbc72581ead65456289ce3323caec86
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-init/references/templates.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:b6890317230af1553404f73b222da7304a5d1b1b3876484f76981f4695334e8d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:798ca7187a4058fdf10bbb413872befe4b6c7e9f74b0bd33777a3eae260b9b25
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:a0c3bdcd16bd98f32021744fa775776d5e3fd15b471d78256baef9f2cc8656fa
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/evals/fixtures
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/references/diagnostics-bridge.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:5b4018ff2e01e3872733acebc35421fe06522b9faf6747e9e3b31d5a852f5f49
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/references/monitoring.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:19588b53725c9679026bf717c7392fd27d2144f606e622e595b8308f4517869b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-monitoring/references/playwright-handoff.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:915db809d8b5f5e44ffd5a5e4a2eb18ffb37ff8f4e4a4d496f53146909d54a7d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:1cd0a3b668586a82faa43cb04030be73bdcbcff891123d8c20d62ae1aa8630fb
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:469b3bc1f53e44db71d36f360b55c4320a20266c69dda9a8e284b2ffe6b9dd51
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/evals/fixtures
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/references/agent-workflows.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:9bd6f92a7e716d44c8b18b8e8f0e3447ffc2ade11a75446f19e24c72df8a1af9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/references/app-commands.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:f283b6f76da64decf7212d8785dc339990fe69ea6f43e998bba482f696a01299
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/references/detection.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:fa8d3f4a08e7cbabf07671b35c434fae48dfa2b9fef4180699ed2866f3992898
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/references/resource-management.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:7a5c24f87ed3140877959526b25caac7d98b556d5544bbb21676a1059bd6e80b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire-orchestration/references/safety-guardrails.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:2e27b9d89e87447d1ae6c6d894634bbbc9be9a292a67f146666e0db683764366
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:7b23346492639ed41b458fd7a4f3efb7f6e0b82871d4116d34871cb0eacd7332
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:56bd34f440138b3ef472a49f4fb24a304059f8f501882f3499f678038c678ca5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire/evals/fixtures
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:6c5200bf980bff598405ca4eedd6e61734dd1bdaa0975663fb245c73e658371f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspire/references/aspire-13-3-breaking-changes.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:a8000f1f07a32d234fe2b4e7ee2899985975933277e49c3d24faef4a395ac667
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:93a7453e5b520ef28f127681ee5ef341e1e852eb1fe8aa75c6d89e763822f2cf
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/evals/eval.yaml
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:90cc4fecbe95b5c23efcf288953c5e89f646ba8e4d3aa5a34c3a533808bb3364
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/apphost-wiring.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:2793e84fe58018f0e36476d69d857fc270556b3738a67bc78c878f3479603407
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/csharp-authoring.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:21a49c48f228cd4db7273ad52112c1e79105e20a6e06df81a0ac9446d9fc2e21
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/docker-compose.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:79e733a4955610b5d22c774d2d8d1dca7eecc9acb423c91542bb3d83beb34686
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/full-solution-apphosts.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:0b48337d70e09d27ae877ac894b901ea57978efb1808e36a2c9b810b47c227e0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/javascript-apps.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:be35f69fc5aae519f5205d2ab6a947bfc9c8e152c2555579a13c1a7198aed757
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/opentelemetry.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:b2e596a1caecac9883c7540df6f9a7e017be3c54ce8f0c6572b20d89c4343f80
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/scan-and-propose.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:b197bd66cf349710e6cd8d6fb6fa4d0da2e1c065e8a2889a7955d5948ba327e8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/service-defaults.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:2c9e616a02305e06c9e5704615890032c3249bc0ee20772ecba762bf6890c3eb
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/typescript-authoring.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:4e55d0def9f541ff5922f03f59a8311e73378bb1c180a3b5e7cff3ea133cf5d1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/aspireify/references/validation.md
+  runtime: null
+  scope: project
+  owners:
+  - microsoft/aspire-skills
+  active_owner: microsoft/aspire-skills
+  content_hash: sha256:f1035d891f022e376b5b61d5f05fddaf9e6d31f698b0cd544493101e882f91f8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/assertion-quality
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/assertion-quality/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:efc92d1cbea09cf01e5e3b723bffa72ff4f6f8be352a2cd89fb502d6d27194e8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/binlog-failure-analysis
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/binlog-failure-analysis/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:0424369ec57d99dd244605ce01f84ff2b62fdc24acd26c4103e3b378735e403b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/binlog-generation
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/binlog-generation/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:6a35bd9871239d314e36836bd425c93e50c295e9794166aef620bbd0754bca85
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-parallelism
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-parallelism/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:1d5bf8518ef43108fac23c47b28a08e49b7486d41c2f25078632b2758dd6eab8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-perf-baseline
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-perf-baseline/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:9546a5d3a22432142a193cec052405e7a64977a9b57ca2268f975b20c512a909
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-perf-diagnostics
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/build-perf-diagnostics/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:8575541b9b13f28c44ab62a248c3b141eb0fbb906893b46981b4b0546bb995a2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/check-bin-obj-clash
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/check-bin-obj-clash/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:160357b3e5926d4e762fb68c47b3fce42957b2ebc116bbabe112eae80c9dd210
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-agent
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-agent/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:1604eb4ed3c4b7516f76c2d40b97da24480725a233bf99b6e1eea3b69e41f411
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-agent/unit-test-generation.prompt.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:e7b84df89ffec5ca88f9de0f6ee1056c2806c2a567b203fe4e077d212d89fe06
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:211d1cdfc77a36bee0f2d2ee9095689899bceebe6adc5bfedcb8b5de5fa7fb47
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/cpp-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:68a46d9304efc0120c35eea73d5155dd21ccc84eb5dc8461118fe37289d6c1fc
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/cpp.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:9a2d89347ab8c5a02a32ae2feb60d7e9cf0094f7417d129f676c8e0933090f2a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/dotnet-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:034c4683312db43fbd4c6355c2006af054f740015b1483815b74cbfa07d82c11
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/dotnet.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:35e4a548d535729a433426c6b0c472ba56c721d43aa85cb156e56d30739c88c9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/go-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:4815e383e0b068e63bcbacc88cc6a6b5ee19823843da973e232e44596335e629
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/go.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:4024cdf22cc092cb120406a74c49e58ab5af4802fa446e12416f399df7a94807
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/java-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:cdfcc33e33c21d0c1bee85c032f06065edb002e6e24992cd4c29078263645b47
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/java.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:25b32c779b49e17dff4cbb44fa3003cd33edba27592a9f1d0ab28c135eb04125
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/kotlin-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:a02cae6ec0a133ad12039f4cd616ed3b5cb9e4d34b12a803a98fccb2c603f739
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/kotlin.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:7553070dbf0254c1bb91c293ae8ce4313a68450cf1a451975d9f92d5367eb906
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/powershell-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:c526ce52c4f7451f37d122a284e55a01dd4db986a6f49c64111b3918ba536725
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/powershell.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:90dd9616f65be68c63ce0a3c50a974f6aa53ad0cbeffe379a3c8309252f03715
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/python-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:93301c314fc5ea903d42fd6a697d0e0fa9e1469460ff8581f5a787ee6bce5746
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/python.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:299b75668830dbe88747bff89355d825d7508f82937a87a3ed8d6953032efa96
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/ruby-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:bc9d746417daa759f18cf0767beee969ce72f95cc41f29a0b7f4cc80fdd89563
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/ruby.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:9d6cc5ed7ba9269d259c39fa9754cfc93d496b5fd3abcf81bd91833a27268bbe
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/rust-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:f8b46a1047ad2a8f06c4d0242d67c033064b7226d39821aa6240b60813ed009f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/rust.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:6228a43826eb47112bee333ba34ebbb692770907da235af20296d8938e96ceea
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/swift.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:6765fb1f54ffbe34ecd25099ea5c735bae1c2f8f93bb7ac21d3b1fa0821d2adb
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/typescript-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:b2178b3c89a456ef06d9dbb317602b4a266a0fd93300c07647eb4eb9fd3ea0c5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/code-testing-extensions/extensions/typescript.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:011f96ef5cfc6d9d334ac1e8d32f322d1b31de9e716e6ec8e0400dd228020d49
+- kind: project-relative
+  target: codex
+  value: .agents/skills/configuring-opentelemetry-dotnet
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/configuring-opentelemetry-dotnet/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: sha256:51e763e7b387a1ded4234ebe28675ba803061a38fded398b73b17a6dfb55fac0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/convert-blazor-server-to-webapp
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/convert-blazor-server-to-webapp/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: sha256:679607e47f22a3106e1773ef74d52249de743988fb8171d7e4a6e80d504cab59
+- kind: project-relative
+  target: codex
+  value: .agents/skills/copy-to-output-directory
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/copy-to-output-directory/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:f099db9b3165ca2e49e4c3117612ef2d4e133af67c4a33b9b32775c9b493e52c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:9b7714ede78411831bc2a4f6cd0eeddd8f34512206a9cfc57267cc218464c27e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis/references/guidelines.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:8e7bced5e4deb5e11b008f1d6f8ee69bd5f9a2bb743c9ccceb75f54a7f2790f1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis/references/output-format.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:f2328f0250002c25276f51373ab3b935b15b41be09c161db02d3e22316ad78c4
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis/scripts/Compute-CrapScores.ps1
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:5c43c1dedbd464500eab3380cf142176bd288d8652ae0aeba45d7fedf830f526
+- kind: project-relative
+  target: codex
+  value: .agents/skills/coverage-analysis/scripts/Extract-MethodCoverage.ps1
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:37b3c6377dd5f654f2a0b88ceaeb4c77d8798134cbb0c9584532e7b2835f6f5b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/crap-score
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/crap-score/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:0be501bff5042394d5b8388ce3cff8582d429ba83009d81bba5d6799df12ad45
+- kind: project-relative
+  target: codex
+  value: .agents/skills/detect-static-dependencies
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/detect-static-dependencies/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:eefe4323542ea7c73d9d0ae6a650d095d546881eb3b0a8c56c99a8477f536ed8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/directory-build-organization
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/directory-build-organization/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:19236a9a5ccac500f1d2bc4023bbe5c427e4ec598220af7366257de686835ff8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/directory-build-organization/references/common-patterns.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:6e651cb87034e162e8a966228cbf837612e434c564fd7f9928d38ef44a12e7f3
+- kind: project-relative
+  target: codex
+  value: .agents/skills/directory-build-organization/references/multi-level-examples.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:6120bf2b385eb2cf348c66173bb27ade493d570db8c497881cc8319f448c820a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/directory-build-organization/references/targetframework-props-pitfall.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:a5f0b84a3138e5fdf1fdf103268493006756a1c86312952926f3a10c3e5dd738
+- kind: project-relative
+  target: codex
+  value: .agents/skills/dotnet-webapi
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/dotnet-webapi/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: sha256:70e10d74aa367ee63060b64edc397c5998c03da0fbdaf120f5aa8c94d373b77d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/eval-performance
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/eval-performance/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:54f04e50c459aaaa466cfcad4e5742be1ad3df65a96107ccfc16e1501a03c0f2
+- kind: project-relative
+  target: codex
+  value: .agents/skills/extension-points
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/extension-points/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:fa274ec554b0a40f43060782a4aba9d9152ac0b162e93943ddbccbfd0bab25f8
+- kind: project-relative
+  target: codex
+  value: .agents/skills/filter-syntax
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/filter-syntax/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:ab2c30569d6c859e0f340880c7182ab87c4fe108fa65f618815d3ac85aedee52
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-untested-sources
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-untested-sources/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:e34e66819ed7789840572818c93e3d0ce197b49a0589fa8f0dd2d24ed91ccaca
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-untested-sources/scripts/Find-UntestedSources.cs
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:b6f01c528bcfbeae5f4a88c5953ece8274850c902b90f9a591b4e62ed6161e70
+- kind: project-relative
+  target: codex
+  value: .agents/skills/find-untested-sources/scripts/find_untested_sources.py
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:231dc55cd7558f54d09b292396370cb25f2430501bfb063266c62609ae55715f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/generate-testability-wrappers
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/generate-testability-wrappers/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:f7c2c3b9dc320bbe702e5c91ff9b0aa06a59285be0bc0c38cf4083bd538acabb
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grade-tests
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/grade-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:c42c8a98e2995d3487da4e151b58691fed16ac8ed1840c5b39bb2819b1a41516
+- kind: project-relative
+  target: codex
+  value: .agents/skills/including-generated-files
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/including-generated-files/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:921f3cbe3078d13f6429e0ec820dbb95832c4cb4df896d80de0449c4c37c2246
+- kind: project-relative
+  target: codex
+  value: .agents/skills/incremental-build
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/incremental-build/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:05db7b97519627bcaaa9fd7d3212e8a6a2d68fb686c6ebf8a0472bf3a6ff8657
+- kind: project-relative
+  target: codex
+  value: .agents/skills/item-management
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/item-management/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:86d3ba145c9b334b337161cb2d25af7bfa4db20d7ca4fc3cc879461c519d0568
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-mstest-v1v2-to-v3
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-mstest-v1v2-to-v3/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:554769e0134cfa4252334e4d6d6d2df66f555acf06536c618c8324f71511f1c1
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-mstest-v3-to-v4
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-mstest-v3-to-v4/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:20efaa1256c5aae30ee03e810f7f5ac328c94b20b0853773ee928ce8493ab25c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-static-to-wrapper
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-static-to-wrapper/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:058e7739a29232628c591e9eaffdcdbf29ea05056ff20b609397a1b534caf6be
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-vstest-to-mtp
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-vstest-to-mtp/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:cfd50c87a6a35623ba88743f9b0da120e5691ff77bb4c90d2565b41d9c30f700
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-xunit-to-mstest
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-xunit-to-mstest/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:8f5698b60a8444441bc96d65066be80855b0955e28eb41edcb89c822b7deb220
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-xunit-to-mstest/references/mapping-cheatsheet.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:a43b068446a17b76e7c973e784b9af45db7a8e1b6db0d00cb55498e1c263f704
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-xunit-to-xunit-v3
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/migrate-xunit-to-xunit-v3/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:0481be42764236a4bf8aa67d1e8ff75f7000913dbdcb80312b0d612c2ceaeb34
+- kind: project-relative
+  target: codex
+  value: .agents/skills/minimal-api-file-upload
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/minimal-api-file-upload/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-aspnetcore
+  active_owner: dotnet/skills/plugins/dotnet-aspnetcore
+  content_hash: sha256:18232bea3b8bdfdc6b9cc3a2081e193b923150431b90d7c033f57943a96af21e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-antipatterns
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-antipatterns/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:08b36b41196b1282fc96bee299cbabf10e876969be0d9abb5b40ae4f15665ae4
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-antipatterns/references/additional-antipatterns.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:4a62a12ba5173eb5c3d8b66e2ec4a9f0248e815aacd065664175b6db72adb6d9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-antipatterns/references/incremental-build-inputs-outputs.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:006a123ea16f95aeb216ae9e2a59be48fc82f15e66ecccdbb92fdcf03b05fdc4
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-antipatterns/references/private-assets.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:1e678c0ef9667d9df92ff71ca12737ac3a4ed26050d73e5197a2478356e0b4f5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-modernization
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-modernization/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:6abc8b21c8fbd78e59d2358783d75b0febaa5dde0bb0d9495e41a1d9d99e246d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-server
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/msbuild-server/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:4b2d14f7bcef2e00c67a10513fba8267df03d98e82d90042e61d965f6ff3cd7b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/mtp-hot-reload
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/mtp-hot-reload/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:2779894f8761a1b465f57b3fd81f13db5fab5516765ef8df246a99df151203a3
+- kind: project-relative
+  target: codex
+  value: .agents/skills/optimizing-ef-core-queries
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-data
+  active_owner: dotnet/skills/plugins/dotnet-data
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/optimizing-ef-core-queries/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-data
+  active_owner: dotnet/skills/plugins/dotnet-data
+  content_hash: sha256:f5eb7b623031da6b217e75aca465f8258d3545ea51ab954491b3c4c52e91429f
+- kind: project-relative
+  target: codex
+  value: .agents/skills/platform-detection
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/platform-detection/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:53fbe0c99edcd7c8366293826b2624bcd8ed22af4a4eb4a1529698f5db25e2b7
+- kind: project-relative
+  target: codex
+  value: .agents/skills/property-patterns
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/property-patterns/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:d20ac0adca21952f0dba7501595b2bb7c9ae5cff1b236e5ef912fbd3a32da838
+- kind: project-relative
+  target: codex
+  value: .agents/skills/resolve-project-references
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/resolve-project-references/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:5aa288d6f2204bdf7c3519a74596b9c7c501e9e655c1cd0369a3b877fa732fd9
+- kind: project-relative
+  target: codex
+  value: .agents/skills/run-tests
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/run-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:62a44beebf3d8ec988d171b3907cd3248b064b68ea6a1e9016ac32c6bc7100f5
+- kind: project-relative
+  target: codex
+  value: .agents/skills/setup-local-sdk
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/setup-local-sdk/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet
+  active_owner: dotnet/skills/plugins/dotnet
+  content_hash: sha256:6b4904db9ae950da582f85dc2f4cf2adf586776d84ce805a273edb4045f1a74e
+- kind: project-relative
+  target: codex
+  value: .agents/skills/system-text-json-net11
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet11
+  active_owner: dotnet/skills/plugins/dotnet11
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/system-text-json-net11/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet11
+  active_owner: dotnet/skills/plugins/dotnet11
+  content_hash: sha256:bb4aa3443fc7d7de5e4c6c9049f749530c8f915aec0d9bb094efb910f4ed79b6
+- kind: project-relative
+  target: codex
+  value: .agents/skills/target-authoring
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/target-authoring/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:e39b9ad0bfe65746c8110f971847a1dd8988feccc10b8ad19674ab544926bcc0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:ec6f69ed00a627c0319a2bbdcfd71fcfab84eaae28900b2f814af3b27e44bd70
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/cpp.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:da2de0bb820edaf523731bf36381d2a7e71009561072204773be548e43911d50
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/dotnet.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:ef257a931a25501697fde8a36e027ba9195ff624ff701dd5fd276d746c0d25be
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/go.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:a885da2e49efbedfe30307c196ec71876433571ce3e5c781e6741ee9a77ab8c3
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/java.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:05f3bd254cad71e2b4ac36a3483e2a8fef41dba0ac6a983925754b60bc50758b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/kotlin.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:ef1176cc48c807bfb6e57329df6ee093f6e2475cd629980ffc477d85d879605c
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/powershell.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:2dbbac3f475b7f7f4f817597379789af228e034d4c179460403757af26240f9b
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/python.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:e532c6eb1d362e8c0a14b90cb906a84449f0a03330ff432a72d484c79ece0e5d
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/ruby.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:422044981b8672c26f6c47ac9f828aa25f03eac5cc0c9a2354843a6980a297bc
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/rust.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:d92041fc8142311070e9c02a5590ac9d10eef0baa4aa9136e163e2c526871725
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/swift.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:41f4b7c9b8827de0737778ca24de5de26ccd1a3f5ff58d6f58a135fc576c4c52
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-analysis-extensions/extensions/typescript.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:7dd98060c3941ec791f1128ef67d77cad2733ee8381e39f14ccdc19ad48f90ef
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-anti-patterns
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-anti-patterns/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:7f2742ee23ca9c91d5c68fdd81e4e6b0bc21aaa4c570b4538454e0899a1b16ec
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-gap-analysis
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-gap-analysis/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:3a0a70911a37f680eb7ad7926b65be071cc1657a96900c91e0fa189e02b78b4a
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-smell-detection
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-smell-detection/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:d5597861bb37d83743d2e97a6909139429524cccf37aabd61988f9d5a9840733
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-smell-detection/references/test-smell-catalog.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:001e04c54d73940df65090c6915e87b07aac8cddcc26be139c7d9770dc0a8b99
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-tagging
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/test-tagging/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:874745af561a9b04b67f19adf587cb3b58f60d0e186345f1c799dfa23cf589e0
+- kind: project-relative
+  target: codex
+  value: .agents/skills/writing-mstest-tests
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: null
+- kind: project-relative
+  target: codex
+  value: .agents/skills/writing-mstest-tests/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:4a77c52d525c824fae1522624b0b0f9af00293d935f9a8b24fe642b1fb1b9e51
+- kind: project-relative
+  target: codex
+  value: .codex/agents/build-perf.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:dec02f38936d48b79667564b9482b681c9eaeb51ceccfd5692db04c2debfe933
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-builder.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:f23b4cb4e08eab97c342f912085fdc0eb9a2c143425f195391db63eb48f09727
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-fixer.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:2992f0ca31429d7a2684c9b09dde71a5050580061bffd454a3d6fb2455426035
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-generator.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:f4b5ba87c1b4fcef647b4ae19f26734a08550d0af756271baa2fa1c2059114d2
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-implementer.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:92251fa879f07c2d9a8a060bda3f6e3d8f976e3e41d17c13a13c87752d7c915a
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-linter.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:5883d2ccef6956474d80837c803516eb19fd4c2bbe3579f075290caebf64948b
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-planner.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:74c9856503dbaa3533d590678adb416e38d74e71a2d4f3069dfe20c40700ca43
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-researcher.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:50702d35d32784aedd2349c348d980d4bdb9faba2a2c36e10e5f1f6658acb098
+- kind: project-relative
+  target: codex
+  value: .codex/agents/code-testing-tester.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:a264083e9a65e23d67b20cabdbfcb64255d0970217748b0baff786f62549a9b3
+- kind: project-relative
+  target: codex
+  value: .codex/agents/msbuild-code-review.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:3b4f2070038029da4c458bfb6574f1af3fc319295052bb39ed3440e3a858e899
+- kind: project-relative
+  target: codex
+  value: .codex/agents/msbuild.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-msbuild
+  active_owner: dotnet/skills/plugins/dotnet-msbuild
+  content_hash: sha256:15372beb4a02b50744d748a0a4b4b6a497c1212edb9b0e37e51540543985e15b
+- kind: project-relative
+  target: codex
+  value: .codex/agents/test-migration.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test-migration
+  active_owner: dotnet/skills/plugins/dotnet-test-migration
+  content_hash: sha256:e71596c100f45a20afe287a54e4289286b131dc0325e355dfdafe858cf1cefc0
+- kind: project-relative
+  target: codex
+  value: .codex/agents/test-quality-auditor.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:75983d1f2d4f441ec6ad7bd292b3ce97ab6c3db32f187270e2303196f622e02e
+- kind: project-relative
+  target: codex
+  value: .codex/agents/testability-migration.toml
+  runtime: null
+  scope: project
+  owners:
+  - dotnet/skills/plugins/dotnet-test
+  active_owner: dotnet/skills/plugins/dotnet-test
+  content_hash: sha256:d5abe0a0abfddbb0878088b2ff988cfb027f5e6ac44c9e91a9257e381407e931
 mcp_servers:
+- binlog
 - context7
 mcp_configs:
+  binlog:
+    name: binlog
+    transport: stdio
+    args:
+    - dnx
+    - Microsoft.AITools.BinlogMcp
+    - --yes
+    registry: false
+    tools:
+    - '*'
+    command: dotnet
   context7:
     name: context7
     transport: stdio
@@ -189,3 +2528,6 @@ mcp_configs:
     - '@upstash/context7-mcp@latest'
     registry: false
     command: npx
+mcp_config_provenance:
+  binlog: dotnet-msbuild
+  context7: aspire

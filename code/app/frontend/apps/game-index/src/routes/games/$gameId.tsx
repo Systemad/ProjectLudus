@@ -1,14 +1,16 @@
 "use client";
-import { Suspense, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Suspense } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Text, Heading } from "@astryxdesign/core/Text";
-import { HStack } from "@astryxdesign/core/HStack";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Button } from "@astryxdesign/core/Button";
 import { Badge } from "@astryxdesign/core/Badge";
 import { Spinner } from "@astryxdesign/core/Spinner";
 import { TabList, Tab } from "@astryxdesign/core/TabList";
+import { MediaTheme } from "@astryxdesign/core/theme";
+import * as stylex from "@stylexjs/stylex";
 import { MediaGrid } from "@src/features/game/components/media-grid";
 import { GameReleaseDates } from "@src/features/game/components/game-release-dates";
 import { GameStory } from "@src/features/game/components/game-story";
@@ -26,19 +28,131 @@ import {
     gamesGetSimilarSuspenseQueryOptionsHook,
 } from "@src/gen/catalogApi";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
-import { PageWrapper } from "@src/app/page-wrapper";
 
-export const Route = createFileRoute("/games/$gameId")({
-    component: GameDetailPage,
+const styles = stylex.create({
+    missingGame: {
+        paddingBlock: "var(--spacing-10)",
+    },
+    page: {
+        paddingTop: "var(--spacing-4)",
+    },
+    record: {
+        position: "relative",
+        overflow: "hidden",
+        marginBottom: "var(--spacing-6)",
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-container)",
+        padding: "var(--spacing-4)",
+    },
+    backdrop: {
+        position: "absolute",
+        inset: 0,
+        zIndex: -1,
+    },
+    backdropImage: {
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        filter: "blur(80px) brightness(0.3)",
+        transform: "scale(1.2)",
+        pointerEvents: "none",
+    },
+    backdropWash: {
+        position: "absolute",
+        inset: 0,
+        backgroundColor: "color-mix(in srgb, var(--color-background-body) 78%, transparent)",
+    },
+    recordGrid: {
+        display: "grid",
+        gridTemplateColumns: "minmax(0, 1fr) minmax(12rem, 18rem)",
+        alignItems: "start",
+        gap: "var(--spacing-5)",
+        width: "100%",
+        "@media (max-width: 640px)": {
+            gridTemplateColumns: "1fr",
+        },
+    },
+    recordDetails: {
+        minWidth: 0,
+        padding: "var(--spacing-4)",
+        backgroundColor: "color-mix(in srgb, var(--color-background-surface) 82%, transparent)",
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-container)",
+        backdropFilter: "blur(12px)",
+    },
+    title: {
+        fontSize: "clamp(1.5rem, 3vw, 2.5rem)",
+        lineHeight: 1.1,
+    },
+    genres: {
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "var(--spacing-1)",
+    },
+    genre: {
+        textTransform: "none",
+    },
+    facts: {
+        display: "grid",
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+        gap: "var(--spacing-3) var(--spacing-5)",
+        "@media (max-width: 640px)": {
+            gridTemplateColumns: "1fr",
+        },
+    },
+    fact: {
+        display: "grid",
+        gap: "var(--spacing-1)",
+        minWidth: 0,
+    },
+    factLabel: {
+        color: "var(--color-text-secondary)",
+        fontSize: "0.75rem",
+    },
+    factValue: {
+        fontSize: "0.875rem",
+        overflowWrap: "anywhere",
+    },
+    cover: {
+        width: "100%",
+        maxWidth: "18rem",
+        justifySelf: "end",
+        border: "1px solid var(--color-border)",
+        borderRadius: "var(--radius-container)",
+        overflow: "hidden",
+        "@media (max-width: 640px)": {
+            maxWidth: "12rem",
+            justifySelf: "start",
+            order: -1,
+        },
+    },
+    coverImage: {
+        display: "block",
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+    },
+    tabContent: {
+        marginTop: "var(--spacing-6)",
+    },
 });
 
 const TAB_VALUES = ["players", "steam", "igdb", "releases", "screenshots", "links", "related"] as const;
 type TabValue = (typeof TAB_VALUES)[number];
 
+export const Route = createFileRoute("/games/$gameId")({
+    validateSearch: z.object({
+        tab: z.enum(TAB_VALUES).optional(),
+    }),
+    component: GameDetailPage,
+});
+
 function GameDetailPage() {
     const { gameId } = Route.useParams();
+    const { tab } = Route.useSearch();
+    const navigate = useNavigate({ from: Route.fullPath });
     const gameIdNumber = Number(gameId);
-    const [selectedTab, setSelectedTab] = useState<TabValue>("players");
+    const selectedTab = tab ?? "players";
 
     const heroQuery = useSuspenseQuery(
         gamesGetHeroSuspenseQueryOptionsHook({ gameId: gameIdNumber }),
@@ -63,14 +177,12 @@ function GameDetailPage() {
 
     if (!hero) {
         return (
-            <PageWrapper paddingBlock="5rem">
-                <VStack hAlign="center" gap={6}>
-                    <Heading level={1}>Game not found</Heading>
-                    <Link to="/" style={linkStyle}>
-                        <Button label="Back to Home" />
-                    </Link>
-                </VStack>
-            </PageWrapper>
+            <VStack hAlign="center" gap={6} xstyle={styles.missingGame}>
+                <Heading level={1}>Game not found</Heading>
+                <Link to="/" style={linkStyle}>
+                    <Button label="Back to Home" />
+                </Link>
+            </VStack>
         );
     }
 
@@ -78,92 +190,70 @@ function GameDetailPage() {
 
     return (
         <Suspense fallback={<Spinner size="xl" />}>
-            <PageWrapper paddingTop="0" maxWidth="var(--spacing-8xl, 896px)">
-                <div style={{ position: "relative", overflow: "hidden", marginBottom: "1.5rem" }}>
-                    <div style={{ position: "absolute", inset: 0, zIndex: -1 }}>
+            <div {...stylex.props(styles.page)}>
+                <MediaTheme mode="dark">
+                <div {...stylex.props(styles.record)}>
+                    <div {...stylex.props(styles.backdrop)}>
                         {coverImage && (
                             <img
                                 src={coverImage}
                                 alt=""
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                    objectFit: "cover",
-                                    filter: "blur(80px) brightness(0.3)",
-                                    transform: "scale(1.2)",
-                                    pointerEvents: "none",
-                                }}
+                                {...stylex.props(styles.backdropImage)}
                             />
                         )}
-                        <div
-                            style={{
-                                position: "absolute",
-                                inset: 0,
-                                background: "linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 35%, oklch(21.35% .0146 225deg) 100%)",
-                            }}
-                        />
+                        <div {...stylex.props(styles.backdropWash)} />
                     </div>
 
-                    <div style={{ width: "100%", color: "white", position: "relative", zIndex: 1 }}>
-                        <HStack vAlign="start" gap={4}>
-                            <div
-                                style={{
-                                    flexShrink: 0,
-                                    width: "120px",
-                                    height: "160px",
-                                    borderRadius: "var(--radius-xl)",
-                                    overflow: "hidden",
-                                    boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.3)",
-                                }}
-                            >
-                                <img
-                                    src={coverImage}
-                                    alt={hero.name ?? "Cover"}
-                                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                                />
-                            </div>
-
-                            <VStack hAlign="start" gap={2} style={{flex: 1, minWidth: 0, color: "white"}}>
-                                <Heading
-                                    level={1}
-                                    style={{fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: "white", lineHeight: 1.1, textShadow: "0 1px 2px rgba(0, 0, 0, 0.45)"}}
-                                >
+                    <div {...stylex.props(styles.recordGrid)}>
+                            <VStack hAlign="start" gap={3} xstyle={styles.recordDetails}>
+                                <Heading level={1} xstyle={styles.title}>
                                     {hero.name ?? "Untitled game"}
                                 </Heading>
 
-                                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}>
+                                <div {...stylex.props(styles.genres)}>
                                     {hero.genres.map((genre: { name: string }) => (
                                         <Badge
                                             key={genre.name}
                                             variant="info"
                                             label={genre.name}
-                                            style={{ textTransform: "none" }}
+                                            xstyle={styles.genre}
                                         />
                                     ))}
                                 </div>
 
-                                <dl style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "0.25rem 0.75rem", fontSize: "0.875rem" }}>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Release Date</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.firstReleaseDate ?? "TBA"}</dd>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Developer</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.companies.filter((c: { developer: boolean }) => c.developer).map((c: { companyName: string }) => c.companyName).join(", ") || "—"}</dd>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Publisher</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.companies.filter((c: { publisher: boolean }) => c.publisher).map((c: { companyName: string }) => c.companyName).join(", ") || "—"}</dd>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Game Mode</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.gameModes.map((m: { name: string }) => m.name).join(", ") || "—"}</dd>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Perspective</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.playerPerspectives.map((p: { name: string }) => p.name).join(", ") || "—"}</dd>
-                                    <dt style={{ color: "rgba(255,255,255,0.6)" }}>Platforms</dt>
-                                    <dd style={{ margin: 0, color: "white" }}>{hero.platforms.map((p: { name: string }) => p.name).join(", ") || "—"}</dd>
-                                </dl>
+                                <div {...stylex.props(styles.facts)}>
+                                    <Fact label="Release Date" value={hero.firstReleaseDate ?? "Not announced"} />
+                                    <Fact label="Developer" value={hero.companies.filter((c: { developer: boolean }) => c.developer).map((c: { companyName: string }) => c.companyName).join(", ") || "Not listed"} />
+                                    <Fact label="Publisher" value={hero.companies.filter((c: { publisher: boolean }) => c.publisher).map((c: { companyName: string }) => c.companyName).join(", ") || "Not listed"} />
+                                    <Fact label="Game Mode" value={hero.gameModes.map((m: { name: string }) => m.name).join(", ") || "Not listed"} />
+                                    <Fact label="Perspective" value={hero.playerPerspectives.map((p: { name: string }) => p.name).join(", ") || "Not listed"} />
+                                    <Fact label="Platforms" value={hero.platforms.map((p: { name: string }) => p.name).join(", ") || "Not listed"} />
+                                </div>
 
                                 <GameStory storyText={hero.summary ?? "No summary available."} />
                             </VStack>
-                        </HStack>
+
+                            <div {...stylex.props(styles.cover)}>
+                                <img
+                                    src={coverImage}
+                                    alt={hero.name ?? "Cover"}
+                                    {...stylex.props(styles.coverImage)}
+                                />
+                            </div>
                     </div>
                 </div>
+                </MediaTheme>
 
-                <TabList value={selectedTab} onChange={(val) => setSelectedTab(val as TabValue)}>
+                <TabList
+                    value={selectedTab}
+                    onChange={(value) =>
+                        navigate({
+                            to: "/games/$gameId",
+                            params: { gameId },
+                            search: { tab: value as TabValue },
+                        })
+                    }
+                >
                     <Tab value="players" label="Players" />
                     <Tab value="steam" label="Steam Store" />
                     <Tab value="igdb" label="IGDB" />
@@ -173,7 +263,7 @@ function GameDetailPage() {
                     <Tab value="related" label="Related Games" />
                 </TabList>
 
-                <div style={{ marginTop: "1.5rem" }}>
+                <div {...stylex.props(styles.tabContent)}>
                     {selectedTab === "players" && <PlayerStats gameId={gameIdNumber} />}
                     {selectedTab === "steam" && (
                         <Suspense fallback={<Spinner size="lg" />}>
@@ -198,8 +288,17 @@ function GameDetailPage() {
                     )}
                     {selectedTab === "related" && <RelatedGamesSection games={similarGames} />}
                 </div>
-            </PageWrapper>
+            </div>
         </Suspense>
+    );
+}
+
+function Fact({ label, value }: { label: string; value: string }) {
+    return (
+        <div {...stylex.props(styles.fact)}>
+            <Text xstyle={styles.factLabel}>{label}</Text>
+            <Text xstyle={styles.factValue}>{value}</Text>
+        </div>
     );
 }
 

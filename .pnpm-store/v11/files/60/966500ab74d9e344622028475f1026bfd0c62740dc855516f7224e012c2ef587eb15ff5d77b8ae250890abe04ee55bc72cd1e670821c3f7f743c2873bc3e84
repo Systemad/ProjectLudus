@@ -1,0 +1,21 @@
+import { type AndroidLogCollectorOptions } from './AndroidLogCollector.js';
+import { type CdpLogCollectorConfig } from './CdpLogCollector.js';
+import { type IosSimulatorLogCollectorOptions } from './IosSimulatorLogCollector.js';
+import { type LogCollector, type TransformedLogRecord } from './LogCollector.js';
+export interface LogCollectorFactoryConfig {
+    cdp?: CdpLogCollectorConfig;
+    android?: AndroidLogCollectorOptions;
+    iosSimulator?: IosSimulatorLogCollectorOptions;
+    filterRegexp?: RegExp;
+    logLevel?: string;
+}
+export declare class CompositeLogCollector implements LogCollector {
+    private readonly collectors;
+    readonly name = "composite-log";
+    constructor(collectors: LogCollector[]);
+    get metadata(): Record<string, unknown>;
+    collectAsync(): Promise<string>;
+    collectRawRecordsAsync(): Promise<TransformedLogRecord[]>;
+}
+export declare function createLogCollector(config: LogCollectorFactoryConfig): LogCollector;
+//# sourceMappingURL=LogCollectorFactory.d.ts.map

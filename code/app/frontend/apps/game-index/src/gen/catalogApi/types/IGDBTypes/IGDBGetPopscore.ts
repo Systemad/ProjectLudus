@@ -3,29 +3,52 @@
 * Do not edit manually.
 */
 
-import type { GetPopscoreResponse } from "../GetPopscoreResponse.ts";
+import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
+import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
 
-export type IGDBGetPopscoreQueryParams = {
+export type IgdbGetPopscoreQueryParams = {
     /**
-     * @type integer, int64
+     * @minLength 1
+     * @maxLength 9223372036854776000
+     * @type integer | undefined, int64
     */
-    PopularityTypeId: number;
+    PopularityTypeId?: number;
     /**
-     * @default 20
-     * @type integer, int32
+     * @type string | undefined, date-time
     */
-    Limit: number;
+    From?: string;
+    /**
+     * @type string | undefined, date-time
+    */
+    To?: string;
+    /**
+     * @minLength 1
+     * @maxLength 2147483647
+     * @type integer | undefined, int32
+    */
+    Page?: number;
+    /**
+     * @minLength 1
+     * @maxLength 50
+     * @type integer | undefined, int32
+    */
+    PageSize?: number;
 };
 
 /**
  * @description OK
 */
-export type IGDBGetPopscore200 = GetPopscoreResponse;
+export type IgdbGetPopscore200 = PagedGamesResponse;
 
-export type IGDBGetPopscoreQueryResponse = IGDBGetPopscore200;
+/**
+ * @description Bad Request
+*/
+export type IgdbGetPopscore400 = HttpValidationProblemDetails;
 
-export type IGDBGetPopscoreQuery = {
-    Response: IGDBGetPopscore200;
-    QueryParams: IGDBGetPopscoreQueryParams;
-    Errors: any;
+export type IgdbGetPopscoreQueryResponse = IgdbGetPopscore200;
+
+export type IgdbGetPopscoreQuery = {
+    Response: IgdbGetPopscore200;
+    QueryParams: IgdbGetPopscoreQueryParams;
+    Errors: IgdbGetPopscore400;
 };

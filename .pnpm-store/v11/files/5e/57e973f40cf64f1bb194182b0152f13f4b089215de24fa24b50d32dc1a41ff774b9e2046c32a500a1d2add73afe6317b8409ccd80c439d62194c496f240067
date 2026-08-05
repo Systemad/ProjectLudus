@@ -1,0 +1,41 @@
+import { WebSocket } from 'ws';
+export interface CdpTarget {
+    id: string;
+    appId: string;
+    deviceName: string;
+    description: string;
+    type: string;
+    title: string;
+    devtoolsFrontendUrl: string;
+    webSocketDebuggerUrl: string;
+    reactNative?: {
+        capabilities?: {
+            nativePageReloads?: boolean;
+            [key: string]: unknown;
+        };
+        logicalDeviceId: string;
+    };
+    [key: string]: unknown;
+}
+export type CdpTargetSelector = (targets: CdpTarget[]) => Promise<CdpTarget | null>;
+export interface CdpClientOptions {
+    metroUrl: string;
+    targetSelector?: CdpTargetSelector;
+    createWebSocket?: (url: string) => WebSocket;
+}
+export declare class CdpClient {
+    private readonly options;
+    private resolvedWebSocketDebuggerUrl?;
+    constructor(options: CdpClientOptions);
+    private listTargetsAsync;
+    private resolveWebSocketDebuggerUrlAsync;
+    createWebSocketAsync(): Promise<WebSocket>;
+    getWebSocketDebuggerUrl(): string;
+}
+/**
+ * Evaluates JavaScript code in the CDP
+ */
+export declare function evaluateJsFromCdpAsync(webSocketDebuggerUrl: string, source: string, timeoutMs?: number, options?: {
+    createWebSocket?: (url: string) => WebSocket;
+}): Promise<string | undefined>;
+//# sourceMappingURL=CdpClient.d.ts.map

@@ -24,11 +24,11 @@ export function GameCard({ game }: Props) {
             params={{ gameId }}
             style={{ display: "block", color: "inherit", textDecoration: "none" }}
         >
-            <div role="group" style={{ width: "100%", minWidth: "9rem", flexShrink: 0 }}>
-                <div style={{ position: "relative", borderRadius: 800, overflow: "hidden" }}>
-                    <div style={{ aspectRatio: "3/4" }}>
+            <div role="group" style={{ width: "100%", minWidth: "8rem", maxWidth: "12rem", flexShrink: 0 }}>
+                <div style={{ position: "relative", borderRadius: "var(--radius-element)", overflow: "hidden" }}>
+                    <div style={{ aspectRatio: "2/3" }}>
                         <img
-                            src={getIGDBImageUrl(game.coverUrl, "1080p")}
+                            src={game.coverUrl ? getIGDBImageUrl(game.coverUrl, "1080p") : ""}
                             alt={game.name ? `${game.name} cover` : "Game cover"}
                             style={{
                                 width: "100%",

@@ -1,0 +1,36 @@
+import type { ProcessPromise } from 'zx';
+export interface StreamProcessOutputOptions {
+    /**
+     * Duration in milliseconds to collect output before terminating the process.
+     */
+    durationMs: number;
+    /**
+     * Callback invoked for each line from stdout.
+     */
+    onStdoutLine: (line: string) => void;
+    /**
+     * Callback invoked for each line from stderr.
+     */
+    onStderrLine: (line: string) => void;
+    /**
+     * Descriptive name of the process for error messages (e.g., "adb logcat", "iOS simulator log stream").
+     */
+    processName: string;
+    /**
+     * Optional AbortSignal to allow early termination of the process.
+     */
+    signal?: AbortSignal;
+}
+/**
+ * Streams output from a child process, invoking callbacks for each line from stdout and stderr.
+ * Automatically manages process lifecycle, cleanup, and timeout handling.
+ *
+ * Supports early termination via AbortController - pass an AbortSignal in options to allow
+ * cancellation before the duration elapses.
+ *
+ * @param child The zx ProcessPromise from spawning a command
+ * @param options Configuration for output streaming
+ * @returns Promise that resolves when the collection duration elapses or rejects on error
+ */
+export declare function streamProcessOutput(child: ProcessPromise, options: StreamProcessOutputOptions): Promise<void>;
+//# sourceMappingURL=processUtils.d.ts.map

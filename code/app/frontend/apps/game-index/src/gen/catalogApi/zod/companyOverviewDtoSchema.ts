@@ -8,8 +8,8 @@ import { parentCompanyDtoSchema } from "./parentCompanyDtoSchema.ts";
 
 export const companyOverviewDtoSchema = z.object({
     "id": z.number().int(),
-"name": z.nullable(z.string()),
-"slug": z.nullable(z.string()),
+"name": z.string(),
+"slug": z.string(),
 "description": z.nullable(z.string()),
 "url": z.nullable(z.string()),
 "startDate": z.nullable(z.number().int()),

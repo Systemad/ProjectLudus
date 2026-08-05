@@ -4,16 +4,17 @@
 */
 
 import * as z from "zod";
-import { gamesResponseSchema } from "./gamesResponseSchema.ts";
+import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
 
 export const steamChartQueryParamsSchema = z.object({
     "Type": z.optional(z.string()),
-"Limit": z.optional(z.coerce.number().int())
+"Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
+"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
     }).optional()
 
 /**
  * @description OK
  */
-export const steamChart200Schema = z.lazy(() => gamesResponseSchema)
+export const steamChart200Schema = z.lazy(() => pagedGamesResponseSchema)
 
 export const steamChartQueryResponseSchema = z.lazy(() => steamChart200Schema)

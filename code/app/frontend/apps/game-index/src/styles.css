@@ -1,1 +1,9 @@
-/* Intentionally empty */
+html,
+body,
+#root {
+    min-height: 100%;
+}
+
+body {
+    font-family: "Figtree Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

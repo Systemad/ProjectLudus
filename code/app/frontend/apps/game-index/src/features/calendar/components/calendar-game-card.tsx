@@ -1,9 +1,10 @@
 import { useState } from "react";
 import type { GameBrowseDto } from "@src/gen/catalogApi";
-import { Card } from "@astryxdesign/core/Card";
 import { Text } from "@astryxdesign/core/Text";
+import { DataCard } from "@src/components/data-card";
 import { VStack } from "@astryxdesign/core/VStack";
 import { GameRow } from "./calendar-game-row";
+import { Button } from "@astryxdesign/core/Button";
 
 export function GameGroupCard({
     title,
@@ -21,12 +22,12 @@ export function GameGroupCard({
     const groupId = `game-group-${title.replace(/\s+/g, "-")}`;
 
     return (
-        <Card style={{height: "100%"}}>
+        <DataCard style={{height: "100%"}}>
             <Text weight="semibold" style={{fontSize: "1.125rem", marginBottom: "0.5rem"}}>
                 {title}
             </Text>
             {games.length === 0 ? (
-                <VStack gap={1} style={{paddingTop: "1.5rem", paddingBottom: "1.5rem", color: "var(--fg-secondary)"}}>
+                <VStack gap={1} style={{paddingTop: "1.5rem", paddingBottom: "1.5rem"}}>
                     <Text style={{fontSize: "1.5rem"}}>:(</Text>
                     <Text style={{fontSize: "0.875rem"}}>{emptyLabel}</Text>
                 </VStack>
@@ -50,31 +51,21 @@ export function GameGroupCard({
                         </VStack>
                     </div>
                     {hasMore && (
-                        <div
-                            role="button"
-                            tabIndex={0}
-                            onClick={() => setExpanded((value) => !value)}
-                            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setExpanded((value) => !value); } }}
-                            aria-expanded={expanded}
-                            aria-controls={groupId}
-                            style={{
-                                marginTop: "0.5rem",
-                                paddingTop: "0.5rem",
-                                paddingBottom: "0.5rem",
-                                width: "100%",
-                                textAlign: "center",
-                                fontSize: "0.875rem",
-                                color: "var(--fg-muted)",
-                                background: "var(--bg-subtle)",
-                                borderRadius: "var(--radius-lg)",
-                                cursor: "pointer",
-                            }}
-                        >
-                            {expanded ? "Show less" : "Expand all"}
-                        </div>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        label={expanded ? "Show less" : "Expand all"}
+                        onClick={() => setExpanded((value) => !value)}
+                        aria-expanded={expanded}
+                        aria-controls={groupId}
+                        style={{
+                            marginTop: "0.5rem",
+                            width: "100%",
+                        }}
+                    />
                     )}
                 </VStack>
             )}
-        </Card>
+        </DataCard>
     );
 }

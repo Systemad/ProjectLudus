@@ -4,11 +4,17 @@ description: APM project for ProjectLudus
 author: Systemad
 dependencies:
   apm:
-  - microsoft/aspire-skills
-  - dotnet/skills/plugins/dotnet
-  - dotnet/skills/plugins/dotnet-data
-  - dotnet/skills/plugins/dotnet11
-  - dotnet/skills/plugins/dotnet-aspnetcore
+    - microsoft/aspire-skills
+    - dotnet/skills/plugins/dotnet
+    - dotnet/skills/plugins/dotnet-data
+    - dotnet/skills/plugins/dotnet11
+    - dotnet/skills/plugins/dotnet-aspnetcore
+    - dotnet/skills/plugins/dotnet-test
+    - dotnet/skills/plugins/dotnet-msbuild
+    - dotnet/skills/plugins/dotnet-test-migration
+
+  targets:
+    - codex
 
   mcp: []
 includes: auto

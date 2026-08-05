@@ -25,14 +25,14 @@ export async function eventsGetByIdSuspenseHook({ id }: { id: EventsGetByIdPathP
   return res.data
 }
 
-export function eventsGetByIdSuspenseQueryOptionsHook({ id }: { id: EventsGetByIdPathParams["id"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function eventsGetByIdSuspenseQueryOptionsHook({ id }: { id: EventsGetByIdPathParams["id"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = eventsGetByIdSuspenseQueryKey({ id })
         return queryOptions<EventsGetByIdQueryResponse, ResponseErrorConfig<EventsGetById404>, EventsGetByIdQueryResponse, typeof queryKey>({
-         enabled: !!(id),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return eventsGetByIdSuspenseHook({ id: id! }, { ...config, signal: config.signal ?? signal })
+            return eventsGetByIdSuspenseHook({ id: id }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function eventsGetByIdSuspenseQueryOptionsHook({ id }: { id: EventsGetByI
 /**
  * {@link /catalog/events/:id}
  */
-export function useEventsGetByIdSuspenseHook<TData = EventsGetByIdQueryResponse, TQueryKey extends QueryKey = EventsGetByIdSuspenseQueryKey>({ id }: { id: EventsGetByIdPathParams["id"] | undefined }, options: 
+export function useEventsGetByIdSuspenseHook<TData = EventsGetByIdQueryResponse, TQueryKey extends QueryKey = EventsGetByIdSuspenseQueryKey>({ id }: { id: EventsGetByIdPathParams["id"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<EventsGetByIdQueryResponse, ResponseErrorConfig<EventsGetById404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

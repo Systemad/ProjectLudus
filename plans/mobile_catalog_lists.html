@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mobile Catalog Lists Plan</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: system-ui, sans-serif;
+        background: #151515;
+        color: #f3f3f3;
+      }
+
+      body {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+        line-height: 1.55;
+      }
+
+      h1,
+      h2 {
+        line-height: 1.2;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        margin-top: 32px;
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, monospace;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 16px;
+        border: 1px solid #3b3b3b;
+        border-radius: 10px;
+        background: #202020;
+      }
+
+      .summary {
+        padding: 16px;
+        border-left: 4px solid #8ab4f8;
+        background: #202020;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mobile Catalog Lists</h1>
+      <p class="summary">
+        Replace the removed category browser with a data-first Lists screen. The mobile app reuses
+        existing Catalog API endpoints and generated TanStack Query hooks; no new backend service
+        or API layer is needed.
+      </p>
+    </header>
+
+    <main>
+      <h2>Architecture</h2>
+      <pre>Catalog database
+      │
+      ├── Catalog API: IGDB popscore and Steam chart endpoints
+      │
+      └── Kubb-generated hooks
+              │
+              ▼
+      Mobile Expo Router
+      └── /(browse)/index
+          └── Catalog Lists screen
+              ├── Trending rail
+              ├── Most Played rail
+              └── Hot Releases rail</pre>
+
+      <p>
+        Catalog owns the data and query rules. The mobile feature only composes the results into a
+        screen. Game cards and carousels remain shared entities, so Discover and Lists use the same
+        navigation and visual rules.
+      </p>
+
+      <h2>Lists in the first version</h2>
+      <ul>
+        <li><strong>Trending:</strong> IGDB popscore with popularity type <code>9</code>.</li>
+        <li><strong>Most played:</strong> Steam chart type <code>most-played</code>.</li>
+        <li><strong>Hot releases:</strong> Steam chart type <code>hot-releases</code>.</li>
+      </ul>
+
+      <p>
+        The web app also has <code>popular-releases</code>. It can be added later as another rail
+        without changing the architecture.
+      </p>
+
+      <h2>Existing API calls</h2>
+      <pre><code>useIgdbGetPopscore({
+  query: { PopularityTypeId: "9", Page: 1, PageSize: 12 },
+});
+
+useSteamChart({
+  query: { Type: "most-played", Page: 1, PageSize: 12 },
+});
+
+useSteamChart({
+  query: { Type: "hot-releases", Page: 1, PageSize: 12 },
+});</code></pre>
+
+      <h2>Mobile feature structure</h2>
+      <pre>src/
+├── app/(browse)/index.tsx
+└── features/catalog-lists/
+    ├── index.ts
+    ├── catalog-lists-screen.tsx
+    └── catalog-list-rail.tsx</pre>
+
+      <ul>
+        <li><code>catalog-lists-screen.tsx</code> owns the three generated queries.</li>
+        <li><code>catalog-list-rail.tsx</code> renders each title, state, and carousel.</li>
+        <li><code>GameCarousel</code> and <code>GameCard</code> remain shared UI primitives.</li>
+        <li>Each card navigates to the existing Browse game-detail route.</li>
+      </ul>
+
+      <h2>Screen behavior</h2>
+      <ul>
+        <li>One vertical scroll view contains the three sections.</li>
+        <li>Each section has a horizontal, freeform carousel with approximately three visible cards.</li>
+        <li>Loading, empty, and retry states are handled independently per section.</li>
+        <li>TanStack Query owns request caching; Expo Router keeps the Browse stack mounted.</li>
+        <li>No category grid, filter sheet, category slugs, or hardcoded category metadata.</li>
+      </ul>
+
+      <h2>Implementation order</h2>
+      <ol>
+        <li>Create the <code>catalog-lists</code> feature slice.</li>
+        <li>Replace the temporary Browse placeholder with the Lists screen.</li>
+        <li>Wire the three existing generated hooks.</li>
+        <li>Reuse the shared game carousel and detail navigation.</li>
+        <li>Run <code>pnpm run fmt</code>, TypeScript checks, and lint.</li>
+      </ol>
+
+      <h2>Out of scope</h2>
+      <ul>
+        <li>No Catalog API changes.</li>
+        <li>No new DTOs or mobile-specific endpoints.</li>
+        <li>No new query client or manual query-key construction.</li>
+        <li>No implementation of <code>popular-releases</code> in the first pass.</li>
+      </ul>
+    </main>
+  </body>
+</html>

@@ -4,16 +4,25 @@
 */
 
 import * as z from "zod";
-import { getPopscoreResponseSchema } from "./getPopscoreResponseSchema.ts";
+import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
+import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
 
-export const IGDBGetPopscoreQueryParamsSchema = z.object({
-    "PopularityTypeId": z.coerce.number().int(),
-"Limit": z.coerce.number().int().default(20)
-    })
+export const igdbGetPopscoreQueryParamsSchema = z.object({
+    "PopularityTypeId": z.optional(z.coerce.number().int().min(1).max(9223372036854776000)),
+"From": z.optional(z.string().datetime()),
+"To": z.optional(z.string().datetime()),
+"Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
+"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
+    }).optional()
 
 /**
  * @description OK
  */
-export const IGDBGetPopscore200Schema = z.lazy(() => getPopscoreResponseSchema)
+export const igdbGetPopscore200Schema = z.lazy(() => pagedGamesResponseSchema)
 
-export const IGDBGetPopscoreQueryResponseSchema = z.lazy(() => IGDBGetPopscore200Schema)
+/**
+ * @description Bad Request
+ */
+export const igdbGetPopscore400Schema = z.lazy(() => httpValidationProblemDetailsSchema)
+
+export const igdbGetPopscoreQueryResponseSchema = z.lazy(() => igdbGetPopscore200Schema)

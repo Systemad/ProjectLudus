@@ -1,0 +1,58 @@
+import { type AutomationConstructorParamsBase, type AutomationResult, type IAutomation } from './Automation.types.js';
+interface ElementProperties {
+    accessibility_id: string;
+    frame: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
+    element_type: number;
+    identifier: string;
+    label: string;
+    title: string;
+    value: any;
+    placeholder: any;
+    exists: boolean;
+    is_hittable: boolean;
+    is_enabled: boolean;
+    is_selected: boolean;
+    has_focus: boolean;
+    normalized_slider_position: any;
+    horizontal_size_class: number;
+    vertical_size_class: number;
+}
+export declare class AutomationIos implements IAutomation {
+    private readonly appId;
+    private readonly deviceId;
+    private readonly verbose;
+    private readonly driverPath;
+    constructor({ appId, deviceId, verbose, driverPath, }: AutomationConstructorParamsBase & {
+        driverPath?: string;
+    });
+    tapAsync({ x, y, }: {
+        x: number;
+        y: number;
+    }): Promise<AutomationResult<{
+        x: number;
+        y: number;
+    }>>;
+    takeFullScreenshotAsync({ outputPath }: {
+        outputPath: string;
+    }): Promise<string>;
+    findViewByTestIDAsync(testID: string): Promise<AutomationResult<ElementProperties>>;
+    tapByTestIDAsync(testID: string): Promise<AutomationResult<{
+        accessibility_id: string;
+        tapped: boolean;
+    }>>;
+    taksScreenshotByTestIDAsync({ testID, outputPath, }: {
+        testID: string;
+        outputPath: string;
+    }): Promise<string>;
+    private withXCTestRun;
+    private validateDriverAsync;
+    private extractJsonFromOutput;
+    private runXCTestAsync;
+}
+export {};
+//# sourceMappingURL=AutomationIos.d.ts.map

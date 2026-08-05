@@ -2,9 +2,22 @@
   <Folder Name="/.solution/">
     <File Path="Directory.Packages.props" />
   </Folder>
-  <Project Path="PlayAPI.Tests/PlayAPI.Tests.csproj" />
-  <Project Path="../../catalog/Data/Data.csproj" />
-  <Project Path="CatalogAPI/CatalogAPI.csproj" />
-  <Project Path="PlayAPI/PlayAPI.csproj" />
-  <Project Path="ServiceDefaults/ServiceDefaults.csproj" />
+  <Folder Name="/Host/">
+    <Project Path="Backend.API/Backend.API.csproj" />
+  </Folder>
+  <Folder Name="/Modules/">
+    <Project Path="Catalog/Catalog.csproj" />
+    <Project Path="Play/Play.csproj" />
+  </Folder>
+  <Folder Name="/Workers/">
+    <Project Path="Notifications/Notifications.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Backend.API.Tests/Backend.API.Tests.csproj" />
+    <Project Path="Tests/Notifications.Tests/Notifications.Tests.csproj" />
+    <Project Path="Tests/Play.Tests/Play.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="ServiceDefaults/ServiceDefaults.csproj" />
+  </Folder>
 </Solution>

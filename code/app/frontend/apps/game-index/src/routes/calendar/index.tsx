@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Suspense } from "react";
 import { useCalendarGetGamesSuspenseHook } from "@src/gen/catalogApi";
-import { PageWrapper } from "@src/app/page-wrapper";
 import { getYear } from "date-fns";
 import { isTbaReleaseDate } from "@src/utils/dateUtils";
 import { groupGamesByMonth } from "@src/features/calendar/utils/group-games-by-month";
@@ -11,6 +10,8 @@ import { Grid } from "@astryxdesign/core/Grid";
 import { Text, Heading } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Spinner } from "@astryxdesign/core/Spinner";
+import * as stylex from "@stylexjs/stylex";
+import { presentationStyles } from "@src/app/presentation-styles";
 
 export const Route = createFileRoute("/calendar/")({
     component: RouteComponent,
@@ -18,20 +19,25 @@ export const Route = createFileRoute("/calendar/")({
 
 function GamesCalendarPage() {
     const year = getYear(new Date());
-    const { data } = useCalendarGetGamesSuspenseHook({ year });
+    const { data } = useCalendarGetGamesSuspenseHook({
+        year,
+        params: { Page: 1, PageSize: 50 },
+    });
     const tbaGames = data.games.filter((game) => isTbaReleaseDate(game.firstReleaseDate));
     const datedGames = data.games.filter((game) => !isTbaReleaseDate(game.firstReleaseDate));
     const groups = groupGamesByMonth(datedGames);
 
     return (
         <VStack hAlign="stretch" gap={6}>
-            <div>
+            <div {...stylex.props(presentationStyles.pageHeader)}>
+                <div>
                 <Heading level={2}>
                     {year}
                 </Heading>
                 <Text color="secondary" style={{fontSize: "0.875rem", marginTop: "0.25rem"}}>
                     Most anticipated releases this year
                 </Text>
+                </div>
             </div>
 
             {groups.length === 0 ? (
@@ -69,7 +75,7 @@ function GamesCalendarPage() {
 
 function LoadingFallback() {
     return (
-        <div style={{ display: "grid", placeItems: "center", minHeight: "16rem" }}>
+        <div {...stylex.props(presentationStyles.loadingCenter)}>
             <Spinner size="xl" />
         </div>
     );
@@ -77,10 +83,8 @@ function LoadingFallback() {
 
 function RouteComponent() {
     return (
-        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(1rem, 3vw, 1.5rem)">
-            <Suspense fallback={<LoadingFallback />}>
-                <GamesCalendarPage />
-            </Suspense>
-        </PageWrapper>
+        <Suspense fallback={<LoadingFallback />}>
+            <GamesCalendarPage />
+        </Suspense>
     );
 }

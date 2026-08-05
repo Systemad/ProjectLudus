@@ -18,7 +18,7 @@ function formatDateRange(event: EventDto) {
 }
 
 export function EventRow({ event, now }: { event: EventDto; now: Date }) {
-    const imageUrl = getIGDBImageUrl(event.logoImageId, "logo_med");
+    const imageUrl = event.logoImageId ? getIGDBImageUrl(event.logoImageId, "logo_med") : null;
     const isEnded = isEventEnded(event, now);
     const dateRange = formatDateRange(event);
 

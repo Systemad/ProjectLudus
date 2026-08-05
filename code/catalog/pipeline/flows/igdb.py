@@ -28,7 +28,7 @@ def dlt_ref_data():
 
 @task
 def dbt_build_igdb():
-    run_dbt("+marts")
+    run_dbt("+marts.gaming")
 
 
 @flow

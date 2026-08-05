@@ -11,13 +11,13 @@ export type CompanyOverviewDto = {
     */
     id: number;
     /**
-     * @type null,string
+     * @type string
     */
-    name: string | null;
+    name: string;
     /**
-     * @type null,string
+     * @type string
     */
-    slug: string | null;
+    slug: string;
     /**
      * @type null,string
     */

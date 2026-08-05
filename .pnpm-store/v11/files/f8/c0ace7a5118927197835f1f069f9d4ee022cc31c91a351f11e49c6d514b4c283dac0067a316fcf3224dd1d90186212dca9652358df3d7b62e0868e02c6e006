@@ -1,0 +1,31 @@
+import { type CdpClientOptions } from './CdpClient.js';
+import { type LogCollector, type LogCollectorOptions, type LogRecord, type TransformedLogRecord } from './LogCollector.js';
+export interface CdpLogRecord extends LogRecord {
+    source: 'cdp';
+    type: 'console' | 'log';
+}
+export interface TransformedCdpLogRecord extends TransformedLogRecord {
+    source: 'cdp';
+    type: 'console' | 'log';
+}
+export interface CdpLogCollectorOptions extends LogCollectorOptions {
+    /**
+     * Timeout in milliseconds for WebSocket connection (default: 2000)
+     */
+    timeoutMs?: number;
+}
+export interface CdpLogCollectorConfig extends CdpLogCollectorOptions, CdpClientOptions {
+}
+export declare class CdpLogCollector implements LogCollector {
+    private readonly config;
+    readonly name = "cdp";
+    private clientWebSocketDebuggerUrl?;
+    constructor(config: CdpLogCollectorConfig);
+    get metadata(): Record<string, unknown>;
+    collectAsync(): Promise<string>;
+    collectRawRecordsAsync(): Promise<TransformedCdpLogRecord[]>;
+    private collectRawRecordsImplAsync;
+    private transformLogRecord;
+}
+export type { CdpClientOptions, CdpTarget, CdpTargetSelector } from './CdpClient.js';
+//# sourceMappingURL=CdpLogCollector.d.ts.map

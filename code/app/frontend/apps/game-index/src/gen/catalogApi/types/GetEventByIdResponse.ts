@@ -5,6 +5,9 @@
 
 import type { EventDto } from "./EventDto.ts";
 
+/**
+ * @description Event details including associated games.
+*/
 export type GetEventByIdResponse = {
     /**
      * @type object

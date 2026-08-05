@@ -1,5 +1,5 @@
-import { Card } from "@astryxdesign/core/Card";
 import { Text } from "@astryxdesign/core/Text";
+import { DataCard } from "@src/components/data-card";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import type { CompanySearchHit } from "../utils/hits";
 import { getCompanyStatusLabel } from "../utils/search-utils";
@@ -12,7 +12,7 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
     const imageUrl = getIGDBImageUrl(hit.logo_url, "logo_med");
 
     return (
-        <Card width="100%">
+        <DataCard width="100%">
             <div style={{ aspectRatio: "3/2", overflow: "hidden", borderRadius: "var(--radius-lg)", background: "var(--bg-subtle)" }}>
                 {imageUrl ? (
                     <img
@@ -62,6 +62,6 @@ export function CompanyHitCard({ hit }: CompanyHitCardProps) {
                     Published: {hit.games_published_count ?? 0}
                 </Text>
             </div>
-        </Card>
+        </DataCard>
     );
 }

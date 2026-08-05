@@ -61,4 +61,6 @@ public partial class GamesSearch
     public List<string> MultiplayerModes { get; set; } = null!;
 
     public int? ReleaseYear { get; set; }
+
+    public double? PopularityScore { get; set; }
 }

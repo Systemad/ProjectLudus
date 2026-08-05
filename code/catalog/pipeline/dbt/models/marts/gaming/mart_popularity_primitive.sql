@@ -4,11 +4,12 @@
     on_schema_change="append_new_columns"
 ) }}
 
-select distinct on (game_id, popularity_type)
-    game_id,
-    popularity_type,
-    value,
-    calculated_at,
-    fetched_at as captured_at
-from {{ ref("stg_popularity_primitive") }}
-order by game_id, popularity_type, fetched_at desc
+select distinct on (s.game_id, s.popularity_type)
+    s.game_id,
+    s.popularity_type,
+    s.value,
+    s.calculated_at,
+    s.fetched_at as captured_at
+from {{ ref("stg_popularity_primitive") }} s
+inner join {{ ref("mart_games") }} g on s.game_id = g.id
+order by s.game_id, s.popularity_type, s.fetched_at desc

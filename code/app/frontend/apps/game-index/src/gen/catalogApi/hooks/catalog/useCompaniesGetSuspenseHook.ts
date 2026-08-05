@@ -25,14 +25,14 @@ export async function companiesGetSuspenseHook({ companyId }: { companyId: Compa
   return res.data
 }
 
-export function companiesGetSuspenseQueryOptionsHook({ companyId }: { companyId: CompaniesGetPathParams["companyId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function companiesGetSuspenseQueryOptionsHook({ companyId }: { companyId: CompaniesGetPathParams["companyId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = companiesGetSuspenseQueryKey({ companyId })
         return queryOptions<CompaniesGetQueryResponse, ResponseErrorConfig<CompaniesGet404>, CompaniesGetQueryResponse, typeof queryKey>({
-         enabled: !!(companyId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return companiesGetSuspenseHook({ companyId: companyId! }, { ...config, signal: config.signal ?? signal })
+            return companiesGetSuspenseHook({ companyId: companyId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function companiesGetSuspenseQueryOptionsHook({ companyId }: { companyId:
 /**
  * {@link /catalog/companies/:companyId}
  */
-export function useCompaniesGetSuspenseHook<TData = CompaniesGetQueryResponse, TQueryKey extends QueryKey = CompaniesGetSuspenseQueryKey>({ companyId }: { companyId: CompaniesGetPathParams["companyId"] | undefined }, options: 
+export function useCompaniesGetSuspenseHook<TData = CompaniesGetQueryResponse, TQueryKey extends QueryKey = CompaniesGetSuspenseQueryKey>({ companyId }: { companyId: CompaniesGetPathParams["companyId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<CompaniesGetQueryResponse, ResponseErrorConfig<CompaniesGet404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

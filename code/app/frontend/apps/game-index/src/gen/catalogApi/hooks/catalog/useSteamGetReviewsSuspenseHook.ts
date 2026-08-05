@@ -25,14 +25,14 @@ export async function steamGetReviewsSuspenseHook({ gameId }: { gameId: SteamGet
   return res.data
 }
 
-export function steamGetReviewsSuspenseQueryOptionsHook({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function steamGetReviewsSuspenseQueryOptionsHook({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = steamGetReviewsSuspenseQueryKey({ gameId })
         return queryOptions<SteamGetReviewsQueryResponse, ResponseErrorConfig<SteamGetReviews404>, SteamGetReviewsQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return steamGetReviewsSuspenseHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
+            return steamGetReviewsSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function steamGetReviewsSuspenseQueryOptionsHook({ gameId }: { gameId: St
 /**
  * {@link /catalog/steam/reviews/:gameId}
  */
-export function useSteamGetReviewsSuspenseHook<TData = SteamGetReviewsQueryResponse, TQueryKey extends QueryKey = SteamGetReviewsSuspenseQueryKey>({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] | undefined }, options: 
+export function useSteamGetReviewsSuspenseHook<TData = SteamGetReviewsQueryResponse, TQueryKey extends QueryKey = SteamGetReviewsSuspenseQueryKey>({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<SteamGetReviewsQueryResponse, ResponseErrorConfig<SteamGetReviews404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

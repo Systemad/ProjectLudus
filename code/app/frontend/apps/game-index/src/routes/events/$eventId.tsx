@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Card } from "@astryxdesign/core/Card";
+import { DataCard } from "@src/components/data-card";
 import { Text, Heading } from "@astryxdesign/core/Text";
 import { HStack } from "@astryxdesign/core/HStack";
 import { VStack } from "@astryxdesign/core/VStack";
@@ -9,7 +9,6 @@ import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/Segme
 import { Spinner } from "@astryxdesign/core/Spinner";
 import { EmptyState } from "@astryxdesign/core/EmptyState";
 import { useEventsGetByIdHook } from "@src/gen/catalogApi";
-import { PageWrapper } from "@src/app/page-wrapper";
 import { GameCard } from "@src/features/game/components/game-card";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import { formatIsoDateTime } from "@src/utils/dateUtils";
@@ -28,11 +27,9 @@ function EventDetailPage() {
 
     if (isLoading || !data) {
         return (
-            <PageWrapper paddingBlock="clamp(1rem, 3vw, 1.5rem)">
-                <div style={{ display: "grid", placeItems: "center", minHeight: "16rem" }}>
-                    <Spinner size="xl" />
-                </div>
-            </PageWrapper>
+            <div style={{ display: "grid", placeItems: "center", minHeight: "16rem" }}>
+                <Spinner size="xl" />
+            </div>
         );
     }
 
@@ -52,8 +49,7 @@ function EventDetailPage() {
     const activeTimeZoneLabel = showLocalTime ? localTimeZone : (event.timeZone ?? "UTC");
 
     return (
-        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(0.75rem, 3vw, 1.5rem)">
-            <VStack hAlign="stretch" gap={6}>
+        <VStack hAlign="stretch" gap={6}>
                 <VStack hAlign="stretch" gap={4}>
                     <Link
                         to="/events"
@@ -129,13 +125,13 @@ function EventDetailPage() {
                             </VStack>
 
                             <Grid columns={2} gap={3}>
-                                <Card>
+                                <DataCard>
                                     <CountdownClock
                                         startUtc={event.startTimeUtc}
                                         endUtc={event.endTimeUtc}
                                     />
-                                </Card>
-                                <Card>
+                                </DataCard>
+                                <DataCard>
                                 <VStack hAlign="start" gap={1}>
                                         <Text
                                             color="secondary"
@@ -148,8 +144,8 @@ function EventDetailPage() {
                                             {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
-                                </Card>
-                                <Card>
+                                </DataCard>
+                                <DataCard>
                                     <VStack hAlign="start" gap={1}>
                                         <Text
                                             color="secondary"
@@ -162,7 +158,7 @@ function EventDetailPage() {
                                             {activeTimeZoneLabel}
                                         </Text>
                                     </VStack>
-                                </Card>
+                                </DataCard>
                             </Grid>
                         </VStack>
                     </Grid>
@@ -181,8 +177,7 @@ function EventDetailPage() {
                             <EmptyState title="No games yet" description="No related games linked to this event yet." />
                         )}
                     </HStack>
+                    </VStack>
                 </VStack>
-            </VStack>
-        </PageWrapper>
     );
 }

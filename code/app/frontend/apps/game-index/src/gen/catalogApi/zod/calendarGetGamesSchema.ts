@@ -4,17 +4,22 @@
 */
 
 import * as z from "zod";
-import { getGamesCalendarResponseSchema } from "./getGamesCalendarResponseSchema.ts";
 import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
+import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
 
 export const calendarGetGamesPathParamsSchema = z.object({
     "year": z.coerce.number().int().min(1).max(9999)
     })
 
+export const calendarGetGamesQueryParamsSchema = z.object({
+    "Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
+"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
+    }).optional()
+
 /**
  * @description OK
  */
-export const calendarGetGames200Schema = z.lazy(() => getGamesCalendarResponseSchema)
+export const calendarGetGames200Schema = z.lazy(() => pagedGamesResponseSchema)
 
 /**
  * @description Bad Request

@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Card } from "@astryxdesign/core/Card";
 import { Text } from "@astryxdesign/core/Text";
+import { DataCard } from "@src/components/data-card";
 import { VStack } from "@astryxdesign/core/VStack";
 import { EmptyState } from "@astryxdesign/core/EmptyState";
+import { Button } from "@astryxdesign/core/Button";
 import { EventRow } from "./event-card";
 import type { MonthGroup } from "../utils/events-list";
 
@@ -17,7 +18,7 @@ export function MonthCard({ group, now }: MonthCardProps) {
     const groupId = `event-group-${group.month.replace(/\s+/g, "-")}`;
 
     return (
-        <Card padding={3} style={{height: "100%"}}>
+        <DataCard padding={3} style={{height: "100%"}}>
             <Text weight="semibold" style={{fontSize: "1.125rem", marginBottom: "0.5rem"}}>
                 {group.month}
             </Text>
@@ -36,27 +37,20 @@ export function MonthCard({ group, now }: MonthCardProps) {
                     </VStack>
                 )}
                 {hasMore && (
-                    <div
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        label={expanded ? "Show less" : "Expand all"}
                         onClick={() => setExpanded((v) => !v)}
                         aria-expanded={expanded}
                         aria-controls={groupId}
                         style={{
                             marginTop: "0.5rem",
-                            paddingTop: "0.5rem",
-                            paddingBottom: "0.5rem",
                             width: "100%",
-                            textAlign: "center",
-                            fontSize: "0.875rem",
-                            color: "var(--fg-muted)",
-                            background: "var(--bg-subtle)",
-                            borderRadius: "var(--radius-lg)",
-                            cursor: "pointer",
                         }}
-                    >
-                        {expanded ? "Show less" : "Expand all"}
-                    </div>
+                    />
                 )}
             </VStack>
-        </Card>
+        </DataCard>
     );
 }

@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
 import { Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
+import { useTheme } from "@astryxdesign/core/theme";
 
 import { steamGetConcurrentUsersChartSuspenseQueryOptionsHook } from "@src/gen/catalogApi";
 
@@ -13,6 +14,7 @@ type Props = {
 };
 
 function SimpleLineChart({ data }: { data: { bucket: string; avgPlayers: number }[] }) {
+    const { token } = useTheme();
     if (!data || data.length === 0) {
         return <Text color="secondary">No chart data available.</Text>;
     }
@@ -43,18 +45,18 @@ function SimpleLineChart({ data }: { data: { bucket: string; avgPlayers: number 
                 const value = minPlayers + ratio * range;
                 return (
                     <g key={ratio}>
-                        <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="var(--border-color, #e2e8f0)" strokeWidth="1" />
-                        <text x={padding.left - 8} y={y + 4} textAnchor="end" fontSize="10" fill="var(--fg-muted, #718096)">
+                        <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke={token("--color-border")} strokeWidth="1" />
+                        <text x={padding.left - 8} y={y + 4} textAnchor="end" fontSize="10" fill={token("--color-text-secondary")}>
                             {Math.round(value)}
                         </text>
                     </g>
                 );
             })}
             {/* Line */}
-            <path d={pathD} fill="none" stroke="teal" strokeWidth="2" />
+            <path d={pathD} fill="none" stroke={token("--color-data-categorical-blue")} strokeWidth="2" />
             {/* Dots */}
             {points.map((p, i) => (
-                <circle key={i} cx={p.x} cy={p.y} r="3" fill="teal" />
+                <circle key={i} cx={p.x} cy={p.y} r="3" fill={token("--color-data-categorical-blue")} />
             ))}
         </svg>
     );

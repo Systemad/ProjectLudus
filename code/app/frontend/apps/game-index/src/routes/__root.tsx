@@ -1,14 +1,14 @@
 import { AppShell } from "@src/app/app-shell";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 
-const RootLayout = () => (
-    <AppShell>
-        <Outlet />
-        <TanStackRouterDevtools />
-    </AppShell>
-);
+const RootLayout = () => {
+    return (
+        <AppShell>
+            <Outlet />
+        </AppShell>
+    );
+};
 
 export const Route = createRootRouteWithContext<{
     queryClient: QueryClient;

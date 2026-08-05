@@ -6,33 +6,33 @@
 import fetch from "@kubb/plugin-client/clients/axios";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { IGDBGetStatsQueryResponse } from "../../types/IGDBTypes/IGDBGetStats.ts";
+import type { IgdbGetStatsQueryResponse } from "../../types/IGDBTypes/IgdbGetStats.ts";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-export const IGDBGetStatsQueryKey = () => ["v1", { url: '/catalog/igdb/stats' }] as const
+export const igdbGetStatsQueryKey = () => ["v1", { url: '/catalog/igdb/stats' }] as const
 
-export type IGDBGetStatsQueryKey = ReturnType<typeof IGDBGetStatsQueryKey>
+export type IgdbGetStatsQueryKey = ReturnType<typeof igdbGetStatsQueryKey>
 
 /**
  * {@link /catalog/igdb/stats}
  */
-export async function IGDBGetStatsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
+export async function igdbGetStatsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<IGDBGetStatsQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/igdb/stats`, ... requestConfig })
+  const res = await request<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/igdb/stats`, ... requestConfig })
   return res.data
 }
 
-export function IGDBGetStatsQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function igdbGetStatsQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
 
-        const queryKey = IGDBGetStatsQueryKey()
-        return queryOptions<IGDBGetStatsQueryResponse, ResponseErrorConfig<Error>, IGDBGetStatsQueryResponse, typeof queryKey>({
+        const queryKey = igdbGetStatsQueryKey()
+        return queryOptions<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, IgdbGetStatsQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
-            return IGDBGetStatsHook({ ...config, signal: config.signal ?? signal })
+            return igdbGetStatsHook({ ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,20 +41,20 @@ export function IGDBGetStatsQueryOptionsHook(config: Partial<RequestConfig> & { 
 /**
  * {@link /catalog/igdb/stats}
  */
-export function useIGDBGetStatsHook<TData = IGDBGetStatsQueryResponse, TQueryData = IGDBGetStatsQueryResponse, TQueryKey extends QueryKey = IGDBGetStatsQueryKey>(options: 
+export function useIgdbGetStatsHook<TData = IgdbGetStatsQueryResponse, TQueryData = IgdbGetStatsQueryResponse, TQueryKey extends QueryKey = IgdbGetStatsQueryKey>(options: 
 {
-  query?: Partial<QueryObserverOptions<IGDBGetStatsQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<QueryObserverOptions<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
 
          const { query: queryConfig = {}, client: config = {} } = options ?? {}
          const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? IGDBGetStatsQueryKey()
+         const queryKey = resolvedOptions?.queryKey ?? igdbGetStatsQueryKey()
          
 
          const query = useQuery({
-          ...IGDBGetStatsQueryOptionsHook(config),
+          ...igdbGetStatsQueryOptionsHook(config),
           ...resolvedOptions,
           queryKey,
          } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }

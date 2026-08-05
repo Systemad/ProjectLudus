@@ -6,6 +6,9 @@
 import * as z from "zod";
 import { eventDtoSchema } from "./eventDtoSchema.ts";
 
+/**
+ * @description List of events matching the filter criteria.
+ */
 export const getEventsListResponseSchema = z.object({
     "events": z.array(z.lazy(() => eventDtoSchema))
-    })
+    }).describe("List of events matching the filter criteria.")

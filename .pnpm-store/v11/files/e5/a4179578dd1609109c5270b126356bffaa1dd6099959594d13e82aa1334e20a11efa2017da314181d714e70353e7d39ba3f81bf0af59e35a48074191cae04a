@@ -1,0 +1,56 @@
+import { type AutomationConstructorParamsBase, type AutomationResult, type IAutomation } from './Automation.types.js';
+interface ElementProperties {
+    resource_id: string;
+    bounds: {
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+    };
+    class: string;
+    text: string;
+    content_desc: string;
+    clickable: boolean;
+    enabled: boolean;
+    focusable: boolean;
+    focused: boolean;
+    scrollable: boolean;
+    selected: boolean;
+    checkable: boolean;
+    checked: boolean;
+    package: string;
+    exists: boolean;
+}
+export declare class AutomationAndroid implements IAutomation {
+    private readonly appId;
+    private readonly deviceId;
+    private readonly verbose;
+    constructor({ appId, deviceId, verbose }: AutomationConstructorParamsBase);
+    tapAsync({ x, y, }: {
+        x: number;
+        y: number;
+    }): Promise<AutomationResult<{
+        x: number;
+        y: number;
+    }>>;
+    takeFullScreenshotAsync({ outputPath }: {
+        outputPath: string;
+    }): Promise<string>;
+    findViewByTestIDAsync(testID: string): Promise<AutomationResult<ElementProperties>>;
+    tapByTestIDAsync(testID: string): Promise<AutomationResult<{
+        resource_id: string;
+        tapped: boolean;
+    }>>;
+    taksScreenshotByTestIDAsync({ testID, outputPath, }: {
+        testID: string;
+        outputPath: string;
+    }): Promise<string>;
+    private sanityCheckAsync;
+    private runAdbCommand;
+    private dumpViewHierarchy;
+    private findElementByResourceId;
+    private searchNodes;
+    private parseElementProperties;
+}
+export {};
+//# sourceMappingURL=AutomationAndroid.d.ts.map

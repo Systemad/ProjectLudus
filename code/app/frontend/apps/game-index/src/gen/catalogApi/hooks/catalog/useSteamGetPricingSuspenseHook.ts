@@ -25,14 +25,14 @@ export async function steamGetPricingSuspenseHook({ gameId }: { gameId: SteamGet
   return res.data
 }
 
-export function steamGetPricingSuspenseQueryOptionsHook({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function steamGetPricingSuspenseQueryOptionsHook({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = steamGetPricingSuspenseQueryKey({ gameId })
         return queryOptions<SteamGetPricingQueryResponse, ResponseErrorConfig<SteamGetPricing404>, SteamGetPricingQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return steamGetPricingSuspenseHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
+            return steamGetPricingSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function steamGetPricingSuspenseQueryOptionsHook({ gameId }: { gameId: St
 /**
  * {@link /catalog/steam/pricing/:gameId}
  */
-export function useSteamGetPricingSuspenseHook<TData = SteamGetPricingQueryResponse, TQueryKey extends QueryKey = SteamGetPricingSuspenseQueryKey>({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] | undefined }, options: 
+export function useSteamGetPricingSuspenseHook<TData = SteamGetPricingQueryResponse, TQueryKey extends QueryKey = SteamGetPricingSuspenseQueryKey>({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<SteamGetPricingQueryResponse, ResponseErrorConfig<SteamGetPricing404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

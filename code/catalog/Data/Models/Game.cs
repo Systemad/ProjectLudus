@@ -67,7 +67,21 @@ public partial class Game
 
     public virtual Franchise? FranchiseNavigation { get; set; }
 
+    public virtual GameExpandedGame? GameExpandedGame { get; set; }
+
+    public virtual GameExpansion? GameExpansion { get; set; }
+
+    public virtual GameFork? GameFork { get; set; }
+
     public virtual ICollection<GameLocalization> GameLocalizations { get; set; } = new List<GameLocalization>();
+
+    public virtual GamePort? GamePort { get; set; }
+
+    public virtual GameRemake? GameRemake { get; set; }
+
+    public virtual GameRemaster? GameRemaster { get; set; }
+
+    public virtual GameStandaloneExpansion? GameStandaloneExpansion { get; set; }
 
     public virtual GameStatus? GameStatusNavigation { get; set; }
 
@@ -75,37 +89,33 @@ public partial class Game
 
     public virtual GameType? GameTypeNavigation { get; set; }
 
+    public virtual GamesDlc? GamesDlc { get; set; }
+
     public virtual ICollection<InvolvedCompany> InvolvedCompanies { get; set; } = new List<InvolvedCompany>();
 
     public virtual ICollection<LanguageSupport> LanguageSupports { get; set; } = new List<LanguageSupport>();
 
     public virtual ICollection<MultiplayerMode> MultiplayerModesNavigation { get; set; } = new List<MultiplayerMode>();
 
+    public virtual ICollection<PopularityPrimitive> PopularityPrimitives { get; set; } = new List<PopularityPrimitive>();
+
     public virtual ICollection<ReleaseDate> ReleaseDates { get; set; } = new List<ReleaseDate>();
 
     public virtual ICollection<Screenshot> Screenshots { get; set; } = new List<Screenshot>();
+
+    public virtual SteamDetail? SteamDetail { get; set; }
+
+    public virtual SteamLatestPlayerCount? SteamLatestPlayerCount { get; set; }
+
+    public virtual SteamLatestPricing? SteamLatestPricing { get; set; }
+
+    public virtual SteamReview? SteamReview { get; set; }
 
     public virtual ICollection<Video> Videos { get; set; } = new List<Video>();
 
     public virtual ICollection<Website> Websites { get; set; } = new List<Website>();
 
-    public virtual ICollection<Game> DlcGames { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> DlcSources { get; set; } = new List<Game>();
-
     public virtual ICollection<Event> Events { get; set; } = new List<Event>();
-
-    public virtual ICollection<Game> ExpandedGames { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> ExpandedSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> ExpansionSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> Expansions { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> ForkSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> Forks { get; set; } = new List<Game>();
 
     public virtual ICollection<Franchise> Franchises { get; set; } = new List<Franchise>();
 
@@ -123,25 +133,9 @@ public partial class Game
 
     public virtual ICollection<PlayerPerspective> PlayerPerspectives { get; set; } = new List<PlayerPerspective>();
 
-    public virtual ICollection<Game> PortSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> Ports { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> RemakeSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> Remakes { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> RemasterSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> Remasters { get; set; } = new List<Game>();
-
     public virtual ICollection<Game> SimilarGames { get; set; } = new List<Game>();
 
     public virtual ICollection<Game> SimilarSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> StandaloneExpansionSources { get; set; } = new List<Game>();
-
-    public virtual ICollection<Game> StandaloneExpansions { get; set; } = new List<Game>();
 
     public virtual ICollection<Theme> Themes { get; set; } = new List<Theme>();
 }

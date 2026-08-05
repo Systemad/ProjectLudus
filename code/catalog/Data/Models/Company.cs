@@ -35,11 +35,15 @@ public partial class Company
 
     public long? StartDateFormat { get; set; }
 
+    public long? CompanySize { get; set; }
+
     public long? ParentId { get; set; }
 
     public long? ChangedCompanyId { get; set; }
 
     public virtual Company? ChangedCompany { get; set; }
+
+    public virtual CompanySize? CompanySizeNavigation { get; set; }
 
     public virtual ICollection<Company> InverseChangedCompany { get; set; } = new List<Company>();
 
@@ -58,6 +62,4 @@ public partial class Company
     public virtual CompanyStatus? StatusNavigation { get; set; }
 
     public virtual ICollection<GameEngine> GameEngines { get; set; } = new List<GameEngine>();
-
-    public virtual ICollection<PlatformVersion> PlatformVersions { get; set; } = new List<PlatformVersion>();
 }

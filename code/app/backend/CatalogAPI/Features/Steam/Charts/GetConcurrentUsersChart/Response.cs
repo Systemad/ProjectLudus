@@ -1,6 +1,0 @@
-namespace CatalogAPI.Features.Steam.Charts.GetConcurrentUsersChart;
-
-public sealed record ChartPointDto(DateTime Timestamp, int PeakPlayers, int AvgPlayers);
-
-public sealed record ConcurrentUsersChartResponse(
-    string Range, string BucketSize, List<ChartPointDto> Points);

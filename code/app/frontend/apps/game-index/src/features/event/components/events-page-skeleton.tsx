@@ -1,5 +1,5 @@
-import { Card } from "@astryxdesign/core/Card";
 import { Spinner } from "@astryxdesign/core/Spinner";
+import { DataCard } from "@src/components/data-card";
 import { Skeleton } from "@astryxdesign/core/Skeleton";
 import { Grid } from "@astryxdesign/core/Grid";
 import { HStack } from "@astryxdesign/core/HStack";
@@ -8,7 +8,7 @@ import { Text } from "@astryxdesign/core/Text";
 
 function MonthCardSkeleton() {
     return (
-        <Card padding={3}>
+        <DataCard padding={3}>
             <Skeleton width="100%" height="1.5rem" />
 
             <VStack gap={2} hAlign="stretch">
@@ -49,7 +49,7 @@ function MonthCardSkeleton() {
                     </HStack>
                 ))}
             </VStack>
-        </Card>
+        </DataCard>
     );
 }
 

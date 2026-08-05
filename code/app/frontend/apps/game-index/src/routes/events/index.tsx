@@ -6,7 +6,6 @@ import { HStack } from "@astryxdesign/core/HStack";
 import { VStack } from "@astryxdesign/core/VStack";
 import { SegmentedControl, SegmentedControlItem } from "@astryxdesign/core/SegmentedControl";
 import { useEventsGetListSuspenseHook } from "@src/gen/catalogApi";
-import { PageWrapper } from "@src/app/page-wrapper";
 import { MonthCard } from "@src/features/event/components/month-card";
 import {
     EVENT_FILTERS,
@@ -15,6 +14,7 @@ import {
     isEventEnded,
 } from "@src/features/event/utils/events-list";
 import { getYear } from "date-fns";
+import { presentationStyles } from "@src/app/presentation-styles";
 
 export const Route = createFileRoute("/events/")({
     component: EventsPage,
@@ -49,13 +49,12 @@ function EventsPage() {
     }, [data, eventFilter, year, now]);
 
     return (
-        <PageWrapper maxWidth="var(--spacing-9xl, 1128px)" paddingBlock="clamp(1rem, 3vw, 1.5rem)">
-            <VStack hAlign="stretch" gap={6}>
-                <HStack hAlign="between" gap={3} style={{alignItems: "baseline", flexWrap: "wrap"}}>
+        <VStack hAlign="stretch" gap={6}>
+                <HStack hAlign="between" gap={3} xstyle={presentationStyles.pageHeader}>
                     <Heading level={2}>
                         {year}
                     </Heading>
-                    <Text color="secondary" style={{fontSize: "0.875rem"}}>
+                    <Text color="secondary" xstyle={presentationStyles.metric}>
                         {processed.filteredEvents.length} events
                     </Text>
                 </HStack>
@@ -92,6 +91,5 @@ function EventsPage() {
                     ))}
                 </Grid>
             </VStack>
-        </PageWrapper>
     );
 }

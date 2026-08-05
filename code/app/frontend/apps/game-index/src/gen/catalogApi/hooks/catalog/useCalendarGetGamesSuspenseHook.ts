@@ -6,33 +6,33 @@
 import fetch from "@kubb/plugin-client/clients/axios";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { CalendarGetGamesQueryResponse, CalendarGetGamesPathParams, CalendarGetGames400 } from "../../types/CalendarTypes/CalendarGetGames.ts";
+import type { CalendarGetGamesQueryResponse, CalendarGetGamesPathParams, CalendarGetGamesQueryParams, CalendarGetGames400 } from "../../types/CalendarTypes/CalendarGetGames.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-export const calendarGetGamesSuspenseQueryKey = ({ year }: { year: CalendarGetGamesPathParams["year"] | undefined }) => ["v1", { url: '/catalog/calendar/:year', params: {year:year} }] as const
+export const calendarGetGamesSuspenseQueryKey = ({ year }: { year: CalendarGetGamesPathParams["year"] | undefined }, params?: CalendarGetGamesQueryParams) => ["v1", { url: '/catalog/calendar/:year', params: {year:year} }, ...(params ? [params] : [])] as const
 
 export type CalendarGetGamesSuspenseQueryKey = ReturnType<typeof calendarGetGamesSuspenseQueryKey>
 
 /**
  * {@link /catalog/calendar/:year}
  */
-export async function calendarGetGamesSuspenseHook({ year }: { year: CalendarGetGamesPathParams["year"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export async function calendarGetGamesSuspenseHook({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, unknown>({ method : "GET", url : `/catalog/calendar/${year}`, ... requestConfig })
+  const res = await request<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, unknown>({ method : "GET", url : `/catalog/calendar/${year}`, params, ... requestConfig })
   return res.data
 }
 
-export function calendarGetGamesSuspenseQueryOptionsHook({ year }: { year: CalendarGetGamesPathParams["year"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function calendarGetGamesSuspenseQueryOptionsHook({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
-        const queryKey = calendarGetGamesSuspenseQueryKey({ year })
+        const queryKey = calendarGetGamesSuspenseQueryKey({ year }, params)
         return queryOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, CalendarGetGamesQueryResponse, typeof queryKey>({
-         enabled: !!(year),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return calendarGetGamesSuspenseHook({ year: year! }, { ...config, signal: config.signal ?? signal })
+            return calendarGetGamesSuspenseHook({ year: year, params: params }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function calendarGetGamesSuspenseQueryOptionsHook({ year }: { year: Calen
 /**
  * {@link /catalog/calendar/:year}
  */
-export function useCalendarGetGamesSuspenseHook<TData = CalendarGetGamesQueryResponse, TQueryKey extends QueryKey = CalendarGetGamesSuspenseQueryKey>({ year }: { year: CalendarGetGamesPathParams["year"] | undefined }, options: 
+export function useCalendarGetGamesSuspenseHook<TData = CalendarGetGamesQueryResponse, TQueryKey extends QueryKey = CalendarGetGamesSuspenseQueryKey>({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
@@ -50,11 +50,11 @@ export function useCalendarGetGamesSuspenseHook<TData = CalendarGetGamesQueryRes
 
          const { query: queryConfig = {}, client: config = {} } = options ?? {}
          const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesSuspenseQueryKey({ year })
+         const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesSuspenseQueryKey({ year }, params)
          
 
          const query = useSuspenseQuery({
-          ...calendarGetGamesSuspenseQueryOptionsHook({ year }, config),
+          ...calendarGetGamesSuspenseQueryOptionsHook({ year, params }, config),
           ...resolvedOptions,
           queryKey,
          } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CalendarGetGames400>> & { queryKey: TQueryKey }

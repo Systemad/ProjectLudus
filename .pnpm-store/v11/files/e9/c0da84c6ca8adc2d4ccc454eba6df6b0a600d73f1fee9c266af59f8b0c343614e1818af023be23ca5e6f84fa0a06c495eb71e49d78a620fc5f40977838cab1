@@ -1,0 +1,221 @@
+import { $ } from 'zx';
+import { shouldIncludeRecord, } from './LogCollector.js';
+import { streamProcessOutput } from './processUtils.js';
+const SKIP_MESSAGES = [
+    'Filtering the log data using "process == "',
+    'Timestamp                       Thread     Type        Activity             PID    TTL',
+];
+export class IosSimulatorLogCollector {
+    options;
+    name = 'ios-simulator-log';
+    constructor(options) {
+        this.options = options;
+        if (!options.bundleIdentifier) {
+            throw new Error('IosSimulatorLogCollector requires a bundleIdentifier.');
+        }
+    }
+    get metadata() {
+        return {
+            bundleIdentifier: this.options.bundleIdentifier,
+        };
+    }
+    async collectAsync() {
+        const records = await this.collectRawRecordsAsync();
+        return records.map((record) => record.data).join('\n');
+    }
+    async collectRawRecordsAsync() {
+        const records = await this.collectRawRecordsImplAsync();
+        return records
+            .map((record) => this.transformLogRecord(record))
+            .filter((record) => record != null &&
+            shouldIncludeRecord({
+                record,
+                logLevel: this.options.logLevel,
+                filterRegex: this.options.filterRegexp,
+            }));
+    }
+    async collectRawRecordsImplAsync() {
+        const { bundleIdentifier, durationMs = 5000, xcrunPath = 'xcrun', additionalArgs = [], } = this.options;
+        const executableName = await this.resolveExecutableNameAsync(xcrunPath, bundleIdentifier);
+        const predicate = `(process == "${executableName}")`;
+        const args = [
+            'simctl',
+            'spawn',
+            'booted',
+            'log',
+            'stream',
+            '--level',
+            'debug',
+            '--predicate',
+            predicate,
+            ...additionalArgs,
+        ];
+        const child = $({ stdio: ['ignore', 'pipe', 'pipe'] }) `${xcrunPath} ${args}`.quiet();
+        const logs = [];
+        const sharedMetadata = { bundleIdentifier, executable: executableName };
+        const handleStdoutLine = (line) => {
+            if (!line) {
+                return;
+            }
+            const parsed = parseIosSimulatorLogLine(line);
+            const level = parsed?.level ? parsed.level.toLowerCase() : 'debug';
+            const metadata = {
+                ...sharedMetadata,
+                timestamp: parsed?.timestampIso,
+                thread: parsed?.thread,
+                activity: parsed?.activity,
+                pid: parsed?.pid,
+                ttl: parsed?.ttl,
+                process: parsed?.process,
+                category: parsed?.category,
+                subsystem: parsed?.subsystem,
+            };
+            logs.push({
+                source: this.name,
+                timestamp: parsed?.timestamp ?? Date.now(),
+                level,
+                message: parsed?.text ?? line,
+                raw: line,
+                type: 'stdout',
+                metadata,
+            });
+        };
+        const handleStderrLine = (line) => {
+            if (!line) {
+                return;
+            }
+            const parsed = parseIosSimulatorLogLine(line);
+            const level = parsed?.level ? parsed.level.toLowerCase() : 'error';
+            const metadata = {
+                ...sharedMetadata,
+                timestamp: parsed?.timestampIso,
+                thread: parsed?.thread,
+                activity: parsed?.activity,
+                pid: parsed?.pid,
+                ttl: parsed?.ttl,
+                process: parsed?.process,
+                category: parsed?.category,
+                subsystem: parsed?.subsystem,
+            };
+            logs.push({
+                source: this.name,
+                timestamp: parsed?.timestamp ?? Date.now(),
+                level,
+                message: parsed?.text ?? line,
+                raw: line,
+                type: 'stderr',
+                metadata,
+            });
+        };
+        await streamProcessOutput(child, {
+            durationMs,
+            onStdoutLine: handleStdoutLine,
+            onStderrLine: handleStderrLine,
+            processName: 'iOS simulator log stream',
+        });
+        return logs;
+    }
+    async resolveExecutableNameAsync(xcrunPath, bundleIdentifier) {
+        const appInfo = await this.getAppInfoAsync(xcrunPath, bundleIdentifier);
+        if (appInfo?.CFBundleExecutable) {
+            return appInfo.CFBundleExecutable;
+        }
+        const listAppsInfo = await this.getListAppsEntryAsync(xcrunPath, bundleIdentifier);
+        if (!listAppsInfo) {
+            throw new Error(`No simulator app found with bundle identifier "${bundleIdentifier}".`);
+        }
+        if (listAppsInfo.CFBundleExecutable) {
+            return listAppsInfo.CFBundleExecutable;
+        }
+        throw new Error(`Simulator app "${bundleIdentifier}" does not expose a CFBundleExecutable.`);
+    }
+    async getAppInfoAsync(xcrunPath, bundleIdentifier) {
+        try {
+            const { stdout } = await $ `${xcrunPath} simctl appinfo booted ${bundleIdentifier}`
+                .quiet()
+                .pipe($ `plutil -convert json -o - -`.quiet());
+            return JSON.parse(stdout);
+        }
+        catch {
+            return null;
+        }
+    }
+    async getListAppsEntryAsync(xcrunPath, bundleIdentifier) {
+        try {
+            const { stdout } = await $ `${xcrunPath} simctl listapps booted`.quiet();
+            let parsed;
+            try {
+                parsed = JSON.parse(stdout);
+            }
+            catch (error) {
+                const message = error instanceof Error ? error.message : 'Unknown error';
+                throw new Error(`Failed to parse simulator apps list: ${message}`);
+            }
+            return parsed[bundleIdentifier] ?? null;
+        }
+        catch (error) {
+            const message = error instanceof Error ? error.message : 'Unknown error';
+            throw new Error(`Failed to list booted simulator apps: ${message}`);
+        }
+    }
+    transformLogRecord(record) {
+        const level = record.level ? `[${record.level.toLowerCase()}]` : '[debug]';
+        const subsystem = record.metadata?.subsystem ?? '';
+        const category = record.metadata?.category ?? '';
+        const payload = record.message;
+        if (SKIP_MESSAGES.some((skipMessage) => payload?.includes(skipMessage))) {
+            return null;
+        }
+        return {
+            ...record,
+            data: [level, subsystem, category, payload].filter(Boolean).join(' '),
+        };
+    }
+}
+export function parseIosSimulatorLogLine(line) {
+    const headerMatch = line.match(/^(?<timestamp>\S+\s+\S+)\s+(?<thread>\S+)\s+(?<type>\S+)\s+(?<activity>\S+)\s+(?<pid>\d+)\s+(?<ttl>\S+)\s+(?<body>.*)$/);
+    if (!headerMatch?.groups) {
+        return null;
+    }
+    const { timestamp, thread, type, activity, pid, ttl, body } = headerMatch.groups;
+    const timestampMs = parseIosTimestamp(timestamp);
+    const remaining = body.trim();
+    let processName;
+    let textPart = remaining;
+    const processMatch = remaining.match(/^(?<process>[^:]+):\s*(?<rest>.*)$/);
+    if (processMatch && processMatch.groups) {
+        processName = processMatch.groups.process.trim();
+        textPart = processMatch.groups.rest;
+    }
+    let category;
+    let subsystem;
+    let finalText = textPart.trim();
+    const detailMatch = textPart.match(/^(?:\((?<category>[^)]+)\)\s*)?(?:\[(?<subsystem>[^\]]+)\]\s*)?(?<message>.*)$/);
+    if (detailMatch && detailMatch.groups) {
+        if (detailMatch.groups.category) {
+            category = detailMatch.groups.category.trim();
+        }
+        if (detailMatch.groups.subsystem) {
+            subsystem = detailMatch.groups.subsystem.trim();
+        }
+        finalText = detailMatch.groups.message?.trim() ?? finalText;
+    }
+    return {
+        timestamp: Number.isNaN(timestampMs) ? Date.now() : timestampMs,
+        timestampIso: timestamp,
+        level: type,
+        thread,
+        activity,
+        pid: pid ? Number.parseInt(pid, 10) : undefined,
+        ttl,
+        process: processName,
+        category,
+        subsystem,
+        text: finalText,
+    };
+}
+function parseIosTimestamp(timestamp) {
+    const normalized = timestamp.replace(' ', 'T').replace(/([+-]\d{2})(\d{2})$/, '$1:$2');
+    const value = Date.parse(normalized);
+    return Number.isNaN(value) ? Date.now() : value;
+}

@@ -16,12 +16,12 @@ export function MostPlayedTable({ games }: Props) {
                 {
                     header: "Players Now",
                     numeric: true,
-                    render: (g) => g.steam?.currentPlayers?.toLocaleString() ?? "—",
+                    render: (g) => g.steam?.currentPlayers?.toLocaleString() ?? "-",
                 },
                 {
                     header: "24H Peak",
                     numeric: true,
-                    render: (g) => g.steam?.peak24h?.toLocaleString() ?? "—",
+                    render: (g) => g.steam?.peak24h?.toLocaleString() ?? "-",
                 },
             ]}
         />

@@ -9,7 +9,7 @@ export function PricingCell({ pricing }: Props) {
     if (!pricing || pricing.finalCents == null) {
         return (
             <Text color="secondary">
-                —
+                -
             </Text>
         );
     }

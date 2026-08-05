@@ -1,4 +1,5 @@
 import dlt
+from dlt.destinations.impl.postgres.configuration import PostgresCredentials
 from dlt.sources.sql_database import sql_table
 from dlt_typesense import typesense as typesense_destination
 from dlt_typesense import typesense_adapter
@@ -41,85 +42,57 @@ COMPANY_SORT = [
 ]
 
 
-@dlt.source(name="postgres_to_typesense")
-def _typesense_source():
-    games_resource = sql_table(
-        credentials=dlt.secrets.get("destination.postgres.credentials"),
-        table="games_search",
-        schema="igdb",
-        defer_table_reflect=True,
-        write_disposition="merge",
-        primary_key="id",
+def _postgres_credentials():
+    prefix = "destination.postgres.credentials"
+
+    return PostgresCredentials(
+        {
+            "host": dlt.secrets[f"{prefix}.host"],
+            "port": dlt.secrets[f"{prefix}.port"],
+            "database": dlt.secrets[f"{prefix}.database"],
+            "username": dlt.secrets[f"{prefix}.username"],
+            "password": dlt.secrets[f"{prefix}.password"],
+        }
     )
 
-    games = typesense_adapter(
-        games_resource,
-        facet=GAMES_FACETS,
-        sort=GAMES_SORT,
+
+def _run_index(table, facets, sort, pipeline_name, dataset_name):
+    resource = typesense_adapter(
+        sql_table(
+            credentials=_postgres_credentials(),
+            table=table,
+            schema="igdb",
+            defer_table_reflect=True,
+            write_disposition="merge",
+            primary_key="id",
+        ),
+        facet=facets,
+        sort=sort,
     )
-
-    return games
-
-
-@dlt.source(name="postgres_to_typesense_companies")
-def _company_typesense_source():
-    companies_resource = sql_table(
-        credentials=dlt.secrets.get("destination.postgres.credentials"),
-        table="company_search",
-        schema="igdb",
-        defer_table_reflect=True,
-        write_disposition="merge",
-        primary_key="id",
-    )
-
-    companies = typesense_adapter(
-        companies_resource,
-        facet=COMPANY_FACETS,
-        sort=COMPANY_SORT,
-    )
-
-    return companies
+    dlt.pipeline(
+        pipeline_name=pipeline_name,
+        destination=typesense_destination(),
+        dataset_name=dataset_name,
+        progress="log",
+        dev_mode=False,
+    ).run(resource)
 
 
 def run_games():
-    ts = typesense_adapter(
-        sql_table(
-            credentials=dlt.secrets.get("destination.postgres.credentials"),
-            table="games_search",
-            schema="igdb",
-            defer_table_reflect=True,
-            write_disposition="merge",
-            primary_key="id",
-        ),
-        facet=GAMES_FACETS,
+    _run_index(
+        table="games_search",
+        facets=GAMES_FACETS,
         sort=GAMES_SORT,
-    )
-    dlt.pipeline(
         pipeline_name="postgres_to_typesense_pipeline",
-        destination=typesense_destination(),
         dataset_name="games",
-        progress="log",
-        dev_mode=False,
-    ).run(ts)
+    )
 
 
 def run_companies():
-    cs = typesense_adapter(
-        sql_table(
-            credentials=dlt.secrets.get("destination.postgres.credentials"),
-            table="company_search",
-            schema="igdb",
-            defer_table_reflect=True,
-            write_disposition="merge",
-            primary_key="id",
-        ),
-        facet=COMPANY_FACETS,
+    _run_index(
+        table="company_search",
+        facets=COMPANY_FACETS,
         sort=COMPANY_SORT,
-    )
-    dlt.pipeline(
         pipeline_name="search_company_search_pipeline",
-        destination=typesense_destination(),
         dataset_name="companies",
-        progress="log",
-        dev_mode=False,
-    ).run(cs)
+    )

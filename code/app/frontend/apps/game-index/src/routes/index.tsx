@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Spinner } from "@astryxdesign/core/Spinner";
 import { Grid } from "@astryxdesign/core/Grid";
+import { Heading, Text } from "@astryxdesign/core/Text";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Suspense } from "react";
 import { useSuspenseQueries } from "@tanstack/react-query";
+import * as stylex from "@stylexjs/stylex";
 
-import { PageWrapper } from "@src/app/page-wrapper";
 import { MostPlayedTable } from "@src/features/homepage/components/most-played-table";
 import { PopularReleasesTable } from "@src/features/homepage/components/popular-releases-table";
 import { HotReleasesTable } from "@src/features/homepage/components/hot-releases-table";
@@ -14,6 +15,7 @@ import {
     eventsGetListSuspenseQueryOptionsHook,
     steamChartSuspenseQueryOptionsHook,
 } from "@src/gen/catalogApi";
+import { presentationStyles } from "@src/app/presentation-styles";
 
 export const Route = createFileRoute("/")({
     component: RouteComponent,
@@ -27,9 +29,15 @@ function RouteComponent() {
         { data: upcomingEvents },
     ] = useSuspenseQueries({
         queries: [
-            steamChartSuspenseQueryOptionsHook({ params: { Type: "most-played", Limit: 15 } }),
-            steamChartSuspenseQueryOptionsHook({ params: { Type: "popular-releases", Limit: 15 } }),
-            steamChartSuspenseQueryOptionsHook({ params: { Type: "hot-releases", Limit: 15 } }),
+            steamChartSuspenseQueryOptionsHook({
+                params: { Type: "most-played", Page: 1, PageSize: 15 },
+            }),
+            steamChartSuspenseQueryOptionsHook({
+                params: { Type: "popular-releases", Page: 1, PageSize: 15 },
+            }),
+            steamChartSuspenseQueryOptionsHook({
+                params: { Type: "hot-releases", Page: 1, PageSize: 15 },
+            }),
             eventsGetListSuspenseQueryOptionsHook({
                 params: { year: new Date().getFullYear(), limit: 12, status: "notstarted" },
             }),
@@ -39,23 +47,26 @@ function RouteComponent() {
     return (
         <Suspense
             fallback={
-                <PageWrapper paddingBlock="clamp(1rem, 3vw, 1.5rem)">
-                    <VStack hAlign="center" vAlign="center" style={{minHeight: "60vh"}}>
-                        <Spinner size="xl" />
-                    </VStack>
-                </PageWrapper>
+                <VStack hAlign="center" vAlign="center" xstyle={presentationStyles.loadingCenter}>
+                    <Spinner size="xl" />
+                </VStack>
             }
         >
-            <PageWrapper paddingBlock="clamp(0.5rem, 2vw, 0.5rem)">
-                <VStack hAlign="stretch" gap={4}>
-                    <Grid columns={{minWidth: 320}} gap={4}>
-                        <MostPlayedTable games={mostPlayed.games} />
-                        <PopularReleasesTable games={popularReleases.games} />
-                        <HotReleasesTable games={hotReleases.games} />
-                    </Grid>
-                    <EventCarousel events={upcomingEvents?.events} />
-                </VStack>
-            </PageWrapper>
+            <VStack hAlign="stretch" gap={5}>
+                <div {...stylex.props(presentationStyles.pageHeader)}>
+                    <div>
+                        <Heading level={1}>Game index</Heading>
+                        <Text color="secondary">Live activity, popular releases, and upcoming events.</Text>
+                    </div>
+                    <Text color="secondary" xstyle={presentationStyles.metric}>Updated from current catalog data</Text>
+                </div>
+                <Grid columns={{ minWidth: 420 }} gap={4}>
+                    <MostPlayedTable games={mostPlayed.games} />
+                    <PopularReleasesTable games={popularReleases.games} />
+                </Grid>
+                <HotReleasesTable games={hotReleases.games} />
+                <EventCarousel events={upcomingEvents?.events} />
+            </VStack>
         </Suspense>
     );
 }

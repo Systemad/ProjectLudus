@@ -8,11 +8,11 @@ import type { StatisticsResponse } from "../StatisticsResponse.ts";
 /**
  * @description OK
 */
-export type IGDBGetStats200 = StatisticsResponse;
+export type IgdbGetStats200 = StatisticsResponse;
 
-export type IGDBGetStatsQueryResponse = IGDBGetStats200;
+export type IgdbGetStatsQueryResponse = IgdbGetStats200;
 
-export type IGDBGetStatsQuery = {
-    Response: IGDBGetStats200;
+export type IgdbGetStatsQuery = {
+    Response: IgdbGetStats200;
     Errors: any;
 };

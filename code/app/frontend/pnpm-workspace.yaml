@@ -10,60 +10,62 @@ allowBuilds:
   unrs-resolver: true
 
 catalog:
-  '@astryxdesign/cli': ^0.1.2
-  '@astryxdesign/core': ^0.1.2
-  '@astryxdesign/theme-neutral': ^0.1.2
+  '@astryxdesign/cli': ^0.1.4
+  '@astryxdesign/core': ^0.1.4
+  '@astryxdesign/theme-neutral': ^0.1.4
   "@base-ui/react": ^1.5.0
+  '@fontsource-variable/figtree': ^5.2.10
   "@fontsource-variable/inter": ^5.2.8
   "@fontsource-variable/montserrat": ^5.2.8
   "@fontsource-variable/nunito-sans": ^5.2.7
   "@fontsource-variable/raleway": ^5.2.8
   '@heroicons/react': ^2.2.0
-  "@kubb/agent": ^4.37.8
-  "@kubb/cli": ^4.37.8
-  "@kubb/core": ^4.37.8
-  "@kubb/plugin-client": ^4.37.8
-  "@kubb/plugin-oas": ^4.37.8
-  "@kubb/plugin-react-query": ^4.37.8
-  "@kubb/plugin-ts": ^4.37.8
-  "@kubb/plugin-zod": ^4.37.8
-  "@mantine/hooks": ^9.2.1
+  "@kubb/agent": ^4.37.12
+  "@kubb/cli": ^4.39.2
+  "@kubb/core": ^4.39.2
+  "@kubb/plugin-client": ^4.39.2
+  "@kubb/plugin-oas": ^4.39.2
+  "@kubb/plugin-react-query": ^4.39.2
+  "@kubb/plugin-ts": ^4.39.2
+  "@kubb/plugin-zod": ^4.39.2
+  "@mantine/hooks": ^9.4.1
+  '@stylexjs/babel-plugin': ^0.19.0
   '@stylexjs/stylex': 0.18.3
   "@tanstack/eslint-config": ^0.4.0
-  "@tanstack/eslint-plugin-query": ^5.100.11
+  "@tanstack/eslint-plugin-query": ^5.101.2
   "@tanstack/eslint-plugin-router": ^1.162.0
-  "@tanstack/react-query": ^5.100.11
-  "@tanstack/react-router": ^1.170.6
+  "@tanstack/react-query": ^5.101.2
+  "@tanstack/react-router": ^1.170.17
   "@tanstack/react-router-devtools": ^1.167.0
-  "@tanstack/react-router-ssr-query": ^1.167.0
-  "@tanstack/router-plugin": ^1.168.8
+  "@tanstack/react-router-ssr-query": ^1.167.1
+  "@tanstack/router-plugin": ^1.168.19
   "@types/node": ^24.12.0
   "@types/react": ^19.2.14
   "@vitejs/plugin-react": ^6.0.1
   "@yamada-ui/cli": ^2.1.6
   "@yamada-ui/react": ^2.2.0
-  country-flag-icons: ^1.6.17
-  date-fns: ^4.2.1
-  dayjs: ^1.11.20
-  eslint-plugin-oxlint: ^1.66.0
+  country-flag-icons: ^1.6.20
+  date-fns: ^4.4.0
+  dayjs: ^1.11.21
+  eslint-plugin-oxlint: ^1.73.0
   framer-motion: ^10.18.0
-  motion: ^12.39.0
-  react: ^19.2.6
-  react-dom: ^19.2.6
+  motion: ^12.42.2
+  react: ^19.2.7
+  react-dom: ^19.2.7
   react-extract-colors: ^1.6.0
-  react-icons: ^5.6.0
-  react-instantsearch: ^7.33.0
-  react-intersection-observer: ^10.0.3
-  react-motion-gallery: ^2.0.74
+  react-icons: ^5.7.0
+  react-instantsearch: ^7.39.0
+  react-intersection-observer: ^10.1.0
+  react-motion-gallery: ^2.0.99
   typescript: ^5.9.3
   typesense-instantsearch-adapter: ^3.0.2
-  uuid: ^14.0.0
+  uuid: ^14.0.1
   vanilla-cookieconsent: 3.1.0
   vite: npm:@voidzero-dev/vite-plus-core@^0.1.15
   vite-plus: ^0.1.20
   vitest: npm:@voidzero-dev/vite-plus-test@latest
   zod: ^4.4.3
-  zustand: ^5.0.13
+  zustand: ^5.0.14
 
 catalogMode: prefer
 overrides:

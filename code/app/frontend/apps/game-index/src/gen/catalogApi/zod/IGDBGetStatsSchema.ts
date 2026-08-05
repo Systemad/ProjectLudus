@@ -9,6 +9,6 @@ import { statisticsResponseSchema } from "./statisticsResponseSchema.ts";
 /**
  * @description OK
  */
-export const IGDBGetStats200Schema = z.lazy(() => statisticsResponseSchema)
+export const igdbGetStats200Schema = z.lazy(() => statisticsResponseSchema)
 
-export const IGDBGetStatsQueryResponseSchema = z.lazy(() => IGDBGetStats200Schema)
+export const igdbGetStatsQueryResponseSchema = z.lazy(() => igdbGetStats200Schema)

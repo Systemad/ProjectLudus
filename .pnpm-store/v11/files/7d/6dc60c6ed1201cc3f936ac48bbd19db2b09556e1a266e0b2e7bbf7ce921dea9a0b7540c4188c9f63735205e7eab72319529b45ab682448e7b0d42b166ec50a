@@ -1,0 +1,45 @@
+import { type LogCollector, type LogCollectorOptions, type LogRecord, type TransformedLogRecord } from './LogCollector.js';
+export interface IosSimulatorLogCollectorOptions extends LogCollectorOptions {
+    /**
+     * The bundle identifier of the iOS app to collect logs from.
+     */
+    bundleIdentifier: string;
+    /**
+     * Custom path to the xcrun executable.
+     */
+    xcrunPath?: string;
+    /**
+     * Additional arguments appended to the simulator log stream command.
+     * The predicate is placed before these arguments, allowing for further filtering.
+     */
+    additionalArgs?: string[];
+}
+export declare class IosSimulatorLogCollector implements LogCollector {
+    private readonly options;
+    readonly name = "ios-simulator-log";
+    constructor(options: IosSimulatorLogCollectorOptions);
+    get metadata(): Record<string, unknown>;
+    collectAsync(): Promise<string>;
+    collectRawRecordsAsync(): Promise<TransformedLogRecord[]>;
+    collectRawRecordsImplAsync(): Promise<LogRecord[]>;
+    private resolveExecutableNameAsync;
+    private getAppInfoAsync;
+    private getListAppsEntryAsync;
+    private transformLogRecord;
+}
+interface ParsedIosLogLine {
+    timestamp: number;
+    timestampIso: string;
+    level?: string;
+    thread?: string;
+    activity?: string;
+    pid?: number;
+    ttl?: string;
+    process?: string;
+    category?: string;
+    subsystem?: string;
+    text?: string;
+}
+export declare function parseIosSimulatorLogLine(line: string): ParsedIosLogLine | null;
+export {};
+//# sourceMappingURL=IosSimulatorLogCollector.d.ts.map

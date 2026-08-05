@@ -3,6 +3,9 @@ import { Button } from "@astryxdesign/core/Button";
 import { Grid } from "@astryxdesign/core/Grid";
 import { Text } from "@astryxdesign/core/Text";
 import { Pagination } from "@astryxdesign/core/Pagination";
+import { Dialog, DialogHeader } from "@astryxdesign/core/Dialog";
+import { Layout, LayoutContent } from "@astryxdesign/core/Layout";
+import * as stylex from "@stylexjs/stylex";
 import { Hits, usePagination } from "react-instantsearch";
 import type { HitsProps } from "react-instantsearch";
 import type { SortFieldOption } from "./search-control";
@@ -13,6 +16,43 @@ type SearchFacetConfig = {
     title: string;
     attribute: string;
 };
+
+const styles = stylex.create({
+    page: {
+        padding: "var(--spacing-2)",
+        backgroundColor: "var(--color-background-surface)",
+        borderRadius: "var(--radius-container)",
+    },
+    pagination: {
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "var(--spacing-4)",
+        width: "100%",
+    },
+    desktopFacets: {
+        display: "none",
+        position: "sticky",
+        top: "var(--spacing-10)",
+        padding: "var(--spacing-2)",
+        "@media (min-width: 641px)": {
+            display: "block",
+        },
+    },
+    filterHeading: {
+        fontSize: "1.125rem",
+        fontWeight: 600,
+        marginBottom: "var(--spacing-2)",
+    },
+    results: {
+        minWidth: 0,
+    },
+    mobileFilters: {
+        display: "inline-flex",
+        "@media (min-width: 641px)": {
+            display: "none",
+        },
+    },
+});
 
 type SearchPageLayoutProps<THit extends Record<string, unknown>> = {
     searchPlaceholder: string;
@@ -31,7 +71,7 @@ function TypesensePagination() {
     }
 
     return (
-        <div style={{ marginTop: "1rem", width: "100%", display: "flex", justifyContent: "center" }}>
+        <div {...stylex.props(styles.pagination)}>
             <Pagination
                 page={currentRefinement + 1}
                 totalPages={nbPages}
@@ -54,23 +94,10 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
     return (
-        <div style={{ padding: "0.25rem", background: "var(--bg-surface)", borderRadius: "var(--radius-xl)" }}>
-            <Grid columns={{minWidth: 280}} gap={4}
-                style={{
-                    "--typesense-hit-grid": "repeat(auto-fill, minmax(clamp(140px, 25vw, 200px), 1fr))",
-                } as React.CSSProperties}
-            >
-                <div
-                    style={{
-                        display: "none",
-                        position: "sticky",
-                        top: "6rem",
-                        padding: "0.5rem",
-                        borderRadius: "var(--radius-lg)",
-                    }}
-                    className="desktop-aside"
-                >
-                    <Text as="h2" style={{fontSize: "1.125rem", fontWeight: 600, marginBottom: "0.5rem"}}>
+        <div {...stylex.props(styles.page)}>
+            <Grid columns={{minWidth: 280}} gap={4}>
+                <div {...stylex.props(styles.desktopFacets)}>
+                    <Text as="h2" xstyle={styles.filterHeading}>
                         Filters
                     </Text>
 
@@ -84,7 +111,7 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                     ))}
                 </div>
 
-                <div style={{ minWidth: 0 }}>
+                <div {...stylex.props(styles.results)}>
                     <SearchHeader
                         searchPlaceholder={searchPlaceholder}
                         indexName={indexName}
@@ -96,33 +123,14 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                         size="sm"
                         label="Filters"
                         onClick={() => setIsMobileFiltersOpen(true)}
-                        style={{display: "inline-flex"}}
+                        xstyle={styles.mobileFilters}
                     />
 
-                    {isMobileFiltersOpen && (
-                        <div
-                            style={{
-                                position: "fixed",
-                                inset: 0,
-                                zIndex: 1000,
-                                background: "rgba(0,0,0,0.5)",
-                                display: "flex",
-                                alignItems: "flex-end",
-                            }}
-                            onClick={() => setIsMobileFiltersOpen(false)}
-                        >
-                            <div
-                                style={{
-                                    width: "100%",
-                                    maxHeight: "80vh",
-                                    overflowY: "auto",
-                                    background: "var(--bg-surface)",
-                                    borderRadius: "var(--radius-xl) var(--radius-xl) 0 0",
-                                    padding: "1rem",
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <Text as="h2" style={{fontSize: "0.875rem", fontWeight: 600, marginBottom: "0.75rem"}}>Filters</Text>
+                    <Dialog isOpen={isMobileFiltersOpen} onOpenChange={setIsMobileFiltersOpen} variant="fullscreen">
+                        <Layout
+                            header={<DialogHeader title="Filters" onOpenChange={() => setIsMobileFiltersOpen(false)} />}
+                            content={
+                                <LayoutContent>
                                 {facets.map((facet, index) => (
                                     <SearchFacetFilterGroup
                                         key={`mobile-${facet.attribute}`}
@@ -131,17 +139,10 @@ export function SearchPageLayout<THit extends Record<string, unknown>>({
                                         index={index}
                                     />
                                 ))}
-                                <div style={{ width: "100%", display: "flex", justifyContent: "end", marginTop: "0.75rem" }}>
-                                    <Button
-                                        size="sm"
-                                        variant="secondary"
-                                        label="Close"
-                                        onClick={() => setIsMobileFiltersOpen(false)}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                                </LayoutContent>
+                            }
+                        />
+                    </Dialog>
 
                     <Hits<THit>
                         hitComponent={hitComponent}

@@ -1,0 +1,43 @@
+import { type LogCollector, type LogCollectorOptions, type TransformedLogRecord } from './LogCollector.js';
+export interface AndroidLogCollectorOptions extends LogCollectorOptions {
+    appId: string;
+    /**
+     * When true, clears the existing device log buffer via `adb logcat -c` before collection so only new logs appear.
+     * @default true
+     */
+    cleanOldLogs?: boolean;
+    /**
+     * Custom path to the adb executable.
+     */
+    adbPath?: string;
+    /**
+     * Additional arguments inserted after `adb logcat -e <appId>`.
+     * Useful to tweak buffers or filters without reimplementing the collector.
+     */
+    additionalArgs?: string[];
+}
+export declare class AndroidLogCollector implements LogCollector {
+    private readonly options;
+    readonly name = "android-logcat";
+    private adbPath;
+    constructor(options: AndroidLogCollectorOptions);
+    get metadata(): Record<string, unknown>;
+    collectAsync(): Promise<string>;
+    collectRawRecordsAsync(): Promise<TransformedLogRecord[]>;
+    private transformLogRecord;
+}
+export declare function parseAppPidFromAdbPs(psOutput: string, appId: string): number;
+export declare function resolveAppPidFromAdbAsync(adbPath: string, appId: string): Promise<number>;
+export interface ParsedAndroidLogcatLine {
+    timestamp: number;
+    timestampLabel: string;
+    level?: string;
+    pid?: number;
+    tid?: number;
+    tag?: string;
+    message?: string;
+}
+export declare function parseAndroidLogcatLine(line: string): ParsedAndroidLogcatLine | null;
+export declare function parseAndroidLogTimestamp(month: string, day: string, time: string): number;
+export declare function resolveAdbPathAsync(): Promise<string | null>;
+//# sourceMappingURL=AndroidLogCollector.d.ts.map

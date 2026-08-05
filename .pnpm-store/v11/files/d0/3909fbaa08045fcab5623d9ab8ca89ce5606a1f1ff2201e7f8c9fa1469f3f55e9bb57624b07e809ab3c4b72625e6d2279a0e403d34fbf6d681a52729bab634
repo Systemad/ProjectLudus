@@ -1,0 +1,135 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { $, within } from 'zx';
+export class AutomationIos {
+    appId;
+    deviceId;
+    verbose;
+    driverPath;
+    constructor({ appId, deviceId, verbose, driverPath, }) {
+        this.appId = appId;
+        this.deviceId = deviceId;
+        this.verbose = verbose ?? false;
+        this.driverPath =
+            driverPath ??
+                path.resolve(path.dirname(new URL(import.meta.url).pathname), '../../assets/ios-automation-driver');
+    }
+    tapAsync({ x, y, }) {
+        return this.withXCTestRun(() => ({
+            ACTION: 'tapByCoordinates',
+            X: String(x),
+            Y: String(y),
+        }));
+    }
+    async takeFullScreenshotAsync({ outputPath }) {
+        const { data: { screenshot }, } = await this.withXCTestRun(() => ({
+            ACTION: 'takeFullScreenshot',
+        }));
+        await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+        await fs.promises.cp(screenshot, outputPath, { force: true });
+        await fs.promises.rm(screenshot, { force: true });
+        return outputPath;
+    }
+    findViewByTestIDAsync(testID) {
+        return this.withXCTestRun(() => ({
+            ACTION: 'findElementByAxId',
+            AXID: testID,
+        }));
+    }
+    tapByTestIDAsync(testID) {
+        return this.withXCTestRun(() => ({
+            ACTION: 'tapByAxId',
+            AXID: testID,
+        }));
+    }
+    async taksScreenshotByTestIDAsync({ testID, outputPath, }) {
+        const { data: { screenshot }, } = await this.withXCTestRun(() => ({
+            ACTION: 'takeScreenshotByAxId',
+            AXID: testID,
+        }));
+        await fs.promises.mkdir(path.dirname(outputPath), { recursive: true });
+        await fs.promises.cp(screenshot, outputPath, { force: true });
+        await fs.promises.rm(screenshot, { force: true });
+        return outputPath;
+    }
+    async withXCTestRun(fnAddEnv) {
+        return await within(async () => {
+            const { driverPath, xctestrunFile } = await this.validateDriverAsync();
+            const tmpDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'expo-mcp-automation-ios-'));
+            $.verbose = this.verbose;
+            try {
+                $.env.TEST_RUNNER_TARGET_BUNDLE_ID = this.appId;
+                // At maximum 2 seconds to wait for finding elements
+                $.env.TEST_RUNNER_WAIT_TIMEOUT = String(2.0);
+                const envs = fnAddEnv();
+                for (const [key, value] of Object.entries(envs)) {
+                    $.env[`TEST_RUNNER_${key}`] = value;
+                }
+                const { stdout, stderr } = await this.runXCTestAsync({
+                    driverPath,
+                    xctestrunFile,
+                    tmpDir,
+                });
+                const output = stdout + stderr;
+                const jsonOutput = this.extractJsonFromOutput(output);
+                const result = JSON.parse(jsonOutput);
+                if (this.verbose) {
+                    result.verboseOutput = output;
+                }
+                return result;
+            }
+            finally {
+                await fs.promises.rm(tmpDir, { recursive: true });
+            }
+        });
+    }
+    async validateDriverAsync() {
+        const driverPath = this.driverPath;
+        if (!(await getFileStatAsync(driverPath))?.isDirectory()) {
+            throw new Error(`iOS Automation Driver not found: ${driverPath}`);
+        }
+        const xctestrunFile = path.join(driverPath, 'main.xctestrun');
+        if (!(await getFileStatAsync(xctestrunFile))?.isFile()) {
+            throw new Error(`main.xctestrun not found in iOS Automation Driver: ${driverPath}.`);
+        }
+        return { driverPath, xctestrunFile };
+    }
+    extractJsonFromOutput(output) {
+        const lines = output.split('\n');
+        let capturing = false;
+        const jsonLines = [];
+        for (const line of lines) {
+            if (line === '######JSON_START######') {
+                capturing = true;
+                continue;
+            }
+            if (line === '######JSON_END######') {
+                capturing = false;
+                break;
+            }
+            if (capturing) {
+                jsonLines.push(line);
+            }
+        }
+        return jsonLines.join('\n').trim();
+    }
+    async runXCTestAsync({ xctestrunFile, tmpDir, }) {
+        const destination = `platform=iOS Simulator,id=${this.deviceId}`;
+        let proc = $ `xcodebuild test-without-building -xctestrun ${xctestrunFile} -destination ${destination} -derivedDataPath ${tmpDir} -only-testing:AutomationUITests/AutomationUITests/testAutomationActions -parallel-testing-enabled NO -verbose`.nothrow();
+        if (!this.verbose) {
+            proc = proc.quiet();
+        }
+        const procResult = await proc;
+        return { stdout: procResult.stdout, stderr: procResult.stderr };
+    }
+}
+async function getFileStatAsync(filePath) {
+    try {
+        const stat = await fs.promises.stat(filePath);
+        return stat;
+    }
+    catch {
+        return null;
+    }
+}

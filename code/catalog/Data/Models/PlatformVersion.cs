@@ -44,8 +44,4 @@ public partial class PlatformVersion
     public virtual PlatformVersionCompany? MainManufacturerNavigation { get; set; }
 
     public virtual PlatformLogo? PlatformLogoNavigation { get; set; }
-
-    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
-
-    public virtual ICollection<PlatformVersionReleaseDate1> ReleaseDates { get; set; } = new List<PlatformVersionReleaseDate1>();
 }

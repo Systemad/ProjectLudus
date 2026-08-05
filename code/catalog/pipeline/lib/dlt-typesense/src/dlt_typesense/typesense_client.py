@@ -306,8 +306,13 @@ class TypesenseClient(JobClientBase, WithStateSync):
         self,
         only_tables: t.Iterable[str] = None,
         expected_update: TSchemaTables = None,
+        force: bool = False,
     ) -> t.Optional[TSchemaTables]:
-        applied_update = super().update_stored_schema(only_tables, expected_update)
+        applied_update = super().update_stored_schema(
+            only_tables,
+            expected_update,
+            force,
+        )
 
         tables_to_update = only_tables or self.schema.tables.keys()
         for table_name in tables_to_update:

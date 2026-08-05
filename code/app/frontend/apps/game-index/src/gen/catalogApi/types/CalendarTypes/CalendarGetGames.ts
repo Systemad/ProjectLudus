@@ -3,8 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GetGamesCalendarResponse } from "../GetGamesCalendarResponse.ts";
 import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
+import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
 
 export type CalendarGetGamesPathParams = {
     /**
@@ -15,10 +15,25 @@ export type CalendarGetGamesPathParams = {
     year: number;
 };
 
+export type CalendarGetGamesQueryParams = {
+    /**
+     * @minLength 1
+     * @maxLength 2147483647
+     * @type integer | undefined, int32
+    */
+    Page?: number;
+    /**
+     * @minLength 1
+     * @maxLength 50
+     * @type integer | undefined, int32
+    */
+    PageSize?: number;
+};
+
 /**
  * @description OK
 */
-export type CalendarGetGames200 = GetGamesCalendarResponse;
+export type CalendarGetGames200 = PagedGamesResponse;
 
 /**
  * @description Bad Request
@@ -30,5 +45,6 @@ export type CalendarGetGamesQueryResponse = CalendarGetGames200;
 export type CalendarGetGamesQuery = {
     Response: CalendarGetGames200;
     PathParams: CalendarGetGamesPathParams;
+    QueryParams: CalendarGetGamesQueryParams;
     Errors: CalendarGetGames400;
 };

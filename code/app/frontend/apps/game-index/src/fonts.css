@@ -1,10 +1,10 @@
-/* montserrat-latin-wght-normal */
+/* figtree-latin-wght-normal */
 @font-face {
-    font-family: "Montserrat Variable";
+    font-family: "Figtree Variable";
     font-style: normal;
     font-display: swap;
     font-weight: 100 900;
-    src: url(@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2)
+    src: url(@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2)
         format("woff2-variations");
     unicode-range:
         U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308,

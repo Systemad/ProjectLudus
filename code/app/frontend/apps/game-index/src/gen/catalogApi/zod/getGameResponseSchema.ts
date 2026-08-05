@@ -6,6 +6,9 @@
 import * as z from "zod";
 import { gameDetailsDtoSchema } from "./gameDetailsDtoSchema.ts";
 
+/**
+ * @description Response containing detailed game information.
+ */
 export const getGameResponseSchema = z.object({
     "game": z.lazy(() => gameDetailsDtoSchema)
-    })
+    }).describe("Response containing detailed game information.")

@@ -1,5 +1,5 @@
-import { Card } from "@astryxdesign/core/Card";
 import { Text } from "@astryxdesign/core/Text";
+import { DataCard } from "@src/components/data-card";
 import { getIGDBImageUrl } from "@src/utils/ImageHelper";
 import type { GameSearchHit } from "../utils/hits";
 import { getDevelopersLabel, getReleaseYear } from "../utils/search-utils";
@@ -16,7 +16,7 @@ export function GameHitCard({ hit }: GameHitCardProps) {
     const releaseYear = getReleaseYear(hit);
 
     return (
-        <Card width="100%">
+        <DataCard width="100%">
             <div>
                 <img
                     src={imageUrl}
@@ -59,6 +59,6 @@ export function GameHitCard({ hit }: GameHitCardProps) {
                     {rating !== null ? ` (${votes} votes)` : ""}
                 </Text>
             </div>
-        </Card>
+        </DataCard>
     );
 }

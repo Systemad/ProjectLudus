@@ -25,14 +25,14 @@ export async function gamesGetOverviewSuspenseHook({ gameId }: { gameId: GamesGe
   return res.data
 }
 
-export function gamesGetOverviewSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function gamesGetOverviewSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = gamesGetOverviewSuspenseQueryKey({ gameId })
         return queryOptions<GamesGetOverviewQueryResponse, ResponseErrorConfig<GamesGetOverview404>, GamesGetOverviewQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return gamesGetOverviewSuspenseHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
+            return gamesGetOverviewSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function gamesGetOverviewSuspenseQueryOptionsHook({ gameId }: { gameId: G
 /**
  * {@link /catalog/games/:gameId}
  */
-export function useGamesGetOverviewSuspenseHook<TData = GamesGetOverviewQueryResponse, TQueryKey extends QueryKey = GamesGetOverviewSuspenseQueryKey>({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] | undefined }, options: 
+export function useGamesGetOverviewSuspenseHook<TData = GamesGetOverviewQueryResponse, TQueryKey extends QueryKey = GamesGetOverviewSuspenseQueryKey>({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<GamesGetOverviewQueryResponse, ResponseErrorConfig<GamesGetOverview404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

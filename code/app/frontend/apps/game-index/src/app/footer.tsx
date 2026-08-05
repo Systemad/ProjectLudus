@@ -1,4 +1,3 @@
-import * as stylex from "@stylexjs/stylex";
 import { Section } from "@astryxdesign/core/Section";
 import { Divider } from "@astryxdesign/core/Divider";
 import { VStack } from "@astryxdesign/core/VStack";
@@ -6,22 +5,11 @@ import { Heading, Text } from "@astryxdesign/core/Text";
 import { Button } from "@astryxdesign/core/Button";
 import { EU } from "country-flag-icons/react/3x2";
 
-const styles = stylex.create({
-    footer: {
-        paddingTop: "var(--spacing-10)",
-    },
-    gradientText: {
-        background: "linear-gradient(to left, #C6426E, #642B73)",
-        WebkitBackgroundClip: "text",
-        WebkitTextFillColor: "transparent",
-    },
-});
-
 export function Footer() {
     return (
-        <Section role="contentinfo" padding={6} xstyle={styles.footer}>
+        <Section role="contentinfo" padding={6} style={{ paddingTop: "var(--spacing-10)" }}>
             <VStack gap={4} hAlign="center">
-                <Heading level={4} xstyle={styles.gradientText}>
+                <Heading level={4}>
                     GAME-INDEX
                 </Heading>
                 <Text

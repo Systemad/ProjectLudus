@@ -1,0 +1,6 @@
+import { type McpServerProxy } from '@expo/mcp-tunnel';
+/**
+ * Add MCP prompts to the server.
+ */
+export declare function addMcpPrompts(server: McpServerProxy, projectRoot: string): void;
+//# sourceMappingURL=prompts.d.ts.map

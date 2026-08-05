@@ -1,112 +1,61 @@
 import { TopNav, TopNavHeading, TopNavItem } from "@astryxdesign/core/TopNav";
-import { NavIcon } from "@astryxdesign/core/NavIcon";
 import { Button } from "@astryxdesign/core/Button";
 import { Icon } from "@astryxdesign/core/Icon";
 import { HStack } from "@astryxdesign/core/HStack";
+import { useRouterState } from "@tanstack/react-router";
+import { presentationStyles } from "@src/app/presentation-styles";
 import {
-    CubeIcon,
+    Bars3Icon,
     MagnifyingGlassIcon,
-    UserCircleIcon,
-    BellIcon,
-    BuildingOfficeIcon,
-    RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 
-type NavigationBarProps = {
-    active?: string;
-};
-
 const NAV_ITEMS = [
-    {
-        id: "search",
-        label: "Search",
-        isMegaMenu: true,
-        items: [
-            {
-                title: "Games",
-                description: "Search by name, genre, or keyword",
-                href: "/games/search",
-                icon: MagnifyingGlassIcon,
-            },
-            {
-                title: "Companies",
-                description: "Search for publishers and developers",
-                href: "/companies/search",
-                icon: BuildingOfficeIcon,
-            },
-        ],
-    },
-    {
-        id: "events",
-        label: "Events",
-        isMegaMenu: true,
-        items: [
-            {
-                title: "Upcoming Events",
-                description: "Browse gaming events and conferences",
-                href: "/events",
-                icon: RocketLaunchIcon,
-            },
-        ],
-    },
-    {
-        id: "calendar",
-        label: "Calendar",
-        href: "/calendar",
-    },
-    {
-        id: "companies",
-        label: "Companies",
-        href: "/companies/search",
-    },
+    { id: "calendar", label: "Calendar", href: "/calendar" },
+    { id: "events", label: "Events", href: "/events" },
+    { id: "companies", label: "Companies", href: "/companies/search" },
 ];
 
-export function NavigationBar({ active: _active }: NavigationBarProps) {
+export function NavigationBar({ onMobileNavOpen }: { onMobileNavOpen: () => void }) {
+    const pathname = useRouterState({ select: (state) => state.location.pathname });
+
     return (
         <TopNav
+            xstyle={presentationStyles.navigationSurface}
             label="Main navigation"
             heading={
                 <TopNavHeading
                     heading="Game-Index"
                     href="/"
-                    logo={<NavIcon icon={<Icon icon={CubeIcon} size="sm" />} />}
                 />
             }
             centerContent={
-                <>
-                    {NAV_ITEMS.map((item) =>
-                        "items" in item && item.isMegaMenu ? (
-                            null
-                        ) : "href" in item ? (
-                            <TopNavItem
-                                key={item.id}
-                                label={item.label}
-                                href={item.href}
-                                isSelected={_active === item.id}
-                            />
-                        ) : null
-                    )}
-                </>
+                <HStack gap={1} vAlign="center">
+                    {NAV_ITEMS.map((item) => (
+                        <TopNavItem
+                            key={item.id}
+                            label={item.label}
+                            href={item.href}
+                            isSelected={pathname === item.href || pathname.startsWith(`${item.href}/`)}
+                        />
+                    ))}
+                </HStack>
             }
             endContent={
                 <HStack gap={2} vAlign="center">
                     <Button
                         label="Search"
                         variant="ghost"
+                        href="/games/search"
                         icon={<Icon icon={MagnifyingGlassIcon} size="sm" />}
                         isIconOnly
                     />
                     <Button
-                        label="Notifications"
+                        label="Open navigation"
                         variant="ghost"
-                        icon={<Icon icon={BellIcon} size="sm" />}
+                        icon={<Icon icon={Bars3Icon} size="sm" />}
+                        onClick={onMobileNavOpen}
                         isIconOnly
-                    />
-                    <Button
-                        label="Profile"
-                        variant="ghost"
-                        icon={<Icon icon={UserCircleIcon} size="sm" />}
-                        isIconOnly
+                        xstyle={presentationStyles.mobileNavigationToggle}
                     />
                 </HStack>
             }

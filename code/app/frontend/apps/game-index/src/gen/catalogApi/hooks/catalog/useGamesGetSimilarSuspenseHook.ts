@@ -25,14 +25,14 @@ export async function gamesGetSimilarSuspenseHook({ gameId }: { gameId: GamesGet
   return res.data
 }
 
-export function gamesGetSimilarSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function gamesGetSimilarSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = gamesGetSimilarSuspenseQueryKey({ gameId })
         return queryOptions<GamesGetSimilarQueryResponse, ResponseErrorConfig<Error>, GamesGetSimilarQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return gamesGetSimilarSuspenseHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
+            return gamesGetSimilarSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function gamesGetSimilarSuspenseQueryOptionsHook({ gameId }: { gameId: Ga
 /**
  * {@link /catalog/games/:gameId/similar-games}
  */
-export function useGamesGetSimilarSuspenseHook<TData = GamesGetSimilarQueryResponse, TQueryKey extends QueryKey = GamesGetSimilarSuspenseQueryKey>({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] | undefined }, options: 
+export function useGamesGetSimilarSuspenseHook<TData = GamesGetSimilarQueryResponse, TQueryKey extends QueryKey = GamesGetSimilarSuspenseQueryKey>({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<GamesGetSimilarQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

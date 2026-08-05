@@ -8,7 +8,7 @@ import path from "path";
 // http://localhost:5141
 //const target = "http://localhost:53489";
 // services__myservice__https__0
-const YARP_TARGET = process.env.services__catalogApi__https__0 || "http://localhost:5141";
+const YARP_TARGET = process.env.services__gameIndexApi__https__0 || "http://localhost:5141";
 
 export default defineConfig({
     resolve: {
@@ -22,7 +22,24 @@ export default defineConfig({
             autoCodeSplitting: true,
         }),
         react(),
-        babel({ presets: [reactCompilerPreset()] }),
+        babel({
+            plugins: [
+                [
+                    "@stylexjs/babel-plugin",
+                    {
+                        dev: true,
+                        runtimeInjection: false,
+                        genConditionalClasses: true,
+                        treeshakeCompensation: true,
+                        unstable_moduleResolution: {
+                            type: "commonJS",
+                            rootDir: __dirname,
+                        },
+                    },
+                ],
+            ],
+            presets: [reactCompilerPreset()],
+        }),
     ],
     server: {
         open: false,

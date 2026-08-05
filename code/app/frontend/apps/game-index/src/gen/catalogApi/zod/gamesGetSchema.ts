@@ -13,7 +13,7 @@ export const gamesGetPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const gamesGet200Schema = z.lazy(() => getGameResponseSchema)
+export const gamesGet200Schema = z.lazy(() => getGameResponseSchema).describe("Response containing detailed game information.")
 
 /**
  * @description Not Found

@@ -6,33 +6,33 @@
 import fetch from "@kubb/plugin-client/clients/axios";
 import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { IGDBGetPopscoreQueryResponse, IGDBGetPopscoreQueryParams } from "../../types/IGDBTypes/IGDBGetPopscore.ts";
+import type { IgdbGetPopscoreQueryResponse, IgdbGetPopscoreQueryParams, IgdbGetPopscore400 } from "../../types/IGDBTypes/IgdbGetPopscore.ts";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
-export const IGDBGetPopscoreSuspenseQueryKey = (params: IGDBGetPopscoreQueryParams) => ["v1", { url: '/catalog/igdb/popscore' }, ...(params ? [params] : [])] as const
+export const igdbGetPopscoreSuspenseQueryKey = (params?: IgdbGetPopscoreQueryParams) => ["v1", { url: '/catalog/igdb/popscore' }, ...(params ? [params] : [])] as const
 
-export type IGDBGetPopscoreSuspenseQueryKey = ReturnType<typeof IGDBGetPopscoreSuspenseQueryKey>
+export type IgdbGetPopscoreSuspenseQueryKey = ReturnType<typeof igdbGetPopscoreSuspenseQueryKey>
 
 /**
  * {@link /catalog/igdb/popscore}
  */
-export async function IGDBGetPopscoreSuspenseHook({ params }: { params: IGDBGetPopscoreQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export async function igdbGetPopscoreSuspenseHook({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
   const { client: request = fetch, ...requestConfig } = config
 
 
 
-  const res = await request<IGDBGetPopscoreQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/igdb/popscore`, params, ... requestConfig })
+  const res = await request<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, unknown>({ method : "GET", url : `/catalog/igdb/popscore`, params, ... requestConfig })
   return res.data
 }
 
-export function IGDBGetPopscoreSuspenseQueryOptionsHook({ params }: { params: IGDBGetPopscoreQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function igdbGetPopscoreSuspenseQueryOptionsHook({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
-        const queryKey = IGDBGetPopscoreSuspenseQueryKey(params)
-        return queryOptions<IGDBGetPopscoreQueryResponse, ResponseErrorConfig<Error>, IGDBGetPopscoreQueryResponse, typeof queryKey>({
+        const queryKey = igdbGetPopscoreSuspenseQueryKey(params)
+        return queryOptions<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, IgdbGetPopscoreQueryResponse, typeof queryKey>({
          
          queryKey,
          queryFn: async ({ signal }) => {
-            return IGDBGetPopscoreSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
+            return igdbGetPopscoreSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,23 +41,23 @@ export function IGDBGetPopscoreSuspenseQueryOptionsHook({ params }: { params: IG
 /**
  * {@link /catalog/igdb/popscore}
  */
-export function useIGDBGetPopscoreSuspenseHook<TData = IGDBGetPopscoreQueryResponse, TQueryKey extends QueryKey = IGDBGetPopscoreSuspenseQueryKey>({ params }: { params: IGDBGetPopscoreQueryParams }, options: 
+export function useIgdbGetPopscoreSuspenseHook<TData = IgdbGetPopscoreQueryResponse, TQueryKey extends QueryKey = IgdbGetPopscoreSuspenseQueryKey>({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, options: 
 {
-  query?: Partial<UseSuspenseQueryOptions<IGDBGetPopscoreQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }
 }
  = {}) {
 
          const { query: queryConfig = {}, client: config = {} } = options ?? {}
          const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? IGDBGetPopscoreSuspenseQueryKey(params)
+         const queryKey = resolvedOptions?.queryKey ?? igdbGetPopscoreSuspenseQueryKey(params)
          
 
          const query = useSuspenseQuery({
-          ...IGDBGetPopscoreSuspenseQueryOptionsHook({ params }, config),
+          ...igdbGetPopscoreSuspenseQueryOptionsHook({ params }, config),
           ...resolvedOptions,
           queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<IgdbGetPopscore400>> & { queryKey: TQueryKey }
 
          query.queryKey = queryKey as TQueryKey
 

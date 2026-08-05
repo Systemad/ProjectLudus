@@ -4,15 +4,16 @@
 */
 
 import * as z from "zod";
-import { anticipatedGamesResponseSchema } from "./anticipatedGamesResponseSchema.ts";
+import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
 
-export const IGDBGetMostAnticipatedQueryParamsSchema = z.object({
-    "limit": z.optional(z.coerce.number().int())
+export const igdbGetMostAnticipatedQueryParamsSchema = z.object({
+    "Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
+"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
     }).optional()
 
 /**
  * @description OK
  */
-export const IGDBGetMostAnticipated200Schema = z.lazy(() => anticipatedGamesResponseSchema)
+export const igdbGetMostAnticipated200Schema = z.lazy(() => pagedGamesResponseSchema)
 
-export const IGDBGetMostAnticipatedQueryResponseSchema = z.lazy(() => IGDBGetMostAnticipated200Schema)
+export const igdbGetMostAnticipatedQueryResponseSchema = z.lazy(() => igdbGetMostAnticipated200Schema)

@@ -25,14 +25,14 @@ export async function gamesGetMediaSuspenseHook({ gameId }: { gameId: GamesGetMe
   return res.data
 }
 
-export function gamesGetMediaSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function gamesGetMediaSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = gamesGetMediaSuspenseQueryKey({ gameId })
         return queryOptions<GamesGetMediaQueryResponse, ResponseErrorConfig<GamesGetMedia404>, GamesGetMediaQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return gamesGetMediaSuspenseHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
+            return gamesGetMediaSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function gamesGetMediaSuspenseQueryOptionsHook({ gameId }: { gameId: Game
 /**
  * {@link /catalog/games/:gameId/media}
  */
-export function useGamesGetMediaSuspenseHook<TData = GamesGetMediaQueryResponse, TQueryKey extends QueryKey = GamesGetMediaSuspenseQueryKey>({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] | undefined }, options: 
+export function useGamesGetMediaSuspenseHook<TData = GamesGetMediaQueryResponse, TQueryKey extends QueryKey = GamesGetMediaSuspenseQueryKey>({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<GamesGetMediaQueryResponse, ResponseErrorConfig<GamesGetMedia404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

@@ -13,7 +13,7 @@ export const eventsGetByIdPathParamsSchema = z.object({
 /**
  * @description OK
  */
-export const eventsGetById200Schema = z.lazy(() => getEventByIdResponseSchema)
+export const eventsGetById200Schema = z.lazy(() => getEventByIdResponseSchema).describe("Event details including associated games.")
 
 /**
  * @description Not Found

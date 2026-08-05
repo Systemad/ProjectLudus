@@ -1,0 +1,3 @@
+import { type McpServerProxy } from '@expo/mcp-tunnel';
+export declare function addMcpTools(server: McpServerProxy, projectRoot: string): void;
+//# sourceMappingURL=tools.d.ts.map

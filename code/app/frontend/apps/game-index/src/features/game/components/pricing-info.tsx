@@ -1,12 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { Text } from "@astryxdesign/core/Text";
 import { Badge } from "@astryxdesign/core/Badge";
 import { VStack } from "@astryxdesign/core/VStack";
 import { Table } from "@astryxdesign/core/Table";
-import { steamGetPricingSuspenseQueryOptionsHook } from "@src/gen/catalogApi";
+import { EmptyState } from "@astryxdesign/core/EmptyState";
+import { Spinner } from "@astryxdesign/core/Spinner";
+import { FaSteam } from "react-icons/fa";
+import { useSteamGetPricingHook } from "@src/gen/catalogApi";
 
 type PricingRow = {
     currency: string;
@@ -28,14 +30,16 @@ function formatCurrency(cents: number, currency: string): string {
 }
 
 export function PricingInfo({ gameId }: Props) {
-    const { data: pricing } = useSuspenseQuery(steamGetPricingSuspenseQueryOptionsHook({ gameId }));
+    const { data: pricing, error, isPending } = useSteamGetPricingHook({ gameId });
+
+    const status = getHttpStatus(error);
 
     const columns = useMemo(
         () => [
             {
                 key: "currency",
                 header: "Currency",
-                renderCell: (row: PricingRow) => <Text>{row.currency ?? "—"}</Text>,
+                renderCell: (row: PricingRow) => <Text>{row.currency ?? "-"}</Text>,
             },
             {
                 key: "currentPrice",
@@ -43,7 +47,7 @@ export function PricingInfo({ gameId }: Props) {
                 renderCell: (row: PricingRow) => {
                     const cents = row.currentCents;
                     const discount = row.discountPercent;
-                    if (cents == null) return <Text color="secondary">—</Text>;
+                    if (cents == null) return <Text color="secondary">-</Text>;
                     return (
                         <Text style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                             {formatCurrency(cents, row.currency)}
@@ -59,7 +63,7 @@ export function PricingInfo({ gameId }: Props) {
                 header: "Lowest Price",
                 renderCell: (row: PricingRow) => {
                     const cents = row.lowCents;
-                    if (cents == null) return <Text color="secondary">—</Text>;
+                    if (cents == null) return <Text color="secondary">-</Text>;
                     return (
                         <Text style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}>
                             {formatCurrency(cents, row.currency)}
@@ -75,7 +79,7 @@ export function PricingInfo({ gameId }: Props) {
                 header: "Highest Price",
                 renderCell: (row: PricingRow) => {
                     const cents = row.highCents;
-                    if (cents == null) return <Text color="secondary">—</Text>;
+                    if (cents == null) return <Text color="secondary">-</Text>;
                     return formatCurrency(cents, row.currency);
                 },
             },
@@ -96,6 +100,32 @@ export function PricingInfo({ gameId }: Props) {
         [pricing],
     );
 
+    if (isPending) {
+        return <Spinner size="lg" />;
+    }
+
+    if (status === 404) {
+        return (
+            <EmptyState
+                icon={<FaSteam />}
+                title="Steam pricing unavailable"
+                description="No Steam pricing data is available for this game yet."
+                isCompact
+            />
+        );
+    }
+
+    if (error) {
+        return (
+            <EmptyState
+                icon={<FaSteam />}
+                title="Steam pricing could not be loaded"
+                description="Please try again shortly."
+                isCompact
+            />
+        );
+    }
+
     return (
         <VStack hAlign="stretch" gap={4}>
             <Text style={{fontSize: "1.125rem", fontWeight: 600}}>
@@ -108,4 +138,17 @@ export function PricingInfo({ gameId }: Props) {
             )}
         </VStack>
     );
+}
+
+function getHttpStatus(error: unknown): number | undefined {
+    if (typeof error !== "object" || error === null || !("response" in error)) {
+        return undefined;
+    }
+
+    const response = error.response;
+    if (typeof response !== "object" || response === null || !("status" in response)) {
+        return undefined;
+    }
+
+    return typeof response.status === "number" ? response.status : undefined;
 }

@@ -25,14 +25,14 @@ export async function steamGetConcurrentUsersChartSuspenseHook({ gameId, params 
   return res.data
 }
 
-export function steamGetConcurrentUsersChartSuspenseQueryOptionsHook({ gameId, params }: { gameId: SteamGetConcurrentUsersChartPathParams["gameId"] | undefined; params?: SteamGetConcurrentUsersChartQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
+export function steamGetConcurrentUsersChartSuspenseQueryOptionsHook({ gameId, params }: { gameId: SteamGetConcurrentUsersChartPathParams["gameId"]; params?: SteamGetConcurrentUsersChartQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
 
         const queryKey = steamGetConcurrentUsersChartSuspenseQueryKey({ gameId }, params)
         return queryOptions<SteamGetConcurrentUsersChartQueryResponse, ResponseErrorConfig<Error>, SteamGetConcurrentUsersChartQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
+         
          queryKey,
          queryFn: async ({ signal }) => {
-            return steamGetConcurrentUsersChartSuspenseHook({ gameId: gameId!, params: params }, { ...config, signal: config.signal ?? signal })
+            return steamGetConcurrentUsersChartSuspenseHook({ gameId: gameId, params: params }, { ...config, signal: config.signal ?? signal })
          },
         })
 
@@ -41,7 +41,7 @@ export function steamGetConcurrentUsersChartSuspenseQueryOptionsHook({ gameId, p
 /**
  * {@link /catalog/steam/concurrent-users/:gameId/chart}
  */
-export function useSteamGetConcurrentUsersChartSuspenseHook<TData = SteamGetConcurrentUsersChartQueryResponse, TQueryKey extends QueryKey = SteamGetConcurrentUsersChartSuspenseQueryKey>({ gameId, params }: { gameId: SteamGetConcurrentUsersChartPathParams["gameId"] | undefined; params?: SteamGetConcurrentUsersChartQueryParams }, options: 
+export function useSteamGetConcurrentUsersChartSuspenseHook<TData = SteamGetConcurrentUsersChartQueryResponse, TQueryKey extends QueryKey = SteamGetConcurrentUsersChartSuspenseQueryKey>({ gameId, params }: { gameId: SteamGetConcurrentUsersChartPathParams["gameId"]; params?: SteamGetConcurrentUsersChartQueryParams }, options: 
 {
   query?: Partial<UseSuspenseQueryOptions<SteamGetConcurrentUsersChartQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<RequestConfig> & { client?: Client }

@@ -1,0 +1,21 @@
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = true
+
+[windows]
+sandbox = "elevated"
+
+[mcp_servers.binlog]
+command = "dotnet"
+args = ["dnx", "Microsoft.AITools.BinlogMcp", "--yes"]
+id = ""
+
+[mcp_servers.binlog.env]
+
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+id = ""
+
+[mcp_servers.context7.env]

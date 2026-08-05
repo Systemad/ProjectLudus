@@ -5,6 +5,9 @@
 
 import type { EventDto } from "./EventDto.ts";
 
+/**
+ * @description List of events matching the filter criteria.
+*/
 export type GetEventsListResponse = {
     /**
      * @type array

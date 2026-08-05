@@ -17,7 +17,7 @@ export const eventsGetListQueryParamsSchema = z.object({
 /**
  * @description OK
  */
-export const eventsGetList200Schema = z.lazy(() => getEventsListResponseSchema)
+export const eventsGetList200Schema = z.lazy(() => getEventsListResponseSchema).describe("List of events matching the filter criteria.")
 
 /**
  * @description Bad Request

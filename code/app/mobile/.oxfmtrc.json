@@ -1,0 +1,10 @@
+{
+  "ignorePatterns": [
+    ".agents/**",
+    ".claude/**",
+    ".expo/**",
+    ".artifacts/**",
+    "assets/**",
+    "src/gen/**"
+  ]
+}

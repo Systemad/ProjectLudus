@@ -5,6 +5,9 @@
 
 import type { GameDetailsDto } from "./GameDetailsDto.ts";
 
+/**
+ * @description Response containing detailed game information.
+*/
 export type GetGameResponse = {
     /**
      * @type object

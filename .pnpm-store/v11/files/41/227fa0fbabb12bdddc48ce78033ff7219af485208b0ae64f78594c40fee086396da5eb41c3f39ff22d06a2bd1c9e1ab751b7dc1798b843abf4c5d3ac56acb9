@@ -1,0 +1,35 @@
+import { glob } from 'glob';
+import fs from 'node:fs';
+export async function fileExistsAsync(filePath) {
+    try {
+        const stat = await fs.promises.stat(filePath);
+        return stat.isFile();
+    }
+    catch {
+        return false;
+    }
+}
+export async function directoryExistsAsync(dirPath) {
+    try {
+        const stat = await fs.promises.stat(dirPath);
+        return stat.isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+export async function existsAsync(path) {
+    try {
+        const stat = await fs.promises.stat(path);
+        return stat.isFile() || stat.isDirectory();
+    }
+    catch {
+        return false;
+    }
+}
+export async function findFilesAsync(pattern) {
+    return await glob(pattern);
+}
+export function resolveProjectRoot() {
+    return process.env['WORKSPACE_FOLDER_PATHS'] ?? process.cwd();
+}

@@ -17,7 +17,7 @@ export function PopularReleasesTable({ games }: Props) {
                 {
                     header: "24H Peak",
                     numeric: true,
-                    render: (g) => g.steam?.peak24h?.toLocaleString() ?? "—",
+                    render: (g) => g.steam?.peak24h?.toLocaleString() ?? "-",
                 },
                 {
                     header: "Price",
