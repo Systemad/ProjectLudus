@@ -29,7 +29,11 @@ export default function CollectionScreen() {
     case "trending":
       return <TrendingCollection />;
     case "most-played":
-      return <MostPlayedCollection />;
+      return <SteamCollection title="Most played on Steam" type="most-played" />;
+    case "popular-releases":
+      return <SteamCollection title="Popular releases" type="popular-releases" />;
+    case "hot-releases":
+      return <SteamCollection title="Hot releases" type="hot-releases" />;
     case "coming-up":
       return <ComingUpCollection />;
     case "released":
@@ -94,18 +98,18 @@ function ComingUpCollection() {
   );
 }
 
-function MostPlayedCollection() {
-  const query = useSteamChartInfinite({
-    query: {
-      Type: "most-played",
-      Page: 1,
-      PageSize: 20,
-    },
-  });
+function SteamCollection({
+  title,
+  type,
+}: {
+  title: string;
+  type: "most-played" | "popular-releases" | "hot-releases";
+}) {
+  const query = useSteamChartInfinite({ query: { Type: type, Page: 1, PageSize: 20 } });
 
   return (
     <>
-      <Stack.Screen options={{ title: "Most played on Steam" }} />
+      <Stack.Screen options={{ title }} />
       <GameGrid
         getHref={getDiscoverGameHref}
         games={query.data?.pages.flatMap((page) => page.games) ?? []}
