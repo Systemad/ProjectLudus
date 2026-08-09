@@ -1,29 +1,22 @@
-# Vite+ Monorepo Starter
+# Game-Index Web
 
-A starter for creating a Vite+ monorepo.
+Vite+ workspace for the React Game-Index client.
 
-## Development
+## Stack
 
-- Check everything is ready:
+React Compiler, TanStack Router, TanStack Query, Kubb-generated hooks, Astryx XDS, StyleX, and Typesense.
 
-```bash
-vp run ready
-```
+## Commands
 
-- Run the tests:
+Run from this directory:
 
-```bash
-vp run test -r
-```
+~~~powershell
+pnpm exec kubb generate
+vp lint
+vp build
+~~~
 
-- Build the monorepo:
+The app in apps/game-index owns the routes and feature slices. Use XDS components and semantic tokens before adding StyleX; Tailwind is not used. Generated output under src/gen/ is never edited manually.
 
-```bash
-vp run build -r
-```
+See the root AGENTS.md for workflow and approval rules.
 
-- Run the development server:
-
-```bash
-vp run dev
-```

@@ -1,90 +1,39 @@
 # Project Ludus
 
-Game discovery platform: IGDB/Steam → dlt/dbt → PostgreSQL → Backend.API → web and mobile clients.
+Game-index is a game discovery platform: IGDB/Steam data flows through the catalog pipeline into PostgreSQL, Backend.API, and the web/mobile clients.
 
 ## Repository map
 
-```text
-code/app/
-├── AppHost.cs                 # Aspire orchestration, migrations, tunnels
-├── backend/
-│   ├── Backend.API/           # Only HTTP host/OpenAPI document
-│   ├── Catalog/               # In-process catalog read module
-│   ├── Play/                  # Steam auth, users, wishlists, lists
-│   ├── Notifications/         # TickerQ worker; no HTTP endpoints
-│   ├── ServiceDefaults/
-│   ├── Tests/
-│   └── backend.slnx
-├── frontend/apps/game-index/  # Vite, TanStack, Astryx XDS
-└── mobile/                    # Expo Router, Expo UI, React Native
-code/catalog/                  # dlt, dbt, grate, catalog scaffold
-```
+~~~text
+code/
+├── app/
+│   ├── AppHost.cs
+│   ├── backend/
+│   │   ├── Backend.API/       # public HTTP host and OpenAPI
+│   │   ├── Catalog/           # in-process catalog module
+│   │   ├── Play/              # users, Steam login, wishlists and lists
+│   │   ├── Notifications/     # release-alert worker
+│   │   └── backend.slnx
+│   ├── frontend/apps/game-index/
+│   └── mobile/
+└── catalog/                   # dlt, dbt, grate and scaffold inputs
+~~~
 
-`Catalog`, `Play`, and `Notifications` are projects. `Modules`, `Workers`, and `Tests` are solution folders.
+## Universal rules
 
-## Ownership
+- Read this file and the nearest subproject instructions before working.
+- Work one Linear issue per local branch and one focused concern per pull request.
+- Create branches locally. Keep all work uncommitted and local by default.
+- Do not commit, push, open a pull request, create or modify Linear issues, or change Linear state without explicit permission for that specific action.
+- Inspect the assigned issue, current status, branch, and only the files in scope.
+- Preserve module ownership, generated-file boundaries, and existing route/API contracts.
+- Run focused formatting, linting, typechecking, and tests for the changed slice; report blockers instead of broad unrelated cleanup.
 
-- `Backend.API` composes modules and maps the public API.
-- `Catalog` reads the database-first model from `code/catalog/Data`; never edit scaffolded files.
-- `Play` owns code-first `playdb`, Steam login, users, wishlists, and lists.
-- `Notifications` owns code-first `notificationsdb` and scheduled release alerts.
-- Keep persistence in its module; compose Catalog + Play only in `Backend.API`.
-- Catalog API queries use `db.Games`, not `GamesSearches`, and do not calculate popularity scores.
+## Scoped instructions
 
-## Commands
+- [code/app/AGENTS.md](code/app/AGENTS.md): Aspire, backend composition, clients, and app resources.
+- [code/app/mobile/AGENTS.md](code/app/mobile/AGENTS.md): Android Expo architecture and device work.
+- [code/catalog/AGENTS.md](code/catalog/AGENTS.md): pipeline, dbt, grate, and scaffold rules.
 
-```powershell
-# code/app/
-aspire start
-aspire stop
+The scoped file is authoritative for its directory; this file supplies the workflow and repository boundaries.
 
-# code/app/backend/ (Aspire stopped)
-dotnet build backend.slnx
-
-# web
-pnpm exec kubb generate
-tsc -b; vp build
-
-# code/app/mobile/
-pnpm run generate
-pnpm run fmt
-pnpm exec tsc --noEmit
-pnpm run lint
-
-# code/catalog/
-Invoke-DbtBuild
-Invoke-Scaffold
-```
-
-## Data flow
-
-```text
-Catalog: pipeline → grate → scaffold → Catalog → Backend.API → Kubb
-Play:    EF migration → Play → Backend.API → Kubb
-Alerts:  catalog + wishlist data → Notifications → notificationsdb
-```
-
-Catalog schema changes go through dbt/grate/scaffold before API work. After API changes, start Aspire and regenerate affected clients.
-
-## Aspire, clients, and devices
-
-- Use `.agents/skills/aspire/SKILL.md` and Aspire MCP for AppHost work; do not run ad-hoc Docker/dotnet against managed resources.
-- AppHost declares `catalogdb`, `playdb`, `notificationsdb`, `mobile-api`, and frontend. Local values belong in `code/app/appsettings.Development.json`.
-- AppHost applies Play/Notifications migrations; migrations create tables, not databases.
-- Development OpenAPI: `http://localhost:5141/openapi/v1.json`.
-- Use generated Kubb hooks only; never edit `src/gen/` or handwrite clients.
-- Physical devices use the current `mobile-api` tunnel URL as `EXPO_PUBLIC_API_URL` in `code/app/mobile/.env`.
-- Start mobile dev client from `code/app/mobile/`:
-
-  ```powershell
-  $env:EXPO_UNSTABLE_MCP_SERVER = "1"; pnpm expo start --dev-client
-  ```
-
-- Enable the local `agent-device` MCP in Codex `/mcp` for device automation. If MCP is unavailable, use the CLI after `agent-device --version` and `agent-device help workflow`.
-- Run `pnpm run fmt` after every mobile code change. Do not launch clients for generation or typechecking alone.
-
-## Subproject instructions
-
-- [`code/app/AGENTS.md`](code/app/AGENTS.md): AppHost, backend, and clients
-- [`code/app/mobile/AGENTS.md`](code/app/mobile/AGENTS.md): Expo architecture and device work
-- [`code/catalog/AGENTS.md`](code/catalog/AGENTS.md): pipeline and scaffold rules

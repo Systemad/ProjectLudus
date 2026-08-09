@@ -2,6 +2,8 @@
 
 A [dlt](https://dlthub.com/) destination for loading data into [Typesense](https://typesense.org/), an open-source, typo-tolerant search engine.
 
+This library is used by the Project Ludus catalog pipeline to publish search documents. Typesense write credentials belong in the deployment environment (for example Dokploy/Prefect), not in source control. The mobile app receives only its read-only search configuration through Expo public environment variables.
+
 ## Features
 
 - **Write Dispositions**: `append`, `replace`, and `merge` (upsert) operations

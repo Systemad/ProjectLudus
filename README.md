@@ -1,75 +1,24 @@
-# ProjectLudus
+# Project Ludus
 
-Source code for game-index.app, a website to browse data from IGDB.
+Game-index is a data-first game discovery platform. IGDB and Steam data flows through the catalog pipeline into PostgreSQL, Backend.API, and the web and Android clients.
 
-## Project Structure
+## Repository
 
-```
+~~~text
 code/
-├── frontend/          # React monorepo (Vite+, pnpm)
-│   ├── apps/game-index/   # Main React app
-│   │   ├── src/routes/    # Tanstack Router (file-based)
-│   │   ├── src/gen/       # Auto-generated Tanstack Query hooks
-│   │   └── src/features/  # Feature-based modules
-│   └── packages/
-│       └── ui/            # YamadaUI component library
-│
-├── backend/           # .NET solution
-│   ├── CatalogAPI/    # Read-only API (Entity Framework, PostgreSQL)
-│   ├── PlayAPI/       # User interactions API
-│   └── ServiceDefaults/   # Shared .NET configuration
-│
-└── orchestration/     # Data pipelines
-    ├── dbt/           # dbt-core transformations
-    ├── DLT/           # Data ingestion
-    └── dagster/       # Pipeline orchestration
-```
+├── app/
+│   ├── AppHost.cs
+│   ├── backend/                  # Backend.API, Catalog, Play, Notifications
+│   ├── frontend/apps/game-index/ # web client
+│   └── mobile/                   # Android Expo client
+└── catalog/                      # dlt, dbt, grate and scaffold inputs
+~~~
 
-## How It Works
+## Data flow
 
-### Frontend (`code/frontend`)
-- **Framework**: React with Vite+
-- **Routing**: Tanstack Router (file-based, auto-generated routeTree.gen.ts)
-- **State/API**: Tanstack Query with auto-generated hooks from `src/gen`
-- **UI Components**: YamadaUI (via `packages/ui`)
-- **Search**: Typesense with `react-instantsearch`
-- **Package Manager**: pnpm (wrapped by Vite+ via `vp` CLI)
+~~~text
+IGDB/Steam → dlt/dbt → PostgreSQL → Backend.API → Kubb hooks → clients
+~~~
 
-### Backend (`code/backend`)
-- **CatalogAPI**: Read-only API serving game catalog data (Entity Framework, PostgreSQL)
-- **PlayAPI**: API for storing user interactions (consent, analytics events)
-- **ServiceDefaults**: Shared .NET configuration and middleware
+Read [AGENTS.md](AGENTS.md) for repository rules. The scoped READMEs and AGENTS files document setup for each application area.
 
-### Data Orchestration (`code/orchestration`)
-- **Dagster**: Orchestration tool for data pipelines
-- **DLT**: Data ingestion
-- **dbt-core**: Data transformation
-
-## Data Flow
-
-1. External data sources (IGDB) → DLT (ingestion)
-2. DLT → Dagster (orchestration)
-3. Dagster → dbt (transformation)
-4. Transformed data → PostgreSQL
-5. PostgreSQL → CatalogAPI → Frontend
-
-## Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React, Tanstack Router, Tanstack Query, YamadaUI, Typesense, Vite+ |
-| Backend | ASP.NET, .NET Aspire, Entity Framework |
-| Database | PostgreSQL |
-| Orchestration | Dagster, DLT, dbt-core |
-
-## Key Features
-
-- **Search**: Typesense-powered search with faceted filtering
-- **Game Catalog**: IGDB-sourced game data with full metadata
-- **Data Pipeline**: Automated ETL from IGDB → PostgreSQL → Typesense
-
-## Potential Todo / Features
-
-- Personalized recommendations
-- Discovery features (trending, similar games, curated lists)
-- More search filters and sorting options
