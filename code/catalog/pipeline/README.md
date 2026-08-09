@@ -1,5 +1,7 @@
 # Pipeline
 
+This directory contains the ingestion and transformation workflows that populate the catalog database and Typesense indexes consumed by Backend.API and the clients. Run commands from `code/catalog/pipeline`; local secrets stay in the deployment environment and are never committed.
+
 ## Dependencies
 
 ```
@@ -31,3 +33,5 @@ uv run prefect deploy --all
 cd /opt/pipeline && git pull && uv sync --no-dev
 uv run prefect deploy -n igdb-daily -n steam-store
 ```
+
+Catalog schema changes flow through dlt/dbt and the database migration/scaffold process before backend code changes. Keep user data and release-alert scheduling in the application modules under `code/app/backend`; this pipeline is for catalog and search data.

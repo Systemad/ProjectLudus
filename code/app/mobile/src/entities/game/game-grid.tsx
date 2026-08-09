@@ -1,88 +1,89 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { Host } from "@expo/ui";
+import {
+  Button,
+  Column,
+  FlowRow,
+  LoadingIndicator,
+  Text,
+} from "@expo/ui/jetpack-compose";
+import { fillMaxWidth, padding, paddingAll } from "@expo/ui/jetpack-compose/modifiers";
 
-import { PAGE_GUTTER } from "@/config/layout";
-import { GameCard } from "@/entities/game/game-card";
+import { BrowseGameCard } from "@/entities/game/browse-game-card.android";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import type { Href } from "expo-router";
-import { InlineState } from "@/shared/ui/inline-state";
-import { EmptyState, ErrorState, LoadingState } from "@/shared/ui/screen-state";
 
 type GameGridProps = {
   games: GameBrowseDto[];
   getHref: (game: GameBrowseDto) => Href;
   isLoading: boolean;
   isError: boolean;
-  isFetchingNextPage: boolean;
-  isFetchNextPageError: boolean;
-  hasNextPage: boolean;
-  onLoadMore: () => void;
   onRetry: () => void;
-  onRetryNextPage: () => void;
 };
 
-export function GameGrid({
-  games,
-  getHref,
-  isLoading,
-  isError,
-  isFetchingNextPage,
-  isFetchNextPageError,
-  hasNextPage,
-  onLoadMore,
-  onRetry,
-  onRetryNextPage,
-}: GameGridProps) {
-  if (isLoading) return <LoadingState label="Loading games…" />;
-  if (isError && games.length === 0) return <ErrorState onRetry={onRetry} />;
+export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGridProps) {
+  if (isLoading) {
+    return (
+      <Host style={{ flex: 1 }}>
+        <Column
+          horizontalAlignment="center"
+          verticalArrangement={{ spacedBy: 12 }}
+          modifiers={[fillMaxWidth(), paddingAll(24)]}
+        >
+          <LoadingIndicator />
+          <Text>Loading games…</Text>
+        </Column>
+      </Host>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Host style={{ flex: 1 }}>
+        <Column
+          horizontalAlignment="center"
+          verticalArrangement={{ spacedBy: 12 }}
+          modifiers={[fillMaxWidth(), paddingAll(24)]}
+        >
+          <Text>Couldn’t load this collection.</Text>
+          <Button onClick={onRetry}>
+            <Text>Try again</Text>
+          </Button>
+        </Column>
+      </Host>
+    );
+  }
+
   if (games.length === 0) {
     return (
-      <EmptyState title="No games found" message="There are no games in this collection yet." />
+      <Host style={{ flex: 1 }}>
+        <Column
+          horizontalAlignment="center"
+          verticalArrangement={{ spacedBy: 8 }}
+          modifiers={[fillMaxWidth(), paddingAll(24)]}
+        >
+          <Text>No games found</Text>
+          <Text>There are no games in this collection yet.</Text>
+        </Column>
+      </Host>
     );
   }
 
   return (
-    <FlatList
-      data={games}
-      numColumns={2}
-      keyExtractor={(game) => String(game.id)}
-      renderItem={({ item }) => (
-        <View style={styles.cell}>
-          <GameCard game={item} variant="grid" href={getHref(item)} />
-        </View>
-      )}
-      contentContainerStyle={styles.content}
-      columnWrapperStyle={styles.columns}
-      onEndReached={() => {
-        if (hasNextPage && !isFetchingNextPage) onLoadMore();
-      }}
-      onEndReachedThreshold={0.6}
-      ListFooterComponent={
-        isFetchingNextPage ? (
-          <InlineState loading minHeight={72} />
-        ) : isFetchNextPageError ? (
-          <InlineState
-            minHeight={72}
-            message="More games could not be loaded."
-            onRetry={onRetryNextPage}
-          />
-        ) : null
-      }
-    />
+    <Host style={{ flex: 1 }}>
+      <Column
+        modifiers={[fillMaxWidth(), padding(20, 20, 20, 120)]}
+        verticalArrangement={{ spacedBy: 14 }}
+      >
+        <FlowRow
+          horizontalArrangement={{ spacedBy: 14 }}
+          verticalArrangement={{ spacedBy: 16 }}
+          modifiers={[fillMaxWidth()]}
+        >
+          {games.map((game) => (
+            <BrowseGameCard key={String(game.id)} game={game} href={getHref(game)} />
+          ))}
+        </FlowRow>
+      </Column>
+    </Host>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    paddingHorizontal: PAGE_GUTTER,
-    paddingTop: 20,
-    paddingBottom: 120,
-  },
-  columns: {
-    gap: 14,
-  },
-  cell: {
-    flex: 1,
-    minWidth: 0,
-    marginBottom: 16,
-  },
-});
