@@ -1,12 +1,9 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 
 import { GameGrid } from "@/entities/game/game-grid";
-import { useCalendarGetGamesInfinite } from "@/gen/hooks/CalendarHooks";
-import {
-  useIgdbGetMostAnticipatedInfinite,
-  useIgdbGetPopscoreInfinite,
-} from "@/gen/hooks/IGDBHooks";
-import { useSteamChartInfinite } from "@/gen/hooks/SteamHooks";
+import { useCalendarGetGames } from "@/gen/hooks/CalendarHooks";
+import { useIgdbGetMostAnticipated, useIgdbGetPopscore } from "@/gen/hooks/IGDBHooks";
+import { useSteamChart } from "@/gen/hooks/SteamHooks";
 import { parseYearParam } from "@/utils/search-params";
 import type { Href } from "expo-router";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
@@ -44,11 +41,11 @@ export default function CollectionScreen() {
 }
 
 function TrendingCollection() {
-  const query = useIgdbGetPopscoreInfinite({
+  const query = useIgdbGetPopscore({
     query: {
       PopularityTypeId: String(9),
       Page: 1,
-      PageSize: 20,
+      PageSize: 15,
     },
   });
 
@@ -57,25 +54,20 @@ function TrendingCollection() {
       <Stack.Screen options={{ title: "Trending" }} />
       <GameGrid
         getHref={getDiscoverGameHref}
-        games={query.data?.pages.flatMap((page) => page.games) ?? []}
+        games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
-        isFetchingNextPage={query.isFetchingNextPage}
-        isFetchNextPageError={query.isFetchNextPageError}
-        hasNextPage={query.hasNextPage}
-        onLoadMore={() => void query.fetchNextPage()}
         onRetry={() => void query.refetch()}
-        onRetryNextPage={() => void query.fetchNextPage()}
       />
     </>
   );
 }
 
 function ComingUpCollection() {
-  const query = useIgdbGetMostAnticipatedInfinite({
+  const query = useIgdbGetMostAnticipated({
     query: {
       Page: 1,
-      PageSize: 20,
+      PageSize: 15,
     },
   });
 
@@ -84,15 +76,10 @@ function ComingUpCollection() {
       <Stack.Screen options={{ title: "Coming up" }} />
       <GameGrid
         getHref={getDiscoverGameHref}
-        games={query.data?.pages.flatMap((page) => page.games) ?? []}
+        games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
-        isFetchingNextPage={query.isFetchingNextPage}
-        isFetchNextPageError={query.isFetchNextPageError}
-        hasNextPage={query.hasNextPage}
-        onLoadMore={() => void query.fetchNextPage()}
         onRetry={() => void query.refetch()}
-        onRetryNextPage={() => void query.fetchNextPage()}
       />
     </>
   );
@@ -105,33 +92,28 @@ function SteamCollection({
   title: string;
   type: "most-played" | "popular-releases" | "hot-releases";
 }) {
-  const query = useSteamChartInfinite({ query: { Type: type, Page: 1, PageSize: 20 } });
+  const query = useSteamChart({ query: { Type: type, Page: 1, PageSize: 15 } });
 
   return (
     <>
       <Stack.Screen options={{ title }} />
       <GameGrid
         getHref={getDiscoverGameHref}
-        games={query.data?.pages.flatMap((page) => page.games) ?? []}
+        games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
-        isFetchingNextPage={query.isFetchingNextPage}
-        isFetchNextPageError={query.isFetchNextPageError}
-        hasNextPage={query.hasNextPage}
-        onLoadMore={() => void query.fetchNextPage()}
         onRetry={() => void query.refetch()}
-        onRetryNextPage={() => void query.fetchNextPage()}
       />
     </>
   );
 }
 
 function ReleasedCollection({ year }: { year: number }) {
-  const query = useCalendarGetGamesInfinite({
+  const query = useCalendarGetGames({
     path: { year },
     query: {
       Page: 1,
-      PageSize: 20,
+      PageSize: 15,
     },
   });
 
@@ -140,15 +122,10 @@ function ReleasedCollection({ year }: { year: number }) {
       <Stack.Screen options={{ title: `Released in ${year}` }} />
       <GameGrid
         getHref={getDiscoverGameHref}
-        games={query.data?.pages.flatMap((page) => page.games) ?? []}
+        games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
-        isFetchingNextPage={query.isFetchingNextPage}
-        isFetchNextPageError={query.isFetchNextPageError}
-        hasNextPage={query.hasNextPage}
-        onLoadMore={() => void query.fetchNextPage()}
         onRetry={() => void query.refetch()}
-        onRetryNextPage={() => void query.fetchNextPage()}
       />
     </>
   );

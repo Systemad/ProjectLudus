@@ -1,42 +1,14 @@
-# ProjectLudus
+# Application code
 
-Source code for game-index.app, a website to browse data from IGDB
+The application workspace is under app/:
 
-## Project Structure
+~~~text
+app/
+├── AppHost.cs
+├── backend/                  # Aspire-hosted modular backend
+├── frontend/apps/game-index/ # Vite+ web client
+└── mobile/                   # Android-first Expo client
+~~~
 
-```
-code/
-├── frontend/      # React + Vite+ monorepo
-│   ├── apps/game-index/   # Main React app
-│   └── packages/         # UI components (YamadaUI) + utils
-├── backend/       # .NET monorepo
-│   ├── AppHost/         # .NET Aspire
-│   ├── PlayAPI/        # User interactions (Entity Framework)
-│   └── CatalogAPI/    # Read-only API (Entity Framework, PostgreSQL)
-└── orchestration/ # Data pipelines (Dagster, DLT, dbt)
-```
+Read [app/AGENTS.md](app/AGENTS.md) for backend composition, Aspire resources, and client generation. Read the nearest README for web or mobile setup.
 
-## Data Flow
-
-External → DLT → PostgreSQL → dbt → CatalogAPI → Frontend
-
-## Stack
-
-| Layer | Technology |
-|-------|------------|
-| Frontend | React, Tanstack Router, Tanstack Query, YamadaUI, Typesense, Vite+ |
-| Backend | ASP.NET, .NET Aspire, Entity Framework |
-| Database | PostgreSQL |
-| Orchestration | Dagster, DLT, dbt-core |
-
-## Key Features
-
-- **Search**: Typesense-powered search with faceted filtering
-- **Game Catalog**: IGDB-sourced game data with full metadata
-- **Data Pipeline**: Automated ETL from IGDB → PostgreSQL → Typesense
-
-## Potential Todo / Features
-
-- Personalized recommendations
-- Discovery features (trending, similar games, curated lists)
-- More search filters and sorting options

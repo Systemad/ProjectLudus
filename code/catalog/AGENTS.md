@@ -1,34 +1,43 @@
-# Catalog Pipeline and Read Model
+# Catalog pipeline
 
-This directory acquires and transforms catalog data consumed by `code/app/backend/Catalog`.
+This directory owns the catalog ingestion, transformation, migration, and scaffold workflow consumed by code/app/backend/Catalog. It is not an application API project.
 
-```text
-IGDB/Steam → dlt → dbt staging → intermediate → marts/bridges → grate → PostgreSQL → scaffold
-```
+## Data flow
 
-## Rules
+~~~text
+IGDB/Steam → dlt ingestion → dbt staging → intermediate → marts/bridges → grate → catalogdb → scaffolded C# model
+~~~
 
-- Complete dbt, grate, and scaffolding before exposing new Catalog fields/API endpoints.
-- `Data/` is database-first scaffolded output; never edit it. Run `Invoke-Scaffold` after schema changes.
+## Ownership rules
+
+- Complete dlt, dbt, grate, and scaffolding before exposing new Catalog fields or endpoints.
+- Data/ is database-first scaffolded output; never edit it manually.
 - Catalog is an in-process Backend.API module, not a deployed service.
-- Play and Notifications own their separate code-first EF schemas; do not place them here.
-- Keep dbt layers ordered staging → intermediate → marts/bridges.
+- Play owns playdb and Notifications owns notificationsdb; do not move those schemas into this directory.
+- Catalog API queries use the scaffolded model and db.Games; GamesSearches is search infrastructure, not a Catalog API source.
+- Keep transformations in staging → intermediate → marts/bridges order.
 - Validate referenced game/company IDs with inner joins.
-- Bridges use one target-side FK, deterministic `DISTINCT ON`, and YAML `alias:` to remove `bridge_`.
+- Bridges use one target-side FK, deterministic DISTINCT ON, and YAML alias: to remove bridge_.
 
-## New IGDB data
+## Adding catalog data
 
-1. Add the endpoint/resource to `pipeline/endpoints.json` and dlt.
-2. Add staging metadata, marts, bridge SQL, and YAML contracts.
-3. Run dbt, apply grate, then scaffold.
-4. Add the Catalog projection/endpoint and regenerate clients.
+1. Add the endpoint/resource to pipeline/endpoints.json and dlt.
+2. Add staging metadata and dbt models.
+3. Add marts, bridge SQL, and YAML contracts.
+4. Run dbt and apply grate.
+5. Run Invoke-Scaffold.
+6. Add the Catalog projection/endpoint and regenerate Kubb clients.
+
+Do not calculate popularity or other derived ranking scores in Catalog API; use stored pipeline values.
 
 ## Commands
 
-```powershell
-# from code/catalog/
+Run from code/catalog/:
+
+~~~powershell
 Invoke-DbtBuild
 Invoke-Scaffold
-```
+~~~
 
-AppHost provides `catalogdb` to Catalog/Notifications but does not migrate catalog schema. Common fixes: split IGDB requests causing 413s, use deterministic bridge deduplication, recreate stale Prefect deployments, and apply explicit schema changes before incremental FK updates.
+AppHost provides catalogdb but does not apply catalog schema migrations. Keep pipeline credentials in deployment configuration, never in source control. The root AGENTS.md supplies the shared workflow and approval rules.
+
