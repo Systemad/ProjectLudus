@@ -1,3 +1,0 @@
-import { type McpServerProxy } from '@expo/mcp-tunnel';
-export declare function addAutomationTools(server: McpServerProxy, projectRoot: string): void;
-//# sourceMappingURL=automation.d.ts.map

@@ -1,5 +1,0 @@
-/**
- * Check if the project is an Expo Router project
- */
-export declare function isExpoRouterProject(projectRoot: string): boolean;
-//# sourceMappingURL=project.d.ts.map
