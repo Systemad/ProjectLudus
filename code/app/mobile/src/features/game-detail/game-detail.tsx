@@ -7,6 +7,7 @@ import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { CompanyList } from "@/features/game-detail/company-list";
 import { GameDetailShell } from "@/features/game-detail/game-detail-shell";
 import { GameFactGrid } from "@/features/game-detail/game-fact-grid";
+import { SteamChart } from "@/features/game-detail/steam-chart.android";
 import { GameListActions } from "@/features/lists/game-list-actions";
 import {
   gamesGetHeroQueryOptions,
@@ -88,6 +89,7 @@ export function GameDetail({ slug }: { slug: string }) {
           <CompanyList key={gameId} companies={companies} />
         </View>
       ) : null}
+      <SteamChart gameId={gameId} />
       {showRelated ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Related games</Text>
