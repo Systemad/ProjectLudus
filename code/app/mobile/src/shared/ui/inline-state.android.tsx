@@ -4,15 +4,9 @@ import { fillMaxSize, fillMaxWidth, paddingAll } from "@expo/ui/jetpack-compose/
 
 import { useAppTheme } from "@/hooks/use-app-theme";
 
-type InlineStateProps = {
-  loading?: boolean;
-  title?: string;
-  message?: string;
-  onRetry?: () => void;
-  retryLabel?: string;
-  minHeight?: number;
-  fullScreen?: boolean;
-};
+import type { InlineStateProps } from "./inline-state.types";
+
+export type { InlineStateProps } from "./inline-state.types";
 
 export function InlineState({
   loading = false,
@@ -57,7 +51,13 @@ export function InlineState({
           </Text>
         ) : null}
         {onRetry ? (
-          <Button onClick={onRetry}>
+          <Button
+            onClick={onRetry}
+            colors={{
+              containerColor: colors.primaryContainer,
+              contentColor: colors.onPrimaryContainer,
+            }}
+          >
             <Text>{retryLabel}</Text>
           </Button>
         ) : null}

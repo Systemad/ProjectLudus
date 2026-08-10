@@ -1,25 +1,23 @@
-import type { Href } from "expo-router";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
-
-import type { GameCardData } from "./game-card-data";
+import type { GameCardProps } from "./game-card-types";
 
 export { getGameCardData } from "./game-card-data";
 export type { GameCardData } from "./game-card-data";
+export type { GameCardProps, GameCardVariant } from "./game-card-types";
 
-export type GameCardVariant = "grid" | "rail" | "cover";
-
-export type GameCardProps = GameCardData & {
-  variant: GameCardVariant;
-  href: Href;
-  cardWidth?: number;
-  fillFraction?: number;
-};
-
-export function GameCard({ title, metadata, imageUrl, variant, href }: GameCardProps) {
+export function GameCard({
+  title,
+  metadata,
+  imageUrl,
+  variant,
+  href,
+  cardWidth,
+  fillFraction = 0.5,
+}: GameCardProps) {
   const colors = useAppTheme();
   const showCopy = variant !== "cover";
 
@@ -30,6 +28,11 @@ export function GameCard({ title, metadata, imageUrl, variant, href }: GameCardP
         accessibilityLabel={`View ${title}`}
         style={({ pressed }) => [
           styles.card,
+          cardWidth
+            ? { width: cardWidth }
+            : variant === "grid"
+              ? { width: `${fillFraction * 100}%` }
+              : undefined,
           { backgroundColor: colors.surfaceHigh, opacity: pressed ? 0.82 : 1 },
         ]}
       >

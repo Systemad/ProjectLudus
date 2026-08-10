@@ -1,29 +1,14 @@
-import { Box, Card, Column, RNHostView, Text } from "@expo/ui/jetpack-compose";
-import {
-  clickable,
-  fillMaxWidth,
-  height,
-  paddingAll,
-  width,
-} from "@expo/ui/jetpack-compose/modifiers";
-import { Image } from "expo-image";
-import { type Href, useRouter } from "expo-router";
+import { Card, Column, Text } from "@expo/ui/jetpack-compose";
+import { clickable, fillMaxWidth, paddingAll, width } from "@expo/ui/jetpack-compose/modifiers";
+import { useRouter } from "expo-router";
 
+import { GameArtwork } from "./game-artwork.android";
 import { useAppTheme } from "@/hooks/use-app-theme";
-
-import type { GameCardData } from "./game-card-data";
+import type { GameCardProps } from "./game-card-types";
 
 export { getGameCardData } from "./game-card-data";
 export type { GameCardData } from "./game-card-data";
-
-export type GameCardVariant = "grid" | "rail" | "cover";
-
-export type GameCardProps = GameCardData & {
-  variant: GameCardVariant;
-  href: Href;
-  cardWidth?: number;
-  fillFraction?: number;
-};
+export type { GameCardProps, GameCardVariant } from "./game-card-types";
 
 export function GameCard({
   title,
@@ -48,24 +33,13 @@ export function GameCard({
       modifiers={[...cardModifiers, clickable(() => router.push(href))]}
     >
       <Column modifiers={[fillMaxWidth()]}>
-        {imageUrl ? (
-          <RNHostView modifiers={[fillMaxWidth()]}>
-            <Image
-              source={imageUrl}
-              style={{ width: "100%", aspectRatio: 0.72 }}
-              contentFit="cover"
-            />
-          </RNHostView>
-        ) : (
-          <Box
-            contentAlignment="center"
-            modifiers={[fillMaxWidth(), height(cardWidth ? cardWidth / 0.72 : 180)]}
-          >
-            <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
-              {title.slice(0, 1)}
-            </Text>
-          </Box>
-        )}
+        <GameArtwork
+          imageUrl={imageUrl}
+          fallbackLabel={title.slice(0, 1)}
+          modifiers={[fillMaxWidth()]}
+          fallbackHeight={cardWidth ? cardWidth / 0.72 : 180}
+          aspectRatio={0.72}
+        />
         {showCopy && metadata ? (
           <Column
             modifiers={[paddingAll(variant === "rail" ? 8 : 12)]}

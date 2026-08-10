@@ -16,7 +16,7 @@ import {
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { posthog } from "@/lib/posthog";
 import { commonStyles } from "@/shared/ui/common-styles";
-import { EmptyState, LoadingState } from "@/shared/ui/screen-state";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 
 export function ListDetail({ id }: { id: string }) {
   const colors = useAppTheme();
@@ -27,10 +27,9 @@ export function ListDetail({ id }: { id: string }) {
   const removeGame = useDeleteApiMeListsIdGamesGameid();
   const update = usePutApiMeListsId();
   const list = lists.data?.find((item) => item.id === id);
+  const gameItems = games.data?.games ?? [];
   const gameDetails = useQueries({
-    queries: (games.data?.games ?? []).map((game) =>
-      gamesGetHeroQueryOptions({ path: { gameId: game.gameId } }),
-    ),
+    queries: gameItems.map((game) => gamesGetHeroQueryOptions({ path: { gameId: game.gameId } })),
   });
 
   const deleteList = async () => {
@@ -50,9 +49,26 @@ export function ListDetail({ id }: { id: string }) {
     await queryClient.invalidateQueries({ queryKey: getApiMeListsQueryKey() });
   };
 
-  if (lists.isPending || games.isPending) return <LoadingState label="Loading list…" />;
-  if (!list)
-    return <EmptyState title="List not found" message="This list is no longer available." />;
+  const status = getContentStateStatus(
+    lists.isPending || games.isPending,
+    lists.isError || games.isError,
+    !list,
+  );
+
+  if (!list || status !== "ready") {
+    return (
+      <ContentState
+        status={status === "ready" ? "empty" : status}
+        fullScreen
+        loading={{ label: "Loading list…" }}
+        error={{
+          message: "This list could not be loaded.",
+          onRetry: () => void Promise.all([lists.refetch(), games.refetch()]),
+        }}
+        empty={{ title: "List not found", message: "This list is no longer available." }}
+      />
+    );
+  }
 
   const toggleVisibility = async () => {
     const nextVisibility = list.visibility === "Private" ? "Public" : "Private";
@@ -79,9 +95,13 @@ export function ListDetail({ id }: { id: string }) {
           style={[styles.meta, { color: colors.textMuted }]}
         >{`${list.visibility} · ${list.itemCount} games`}</Text>
       </View>
-      {games.data?.games.length ? (
+      <ContentState
+        status={gameItems.length ? "ready" : "empty"}
+        empty={{ title: "No games yet", message: "Save games from a game page to add them here." }}
+        minHeight={160}
+      >
         <View style={styles.games}>
-          {games.data.games.map((game, index) => {
+          {gameItems.map((game, index) => {
             const hero = gameDetails[index]?.data?.game;
             const href = {
               pathname: "/(discover)/games/[slug]",
@@ -130,9 +150,7 @@ export function ListDetail({ id }: { id: string }) {
             );
           })}
         </View>
-      ) : (
-        <EmptyState title="No games yet" message="Save games from a game page to add them here." />
-      )}
+      </ContentState>
       {!list.isDefault ? (
         <View style={styles.actions}>
           <Pressable

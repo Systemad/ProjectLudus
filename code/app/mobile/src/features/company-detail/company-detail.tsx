@@ -8,8 +8,8 @@ import {
   companiesGetQueryOptions,
 } from "@/gen/hooks/CompaniesHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";
-import { EmptyState, ErrorState, LoadingState } from "@/shared/ui/screen-state";
 
 const getCompanyGameHref = (game: { id: string | number }) =>
   ({
@@ -22,18 +22,23 @@ export function CompanyDetail({ slug }: { slug: string }) {
   const companyId = String(slug);
   const companyQuery = useQuery(companiesGetQueryOptions({ path: { companyId } }));
   const gamesQuery = useQuery(companiesGetGamesQueryOptions({ path: { companyId } }));
+  const company = companyQuery.data?.company;
   const isLoading = companyQuery.isLoading || gamesQuery.isLoading;
   const isError = companyQuery.isError || gamesQuery.isError;
+  const status = getContentStateStatus(isLoading, isError, !company);
 
-  if (isLoading) return <LoadingState label="Loading company…" />;
-  if (isError)
+  if (!company || status !== "ready") {
     return (
-      <ErrorState onRetry={() => Promise.all([companyQuery.refetch(), gamesQuery.refetch()])} />
+      <ContentState
+        status={status}
+        fullScreen
+        loading={{ label: "Loading company…" }}
+        error={{ onRetry: () => void Promise.all([companyQuery.refetch(), gamesQuery.refetch()]) }}
+        empty={{ title: "Company not found", message: "The API did not return this company." }}
+      />
     );
-  if (!companyQuery.data?.company)
-    return <EmptyState title="Company not found" message="The API did not return this company." />;
+  }
 
-  const company = companyQuery.data.company;
   const games = gamesQuery.data ?? [];
   return (
     <DetailShell

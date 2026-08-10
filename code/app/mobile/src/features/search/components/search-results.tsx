@@ -6,7 +6,7 @@ import { FlatList, StyleSheet } from "react-native";
 import { PAGE_GUTTER } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
-import { InlineState } from "@/shared/ui/inline-state";
+import { ContentState } from "@/shared/ui/content-state";
 import type { GameSearchHit } from "../search-types";
 
 const getSearchGameHref = (id: string | number) =>
@@ -20,15 +20,18 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
   const { status, error, refresh } = useInstantSearch({ catchError: true });
 
   if ((status === "loading" || status === "stalled") && items.length === 0) {
-    return <InlineState loading minHeight={240} />;
+    return <ContentState status="loading" minHeight={240} />;
   }
 
   if (error) {
     return (
-      <InlineState
-        title="Search failed"
-        message="The search service could not be reached."
-        onRetry={refresh}
+      <ContentState
+        status="error"
+        error={{
+          title: "Search failed",
+          message: "The search service could not be reached.",
+          onRetry: refresh,
+        }}
       />
     );
   }
@@ -60,9 +63,12 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
         </Host>
       )}
       ListEmptyComponent={
-        <InlineState
-          title="No results found"
-          message="Try another title or adjust your filters."
+        <ContentState
+          status="empty"
+          empty={{
+            title: "No results found",
+            message: "Try another title or adjust your filters.",
+          }}
           minHeight={240}
         />
       }

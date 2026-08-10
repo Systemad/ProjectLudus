@@ -5,8 +5,8 @@ import type { Href } from "expo-router";
 import { GameCarousel } from "@/entities/game/game-carousel";
 import { eventsGetByIdQueryOptions } from "@/gen/hooks/EventsHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";
-import { EmptyState, ErrorState, LoadingState } from "@/shared/ui/screen-state";
 import { formatShortDate } from "@/utils/date";
 
 const getEventGameHref = (game: { id: string | number }) =>
@@ -18,12 +18,21 @@ const getEventGameHref = (game: { id: string | number }) =>
 export function EventDetail({ slug }: { slug: string }) {
   const colors = useAppTheme();
   const query = useQuery(eventsGetByIdQueryOptions({ path: { id: String(slug) } }));
-  if (query.isLoading) return <LoadingState label="Loading event…" />;
-  if (query.isError) return <ErrorState onRetry={() => query.refetch()} />;
-  if (!query.data?.event)
-    return <EmptyState title="Event not found" message="The API did not return this event." />;
+  const event = query.data?.event;
+  const status = getContentStateStatus(query.isLoading, query.isError, !event);
 
-  const event = query.data.event;
+  if (!event || status !== "ready") {
+    return (
+      <ContentState
+        status={status}
+        fullScreen
+        loading={{ label: "Loading event…" }}
+        error={{ onRetry: () => void query.refetch() }}
+        empty={{ title: "Event not found", message: "The API did not return this event." }}
+      />
+    );
+  }
+
   const dates = [event.startTimeUtc, event.endTimeUtc]
     .filter((value): value is string => Boolean(value))
     .map(formatShortDate);

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 import { useGetApiMeLists } from "@/gen/play-api/hooks/ListsHooks/useGetApiMeLists";
 import { useAppTheme } from "@/hooks/use-app-theme";
-import { LoadingState } from "@/shared/ui/screen-state";
+import { ContentState } from "@/shared/ui/content-state";
 
 import { useAuth } from "./auth-context";
 import { ProfileActionButton } from "./profile-action-button";
@@ -41,7 +41,7 @@ export function ProfileScreen() {
   }
 
   if (status === "loading") {
-    return <LoadingState label="Loading profile…" />;
+    return <ContentState status="loading" fullScreen loading={{ label: "Loading profile…" }} />;
   }
 
   if (!isAuthenticated || !user) {
