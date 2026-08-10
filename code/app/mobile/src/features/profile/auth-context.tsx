@@ -1,25 +1,17 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, type ReactNode } from "react";
 
 import { playApiUrl } from "@/api/play-api-client";
 import { getAuthMeQueryKey, useGetAuthMe } from "@/gen/play-api/hooks/AuthHooks/useGetAuthMe";
 import { usePostAuthLogout } from "@/gen/play-api/hooks/AuthHooks/usePostAuthLogout";
 import { usePostAuthMobileExchange } from "@/gen/play-api/hooks/AuthHooks/usePostAuthMobileExchange";
+import { queryClient } from "@/lib/query-client";
 import { posthog } from "@/lib/posthog";
 
 import {
   authCodeSchema,
-  authTokenSchema,
   sessionResponseSchema,
   userResponseSchema,
   type AuthUser,
@@ -40,11 +32,16 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const sessionTokenQueryKey = ["play", "access-token"] as const;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const queryClient = useQueryClient();
-  const [token, setToken] = useState<string | null | undefined>(undefined);
-  const [storageError, setStorageError] = useState<Error | null>(null);
+  const tokenQuery = useQuery({
+    queryKey: sessionTokenQueryKey,
+    queryFn: authStorage.get,
+    staleTime: Infinity,
+    retry: false,
+  });
+  const token = tokenQuery.data;
   const exchange = usePostAuthMobileExchange();
   const logout = usePostAuthLogout();
   const profile = useGetAuthMe({
@@ -55,47 +52,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  useEffect(() => {
-    let cancelled = false;
-
-    void authStorage
-      .get()
-      .then((storedToken) => {
-        if (!cancelled) {
-          setToken(storedToken);
-        }
-      })
-      .catch((error: unknown) => {
-        if (!cancelled) {
-          setStorageError(toError(error));
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const clearLocalSession = useCallback(async () => {
+  async function clearLocalSession() {
     try {
       await authStorage.clear();
     } finally {
-      setToken(null);
+      queryClient.setQueryData(sessionTokenQueryKey, null);
       queryClient.removeQueries({ queryKey: getAuthMeQueryKey() });
     }
-  }, [queryClient]);
+  }
 
-  useEffect(() => {
-    if (typeof token !== "string" || !profile.isError || !isUnauthorized(profile.error)) {
-      return;
-    }
-
-    void clearLocalSession().catch((error: unknown) => {
-      console.error("Could not clear the expired Steam session.", error);
-    });
-  }, [clearLocalSession, profile.error, profile.isError, token]);
-
-  const signInWithSteam = useCallback(async () => {
+  async function signInWithSteam() {
     const redirectUrl = Linking.createURL("auth/callback", { scheme: "gameindex" });
     const result = await WebBrowser.openAuthSessionAsync(
       `${playApiUrl}/auth/steam/login?returnUrl=${encodeURIComponent(redirectUrl)}`,
@@ -118,11 +84,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     const session = parsedSession.data;
-    authTokenSchema.parse(session.accessToken);
     await authStorage.set(session.accessToken);
+    queryClient.setQueryData(sessionTokenQueryKey, session.accessToken);
     queryClient.setQueryData(getAuthMeQueryKey(), session.user);
-    setStorageError(null);
-    setToken(session.accessToken);
     posthog?.identify(session.user.id, {
       $set: {
         steam_id: session.user.steamId,
@@ -133,9 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     posthog?.capture("steam_sign_in_completed", {
       authentication_provider: "steam",
     });
-  }, [exchange, queryClient]);
+  }
 
-  const signOut = useCallback(async () => {
+  async function signOut() {
     try {
       if (typeof token === "string") {
         await logout.mutateAsync(undefined);
@@ -147,43 +111,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       posthog?.reset();
       await clearLocalSession();
     }
-  }, [clearLocalSession, logout, token]);
+  }
 
-  const status: AuthStatus = storageError
-    ? "error"
-    : token === undefined
-      ? "loading"
+  const status: AuthStatus = tokenQuery.isPending
+    ? "loading"
+    : tokenQuery.isError
+      ? "error"
       : token === null
         ? "unauthenticated"
         : profile.isPending
           ? "loading"
           : profile.isError
-            ? "error"
-            : "authenticated";
+            ? isUnauthorized(profile.error)
+              ? "unauthenticated"
+              : "error"
+            : profile.data
+              ? "authenticated"
+              : "error";
 
-  const value = useMemo<AuthContextValue>(
-    () => ({
-      error: storageError ?? (profile.isError ? toError(profile.error) : null),
-      isAuthenticated: status === "authenticated",
-      isSigningIn: exchange.isPending,
-      isSigningOut: logout.isPending,
-      signInWithSteam,
-      signOut,
-      status,
-      user: profile.data ?? null,
-    }),
-    [
-      exchange.isPending,
-      logout.isPending,
-      profile.data,
-      profile.error,
-      profile.isError,
-      signInWithSteam,
-      signOut,
-      status,
-      storageError,
-    ],
-  );
+  const value: AuthContextValue = {
+    error: tokenQuery.isError
+      ? toError(tokenQuery.error)
+      : profile.isError
+        ? toError(profile.error)
+        : null,
+    isAuthenticated: status === "authenticated",
+    isSigningIn: exchange.isPending,
+    isSigningOut: logout.isPending,
+    signInWithSteam,
+    signOut,
+    status,
+    user: profile.data ?? null,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
