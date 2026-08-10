@@ -18,7 +18,7 @@ import {
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
-import { CollectionState } from "@/shared/ui/collection-state";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 
 import { BrowseListCard } from "./browse-list-card.android";
 
@@ -92,16 +92,15 @@ export function BrowseList({
           </Text>
         </Column>
 
-        <CollectionState
-          isLoading={isLoading}
-          isError={isError}
-          isEmpty={games.length === 0}
-          onRetry={onRetry}
-          loadingLabel="Loading games…"
-          errorTitle="This list could not be loaded."
-          emptyTitle="No games found"
-          emptyMessage="There are no games in this collection yet."
-          retryLabel="Retry"
+        <ContentState
+          status={getContentStateStatus(isLoading, isError, games.length === 0)}
+          loading={{ label: "Loading games…" }}
+          error={{
+            onRetry,
+            title: "This list could not be loaded.",
+            retryLabel: "Retry",
+          }}
+          empty={{ title: "No games found", message: "There are no games in this collection yet." }}
         >
           {games.map((game, index) => (
             <BrowseListCard
@@ -111,7 +110,7 @@ export function BrowseList({
               href={{ pathname: "/(browse)/games/[slug]", params: { slug: game.id } }}
             />
           ))}
-        </CollectionState>
+        </ContentState>
       </LazyColumn>
 
       <Surface

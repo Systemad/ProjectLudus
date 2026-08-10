@@ -14,9 +14,8 @@ import {
   gamesGetSimilarQueryOptions,
 } from "@/gen/hooks/GamesHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { detailStyles } from "@/shared/ui/detail-shell";
-import { InlineState } from "@/shared/ui/inline-state";
-import { EmptyState, ErrorState, LoadingState } from "@/shared/ui/screen-state";
 
 const getRelatedGameHref = (game: { id: string | number }) =>
   ({
@@ -30,22 +29,32 @@ export function GameDetail({ slug }: { slug: string }) {
   const heroQuery = useQuery(gamesGetHeroQueryOptions({ path: { gameId } }));
   const overviewQuery = useQuery(gamesGetOverviewQueryOptions({ path: { gameId } }));
   const similarQuery = useQuery(gamesGetSimilarQueryOptions({ path: { gameId } }));
+  const hero = heroQuery.data?.game;
+  const overview = overviewQuery.data?.game;
   const isLoading = heroQuery.isLoading || overviewQuery.isLoading;
   const isError = heroQuery.isError || overviewQuery.isError;
+  const status = getContentStateStatus(isLoading, isError, !hero || !overview);
 
-  if (isLoading) return <LoadingState label="Loading game…" />;
-  if (isError)
+  if (!hero || !overview || status !== "ready") {
     return (
-      <ErrorState onRetry={() => Promise.all([heroQuery.refetch(), overviewQuery.refetch()])} />
+      <ContentState
+        status={status}
+        fullScreen
+        loading={{ label: "Loading game…" }}
+        error={{ onRetry: () => void Promise.all([heroQuery.refetch(), overviewQuery.refetch()]) }}
+        empty={{ title: "Game not found", message: "The API did not return this game." }}
+      />
     );
-  if (!heroQuery.data?.game || !overviewQuery.data?.game)
-    return <EmptyState title="Game not found" message="The API did not return this game." />;
+  }
 
-  const hero = heroQuery.data.game;
-  const overview = overviewQuery.data.game;
   const companies = hero.companies;
   const similar = similarQuery.data?.games ?? [];
-  const showRelated = similarQuery.isLoading || similarQuery.isError || similar.length > 0;
+  const relatedStatus = getContentStateStatus(
+    similarQuery.isLoading,
+    similarQuery.isError,
+    similar.length === 0,
+  );
+  const showRelated = relatedStatus !== "empty";
 
   return (
     <GameDetailShell
@@ -82,17 +91,17 @@ export function GameDetail({ slug }: { slug: string }) {
       {showRelated ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Related games</Text>
-          {similarQuery.isLoading ? (
-            <InlineState loading minHeight={120} />
-          ) : similarQuery.isError ? (
-            <InlineState
-              minHeight={120}
-              message="Related games could not be loaded."
-              onRetry={() => void similarQuery.refetch()}
-            />
-          ) : (
+          <ContentState
+            status={relatedStatus}
+            minHeight={120}
+            loading={{ label: "Loading related games…" }}
+            error={{
+              message: "Related games could not be loaded.",
+              onRetry: () => void similarQuery.refetch(),
+            }}
+          >
             <GameCarousel games={similar} getHref={getRelatedGameHref} variant="cover" />
-          )}
+          </ContentState>
         </View>
       ) : null}
     </GameDetailShell>

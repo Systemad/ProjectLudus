@@ -3,20 +3,18 @@ import {
   alpha,
   blur,
   clickable,
-  clip,
   fillMaxHeight,
   fillMaxWidth,
   height,
   matchParentSize,
   paddingAll,
-  Shapes,
-  type ModifierConfig,
   weight,
   width,
 } from "@expo/ui/jetpack-compose/modifiers";
 import { Image } from "expo-image";
 import { type Href, useRouter } from "expo-router";
 
+import { GameArtwork } from "@/entities/game/game-artwork.android";
 import { getGameCardImage } from "@/entities/game/game-image";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -33,35 +31,6 @@ function formatPlayerCount(value: string | null | undefined) {
   }
 
   return Number(value).toLocaleString();
-}
-
-function GameImage({
-  imageUrl,
-  modifiers,
-}: {
-  imageUrl: string | undefined;
-  modifiers: ModifierConfig[];
-}) {
-  const colors = useAppTheme();
-
-  if (imageUrl === undefined) {
-    return (
-      <Box
-        modifiers={[...modifiers, clip(Shapes.RoundedCorner(12)), alpha(0.7)]}
-        contentAlignment="center"
-      >
-        <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
-          ?
-        </Text>
-      </Box>
-    );
-  }
-
-  return (
-    <RNHostView modifiers={[...modifiers, clip(Shapes.RoundedCorner(12))]}>
-      <Image source={imageUrl} style={{ width: "100%", height: "100%" }} contentFit="cover" />
-    </RNHostView>
-  );
 }
 
 export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
@@ -88,7 +57,11 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
           verticalAlignment="top"
           horizontalArrangement={{ spacedBy: 12 }}
         >
-          <GameImage imageUrl={imageUrl} modifiers={[width(76), height(104)]} />
+          <GameArtwork
+            imageUrl={imageUrl}
+            modifiers={[width(76), height(104)]}
+            fallbackAlpha={0.7}
+          />
 
           <Column modifiers={[weight(1), fillMaxHeight()]} verticalArrangement="spaceBetween">
             <Column verticalArrangement={{ spacedBy: 3 }}>

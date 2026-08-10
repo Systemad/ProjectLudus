@@ -1,17 +1,11 @@
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
-import { commonStyles } from "./common-styles";
 
-type InlineStateProps = {
-  loading?: boolean;
-  title?: string;
-  message?: string;
-  onRetry?: () => void;
-  retryLabel?: string;
-  minHeight?: number;
-  fullScreen?: boolean;
-};
+import { commonStyles } from "./common-styles";
+import type { InlineStateProps } from "./inline-state.types";
+
+export type { InlineStateProps } from "./inline-state.types";
 
 export function InlineState({
   loading = false,

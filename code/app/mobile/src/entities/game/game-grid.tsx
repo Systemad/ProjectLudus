@@ -4,7 +4,7 @@ import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
 
 import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
-import { CollectionState } from "@/shared/ui/collection-state";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import type { Href } from "expo-router";
 
 type GameGridProps = {
@@ -17,16 +17,12 @@ type GameGridProps = {
 
 export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGridProps) {
   return (
-    <CollectionState
+    <ContentState
       fullScreen
-      isLoading={isLoading}
-      isError={isError}
-      isEmpty={games.length === 0}
-      onRetry={onRetry}
-      loadingLabel="Loading games…"
-      errorTitle="Couldn’t load this collection."
-      emptyTitle="No games found"
-      emptyMessage="There are no games in this collection yet."
+      status={getContentStateStatus(isLoading, isError, games.length === 0)}
+      loading={{ label: "Loading games…" }}
+      error={{ onRetry, title: "Couldn’t load this collection." }}
+      empty={{ title: "No games found", message: "There are no games in this collection yet." }}
     >
       <Host style={{ flex: 1 }}>
         <Column
@@ -49,6 +45,6 @@ export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGr
           </FlowRow>
         </Column>
       </Host>
-    </CollectionState>
+    </ContentState>
   );
 }
