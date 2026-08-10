@@ -73,6 +73,7 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
 
         var (interval, bucketSize, days) = range switch
         {
+            "24h" => (TimeSpan.FromHours(1), "1h", 1),
             "48h" => (TimeSpan.FromHours(1), "1h", 2),
             "7d" or null => (TimeSpan.FromHours(1), "1h", 7),
             "30d" => (TimeSpan.FromDays(1), "1d", 30),
