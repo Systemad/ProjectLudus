@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button as UiButton, Host } from "@expo/ui";
 import {
   Button,
@@ -12,8 +12,7 @@ import { clickable, fillMaxWidth, paddingAll } from "@expo/ui/jetpack-compose/mo
 import { useRouter } from "expo-router";
 import { useState } from "react";
 
-import { authStorage } from "@/features/profile/auth-storage";
-import { sessionTokenQueryKey } from "@/features/profile/auth-query";
+import { useAuth } from "@/features/profile";
 import {
   getApiMeGamesGameidListsQueryKey,
   getApiMeListsQueryKey,
@@ -31,13 +30,9 @@ export function GameListActions({ gameId }: { gameId: string }) {
   const colors = useAppTheme();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
   const [sheetVisible, setSheetVisible] = useState(false);
-  const token = useQuery({
-    queryKey: sessionTokenQueryKey,
-    queryFn: authStorage.get,
-    staleTime: Infinity,
-  });
-  const signedIn = typeof token.data === "string";
+  const signedIn = isAuthenticated;
   const membership = useGetApiMeGamesGameidLists(
     { path: { gameId } },
     { query: { enabled: signedIn, retry: false } },

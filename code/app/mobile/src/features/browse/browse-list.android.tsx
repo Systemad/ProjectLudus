@@ -1,9 +1,7 @@
 import {
   Box,
-  Button,
   Column,
   LazyColumn,
-  LoadingIndicator,
   SegmentedButton,
   Shape,
   SingleChoiceSegmentedButtonRow,
@@ -15,12 +13,12 @@ import {
   fillMaxSize,
   fillMaxWidth,
   padding,
-  paddingAll,
   weight,
 } from "@expo/ui/jetpack-compose/modifiers";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { CollectionState } from "@/shared/ui/collection-state";
 
 import { BrowseListCard } from "./browse-list-card.android";
 
@@ -80,72 +78,49 @@ export function BrowseList({
           modifiers={[fillMaxWidth(), padding(0, 0, 0, 4)]}
           verticalArrangement={{ spacedBy: 2 }}
         >
-          <Text color={colors.text} style={{ typography: "headlineMedium", fontWeight: "800" }}>
+          <Text
+            color={colors.text as string}
+            style={{ typography: "headlineMedium", fontWeight: "800" }}
+          >
             Browse
           </Text>
-          <Text color={colors.textMuted} style={{ typography: "labelMedium", fontWeight: "700" }}>
+          <Text
+            color={colors.textMuted as string}
+            style={{ typography: "labelMedium", fontWeight: "700" }}
+          >
             STEAM DATA
           </Text>
         </Column>
 
-        {isLoading ? (
-          <Column
-            modifiers={[fillMaxWidth(), paddingAll(24)]}
-            horizontalAlignment="center"
-            verticalArrangement={{ spacedBy: 12 }}
-          >
-            <LoadingIndicator />
-            <Text color={colors.textMuted} style={{ typography: "bodyMedium" }}>
-              Loading games…
-            </Text>
-          </Column>
-        ) : isError ? (
-          <Column
-            modifiers={[fillMaxWidth(), paddingAll(24)]}
-            horizontalAlignment="center"
-            verticalArrangement={{ spacedBy: 12 }}
-          >
-            <Text color={colors.textMuted} style={{ typography: "bodyMedium" }}>
-              This list could not be loaded.
-            </Text>
-            <Button onClick={onRetry}>
-              <Text>Retry</Text>
-            </Button>
-          </Column>
-        ) : games.length === 0 ? (
-          <Column
-            modifiers={[fillMaxWidth(), paddingAll(24)]}
-            horizontalAlignment="center"
-            verticalArrangement={{ spacedBy: 8 }}
-          >
-            <Text color={colors.text} style={{ typography: "titleMedium", fontWeight: "700" }}>
-              No games found
-            </Text>
-            <Text color={colors.textMuted} style={{ typography: "bodyMedium" }}>
-              There are no games in this collection yet.
-            </Text>
-          </Column>
-        ) : (
-          games.map((game, index) => (
+        <CollectionState
+          isLoading={isLoading}
+          isError={isError}
+          isEmpty={games.length === 0}
+          onRetry={onRetry}
+          loadingLabel="Loading games…"
+          errorTitle="This list could not be loaded."
+          emptyTitle="No games found"
+          emptyMessage="There are no games in this collection yet."
+          retryLabel="Retry"
+        >
+          {games.map((game, index) => (
             <BrowseListCard
               key={game.id}
               game={game}
               rank={index + 1}
               href={{ pathname: "/(browse)/games/[slug]", params: { slug: game.id } }}
             />
-          ))
-        )}
+          ))}
+        </CollectionState>
       </LazyColumn>
 
       <Surface
         color={colors.surfaceHigh}
         contentColor={colors.text}
         tonalElevation={2}
-        shape={
-          <Shape.RoundedCorner
-            cornerRadii={{ topStart: 20, topEnd: 20, bottomStart: 20, bottomEnd: 20 }}
-          />
-        }
+        shape={Shape.RoundedCorner({
+          cornerRadii: { topStart: 20, topEnd: 20, bottomStart: 20, bottomEnd: 20 },
+        })}
         modifiers={[align("bottomCenter"), fillMaxWidth(), padding(12, 8, 12, 12)]}
       >
         <SingleChoiceSegmentedButtonRow modifiers={[fillMaxWidth()]}>

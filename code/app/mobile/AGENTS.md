@@ -1,77 +1,30 @@
-# Android mobile
+# Mobile
 
-This is the Expo SDK 57 mobile client for Game-Index. Android is the active target. iOS is out of scope unless explicitly requested.
+Expo SDK 57 mobile client. Android is the active target; iOS is out of scope unless requested.
 
-## Stack
+## Architecture
 
-- Expo Router for file-based navigation and nested tab stacks
-- Expo UI Jetpack Compose components for Android UI
-- TanStack Query for server state
-- Kubb-generated hooks and types for Backend.API
-- Expo SecureStore for Steam session tokens
-- Expo MCP and agent-device for local device verification
+- Use Expo Router for file-based navigation. Keep routes thin and preserve the existing tab stacks and root-tab behavior.
+- Organize code under `src/`: routes in `app`, feature behavior in `features`, reusable game presentation in `entities`, shared UI in `shared`, and app-owned utilities/hooks/config in their respective folders.
+- Reuse existing game-card primitives and `getGameCardData` when adapting catalog responses. Add specialized presentation only for genuinely distinct behavior or information.
+- Keep platform-specific files adjacent to their shared implementation. Avoid generic catch-all component folders.
 
-## Structure
+## Data and authentication
 
-```text
-src/
-├── app/          # thin Expo Router routes and layouts
-├── api/          # API configuration
-├── config/       # app constants
-├── entities/     # reusable game cards, images and rails
-├── features/     # vertical feature slices
-├── gen/          # Kubb output; never edit manually
-├── hooks/        # shared hooks
-├── navigation/   # Router/navigation components
-├── shared/       # small shared presentation primitives
-├── stores/       # local preferences and small cross-screen state
-├── types/        # app-owned types
-└── utils/        # app-owned utilities
-```
+- Use generated Kubb hooks and types for Backend.API. Never edit `src/gen`; run `pnpm run generate` after API changes.
+- Keep server state in the shared TanStack Query client. Keep local preferences in the existing stores; do not create clients in screens.
+- Authentication is owned by the shared auth context/provider. SecureStore access goes through the profile auth-storage wrapper.
+- Treat generated numeric IDs as strings at the client boundary and never put `BigInt` values in query keys.
+- Use the current `EXPO_PUBLIC_API_URL` mobile-api tunnel for physical-device API access. Never put API keys or write credentials in the bundle.
 
-Keep behavior in feature folders and reusable game presentation in entities. Keep platform variants adjacent only when behavior genuinely differs. Do not create generic flat component folders.
+## Android UI
 
-## Data and auth
+- Prefer `@expo/ui` and Jetpack Compose components through `Host` for Android UI. Use semantic theme values and native controls when they fit; bridge to React Native only when Expo UI has no suitable primitive.
+- Read the Expo UI skill before changing Android UI. Prefer the existing shared state components for loading, error, and empty states.
+- Avoid custom control replacements, Tailwind, raw interface colors, and manual layout math when native Compose behavior is available.
 
-- Set EXPO_PUBLIC_API_URL to the current AppHost mobile-api tunnel URL for physical devices.
-- Run pnpm run generate after API changes; use only generated Kubb hooks and types under src/gen/.
-- Generated numeric IDs are strings at the client boundary: use String(id).
-- Never place BigInt values in query keys.
-- Keep server state in generated TanStack Query hooks; keep preferences in the existing stores.
-- Do not create a QueryClient inside a screen or duplicate generated clients.
-- Steam tokens use the profile auth-storage wrapper backed by expo-secure-store.
-- Do not put API keys or write credentials in the mobile bundle.
+## Workflow
 
-## Expo UI and Android presentation
-
-Read the applicable Expo UI skill before implementing Android UI. Prefer native Jetpack Compose components from @expo/ui/jetpack-compose through Host, including Column, Row, FlowRow, LazyColumn, LazyRow, NavigationBar, BottomSheet, DockedSearchBar, and native controls when they fit the interaction.
-
-Use Expo UI semantic theme values and Compose modifiers. Avoid React Native View, FlatList, StyleSheet.create, custom control replacements, Tailwind, raw interface colors, unsafe casts, manual row slicing, and custom layout math when Compose provides the behavior. Keep touch targets, keyboard behavior, safe areas, and reduced motion accessible.
-
-Preserve Expo Router tab stacks and root-tab reset behavior. Do not replace file-based routes with a manual tab registry.
-
-## Commands
-
-Run from code/app/mobile/:
-
-```powershell
-pnpm run generate
-pnpm run fmt
-pnpm exec tsc --noEmit
-pnpm run lint
-
-$env:EXPO_UNSTABLE_MCP_SERVER = "1"; pnpm expo start --dev-client
-```
-
-Run pnpm run fmt after every mobile code change. Do not run pnpm install, start Aspire, launch Expo/Android, or run device automation unless requested.
-
-## Device automation
-
-Enable the local agent-device MCP in Codex /mcp. For CLI fallback, first run:
-
-```powershell
-agent-device --version
-agent-device help workflow
-```
-
-Use open → snapshot -i → act → re-snapshot → verify → close. Read agent-device help react-native for Metro/React Native issues and agent-device help debugging for logs or runtime failures. Use Expo MCP when the local Expo MCP server is available.
+- From `code/app/mobile/`, run `pnpm run fmt`, `pnpm exec tsc --noEmit`, and `pnpm run lint` for focused changes.
+- Do not run `pnpm install`, start Expo, start Aspire, or use device automation unless explicitly requested.
+- Keep changes focused, uncommitted, and local. Do not edit generated files or unrelated work.

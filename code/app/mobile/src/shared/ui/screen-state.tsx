@@ -1,53 +1,31 @@
-import { ActivityIndicator } from "react-native";
-
-import { Button, Column, Host, RNHostView, Text } from "@expo/ui";
-
-import { useAppTheme } from "@/hooks/use-app-theme";
-
-function StateLayout({ children }: { children: React.ReactNode }) {
-  const colors = useAppTheme();
-
-  return (
-    <Host style={{ flex: 1, backgroundColor: colors.background }}>
-      <Column alignment="center" spacing={12} style={{ padding: 24 }}>
-        {children}
-      </Column>
-    </Host>
-  );
-}
+import { InlineState } from "@/shared/ui/inline-state";
 
 export function LoadingState({ label = "Loading catalog…" }: { label?: string }) {
-  return (
-    <StateLayout>
-      <RNHostView matchContents>
-        <ActivityIndicator />
-      </RNHostView>
-      <Text textStyle={{ fontSize: 15 }}>{label}</Text>
-    </StateLayout>
-  );
+  return <InlineState fullScreen loading message={label} />;
 }
 
 export function EmptyState({ title, message }: { title: string; message: string }) {
-  return (
-    <StateLayout>
-      <Text textStyle={{ fontSize: 20, fontWeight: "700" }}>{title}</Text>
-      <Text textStyle={{ fontSize: 15 }}>{message}</Text>
-    </StateLayout>
-  );
+  return <InlineState fullScreen title={title} message={message} />;
 }
 
-export function ErrorState({ onRetry }: { onRetry: () => void }) {
-  const colors = useAppTheme();
-
+export function ErrorState({
+  onRetry,
+  title = "Couldn’t load this page",
+  message = "The Game-index API could not be reached.",
+  retryLabel = "Try again",
+}: {
+  onRetry: () => void;
+  title?: string;
+  message?: string;
+  retryLabel?: string;
+}) {
   return (
-    <StateLayout>
-      <Text textStyle={{ fontSize: 20, fontWeight: "700" }}>Couldn’t load this page</Text>
-      <Text textStyle={{ fontSize: 15 }}>The Game-index API could not be reached.</Text>
-      <Button
-        label="Try again"
-        onPress={onRetry}
-        style={{ backgroundColor: colors.primaryContainer, borderRadius: 24, padding: 12 }}
-      />
-    </StateLayout>
+    <InlineState
+      fullScreen
+      title={title}
+      message={message}
+      onRetry={onRetry}
+      retryLabel={retryLabel}
+    />
   );
 }

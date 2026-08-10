@@ -10,6 +10,7 @@ type InlineStateProps = {
   onRetry?: () => void;
   retryLabel?: string;
   minHeight?: number;
+  fullScreen?: boolean;
 };
 
 export function InlineState({
@@ -19,11 +20,18 @@ export function InlineState({
   onRetry,
   retryLabel = "Try again",
   minHeight = 120,
+  fullScreen = false,
 }: InlineStateProps) {
   const colors = useAppTheme();
 
   return (
-    <View style={[commonStyles.centeredState, { minHeight }]}>
+    <View
+      style={[
+        commonStyles.centeredState,
+        fullScreen ? commonStyles.fullScreenState : { minHeight },
+        { backgroundColor: colors.background },
+      ]}
+    >
       {loading ? <ActivityIndicator color={colors.primary} /> : null}
       {title ? (
         <Text style={{ color: colors.text, fontSize: 18, fontWeight: "800" }}>{title}</Text>

@@ -23,7 +23,7 @@ function FacetSection({ attribute, label }: { attribute: string; label: string }
 
   return (
     <Column spacing={8}>
-      <Text style={{ fontSize: 15, fontWeight: "800" }}>{label}</Text>
+      <Text textStyle={{ fontSize: 15, fontWeight: "800" }}>{label}</Text>
       {items.map((item) => (
         <Checkbox
           key={item.value}

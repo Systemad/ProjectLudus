@@ -1,13 +1,19 @@
 import { useHits, useInstantSearch } from "react-instantsearch-core";
-import { Image } from "expo-image";
-import { useRouter } from "expo-router";
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { Host } from "@expo/ui";
+import { type Href } from "expo-router";
+import { FlatList, StyleSheet } from "react-native";
 
 import { PAGE_GUTTER } from "@/config/layout";
+import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
-import { useAppTheme } from "@/hooks/use-app-theme";
 import { InlineState } from "@/shared/ui/inline-state";
 import type { GameSearchHit } from "../search-types";
+
+const getSearchGameHref = (id: string | number) =>
+  ({
+    pathname: "/(search)/games/[slug]",
+    params: { slug: String(id) },
+  }) satisfies Href;
 
 export function SearchResults({ bottomInset }: { bottomInset: number }) {
   const { items } = useHits<GameSearchHit>();
@@ -41,7 +47,18 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
         paddingBottom: bottomInset + 20,
       }}
       keyboardShouldPersistTaps="handled"
-      renderItem={({ item }) => <SearchResultCard hit={item} />}
+      renderItem={({ item }) => (
+        <Host style={{ flex: 1 }}>
+          <GameCard
+            title={item.name ?? "Untitled"}
+            metadata={`Game · ${String(item.release_year ?? "Release date unknown")}`}
+            imageUrl={item.cover_url ? getIgdbImageUrl(item.cover_url, "cover_big") : undefined}
+            href={getSearchGameHref(item.id)}
+            variant="grid"
+            fillFraction={1}
+          />
+        </Host>
+      )}
       ListEmptyComponent={
         <InlineState
           title="No results found"
@@ -53,73 +70,9 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
   );
 }
 
-function SearchResultCard({ hit }: { hit: GameSearchHit }) {
-  const colors = useAppTheme();
-  const router = useRouter();
-  const title = hit.name ?? "Untitled";
-  const metadata = `Game · ${String(hit.release_year ?? "Release date unknown")}`;
-  const imageUrl = hit.cover_url ? getIgdbImageUrl(hit.cover_url, "cover_big") : null;
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      onPress={() => {
-        router.push({
-          pathname: "/(search)/games/[slug]",
-          params: { slug: String(hit.id) },
-        });
-      }}
-      style={({ pressed }) => [
-        styles.card,
-        { backgroundColor: colors.surface, opacity: pressed ? 0.72 : 1 },
-      ]}
-    >
-      {imageUrl ? (
-        <Image
-          source={imageUrl}
-          contentFit="cover"
-          style={[styles.image, { backgroundColor: colors.surfaceHigh }]}
-        />
-      ) : (
-        <View style={[styles.image, { backgroundColor: colors.surfaceHigh }]} />
-      )}
-      <View style={styles.copy}>
-        <Text numberOfLines={2} style={[styles.title, { color: colors.text }]}>
-          {title}
-        </Text>
-        <Text numberOfLines={1} style={[styles.metadata, { color: colors.textMuted }]}>
-          {metadata}
-        </Text>
-      </View>
-    </Pressable>
-  );
-}
-
 const styles = StyleSheet.create({
   list: {
     flex: 1,
-  },
-  card: {
-    flex: 1,
-    borderRadius: 18,
-    overflow: "hidden",
-  },
-  image: {
-    width: "100%",
-    aspectRatio: 0.72,
-  },
-  copy: {
-    padding: 10,
-    gap: 5,
-  },
-  title: {
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: "700",
-  },
-  metadata: {
-    fontSize: 13,
-    lineHeight: 17,
   },
   row: {
     gap: 12,

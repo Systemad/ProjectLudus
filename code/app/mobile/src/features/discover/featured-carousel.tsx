@@ -1,3 +1,4 @@
+import { Host } from "@expo/ui";
 import { StyleSheet, useWindowDimensions } from "react-native";
 import Animated, {
   Extrapolation,
@@ -9,7 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { PAGE_GUTTER } from "@/config/layout";
-import { GameCard } from "@/entities/game/game-card";
+import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import type { Href } from "expo-router";
 
@@ -113,7 +114,9 @@ function FeaturedCarouselCard({
         animatedStyle,
       ]}
     >
-      <GameCard game={game} variant="cover" href={href} />
+      <Host matchContents>
+        <GameCard {...getGameCardData(game)} variant="cover" href={href} cardWidth={cardWidth} />
+      </Host>
     </Animated.View>
   );
 }

@@ -1,5 +1,4 @@
-import { Column, Host, ListItem, ScrollView, Text } from "@expo/ui";
-import { Github } from "lucide-react-native";
+import { Column, Host, Icon, ListItem, ScrollView, Text } from "@expo/ui";
 import { Linking } from "react-native";
 
 import { PAGE_GUTTER } from "@/config/layout";
@@ -13,7 +12,16 @@ export function SettingsScreen() {
           <Column spacing={10}>
             <Text textStyle={{ fontSize: 13, fontWeight: "800", letterSpacing: 0.8 }}>About</Text>
             <ListItem
-              leading={<Github size={22} strokeWidth={2.2} />}
+              leading={
+                <Icon
+                  name={Icon.select({
+                    ios: "globe",
+                    android: require("@/assets/icons/github.xml"),
+                  })}
+                  size={22}
+                  accessibilityLabel="GitHub"
+                />
+              }
               onPress={() => void Linking.openURL(githubUrl)}
               supportingText="Placeholder repository"
             >
