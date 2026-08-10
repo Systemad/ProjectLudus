@@ -1,5 +1,5 @@
 import { Host } from "@expo/ui";
-import { Card, Column, ListItem, RNHostView, Text } from "@expo/ui/jetpack-compose";
+import { Card, Column, Icon, ListItem, Text } from "@expo/ui/jetpack-compose";
 import {
   clickable,
   fillMaxSize,
@@ -8,7 +8,6 @@ import {
   verticalScroll,
 } from "@expo/ui/jetpack-compose/modifiers";
 import { Linking } from "react-native";
-import { Github } from "lucide-react-native";
 
 import { PAGE_GUTTER } from "@/config/layout";
 
@@ -23,9 +22,7 @@ export function SettingsScreen() {
           <Card modifiers={[fillMaxWidth(), clickable(() => void Linking.openURL(githubUrl))]}>
             <ListItem>
               <ListItem.LeadingContent>
-                <RNHostView matchContents>
-                  <Github size={22} strokeWidth={2.2} />
-                </RNHostView>
+                <Icon source={require("@/assets/icons/github.xml")} contentDescription="GitHub" />
               </ListItem.LeadingContent>
               <ListItem.HeadlineContent>
                 <Text>GitHub</Text>

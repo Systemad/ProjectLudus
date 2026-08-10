@@ -6,7 +6,7 @@ import { GameCarousel } from "@/entities/game/game-carousel";
 import { FeaturedCarousel } from "@/features/discover/featured-carousel";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
-import { InlineState } from "@/shared/ui/inline-state";
+import { CollectionState } from "@/shared/ui/collection-state";
 
 type DiscoverRailProps = {
   title: string;
@@ -49,22 +49,23 @@ export function DiscoverRail({
         </Pressable>
       </Link>
 
-      {isLoading ? (
-        <InlineState loading minHeight={170} />
-      ) : isError ? (
-        <InlineState
-          minHeight={170}
-          message="This collection could not be loaded."
-          onRetry={onRetry}
-          retryLabel="Retry"
-        />
-      ) : games.length === 0 ? (
-        <InlineState minHeight={170} message="No games are available in this collection yet." />
-      ) : featured ? (
-        <FeaturedCarousel games={games} getHref={getGameHref} />
-      ) : (
-        <GameCarousel games={games} getHref={getGameHref} />
-      )}
+      <CollectionState
+        isLoading={isLoading}
+        isError={isError}
+        isEmpty={games.length === 0}
+        onRetry={onRetry}
+        minHeight={170}
+        loadingLabel="Loading games…"
+        errorMessage="This collection could not be loaded."
+        emptyMessage="No games are available in this collection yet."
+        retryLabel="Retry"
+      >
+        {featured ? (
+          <FeaturedCarousel games={games} getHref={getGameHref} />
+        ) : (
+          <GameCarousel games={games} getHref={getGameHref} />
+        )}
+      </CollectionState>
     </View>
   );
 }

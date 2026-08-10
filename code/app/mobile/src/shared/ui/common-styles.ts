@@ -25,6 +25,11 @@ export const commonStyles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
   },
+  fullScreenState: {
+    flex: 1,
+    minHeight: 240,
+    padding: 24,
+  },
   stateText: {
     fontSize: 14,
     textAlign: "center",

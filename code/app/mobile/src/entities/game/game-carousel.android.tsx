@@ -1,7 +1,9 @@
-import { FlatList, StyleSheet, useWindowDimensions, View } from "react-native";
+import { Host, LazyRow } from "@expo/ui/jetpack-compose";
+import { fillMaxWidth } from "@expo/ui/jetpack-compose/modifiers";
+import { useWindowDimensions } from "react-native";
 
-import { GameCard, getGameCardData, type GameCardVariant } from "@/entities/game/game-card";
 import { PAGE_GUTTER } from "@/config/layout";
+import { GameCard, getGameCardData, type GameCardVariant } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import type { Href } from "expo-router";
 
@@ -28,23 +30,22 @@ export function GameCarousel({
   );
 
   return (
-    <FlatList
-      horizontal
-      data={games}
-      keyExtractor={(game) => String(game.id)}
-      renderItem={({ item }) => (
-        <View style={{ width: cardWidth }}>
-          <GameCard {...getGameCardData(item)} variant={variant} href={getHref(item)} />
-        </View>
-      )}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.content}
-    />
+    <Host style={{ width: "100%" }}>
+      <LazyRow
+        modifiers={[fillMaxWidth()]}
+        horizontalArrangement={{ spacedBy: CAROUSEL_GAP }}
+        verticalAlignment="top"
+      >
+        {games.map((game) => (
+          <GameCard
+            key={String(game.id)}
+            {...getGameCardData(game)}
+            cardWidth={cardWidth}
+            variant={variant}
+            href={getHref(game)}
+          />
+        ))}
+      </LazyRow>
+    </Host>
   );
 }
-
-const styles = StyleSheet.create({
-  content: {
-    gap: CAROUSEL_GAP,
-  },
-});

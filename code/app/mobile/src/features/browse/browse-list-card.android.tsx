@@ -50,7 +50,7 @@ function GameImage({
         modifiers={[...modifiers, clip(Shapes.RoundedCorner(12)), alpha(0.7)]}
         contentAlignment="center"
       >
-        <Text color={colors.textMuted} style={{ typography: "titleLarge" }}>
+        <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
           ?
         </Text>
       </Box>
@@ -98,7 +98,7 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
                 horizontalArrangement="spaceBetween"
               >
                 <Text
-                  color={colors.text}
+                  color={colors.text as string}
                   maxLines={2}
                   overflow="ellipsis"
                   modifiers={[weight(1)]}
@@ -107,14 +107,14 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
                   {game.name}
                 </Text>
                 <Text
-                  color={colors.textMuted}
+                  color={colors.textMuted as string}
                   style={{ typography: "labelLarge", fontWeight: "800" }}
                 >
                   #{rank}
                 </Text>
               </Row>
               <Text
-                color={colors.textMuted}
+                color={colors.textMuted as string}
                 maxLines={1}
                 overflow="ellipsis"
                 style={{ typography: "bodyMedium" }}
@@ -126,23 +126,29 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
             <Row modifiers={[fillMaxWidth()]} horizontalArrangement={{ spacedBy: 16 }}>
               <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
                 <Text
-                  color={colors.textMuted}
+                  color={colors.textMuted as string}
                   style={{ typography: "labelSmall", fontWeight: "700" }}
                 >
                   PLAYING NOW
                 </Text>
-                <Text color={colors.text} style={{ typography: "titleMedium", fontWeight: "700" }}>
+                <Text
+                  color={colors.text as string}
+                  style={{ typography: "titleMedium", fontWeight: "700" }}
+                >
                   {formatPlayerCount(game.steam?.currentPlayers)}
                 </Text>
               </Column>
               <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
                 <Text
-                  color={colors.textMuted}
+                  color={colors.textMuted as string}
                   style={{ typography: "labelSmall", fontWeight: "700" }}
                 >
                   PEAK TODAY
                 </Text>
-                <Text color={colors.text} style={{ typography: "titleMedium", fontWeight: "700" }}>
+                <Text
+                  color={colors.text as string}
+                  style={{ typography: "titleMedium", fontWeight: "700" }}
+                >
                   {formatPlayerCount(game.steam?.peak24h)}
                 </Text>
               </Column>
