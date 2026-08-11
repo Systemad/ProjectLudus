@@ -9,15 +9,15 @@ import { releaseDatePlatformDtoSchema } from './releaseDatePlatformDtoSchema'
 import { releaseDatesDtoSchema } from './releaseDatesDtoSchema'
 
 export const gameOverviewDtoSchema = z.object({
-  id: z.bigint(),
-  slug: z.null().optional(),
+  id: z.string(),
+  slug: z.string().nullish(),
   name: z.string(),
-  summary: z.null().optional(),
-  storyline: z.null().optional(),
-  cover: z.null().optional(),
-  coverUrl: z.null().optional(),
-  gameType: z.bigint().nullish(),
-  gameTypeName: z.null().optional(),
+  summary: z.string().nullish(),
+  storyline: z.string().nullish(),
+  cover: z.string().nullish(),
+  coverUrl: z.string().nullish(),
+  gameType: z.string().nullish(),
+  gameTypeName: z.string().nullish(),
   genres: z.array(z.string()),
   themes: z.array(z.string()),
   isReleased: z.boolean(),

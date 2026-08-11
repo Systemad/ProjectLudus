@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getReviewsResponseSchema } from './getReviewsResponseSchema'
 
-export const steamGetReviewsPathGameIdSchema = z.bigint()
+export const steamGetReviewsPathGameIdSchema = z.string()
 
 export const steamGetReviewsStatus200Schema = getReviewsResponseSchema
+
+export const steamGetReviewsStatus400Schema = z.any()
 
 export const steamGetReviewsStatus404Schema = z.any()
 
 export const steamGetReviewsResponseSchema = steamGetReviewsStatus200Schema
 
-export const steamGetReviewsErrorSchema = steamGetReviewsStatus404Schema
+export const steamGetReviewsErrorSchema = z.union([steamGetReviewsStatus400Schema, steamGetReviewsStatus404Schema])

@@ -9,7 +9,7 @@ public sealed record GetGameResponse(GameDetailsDto Game);
 public sealed record GameDetailsDto
 {
     [Required]
-    public required long Id { get; set; }
+    public required string Id { get; set; }
 
     [Required]
     public required string Url { get; set; }
@@ -42,9 +42,9 @@ public sealed record GameDetailsDto
     public required List<FranchiseDto> Franchises { get; set; } = [];
 }
 
-public record AlternativeNameDto(long Id, string Name, string? Comment);
+public record AlternativeNameDto(string Id, string Name, string? Comment);
 
-public record GameEnginesDto(long Id, string Name, string? ImageId, string? Url);
+public record GameEnginesDto(string Id, string Name, string? ImageId, string? Url);
 
 public record LanguageSupportsDto(string Language, string? NativeName, string? Type);
 

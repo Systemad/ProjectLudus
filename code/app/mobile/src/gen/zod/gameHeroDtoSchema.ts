@@ -9,13 +9,13 @@ import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
 import { platformDtoSchema } from './platformDtoSchema'
 
 export const gameHeroDtoSchema = z.object({
-  id: z.bigint(),
-  slug: z.null().optional(),
+  id: z.string(),
+  slug: z.string().nullish(),
   name: z.string(),
-  summary: z.null().optional(),
-  cover: z.null().optional(),
-  coverUrl: z.null().optional(),
-  gameTypeName: z.null().optional(),
+  summary: z.string().nullish(),
+  cover: z.string().nullish(),
+  coverUrl: z.string().nullish(),
+  gameTypeName: z.string().nullish(),
   firstReleaseDate: z.iso.date().nullish(),
   genres: z.array(featureSchema),
   themes: z.array(featureSchema),

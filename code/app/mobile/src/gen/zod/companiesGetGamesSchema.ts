@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
 
-export const companiesGetGamesPathCompanyIdSchema = z.bigint()
+export const companiesGetGamesPathCompanyIdSchema = z.string()
 
 export const companiesGetGamesStatus200Schema = z.array(gameBrowseDtoSchema)
+
+export const companiesGetGamesStatus400Schema = z.any()
 
 export const companiesGetGamesStatus404Schema = z.any()
 
 export const companiesGetGamesResponseSchema = companiesGetGamesStatus200Schema
 
-export const companiesGetGamesErrorSchema = companiesGetGamesStatus404Schema
+export const companiesGetGamesErrorSchema = z.union([companiesGetGamesStatus400Schema, companiesGetGamesStatus404Schema])

@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { SteamGetReviewsOptions, SteamGetReviewsStatus200, SteamGetReviewsStatus404 } from '../../types/SteamGetReviews'
+import type { SteamGetReviewsOptions, SteamGetReviewsStatus200, SteamGetReviewsStatus400, SteamGetReviewsStatus404 } from '../../types/SteamGetReviews'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { steamGetReviews } from '../../clients/steamGetReviews'
 
@@ -15,7 +15,7 @@ type SteamGetReviewsSuspenseQueryKey = ReturnType<typeof steamGetReviewsSuspense
 
 export function steamGetReviewsSuspenseQueryOptions({ path }: SteamGetReviewsOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = steamGetReviewsSuspenseQueryKey({ path })
-  return queryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus404>, SteamGetReviewsStatus200, typeof queryKey>({
+  return queryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>, SteamGetReviewsStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await steamGetReviews({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function steamGetReviewsSuspenseQueryOptions({ path }: SteamGetReviewsOpt
  * {@link /catalog/steam/reviews/:gameId}
  */
 export function useSteamGetReviewsSuspense<TData = SteamGetReviewsStatus200, TQueryKey extends QueryKey = SteamGetReviewsSuspenseQueryKey>({ path }: { path: SteamGetReviewsOptions['path'] | (() => SteamGetReviewsOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useSteamGetReviewsSuspense<TData = SteamGetReviewsStatus200, TQu
    ...steamGetReviewsSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetReviewsStatus404>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

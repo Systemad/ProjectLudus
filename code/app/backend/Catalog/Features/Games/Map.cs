@@ -26,51 +26,58 @@ public static class Map
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
         group
-            .MapGet("/{gameId:long}", Browse.GetOverview.Endpoint.HandleAsync)
+            .MapGet("/{gameId}", Browse.GetOverview.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetOverview")
             .WithTags(EndpointMetadata.Games)
             .Produces<Browse.GetOverview.GetGameOverviewResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{gameId:long}/details", Browse.Get.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/details", Browse.Get.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/Get")
             .WithTags(EndpointMetadata.Games)
             .Produces<Browse.Get.GetGameResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{gameId:long}/hero", Browse.GetHero.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/hero", Browse.GetHero.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetHero")
             .WithTags(EndpointMetadata.Games)
             .Produces<Browse.GetHero.GetGameHeroResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{gameId:long}/links", Browse.GetLinks.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/links", Browse.GetLinks.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetLinks")
             .WithTags(EndpointMetadata.Games)
-            .Produces<Browse.GetLinks.GetGameLinksResponse>(StatusCodes.Status200OK);
+            .Produces<Browse.GetLinks.GetGameLinksResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest);
 
         group
-            .MapGet("/{gameId:long}/media", Browse.GetMedia.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/media", Browse.GetMedia.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetMedia")
             .WithTags(EndpointMetadata.Games)
             .Produces<Browse.GetMedia.GetGameMediaResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{gameId:long}/page-release-data", Page.GetReleaseData.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/page-release-data", Page.GetReleaseData.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetReleaseData")
             .WithTags(EndpointMetadata.Games)
             .Produces<Page.GetReleaseData.GetGamePageReleaseDataResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{gameId:long}/similar-games", Browse.GetSimilarGames.Endpoint.HandleAsync)
+            .MapGet("/{gameId}/similar-games", Browse.GetSimilarGames.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetSimilar")
             .WithTags(EndpointMetadata.Games)
-            .Produces<Browse.GetSimilarGames.GetSimilarGamesResponse>(StatusCodes.Status200OK);
+            .Produces<Browse.GetSimilarGames.GetSimilarGamesResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest);
 
         return app;
     }

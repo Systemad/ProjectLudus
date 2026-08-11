@@ -14,10 +14,11 @@ public static class Map
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
         group
-            .MapGet("/{id:long}", GetById.Endpoint.HandleAsync)
+            .MapGet("/{id}", GetById.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Events}/GetById")
             .WithTags(EndpointMetadata.Events)
             .Produces<GetById.GetEventByIdResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         return app;

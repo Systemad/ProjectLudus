@@ -6,10 +6,10 @@
 import * as z from 'zod'
 
 export const httpValidationProblemDetailsSchema = z.object({
-  type: z.null().optional(),
-  title: z.null().optional(),
+  type: z.string().nullish(),
+  title: z.string().nullish(),
   status: z.int().nullish(),
-  detail: z.null().optional(),
-  instance: z.null().optional(),
+  detail: z.string().nullish(),
+  instance: z.string().nullish(),
   errors: z.object({}).catchall(z.array(z.string())),
 })

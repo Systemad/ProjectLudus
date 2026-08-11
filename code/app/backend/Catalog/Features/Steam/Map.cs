@@ -16,25 +16,28 @@ public static class Map
 
         group
             .MapGet(
-                "/concurrent-users/{gameId:long}/chart",
+                "/concurrent-users/{gameId}/chart",
                 Charts.GetConcurrentUsersChart.Endpoint.HandleChartAsync
             )
             .WithName("Steam/GetConcurrentUsersChart")
             .WithTags(EndpointMetadata.Steam)
-            .Produces<Charts.GetConcurrentUsersChart.ConcurrentUsersChartResponse>();
+            .Produces<Charts.GetConcurrentUsersChart.ConcurrentUsersChartResponse>()
+            .Produces(StatusCodes.Status400BadRequest);
 
         group
-            .MapGet("/pricing/{gameId:long}", Store.GetPricing.Endpoint.HandleAsync)
+            .MapGet("/pricing/{gameId}", Store.GetPricing.Endpoint.HandleAsync)
             .WithName("Steam/GetPricing")
             .WithTags(EndpointMetadata.Steam)
             .Produces<Store.GetPricing.GetPricingResponse>()
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/reviews/{gameId:long}", Store.GetReviews.Endpoint.HandleAsync)
+            .MapGet("/reviews/{gameId}", Store.GetReviews.Endpoint.HandleAsync)
             .WithName("Steam/GetReviews")
             .WithTags(EndpointMetadata.Steam)
             .Produces<Store.GetReviews.GetReviewsResponse>()
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         return app;

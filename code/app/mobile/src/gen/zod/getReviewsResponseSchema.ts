@@ -6,11 +6,11 @@
 import * as z from 'zod'
 
 export const getReviewsResponseSchema = z.object({
-  gameId: z.bigint(),
-  steamAppId: z.bigint().nullable(),
+  gameId: z.string(),
+  steamAppId: z.string().nullable(),
   numReviews: z.int().nullable(),
   reviewScore: z.int().nullable(),
-  reviewScoreDesc: z.null(),
+  reviewScoreDesc: z.string().nullable(),
   totalPositive: z.int().nullable(),
   totalNegative: z.int().nullable(),
   totalReviews: z.int().nullable(),

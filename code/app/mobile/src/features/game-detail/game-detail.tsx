@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { Text, View } from "react-native";
 import type { Href } from "expo-router";
 
@@ -9,6 +10,7 @@ import { GameDetailShell } from "@/features/game-detail/game-detail-shell";
 import { GameFactGrid } from "@/features/game-detail/game-fact-grid";
 import { SteamChart } from "@/features/game-detail/steam-chart.android";
 import { GameListActions } from "@/features/lists/game-list-actions";
+import { useLastVisited } from "@/features/last-visited";
 import {
   gamesGetHeroQueryOptions,
   gamesGetOverviewQueryOptions,
@@ -27,6 +29,7 @@ const getRelatedGameHref = (game: { id: string | number }) =>
 export function GameDetail({ slug }: { slug: string }) {
   const colors = useAppTheme();
   const gameId = String(slug);
+  const { remember } = useLastVisited();
   const heroQuery = useQuery(gamesGetHeroQueryOptions({ path: { gameId } }));
   const overviewQuery = useQuery(gamesGetOverviewQueryOptions({ path: { gameId } }));
   const similarQuery = useQuery(gamesGetSimilarQueryOptions({ path: { gameId } }));
@@ -35,6 +38,10 @@ export function GameDetail({ slug }: { slug: string }) {
   const isLoading = heroQuery.isLoading || overviewQuery.isLoading;
   const isError = heroQuery.isError || overviewQuery.isError;
   const status = getContentStateStatus(isLoading, isError, !hero || !overview);
+
+  useEffect(() => {
+    remember(gameId);
+  }, [gameId, remember]);
 
   if (!hero || !overview || status !== "ready") {
     return (

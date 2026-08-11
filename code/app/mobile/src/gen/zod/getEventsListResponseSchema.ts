@@ -8,4 +8,4 @@ import { eventDtoSchema } from './eventDtoSchema'
 
 export const getEventsListResponseSchema = z.object({
   events: z.array(eventDtoSchema),
-}).describe('List of events matching the filter criteria.')
+})

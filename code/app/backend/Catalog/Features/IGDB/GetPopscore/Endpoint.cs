@@ -17,8 +17,16 @@ public static class Endpoint
             );
         }
 
+        var popularityTypeId = request.PopularityTypeId ?? "9";
+        if (!ApiId.TryParse(popularityTypeId, out var parsedPopularityTypeId) || parsedPopularityTypeId < 1)
+        {
+            return TypedResults.ValidationProblem(
+                new Dictionary<string, string[]> { ["PopularityTypeId"] = ["Must be a positive numeric ID."] }
+            );
+        }
+
         var result = await igdbService.GetPopscoreAsync(
-            request.PopularityType,
+            parsedPopularityTypeId,
             request.From,
             request.To,
             request.PageNumber,

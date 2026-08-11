@@ -6,7 +6,7 @@ namespace Catalog.Features.Games.Page.GetReleaseData;
 public class GamePageReleaseDataDto
 {
     [Required]
-    public required long Id { get; set; }
+    public required string Id { get; set; }
 
     [Required]
     public required string Name { get; set; }
@@ -32,6 +32,6 @@ public class GameReleaseDto
     public required List<InvolvedCompanyDto> InvolvedCompanies { get; set; }
 }
 
-public record ReleaseDateStatusDto([Required] long Id, [Required] string Name);
+public record ReleaseDateStatusDto([Required] string Id, [Required] string Name);
 
 public sealed record GetGamePageReleaseDataResponse(GamePageReleaseDataDto Data);

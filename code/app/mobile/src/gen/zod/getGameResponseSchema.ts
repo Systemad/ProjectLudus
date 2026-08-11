@@ -8,4 +8,4 @@ import { gameDetailsDtoSchema } from './gameDetailsDtoSchema'
 
 export const getGameResponseSchema = z.object({
   game: gameDetailsDtoSchema,
-}).describe('Response containing detailed game information.')
+})

@@ -43,12 +43,24 @@ public static class ListEndpoints
                         );
                     }
 
+                    if (request.GameIds.Any(gameId => !ApiId.TryParse(gameId, out _)))
+                    {
+                        return Results.ValidationProblem(
+                            new Dictionary<string, string[]>
+                            {
+                                ["GameIds"] = ["Game IDs must be non-negative integers."],
+                            }
+                        );
+                    }
+
+                    var gameIds = request.GameIds.Select(ApiId.Parse).ToList();
+
                     return Results.Ok(
-                        await membershipQueries.GetAsync(UserId(principal), request.GameIds, ct)
+                        await membershipQueries.GetAsync(UserId(principal), gameIds, ct)
                     );
                 }
             )
-            .Produces<IReadOnlyDictionary<long, GameMembership>>();
+            .Produces<IReadOnlyDictionary<string, GameMembership>>();
 
         group
             .MapPost(
@@ -112,15 +124,23 @@ public static class ListEndpoints
 
         group
             .MapGet(
-                "/me/games/{gameId:long}/lists",
+                "/me/games/{gameId}/lists",
                 async (
-                    long gameId,
+                    string gameId,
                     ClaimsPrincipal principal,
                     ListService service,
                     CancellationToken ct
-                ) => Results.Ok(await service.GetMembershipAsync(UserId(principal), gameId, ct))
+                ) =>
+                {
+                    return !ApiId.TryParse(gameId, out var parsedGameId)
+                        ? Results.BadRequest()
+                        : Results.Ok(
+                            await service.GetMembershipAsync(UserId(principal), parsedGameId, ct)
+                        );
+                }
             )
-            .Produces<GameListMembershipResponse>();
+            .Produces<GameListMembershipResponse>()
+            .Produces(StatusCodes.Status400BadRequest);
 
         group
             .MapGet(
@@ -132,7 +152,7 @@ public static class ListEndpoints
                     CancellationToken ct
                 ) => Results.Ok(await service.GetHistoryAsync(UserId(principal), id, ct))
             )
-            .Produces<IEnumerable<ListHistoryEntry>>();
+            .Produces<IEnumerable<ListHistoryEntryResponse>>();
 
         group
             .MapPut(
@@ -169,36 +189,54 @@ public static class ListEndpoints
 
         group
             .MapPut(
-                "/me/lists/{id:guid}/games/{gameId:long}",
+                "/me/lists/{id:guid}/games/{gameId}",
                 async (
                     Guid id,
-                    long gameId,
+                    string gameId,
                     ClaimsPrincipal principal,
                     ListService service,
                     CancellationToken ct
                 ) =>
-                    await service.SetGameAsync(UserId(principal), id, gameId, true, ct)
-                        ? Results.NoContent()
-                        : Results.NotFound()
+                    !ApiId.TryParse(gameId, out var parsedGameId)
+                        ? Results.BadRequest()
+                        : await service.SetGameAsync(
+                                UserId(principal),
+                                id,
+                                parsedGameId,
+                                true,
+                                ct
+                            )
+                            ? Results.NoContent()
+                            : Results.NotFound()
             )
             .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
             .MapDelete(
-                "/me/lists/{id:guid}/games/{gameId:long}",
+                "/me/lists/{id:guid}/games/{gameId}",
                 async (
                     Guid id,
-                    long gameId,
+                    string gameId,
                     ClaimsPrincipal principal,
                     ListService service,
                     CancellationToken ct
                 ) =>
-                    await service.SetGameAsync(UserId(principal), id, gameId, false, ct)
-                        ? Results.NoContent()
-                        : Results.NotFound()
+                    !ApiId.TryParse(gameId, out var parsedGameId)
+                        ? Results.BadRequest()
+                        : await service.SetGameAsync(
+                                UserId(principal),
+                                id,
+                                parsedGameId,
+                                false,
+                                ct
+                            )
+                            ? Results.NoContent()
+                            : Results.NotFound()
             )
             .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
@@ -213,44 +251,64 @@ public static class ListEndpoints
 
         group
             .MapPut(
-                "/me/wishlist/games/{gameId:long}",
+                "/me/wishlist/games/{gameId}",
                 async (
-                    long gameId,
+                    string gameId,
                     ClaimsPrincipal principal,
                     ListService service,
                     CancellationToken ct
                 ) =>
                 {
+                    if (!ApiId.TryParse(gameId, out var parsedGameId))
+                        return Results.BadRequest();
+
                     var list = (await service.GetMineAsync(UserId(principal), ct)).Single(x =>
                         x.IsDefault
                     );
-                    return await service.SetGameAsync(UserId(principal), list.Id, gameId, true, ct)
+                    return await service.SetGameAsync(
+                            UserId(principal),
+                            list.Id,
+                            parsedGameId,
+                            true,
+                            ct
+                        )
                         ? Results.NoContent()
                         : Results.NotFound();
                 }
             )
             .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
             .MapDelete(
-                "/me/wishlist/games/{gameId:long}",
+                "/me/wishlist/games/{gameId}",
                 async (
-                    long gameId,
+                    string gameId,
                     ClaimsPrincipal principal,
                     ListService service,
                     CancellationToken ct
                 ) =>
                 {
+                    if (!ApiId.TryParse(gameId, out var parsedGameId))
+                        return Results.BadRequest();
+
                     var list = (await service.GetMineAsync(UserId(principal), ct)).Single(x =>
                         x.IsDefault
                     );
-                    return await service.SetGameAsync(UserId(principal), list.Id, gameId, false, ct)
+                    return await service.SetGameAsync(
+                            UserId(principal),
+                            list.Id,
+                            parsedGameId,
+                            false,
+                            ct
+                        )
                         ? Results.NoContent()
                         : Results.NotFound();
                 }
             )
             .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         endpoints

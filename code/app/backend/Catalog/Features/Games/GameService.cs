@@ -20,14 +20,14 @@ internal sealed class GameService(AppDbContext db) : IGameService
             .AsSplitQuery()
             .Select(g => new GameOverviewDto
             {
-                Id = g.Id,
+                Id = g.Id.ToString(),
                 Slug = g.Slug,
                 Name = g.Name,
                 Summary = g.Summary,
                 Storyline = g.Storyline,
                 Cover = g.CoverNavigation!.ImageId,
                 CoverUrl = g.CoverNavigation!.Url,
-                GameType = g.GameType,
+                GameType = g.GameType.HasValue ? g.GameType.Value.ToString() : null,
                 GameTypeName = g.GameTypeNavigation!.Type,
                 Genres = g
                     .Genres.Where(x => !string.IsNullOrEmpty(x.Name))
@@ -65,12 +65,12 @@ internal sealed class GameService(AppDbContext db) : IGameService
             .AsSplitQuery()
             .Select(g => new GameDetailsDto
             {
-                Id = g.Id,
+                Id = g.Id.ToString(),
                 Url = g.Url,
                 InvolvedCompanies = g
                     .InvolvedCompanies.Select(ic => new InvolvedCompanyDto(
-                        ic.Id,
-                        ic.Company,
+                        ic.Id.ToString(),
+                        ic.Company.ToString(),
                         ic.CompanyNavigation.Name,
                         ic.CompanyNavigation.Slug,
                         (
@@ -101,11 +101,13 @@ internal sealed class GameService(AppDbContext db) : IGameService
                     .Select(w => new WebsiteDto(w.Url!, w.TypeNavigation!.Type, w.Url, w.Trusted))
                     .ToList(),
                 AlternativeNames = g
-                    .AlternativeNames.Select(a => new AlternativeNameDto(a.Id, a.Name, a.Comment))
+                    .AlternativeNames.Select(a =>
+                        new AlternativeNameDto(a.Id.ToString(), a.Name, a.Comment)
+                    )
                     .ToList(),
                 GameEngines = g
                     .GameEngines.Select(ge => new GameEnginesDto(
-                        ge.Id,
+                        ge.Id.ToString(),
                         ge.Name,
                         ge.LogoNavigation!.ImageId,
                         ge.Url
@@ -132,7 +134,7 @@ internal sealed class GameService(AppDbContext db) : IGameService
             .AsSplitQuery()
             .Select(g => new GameHeroDto
             {
-                Id = g.Id,
+                Id = g.Id.ToString(),
                 Slug = g.Slug,
                 Name = g.Name,
                 Summary = g.Summary,
@@ -165,12 +167,12 @@ internal sealed class GameService(AppDbContext db) : IGameService
                     .ToList(),
                 Platforms = g
                     .Platforms.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(p => new PlatformDto(p.Id, p.Name, p.Slug))
+                    .Select(p => new PlatformDto(p.Id.ToString(), p.Name, p.Slug))
                     .ToList(),
                 Companies = g
                     .InvolvedCompanies.Select(ic => new InvolvedCompanyDto(
-                        ic.Id,
-                        ic.Company,
+                        ic.Id.ToString(),
+                        ic.Company.ToString(),
                         ic.CompanyNavigation.Name,
                         ic.CompanyNavigation.Slug,
                         (
@@ -215,7 +217,7 @@ internal sealed class GameService(AppDbContext db) : IGameService
             .AsSplitQuery()
             .Select(g => new GamePageReleaseDataDto
             {
-                Id = g.Id,
+                Id = g.Id.ToString(),
                 Name = g.Name,
                 Slug = g.Slug,
                 Releases = g
@@ -230,22 +232,22 @@ internal sealed class GameService(AppDbContext db) : IGameService
                         Status =
                             rd.StatusNavigation != null
                                 ? new ReleaseDateStatusDto(
-                                    rd.StatusNavigation.Id,
+                                    rd.StatusNavigation.Id.ToString(),
                                     rd.StatusNavigation.Name!
                                 )
                                 : null,
                         Platform =
                             rd.PlatformNavigation != null
                                 ? new PlatformDto(
-                                    rd.PlatformNavigation.Id,
+                                    rd.PlatformNavigation.Id.ToString(),
                                     rd.PlatformNavigation.Name,
                                     rd.PlatformNavigation.Slug
                                 )
                                 : null,
                         InvolvedCompanies = g
                             .InvolvedCompanies.Select(ic => new InvolvedCompanyDto(
-                                ic.Id,
-                                ic.Company,
+                                ic.Id.ToString(),
+                                ic.Company.ToString(),
                                 ic.CompanyNavigation.Name,
                                 ic.CompanyNavigation.Slug,
                                 (

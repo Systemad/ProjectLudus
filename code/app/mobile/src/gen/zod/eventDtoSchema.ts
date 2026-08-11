@@ -8,15 +8,15 @@ import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
 import { gameMediaVideoDtoSchema } from './gameMediaVideoDtoSchema'
 
 export const eventDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
-  slug: z.null().optional(),
-  description: z.null().optional(),
-  liveStreamUrl: z.null().optional(),
+  slug: z.string().nullish(),
+  description: z.string().nullish(),
+  liveStreamUrl: z.string().nullish(),
   startTimeUtc: z.iso.datetime().nullish(),
   endTimeUtc: z.iso.datetime().nullish(),
-  timeZone: z.null().optional(),
-  logoImageId: z.null().optional(),
+  timeZone: z.string().nullish(),
+  logoImageId: z.string().nullish(),
   games: z.array(gameBrowseDtoSchema),
   videos: z.array(gameMediaVideoDtoSchema),
 })

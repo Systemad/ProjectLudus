@@ -6,7 +6,7 @@
 import * as z from 'zod'
 
 export const platformDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
   slug: z.string(),
 })

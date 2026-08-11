@@ -4,7 +4,7 @@ namespace Catalog.Features.Games.Common.Dtos;
 
 public class GameBrowseDto
 {
-    public long Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     [Required]
     public string Name { get; set; } = string.Empty;
@@ -32,7 +32,7 @@ public class GameBrowseDto
 }
 
 public sealed record SteamData(
-    long? SteamAppId,
+    string? SteamAppId,
     long? CurrentPlayers,
     long? Peak24h,
     string? HeaderUrl,
@@ -60,11 +60,11 @@ public sealed record SteamReviewData(
 
 public sealed record GameFeatures(List<Feature> Genres, List<Feature> Themes);
 
-public sealed record PlatformDto(long Id, string Name, string Slug);
+public sealed record PlatformDto(string Id, string Name, string Slug);
 
 public sealed record InvolvedCompanyDto(
-    long Id,
-    long CompanyId,
+    string Id,
+    string CompanyId,
     string CompanyName,
     string CompanySlug,
     string CompanyLogoImageId,

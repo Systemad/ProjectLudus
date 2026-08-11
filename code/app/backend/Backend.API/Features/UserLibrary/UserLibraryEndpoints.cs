@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Catalog.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Play.Queries;
+using Backend.API.Features;
 
 namespace Backend.API.Features.UserLibrary;
 
@@ -27,8 +28,9 @@ public static class UserLibraryEndpoints
             .Produces(StatusCodes.Status503ServiceUnavailable)
             .ProducesValidationProblem();
         group
-            .MapGet("/games/{gameId:long}", GetGameAsync)
+            .MapGet("/games/{gameId}", GetGameAsync)
             .Produces<UserLibraryGameResponse>()
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
         group
             .MapPost("/games/membership", GetMembershipAsync)
@@ -161,24 +163,27 @@ public static class UserLibraryEndpoints
     }
 
     private static async Task<IResult> GetGameAsync(
-        long gameId,
+        string gameId,
         ClaimsPrincipal principal,
         CatalogGameQueries catalogGames,
         PlayMembershipQueries membershipQueries,
         CancellationToken ct
     )
     {
-        var cardsTask = catalogGames.GetGameCardsAsync([gameId], ct);
-        var membershipTask = membershipQueries.GetAsync(UserId(principal), [gameId], ct);
+        if (!ApiId.TryParse(gameId, out var parsedGameId))
+            return Results.BadRequest();
+
+        var cardsTask = catalogGames.GetGameCardsAsync([parsedGameId], ct);
+        var membershipTask = membershipQueries.GetAsync(UserId(principal), [parsedGameId], ct);
 
         await Task.WhenAll(cardsTask, membershipTask);
 
         var cards = await cardsTask;
         var memberships = await membershipTask;
 
-        return !cards.TryGetValue(gameId, out var game)
+        return !cards.TryGetValue(parsedGameId, out var game)
             ? Results.NotFound()
-            : Results.Ok(new UserLibraryGameResponse(game, memberships[gameId]));
+            : Results.Ok(new UserLibraryGameResponse(game, memberships[parsedGameId]));
     }
 
     private static async Task<IResult> GetMembershipAsync(
@@ -198,13 +203,24 @@ public static class UserLibraryEndpoints
             );
         }
 
-        var memberships = await membershipQueries.GetAsync(UserId(principal), request.GameIds, ct);
+        if (request.GameIds.Any(gameId => !ApiId.TryParse(gameId, out _)))
+        {
+            return Results.ValidationProblem(
+                new Dictionary<string, string[]>
+                {
+                    ["GameIds"] = ["Game IDs must be non-negative integers."],
+                }
+            );
+        }
+
+        var gameIds = request.GameIds.Select(ApiId.Parse).ToList();
+        var memberships = await membershipQueries.GetAsync(UserId(principal), gameIds, ct);
 
         return Results.Ok(
             new UserLibraryMembershipResponse(
                 memberships
                     .Select(item => new UserLibraryMembershipItemResponse(
-                        item.Key,
+                        ApiId.Format(item.Key),
                         item.Value.IsWishlisted,
                         item.Value.ListIds
                     ))
@@ -241,7 +257,7 @@ public sealed class UserLibraryCursorRequest
     public int PageSize { get; init; } = 20;
 }
 
-public sealed record GameIdsRequest(IReadOnlyList<long> GameIds);
+public sealed record GameIdsRequest(IReadOnlyList<string> GameIds);
 
 public sealed record UserLibraryListSummary(
     Guid Id,
@@ -274,7 +290,7 @@ public sealed record UserLibraryHistoryResponse(
 public sealed record UserLibraryGameResponse(GameCard Game, GameMembership Membership);
 
 public sealed record UserLibraryMembershipItemResponse(
-    long GameId,
+    string GameId,
     bool IsWishlisted,
     IReadOnlyList<Guid> ListIds
 );

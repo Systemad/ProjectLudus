@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { CompaniesGetOptions, CompaniesGetStatus200, CompaniesGetStatus404 } from '../../types/CompaniesGet'
+import type { CompaniesGetOptions, CompaniesGetStatus200, CompaniesGetStatus400, CompaniesGetStatus404 } from '../../types/CompaniesGet'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { companiesGet } from '../../clients/companiesGet'
 
@@ -15,7 +15,7 @@ type CompaniesGetSuspenseQueryKey = ReturnType<typeof companiesGetSuspenseQueryK
 
 export function companiesGetSuspenseQueryOptions({ path }: CompaniesGetOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = companiesGetSuspenseQueryKey({ path })
-  return queryOptions<CompaniesGetStatus200, ResponseErrorConfig<CompaniesGetStatus404>, CompaniesGetStatus200, typeof queryKey>({
+  return queryOptions<CompaniesGetStatus200, ResponseErrorConfig<CompaniesGetStatus400 | CompaniesGetStatus404>, CompaniesGetStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await companiesGet({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function companiesGetSuspenseQueryOptions({ path }: CompaniesGetOptions, 
  * {@link /catalog/companies/:companyId}
  */
 export function useCompaniesGetSuspense<TData = CompaniesGetStatus200, TQueryKey extends QueryKey = CompaniesGetSuspenseQueryKey>({ path }: { path: CompaniesGetOptions['path'] | (() => CompaniesGetOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<CompaniesGetStatus200, ResponseErrorConfig<CompaniesGetStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<CompaniesGetStatus200, ResponseErrorConfig<CompaniesGetStatus400 | CompaniesGetStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useCompaniesGetSuspense<TData = CompaniesGetStatus200, TQueryKey
    ...companiesGetSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CompaniesGetStatus404>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CompaniesGetStatus400 | CompaniesGetStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

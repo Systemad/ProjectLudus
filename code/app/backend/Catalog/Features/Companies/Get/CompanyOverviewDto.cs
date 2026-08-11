@@ -1,9 +1,9 @@
 namespace Catalog.Features.Companies.Get;
 
-public record ParentCompanyDto(long Id, string? Name, string? Slug);
+public record ParentCompanyDto(string Id, string? Name, string? Slug);
 
 public record CompanyOverviewDto(
-    long Id,
+    string Id,
     string Name,
     string Slug,
     string? Description,

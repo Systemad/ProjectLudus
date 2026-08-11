@@ -1,3 +1,4 @@
+import { adapterOas } from "@kubb/adapter-oas";
 import { pluginAxios } from "@kubb/plugin-axios";
 import { pluginFetch } from "@kubb/plugin-fetch";
 import { pluginReactQuery } from "@kubb/plugin-react-query";
@@ -5,37 +6,33 @@ import { pluginRedoc } from "@kubb/plugin-redoc";
 import { pluginTs } from "@kubb/plugin-ts";
 import { pluginZod } from "@kubb/plugin-zod";
 import { defineConfig } from "kubb/config";
-import ts from "typescript";
-
-const typePlugin = () =>
-  pluginTs({
-    printer: {
-      nodes: {
-        bigint() {
-          return ts.factory.createKeywordTypeNode(ts.SyntaxKind.StringKeyword);
-        },
-      },
-    },
-  });
 
 export default defineConfig([
   {
     name: "catalog-api",
     root: ".",
-    input: "http://localhost:5141/openapi/v1.json",
+    input: "../backend/docs/openapi/Backend.API.json",
+    adapter: adapterOas({ integerType: "number" }),
     output: {
       path: "./src/gen",
       clean: true,
       format: "auto",
       lint: "auto",
+      barrel: { type: "named" },
     },
     plugins: [
-      typePlugin(),
-      pluginAxios(),
-      pluginZod(),
+      pluginTs({
+        output: { path: "./types", mode: "directory", barrel: { type: "named" } },
+      }),
+      pluginAxios({
+        output: { path: "./clients", mode: "directory", barrel: { type: "named" } },
+      }),
+      pluginZod({
+        output: { path: "./zod", mode: "directory", barrel: { type: "named" } },
+      }),
       pluginRedoc(),
       pluginReactQuery({
-        output: { path: "./hooks", mode: "directory" },
+        output: { path: "./hooks", mode: "directory", barrel: { type: "named" } },
         group: {
           type: "tag",
           name: ({ group }) => `${group}Hooks`,
@@ -58,18 +55,24 @@ export default defineConfig([
   {
     name: "play-api",
     root: ".",
-    input: "http://localhost:5141/openapi/v1.json",
+    input: "../backend/docs/openapi/Backend.API.json",
+    adapter: adapterOas({ integerType: "number" }),
     output: {
       path: "./src/gen/play-api",
       clean: true,
       format: "auto",
       lint: "auto",
+      barrel: { type: "named" },
     },
     plugins: [
-      typePlugin(),
-      pluginFetch({ output: { path: "./clients", mode: "directory" } }),
+      pluginTs({
+        output: { path: "./types", mode: "directory", barrel: { type: "named" } },
+      }),
+      pluginFetch({
+        output: { path: "./clients", mode: "directory", barrel: { type: "named" } },
+      }),
       pluginReactQuery({
-        output: { path: "./hooks", mode: "directory" },
+        output: { path: "./hooks", mode: "directory", barrel: { type: "named" } },
         group: {
           type: "tag",
           name: ({ group }) => `${group}Hooks`,

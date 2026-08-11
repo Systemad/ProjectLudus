@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { GamesGetSimilarOptions, GamesGetSimilarStatus200 } from '../../types/GamesGetSimilar'
+import type { GamesGetSimilarOptions, GamesGetSimilarStatus200, GamesGetSimilarStatus400 } from '../../types/GamesGetSimilar'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { gamesGetSimilar } from '../../clients/gamesGetSimilar'
 
@@ -15,7 +15,7 @@ type GamesGetSimilarSuspenseQueryKey = ReturnType<typeof gamesGetSimilarSuspense
 
 export function gamesGetSimilarSuspenseQueryOptions({ path }: GamesGetSimilarOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = gamesGetSimilarSuspenseQueryKey({ path })
-  return queryOptions<GamesGetSimilarStatus200, ResponseErrorConfig<Error>, GamesGetSimilarStatus200, typeof queryKey>({
+  return queryOptions<GamesGetSimilarStatus200, ResponseErrorConfig<GamesGetSimilarStatus400>, GamesGetSimilarStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await gamesGetSimilar({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function gamesGetSimilarSuspenseQueryOptions({ path }: GamesGetSimilarOpt
  * {@link /catalog/games/:gameId/similar-games}
  */
 export function useGamesGetSimilarSuspense<TData = GamesGetSimilarStatus200, TQueryKey extends QueryKey = GamesGetSimilarSuspenseQueryKey>({ path }: { path: GamesGetSimilarOptions['path'] | (() => GamesGetSimilarOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<GamesGetSimilarStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GamesGetSimilarStatus200, ResponseErrorConfig<GamesGetSimilarStatus400>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useGamesGetSimilarSuspense<TData = GamesGetSimilarStatus200, TQu
    ...gamesGetSimilarSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetSimilarStatus400>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

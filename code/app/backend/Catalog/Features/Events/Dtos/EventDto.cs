@@ -7,7 +7,7 @@ namespace Catalog.Features.Events.Dtos;
 public class EventDto
 {
     [Required]
-    public required long Id { get; init; }
+    public required string Id { get; init; }
 
     [Required]
     public required string Name { get; init; }

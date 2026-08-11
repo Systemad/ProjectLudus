@@ -30,6 +30,7 @@ public static class CatalogModuleExtensions
         });
         builder.Services.AddOpenApi(options =>
         {
+            options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0;
             options.AddOperationTransformer<RequiredParameterTransformer>();
             options.AddSchemaTransformer<RequiredSchemaTransformer>();
         });

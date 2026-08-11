@@ -8,4 +8,4 @@ import { eventDtoSchema } from './eventDtoSchema'
 
 export const getEventByIdResponseSchema = z.object({
   event: eventDtoSchema,
-}).describe('Event details including associated games.')
+})

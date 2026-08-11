@@ -15,7 +15,7 @@ export const eventsGetListQueryStatusSchema = z.string().optional()
 
 export const eventsGetListQueryLimitSchema = z.int().optional()
 
-export const eventsGetListStatus200Schema = getEventsListResponseSchema.describe('List of events matching the filter criteria.')
+export const eventsGetListStatus200Schema = getEventsListResponseSchema
 
 export const eventsGetListStatus400Schema = httpValidationProblemDetailsSchema
 

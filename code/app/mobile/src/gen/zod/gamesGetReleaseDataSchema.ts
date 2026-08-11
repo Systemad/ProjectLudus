@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getGamePageReleaseDataResponseSchema } from './getGamePageReleaseDataResponseSchema'
 
-export const gamesGetReleaseDataPathGameIdSchema = z.bigint()
+export const gamesGetReleaseDataPathGameIdSchema = z.string()
 
 export const gamesGetReleaseDataStatus200Schema = getGamePageReleaseDataResponseSchema
+
+export const gamesGetReleaseDataStatus400Schema = z.any()
 
 export const gamesGetReleaseDataStatus404Schema = z.any()
 
 export const gamesGetReleaseDataResponseSchema = gamesGetReleaseDataStatus200Schema
 
-export const gamesGetReleaseDataErrorSchema = gamesGetReleaseDataStatus404Schema
+export const gamesGetReleaseDataErrorSchema = z.union([gamesGetReleaseDataStatus400Schema, gamesGetReleaseDataStatus404Schema])

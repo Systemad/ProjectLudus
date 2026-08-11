@@ -6,8 +6,12 @@
 import * as z from 'zod'
 import { getSimilarGamesResponseSchema } from './getSimilarGamesResponseSchema'
 
-export const gamesGetSimilarPathGameIdSchema = z.bigint()
+export const gamesGetSimilarPathGameIdSchema = z.string()
 
 export const gamesGetSimilarStatus200Schema = getSimilarGamesResponseSchema
 
+export const gamesGetSimilarStatus400Schema = z.any()
+
 export const gamesGetSimilarResponseSchema = gamesGetSimilarStatus200Schema
+
+export const gamesGetSimilarErrorSchema = gamesGetSimilarStatus400Schema

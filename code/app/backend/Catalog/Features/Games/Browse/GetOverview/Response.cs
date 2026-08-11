@@ -4,7 +4,7 @@ namespace Catalog.Features.Games.Browse.GetOverview;
 
 public class GameOverviewDto
 {
-    public long Id { get; set; }
+    public string Id { get; set; } = string.Empty;
     public string? Slug { get; set; }
 
     [Required]
@@ -14,7 +14,7 @@ public class GameOverviewDto
     public string? Storyline { get; set; }
     public string? Cover { get; set; }
     public string? CoverUrl { get; set; }
-    public long? GameType { get; set; }
+    public string? GameType { get; set; }
     public string? GameTypeName { get; set; }
 
     [Required]

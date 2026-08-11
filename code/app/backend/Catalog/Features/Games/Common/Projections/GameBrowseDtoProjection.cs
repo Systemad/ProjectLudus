@@ -8,7 +8,7 @@ public static class GameBrowseDtoProjection
     public static IQueryable<GameBrowseDto> SelectGameBrowseDto(this IQueryable<Game> query) =>
         query.Select(g => new GameBrowseDto
         {
-            Id = g.Id,
+            Id = g.Id.ToString(),
             Name = g.Name,
             FirstReleaseDate =
                 g.FirstReleaseDateUtc != null
@@ -16,7 +16,9 @@ public static class GameBrowseDtoProjection
                     : null,
             CoverUrl = g.CoverNavigation!.ImageId,
             Steam = new SteamData(
-                g.SteamLatestPlayerCount!.SteamAppId,
+                g.SteamLatestPlayerCount!.SteamAppId.HasValue
+                    ? g.SteamLatestPlayerCount!.SteamAppId.Value.ToString()
+                    : null,
                 g.SteamLatestPlayerCount!.CurrentPlayers,
                 g.SteamLatestPlayerCount!.Peak24h,
                 g.SteamDetail!.HeaderUrl,
@@ -43,11 +45,13 @@ public static class GameBrowseDtoProjection
                 g.Genres.Select(t => new Feature(t.Name!, t.Slug!)).ToList(),
                 g.Themes.Select(t => new Feature(t.Name!, t.Slug!)).ToList()
             ),
-            Platforms = g.Platforms.Select(p => new PlatformDto(p.Id, p.Name, p.Slug)).ToList(),
+            Platforms = g.Platforms
+                .Select(p => new PlatformDto(p.Id.ToString(), p.Name, p.Slug))
+                .ToList(),
             Companies = g
                 .InvolvedCompanies.Select(ic => new InvolvedCompanyDto(
-                    ic.Id,
-                    ic.Company,
+                    ic.Id.ToString(),
+                    ic.Company.ToString(),
                     ic.CompanyNavigation.Name,
                     ic.CompanyNavigation.Slug,
                     (

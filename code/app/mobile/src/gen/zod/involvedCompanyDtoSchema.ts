@@ -6,8 +6,8 @@
 import * as z from 'zod'
 
 export const involvedCompanyDtoSchema = z.object({
-  id: z.bigint(),
-  companyId: z.bigint(),
+  id: z.string(),
+  companyId: z.string(),
   companyName: z.string(),
   companySlug: z.string(),
   companyLogoImageId: z.string(),

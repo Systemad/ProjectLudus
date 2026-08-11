@@ -6,7 +6,7 @@
 import * as z from 'zod'
 
 export const parentCompanyDtoSchema = z.object({
-  id: z.bigint(),
-  name: z.null(),
-  slug: z.null(),
+  id: z.string(),
+  name: z.string().nullable(),
+  slug: z.string().nullable(),
 })

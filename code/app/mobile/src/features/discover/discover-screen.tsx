@@ -2,6 +2,7 @@ import { type Href } from "expo-router";
 import { ScrollView, StyleSheet } from "react-native";
 
 import { DiscoverRail } from "@/features/discover/discover-rail";
+import { LastVisitedSection } from "@/features/last-visited";
 import { useIgdbGetMostAnticipated, useIgdbGetPopscore } from "@/gen/hooks/IGDBHooks";
 import { useSteamChart } from "@/gen/hooks/SteamHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -45,6 +46,7 @@ export default function DiscoverScreen() {
       style={{ backgroundColor: colors.background }}
       contentContainerStyle={[commonStyles.pageGutter, styles.content]}
     >
+      <LastVisitedSection />
       <DiscoverRail
         title="Trending"
         subtitle="Global top sellers right now"

@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { GamesGetReleaseDataOptions, GamesGetReleaseDataStatus200, GamesGetReleaseDataStatus404 } from '../../types/GamesGetReleaseData'
+import type { GamesGetReleaseDataOptions, GamesGetReleaseDataStatus200, GamesGetReleaseDataStatus400, GamesGetReleaseDataStatus404 } from '../../types/GamesGetReleaseData'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { gamesGetReleaseData } from '../../clients/gamesGetReleaseData'
 
@@ -15,7 +15,7 @@ type GamesGetReleaseDataSuspenseQueryKey = ReturnType<typeof gamesGetReleaseData
 
 export function gamesGetReleaseDataSuspenseQueryOptions({ path }: GamesGetReleaseDataOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = gamesGetReleaseDataSuspenseQueryKey({ path })
-  return queryOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus404>, GamesGetReleaseDataStatus200, typeof queryKey>({
+  return queryOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>, GamesGetReleaseDataStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await gamesGetReleaseData({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function gamesGetReleaseDataSuspenseQueryOptions({ path }: GamesGetReleas
  * {@link /catalog/games/:gameId/page-release-data}
  */
 export function useGamesGetReleaseDataSuspense<TData = GamesGetReleaseDataStatus200, TQueryKey extends QueryKey = GamesGetReleaseDataSuspenseQueryKey>({ path }: { path: GamesGetReleaseDataOptions['path'] | (() => GamesGetReleaseDataOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useGamesGetReleaseDataSuspense<TData = GamesGetReleaseDataStatus
    ...gamesGetReleaseDataSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDataStatus404>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

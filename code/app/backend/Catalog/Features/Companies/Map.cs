@@ -9,17 +9,19 @@ public static class Map
         var group = app.MapGroup("/catalog/companies").CacheOutput("DefaultCache");
 
         group
-            .MapGet("/{companyId:long}", Get.Endpoint.HandleAsync)
+            .MapGet("/{companyId}", Get.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Companies}/Get")
             .WithTags(EndpointMetadata.Companies)
             .Produces<Get.GetCompanyResponse>()
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         group
-            .MapGet("/{companyId:long}/games", GetGames.Endpoint.HandleAsync)
+            .MapGet("/{companyId}/games", GetGames.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Companies}/GetGames")
             .WithTags(EndpointMetadata.Companies)
             .Produces<List<GameBrowseDto>>()
+            .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound);
 
         return app;

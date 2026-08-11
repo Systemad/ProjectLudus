@@ -9,12 +9,12 @@ import { platformDtoSchema } from './platformDtoSchema'
 import { releaseDateStatusDtoSchema } from './releaseDateStatusDtoSchema'
 
 export const gameReleaseDtoSchema = z.object({
-  platformName: z.null().optional(),
-  platformSlug: z.null().optional(),
-  releaseDate: z.bigint().nullish(),
-  region: z.null().optional(),
-  human: z.null().optional(),
-  status: z.union([z.null(), releaseDateStatusDtoSchema.strict()]).optional(),
-  platform: z.union([z.null(), platformDtoSchema.strict()]).optional(),
+  platformName: z.string().nullish(),
+  platformSlug: z.string().nullish(),
+  releaseDate: z.int().nullish(),
+  region: z.string().nullish(),
+  human: z.string().nullish(),
+  status: z.union([z.any(), releaseDateStatusDtoSchema.strict()]).optional(),
+  platform: z.union([z.any(), platformDtoSchema.strict()]).optional(),
   involvedCompanies: z.array(involvedCompanyDtoSchema),
 })

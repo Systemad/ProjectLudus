@@ -145,15 +145,36 @@ public sealed class ListService(PlayDbContext db)
         return true;
     }
 
-    public Task<List<ListHistoryEntry>> GetHistoryAsync(
+    public async Task<List<ListHistoryEntryResponse>> GetHistoryAsync(
         Guid userId,
         Guid listId,
         CancellationToken ct
-    ) =>
-        db
-            .ListHistory.Where(x => x.ListId == listId && x.UserId == userId)
+    )
+    {
+        var entries = await db
+            .ListHistory
+            .Where(x => x.ListId == listId && x.UserId == userId)
             .OrderByDescending(x => x.CreatedAt)
+            .Select(x => new
+            {
+                x.Id,
+                x.ListId,
+                x.GameId,
+                x.Action,
+                x.CreatedAt,
+            })
             .ToListAsync(ct);
+
+        return entries
+            .Select(x => new ListHistoryEntryResponse(
+                x.Id,
+                x.ListId,
+                ApiId.Format(x.GameId),
+                x.Action,
+                x.CreatedAt
+            ))
+            .ToList();
+    }
 
     public async Task<PagedListGamesResponse?> GetGamesAsync(
         Guid userId,
@@ -184,10 +205,14 @@ public sealed class ListService(PlayDbContext db)
             .ThenBy(x => x.GameId)
             .Skip((page - 1) * pageSize)
             .Take(pageSize + 1)
-            .Select(x => new ListGameResponse(x.GameId, x.AddedAt))
+            .Select(x => new { x.GameId, x.AddedAt })
             .ToListAsync(ct);
 
-        return PagedListGamesResponse.Create(results, page, pageSize);
+        return PagedListGamesResponse.Create(
+            results.Select(x => new ListGameResponse(ApiId.Format(x.GameId), x.AddedAt)).ToList(),
+            page,
+            pageSize
+        );
     }
 
     public async Task<GameListMembershipResponse> GetMembershipAsync(

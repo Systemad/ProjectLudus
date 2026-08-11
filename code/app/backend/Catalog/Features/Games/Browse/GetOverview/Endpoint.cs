@@ -3,12 +3,15 @@ namespace Catalog.Features.Games.Browse.GetOverview;
 public static class Endpoint
 {
     public static async Task<IResult> HandleAsync(
-        long gameId,
+        string gameId,
         IGameService gameService,
         CancellationToken cancellationToken
     )
     {
-        var gameOverview = await gameService.GetOverviewAsync(gameId, cancellationToken);
+        if (!ApiId.TryParse(gameId, out var parsedGameId))
+            return Results.BadRequest();
+
+        var gameOverview = await gameService.GetOverviewAsync(parsedGameId, cancellationToken);
 
         if (gameOverview is null)
             return Results.NotFound();

@@ -7,15 +7,15 @@ import * as z from 'zod'
 import { parentCompanyDtoSchema } from './parentCompanyDtoSchema'
 
 export const companyOverviewDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
   slug: z.string(),
-  description: z.null(),
-  url: z.null(),
-  startDate: z.bigint().nullable(),
-  country: z.bigint().nullable(),
-  logoId: z.null(),
-  logoImageId: z.null(),
-  parentCompany: z.union([z.null(), parentCompanyDtoSchema.strict()]),
-  status: z.null(),
+  description: z.string().nullable(),
+  url: z.string().nullable(),
+  startDate: z.int().nullable(),
+  country: z.int().nullable(),
+  logoId: z.string().nullable(),
+  logoImageId: z.string().nullable(),
+  parentCompany: z.union([z.any(), parentCompanyDtoSchema.strict()]),
+  status: z.string().nullable(),
 })

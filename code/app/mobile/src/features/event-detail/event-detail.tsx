@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import type { Href } from "expo-router";
 
 import { GameCarousel } from "@/entities/game/game-carousel";
-import { eventsGetByIdQueryOptions } from "@/gen/hooks/EventsHooks";
+import { eventsGetByIdQueryOptions } from "@/gen/hooks/EventsHooks/index";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";

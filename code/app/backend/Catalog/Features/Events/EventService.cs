@@ -66,7 +66,7 @@ internal sealed class EventService(AppDbContext db) : IEventService
         return rawEvents
             .Select(r => new EventDto
             {
-                Id = r.Event.Id,
+                Id = ApiId.Format(r.Event.Id),
                 Name = r.Event.Name,
                 Slug = r.Event.Slug,
                 Description = r.Event.Description,
@@ -76,7 +76,7 @@ internal sealed class EventService(AppDbContext db) : IEventService
                 TimeZone = r.Event.TimeZone,
                 LogoImageId = r.Event.EventLogoNavigation?.ImageId,
                 Games = r
-                    .GameIds.Select(gameMap.GetValueOrDefault)
+                    .GameIds.Select(gameId => gameMap.GetValueOrDefault(gameId.ToString()))
                     .Where(g => g != null)
                     .Select(g => g!)
                     .ToList(),
@@ -112,7 +112,7 @@ internal sealed class EventService(AppDbContext db) : IEventService
 
         return new EventDto
         {
-            Id = raw.Event.Id,
+            Id = ApiId.Format(raw.Event.Id),
             Name = raw.Event.Name,
             Slug = raw.Event.Slug,
             Description = raw.Event.Description,

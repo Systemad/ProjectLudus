@@ -12,7 +12,7 @@ import { languageSupportsDtoSchema } from './languageSupportsDtoSchema'
 import { websiteDtoSchema } from './websiteDtoSchema'
 
 export const gameDetailsDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   url: z.string(),
   involvedCompanies: z.array(involvedCompanyDtoSchema),
   themes: z.array(z.string()),

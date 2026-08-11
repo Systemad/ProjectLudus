@@ -1,8 +1,8 @@
 namespace Catalog.Features.Steam.Store.GetPricing;
 
 public sealed record GetPricingResponse(
-    long GameId,
-    long? SteamAppId,
+    string GameId,
+    string? SteamAppId,
     int? FinalCents,
     int? DiscountPercent,
     string? Currency,

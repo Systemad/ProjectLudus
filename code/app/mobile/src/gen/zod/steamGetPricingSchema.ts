@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getPricingResponseSchema } from './getPricingResponseSchema'
 
-export const steamGetPricingPathGameIdSchema = z.bigint()
+export const steamGetPricingPathGameIdSchema = z.string()
 
 export const steamGetPricingStatus200Schema = getPricingResponseSchema
+
+export const steamGetPricingStatus400Schema = z.any()
 
 export const steamGetPricingStatus404Schema = z.any()
 
 export const steamGetPricingResponseSchema = steamGetPricingStatus200Schema
 
-export const steamGetPricingErrorSchema = steamGetPricingStatus404Schema
+export const steamGetPricingErrorSchema = z.union([steamGetPricingStatus400Schema, steamGetPricingStatus404Schema])

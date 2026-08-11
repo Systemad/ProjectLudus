@@ -15,8 +15,8 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
         return await db
             .SteamLatestPricings.Where(s => s.GameId == gameId)
             .Select(s => new GetPricingResponse(
-                s.GameId,
-                s.SteamAppId,
+                s.GameId.ToString(),
+                s.SteamAppId.HasValue ? s.SteamAppId.Value.ToString() : null,
                 s.FinalCents,
                 s.DiscountPercent,
                 s.Currency,
@@ -31,8 +31,8 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
         return await db
             .SteamReviews.Where(r => r.GameId == gameId)
             .Select(r => new GetReviewsResponse(
-                r.GameId,
-                r.SteamAppId,
+                r.GameId.ToString(),
+                r.SteamAppId.HasValue ? r.SteamAppId.Value.ToString() : null,
                 r.NumReviews,
                 r.ReviewScore,
                 r.ReviewScoreDesc,

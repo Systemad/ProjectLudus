@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getCompanyResponseSchema } from './getCompanyResponseSchema'
 
-export const companiesGetPathCompanyIdSchema = z.bigint()
+export const companiesGetPathCompanyIdSchema = z.string()
 
 export const companiesGetStatus200Schema = getCompanyResponseSchema
+
+export const companiesGetStatus400Schema = z.any()
 
 export const companiesGetStatus404Schema = z.any()
 
 export const companiesGetResponseSchema = companiesGetStatus200Schema
 
-export const companiesGetErrorSchema = companiesGetStatus404Schema
+export const companiesGetErrorSchema = z.union([companiesGetStatus400Schema, companiesGetStatus404Schema])

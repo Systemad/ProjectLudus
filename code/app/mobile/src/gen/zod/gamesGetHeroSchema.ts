@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getGameHeroResponseSchema } from './getGameHeroResponseSchema'
 
-export const gamesGetHeroPathGameIdSchema = z.bigint()
+export const gamesGetHeroPathGameIdSchema = z.string()
 
 export const gamesGetHeroStatus200Schema = getGameHeroResponseSchema
+
+export const gamesGetHeroStatus400Schema = z.any()
 
 export const gamesGetHeroStatus404Schema = z.any()
 
 export const gamesGetHeroResponseSchema = gamesGetHeroStatus200Schema
 
-export const gamesGetHeroErrorSchema = gamesGetHeroStatus404Schema
+export const gamesGetHeroErrorSchema = z.union([gamesGetHeroStatus400Schema, gamesGetHeroStatus404Schema])

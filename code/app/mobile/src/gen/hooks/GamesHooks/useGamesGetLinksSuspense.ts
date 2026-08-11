@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { GamesGetLinksOptions, GamesGetLinksStatus200 } from '../../types/GamesGetLinks'
+import type { GamesGetLinksOptions, GamesGetLinksStatus200, GamesGetLinksStatus400 } from '../../types/GamesGetLinks'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { gamesGetLinks } from '../../clients/gamesGetLinks'
 
@@ -15,7 +15,7 @@ type GamesGetLinksSuspenseQueryKey = ReturnType<typeof gamesGetLinksSuspenseQuer
 
 export function gamesGetLinksSuspenseQueryOptions({ path }: GamesGetLinksOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = gamesGetLinksSuspenseQueryKey({ path })
-  return queryOptions<GamesGetLinksStatus200, ResponseErrorConfig<Error>, GamesGetLinksStatus200, typeof queryKey>({
+  return queryOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, GamesGetLinksStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await gamesGetLinks({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function gamesGetLinksSuspenseQueryOptions({ path }: GamesGetLinksOptions
  * {@link /catalog/games/:gameId/links}
  */
 export function useGamesGetLinksSuspense<TData = GamesGetLinksStatus200, TQueryKey extends QueryKey = GamesGetLinksSuspenseQueryKey>({ path }: { path: GamesGetLinksOptions['path'] | (() => GamesGetLinksOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<GamesGetLinksStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useGamesGetLinksSuspense<TData = GamesGetLinksStatus200, TQueryK
    ...gamesGetLinksSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetLinksStatus400>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

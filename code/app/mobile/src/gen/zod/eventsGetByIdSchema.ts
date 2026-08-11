@@ -6,12 +6,14 @@
 import * as z from 'zod'
 import { getEventByIdResponseSchema } from './getEventByIdResponseSchema'
 
-export const eventsGetByIdPathIdSchema = z.bigint()
+export const eventsGetByIdPathIdSchema = z.string()
 
-export const eventsGetByIdStatus200Schema = getEventByIdResponseSchema.describe('Event details including associated games.')
+export const eventsGetByIdStatus200Schema = getEventByIdResponseSchema
+
+export const eventsGetByIdStatus400Schema = z.any()
 
 export const eventsGetByIdStatus404Schema = z.any()
 
 export const eventsGetByIdResponseSchema = eventsGetByIdStatus200Schema
 
-export const eventsGetByIdErrorSchema = eventsGetByIdStatus404Schema
+export const eventsGetByIdErrorSchema = z.union([eventsGetByIdStatus400Schema, eventsGetByIdStatus404Schema])

@@ -6,9 +6,9 @@
 import * as z from 'zod'
 
 export const steamDataSchema = z.object({
-  steamAppId: z.bigint().nullable(),
-  currentPlayers: z.bigint().nullable(),
-  peak24h: z.bigint().nullable(),
-  headerUrl: z.null(),
-  capsuleUrl: z.null(),
+  steamAppId: z.string().nullable(),
+  currentPlayers: z.int().nullable(),
+  peak24h: z.int().nullable(),
+  headerUrl: z.string().nullable(),
+  capsuleUrl: z.string().nullable(),
 })

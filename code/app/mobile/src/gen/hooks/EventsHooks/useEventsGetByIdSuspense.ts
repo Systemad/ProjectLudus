@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { EventsGetByIdOptions, EventsGetByIdStatus200, EventsGetByIdStatus404 } from '../../types/EventsGetById'
+import type { EventsGetByIdOptions, EventsGetByIdStatus200, EventsGetByIdStatus400, EventsGetByIdStatus404 } from '../../types/EventsGetById'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { eventsGetById } from '../../clients/eventsGetById'
 
@@ -15,7 +15,7 @@ type EventsGetByIdSuspenseQueryKey = ReturnType<typeof eventsGetByIdSuspenseQuer
 
 export function eventsGetByIdSuspenseQueryOptions({ path }: EventsGetByIdOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = eventsGetByIdSuspenseQueryKey({ path })
-  return queryOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus404>, EventsGetByIdStatus200, typeof queryKey>({
+  return queryOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>, EventsGetByIdStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await eventsGetById({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function eventsGetByIdSuspenseQueryOptions({ path }: EventsGetByIdOptions
  * {@link /catalog/events/:id}
  */
 export function useEventsGetByIdSuspense<TData = EventsGetByIdStatus200, TQueryKey extends QueryKey = EventsGetByIdSuspenseQueryKey>({ path }: { path: EventsGetByIdOptions['path'] | (() => EventsGetByIdOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useEventsGetByIdSuspense<TData = EventsGetByIdStatus200, TQueryK
    ...eventsGetByIdSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<EventsGetByIdStatus404>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

@@ -6,8 +6,8 @@
 import * as z from 'zod'
 
 export const statisticsResponseSchema = z.object({
-  totalGames: z.bigint(),
-  totalCompanies: z.bigint(),
-  totalPlatforms: z.bigint(),
-  totalEvents: z.bigint(),
+  totalGames: z.int(),
+  totalCompanies: z.int(),
+  totalPlatforms: z.int(),
+  totalEvents: z.int(),
 })

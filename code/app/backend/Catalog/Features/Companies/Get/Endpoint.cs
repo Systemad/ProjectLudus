@@ -3,12 +3,15 @@ namespace Catalog.Features.Companies.Get;
 public static class Endpoint
 {
     public static async Task<IResult> HandleAsync(
-        long companyId,
+        string companyId,
         ICompanyService companyService,
         CancellationToken cancellationToken
     )
     {
-        var company = await companyService.GetOverviewAsync(companyId, cancellationToken);
+        if (!ApiId.TryParse(companyId, out var parsedCompanyId))
+            return Results.BadRequest();
+
+        var company = await companyService.GetOverviewAsync(parsedCompanyId, cancellationToken);
         return company is null ? Results.NotFound() : Results.Ok(new GetCompanyResponse(company));
     }
 }

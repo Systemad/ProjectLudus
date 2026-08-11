@@ -5,7 +5,7 @@ namespace Catalog.Features.Games.Browse.GetHero;
 
 public class GameHeroDto
 {
-    public long Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public string? Slug { get; set; }
 

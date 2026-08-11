@@ -6,8 +6,8 @@
 import * as z from 'zod'
 
 export const gameEnginesDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
-  imageId: z.null(),
-  url: z.null(),
+  imageId: z.string().nullable(),
+  url: z.string().nullable(),
 })

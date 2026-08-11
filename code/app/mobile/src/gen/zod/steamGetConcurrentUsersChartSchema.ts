@@ -6,10 +6,14 @@
 import * as z from 'zod'
 import { concurrentUsersChartResponseSchema } from './concurrentUsersChartResponseSchema'
 
-export const steamGetConcurrentUsersChartPathGameIdSchema = z.bigint()
+export const steamGetConcurrentUsersChartPathGameIdSchema = z.string()
 
 export const steamGetConcurrentUsersChartQueryRangeSchema = z.string().optional()
 
 export const steamGetConcurrentUsersChartStatus200Schema = concurrentUsersChartResponseSchema
 
+export const steamGetConcurrentUsersChartStatus400Schema = z.any()
+
 export const steamGetConcurrentUsersChartResponseSchema = steamGetConcurrentUsersChartStatus200Schema
+
+export const steamGetConcurrentUsersChartErrorSchema = steamGetConcurrentUsersChartStatus400Schema

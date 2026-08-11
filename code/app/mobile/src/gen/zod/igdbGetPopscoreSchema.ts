@@ -7,7 +7,7 @@ import * as z from 'zod'
 import { httpValidationProblemDetailsSchema } from './httpValidationProblemDetailsSchema'
 import { pagedGamesResponseSchema } from './pagedGamesResponseSchema'
 
-export const igdbGetPopscoreQueryPopularityTypeIdSchema = z.bigint().optional()
+export const igdbGetPopscoreQueryPopularityTypeIdSchema = z.string().optional()
 
 export const igdbGetPopscoreQueryFromSchema = z.iso.datetime().optional()
 

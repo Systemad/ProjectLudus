@@ -6,7 +6,7 @@ import { GameCarousel } from "@/entities/game/game-carousel";
 import {
   companiesGetGamesQueryOptions,
   companiesGetQueryOptions,
-} from "@/gen/hooks/CompaniesHooks";
+} from "@/gen/hooks/CompaniesHooks/index";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";

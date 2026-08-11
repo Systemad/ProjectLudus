@@ -12,7 +12,7 @@ import {
   useGetApiMeLists,
   useGetApiMeListsIdGames,
   usePutApiMeListsId,
-} from "@/gen/play-api";
+} from "@/gen/play-api/index";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { posthog } from "@/lib/posthog";
 import { commonStyles } from "@/shared/ui/common-styles";

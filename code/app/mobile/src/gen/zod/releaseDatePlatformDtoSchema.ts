@@ -6,6 +6,6 @@
 import * as z from 'zod'
 
 export const releaseDatePlatformDtoSchema = z.object({
-  releaseDate: z.bigint().nullable(),
-  platform: z.null(),
+  releaseDate: z.int().nullable(),
+  platform: z.string().nullable(),
 })

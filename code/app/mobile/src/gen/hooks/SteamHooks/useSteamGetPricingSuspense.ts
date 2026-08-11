@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { SteamGetPricingOptions, SteamGetPricingStatus200, SteamGetPricingStatus404 } from '../../types/SteamGetPricing'
+import type { SteamGetPricingOptions, SteamGetPricingStatus200, SteamGetPricingStatus400, SteamGetPricingStatus404 } from '../../types/SteamGetPricing'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { steamGetPricing } from '../../clients/steamGetPricing'
 
@@ -15,7 +15,7 @@ type SteamGetPricingSuspenseQueryKey = ReturnType<typeof steamGetPricingSuspense
 
 export function steamGetPricingSuspenseQueryOptions({ path }: SteamGetPricingOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = steamGetPricingSuspenseQueryKey({ path })
-  return queryOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus404>, SteamGetPricingStatus200, typeof queryKey>({
+  return queryOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>, SteamGetPricingStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await steamGetPricing({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function steamGetPricingSuspenseQueryOptions({ path }: SteamGetPricingOpt
  * {@link /catalog/steam/pricing/:gameId}
  */
 export function useSteamGetPricingSuspense<TData = SteamGetPricingStatus200, TQueryKey extends QueryKey = SteamGetPricingSuspenseQueryKey>({ path }: { path: SteamGetPricingOptions['path'] | (() => SteamGetPricingOptions['path']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useSteamGetPricingSuspense<TData = SteamGetPricingStatus200, TQu
    ...steamGetPricingSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetPricingStatus404>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

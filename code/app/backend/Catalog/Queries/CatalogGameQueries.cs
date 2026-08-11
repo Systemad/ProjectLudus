@@ -1,3 +1,5 @@
+using Catalog.Features;
+
 namespace Catalog.Queries;
 
 public sealed class CatalogGameQueries(AppDbContext db)
@@ -13,21 +15,31 @@ public sealed class CatalogGameQueries(AppDbContext db)
         var cards = await db
             .Games.AsNoTracking()
             .Where(game => gameIds.Contains(game.Id))
-            .Select(game => new GameCard(
+            .Select(game => new
+            {
                 game.Id,
                 game.Name,
-                game.CoverNavigation == null ? null : game.CoverNavigation.ImageId,
+                CoverImageId = game.CoverNavigation == null ? null : game.CoverNavigation.ImageId,
                 game.FirstReleaseDateUtc,
-                game.GameTypeNavigation == null ? null : game.GameTypeNavigation.Type
-            ))
+                GameTypeName = game.GameTypeNavigation == null ? null : game.GameTypeNavigation.Type,
+            })
             .ToListAsync(ct);
 
-        return cards.ToDictionary(card => card.Id);
+        return cards.ToDictionary(
+            card => card.Id,
+            card => new GameCard(
+                ApiId.Format(card.Id),
+                card.Name,
+                card.CoverImageId,
+                card.FirstReleaseDateUtc,
+                card.GameTypeName
+            )
+        );
     }
 }
 
 public sealed record GameCard(
-    long Id,
+    string Id,
     string Name,
     string? CoverImageId,
     DateTime? FirstReleaseDateUtc,

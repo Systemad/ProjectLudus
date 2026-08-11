@@ -8,7 +8,7 @@ import { Host } from "@expo/ui";
 import { SegmentedButton, SingleChoiceSegmentedButtonRow, Text } from "@expo/ui/jetpack-compose";
 import { fillMaxWidth, weight } from "@expo/ui/jetpack-compose/modifiers";
 
-import { useSteamGetConcurrentUsersChart } from "@/gen/hooks/SteamHooks";
+import { useSteamGetConcurrentUsersChart } from "@/gen/hooks/SteamHooks/index";
 import type { ChartPointDto } from "@/gen/types/ChartPointDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";

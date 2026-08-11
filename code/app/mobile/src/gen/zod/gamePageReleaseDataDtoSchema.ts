@@ -7,7 +7,7 @@ import * as z from 'zod'
 import { gameReleaseDtoSchema } from './gameReleaseDtoSchema'
 
 export const gamePageReleaseDataDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
   slug: z.string(),
   releases: z.array(gameReleaseDtoSchema),

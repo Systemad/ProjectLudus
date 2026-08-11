@@ -6,6 +6,6 @@
 import * as z from 'zod'
 
 export const releaseDateStatusDtoSchema = z.object({
-  id: z.bigint(),
+  id: z.string(),
   name: z.string(),
 })

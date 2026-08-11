@@ -11,7 +11,7 @@ internal sealed class CompanyService(AppDbContext db) : ICompanyService
         return await db
             .Companies.Where(c => c.Id == companyId)
             .Select(c => new CompanyOverviewDto(
-                c.Id,
+                c.Id.ToString(),
                 c.Name,
                 c.Slug,
                 c.Description,
@@ -22,7 +22,7 @@ internal sealed class CompanyService(AppDbContext db) : ICompanyService
                 c.LogoNavigation!.ImageId,
                 c.Parent == null
                     ? null
-                    : new ParentCompanyDto(c.Parent.Id, c.Parent.Name, c.Parent.Slug),
+                    : new ParentCompanyDto(c.Parent.Id.ToString(), c.Parent.Name, c.Parent.Slug),
                 c.StatusNavigation!.Name
             ))
             .FirstOrDefaultAsync(ct);

@@ -3,12 +3,15 @@ namespace Catalog.Features.Companies.GetGames;
 public static class Endpoint
 {
     public static async Task<IResult> HandleAsync(
-        long companyId,
+        string companyId,
         ICompanyService companyService,
         CancellationToken cancellationToken
     )
     {
-        var games = await companyService.GetGamesAsync(companyId, cancellationToken);
+        if (!ApiId.TryParse(companyId, out var parsedCompanyId))
+            return Results.BadRequest();
+
+        var games = await companyService.GetGamesAsync(parsedCompanyId, cancellationToken);
         return Results.Ok(games);
     }
 }
