@@ -10,9 +10,21 @@ Expo SDK 57 mobile client. Android is the active target; iOS is out of scope unl
 - Use `ContentState` for loading, error, empty, and ready branches throughout the app. Add a new state component only when the interaction or layout is genuinely different.
 - Keep platform-specific files adjacent to their shared implementation. Avoid generic catch-all component folders.
 
+## Project structure
+
+- `src/app/`: Expo Router routes and layouts.
+- `src/features/`: Feature-specific behavior and screens.
+- `src/entities/`: Reusable domain and game presentation.
+- `src/shared/`: Shared UI, hooks, utilities, and configuration.
+- `src/gen/`: Kubb-generated API clients, hooks, and types; never edit, format, lint, or otherwise modify manually.
+
+## TypeScript
+
+- Never use `any`. If no safer type is possible, ask for explicit approval before using it.
+
 ## Data and authentication
 
-- Use generated Kubb hooks and types for Backend.API. Never edit `src/gen`; run `pnpm run generate` after API changes.
+- Use generated Kubb hooks and types for Backend.API. Do not touch `src/gen` manually; run `pnpm run generate` after API changes.
 - Keep server state in the shared TanStack Query client. Keep local preferences in the existing stores; do not create clients in screens.
 - Authentication is owned by the shared auth context/provider. SecureStore access goes through the profile auth-storage wrapper.
 - Treat generated numeric IDs as strings at the client boundary and never put `BigInt` values in query keys.

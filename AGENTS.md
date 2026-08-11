@@ -25,6 +25,13 @@ code/
 - Work one Linear issue per local branch and one focused concern per pull request.
 - Create branches locally. Keep all work uncommitted and local by default.
 - Do not commit, push, open a pull request, create or modify Linear issues, or change Linear state without explicit permission for that specific action.
+- When multiple agents work in parallel, state file ownership and boundaries up front to avoid collisions.
+- For non-trivial UI, layout, or copy changes, create several distinct static mocks before editing production components.
+- Never access or modify production systems, including live databases or VPS infrastructure, unless explicitly asked for that specific action.
+- When a commit is explicitly authorized, follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+- Keep solutions simple: follow YAGNI and avoid speculative abstractions unless told otherwise.
+- Treat type safety as a default requirement and use the type system to prevent invalid states.
+- Suggest bold ideas when they could materially benefit the work, and state their tradeoffs clearly.
 - Inspect the assigned issue, current status, branch, and only the files in scope.
 - Preserve module ownership, generated-file boundaries, and existing route/API contracts.
 - Run focused formatting, linting, typechecking, and tests for the changed slice; report blockers instead of broad unrelated cleanup.
