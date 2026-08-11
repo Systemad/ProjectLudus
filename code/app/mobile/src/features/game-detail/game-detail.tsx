@@ -8,6 +8,7 @@ import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { CompanyList } from "@/features/game-detail/company-list";
 import { GameDetailShell } from "@/features/game-detail/game-detail-shell";
 import { GameFactGrid } from "@/features/game-detail/game-fact-grid";
+import { GameScreenshotGallery } from "@/features/game-detail/game-screenshot-gallery";
 import { SteamChart } from "@/features/game-detail/steam-chart.android";
 import { GameListActions } from "@/features/lists/game-list-actions";
 import { useLastVisited } from "@/features/last-visited";
@@ -15,6 +16,7 @@ import {
   gamesGetHeroQueryOptions,
   gamesGetOverviewQueryOptions,
   gamesGetSimilarQueryOptions,
+  useGamesGetMedia,
 } from "@/gen/hooks/GamesHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -33,8 +35,10 @@ export function GameDetail({ slug }: { slug: string }) {
   const heroQuery = useQuery(gamesGetHeroQueryOptions({ path: { gameId } }));
   const overviewQuery = useQuery(gamesGetOverviewQueryOptions({ path: { gameId } }));
   const similarQuery = useQuery(gamesGetSimilarQueryOptions({ path: { gameId } }));
+  const mediaQuery = useGamesGetMedia({ path: { gameId } });
   const hero = heroQuery.data?.game;
   const overview = overviewQuery.data?.game;
+  const screenshots = mediaQuery.data?.game.screenshots ?? [];
   const isLoading = heroQuery.isLoading || overviewQuery.isLoading;
   const isError = heroQuery.isError || overviewQuery.isError;
   const status = getContentStateStatus(isLoading, isError, !hero || !overview);
@@ -61,6 +65,11 @@ export function GameDetail({ slug }: { slug: string }) {
     similarQuery.isLoading,
     similarQuery.isError,
     similar.length === 0,
+  );
+  const mediaStatus = getContentStateStatus(
+    mediaQuery.isLoading,
+    mediaQuery.isError,
+    screenshots.length === 0,
   );
   const showRelated = relatedStatus !== "empty";
 
@@ -89,6 +98,24 @@ export function GameDetail({ slug }: { slug: string }) {
       />
       <View style={detailStyles.section}>
         <GameListActions gameId={gameId} />
+      </View>
+      <View style={detailStyles.section}>
+        <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Screenshots</Text>
+        <ContentState
+          status={mediaStatus}
+          minHeight={120}
+          loading={{ label: "Loading screenshots…" }}
+          error={{
+            message: "Screenshots could not be loaded.",
+            onRetry: () => void mediaQuery.refetch(),
+          }}
+          empty={{
+            title: "No screenshots available",
+            message: "This game does not have screenshots yet.",
+          }}
+        >
+          <GameScreenshotGallery screenshotIds={screenshots} />
+        </ContentState>
       </View>
       {companies.length ? (
         <View style={detailStyles.section}>
