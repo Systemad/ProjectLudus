@@ -1,13 +1,21 @@
 import { Card, Column, Text } from "@expo/ui/jetpack-compose";
-import { clickable, fillMaxWidth, paddingAll, width } from "@expo/ui/jetpack-compose/modifiers";
+import {
+  clickable,
+  fillMaxWidth,
+  height,
+  paddingAll,
+  width,
+} from "@expo/ui/jetpack-compose/modifiers";
 import { useRouter } from "expo-router";
 
-import { GameArtwork } from "./game-artwork.android";
 import { useAppTheme } from "@/hooks/use-app-theme";
+
+import { GameArtwork } from "./game-artwork.android";
 import type { GameCardProps } from "./game-card-types";
 
 export { getGameCardData } from "./game-card-data";
 export type { GameCardData } from "./game-card-data";
+
 export type { GameCardProps, GameCardVariant } from "./game-card-types";
 
 export function GameCard({
@@ -22,6 +30,7 @@ export function GameCard({
   const colors = useAppTheme();
   const router = useRouter();
   const showCopy = variant !== "cover";
+  const copyHeight = variant === "grid" ? 92 : 76;
   const cardModifiers = cardWidth
     ? [width(cardWidth)]
     : [variant === "grid" ? fillMaxWidth(fillFraction) : fillMaxWidth()];
@@ -38,11 +47,11 @@ export function GameCard({
           fallbackLabel={title.slice(0, 1)}
           modifiers={[fillMaxWidth()]}
           fallbackHeight={cardWidth ? cardWidth / 0.72 : 180}
-          aspectRatio={0.72}
+          imageStyle={{ width: cardWidth, height: cardWidth ? cardWidth / 0.72 : 180 }}
         />
         {showCopy && metadata ? (
           <Column
-            modifiers={[paddingAll(variant === "rail" ? 8 : 12)]}
+            modifiers={[height(copyHeight), paddingAll(variant === "rail" ? 8 : 12)]}
             verticalArrangement={{ spacedBy: 4 }}
           >
             <Text

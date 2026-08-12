@@ -1,6 +1,7 @@
 import { Host } from "@expo/ui";
 import { Column, FlowRow } from "@expo/ui/jetpack-compose";
 import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
+import { useWindowDimensions } from "react-native";
 
 import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
@@ -16,6 +17,9 @@ type GameGridProps = {
 };
 
 export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGridProps) {
+  const { width } = useWindowDimensions();
+  const cardWidth = Math.floor((width - 40 - 14) / 2);
+
   return (
     <ContentState
       fullScreen
@@ -40,6 +44,7 @@ export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGr
                 {...getGameCardData(game)}
                 variant="grid"
                 href={getHref(game)}
+                cardWidth={cardWidth}
               />
             ))}
           </FlowRow>

@@ -4,10 +4,11 @@ import {
   background,
   clip,
   type ModifierConfig,
-  Shapes,
   height,
+  Shapes,
 } from "@expo/ui/jetpack-compose/modifiers";
 import { Image } from "expo-image";
+import type { ImageStyle } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
 
@@ -19,7 +20,7 @@ export type GameArtworkProps = {
   fallbackAlpha?: number;
   contentFit?: "cover" | "contain";
   cornerRadius?: number;
-  aspectRatio?: number;
+  imageStyle: ImageStyle;
 };
 
 export function GameArtwork({
@@ -30,19 +31,15 @@ export function GameArtwork({
   fallbackAlpha = 1,
   contentFit = "cover",
   cornerRadius = 12,
-  aspectRatio,
+  imageStyle,
 }: GameArtworkProps) {
   const colors = useAppTheme();
   const artworkModifiers = [...modifiers, clip(Shapes.RoundedCorner(cornerRadius))];
 
   if (imageUrl) {
     return (
-      <RNHostView modifiers={artworkModifiers}>
-        <Image
-          source={imageUrl}
-          style={{ width: "100%", ...(aspectRatio ? { aspectRatio } : { height: "100%" }) }}
-          contentFit={contentFit}
-        />
+      <RNHostView matchContents modifiers={artworkModifiers}>
+        <Image source={imageUrl} style={imageStyle} contentFit={contentFit} />
       </RNHostView>
     );
   }
