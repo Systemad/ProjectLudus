@@ -1,43 +1,37 @@
 # Mobile
 
-Expo SDK 57 mobile client. Android is the active target; iOS is out of scope unless requested.
+Expo SDK 57 client. Android is the active target; support iOS only when requested.
 
-## Architecture
+## Structure
 
-- Use Expo Router for file-based navigation. Keep routes thin and preserve the existing tab stacks and root-tab behavior.
-- Organize code under `src/`: routes in `app`, feature behavior in `features`, reusable game presentation in `entities`, shared UI in `shared`, and app-owned utilities/hooks/config in their respective folders.
-- Reuse `GameCard` and `getGameCardData` for standard grid, rail, and cover catalog presentations. Reuse the Android `GameArtwork` primitive for shared cover/placeholder rendering. Keep a specialized card only when it adds genuinely distinct information or actions, such as browse ranking/player metrics or list removal actions.
-- Use `ContentState` for loading, error, empty, and ready branches throughout the app. Add a new state component only when the interaction or layout is genuinely different.
-- Keep platform-specific files adjacent to their shared implementation. Avoid generic catch-all component folders.
+- Use Expo Router; keep routes thin.
+- Under `src/`, use `app` for routes, `features` for feature behavior, `entities` for reusable domain UI, and `shared` for common UI/utilities.
+- Keep platform-specific files beside their shared implementation. Android Compose belongs in `.android.tsx` files outside `app/`.
+- Reuse existing game cards, artwork, and `ContentState` before adding new equivalents.
+- `src/gen/` is generated: never edit or format it manually.
 
-## Project structure
+## React
 
-- `src/app/`: Expo Router routes and layouts.
-- `src/features/`: Feature-specific behavior and screens.
-- `src/entities/`: Reusable domain and game presentation.
-- `src/shared/`: Shared UI, hooks, utilities, and configuration.
-- `src/gen/`: Kubb-generated API clients, hooks, and types; never edit, format, lint, or otherwise modify manually.
+- React Compiler is enabled. Do not add `useMemo`, `useCallback`, or `React.memo`; use direct calculations and inline callbacks.
+- Use `useEffect` only to synchronize with an external system. Prefer render-time derivation, event handlers, or TanStack Query. Clean up unavoidable effects.
+- Do not use `"use no memo"` unless explicitly requested.
 
-## TypeScript
+## Data and types
 
-- Never use `any`. If no safer type is possible, ask for explicit approval before using it.
-
-## Data and authentication
-
-- Use generated Kubb hooks and types for Backend.API. Do not touch `src/gen` manually; run `pnpm run generate` after API changes.
-- Keep server state in the shared TanStack Query client. Keep local preferences in the existing stores; do not create clients in screens.
-- Authentication is owned by the shared auth context/provider. SecureStore access goes through the profile auth-storage wrapper.
-- Treat generated numeric IDs as strings at the client boundary and never put `BigInt` values in query keys.
-- Use the current `EXPO_PUBLIC_API_URL` mobile-api tunnel for physical-device API access. Never put API keys or write credentials in the bundle.
+- Use generated Kubb hooks/types and run `pnpm run generate` after API changes.
+- Keep server state in TanStack Query and authentication in the existing auth provider.
+- Never use `any`. Treat client IDs as strings; never put `BigInt` in query keys.
+- Use environment variables for API configuration. Never bundle secrets.
 
 ## Android UI
 
-- Prefer `@expo/ui` and Jetpack Compose components through `Host` for Android UI. Use semantic theme values and native controls when they fit; bridge to React Native only when Expo UI has no suitable primitive (for example, `expo-image` hosted through `RNHostView`).
-- Read the Expo UI skill before changing Android UI. Keep Android Compose trees in `.android.tsx` files outside `app/`, and verify the installed `@expo/ui` component and modifier types before introducing a new primitive.
-- Avoid custom control replacements, Tailwind, raw interface colors, and manual layout math when native Compose behavior is available.
+- Prefer `@expo/ui` Jetpack Compose through `Host`; use semantic theme values and native controls.
+- Use `RNHostView` only to bridge React Native content such as `expo-image`.
+- Read the Expo UI skill and verify installed component/modifier types before adding Compose primitives.
+- Avoid Tailwind, raw interface colors, custom control replacements, and manual layout math when native Compose provides the behavior.
 
 ## Workflow
 
-- From `code/app/mobile/`, run `pnpm run fmt`, `pnpm exec tsc --noEmit`, and `pnpm run lint` for focused changes.
-- Do not run `pnpm install`, start Expo, start Aspire, or use device automation unless explicitly requested.
-- Keep changes focused, uncommitted, and local. Do not edit generated files or unrelated work.
+- For focused changes, run from this directory: `pnpm run fmt`, `pnpm exec tsc --noEmit`, and `pnpm run lint`.
+- Do not install packages, start Expo/Aspire, or use device automation unless requested.
+- Keep changes focused, uncommitted, and local.

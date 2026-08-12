@@ -1,17 +1,12 @@
-import { Box, Card, Column, RNHostView, Row, Text } from "@expo/ui/jetpack-compose";
+import { Card, Column, Row, Text } from "@expo/ui/jetpack-compose";
 import {
-  alpha,
-  blur,
   clickable,
-  fillMaxHeight,
   fillMaxWidth,
   height,
-  matchParentSize,
   paddingAll,
   weight,
   width,
 } from "@expo/ui/jetpack-compose/modifiers";
-import { Image } from "expo-image";
 import { type Href, useRouter } from "expo-router";
 
 import { GameArtwork } from "@/entities/game/game-artwork.android";
@@ -45,90 +40,83 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
       elevation={0}
       modifiers={[fillMaxWidth(), clickable(() => router.push(href))]}
     >
-      <Box modifiers={[fillMaxWidth()]}>
-        {imageUrl === undefined ? null : (
-          <RNHostView modifiers={[matchParentSize(), alpha(0.08), blur(18)]}>
-            <Image source={imageUrl} style={{ width: "100%", height: "100%" }} contentFit="cover" />
-          </RNHostView>
-        )}
+      <Row
+        modifiers={[fillMaxWidth(), paddingAll(8)]}
+        verticalAlignment="top"
+        horizontalArrangement={{ spacedBy: 12 }}
+      >
+        <GameArtwork
+          imageUrl={imageUrl}
+          modifiers={[width(76), height(104)]}
+          fallbackAlpha={0.7}
+          imageStyle={{ width: 76, height: 104 }}
+        />
 
-        <Row
-          modifiers={[fillMaxWidth(), paddingAll(8)]}
-          verticalAlignment="top"
-          horizontalArrangement={{ spacedBy: 12 }}
-        >
-          <GameArtwork
-            imageUrl={imageUrl}
-            modifiers={[width(76), height(104)]}
-            fallbackAlpha={0.7}
-          />
-
-          <Column modifiers={[weight(1), fillMaxHeight()]} verticalArrangement="spaceBetween">
-            <Column verticalArrangement={{ spacedBy: 3 }}>
-              <Row
-                modifiers={[fillMaxWidth()]}
-                verticalAlignment="top"
-                horizontalArrangement="spaceBetween"
+        <Column modifiers={[weight(1), height(104)]} verticalArrangement="spaceBetween">
+          <Column verticalArrangement={{ spacedBy: 3 }}>
+            <Row
+              modifiers={[fillMaxWidth()]}
+              verticalAlignment="top"
+              horizontalArrangement="spaceBetween"
+            >
+              <Text
+                color={colors.text as string}
+                maxLines={2}
+                overflow="ellipsis"
+                modifiers={[weight(1)]}
+                style={{ typography: "titleMedium", fontWeight: "700" }}
               >
-                <Text
-                  color={colors.text as string}
-                  maxLines={2}
-                  overflow="ellipsis"
-                  modifiers={[weight(1)]}
-                  style={{ typography: "titleMedium", fontWeight: "700" }}
-                >
-                  {game.name}
-                </Text>
-                <Text
-                  color={colors.textMuted as string}
-                  style={{ typography: "labelLarge", fontWeight: "800" }}
-                >
-                  #{rank}
-                </Text>
-              </Row>
+                {game.name}
+              </Text>
               <Text
                 color={colors.textMuted as string}
-                maxLines={1}
-                overflow="ellipsis"
-                style={{ typography: "bodyMedium" }}
+                style={{ typography: "labelLarge", fontWeight: "800" }}
               >
-                {genre}
+                #{rank}
+              </Text>
+            </Row>
+            <Text
+              color={colors.textMuted as string}
+              maxLines={1}
+              overflow="ellipsis"
+              style={{ typography: "bodyMedium" }}
+            >
+              {genre}
+            </Text>
+          </Column>
+
+          <Row modifiers={[fillMaxWidth()]} horizontalArrangement={{ spacedBy: 16 }}>
+            <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
+              <Text
+                color={colors.textMuted as string}
+                style={{ typography: "labelSmall", fontWeight: "700" }}
+              >
+                PLAYING NOW
+              </Text>
+              <Text
+                color={colors.text as string}
+                style={{ typography: "titleMedium", fontWeight: "700" }}
+              >
+                {formatPlayerCount(game.steam?.currentPlayers)}
               </Text>
             </Column>
-
-            <Row modifiers={[fillMaxWidth()]} horizontalArrangement={{ spacedBy: 16 }}>
-              <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
-                <Text
-                  color={colors.textMuted as string}
-                  style={{ typography: "labelSmall", fontWeight: "700" }}
-                >
-                  PLAYING NOW
-                </Text>
-                <Text
-                  color={colors.text as string}
-                  style={{ typography: "titleMedium", fontWeight: "700" }}
-                >
-                  {formatPlayerCount(game.steam?.currentPlayers)}
-                </Text>
-              </Column>
-              <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
-                <Text
-                  color={colors.textMuted as string}
-                  style={{ typography: "labelSmall", fontWeight: "700" }}
-                >
-                  PEAK TODAY
-                </Text>
-                <Text
-                  color={colors.text as string}
-                  style={{ typography: "titleMedium", fontWeight: "700" }}
-                >
-                  {formatPlayerCount(game.steam?.peak24h)}
-                </Text>
-              </Column>
-            </Row>
-          </Column>
-        </Row>
-      </Box>
+            <Column modifiers={[weight(1)]} verticalArrangement={{ spacedBy: 1 }}>
+              <Text
+                color={colors.textMuted as string}
+                style={{ typography: "labelSmall", fontWeight: "700" }}
+              >
+                PEAK TODAY
+              </Text>
+              <Text
+                color={colors.text as string}
+                style={{ typography: "titleMedium", fontWeight: "700" }}
+              >
+                {formatPlayerCount(game.steam?.peak24h)}
+              </Text>
+            </Column>
+          </Row>
+        </Column>
+      </Row>
     </Card>
   );
 }

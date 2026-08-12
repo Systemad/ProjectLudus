@@ -2,7 +2,7 @@ import { Host } from "@expo/ui";
 import type { Href } from "expo-router";
 import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
-import { PAGE_GUTTER } from "@/config/layout";
+import { getGameRailCardWidth } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -63,7 +63,7 @@ export function LastVisitedSection() {
               imageUrl={imageUrl}
               variant="rail"
               href={gameHref(gameId)}
-              cardWidth={Math.min(width - PAGE_GUTTER * 2, 190)}
+              cardWidth={getGameRailCardWidth(width)}
             />
           </Host>
         ) : null}

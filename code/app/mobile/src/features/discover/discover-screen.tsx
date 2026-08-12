@@ -46,7 +46,6 @@ export default function DiscoverScreen() {
       style={{ backgroundColor: colors.background }}
       contentContainerStyle={[commonStyles.pageGutter, styles.content]}
     >
-      <LastVisitedSection />
       <DiscoverRail
         title="Trending"
         subtitle="Global top sellers right now"
@@ -78,6 +77,7 @@ export default function DiscoverScreen() {
         isError={comingUp.isError}
         onRetry={() => void comingUp.refetch()}
       />
+      <LastVisitedSection />
     </ScrollView>
   );
 }
