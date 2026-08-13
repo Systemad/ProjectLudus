@@ -1,22 +1,9 @@
-import logging
-
 from ingestions.steam.reviews import run as run_steam_reviews
 from ingestions.steam.store_details import run as run_steam_details
 from ingestions.steam.store_pricing import run as run_steam_pricing
 from prefect import flow, task
 from prefect.concurrency.sync import concurrency
-from utilities.database import get_connection
-from utilities.dbt_runner import run_dbt
-
-from flows.igdb import dlt_igdb_default
-from flows.steam_game_index import (
-    fetch_popularity_data,
-    fetch_steam_app_ids,
-    write_popularity_scores,
-    write_tracked_games,
-)
-
-logger = logging.getLogger(__name__)
+from flows.steam_tasks import dbt_build_steam
 
 
 @task
@@ -34,43 +21,6 @@ def load_steam_pricing():
     run_steam_pricing()
 
 
-@task(retries=0)
-def fill_igdb_gaps():
-    conn = get_connection()
-    with conn:
-        rows = conn.execute("""
-            SELECT t.game_id
-            FROM steam.tracked_games t
-            LEFT JOIN igdb_source.games g ON t.game_id = g.id
-            WHERE g.id IS NULL
-        """).fetchall()
-    conn.close()
-    if not rows:
-        logger.info("No missing games — IGDB is up to date.")
-        return
-    logger.info("Missing %d games — triggering incremental IGDB pipeline", len(rows))
-    dlt_igdb_default()
-
-
-@task
-def dbt_build_steam():
-    run_dbt("+marts.steam")
-
-
-@flow
-def steam_game_index_phase():
-    """Discover tracked games from IGDB popularity, save scores, and fill gaps."""
-    game_ids, score_rows = fetch_popularity_data()
-    if not game_ids:
-        return
-    results = fetch_steam_app_ids(game_ids)
-    if not results:
-        return
-    write_tracked_games(results)
-    write_popularity_scores(score_rows)
-    fill_igdb_gaps()
-
-
 @flow
 def steam_ingestion_phase():
     """Fetch Steam data sequentially (rate-limited)."""
@@ -82,7 +32,6 @@ def steam_ingestion_phase():
 @flow(log_prints=True)
 def steam_details_pipeline():
     with concurrency("pipeline-lock", occupy=1):
-        steam_game_index_phase()
         steam_ingestion_phase()
         dbt_build_steam()
 
