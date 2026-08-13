@@ -46,7 +46,7 @@ namespace PlayAPISDK.Api.Me.Games.Membership
         public async Task<global::PlayAPISDK.Api.Me.Games.Membership.MembershipPostResponse> PostAsMembershipPostResponseAsync(global::PlayAPISDK.Models.MembershipRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
             return await RequestAdapter.SendAsync<global::PlayAPISDK.Api.Me.Games.Membership.MembershipPostResponse>(requestInfo, global::PlayAPISDK.Api.Me.Games.Membership.MembershipPostResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
@@ -64,7 +64,7 @@ namespace PlayAPISDK.Api.Me.Games.Membership
         public async Task<global::PlayAPISDK.Api.Me.Games.Membership.MembershipResponse> PostAsync(global::PlayAPISDK.Models.MembershipRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
             return await RequestAdapter.SendAsync<global::PlayAPISDK.Api.Me.Games.Membership.MembershipResponse>(requestInfo, global::PlayAPISDK.Api.Me.Games.Membership.MembershipResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
@@ -80,7 +80,7 @@ namespace PlayAPISDK.Api.Me.Games.Membership
         public RequestInformation ToPostRequestInformation(global::PlayAPISDK.Models.MembershipRequest body, Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
         {
 #endif
-            _ = body ?? throw new ArgumentNullException(nameof(body));
+            if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = new RequestInformation(Method.POST, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");

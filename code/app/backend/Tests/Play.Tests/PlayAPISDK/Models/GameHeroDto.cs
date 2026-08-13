@@ -66,7 +66,13 @@ namespace PlayAPISDK.Models
         public List<global::PlayAPISDK.Models.Feature> Genres { get; set; }
 #endif
         /// <summary>The id property</summary>
-        public long? Id { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
+        public string Id { get; set; }
+#endif
         /// <summary>The keywords property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -137,7 +143,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GameHeroDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GameHeroDto();
         }
         /// <summary>
@@ -155,7 +161,7 @@ namespace PlayAPISDK.Models
                 { "gameModes", n => { GameModes = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>(global::PlayAPISDK.Models.Feature.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "gameTypeName", n => { GameTypeName = n.GetStringValue(); } },
                 { "genres", n => { Genres = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>(global::PlayAPISDK.Models.Feature.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "id", n => { Id = n.GetLongValue(); } },
+                { "id", n => { Id = n.GetStringValue(); } },
                 { "keywords", n => { Keywords = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>(global::PlayAPISDK.Models.Feature.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "platforms", n => { Platforms = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.PlatformDto>(global::PlayAPISDK.Models.PlatformDto.CreateFromDiscriminatorValue)?.AsList(); } },
@@ -171,7 +177,7 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.InvolvedCompanyDto>("companies", Companies);
             writer.WriteStringValue("cover", Cover);
             writer.WriteStringValue("coverUrl", CoverUrl);
@@ -179,7 +185,7 @@ namespace PlayAPISDK.Models
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>("gameModes", GameModes);
             writer.WriteStringValue("gameTypeName", GameTypeName);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>("genres", Genres);
-            writer.WriteLongValue("id", Id);
+            writer.WriteStringValue("id", Id);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.Feature>("keywords", Keywords);
             writer.WriteStringValue("name", Name);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.PlatformDto>("platforms", Platforms);

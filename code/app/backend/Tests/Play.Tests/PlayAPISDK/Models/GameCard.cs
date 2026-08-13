@@ -33,7 +33,13 @@ namespace PlayAPISDK.Models
         public string GameTypeName { get; set; }
 #endif
         /// <summary>The id property</summary>
-        public long? Id { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
+        public string Id { get; set; }
+#endif
         /// <summary>The name property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -56,7 +62,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GameCard CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GameCard();
         }
         /// <summary>
@@ -70,7 +76,7 @@ namespace PlayAPISDK.Models
                 { "coverImageId", n => { CoverImageId = n.GetStringValue(); } },
                 { "firstReleaseDateUtc", n => { FirstReleaseDateUtc = n.GetDateTimeOffsetValue(); } },
                 { "gameTypeName", n => { GameTypeName = n.GetStringValue(); } },
-                { "id", n => { Id = n.GetLongValue(); } },
+                { "id", n => { Id = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
             };
         }
@@ -80,11 +86,11 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("coverImageId", CoverImageId);
             writer.WriteDateTimeOffsetValue("firstReleaseDateUtc", FirstReleaseDateUtc);
             writer.WriteStringValue("gameTypeName", GameTypeName);
-            writer.WriteLongValue("id", Id);
+            writer.WriteStringValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteAdditionalData(AdditionalData);
         }

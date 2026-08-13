@@ -30,25 +30,12 @@ namespace PlayAPISDK.Catalog.Games
         /// <summary>Gets an item from the PlayAPISDK.catalog.games.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
         /// <returns>A <see cref="global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder"/></returns>
-        public global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder this[long position]
-        {
-            get
-            {
-                var urlTplParams = new Dictionary<string, object>(PathParameters);
-                urlTplParams.Add("gameId", position);
-                return new global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder(urlTplParams, RequestAdapter);
-            }
-        }
-        /// <summary>Gets an item from the PlayAPISDK.catalog.games.item collection</summary>
-        /// <param name="position">Unique identifier of the item</param>
-        /// <returns>A <see cref="global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder"/></returns>
-        [Obsolete("This indexer is deprecated and will be removed in the next major version. Use the one with the typed parameter instead.")]
         public global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder this[string position]
         {
             get
             {
                 var urlTplParams = new Dictionary<string, object>(PathParameters);
-                if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("gameId", position);
+                urlTplParams.Add("gameId", position);
                 return new global::PlayAPISDK.Catalog.Games.Item.WithGameItemRequestBuilder(urlTplParams, RequestAdapter);
             }
         }

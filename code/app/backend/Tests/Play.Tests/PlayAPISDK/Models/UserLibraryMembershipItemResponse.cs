@@ -15,7 +15,13 @@ namespace PlayAPISDK.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The gameId property</summary>
-        public long? GameId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? GameId { get; set; }
+#nullable restore
+#else
+        public string GameId { get; set; }
+#endif
         /// <summary>The isWishlisted property</summary>
         public bool? IsWishlisted { get; set; }
         /// <summary>The listIds property</summary>
@@ -40,7 +46,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.UserLibraryMembershipItemResponse CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.UserLibraryMembershipItemResponse();
         }
         /// <summary>
@@ -51,7 +57,7 @@ namespace PlayAPISDK.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "gameId", n => { GameId = n.GetLongValue(); } },
+                { "gameId", n => { GameId = n.GetStringValue(); } },
                 { "isWishlisted", n => { IsWishlisted = n.GetBoolValue(); } },
                 { "listIds", n => { ListIds = n.GetCollectionOfPrimitiveValues<Guid?>()?.AsList(); } },
             };
@@ -62,8 +68,8 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteLongValue("gameId", GameId);
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("gameId", GameId);
             writer.WriteBoolValue("isWishlisted", IsWishlisted);
             writer.WriteCollectionOfPrimitiveValues<Guid?>("listIds", ListIds);
             writer.WriteAdditionalData(AdditionalData);

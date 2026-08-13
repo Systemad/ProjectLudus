@@ -62,7 +62,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.UserResponse CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.UserResponse();
         }
         /// <summary>
@@ -86,7 +86,7 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("avatarUrl", AvatarUrl);
             writer.WriteGuidValue("id", Id);
             writer.WriteStringValue("role", Role);

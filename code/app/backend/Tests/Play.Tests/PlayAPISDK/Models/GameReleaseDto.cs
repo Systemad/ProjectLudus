@@ -86,7 +86,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GameReleaseDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GameReleaseDto();
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("human", Human);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.InvolvedCompanyDto>("involvedCompanies", InvolvedCompanies);
             writer.WriteObjectValue<global::PlayAPISDK.Models.GameReleaseDto.GameReleaseDto_platform>("platform", Platform);
@@ -153,14 +153,10 @@ namespace PlayAPISDK.Models
             /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
             public static global::PlayAPISDK.Models.GameReleaseDto.GameReleaseDto_platform CreateFromDiscriminatorValue(IParseNode parseNode)
             {
-                _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
                 var result = new global::PlayAPISDK.Models.GameReleaseDto.GameReleaseDto_platform();
-                if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.GameReleaseDtoPlatformMember1 = new global::PlayAPISDK.Models.GameReleaseDto_platformMember1();
-                }
-                else if("PlatformDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("PlatformDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.PlatformDto = new global::PlayAPISDK.Models.PlatformDto();
                 }
@@ -188,7 +184,7 @@ namespace PlayAPISDK.Models
             /// <param name="writer">Serialization writer to use to serialize this model</param>
             public virtual void Serialize(ISerializationWriter writer)
             {
-                _ = writer ?? throw new ArgumentNullException(nameof(writer));
+                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
                 if(GameReleaseDtoPlatformMember1 != null)
                 {
                     writer.WriteObjectValue<global::PlayAPISDK.Models.GameReleaseDto_platformMember1>(null, GameReleaseDtoPlatformMember1);
@@ -228,14 +224,10 @@ namespace PlayAPISDK.Models
             /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
             public static global::PlayAPISDK.Models.GameReleaseDto.GameReleaseDto_status CreateFromDiscriminatorValue(IParseNode parseNode)
             {
-                _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
                 var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
                 var result = new global::PlayAPISDK.Models.GameReleaseDto.GameReleaseDto_status();
-                if("".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.GameReleaseDtoStatusMember1 = new global::PlayAPISDK.Models.GameReleaseDto_statusMember1();
-                }
-                else if("ReleaseDateStatusDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+                if("ReleaseDateStatusDto".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
                 {
                     result.ReleaseDateStatusDto = new global::PlayAPISDK.Models.ReleaseDateStatusDto();
                 }
@@ -263,7 +255,7 @@ namespace PlayAPISDK.Models
             /// <param name="writer">Serialization writer to use to serialize this model</param>
             public virtual void Serialize(ISerializationWriter writer)
             {
-                _ = writer ?? throw new ArgumentNullException(nameof(writer));
+                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
                 if(GameReleaseDtoStatusMember1 != null)
                 {
                     writer.WriteObjectValue<global::PlayAPISDK.Models.GameReleaseDto_statusMember1>(null, GameReleaseDtoStatusMember1);

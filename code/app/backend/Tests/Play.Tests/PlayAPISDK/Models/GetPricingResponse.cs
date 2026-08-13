@@ -27,13 +27,25 @@ namespace PlayAPISDK.Models
         /// <summary>The finalCents property</summary>
         public int? FinalCents { get; set; }
         /// <summary>The gameId property</summary>
-        public long? GameId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? GameId { get; set; }
+#nullable restore
+#else
+        public string GameId { get; set; }
+#endif
         /// <summary>The high30d property</summary>
         public int? High30d { get; set; }
         /// <summary>The low30d property</summary>
         public int? Low30d { get; set; }
         /// <summary>The steamAppId property</summary>
-        public long? SteamAppId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SteamAppId { get; set; }
+#nullable restore
+#else
+        public string SteamAppId { get; set; }
+#endif
         /// <summary>
         /// Instantiates a new <see cref="global::PlayAPISDK.Models.GetPricingResponse"/> and sets the default values.
         /// </summary>
@@ -48,7 +60,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GetPricingResponse CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GetPricingResponse();
         }
         /// <summary>
@@ -62,10 +74,10 @@ namespace PlayAPISDK.Models
                 { "currency", n => { Currency = n.GetStringValue(); } },
                 { "discountPercent", n => { DiscountPercent = n.GetIntValue(); } },
                 { "finalCents", n => { FinalCents = n.GetIntValue(); } },
-                { "gameId", n => { GameId = n.GetLongValue(); } },
+                { "gameId", n => { GameId = n.GetStringValue(); } },
                 { "high30d", n => { High30d = n.GetIntValue(); } },
                 { "low30d", n => { Low30d = n.GetIntValue(); } },
-                { "steamAppId", n => { SteamAppId = n.GetLongValue(); } },
+                { "steamAppId", n => { SteamAppId = n.GetStringValue(); } },
             };
         }
         /// <summary>
@@ -74,14 +86,14 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("currency", Currency);
             writer.WriteIntValue("discountPercent", DiscountPercent);
             writer.WriteIntValue("finalCents", FinalCents);
-            writer.WriteLongValue("gameId", GameId);
+            writer.WriteStringValue("gameId", GameId);
             writer.WriteIntValue("high30d", High30d);
             writer.WriteIntValue("low30d", Low30d);
-            writer.WriteLongValue("steamAppId", SteamAppId);
+            writer.WriteStringValue("steamAppId", SteamAppId);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

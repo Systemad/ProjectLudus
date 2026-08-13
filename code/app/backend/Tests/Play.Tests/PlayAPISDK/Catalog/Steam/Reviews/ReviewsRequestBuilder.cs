@@ -18,25 +18,12 @@ namespace PlayAPISDK.Catalog.Steam.Reviews
         /// <summary>Gets an item from the PlayAPISDK.catalog.steam.reviews.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
         /// <returns>A <see cref="global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder"/></returns>
-        public global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder this[long position]
-        {
-            get
-            {
-                var urlTplParams = new Dictionary<string, object>(PathParameters);
-                urlTplParams.Add("gameId", position);
-                return new global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder(urlTplParams, RequestAdapter);
-            }
-        }
-        /// <summary>Gets an item from the PlayAPISDK.catalog.steam.reviews.item collection</summary>
-        /// <param name="position">Unique identifier of the item</param>
-        /// <returns>A <see cref="global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder"/></returns>
-        [Obsolete("This indexer is deprecated and will be removed in the next major version. Use the one with the typed parameter instead.")]
         public global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder this[string position]
         {
             get
             {
                 var urlTplParams = new Dictionary<string, object>(PathParameters);
-                if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("gameId", position);
+                urlTplParams.Add("gameId", position);
                 return new global::PlayAPISDK.Catalog.Steam.Reviews.Item.WithGameItemRequestBuilder(urlTplParams, RequestAdapter);
             }
         }

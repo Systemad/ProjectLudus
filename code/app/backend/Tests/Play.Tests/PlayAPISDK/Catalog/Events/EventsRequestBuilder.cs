@@ -21,25 +21,12 @@ namespace PlayAPISDK.Catalog.Events
         /// <summary>Gets an item from the PlayAPISDK.catalog.events.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
         /// <returns>A <see cref="global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder"/></returns>
-        public global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder this[long position]
-        {
-            get
-            {
-                var urlTplParams = new Dictionary<string, object>(PathParameters);
-                urlTplParams.Add("id", position);
-                return new global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder(urlTplParams, RequestAdapter);
-            }
-        }
-        /// <summary>Gets an item from the PlayAPISDK.catalog.events.item collection</summary>
-        /// <param name="position">Unique identifier of the item</param>
-        /// <returns>A <see cref="global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder"/></returns>
-        [Obsolete("This indexer is deprecated and will be removed in the next major version. Use the one with the typed parameter instead.")]
         public global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder this[string position]
         {
             get
             {
                 var urlTplParams = new Dictionary<string, object>(PathParameters);
-                if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("id", position);
+                urlTplParams.Add("id", position);
                 return new global::PlayAPISDK.Catalog.Events.Item.EventsItemRequestBuilder(urlTplParams, RequestAdapter);
             }
         }

@@ -47,7 +47,13 @@ namespace PlayAPISDK.Models
         public List<string> GameModes { get; set; }
 #endif
         /// <summary>The id property</summary>
-        public long? Id { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Id { get; set; }
+#nullable restore
+#else
+        public string Id { get; set; }
+#endif
         /// <summary>The involvedCompanies property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -110,7 +116,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GameDetailsDto CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GameDetailsDto();
         }
         /// <summary>
@@ -125,7 +131,7 @@ namespace PlayAPISDK.Models
                 { "franchises", n => { Franchises = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.FranchiseDto>(global::PlayAPISDK.Models.FranchiseDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "gameEngines", n => { GameEngines = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.GameEnginesDto>(global::PlayAPISDK.Models.GameEnginesDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "gameModes", n => { GameModes = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
-                { "id", n => { Id = n.GetLongValue(); } },
+                { "id", n => { Id = n.GetStringValue(); } },
                 { "involvedCompanies", n => { InvolvedCompanies = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.InvolvedCompanyDto>(global::PlayAPISDK.Models.InvolvedCompanyDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "languageSupports", n => { LanguageSupports = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.LanguageSupportsDto>(global::PlayAPISDK.Models.LanguageSupportsDto.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "playerPerspectives", n => { PlayerPerspectives = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
@@ -140,12 +146,12 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.AlternativeNameDto>("alternativeNames", AlternativeNames);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.FranchiseDto>("franchises", Franchises);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.GameEnginesDto>("gameEngines", GameEngines);
             writer.WriteCollectionOfPrimitiveValues<string>("gameModes", GameModes);
-            writer.WriteLongValue("id", Id);
+            writer.WriteStringValue("id", Id);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.InvolvedCompanyDto>("involvedCompanies", InvolvedCompanies);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.LanguageSupportsDto>("languageSupports", LanguageSupports);
             writer.WriteCollectionOfPrimitiveValues<string>("playerPerspectives", PlayerPerspectives);

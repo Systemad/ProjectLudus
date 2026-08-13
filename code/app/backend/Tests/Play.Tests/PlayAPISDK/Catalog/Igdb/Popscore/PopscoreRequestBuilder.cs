@@ -86,7 +86,13 @@ namespace PlayAPISDK.Catalog.Igdb.Popscore
             public DateTimeOffset? From { get; set; }
             public int? Page { get; set; }
             public int? PageSize { get; set; }
-            public long? PopularityTypeId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public string? PopularityTypeId { get; set; }
+#nullable restore
+#else
+            public string PopularityTypeId { get; set; }
+#endif
             public DateTimeOffset? To { get; set; }
         }
         /// <summary>

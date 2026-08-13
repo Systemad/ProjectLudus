@@ -15,7 +15,13 @@ namespace PlayAPISDK.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The gameId property</summary>
-        public long? GameId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? GameId { get; set; }
+#nullable restore
+#else
+        public string GameId { get; set; }
+#endif
         /// <summary>The numReviews property</summary>
         public int? NumReviews { get; set; }
         /// <summary>The reviewScore property</summary>
@@ -29,7 +35,13 @@ namespace PlayAPISDK.Models
         public string ReviewScoreDesc { get; set; }
 #endif
         /// <summary>The steamAppId property</summary>
-        public long? SteamAppId { get; set; }
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? SteamAppId { get; set; }
+#nullable restore
+#else
+        public string SteamAppId { get; set; }
+#endif
         /// <summary>The totalNegative property</summary>
         public int? TotalNegative { get; set; }
         /// <summary>The totalPositive property</summary>
@@ -50,7 +62,7 @@ namespace PlayAPISDK.Models
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
         public static global::PlayAPISDK.Models.GetReviewsResponse CreateFromDiscriminatorValue(IParseNode parseNode)
         {
-            _ = parseNode ?? throw new ArgumentNullException(nameof(parseNode));
+            if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
             return new global::PlayAPISDK.Models.GetReviewsResponse();
         }
         /// <summary>
@@ -61,11 +73,11 @@ namespace PlayAPISDK.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "gameId", n => { GameId = n.GetLongValue(); } },
+                { "gameId", n => { GameId = n.GetStringValue(); } },
                 { "numReviews", n => { NumReviews = n.GetIntValue(); } },
                 { "reviewScore", n => { ReviewScore = n.GetIntValue(); } },
                 { "reviewScoreDesc", n => { ReviewScoreDesc = n.GetStringValue(); } },
-                { "steamAppId", n => { SteamAppId = n.GetLongValue(); } },
+                { "steamAppId", n => { SteamAppId = n.GetStringValue(); } },
                 { "totalNegative", n => { TotalNegative = n.GetIntValue(); } },
                 { "totalPositive", n => { TotalPositive = n.GetIntValue(); } },
                 { "totalReviews", n => { TotalReviews = n.GetIntValue(); } },
@@ -77,12 +89,12 @@ namespace PlayAPISDK.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
-            _ = writer ?? throw new ArgumentNullException(nameof(writer));
-            writer.WriteLongValue("gameId", GameId);
+            if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteStringValue("gameId", GameId);
             writer.WriteIntValue("numReviews", NumReviews);
             writer.WriteIntValue("reviewScore", ReviewScore);
             writer.WriteStringValue("reviewScoreDesc", ReviewScoreDesc);
-            writer.WriteLongValue("steamAppId", SteamAppId);
+            writer.WriteStringValue("steamAppId", SteamAppId);
             writer.WriteIntValue("totalNegative", TotalNegative);
             writer.WriteIntValue("totalPositive", TotalPositive);
             writer.WriteIntValue("totalReviews", TotalReviews);

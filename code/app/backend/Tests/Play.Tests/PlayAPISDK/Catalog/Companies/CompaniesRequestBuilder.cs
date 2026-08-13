@@ -18,25 +18,12 @@ namespace PlayAPISDK.Catalog.Companies
         /// <summary>Gets an item from the PlayAPISDK.catalog.companies.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
         /// <returns>A <see cref="global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder"/></returns>
-        public global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder this[long position]
-        {
-            get
-            {
-                var urlTplParams = new Dictionary<string, object>(PathParameters);
-                urlTplParams.Add("companyId", position);
-                return new global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder(urlTplParams, RequestAdapter);
-            }
-        }
-        /// <summary>Gets an item from the PlayAPISDK.catalog.companies.item collection</summary>
-        /// <param name="position">Unique identifier of the item</param>
-        /// <returns>A <see cref="global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder"/></returns>
-        [Obsolete("This indexer is deprecated and will be removed in the next major version. Use the one with the typed parameter instead.")]
         public global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder this[string position]
         {
             get
             {
                 var urlTplParams = new Dictionary<string, object>(PathParameters);
-                if (!string.IsNullOrWhiteSpace(position)) urlTplParams.Add("companyId", position);
+                urlTplParams.Add("companyId", position);
                 return new global::PlayAPISDK.Catalog.Companies.Item.WithCompanyItemRequestBuilder(urlTplParams, RequestAdapter);
             }
         }
