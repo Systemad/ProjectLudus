@@ -2,6 +2,8 @@ from ingestions.steam.concurrent_users import steam_ccu
 from prefect import flow, task
 from prefect.concurrency.sync import concurrency
 
+from flows.steam_tasks import dbt_build_steam
+
 # from ingestions.umami.pageviews import run as run_umami
 
 
@@ -19,6 +21,7 @@ def load_steam_ccu():
 def steam_ccu_pipeline():
     with concurrency("pipeline-lock", occupy=1):
         load_steam_ccu()
+        dbt_build_steam()
         # load_umami()
 
 

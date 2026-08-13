@@ -783,6 +783,9 @@ code/typesense-data/
 **/typesense-data/
 typesense-data/
 
+# Agent device output
+**/agent-device-output/
+
 # ========== Common language / tool ignores ==========
 # Python
 .venv/

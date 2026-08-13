@@ -91,7 +91,7 @@ deployments:
     version: "{{ build-image.tag }}"
     entrypoint: flows/steam_game_index.py:steam_game_index
     schedule:
-      cron: "0 10 * * 0"
+      cron: "0 2 * * *"
       timezone: "Europe/Stockholm"
     concurrency_limit:
       limit: 1

@@ -27,11 +27,11 @@ uv run prefect gcl create pipeline-lock --limit 1
 uv run prefect deploy --all
 ```
 
-## Update batch flows (igdb, steam-store)
+## Update affected batch flows
 
 ```bash
 cd /opt/pipeline && git pull && uv sync --no-dev
-uv run prefect deploy -n igdb-daily -n steam-store
+uv run prefect deploy -n analytics-hourly -n steam-store -n steam-game-index
 ```
 
 Catalog schema changes flow through dlt/dbt and the database migration/scaffold process before backend code changes. Keep user data and release-alert scheduling in the application modules under `code/app/backend`; this pipeline is for catalog and search data.

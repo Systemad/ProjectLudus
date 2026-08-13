@@ -1,5 +1,9 @@
 MULTIQUERY_URL = "https://api.igdb.com/v4/multiquery"
-BATCH_SIZE = 500
+# The five popularity lists can produce up to 1,500 candidate games. IGDB
+# multiquery accepts at most 10 queries, so keep external-game batches within
+# that ceiling while leaving room for multiple Steam records per game.
+BATCH_SIZE = 150
+EXTERNAL_GAME_QUERY_LIMIT = 500
 
 POP_TYPES = {
     "p5": {"popularity_type": 5, "limit": 500},
@@ -20,7 +24,7 @@ def build_pop_multiquery() -> str:
 
 def build_external_games_multiquery(batches: list[list[int]]) -> str:
     queries = (
-        f'query external_games "batch{i}" {{ fields game, uid; where game = ({",".join(str(gid) for gid in batch)}) & external_game_source = 1; limit {len(batch)}; }}'
+        f'query external_games "batch{i}" {{ fields game, uid; where game = ({",".join(str(gid) for gid in batch)}) & external_game_source = 1; limit {EXTERNAL_GAME_QUERY_LIMIT}; }}'
         for i, batch in enumerate(batches)
     )
     return ";".join(queries) + ";"
