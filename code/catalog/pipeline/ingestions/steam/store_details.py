@@ -5,6 +5,7 @@ from alive_progress import alive_bar
 from utilities._tracked_games import get_tracked_games
 from utilities.database import get_connection
 from utilities.rate_limit import get_appdetails_limiter, create_steam_session
+from utilities.steam_urls import STEAM_APPDETAILS_URL
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ def run():
             for game_id, steam_app_id in rows:
                 try:
                     resp = session.get(
-                        "https://store.steampowered.com/api/appdetails",
+                        STEAM_APPDETAILS_URL,
                         params={
                             "appids": str(steam_app_id),
                             "cc": "SE",

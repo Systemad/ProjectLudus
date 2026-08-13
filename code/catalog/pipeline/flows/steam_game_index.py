@@ -10,6 +10,7 @@ from utilities.igdb_client import (
     get_igdb_headers,
 )
 from utilities.rate_limit import create_steam_session, get_appdetails_limiter
+from utilities.steam_urls import STEAM_APPDETAILS_URL
 
 from utilities.igdb_multiquery import (
     BATCH_SIZE,
@@ -24,7 +25,6 @@ logger = logging.getLogger(__name__)
 STEAM_CHARTS_URL = (
     "https://api.steampowered.com/ISteamChartsService/GetMostPlayedGames/v1/"
 )
-STEAM_APPDETAILS_URL = "https://store.steampowered.com/api/appdetails"
 
 
 @task(retries=0)
