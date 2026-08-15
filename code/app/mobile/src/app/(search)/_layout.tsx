@@ -1,6 +1,6 @@
 import { Stack } from "expo-router/stack";
 
-import { CatalogStack, SettingsButton } from "@/navigation/catalog-stack";
+import { CatalogStack } from "@/navigation/catalog-stack";
 
 export default function SearchLayout() {
   return (
@@ -9,7 +9,6 @@ export default function SearchLayout() {
         name="index"
         options={{
           title: "Search",
-          headerRight: () => <SettingsButton href="/(search)/settings" />,
         }}
       />
       <Stack.Screen name="companies/[slug]" options={{ title: "Company" }} />

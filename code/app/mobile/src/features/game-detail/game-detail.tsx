@@ -10,6 +10,7 @@ import { GameDetailShell } from "@/features/game-detail/game-detail-shell";
 import { GameFactGrid } from "@/features/game-detail/game-fact-grid";
 import { GameScreenshotGallery } from "@/features/game-detail/game-screenshot-gallery";
 import { SteamChart } from "@/features/game-detail/steam-chart.android";
+import { SteamSummary } from "@/features/game-detail/steam-summary";
 import { GameListActions } from "@/features/lists/game-list-actions";
 import { useLastVisited } from "@/features/last-visited";
 import {
@@ -18,6 +19,7 @@ import {
   gamesGetSimilarQueryOptions,
   useGamesGetMedia,
 } from "@/gen/hooks/GamesHooks";
+import { useSteamGetPricing, useSteamGetReviews } from "@/gen/hooks/SteamHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { detailStyles } from "@/shared/ui/detail-shell";
@@ -36,6 +38,8 @@ export function GameDetail({ slug }: { slug: string }) {
   const overviewQuery = useQuery(gamesGetOverviewQueryOptions({ path: { gameId } }));
   const similarQuery = useQuery(gamesGetSimilarQueryOptions({ path: { gameId } }));
   const mediaQuery = useGamesGetMedia({ path: { gameId } });
+  const reviewsQuery = useSteamGetReviews({ path: { gameId } }, { query: { retry: false } });
+  const pricingQuery = useSteamGetPricing({ path: { gameId } }, { query: { retry: false } });
   const hero = heroQuery.data?.game;
   const overview = overviewQuery.data?.game;
   const screenshots = mediaQuery.data?.game.screenshots ?? [];
@@ -80,6 +84,20 @@ export function GameDetail({ slug }: { slug: string }) {
       summary={hero.summary ?? overview.storyline ?? "No summary is available yet."}
       imageUrl={getIgdbImageUrl(hero.cover, "cover_big", true)}
     >
+      <GameListActions gameId={gameId} />
+      <SteamSummary
+        currentPlayers={overview.steam?.currentPlayers}
+        peak24h={overview.steam?.peak24h}
+        steamAppId={
+          overview.steam?.steamAppId ??
+          reviewsQuery.data?.steamAppId ??
+          pricingQuery.data?.steamAppId
+        }
+        reviewDescription={reviewsQuery.data?.reviewScoreDesc}
+        totalReviews={reviewsQuery.data?.totalReviews}
+        finalCents={pricingQuery.data?.finalCents}
+        currency={pricingQuery.data?.currency}
+      />
       <GameFactGrid
         facts={[
           {
@@ -96,9 +114,6 @@ export function GameDetail({ slug }: { slug: string }) {
           },
         ]}
       />
-      <View style={detailStyles.section}>
-        <GameListActions gameId={gameId} />
-      </View>
       <View style={detailStyles.section}>
         <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Screenshots</Text>
         <ContentState

@@ -6,10 +6,10 @@ import { useState } from "react";
 
 import { useGetApiMeLists } from "@/gen/play-api/hooks/ListsHooks/useGetApiMeLists";
 import { useAppTheme } from "@/hooks/use-app-theme";
-import { ContentState } from "@/shared/ui/content-state";
 
 import { useAuth } from "./auth-context";
 import { ProfileActionButton } from "./profile-action-button";
+import { SignedOutProfile } from "./signed-out-profile";
 
 export function ProfileScreen() {
   const colors = useAppTheme();
@@ -41,21 +41,11 @@ export function ProfileScreen() {
   }
 
   if (status === "loading") {
-    return <ContentState status="loading" fullScreen loading={{ label: "Loading profile…" }} />;
+    return <SignedOutProfile colors={colors} loading />;
   }
 
   if (!isAuthenticated || !user) {
-    return (
-      <Screen colors={colors}>
-        <Text>
-          {status === "error"
-            ? "Steam session unavailable. Sign in again."
-            : "Sign in to keep track of your games."}
-        </Text>
-        {message ? <Text>{message}</Text> : null}
-        <SignInButton disabled={isSigningIn} onPress={signIn} />
-      </Screen>
-    );
+    return <SignedOutProfile colors={colors} isSigningIn={isSigningIn} onSignIn={signIn} />;
   }
 
   return (
@@ -110,17 +100,6 @@ export function ProfileScreen() {
         variant="outlined"
       />
     </Screen>
-  );
-}
-
-function SignInButton({ disabled, onPress }: { disabled: boolean; onPress: () => void }) {
-  return (
-    <ProfileActionButton
-      disabled={disabled}
-      label="Sign in with Steam"
-      onPress={onPress}
-      variant="filled"
-    />
   );
 }
 

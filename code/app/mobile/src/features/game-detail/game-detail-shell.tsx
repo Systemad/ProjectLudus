@@ -14,12 +14,6 @@ type GameDetailShellProps = {
   children: ReactNode;
 };
 
-const RATING_PLACEHOLDERS = [
-  { label: "IGDB rating", value: "—" },
-  { label: "IGDB users", value: "—" },
-  { label: "Steam reviews", value: "—" },
-];
-
 export function GameDetailShell({
   title,
   eyebrow,
@@ -30,8 +24,8 @@ export function GameDetailShell({
   const colors = useAppTheme();
   const { width } = useWindowDimensions();
   const [summaryExpanded, setSummaryExpanded] = useState(false);
-  const mediaHeight = Math.min(Math.max(width * 0.88, 350), 430);
-  const coverWidth = Math.min(width * 0.58, 250);
+  const mediaHeight = Math.min(Math.max(width * 0.62, 250), 320);
+  const coverWidth = Math.min(width * 0.34, 132);
 
   return (
     <ScrollView
@@ -95,31 +89,6 @@ export function GameDetailShell({
           </Text>
         </View>
 
-        <View style={[styles.ratings, { backgroundColor: colors.surfaceHigh }]}>
-          {RATING_PLACEHOLDERS.map((rating, index) => (
-            <View
-              key={rating.label}
-              accessibilityLabel={`${rating.label} unavailable`}
-              style={[
-                styles.rating,
-                index > 0 && {
-                  borderLeftColor: colors.outline,
-                  borderLeftWidth: StyleSheet.hairlineWidth,
-                },
-              ]}
-            >
-              <Text
-                selectable
-                style={[styles.ratingValue, { color: colors.text }]}
-                importantForAccessibility="no"
-              >
-                {rating.value}
-              </Text>
-              <Text style={[styles.ratingLabel, { color: colors.textMuted }]}>{rating.label}</Text>
-            </View>
-          ))}
-        </View>
-
         <Animated.View
           layout={LinearTransition.duration(220).reduceMotion(ReduceMotion.System)}
           style={styles.synopsis}
@@ -160,8 +129,10 @@ const styles = StyleSheet.create({
   media: {
     width: "100%",
     overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-end",
+    paddingHorizontal: PAGE_GUTTER,
+    paddingBottom: 16,
   },
   backdrop: {
     ...StyleSheet.absoluteFill,
@@ -179,19 +150,19 @@ const styles = StyleSheet.create({
     height: 112,
   },
   cover: {
-    borderRadius: 24,
+    borderRadius: 16,
     borderCurve: "continuous",
   },
   mediaFallback: {
-    width: "58%",
-    maxWidth: 250,
+    width: "34%",
+    maxWidth: 132,
     aspectRatio: 0.72,
-    borderRadius: 24,
+    borderRadius: 16,
     borderCurve: "continuous",
   },
   record: {
     paddingHorizontal: PAGE_GUTTER,
-    gap: 18,
+    gap: 14,
   },
   heading: {
     gap: 6,
@@ -202,35 +173,9 @@ const styles = StyleSheet.create({
     letterSpacing: 1.2,
   },
   title: {
-    fontSize: 32,
-    lineHeight: 36,
+    fontSize: 28,
+    lineHeight: 32,
     fontWeight: "900",
-  },
-  ratings: {
-    minHeight: 68,
-    flexDirection: "row",
-    overflow: "hidden",
-    borderRadius: 18,
-    borderCurve: "continuous",
-  },
-  rating: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 6,
-    gap: 3,
-  },
-  ratingValue: {
-    fontSize: 20,
-    lineHeight: 24,
-    fontWeight: "900",
-    fontVariant: ["tabular-nums"],
-  },
-  ratingLabel: {
-    fontSize: 11,
-    lineHeight: 14,
-    fontWeight: "700",
-    textAlign: "center",
   },
   synopsis: {
     gap: 4,

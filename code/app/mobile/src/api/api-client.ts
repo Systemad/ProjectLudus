@@ -1,4 +1,4 @@
-import { client } from "@/gen/.kubb/client";
+import { client } from "../gen/.kubb/client";
 
 const baseURL = process.env.EXPO_PUBLIC_API_URL;
 

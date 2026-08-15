@@ -2511,6 +2511,10 @@
             "type": "string",
             "nullable": true
           },
+          "steam": {
+            "$ref": "#/components/schemas/SteamData",
+            "nullable": true
+          },
           "genres": {
             "type": "array",
             "items": {

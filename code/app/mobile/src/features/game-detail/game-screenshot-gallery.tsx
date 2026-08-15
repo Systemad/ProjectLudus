@@ -1,12 +1,12 @@
 import { Galeria } from "@nandorojo/galeria";
 import { Image } from "expo-image";
-import { useWindowDimensions, View } from "react-native";
+import { ScrollView, useWindowDimensions } from "react-native";
 
 import { PAGE_GUTTER } from "@/config/layout";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
 
-const GRID_GAP = 10;
+const SLIDE_GAP = 12;
 
 type GameScreenshotGalleryProps = {
   screenshotIds: string[];
@@ -15,7 +15,7 @@ type GameScreenshotGalleryProps = {
 export function GameScreenshotGallery({ screenshotIds }: GameScreenshotGalleryProps) {
   const colors = useAppTheme();
   const { width } = useWindowDimensions();
-  const cardWidth = (width - PAGE_GUTTER * 2 - GRID_GAP) / 2;
+  const cardWidth = width - PAGE_GUTTER * 2;
   const screenshots = screenshotIds.flatMap((imageId, index) => {
     const thumbnailUrl = getIgdbImageUrl(imageId, "screenshot_med");
     const viewerUrl = getIgdbImageUrl(imageId, "screenshot_huge");
@@ -36,7 +36,11 @@ export function GameScreenshotGallery({ screenshotIds }: GameScreenshotGalleryPr
 
   return (
     <Galeria urls={viewerUrls} theme="dark">
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: GRID_GAP }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: PAGE_GUTTER, gap: SLIDE_GAP }}
+      >
         {screenshots.map((screenshot, index) => (
           <Galeria.Image
             index={index}
@@ -60,7 +64,7 @@ export function GameScreenshotGallery({ screenshotIds }: GameScreenshotGalleryPr
             />
           </Galeria.Image>
         ))}
-      </View>
+      </ScrollView>
     </Galeria>
   );
 }

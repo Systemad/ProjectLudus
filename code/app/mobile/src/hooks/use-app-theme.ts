@@ -6,6 +6,7 @@ export type AppTheme = {
   surface: ColorValue;
   surfaceHigh: ColorValue;
   primary: ColorValue;
+  onPrimary: ColorValue;
   primaryContainer: ColorValue;
   onPrimaryContainer: ColorValue;
   text: ColorValue;
@@ -19,6 +20,7 @@ const fallback = {
     surface: "#FFFBFE",
     surfaceHigh: "#ECE6F0",
     primary: "#6750A4",
+    onPrimary: "#FFFFFF",
     primaryContainer: "#EADDFF",
     onPrimaryContainer: "#21005D",
     text: "#1D1B20",
@@ -30,6 +32,7 @@ const fallback = {
     surface: "#141218",
     surfaceHigh: "#2B2930",
     primary: "#D0BCFF",
+    onPrimary: "#381E72",
     primaryContainer: "#4F378B",
     onPrimaryContainer: "#EADDFF",
     text: "#E6E1E5",
@@ -47,6 +50,7 @@ export function useAppTheme(): AppTheme {
     surface: Color.android.dynamic.surface,
     surfaceHigh: Color.android.dynamic.surfaceContainerHigh,
     primary: Color.android.dynamic.primary,
+    onPrimary: Color.android.dynamic.onPrimary,
     primaryContainer: Color.android.dynamic.primaryContainer,
     onPrimaryContainer: Color.android.dynamic.onPrimaryContainer,
     text: Color.android.dynamic.onSurface,

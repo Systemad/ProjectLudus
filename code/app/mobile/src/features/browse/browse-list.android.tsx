@@ -1,20 +1,5 @@
-import {
-  Box,
-  Column,
-  LazyColumn,
-  SegmentedButton,
-  Shape,
-  SingleChoiceSegmentedButtonRow,
-  Surface,
-  Text,
-} from "@expo/ui/jetpack-compose";
-import {
-  align,
-  fillMaxSize,
-  fillMaxWidth,
-  padding,
-  weight,
-} from "@expo/ui/jetpack-compose/modifiers";
+import { FilterChip, LazyColumn, Row, Text } from "@expo/ui/jetpack-compose";
+import { fillMaxSize, fillMaxWidth, horizontalScroll } from "@expo/ui/jetpack-compose/modifiers";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -33,7 +18,14 @@ type BrowseListProps = {
   onCollectionChange: (collection: BrowseCollection) => void;
 };
 
-function CollectionButton({
+const collections: readonly { value: BrowseCollection; label: string }[] = [
+  { value: "mostPlayed", label: "Played" },
+  { value: "popularReleases", label: "Popular" },
+  { value: "hotReleases", label: "Hot" },
+  { value: "trending", label: "Trending" },
+];
+
+function CollectionChip({
   collection,
   selectedCollection,
   label,
@@ -45,15 +37,11 @@ function CollectionButton({
   onSelect: (collection: BrowseCollection) => void;
 }) {
   return (
-    <SegmentedButton
-      selected={collection === selectedCollection}
-      onClick={() => onSelect(collection)}
-      modifiers={[weight(1)]}
-    >
-      <SegmentedButton.Label>
+    <FilterChip selected={collection === selectedCollection} onClick={() => onSelect(collection)}>
+      <FilterChip.Label>
         <Text>{label}</Text>
-      </SegmentedButton.Label>
-    </SegmentedButton>
+      </FilterChip.Label>
+    </FilterChip>
   );
 }
 
@@ -68,87 +56,49 @@ export function BrowseList({
   const colors = useAppTheme();
 
   return (
-    <Box modifiers={[fillMaxSize()]}>
-      <LazyColumn
-        modifiers={[fillMaxSize()]}
-        contentPadding={{ bottom: 104, end: 16, start: 16, top: 12 }}
-        verticalArrangement={{ spacedBy: 8 }}
-      >
-        <Column
-          modifiers={[fillMaxWidth(), padding(0, 0, 0, 4)]}
-          verticalArrangement={{ spacedBy: 2 }}
-        >
-          <Text
-            color={colors.text as string}
-            style={{ typography: "headlineMedium", fontWeight: "800" }}
-          >
-            Browse
-          </Text>
-          <Text
-            color={colors.textMuted as string}
-            style={{ typography: "labelMedium", fontWeight: "700" }}
-          >
-            STEAM DATA
-          </Text>
-        </Column>
+    <LazyColumn
+      modifiers={[fillMaxSize()]}
+      contentPadding={{ bottom: 28, end: 16, start: 16, top: 12 }}
+      verticalArrangement={{ spacedBy: 10 }}
+    >
+      <Row modifiers={[fillMaxWidth(), horizontalScroll()]} horizontalArrangement={{ spacedBy: 8 }}>
+        {collections.map((item) => (
+          <CollectionChip
+            key={item.value}
+            collection={item.value}
+            selectedCollection={collection}
+            label={item.label}
+            onSelect={onCollectionChange}
+          />
+        ))}
+      </Row>
 
-        <ContentState
-          status={getContentStateStatus(isLoading, isError, games.length === 0)}
-          loading={{ label: "Loading games…" }}
-          error={{
-            onRetry,
-            title: "This list could not be loaded.",
-            retryLabel: "Retry",
-          }}
-          empty={{ title: "No games found", message: "There are no games in this collection yet." }}
-        >
-          {games.map((game, index) => (
-            <BrowseListCard
-              key={game.id}
-              game={game}
-              rank={index + 1}
-              href={{ pathname: "/(browse)/games/[slug]", params: { slug: game.id } }}
-            />
-          ))}
-        </ContentState>
-      </LazyColumn>
-
-      <Surface
-        color={colors.surfaceHigh}
-        contentColor={colors.text}
-        tonalElevation={2}
-        shape={Shape.RoundedCorner({
-          cornerRadii: { topStart: 20, topEnd: 20, bottomStart: 20, bottomEnd: 20 },
-        })}
-        modifiers={[align("bottomCenter"), fillMaxWidth(), padding(12, 8, 12, 12)]}
+      <Text
+        color={colors.textMuted as string}
+        style={{ typography: "labelMedium", fontWeight: "700" }}
       >
-        <SingleChoiceSegmentedButtonRow modifiers={[fillMaxWidth()]}>
-          <CollectionButton
-            collection="mostPlayed"
-            selectedCollection={collection}
-            label="Played"
-            onSelect={onCollectionChange}
+        LIVE PLAYER RANKINGS
+      </Text>
+
+      <ContentState
+        status={getContentStateStatus(isLoading, isError, games.length === 0)}
+        loading={{ label: "Loading games…" }}
+        error={{
+          onRetry,
+          title: "This list could not be loaded.",
+          retryLabel: "Retry",
+        }}
+        empty={{ title: "No games found", message: "There are no games in this collection yet." }}
+      >
+        {games.map((game, index) => (
+          <BrowseListCard
+            key={game.id}
+            game={game}
+            rank={index + 1}
+            href={{ pathname: "/(browse)/games/[slug]", params: { slug: game.id } }}
           />
-          <CollectionButton
-            collection="popularReleases"
-            selectedCollection={collection}
-            label="Popular"
-            onSelect={onCollectionChange}
-          />
-          <CollectionButton
-            collection="hotReleases"
-            selectedCollection={collection}
-            label="Hot"
-            onSelect={onCollectionChange}
-          />
-          <CollectionButton
-            collection="trending"
-            selectedCollection={collection}
-            label="Trending"
-            onSelect={onCollectionChange}
-          />
-        </SingleChoiceSegmentedButtonRow>
-      </Surface>
-    </Box>
+        ))}
+      </ContentState>
+    </LazyColumn>
   );
 }

@@ -1,5 +1,5 @@
 import { authStorage } from "@/features/profile/auth-storage";
-import { client } from "@/gen/play-api/.kubb/client";
+import { client } from "../gen/play-api/.kubb/client";
 
 export const playApiUrl = process.env.EXPO_PUBLIC_API_URL;
 

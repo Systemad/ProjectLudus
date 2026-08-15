@@ -6,9 +6,10 @@ import {
   Column,
   ListItem,
   ModalBottomSheet,
+  Row,
   Text,
 } from "@expo/ui/jetpack-compose";
-import { clickable, fillMaxWidth, paddingAll } from "@expo/ui/jetpack-compose/modifiers";
+import { clickable, fillMaxWidth, paddingAll, weight } from "@expo/ui/jetpack-compose/modifiers";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 
@@ -23,11 +24,9 @@ import {
   usePutApiMeListsIdGamesGameid,
   usePutApiMeWishlistGamesGameid,
 } from "@/gen/play-api";
-import { useAppTheme } from "@/hooks/use-app-theme";
 import { posthog } from "@/lib/posthog";
 
 export function GameListActions({ gameId }: { gameId: string }) {
-  const colors = useAppTheme();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { isAuthenticated } = useAuth();
@@ -80,13 +79,9 @@ export function GameListActions({ gameId }: { gameId: string }) {
   };
 
   return (
-    <Host matchContents={{ vertical: true }} seedColor={colors.primary} style={{ width: "100%" }}>
-      <Column modifiers={[fillMaxWidth()]} verticalArrangement={{ spacedBy: 10 }}>
-        <Button
-          enabled={!pending}
-          modifiers={[fillMaxWidth()]}
-          onClick={() => void toggleWishlist()}
-        >
+    <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
+      <Row modifiers={[fillMaxWidth()]} horizontalArrangement={{ spacedBy: 10 }}>
+        <Button enabled={!pending} modifiers={[weight(1)]} onClick={() => void toggleWishlist()}>
           <Text>
             {membership.data?.isWishlisted
               ? "Wishlisted"
@@ -96,20 +91,13 @@ export function GameListActions({ gameId }: { gameId: string }) {
           </Text>
         </Button>
         {signedIn ? (
-          <UiButton
-            disabled={pending}
-            label="Save to a list"
-            onPress={() => setSheetVisible(true)}
-            variant="outlined"
-          />
+          <Button enabled={!pending} modifiers={[weight(1)]} onClick={() => setSheetVisible(true)}>
+            <Text>Save to list</Text>
+          </Button>
         ) : null}
-      </Column>
+      </Row>
       {sheetVisible ? (
-        <ModalBottomSheet
-          containerColor={colors.surface}
-          contentColor={colors.text}
-          onDismissRequest={() => setSheetVisible(false)}
-        >
+        <ModalBottomSheet onDismissRequest={() => setSheetVisible(false)}>
           <Column
             modifiers={[fillMaxWidth(), paddingAll(20)]}
             verticalArrangement={{ spacedBy: 8 }}

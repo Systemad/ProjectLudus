@@ -151,7 +151,13 @@ export function SteamChart({ gameId }: { gameId: string }) {
         },
       },
     },
-    tooltip,
+    tooltip: {
+      use: tooltip,
+      format: (point) =>
+        `${formatTimestamp(Number(point.xValue), range)}\n${
+          point.groupLabel ?? "Players"
+        }: ${formatPlayerCount(Number(point.yValue))}`,
+    },
   });
 
   if (chart30dQuery.isLoading || chart30dQuery.isError || !hasSteamEntry) {

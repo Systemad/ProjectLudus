@@ -29,6 +29,18 @@ internal sealed class GameService(AppDbContext db) : IGameService
                 CoverUrl = g.CoverNavigation!.Url,
                 GameType = g.GameType.HasValue ? g.GameType.Value.ToString() : null,
                 GameTypeName = g.GameTypeNavigation!.Type,
+                Steam =
+                    g.SteamLatestPlayerCount == null
+                        ? null
+                        : new SteamData(
+                            g.SteamLatestPlayerCount.SteamAppId.HasValue
+                                ? g.SteamLatestPlayerCount.SteamAppId.Value.ToString()
+                                : null,
+                            g.SteamLatestPlayerCount.CurrentPlayers,
+                            g.SteamLatestPlayerCount.Peak24h,
+                            null,
+                            null
+                        ),
                 Genres = g
                     .Genres.Where(x => !string.IsNullOrEmpty(x.Name))
                     .Select(x => x.Name!)

@@ -1,12 +1,5 @@
-import { Box, RNHostView, Text } from "@expo/ui/jetpack-compose";
-import {
-  alpha,
-  background,
-  clip,
-  type ModifierConfig,
-  height,
-  Shapes,
-} from "@expo/ui/jetpack-compose/modifiers";
+import { Box, Card, RNHostView, Text } from "@expo/ui/jetpack-compose";
+import { alpha, background, type ModifierConfig, height } from "@expo/ui/jetpack-compose/modifiers";
 import { Image } from "expo-image";
 import type { ImageStyle } from "react-native";
 
@@ -19,7 +12,6 @@ export type GameArtworkProps = {
   fallbackHeight?: number;
   fallbackAlpha?: number;
   contentFit?: "cover" | "contain";
-  cornerRadius?: number;
   imageStyle: ImageStyle;
 };
 
@@ -30,33 +22,35 @@ export function GameArtwork({
   fallbackHeight,
   fallbackAlpha = 1,
   contentFit = "cover",
-  cornerRadius = 12,
   imageStyle,
 }: GameArtworkProps) {
   const colors = useAppTheme();
-  const artworkModifiers = [...modifiers, clip(Shapes.RoundedCorner(cornerRadius))];
 
   if (imageUrl) {
     return (
-      <RNHostView matchContents modifiers={artworkModifiers}>
-        <Image source={imageUrl} style={imageStyle} contentFit={contentFit} />
-      </RNHostView>
+      <Card colors={{ containerColor: "transparent", contentColor: colors.text }} elevation={0}>
+        <RNHostView matchContents modifiers={modifiers}>
+          <Image source={imageUrl} style={imageStyle} contentFit={contentFit} />
+        </RNHostView>
+      </Card>
     );
   }
 
   return (
-    <Box
-      contentAlignment="center"
-      modifiers={[
-        ...artworkModifiers,
-        background(colors.surfaceHigh),
-        ...(fallbackHeight === undefined ? [] : [height(fallbackHeight)]),
-        ...(fallbackAlpha === 1 ? [] : [alpha(fallbackAlpha)]),
-      ]}
-    >
-      <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
-        {fallbackLabel}
-      </Text>
-    </Box>
+    <Card colors={{ containerColor: colors.surfaceHigh, contentColor: colors.text }} elevation={0}>
+      <Box
+        contentAlignment="center"
+        modifiers={[
+          ...modifiers,
+          background(colors.surfaceHigh),
+          ...(fallbackHeight === undefined ? [] : [height(fallbackHeight)]),
+          ...(fallbackAlpha === 1 ? [] : [alpha(fallbackAlpha)]),
+        ]}
+      >
+        <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
+          {fallbackLabel}
+        </Text>
+      </Box>
+    </Card>
   );
 }

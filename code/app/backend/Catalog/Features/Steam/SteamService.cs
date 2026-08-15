@@ -112,10 +112,11 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
                 .ToListAsync(ct);
         }
 
+        var fillEnd = points.Count > 0 ? points[^1].Timestamp : end;
         var lookup = points.ToDictionary(x => x.Timestamp);
         var filled = new List<ChartPointDto>();
 
-        for (var t = since; t <= end; t += interval)
+        for (var t = since; t <= fillEnd; t += interval)
         {
             filled.Add(lookup.TryGetValue(t, out var p) ? p : new ChartPointDto(t, 0, 0));
         }

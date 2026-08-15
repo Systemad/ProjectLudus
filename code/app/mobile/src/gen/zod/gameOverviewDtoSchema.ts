@@ -7,6 +7,7 @@ import * as z from 'zod'
 import { platformsDtoSchema } from './platformsDtoSchema'
 import { releaseDatePlatformDtoSchema } from './releaseDatePlatformDtoSchema'
 import { releaseDatesDtoSchema } from './releaseDatesDtoSchema'
+import { steamDataSchema } from './steamDataSchema'
 
 export const gameOverviewDtoSchema = z.object({
   id: z.string(),
@@ -18,6 +19,7 @@ export const gameOverviewDtoSchema = z.object({
   coverUrl: z.string().nullish(),
   gameType: z.string().nullish(),
   gameTypeName: z.string().nullish(),
+  steam: z.union([steamDataSchema, z.null()]).optional(),
   genres: z.array(z.string()),
   themes: z.array(z.string()),
   isReleased: z.boolean(),

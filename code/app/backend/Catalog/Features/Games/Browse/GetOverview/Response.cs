@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Games.Browse.GetOverview;
 
@@ -16,6 +17,7 @@ public class GameOverviewDto
     public string? CoverUrl { get; set; }
     public string? GameType { get; set; }
     public string? GameTypeName { get; set; }
+    public SteamData? Steam { get; set; }
 
     [Required]
     public required List<string> Genres { get; set; } = [];

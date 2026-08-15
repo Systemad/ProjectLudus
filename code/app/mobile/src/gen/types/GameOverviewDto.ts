@@ -6,6 +6,7 @@
 import type { PlatformsDto } from './PlatformsDto'
 import type { ReleaseDatePlatformDto } from './ReleaseDatePlatformDto'
 import type { ReleaseDatesDto } from './ReleaseDatesDto'
+import type { SteamData } from './SteamData'
 
 export type GameOverviewDto = {
     id: string;
@@ -17,6 +18,7 @@ export type GameOverviewDto = {
     coverUrl?: string | null;
     gameType?: string | null;
     gameTypeName?: string | null;
+    steam?: (SteamData | null);
     genres: string[];
     themes: string[];
     isReleased: boolean;
