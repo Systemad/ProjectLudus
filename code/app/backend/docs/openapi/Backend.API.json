@@ -2066,7 +2066,10 @@
           "gameFeatures",
           "platforms",
           "companies",
-          "id"
+          "id",
+          "steam",
+          "pricing",
+          "review"
         ],
         "type": "object",
         "properties": {
@@ -2086,34 +2089,13 @@
             "nullable": true
           },
           "steam": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/SteamData"
-              }
-            ]
+            "$ref": "#/components/schemas/SteamData"
           },
           "pricing": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/SteamPricingData"
-              }
-            ]
+            "$ref": "#/components/schemas/SteamPricingData"
           },
           "review": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/SteamReviewData"
-              }
-            ]
+            "$ref": "#/components/schemas/SteamReviewData"
           },
           "gameFeatures": {
             "$ref": "#/components/schemas/GameFeatures"
@@ -2473,6 +2455,7 @@
           "releaseDatePlatform",
           "releaseDates",
           "id",
+          "steam",
           "isReleased"
         ],
         "type": "object",
@@ -2512,8 +2495,7 @@
             "nullable": true
           },
           "steam": {
-            "$ref": "#/components/schemas/SteamData",
-            "nullable": true
+            "$ref": "#/components/schemas/SteamData"
           },
           "genres": {
             "type": "array",

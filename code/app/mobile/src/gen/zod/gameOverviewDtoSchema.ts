@@ -19,7 +19,7 @@ export const gameOverviewDtoSchema = z.object({
   coverUrl: z.string().nullish(),
   gameType: z.string().nullish(),
   gameTypeName: z.string().nullish(),
-  steam: z.union([steamDataSchema, z.null()]).optional(),
+  steam: steamDataSchema,
   genres: z.array(z.string()),
   themes: z.array(z.string()),
   isReleased: z.boolean(),

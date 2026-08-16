@@ -20,12 +20,12 @@ type BrowseListCardProps = {
   href: Href;
 };
 
-function formatPlayerCount(value: string | null | undefined) {
+function formatPlayerCount(value: number | null | undefined) {
   if (value === null || value === undefined) {
     return "—";
   }
 
-  return Number(value).toLocaleString();
+  return value.toLocaleString();
 }
 
 export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {

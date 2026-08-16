@@ -18,7 +18,7 @@ export type GameOverviewDto = {
     coverUrl?: string | null;
     gameType?: string | null;
     gameTypeName?: string | null;
-    steam?: (SteamData | null);
+    steam: SteamData;
     genres: string[];
     themes: string[];
     isReleased: boolean;

@@ -20,9 +20,9 @@ export type GameBrowseDto = {
     */
     firstReleaseDate?: string | null;
     coverUrl?: string | null;
-    steam?: (any | SteamData);
-    pricing?: (any | SteamPricingData);
-    review?: (any | SteamReviewData);
+    steam: SteamData;
+    pricing: SteamPricingData;
+    review: SteamReviewData;
     gameFeatures: GameFeatures;
     platforms: PlatformDto[];
     companies: InvolvedCompanyDto[];

@@ -17,7 +17,7 @@ public class GameOverviewDto
     public string? CoverUrl { get; set; }
     public string? GameType { get; set; }
     public string? GameTypeName { get; set; }
-    public SteamData? Steam { get; set; }
+    public SteamData Steam { get; set; } = new(null, null, null, null, null);
 
     [Required]
     public required List<string> Genres { get; set; } = [];

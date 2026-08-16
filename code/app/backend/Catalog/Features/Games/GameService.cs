@@ -31,7 +31,7 @@ internal sealed class GameService(AppDbContext db) : IGameService
                 GameTypeName = g.GameTypeNavigation!.Type,
                 Steam =
                     g.SteamLatestPlayerCount == null
-                        ? null
+                        ? new SteamData(null, null, null, null, null)
                         : new SteamData(
                             g.SteamLatestPlayerCount.SteamAppId.HasValue
                                 ? g.SteamLatestPlayerCount.SteamAppId.Value.ToString()

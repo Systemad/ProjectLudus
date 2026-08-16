@@ -15,11 +15,11 @@ public class GameBrowseDto
 
     public string? CoverUrl { get; set; }
 
-    public SteamData? Steam { get; set; }
+    public SteamData Steam { get; set; } = new(null, null, null, null, null);
 
-    public SteamPricingData? Pricing { get; set; }
+    public SteamPricingData Pricing { get; set; } = new(null, null, null, null, null, null, null, null);
 
-    public SteamReviewData? Review { get; set; }
+    public SteamReviewData Review { get; set; } = new(null, null, null, null, null);
 
     [Required]
     public GameFeatures GameFeatures { get; set; } = new([], []);
