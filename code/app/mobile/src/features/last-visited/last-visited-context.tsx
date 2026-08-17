@@ -1,5 +1,6 @@
 import { useGamesGetHeroes } from "@/gen/hooks/GamesHooks/useGamesGetHeroes";
 import type { GameHeroDto } from "@/gen/types/GameHeroDto";
+import { getGameHeroesResponseSchema } from "@/gen/zod/getGameHeroesResponseSchema";
 import { createContext, useCallback, useContext, useEffect, useRef, type ReactNode } from "react";
 
 import { gameIdSchema, type GameId } from "./last-visited-storage";
@@ -63,7 +64,12 @@ export function LastVisitedProvider({ children }: { children: ReactNode }) {
 
   const gameQuery = useGamesGetHeroes(
     { query: { gameIds } },
-    { query: { enabled: hasHydrated && gameIds.length > 0 } },
+    {
+      query: {
+        enabled: hasHydrated && gameIds.length > 0,
+        select: (response) => getGameHeroesResponseSchema.parse(response),
+      },
+    },
   );
 
   const games = gameIds.flatMap((id) => {

@@ -1,7 +1,7 @@
-import { Box, FloatingActionButton, Host, Icon, RNHostView } from "@expo/ui/jetpack-compose";
+import { Box, FloatingActionButton, Host, Icon } from "@expo/ui/jetpack-compose";
 import { align, fillMaxSize, offset } from "@expo/ui/jetpack-compose/modifiers";
 
-import { SearchResults } from "./search-results";
+import { SearchResults } from "./search-results.android";
 
 export function SearchResultsSurface({
   bottomInset,
@@ -13,9 +13,7 @@ export function SearchResultsSurface({
   return (
     <Host style={{ flex: 1 }}>
       <Box modifiers={[fillMaxSize()]}>
-        <RNHostView modifiers={[fillMaxSize()]}>
-          <SearchResults bottomInset={bottomInset} />
-        </RNHostView>
+        <SearchResults bottomInset={bottomInset} />
         <FloatingActionButton
           onClick={onFilterOpen}
           modifiers={[align("bottomEnd"), offset(-16, -16)]}

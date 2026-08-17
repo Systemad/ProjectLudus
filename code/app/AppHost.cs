@@ -5,7 +5,8 @@
 #:package Aspire.Hosting.Browsers@13.4.6-preview.1.26319.6
 #:package Aspire.Hosting.DevTunnels@13.4.6
 #:package Aspire.Hosting.EntityFrameworkCore@13.4.6-preview.1.26319.6
-#:property TargetFramework=net10.0
+#:property TargetFramework=net11.0
+#:property AspireUseCliBundle=true
 
 // #:package Aspire.Hosting.Python@13.3.3
 
