@@ -3,24 +3,29 @@
 * Do not edit manually.
 */
 
-import type { GetSimilarGamesResponse } from "../GetSimilarGamesResponse.ts";
+import type { GetSimilarGamesResponse } from '../GetSimilarGamesResponse'
 
-export type GamesGetSimilarPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type GamesGetSimilarPath = {
+    gameId: string;
+};
+
+export type GamesGetSimilarStatus200 = GetSimilarGamesResponse;
+
+export type GamesGetSimilarStatus400 = void;
+
+export type GamesGetSimilarOptions = {
+    body?: never;
+    path: GamesGetSimilarPath;
+    query?: never;
+    headers?: never;
+};
+
+export type GamesGetSimilarResponses = {
+    "200": GamesGetSimilarStatus200;
+    "400": GamesGetSimilarStatus400;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type GamesGetSimilar200 = GetSimilarGamesResponse;
-
-export type GamesGetSimilarQueryResponse = GamesGetSimilar200;
-
-export type GamesGetSimilarQuery = {
-    Response: GamesGetSimilar200;
-    PathParams: GamesGetSimilarPathParams;
-    Errors: any;
-};
+export type GamesGetSimilarResponse = (GamesGetSimilarStatus200 | GamesGetSimilarStatus400);

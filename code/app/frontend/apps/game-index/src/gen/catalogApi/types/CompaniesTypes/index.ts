@@ -1,0 +1,2 @@
+export type { CompaniesGetOptions, CompaniesGetPath, CompaniesGetResponse, CompaniesGetResponses, CompaniesGetStatus200, CompaniesGetStatus400, CompaniesGetStatus404 } from './CompaniesGet'
+export type { CompaniesGetGamesOptions, CompaniesGetGamesPath, CompaniesGetGamesResponse, CompaniesGetGamesResponses, CompaniesGetGamesStatus200, CompaniesGetGamesStatus400, CompaniesGetGamesStatus404 } from './CompaniesGetGames'

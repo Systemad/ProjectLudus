@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { CalendarGetGamesQueryResponse, CalendarGetGamesPathParams, CalendarGetGamesQueryParams, CalendarGetGames400 } from "../../types/CalendarTypes/CalendarGetGames.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { CalendarGetGamesOptions, CalendarGetGamesStatus200, CalendarGetGamesStatus400 } from '../../types/CalendarTypes/CalendarGetGames'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { calendarGetGames } from '../../clients/calendarGetGames'
 
-export const calendarGetGamesSuspenseQueryKey = ({ year }: { year: CalendarGetGamesPathParams["year"] | undefined }, params?: CalendarGetGamesQueryParams) => ["v1", { url: '/catalog/calendar/:year', params: {year:year} }, ...(params ? [params] : [])] as const
+export const calendarGetGamesSuspenseQueryKey = ({ path, query }: Omit<CalendarGetGamesOptions, 'headers'>) => [{ url: '/catalog/calendar/:year', params: path }, ...(query ? [query] : [])] as const
 
-export type CalendarGetGamesSuspenseQueryKey = ReturnType<typeof calendarGetGamesSuspenseQueryKey>
+type CalendarGetGamesSuspenseQueryKey = ReturnType<typeof calendarGetGamesSuspenseQueryKey>
 
-/**
- * {@link /catalog/calendar/:year}
- */
-export async function calendarGetGamesSuspenseHook({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, unknown>({ method : "GET", url : `/catalog/calendar/${year}`, params, ... requestConfig })
-  return res.data
-}
-
-export function calendarGetGamesSuspenseQueryOptionsHook({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = calendarGetGamesSuspenseQueryKey({ year }, params)
-        return queryOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, CalendarGetGamesQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return calendarGetGamesSuspenseHook({ year: year, params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function calendarGetGamesSuspenseQueryOptionsHook({ path, query }: CalendarGetGamesOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = calendarGetGamesSuspenseQueryKey({ path, query })
+  return queryOptions<CalendarGetGamesStatus200, ResponseErrorConfig<CalendarGetGamesStatus400>, CalendarGetGamesStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await calendarGetGames({ ...config, path, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/calendar/:year}
  */
-export function useCalendarGetGamesSuspenseHook<TData = CalendarGetGamesQueryResponse, TQueryKey extends QueryKey = CalendarGetGamesSuspenseQueryKey>({ year, params }: { year: CalendarGetGamesPathParams["year"]; params?: CalendarGetGamesQueryParams }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<CalendarGetGamesQueryResponse, ResponseErrorConfig<CalendarGetGames400>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useCalendarGetGamesSuspenseHook<TData = CalendarGetGamesStatus200, TQueryKey extends QueryKey = CalendarGetGamesSuspenseQueryKey>({ path, query }: { path: CalendarGetGamesOptions['path'] | (() => CalendarGetGamesOptions['path']); query?: CalendarGetGamesOptions['query'] | (() => CalendarGetGamesOptions['query']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<CalendarGetGamesStatus200, ResponseErrorConfig<CalendarGetGamesStatus400>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path, query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? calendarGetGamesSuspenseQueryKey({ year }, params)
-         
+  const queryResult = useSuspenseQuery({
+   ...calendarGetGamesSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CalendarGetGamesStatus400>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...calendarGetGamesSuspenseQueryOptionsHook({ year, params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CalendarGetGames400>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

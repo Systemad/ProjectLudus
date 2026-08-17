@@ -9,8 +9,8 @@ export type CompanyOverviewDto = {
     id: string;
     name: string;
     slug: string;
-    description: string | null;
-    url: string | null;
+    description: null;
+    url: null;
     /**
      * @description
      * Format: `int64`
@@ -23,8 +23,8 @@ export type CompanyOverviewDto = {
      * @type integer
     */
     country: number | null;
-    logoId: string | null;
-    logoImageId: string | null;
-    parentCompany: (any | ParentCompanyDto);
-    status: string | null;
+    logoId: null;
+    logoImageId: null;
+    parentCompany: (null | ParentCompanyDto);
+    status: null;
 };

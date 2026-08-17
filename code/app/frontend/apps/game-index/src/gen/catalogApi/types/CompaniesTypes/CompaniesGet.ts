@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetCompanyResponse } from "../GetCompanyResponse.ts";
+import type { GetCompanyResponse } from '../GetCompanyResponse'
 
-export type CompaniesGetPathParams = {
-    /**
-     * @type integer, int64
-    */
-    companyId: number;
+export type CompaniesGetPath = {
+    companyId: string;
+};
+
+export type CompaniesGetStatus200 = GetCompanyResponse;
+
+export type CompaniesGetStatus400 = void;
+
+export type CompaniesGetStatus404 = void;
+
+export type CompaniesGetOptions = {
+    body?: never;
+    path: CompaniesGetPath;
+    query?: never;
+    headers?: never;
+};
+
+export type CompaniesGetResponses = {
+    "200": CompaniesGetStatus200;
+    "400": CompaniesGetStatus400;
+    "404": CompaniesGetStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type CompaniesGet200 = GetCompanyResponse;
-
-/**
- * @description Not Found
-*/
-export type CompaniesGet404 = any;
-
-export type CompaniesGetQueryResponse = CompaniesGet200;
-
-export type CompaniesGetQuery = {
-    Response: CompaniesGet200;
-    PathParams: CompaniesGetPathParams;
-    Errors: CompaniesGet404;
-};
+export type CompaniesGetResponse = (CompaniesGetStatus200 | CompaniesGetStatus400 | CompaniesGetStatus404);

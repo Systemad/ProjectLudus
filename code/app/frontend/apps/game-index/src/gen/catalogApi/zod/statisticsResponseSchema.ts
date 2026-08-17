@@ -3,11 +3,11 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const statisticsResponseSchema = z.object({
-    "totalGames": z.number().int(),
-"totalCompanies": z.number().int(),
-"totalPlatforms": z.number().int(),
-"totalEvents": z.number().int()
-    })
+  totalGames: z.int(),
+  totalCompanies: z.int(),
+  totalPlatforms: z.int(),
+  totalEvents: z.int(),
+})

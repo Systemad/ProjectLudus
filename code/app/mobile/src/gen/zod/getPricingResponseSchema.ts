@@ -7,10 +7,10 @@ import * as z from 'zod'
 
 export const getPricingResponseSchema = z.object({
   gameId: z.string(),
-  steamAppId: z.string().nullable(),
+  steamAppId: z.string(),
   finalCents: z.int().nullable(),
   discountPercent: z.int().nullable(),
-  currency: z.string().nullable(),
+  currency: z.null(),
   high30d: z.int().nullable(),
   low30d: z.int().nullable(),
 })

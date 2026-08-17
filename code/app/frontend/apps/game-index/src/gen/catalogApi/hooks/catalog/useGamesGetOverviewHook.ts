@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetOverviewQueryResponse, GamesGetOverviewPathParams, GamesGetOverview404 } from "../../types/GamesTypes/GamesGetOverview.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetOverviewOptions, GamesGetOverviewStatus200, GamesGetOverviewStatus400, GamesGetOverviewStatus404 } from '../../types/GamesTypes/GamesGetOverview'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetOverview } from '../../clients/gamesGetOverview'
 
-export const gamesGetOverviewQueryKey = ({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId', params: {gameId:gameId} }] as const
+export const gamesGetOverviewQueryKey = ({ path }: Omit<GamesGetOverviewOptions, 'headers'>) => [{ url: '/catalog/games/:gameId', params: path }] as const
 
-export type GamesGetOverviewQueryKey = ReturnType<typeof gamesGetOverviewQueryKey>
+type GamesGetOverviewQueryKey = ReturnType<typeof gamesGetOverviewQueryKey>
 
-/**
- * {@link /catalog/games/:gameId}
- */
-export async function gamesGetOverviewHook({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetOverviewQueryResponse, ResponseErrorConfig<GamesGetOverview404>, unknown>({ method : "GET", url : `/catalog/games/${gameId}`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetOverviewQueryOptionsHook({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetOverviewQueryKey({ gameId })
-        return queryOptions<GamesGetOverviewQueryResponse, ResponseErrorConfig<GamesGetOverview404>, GamesGetOverviewQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetOverviewHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetOverviewQueryOptionsHook({ path }: GamesGetOverviewOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetOverviewQueryKey({ path })
+  return queryOptions<GamesGetOverviewStatus200, ResponseErrorConfig<GamesGetOverviewStatus400 | GamesGetOverviewStatus404>, GamesGetOverviewStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetOverview({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId}
  */
-export function useGamesGetOverviewHook<TData = GamesGetOverviewQueryResponse, TQueryData = GamesGetOverviewQueryResponse, TQueryKey extends QueryKey = GamesGetOverviewQueryKey>({ gameId }: { gameId: GamesGetOverviewPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetOverviewQueryResponse, ResponseErrorConfig<GamesGetOverview404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetOverviewHook<TData = GamesGetOverviewStatus200, TQueryData = GamesGetOverviewStatus200, TQueryKey extends QueryKey = GamesGetOverviewQueryKey>({ path }: { path: GamesGetOverviewOptions['path'] | (() => GamesGetOverviewOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetOverviewStatus200, ResponseErrorConfig<GamesGetOverviewStatus400 | GamesGetOverviewStatus404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetOverviewQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetOverviewQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...gamesGetOverviewQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetOverviewStatus400 | GamesGetOverviewStatus404>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetOverviewQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetOverview404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

@@ -3,32 +3,36 @@
 * Do not edit manually.
 */
 
-import type { ConcurrentUsersChartResponse } from "../ConcurrentUsersChartResponse.ts";
+import type { ConcurrentUsersChartResponse } from '../ConcurrentUsersChartResponse'
 
-export type SteamGetConcurrentUsersChartPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type SteamGetConcurrentUsersChartPath = {
+    gameId: string;
 };
 
-export type SteamGetConcurrentUsersChartQueryParams = {
-    /**
-     * @type string | undefined
-    */
+export type SteamGetConcurrentUsersChartQuery = {
     range?: string;
 };
 
-/**
- * @description OK
-*/
-export type SteamGetConcurrentUsersChart200 = ConcurrentUsersChartResponse;
+export type SteamGetConcurrentUsersChartStatus200 = ConcurrentUsersChartResponse;
 
-export type SteamGetConcurrentUsersChartQueryResponse = SteamGetConcurrentUsersChart200;
+export type SteamGetConcurrentUsersChartStatus400 = void;
 
-export type SteamGetConcurrentUsersChartQuery = {
-    Response: SteamGetConcurrentUsersChart200;
-    PathParams: SteamGetConcurrentUsersChartPathParams;
-    QueryParams: SteamGetConcurrentUsersChartQueryParams;
-    Errors: any;
+export type SteamGetConcurrentUsersChartStatus404 = void;
+
+export type SteamGetConcurrentUsersChartOptions = {
+    body?: never;
+    path: SteamGetConcurrentUsersChartPath;
+    query?: SteamGetConcurrentUsersChartQuery;
+    headers?: never;
 };
+
+export type SteamGetConcurrentUsersChartResponses = {
+    "200": SteamGetConcurrentUsersChartStatus200;
+    "400": SteamGetConcurrentUsersChartStatus400;
+    "404": SteamGetConcurrentUsersChartStatus404;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type SteamGetConcurrentUsersChartResponse = (SteamGetConcurrentUsersChartStatus200 | SteamGetConcurrentUsersChartStatus400 | SteamGetConcurrentUsersChartStatus404);

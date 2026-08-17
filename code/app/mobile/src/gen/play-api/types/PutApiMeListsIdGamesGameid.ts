@@ -13,11 +13,11 @@ export type PutApiMeListsIdGamesGameidPath = {
     gameId: string;
 };
 
-export type PutApiMeListsIdGamesGameidStatus204 = any;
+export type PutApiMeListsIdGamesGameidStatus204 = void;
 
-export type PutApiMeListsIdGamesGameidStatus400 = any;
+export type PutApiMeListsIdGamesGameidStatus400 = void;
 
-export type PutApiMeListsIdGamesGameidStatus404 = any;
+export type PutApiMeListsIdGamesGameidStatus404 = void;
 
 export type PutApiMeListsIdGamesGameidOptions = {
     body?: never;

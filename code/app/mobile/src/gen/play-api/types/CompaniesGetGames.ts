@@ -11,9 +11,9 @@ export type CompaniesGetGamesPath = {
 
 export type CompaniesGetGamesStatus200 = GameBrowseDto[];
 
-export type CompaniesGetGamesStatus400 = any;
+export type CompaniesGetGamesStatus400 = void;
 
-export type CompaniesGetGamesStatus404 = any;
+export type CompaniesGetGamesStatus404 = void;
 
 export type CompaniesGetGamesOptions = {
     body?: never;

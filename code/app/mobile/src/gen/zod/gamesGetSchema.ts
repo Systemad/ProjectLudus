@@ -10,9 +10,9 @@ export const gamesGetPathGameIdSchema = z.string()
 
 export const gamesGetStatus200Schema = getGameResponseSchema
 
-export const gamesGetStatus400Schema = z.any()
+export const gamesGetStatus400Schema = z.void()
 
-export const gamesGetStatus404Schema = z.any()
+export const gamesGetStatus404Schema = z.void()
 
 export const gamesGetResponseSchema = gamesGetStatus200Schema
 

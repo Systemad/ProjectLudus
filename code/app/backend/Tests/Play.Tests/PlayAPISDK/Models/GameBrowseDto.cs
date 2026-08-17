@@ -65,22 +65,6 @@ namespace PlayAPISDK.Models
 #else
         public List<global::PlayAPISDK.Models.PlatformDto> Platforms { get; set; }
 #endif
-        /// <summary>The pricing property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing? Pricing { get; set; }
-#nullable restore
-#else
-        public global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing Pricing { get; set; }
-#endif
-        /// <summary>The review property</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review? Review { get; set; }
-#nullable restore
-#else
-        public global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review Review { get; set; }
-#endif
         /// <summary>The steam property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -121,8 +105,6 @@ namespace PlayAPISDK.Models
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
                 { "platforms", n => { Platforms = n.GetCollectionOfObjectValues<global::PlayAPISDK.Models.PlatformDto>(global::PlayAPISDK.Models.PlatformDto.CreateFromDiscriminatorValue)?.AsList(); } },
-                { "pricing", n => { Pricing = n.GetObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing>(global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing.CreateFromDiscriminatorValue); } },
-                { "review", n => { Review = n.GetObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review>(global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review.CreateFromDiscriminatorValue); } },
                 { "steam", n => { Steam = n.GetObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_steam>(global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_steam.CreateFromDiscriminatorValue); } },
             };
         }
@@ -140,152 +122,8 @@ namespace PlayAPISDK.Models
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("name", Name);
             writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Models.PlatformDto>("platforms", Platforms);
-            writer.WriteObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing>("pricing", Pricing);
-            writer.WriteObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review>("review", Review);
             writer.WriteObjectValue<global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_steam>("steam", Steam);
             writer.WriteAdditionalData(AdditionalData);
-        }
-        /// <summary>
-        /// Composed type wrapper for classes <see cref="global::PlayAPISDK.Models.GameBrowseDto_pricingMember1"/>, <see cref="global::PlayAPISDK.Models.SteamPricingData"/>
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class GameBrowseDto_pricing : IComposedTypeWrapper, IParsable
-        {
-            /// <summary>Composed type representation for type <see cref="global::PlayAPISDK.Models.GameBrowseDto_pricingMember1"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::PlayAPISDK.Models.GameBrowseDto_pricingMember1? GameBrowseDtoPricingMember1 { get; set; }
-#nullable restore
-#else
-            public global::PlayAPISDK.Models.GameBrowseDto_pricingMember1 GameBrowseDtoPricingMember1 { get; set; }
-#endif
-            /// <summary>Composed type representation for type <see cref="global::PlayAPISDK.Models.SteamPricingData"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::PlayAPISDK.Models.SteamPricingData? SteamPricingData { get; set; }
-#nullable restore
-#else
-            public global::PlayAPISDK.Models.SteamPricingData SteamPricingData { get; set; }
-#endif
-            /// <summary>
-            /// Creates a new instance of the appropriate class based on discriminator value
-            /// </summary>
-            /// <returns>A <see cref="global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing"/></returns>
-            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-            public static global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing CreateFromDiscriminatorValue(IParseNode parseNode)
-            {
-                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-                var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
-                var result = new global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_pricing();
-                if("SteamPricingData".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.SteamPricingData = new global::PlayAPISDK.Models.SteamPricingData();
-                }
-                return result;
-            }
-            /// <summary>
-            /// The deserialization information for the current model
-            /// </summary>
-            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
-            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
-            {
-                if(GameBrowseDtoPricingMember1 != null)
-                {
-                    return GameBrowseDtoPricingMember1.GetFieldDeserializers();
-                }
-                else if(SteamPricingData != null)
-                {
-                    return SteamPricingData.GetFieldDeserializers();
-                }
-                return new Dictionary<string, Action<IParseNode>>();
-            }
-            /// <summary>
-            /// Serializes information the current object
-            /// </summary>
-            /// <param name="writer">Serialization writer to use to serialize this model</param>
-            public virtual void Serialize(ISerializationWriter writer)
-            {
-                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-                if(GameBrowseDtoPricingMember1 != null)
-                {
-                    writer.WriteObjectValue<global::PlayAPISDK.Models.GameBrowseDto_pricingMember1>(null, GameBrowseDtoPricingMember1);
-                }
-                else if(SteamPricingData != null)
-                {
-                    writer.WriteObjectValue<global::PlayAPISDK.Models.SteamPricingData>(null, SteamPricingData);
-                }
-            }
-        }
-        /// <summary>
-        /// Composed type wrapper for classes <see cref="global::PlayAPISDK.Models.GameBrowseDto_reviewMember1"/>, <see cref="global::PlayAPISDK.Models.SteamReviewData"/>
-        /// </summary>
-        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-        public partial class GameBrowseDto_review : IComposedTypeWrapper, IParsable
-        {
-            /// <summary>Composed type representation for type <see cref="global::PlayAPISDK.Models.GameBrowseDto_reviewMember1"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::PlayAPISDK.Models.GameBrowseDto_reviewMember1? GameBrowseDtoReviewMember1 { get; set; }
-#nullable restore
-#else
-            public global::PlayAPISDK.Models.GameBrowseDto_reviewMember1 GameBrowseDtoReviewMember1 { get; set; }
-#endif
-            /// <summary>Composed type representation for type <see cref="global::PlayAPISDK.Models.SteamReviewData"/></summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-            public global::PlayAPISDK.Models.SteamReviewData? SteamReviewData { get; set; }
-#nullable restore
-#else
-            public global::PlayAPISDK.Models.SteamReviewData SteamReviewData { get; set; }
-#endif
-            /// <summary>
-            /// Creates a new instance of the appropriate class based on discriminator value
-            /// </summary>
-            /// <returns>A <see cref="global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review"/></returns>
-            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-            public static global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review CreateFromDiscriminatorValue(IParseNode parseNode)
-            {
-                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-                var mappingValue = parseNode.GetChildNode("")?.GetStringValue();
-                var result = new global::PlayAPISDK.Models.GameBrowseDto.GameBrowseDto_review();
-                if("SteamReviewData".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.SteamReviewData = new global::PlayAPISDK.Models.SteamReviewData();
-                }
-                return result;
-            }
-            /// <summary>
-            /// The deserialization information for the current model
-            /// </summary>
-            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
-            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
-            {
-                if(GameBrowseDtoReviewMember1 != null)
-                {
-                    return GameBrowseDtoReviewMember1.GetFieldDeserializers();
-                }
-                else if(SteamReviewData != null)
-                {
-                    return SteamReviewData.GetFieldDeserializers();
-                }
-                return new Dictionary<string, Action<IParseNode>>();
-            }
-            /// <summary>
-            /// Serializes information the current object
-            /// </summary>
-            /// <param name="writer">Serialization writer to use to serialize this model</param>
-            public virtual void Serialize(ISerializationWriter writer)
-            {
-                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-                if(GameBrowseDtoReviewMember1 != null)
-                {
-                    writer.WriteObjectValue<global::PlayAPISDK.Models.GameBrowseDto_reviewMember1>(null, GameBrowseDtoReviewMember1);
-                }
-                else if(SteamReviewData != null)
-                {
-                    writer.WriteObjectValue<global::PlayAPISDK.Models.SteamReviewData>(null, SteamReviewData);
-                }
-            }
         }
         /// <summary>
         /// Composed type wrapper for classes <see cref="global::PlayAPISDK.Models.GameBrowseDto_steamMember1"/>, <see cref="global::PlayAPISDK.Models.SteamData"/>

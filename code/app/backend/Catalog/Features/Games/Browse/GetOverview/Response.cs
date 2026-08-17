@@ -1,46 +1,39 @@
-using System.ComponentModel.DataAnnotations;
 using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Games.Browse.GetOverview;
 
-public class GameOverviewDto
+public sealed record GameOverviewDto
 {
-    public string Id { get; set; } = string.Empty;
-    public string? Slug { get; set; }
+    public required string Id { get; init; }
+    public string? Slug { get; init; }
 
-    [Required]
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
-    public string? Summary { get; set; }
-    public string? Storyline { get; set; }
-    public string? Cover { get; set; }
-    public string? CoverUrl { get; set; }
-    public string? GameType { get; set; }
-    public string? GameTypeName { get; set; }
-    public SteamData Steam { get; set; } = new(null, null, null, null, null);
+    public string? Summary { get; init; }
+    public string? Storyline { get; init; }
+    public string? Cover { get; init; }
+    public string? CoverUrl { get; init; }
+    public string? GameType { get; init; }
+    public string? GameTypeName { get; init; }
+    public SteamData? Steam { get; init; }
 
-    [Required]
-    public required List<string> Genres { get; set; } = [];
+    public required IReadOnlyList<string> Genres { get; init; }
 
-    [Required]
-    public required List<string> Themes { get; set; } = [];
+    public required IReadOnlyList<string> Themes { get; init; }
 
-    public bool IsReleased { get; set; }
+    public bool IsReleased { get; init; }
 
-    [Required]
-    public required List<PlatformsDto> Platforms { get; set; } = [];
+    public required IReadOnlyList<PlatformsDto> Platforms { get; init; }
 
-    [Required]
-    public required List<ReleaseDatePlatformDto> ReleaseDatePlatform { get; set; } = [];
+    public required IReadOnlyList<ReleaseDatePlatformDto> ReleaseDatePlatform { get; init; }
 
-    [Required]
-    public required List<ReleaseDatesDto> ReleaseDates { get; set; } = [];
+    public required IReadOnlyList<ReleaseDatesDto> ReleaseDates { get; init; }
 }
 
-public record ReleaseDatePlatformDto(long? ReleaseDate, string? Platform);
+public sealed record ReleaseDatePlatformDto(long? ReleaseDate, string? Platform);
 
-public record PlatformsDto([Required] string Name, [Required] string? Slug);
+public sealed record PlatformsDto(string Name, string? Slug);
 
-public record ReleaseDatesDto(long? ReleaseDate, string? Region);
+public sealed record ReleaseDatesDto(long? ReleaseDate, string? Region);
 
 public sealed record GetGameOverviewResponse(GameOverviewDto Game);

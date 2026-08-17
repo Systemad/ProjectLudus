@@ -35,29 +35,13 @@ export function InlineState({
       >
         {loading ? <LoadingIndicator color={colors.primary} /> : null}
         {title ? (
-          <Text
-            color={colors.text as string}
-            style={{ textAlign: "center", typography: "titleLarge" }}
-          >
-            {title}
-          </Text>
+          <Text style={{ textAlign: "center", typography: "titleLarge" }}>{title}</Text>
         ) : null}
         {message ? (
-          <Text
-            color={colors.textMuted as string}
-            style={{ textAlign: "center", typography: "bodyMedium" }}
-          >
-            {message}
-          </Text>
+          <Text style={{ textAlign: "center", typography: "bodyMedium" }}>{message}</Text>
         ) : null}
         {onRetry ? (
-          <Button
-            onClick={onRetry}
-            colors={{
-              containerColor: colors.primaryContainer,
-              contentColor: colors.onPrimaryContainer,
-            }}
-          >
+          <Button onClick={onRetry}>
             <Text>{retryLabel}</Text>
           </Button>
         ) : null}

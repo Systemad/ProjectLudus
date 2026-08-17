@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import {
+  MAX_LAST_VISITED,
   lastVisitedStorage,
   type GameId,
   type PersistedLastVisitedState,
@@ -9,27 +10,42 @@ import {
 
 type LastVisitedStore = PersistedLastVisitedState & {
   hasHydrated: boolean;
-  setLastVisitedGameId: (gameId: GameId) => void;
-  clearLastVisitedGame: () => void;
+  rememberGame: (gameId: GameId) => void;
+  removeGames: (gameIds: GameId[]) => void;
   setHasHydrated: (hasHydrated: boolean) => void;
 };
 
 export const useLastVisitedStore = create<LastVisitedStore>()(
   persist(
     (set) => ({
-      lastVisitedGameId: null,
+      lastVisitedGameIds: [],
       hasHydrated: false,
-      setLastVisitedGameId: (gameId) => {
-        set({ lastVisitedGameId: gameId });
+      rememberGame: (gameId) => {
+        set((state) => ({
+          lastVisitedGameIds: [
+            gameId,
+            ...state.lastVisitedGameIds.filter((visitedGameId) => visitedGameId !== gameId),
+          ].slice(0, MAX_LAST_VISITED),
+        }));
       },
-      clearLastVisitedGame: () => set({ lastVisitedGameId: null }),
+      removeGames: (gameIds) => {
+        set((state) => {
+          const nextGameIds = state.lastVisitedGameIds.filter(
+            (visitedGameId) => !gameIds.includes(visitedGameId),
+          );
+
+          return nextGameIds.length === state.lastVisitedGameIds.length
+            ? state
+            : { lastVisitedGameIds: nextGameIds };
+        });
+      },
       setHasHydrated: (hasHydrated) => set({ hasHydrated }),
     }),
     {
       name: "game-index.last-visited",
       storage: lastVisitedStorage,
-      partialize: ({ lastVisitedGameId }) => ({ lastVisitedGameId }),
-      version: 1,
+      partialize: ({ lastVisitedGameIds }) => ({ lastVisitedGameIds }),
+      version: 2,
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
       },

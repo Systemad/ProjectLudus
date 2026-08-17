@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GameBrowseDto } from "./GameBrowseDto.ts";
+import type { GameBrowseDto } from './GameBrowseDto'
 
 export type GetSimilarGamesResponse = {
-    /**
-     * @type array
-    */
     games: GameBrowseDto[];
 };

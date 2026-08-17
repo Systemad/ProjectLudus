@@ -4,11 +4,16 @@
 */
 
 import type { GameMembership } from './GameMembership'
+import type { HttpValidationProblemDetails } from './HttpValidationProblemDetails'
 import type { MembershipRequest } from './MembershipRequest'
 
-export type PostApiMeGamesMembershipStatus200 = {
+export type PostApiMeGamesMembershipStatus200 = ({
     [key: string]: GameMembership;
-};
+} | {
+    [key: string]: GameMembership;
+});
+
+export type PostApiMeGamesMembershipStatus400 = HttpValidationProblemDetails;
 
 export type PostApiMeGamesMembershipBody = MembershipRequest;
 
@@ -21,9 +26,10 @@ export type PostApiMeGamesMembershipOptions = {
 
 export type PostApiMeGamesMembershipResponses = {
     "200": PostApiMeGamesMembershipStatus200;
+    "400": PostApiMeGamesMembershipStatus400;
 };
 
 /**
  * @description Union of all possible responses
 */
-export type PostApiMeGamesMembershipResponse = PostApiMeGamesMembershipStatus200;
+export type PostApiMeGamesMembershipResponse = (PostApiMeGamesMembershipStatus200 | PostApiMeGamesMembershipStatus400);

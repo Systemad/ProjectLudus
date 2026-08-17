@@ -1,5 +1,5 @@
 export function parseYearParam(value: string | string[] | undefined, fallbackYear: number) {
-  if (typeof value !== "string" || !/^\d{1,4}$/.test(value)) {
+  if (Array.isArray(value) || value === undefined || !/^\d{1,4}$/.test(value)) {
     return fallbackYear;
   }
 

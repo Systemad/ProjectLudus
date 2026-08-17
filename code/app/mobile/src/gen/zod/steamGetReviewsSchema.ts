@@ -10,9 +10,9 @@ export const steamGetReviewsPathGameIdSchema = z.string()
 
 export const steamGetReviewsStatus200Schema = getReviewsResponseSchema
 
-export const steamGetReviewsStatus400Schema = z.any()
+export const steamGetReviewsStatus400Schema = z.void()
 
-export const steamGetReviewsStatus404Schema = z.any()
+export const steamGetReviewsStatus404Schema = z.void()
 
 export const steamGetReviewsResponseSchema = steamGetReviewsStatus200Schema
 

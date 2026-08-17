@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { SteamGetReviewsQueryResponse, SteamGetReviewsPathParams, SteamGetReviews404 } from "../../types/SteamTypes/SteamGetReviews.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { SteamGetReviewsOptions, SteamGetReviewsStatus200, SteamGetReviewsStatus400, SteamGetReviewsStatus404 } from '../../types/SteamTypes/SteamGetReviews'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { steamGetReviews } from '../../clients/steamGetReviews'
 
-export const steamGetReviewsSuspenseQueryKey = ({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/steam/reviews/:gameId', params: {gameId:gameId} }] as const
+export const steamGetReviewsSuspenseQueryKey = ({ path }: Omit<SteamGetReviewsOptions, 'headers'>) => [{ url: '/catalog/steam/reviews/:gameId', params: path }] as const
 
-export type SteamGetReviewsSuspenseQueryKey = ReturnType<typeof steamGetReviewsSuspenseQueryKey>
+type SteamGetReviewsSuspenseQueryKey = ReturnType<typeof steamGetReviewsSuspenseQueryKey>
 
-/**
- * {@link /catalog/steam/reviews/:gameId}
- */
-export async function steamGetReviewsSuspenseHook({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<SteamGetReviewsQueryResponse, ResponseErrorConfig<SteamGetReviews404>, unknown>({ method : "GET", url : `/catalog/steam/reviews/${gameId}`, ... requestConfig })
-  return res.data
-}
-
-export function steamGetReviewsSuspenseQueryOptionsHook({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = steamGetReviewsSuspenseQueryKey({ gameId })
-        return queryOptions<SteamGetReviewsQueryResponse, ResponseErrorConfig<SteamGetReviews404>, SteamGetReviewsQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return steamGetReviewsSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function steamGetReviewsSuspenseQueryOptionsHook({ path }: SteamGetReviewsOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = steamGetReviewsSuspenseQueryKey({ path })
+  return queryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>, SteamGetReviewsStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await steamGetReviews({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/steam/reviews/:gameId}
  */
-export function useSteamGetReviewsSuspenseHook<TData = SteamGetReviewsQueryResponse, TQueryKey extends QueryKey = SteamGetReviewsSuspenseQueryKey>({ gameId }: { gameId: SteamGetReviewsPathParams["gameId"] }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<SteamGetReviewsQueryResponse, ResponseErrorConfig<SteamGetReviews404>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useSteamGetReviewsSuspenseHook<TData = SteamGetReviewsStatus200, TQueryKey extends QueryKey = SteamGetReviewsSuspenseQueryKey>({ path }: { path: SteamGetReviewsOptions['path'] | (() => SteamGetReviewsOptions['path']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<SteamGetReviewsStatus200, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? steamGetReviewsSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? steamGetReviewsSuspenseQueryKey({ gameId })
-         
+  const queryResult = useSuspenseQuery({
+   ...steamGetReviewsSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetReviewsStatus400 | SteamGetReviewsStatus404>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...steamGetReviewsSuspenseQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetReviews404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

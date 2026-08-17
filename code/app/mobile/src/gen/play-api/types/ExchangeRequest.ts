@@ -4,6 +4,10 @@
 */
 
 export type ExchangeRequest = {
+    /**
+     * @minLength 1
+     * @type string
+    */
     code: string;
-    state: string | null;
+    state?: null;
 };

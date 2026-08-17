@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getCompanyResponseSchema } from "./getCompanyResponseSchema.ts";
+import * as z from 'zod'
+import { getCompanyResponseSchema } from './getCompanyResponseSchema'
 
-export const companiesGetPathParamsSchema = z.object({
-    "companyId": z.coerce.number().int()
-    })
+export const companiesGetPathCompanyIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const companiesGet200Schema = z.lazy(() => getCompanyResponseSchema)
+export const companiesGetStatus200Schema = getCompanyResponseSchema
 
-/**
- * @description Not Found
- */
-export const companiesGet404Schema = z.any()
+export const companiesGetStatus400Schema = z.void()
 
-export const companiesGetQueryResponseSchema = z.lazy(() => companiesGet200Schema)
+export const companiesGetStatus404Schema = z.void()
+
+export const companiesGetResponseSchema = companiesGetStatus200Schema
+
+export const companiesGetErrorSchema = z.union([companiesGetStatus400Schema, companiesGetStatus404Schema])

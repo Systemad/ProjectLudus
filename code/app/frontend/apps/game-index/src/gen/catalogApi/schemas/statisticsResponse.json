@@ -1,1 +1,0 @@
-{"required":["totalGames","totalCompanies","totalPlatforms","totalEvents"],"type":"object","properties":{"totalGames":{"type":"integer","format":"int64"},"totalCompanies":{"type":"integer","format":"int64"},"totalPlatforms":{"type":"integer","format":"int64"},"totalEvents":{"type":"integer","format":"int64"}},"x-readme-ref-name":"StatisticsResponse"}

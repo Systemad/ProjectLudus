@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { GamesGetLinksQueryResponse, GamesGetLinksPathParams } from "../../types/GamesTypes/GamesGetLinks.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetLinksOptions, GamesGetLinksStatus200, GamesGetLinksStatus400 } from '../../types/GamesTypes/GamesGetLinks'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { gamesGetLinks } from '../../clients/gamesGetLinks'
 
-export const gamesGetLinksSuspenseQueryKey = ({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/links', params: {gameId:gameId} }] as const
+export const gamesGetLinksSuspenseQueryKey = ({ path }: Omit<GamesGetLinksOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/links', params: path }] as const
 
-export type GamesGetLinksSuspenseQueryKey = ReturnType<typeof gamesGetLinksSuspenseQueryKey>
+type GamesGetLinksSuspenseQueryKey = ReturnType<typeof gamesGetLinksSuspenseQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/links}
- */
-export async function gamesGetLinksSuspenseHook({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/links`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetLinksSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetLinksSuspenseQueryKey({ gameId })
-        return queryOptions<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, GamesGetLinksQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetLinksSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetLinksSuspenseQueryOptionsHook({ path }: GamesGetLinksOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetLinksSuspenseQueryKey({ path })
+  return queryOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, GamesGetLinksStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetLinks({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/links}
  */
-export function useGamesGetLinksSuspenseHook<TData = GamesGetLinksQueryResponse, TQueryKey extends QueryKey = GamesGetLinksSuspenseQueryKey>({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetLinksSuspenseHook<TData = GamesGetLinksStatus200, TQueryKey extends QueryKey = GamesGetLinksSuspenseQueryKey>({ path }: { path: GamesGetLinksOptions['path'] | (() => GamesGetLinksOptions['path']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetLinksSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetLinksSuspenseQueryKey({ gameId })
-         
+  const queryResult = useSuspenseQuery({
+   ...gamesGetLinksSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetLinksStatus400>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...gamesGetLinksSuspenseQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

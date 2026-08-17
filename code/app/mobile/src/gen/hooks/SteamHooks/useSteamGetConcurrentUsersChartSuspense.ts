@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { SteamGetConcurrentUsersChartOptions, SteamGetConcurrentUsersChartStatus200, SteamGetConcurrentUsersChartStatus400 } from '../../types/SteamGetConcurrentUsersChart'
+import type { SteamGetConcurrentUsersChartOptions, SteamGetConcurrentUsersChartStatus200, SteamGetConcurrentUsersChartStatus400, SteamGetConcurrentUsersChartStatus404 } from '../../types/SteamGetConcurrentUsersChart'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { steamGetConcurrentUsersChart } from '../../clients/steamGetConcurrentUsersChart'
 
@@ -15,7 +15,7 @@ type SteamGetConcurrentUsersChartSuspenseQueryKey = ReturnType<typeof steamGetCo
 
 export function steamGetConcurrentUsersChartSuspenseQueryOptions({ path, query }: SteamGetConcurrentUsersChartOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = steamGetConcurrentUsersChartSuspenseQueryKey({ path, query })
-  return queryOptions<SteamGetConcurrentUsersChartStatus200, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400>, SteamGetConcurrentUsersChartStatus200, typeof queryKey>({
+  return queryOptions<SteamGetConcurrentUsersChartStatus200, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400 | SteamGetConcurrentUsersChartStatus404>, SteamGetConcurrentUsersChartStatus200, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await steamGetConcurrentUsersChart({ ...config, path, query, signal: config.signal ?? signal, throwOnError: true })
@@ -28,7 +28,7 @@ export function steamGetConcurrentUsersChartSuspenseQueryOptions({ path, query }
  * {@link /catalog/steam/concurrent-users/:gameId/chart}
  */
 export function useSteamGetConcurrentUsersChartSuspense<TData = SteamGetConcurrentUsersChartStatus200, TQueryKey extends QueryKey = SteamGetConcurrentUsersChartSuspenseQueryKey>({ path, query }: { path: SteamGetConcurrentUsersChartOptions['path'] | (() => SteamGetConcurrentUsersChartOptions['path']); query?: SteamGetConcurrentUsersChartOptions['query'] | (() => SteamGetConcurrentUsersChartOptions['query']) }, options: {
-  query?: Partial<UseSuspenseQueryOptions<SteamGetConcurrentUsersChartStatus200, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400>, TData, TQueryKey>> & { client?: QueryClient },
+  query?: Partial<UseSuspenseQueryOptions<SteamGetConcurrentUsersChartStatus200, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400 | SteamGetConcurrentUsersChartStatus404>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -40,7 +40,7 @@ export function useSteamGetConcurrentUsersChartSuspense<TData = SteamGetConcurre
    ...steamGetConcurrentUsersChartSuspenseQueryOptions(resolvedParams, config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<SteamGetConcurrentUsersChartStatus400 | SteamGetConcurrentUsersChartStatus404>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

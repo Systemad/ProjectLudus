@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameOverviewDtoSchema } from "./gameOverviewDtoSchema.ts";
+import * as z from 'zod'
+import { gameOverviewDtoSchema } from './gameOverviewDtoSchema'
 
 export const getGameOverviewResponseSchema = z.object({
-    "game": z.lazy(() => gameOverviewDtoSchema)
-    })
+  game: gameOverviewDtoSchema,
+})

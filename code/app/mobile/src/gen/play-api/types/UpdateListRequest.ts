@@ -6,7 +6,12 @@
 import type { ListVisibilityKey } from './ListVisibility'
 
 export type UpdateListRequest = {
+    /**
+     * @minLength 1
+     * @maxLength 100
+     * @type string
+    */
     name: string;
-    description: string | null;
+    description?: null;
     visibility: ListVisibilityKey;
 };

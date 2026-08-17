@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { CompaniesGetGamesQueryResponse, CompaniesGetGamesPathParams, CompaniesGetGames404 } from "../../types/CompaniesTypes/CompaniesGetGames.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { CompaniesGetGamesOptions, CompaniesGetGamesStatus200, CompaniesGetGamesStatus400, CompaniesGetGamesStatus404 } from '../../types/CompaniesTypes/CompaniesGetGames'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { companiesGetGames } from '../../clients/companiesGetGames'
 
-export const companiesGetGamesSuspenseQueryKey = ({ companyId }: { companyId: CompaniesGetGamesPathParams["companyId"] | undefined }) => ["v1", { url: '/catalog/companies/:companyId/games', params: {companyId:companyId} }] as const
+export const companiesGetGamesSuspenseQueryKey = ({ path }: Omit<CompaniesGetGamesOptions, 'headers'>) => [{ url: '/catalog/companies/:companyId/games', params: path }] as const
 
-export type CompaniesGetGamesSuspenseQueryKey = ReturnType<typeof companiesGetGamesSuspenseQueryKey>
+type CompaniesGetGamesSuspenseQueryKey = ReturnType<typeof companiesGetGamesSuspenseQueryKey>
 
-/**
- * {@link /catalog/companies/:companyId/games}
- */
-export async function companiesGetGamesSuspenseHook({ companyId }: { companyId: CompaniesGetGamesPathParams["companyId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<CompaniesGetGamesQueryResponse, ResponseErrorConfig<CompaniesGetGames404>, unknown>({ method : "GET", url : `/catalog/companies/${companyId}/games`, ... requestConfig })
-  return res.data
-}
-
-export function companiesGetGamesSuspenseQueryOptionsHook({ companyId }: { companyId: CompaniesGetGamesPathParams["companyId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = companiesGetGamesSuspenseQueryKey({ companyId })
-        return queryOptions<CompaniesGetGamesQueryResponse, ResponseErrorConfig<CompaniesGetGames404>, CompaniesGetGamesQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return companiesGetGamesSuspenseHook({ companyId: companyId }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function companiesGetGamesSuspenseQueryOptionsHook({ path }: CompaniesGetGamesOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = companiesGetGamesSuspenseQueryKey({ path })
+  return queryOptions<CompaniesGetGamesStatus200, ResponseErrorConfig<CompaniesGetGamesStatus400 | CompaniesGetGamesStatus404>, CompaniesGetGamesStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await companiesGetGames({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/companies/:companyId/games}
  */
-export function useCompaniesGetGamesSuspenseHook<TData = CompaniesGetGamesQueryResponse, TQueryKey extends QueryKey = CompaniesGetGamesSuspenseQueryKey>({ companyId }: { companyId: CompaniesGetGamesPathParams["companyId"] }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<CompaniesGetGamesQueryResponse, ResponseErrorConfig<CompaniesGetGames404>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useCompaniesGetGamesSuspenseHook<TData = CompaniesGetGamesStatus200, TQueryKey extends QueryKey = CompaniesGetGamesSuspenseQueryKey>({ path }: { path: CompaniesGetGamesOptions['path'] | (() => CompaniesGetGamesOptions['path']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<CompaniesGetGamesStatus200, ResponseErrorConfig<CompaniesGetGamesStatus400 | CompaniesGetGamesStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? companiesGetGamesSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? companiesGetGamesSuspenseQueryKey({ companyId })
-         
+  const queryResult = useSuspenseQuery({
+   ...companiesGetGamesSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CompaniesGetGamesStatus400 | CompaniesGetGamesStatus404>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...companiesGetGamesSuspenseQueryOptionsHook({ companyId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<CompaniesGetGames404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

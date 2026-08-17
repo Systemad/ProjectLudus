@@ -3,23 +3,11 @@
 * Do not edit manually.
 */
 
-import type { GameReleaseDto } from "./GameReleaseDto.ts";
+import type { GameReleaseDto } from './GameReleaseDto'
 
 export type GamePageReleaseDataDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
-    /**
-     * @type string
-    */
     slug: string;
-    /**
-     * @type array
-    */
     releases: GameReleaseDto[];
 };

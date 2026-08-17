@@ -7,8 +7,6 @@ import type { GameFeatures } from './GameFeatures'
 import type { InvolvedCompanyDto } from './InvolvedCompanyDto'
 import type { PlatformDto } from './PlatformDto'
 import type { SteamData } from './SteamData'
-import type { SteamPricingData } from './SteamPricingData'
-import type { SteamReviewData } from './SteamReviewData'
 
 export type GameBrowseDto = {
     id: string;
@@ -19,10 +17,8 @@ export type GameBrowseDto = {
      * @type string | undefined
     */
     firstReleaseDate?: string | null;
-    coverUrl?: string | null;
-    steam: SteamData;
-    pricing: SteamPricingData;
-    review: SteamReviewData;
+    coverUrl?: null;
+    steam?: (null | SteamData);
     gameFeatures: GameFeatures;
     platforms: PlatformDto[];
     companies: InvolvedCompanyDto[];

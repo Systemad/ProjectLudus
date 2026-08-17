@@ -2,7 +2,6 @@ import { FilterChip, LazyColumn, Row, Text } from "@expo/ui/jetpack-compose";
 import { fillMaxSize, fillMaxWidth, horizontalScroll } from "@expo/ui/jetpack-compose/modifiers";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
-import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 
 import { BrowseListCard } from "./browse-list-card.android";
@@ -53,8 +52,6 @@ export function BrowseList({
   onRetry,
   onCollectionChange,
 }: BrowseListProps) {
-  const colors = useAppTheme();
-
   return (
     <LazyColumn
       modifiers={[fillMaxSize()]}
@@ -73,12 +70,7 @@ export function BrowseList({
         ))}
       </Row>
 
-      <Text
-        color={colors.textMuted as string}
-        style={{ typography: "labelMedium", fontWeight: "700" }}
-      >
-        LIVE PLAYER RANKINGS
-      </Text>
+      <Text style={{ typography: "labelMedium", fontWeight: "700" }}>LIVE PLAYER RANKINGS</Text>
 
       <ContentState
         status={getContentStateStatus(isLoading, isError, games.length === 0)}

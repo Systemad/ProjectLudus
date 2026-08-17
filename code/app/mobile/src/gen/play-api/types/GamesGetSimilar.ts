@@ -11,7 +11,7 @@ export type GamesGetSimilarPath = {
 
 export type GamesGetSimilarStatus200 = GetSimilarGamesResponse;
 
-export type GamesGetSimilarStatus400 = any;
+export type GamesGetSimilarStatus400 = void;
 
 export type GamesGetSimilarOptions = {
     body?: never;

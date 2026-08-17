@@ -7,11 +7,11 @@ export type PutApiMeWishlistGamesGameidPath = {
     gameId: string;
 };
 
-export type PutApiMeWishlistGamesGameidStatus204 = any;
+export type PutApiMeWishlistGamesGameidStatus204 = void;
 
-export type PutApiMeWishlistGamesGameidStatus400 = any;
+export type PutApiMeWishlistGamesGameidStatus400 = void;
 
-export type PutApiMeWishlistGamesGameidStatus404 = any;
+export type PutApiMeWishlistGamesGameidStatus404 = void;
 
 export type PutApiMeWishlistGamesGameidOptions = {
     body?: never;

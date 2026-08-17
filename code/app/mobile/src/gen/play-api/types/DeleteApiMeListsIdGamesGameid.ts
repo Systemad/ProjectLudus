@@ -13,11 +13,11 @@ export type DeleteApiMeListsIdGamesGameidPath = {
     gameId: string;
 };
 
-export type DeleteApiMeListsIdGamesGameidStatus204 = any;
+export type DeleteApiMeListsIdGamesGameidStatus204 = void;
 
-export type DeleteApiMeListsIdGamesGameidStatus400 = any;
+export type DeleteApiMeListsIdGamesGameidStatus400 = void;
 
-export type DeleteApiMeListsIdGamesGameidStatus404 = any;
+export type DeleteApiMeListsIdGamesGameidStatus404 = void;
 
 export type DeleteApiMeListsIdGamesGameidOptions = {
     body?: never;

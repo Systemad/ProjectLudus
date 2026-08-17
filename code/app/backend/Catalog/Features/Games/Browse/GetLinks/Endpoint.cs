@@ -2,16 +2,16 @@ namespace Catalog.Features.Games.Browse.GetLinks;
 
 public static class Endpoint
 {
-    public static async Task<IResult> HandleAsync(
+    public static async Task<Results<BadRequest, Ok<GetGameLinksResponse>>> HandleAsync(
         string gameId,
         IGameService gameService,
         CancellationToken cancellationToken
     )
     {
         if (!ApiId.TryParse(gameId, out var parsedGameId))
-            return Results.BadRequest();
+            return TypedResults.BadRequest();
 
         var websites = await gameService.GetLinksAsync(parsedGameId, cancellationToken);
-        return Results.Ok(new GetGameLinksResponse(websites));
+        return TypedResults.Ok(new GetGameLinksResponse(websites));
     }
 }

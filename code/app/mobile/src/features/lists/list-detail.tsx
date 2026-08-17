@@ -36,7 +36,7 @@ export function ListDetail({ id }: { id: string }) {
     await remove.mutateAsync({ path: { id } });
     posthog?.capture("game_list_deleted", {
       list_id: id,
-      visibility: list?.visibility.toLowerCase(),
+      visibility: list?.visibility.toLowerCase() ?? null,
     });
     await queryClient.invalidateQueries({ queryKey: getApiMeListsQueryKey() });
     router.back();

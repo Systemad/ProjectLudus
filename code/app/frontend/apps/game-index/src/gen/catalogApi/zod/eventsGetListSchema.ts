@@ -3,25 +3,22 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getEventsListResponseSchema } from "./getEventsListResponseSchema.ts";
-import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
+import * as z from 'zod'
+import { getEventsListResponseSchema } from './getEventsListResponseSchema'
+import { httpValidationProblemDetailsSchema } from './httpValidationProblemDetailsSchema'
 
-export const eventsGetListQueryParamsSchema = z.object({
-    "year": z.optional(z.coerce.number().int()),
-"month": z.optional(z.coerce.number().int()),
-"status": z.optional(z.string()),
-"limit": z.optional(z.coerce.number().int())
-    }).optional()
+export const eventsGetListQueryYearSchema = z.int().optional()
 
-/**
- * @description OK
- */
-export const eventsGetList200Schema = z.lazy(() => getEventsListResponseSchema).describe("List of events matching the filter criteria.")
+export const eventsGetListQueryMonthSchema = z.int().optional()
 
-/**
- * @description Bad Request
- */
-export const eventsGetList400Schema = z.lazy(() => httpValidationProblemDetailsSchema)
+export const eventsGetListQueryStatusSchema = z.string().optional()
 
-export const eventsGetListQueryResponseSchema = z.lazy(() => eventsGetList200Schema)
+export const eventsGetListQueryLimitSchema = z.int().optional()
+
+export const eventsGetListStatus200Schema = getEventsListResponseSchema
+
+export const eventsGetListStatus400Schema = httpValidationProblemDetailsSchema
+
+export const eventsGetListResponseSchema = eventsGetListStatus200Schema
+
+export const eventsGetListErrorSchema = eventsGetListStatus400Schema

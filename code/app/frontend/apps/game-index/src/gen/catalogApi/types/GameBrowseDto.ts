@@ -3,43 +3,23 @@
 * Do not edit manually.
 */
 
-import type { GameFeatures } from "./GameFeatures.ts";
-import type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
-import type { PlatformDto } from "./PlatformDto.ts";
-import type { SteamData } from "./SteamData.ts";
-import type { SteamPricingData } from "./SteamPricingData.ts";
-import type { SteamReviewData } from "./SteamReviewData.ts";
+import type { GameFeatures } from './GameFeatures'
+import type { InvolvedCompanyDto } from './InvolvedCompanyDto'
+import type { PlatformDto } from './PlatformDto'
+import type { SteamData } from './SteamData'
 
 export type GameBrowseDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
     /**
-     * @type null,string, date
+     * @description
+     * Format: `date`
+     * @type string | undefined
     */
     firstReleaseDate?: string | null;
-    /**
-     * @type null,string
-    */
-    coverUrl?: string | null;
+    coverUrl?: null;
     steam?: (null | SteamData);
-    pricing?: (null | SteamPricingData);
-    review?: (null | SteamReviewData);
-    /**
-     * @type object
-    */
     gameFeatures: GameFeatures;
-    /**
-     * @type array
-    */
     platforms: PlatformDto[];
-    /**
-     * @type array
-    */
     companies: InvolvedCompanyDto[];
 };

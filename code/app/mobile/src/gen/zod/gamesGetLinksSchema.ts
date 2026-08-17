@@ -10,7 +10,7 @@ export const gamesGetLinksPathGameIdSchema = z.string()
 
 export const gamesGetLinksStatus200Schema = getGameLinksResponseSchema
 
-export const gamesGetLinksStatus400Schema = z.any()
+export const gamesGetLinksStatus400Schema = z.void()
 
 export const gamesGetLinksResponseSchema = gamesGetLinksStatus200Schema
 

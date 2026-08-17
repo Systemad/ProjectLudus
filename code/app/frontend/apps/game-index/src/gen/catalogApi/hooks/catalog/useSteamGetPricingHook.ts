@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { SteamGetPricingQueryResponse, SteamGetPricingPathParams, SteamGetPricing404 } from "../../types/SteamTypes/SteamGetPricing.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { SteamGetPricingOptions, SteamGetPricingStatus200, SteamGetPricingStatus400, SteamGetPricingStatus404 } from '../../types/SteamTypes/SteamGetPricing'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { steamGetPricing } from '../../clients/steamGetPricing'
 
-export const steamGetPricingQueryKey = ({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/steam/pricing/:gameId', params: {gameId:gameId} }] as const
+export const steamGetPricingQueryKey = ({ path }: Omit<SteamGetPricingOptions, 'headers'>) => [{ url: '/catalog/steam/pricing/:gameId', params: path }] as const
 
-export type SteamGetPricingQueryKey = ReturnType<typeof steamGetPricingQueryKey>
+type SteamGetPricingQueryKey = ReturnType<typeof steamGetPricingQueryKey>
 
-/**
- * {@link /catalog/steam/pricing/:gameId}
- */
-export async function steamGetPricingHook({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<SteamGetPricingQueryResponse, ResponseErrorConfig<SteamGetPricing404>, unknown>({ method : "GET", url : `/catalog/steam/pricing/${gameId}`, ... requestConfig })
-  return res.data
-}
-
-export function steamGetPricingQueryOptionsHook({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = steamGetPricingQueryKey({ gameId })
-        return queryOptions<SteamGetPricingQueryResponse, ResponseErrorConfig<SteamGetPricing404>, SteamGetPricingQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return steamGetPricingHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function steamGetPricingQueryOptionsHook({ path }: SteamGetPricingOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = steamGetPricingQueryKey({ path })
+  return queryOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>, SteamGetPricingStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await steamGetPricing({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/steam/pricing/:gameId}
  */
-export function useSteamGetPricingHook<TData = SteamGetPricingQueryResponse, TQueryData = SteamGetPricingQueryResponse, TQueryKey extends QueryKey = SteamGetPricingQueryKey>({ gameId }: { gameId: SteamGetPricingPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<SteamGetPricingQueryResponse, ResponseErrorConfig<SteamGetPricing404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useSteamGetPricingHook<TData = SteamGetPricingStatus200, TQueryData = SteamGetPricingStatus200, TQueryKey extends QueryKey = SteamGetPricingQueryKey>({ path }: { path: SteamGetPricingOptions['path'] | (() => SteamGetPricingOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<SteamGetPricingStatus200, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? steamGetPricingQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? steamGetPricingQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...steamGetPricingQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<SteamGetPricingStatus400 | SteamGetPricingStatus404>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...steamGetPricingQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<SteamGetPricing404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

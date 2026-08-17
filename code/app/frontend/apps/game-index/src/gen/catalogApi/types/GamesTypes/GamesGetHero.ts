@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetGameHeroResponse } from "../GetGameHeroResponse.ts";
+import type { GetGameHeroResponse } from '../GetGameHeroResponse'
 
-export type GamesGetHeroPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type GamesGetHeroPath = {
+    gameId: string;
+};
+
+export type GamesGetHeroStatus200 = GetGameHeroResponse;
+
+export type GamesGetHeroStatus400 = void;
+
+export type GamesGetHeroStatus404 = void;
+
+export type GamesGetHeroOptions = {
+    body?: never;
+    path: GamesGetHeroPath;
+    query?: never;
+    headers?: never;
+};
+
+export type GamesGetHeroResponses = {
+    "200": GamesGetHeroStatus200;
+    "400": GamesGetHeroStatus400;
+    "404": GamesGetHeroStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type GamesGetHero200 = GetGameHeroResponse;
-
-/**
- * @description Not Found
-*/
-export type GamesGetHero404 = any;
-
-export type GamesGetHeroQueryResponse = GamesGetHero200;
-
-export type GamesGetHeroQuery = {
-    Response: GamesGetHero200;
-    PathParams: GamesGetHeroPathParams;
-    Errors: GamesGetHero404;
-};
+export type GamesGetHeroResponse = (GamesGetHeroStatus200 | GamesGetHeroStatus400 | GamesGetHeroStatus404);

@@ -3,6 +3,7 @@
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
 using PlayAPISDK.Catalog.Games.Browse;
+using PlayAPISDK.Catalog.Games.Heroes;
 using PlayAPISDK.Catalog.Games.Item;
 using PlayAPISDK.Catalog.Games.ReleaseDateRange;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ namespace PlayAPISDK.Catalog.Games
         public global::PlayAPISDK.Catalog.Games.Browse.BrowseRequestBuilder Browse
         {
             get => new global::PlayAPISDK.Catalog.Games.Browse.BrowseRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The heroes property</summary>
+        public global::PlayAPISDK.Catalog.Games.Heroes.HeroesRequestBuilder Heroes
+        {
+            get => new global::PlayAPISDK.Catalog.Games.Heroes.HeroesRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The releaseDateRange property</summary>
         public global::PlayAPISDK.Catalog.Games.ReleaseDateRange.ReleaseDateRangeRequestBuilder ReleaseDateRange

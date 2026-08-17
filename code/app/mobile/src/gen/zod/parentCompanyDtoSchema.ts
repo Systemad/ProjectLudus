@@ -7,6 +7,6 @@ import * as z from 'zod'
 
 export const parentCompanyDtoSchema = z.object({
   id: z.string(),
-  name: z.string().nullable(),
-  slug: z.string().nullable(),
+  name: z.null(),
+  slug: z.null(),
 })

@@ -11,9 +11,9 @@ export type GamesGetMediaPath = {
 
 export type GamesGetMediaStatus200 = GetGameMediaResponse;
 
-export type GamesGetMediaStatus400 = any;
+export type GamesGetMediaStatus400 = void;
 
-export type GamesGetMediaStatus404 = any;
+export type GamesGetMediaStatus404 = void;
 
 export type GamesGetMediaOptions = {
     body?: never;

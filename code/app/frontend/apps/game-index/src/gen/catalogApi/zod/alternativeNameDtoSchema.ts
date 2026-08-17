@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const alternativeNameDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"comment": z.nullable(z.string())
-    })
+  id: z.string(),
+  name: z.string(),
+  comment: z.null(),
+})

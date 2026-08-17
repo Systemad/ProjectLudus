@@ -7,7 +7,7 @@ import type { UserResponse } from './UserResponse'
 
 export type GetAuthMeStatus200 = UserResponse;
 
-export type GetAuthMeStatus401 = any;
+export type GetAuthMeStatus401 = void;
 
 export type GetAuthMeOptions = {
     body?: never;

@@ -3,11 +3,11 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const websiteDtoSchema = z.object({
-    "name": z.string(),
-"type": z.nullable(z.string()),
-"url": z.string(),
-"trusted": z.nullable(z.boolean())
-    })
+  name: z.string(),
+  type: z.null(),
+  url: z.string(),
+  trusted: z.null(),
+})

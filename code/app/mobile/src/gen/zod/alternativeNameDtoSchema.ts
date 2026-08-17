@@ -8,5 +8,5 @@ import * as z from 'zod'
 export const alternativeNameDtoSchema = z.object({
   id: z.string(),
   name: z.string(),
-  comment: z.string().nullable(),
+  comment: z.null(),
 })

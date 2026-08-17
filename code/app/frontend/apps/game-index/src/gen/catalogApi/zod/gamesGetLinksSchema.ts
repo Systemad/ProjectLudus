@@ -3,16 +3,15 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getGameLinksResponseSchema } from "./getGameLinksResponseSchema.ts";
+import * as z from 'zod'
+import { getGameLinksResponseSchema } from './getGameLinksResponseSchema'
 
-export const gamesGetLinksPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const gamesGetLinksPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const gamesGetLinks200Schema = z.lazy(() => getGameLinksResponseSchema)
+export const gamesGetLinksStatus200Schema = getGameLinksResponseSchema
 
-export const gamesGetLinksQueryResponseSchema = z.lazy(() => gamesGetLinks200Schema)
+export const gamesGetLinksStatus400Schema = z.void()
+
+export const gamesGetLinksResponseSchema = gamesGetLinksStatus200Schema
+
+export const gamesGetLinksErrorSchema = gamesGetLinksStatus400Schema

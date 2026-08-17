@@ -3,14 +3,8 @@
 * Do not edit manually.
 */
 
-import type { EventDto } from "./EventDto.ts";
+import type { EventDto } from './EventDto'
 
-/**
- * @description List of events matching the filter criteria.
-*/
 export type GetEventsListResponse = {
-    /**
-     * @type array
-    */
     events: EventDto[];
 };

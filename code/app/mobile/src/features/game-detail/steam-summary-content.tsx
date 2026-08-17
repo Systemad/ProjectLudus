@@ -1,14 +1,13 @@
 import { Button, Column, Row, Spacer, Text } from "@expo/ui";
 import { useWindowDimensions } from "react-native";
+import type { GetPricingResponse } from "@/gen/types/GetPricingResponse";
+import type { GetReviewsResponse } from "@/gen/types/GetReviewsResponse";
+import type { SteamData } from "@/gen/types/SteamData";
 
 export type SteamSummaryProps = {
-  currentPlayers?: number | null;
-  peak24h?: number | null;
-  steamAppId?: string | null;
-  reviewDescription?: string | null;
-  totalReviews?: number | null;
-  finalCents?: number | null;
-  currency?: string | null;
+  steam?: SteamData | null;
+  reviews?: GetReviewsResponse;
+  pricing?: GetPricingResponse;
 };
 
 export type SteamSummaryColors = {
@@ -46,13 +45,9 @@ function Stat({
 }
 
 export function SteamSummaryContent({
-  currentPlayers,
-  peak24h,
-  steamAppId,
-  reviewDescription,
-  totalReviews,
-  finalCents,
-  currency,
+  steam,
+  reviews,
+  pricing,
   openSteam,
   colors,
 }: SteamSummaryProps & { colors?: SteamSummaryColors; openSteam: () => void }) {
@@ -66,17 +61,32 @@ export function SteamSummaryContent({
           Steam now
         </Text>
         <Spacer flexible />
-        <Button disabled={!steamAppId} label="Open Steam" onPress={openSteam} variant="text" />
+        <Button
+          disabled={!steam?.steamAppId}
+          label="Open Steam"
+          onPress={openSteam}
+          variant="text"
+        />
       </Row>
       <Row spacing={16}>
         <Stat
           label="Playing now"
-          value={formatCount(currentPlayers)}
+          value={formatCount(steam?.currentPlayers)}
           width={statWidth}
           colors={colors}
         />
-        <Stat label="24h peak" value={formatCount(peak24h)} width={statWidth} colors={colors} />
-        <Stat label="Steam app ID" value={steamAppId ?? "—"} width={statWidth} colors={colors} />
+        <Stat
+          label="24h peak"
+          value={formatCount(steam?.peak24h)}
+          width={statWidth}
+          colors={colors}
+        />
+        <Stat
+          label="Steam app ID"
+          value={steam?.steamAppId ?? "—"}
+          width={statWidth}
+          colors={colors}
+        />
       </Row>
       <Text textStyle={{ color: colors?.onSurface, fontSize: 20, fontWeight: "700" }}>
         Ratings and price
@@ -84,19 +94,19 @@ export function SteamSummaryContent({
       <Row spacing={16}>
         <Stat
           label="Steam reviews"
-          value={reviewDescription ?? "—"}
+          value={reviews?.reviewScoreDesc ?? "—"}
           width={statWidth}
           colors={colors}
         />
         <Stat
           label="Total reviews"
-          value={formatCount(totalReviews)}
+          value={formatCount(reviews?.totalReviews)}
           width={statWidth}
           colors={colors}
         />
         <Stat
           label="Price"
-          value={formatPrice(finalCents, currency)}
+          value={formatPrice(pricing?.finalCents, pricing?.currency)}
           width={statWidth}
           colors={colors}
         />

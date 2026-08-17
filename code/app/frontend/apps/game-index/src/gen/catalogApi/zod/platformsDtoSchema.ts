@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const platformsDtoSchema = z.object({
-    "name": z.string(),
-"slug": z.nullable(z.string())
-    })
+  name: z.string(),
+  slug: z.null(),
+})

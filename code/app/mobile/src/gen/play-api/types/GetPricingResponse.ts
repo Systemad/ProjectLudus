@@ -5,7 +5,7 @@
 
 export type GetPricingResponse = {
     gameId: string;
-    steamAppId: string | null;
+    steamAppId: string;
     /**
      * @description
      * Format: `int32`
@@ -18,7 +18,7 @@ export type GetPricingResponse = {
      * @type integer
     */
     discountPercent: number | null;
-    currency: string | null;
+    currency: null;
     /**
      * @description
      * Format: `int32`

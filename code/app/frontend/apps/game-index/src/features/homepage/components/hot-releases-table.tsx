@@ -20,15 +20,15 @@ export function HotReleasesTable({ games }: Props) {
                 {
                     header: "Rating",
                     render: (g) => (
-                        <Text style={{color: steamReviewColor(g.review)}}>
-                            {steamReviewRating(g.review)}
+                        <Text style={{color: steamReviewColor(g.steam?.review)}}>
+                            {steamReviewRating(g.steam?.review)}
                         </Text>
                     ),
                 },
                 {
                     header: "Price",
                     numeric: true,
-                    render: (g) => <PricingCell pricing={g.pricing} />,
+                    render: (g) => <PricingCell pricing={g.steam?.pricing} />,
                 },
             ]}
         />

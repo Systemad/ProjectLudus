@@ -3,15 +3,9 @@
 * Do not edit manually.
 */
 
-import type { GameMediaVideoDto } from "./GameMediaVideoDto.ts";
+import type { GameMediaVideoDto } from './GameMediaVideoDto'
 
 export type GameMediaDto = {
-    /**
-     * @type array
-    */
     screenshots: string[];
-    /**
-     * @type array
-    */
     videos: GameMediaVideoDto[];
 };

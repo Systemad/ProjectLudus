@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gamePageReleaseDataDtoSchema } from "./gamePageReleaseDataDtoSchema.ts";
+import * as z from 'zod'
+import { gamePageReleaseDataDtoSchema } from './gamePageReleaseDataDtoSchema'
 
 export const getGamePageReleaseDataResponseSchema = z.object({
-    "data": z.lazy(() => gamePageReleaseDataDtoSchema)
-    })
+  data: gamePageReleaseDataDtoSchema,
+})

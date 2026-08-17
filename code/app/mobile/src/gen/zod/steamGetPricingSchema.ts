@@ -10,9 +10,9 @@ export const steamGetPricingPathGameIdSchema = z.string()
 
 export const steamGetPricingStatus200Schema = getPricingResponseSchema
 
-export const steamGetPricingStatus400Schema = z.any()
+export const steamGetPricingStatus400Schema = z.void()
 
-export const steamGetPricingStatus404Schema = z.any()
+export const steamGetPricingStatus404Schema = z.void()
 
 export const steamGetPricingResponseSchema = steamGetPricingStatus200Schema
 

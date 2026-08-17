@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetReleaseDateRangeQueryResponse, GamesGetReleaseDateRangeQueryParams, GamesGetReleaseDateRange400 } from "../../types/GamesTypes/GamesGetReleaseDateRange.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetReleaseDateRangeOptions, GamesGetReleaseDateRangeStatus200, GamesGetReleaseDateRangeStatus400 } from '../../types/GamesTypes/GamesGetReleaseDateRange'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetReleaseDateRange } from '../../clients/gamesGetReleaseDateRange'
 
-export const gamesGetReleaseDateRangeQueryKey = (params: GamesGetReleaseDateRangeQueryParams) => ["v1", { url: '/catalog/games/release-date-range' }, ...(params ? [params] : [])] as const
+export const gamesGetReleaseDateRangeQueryKey = ({ query }: Omit<GamesGetReleaseDateRangeOptions, 'headers'>) => [{ url: '/catalog/games/release-date-range' }, ...(query ? [query] : [])] as const
 
-export type GamesGetReleaseDateRangeQueryKey = ReturnType<typeof gamesGetReleaseDateRangeQueryKey>
+type GamesGetReleaseDateRangeQueryKey = ReturnType<typeof gamesGetReleaseDateRangeQueryKey>
 
-/**
- * {@link /catalog/games/release-date-range}
- */
-export async function gamesGetReleaseDateRangeHook({ params }: { params: GamesGetReleaseDateRangeQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, unknown>({ method : "GET", url : `/catalog/games/release-date-range`, params, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetReleaseDateRangeQueryOptionsHook({ params }: { params: GamesGetReleaseDateRangeQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetReleaseDateRangeQueryKey(params)
-        return queryOptions<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, GamesGetReleaseDateRangeQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetReleaseDateRangeHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetReleaseDateRangeQueryOptionsHook({ query }: GamesGetReleaseDateRangeOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetReleaseDateRangeQueryKey({ query })
+  return queryOptions<GamesGetReleaseDateRangeStatus200, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>, GamesGetReleaseDateRangeStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetReleaseDateRange({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/release-date-range}
  */
-export function useGamesGetReleaseDateRangeHook<TData = GamesGetReleaseDateRangeQueryResponse, TQueryData = GamesGetReleaseDateRangeQueryResponse, TQueryKey extends QueryKey = GamesGetReleaseDateRangeQueryKey>({ params }: { params: GamesGetReleaseDateRangeQueryParams }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetReleaseDateRangeHook<TData = GamesGetReleaseDateRangeStatus200, TQueryData = GamesGetReleaseDateRangeStatus200, TQueryKey extends QueryKey = GamesGetReleaseDateRangeQueryKey>({ query }: { query: GamesGetReleaseDateRangeOptions['query'] | (() => GamesGetReleaseDateRangeOptions['query']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetReleaseDateRangeStatus200, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDateRangeQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDateRangeQueryKey(params)
-         
+  const queryResult = useQuery({
+   ...gamesGetReleaseDateRangeQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetReleaseDateRangeQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDateRange400>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

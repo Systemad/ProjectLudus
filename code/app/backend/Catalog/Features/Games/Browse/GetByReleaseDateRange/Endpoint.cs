@@ -2,7 +2,7 @@ namespace Catalog.Features.Games.Browse.GetByReleaseDateRange;
 
 public static class Endpoint
 {
-    public static async Task<IResult> HandleAsync(
+    public static async Task<Results<ValidationProblem, Ok<GetByReleaseDateRangeResponse>>> HandleAsync(
         [AsParameters] Request request,
         IValidator<Request> validator,
         IGameService gameService,
@@ -11,7 +11,7 @@ public static class Endpoint
     {
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
-            return Results.ValidationProblem(validationResult.ToDictionary());
+            return TypedResults.ValidationProblem(validationResult.ToDictionary());
 
         var games = await gameService.GetByReleaseDateRangeAsync(
             request.Start.ToDateTime(TimeOnly.MinValue, DateTimeKind.Utc),
@@ -20,7 +20,7 @@ public static class Endpoint
             cancellationToken
         );
 
-        return Results.Ok(
+        return TypedResults.Ok(
             new GetByReleaseDateRangeResponse(request.Start, request.End, request.Limit, games)
         );
     }

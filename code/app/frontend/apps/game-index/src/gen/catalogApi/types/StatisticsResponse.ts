@@ -3,22 +3,29 @@
 * Do not edit manually.
 */
 
-
 export type StatisticsResponse = {
     /**
-     * @type integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     totalGames: number;
     /**
-     * @type integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     totalCompanies: number;
     /**
-     * @type integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     totalPlatforms: number;
     /**
-     * @type integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     totalEvents: number;
 };

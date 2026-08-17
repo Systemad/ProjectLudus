@@ -10,9 +10,9 @@ export const gamesGetReleaseDataPathGameIdSchema = z.string()
 
 export const gamesGetReleaseDataStatus200Schema = getGamePageReleaseDataResponseSchema
 
-export const gamesGetReleaseDataStatus400Schema = z.any()
+export const gamesGetReleaseDataStatus400Schema = z.void()
 
-export const gamesGetReleaseDataStatus404Schema = z.any()
+export const gamesGetReleaseDataStatus404Schema = z.void()
 
 export const gamesGetReleaseDataResponseSchema = gamesGetReleaseDataStatus200Schema
 

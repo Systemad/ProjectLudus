@@ -5,5 +5,5 @@
 
 export type PlatformsDto = {
     name: string;
-    slug: string | null;
+    slug: null;
 };

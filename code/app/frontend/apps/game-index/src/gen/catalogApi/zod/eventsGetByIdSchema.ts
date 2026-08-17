@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getEventByIdResponseSchema } from "./getEventByIdResponseSchema.ts";
+import * as z from 'zod'
+import { getEventByIdResponseSchema } from './getEventByIdResponseSchema'
 
-export const eventsGetByIdPathParamsSchema = z.object({
-    "id": z.coerce.number().int()
-    })
+export const eventsGetByIdPathIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const eventsGetById200Schema = z.lazy(() => getEventByIdResponseSchema).describe("Event details including associated games.")
+export const eventsGetByIdStatus200Schema = getEventByIdResponseSchema
 
-/**
- * @description Not Found
- */
-export const eventsGetById404Schema = z.any()
+export const eventsGetByIdStatus400Schema = z.void()
 
-export const eventsGetByIdQueryResponseSchema = z.lazy(() => eventsGetById200Schema)
+export const eventsGetByIdStatus404Schema = z.void()
+
+export const eventsGetByIdResponseSchema = eventsGetByIdStatus200Schema
+
+export const eventsGetByIdErrorSchema = z.union([eventsGetByIdStatus400Schema, eventsGetByIdStatus404Schema])

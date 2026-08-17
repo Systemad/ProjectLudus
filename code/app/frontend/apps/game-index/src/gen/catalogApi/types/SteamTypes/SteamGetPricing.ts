@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetPricingResponse } from "../GetPricingResponse.ts";
+import type { GetPricingResponse } from '../GetPricingResponse'
 
-export type SteamGetPricingPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type SteamGetPricingPath = {
+    gameId: string;
+};
+
+export type SteamGetPricingStatus200 = GetPricingResponse;
+
+export type SteamGetPricingStatus400 = void;
+
+export type SteamGetPricingStatus404 = void;
+
+export type SteamGetPricingOptions = {
+    body?: never;
+    path: SteamGetPricingPath;
+    query?: never;
+    headers?: never;
+};
+
+export type SteamGetPricingResponses = {
+    "200": SteamGetPricingStatus200;
+    "400": SteamGetPricingStatus400;
+    "404": SteamGetPricingStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type SteamGetPricing200 = GetPricingResponse;
-
-/**
- * @description Not Found
-*/
-export type SteamGetPricing404 = any;
-
-export type SteamGetPricingQueryResponse = SteamGetPricing200;
-
-export type SteamGetPricingQuery = {
-    Response: SteamGetPricing200;
-    PathParams: SteamGetPricingPathParams;
-    Errors: SteamGetPricing404;
-};
+export type SteamGetPricingResponse = (SteamGetPricingStatus200 | SteamGetPricingStatus400 | SteamGetPricingStatus404);

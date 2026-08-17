@@ -3,24 +3,20 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getByReleaseDateRangeResponseSchema } from "./getByReleaseDateRangeResponseSchema.ts";
-import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
+import * as z from 'zod'
+import { getByReleaseDateRangeResponseSchema } from './getByReleaseDateRangeResponseSchema'
+import { httpValidationProblemDetailsSchema } from './httpValidationProblemDetailsSchema'
 
-export const gamesGetReleaseDateRangeQueryParamsSchema = z.object({
-    "Start": z.string().date(),
-"End": z.string().date(),
-"Limit": z.coerce.number().int()
-    })
+export const gamesGetReleaseDateRangeQueryStartSchema = z.iso.date()
 
-/**
- * @description OK
- */
-export const gamesGetReleaseDateRange200Schema = z.lazy(() => getByReleaseDateRangeResponseSchema)
+export const gamesGetReleaseDateRangeQueryEndSchema = z.iso.date()
 
-/**
- * @description Bad Request
- */
-export const gamesGetReleaseDateRange400Schema = z.lazy(() => httpValidationProblemDetailsSchema)
+export const gamesGetReleaseDateRangeQueryLimitSchema = z.int()
 
-export const gamesGetReleaseDateRangeQueryResponseSchema = z.lazy(() => gamesGetReleaseDateRange200Schema)
+export const gamesGetReleaseDateRangeStatus200Schema = getByReleaseDateRangeResponseSchema
+
+export const gamesGetReleaseDateRangeStatus400Schema = httpValidationProblemDetailsSchema
+
+export const gamesGetReleaseDateRangeResponseSchema = gamesGetReleaseDateRangeStatus200Schema
+
+export const gamesGetReleaseDateRangeErrorSchema = gamesGetReleaseDateRangeStatus400Schema

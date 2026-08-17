@@ -7,26 +7,26 @@ export type SteamReviewData = {
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    score: number | null;
-    desc: string | null;
+    score?: number | null;
+    desc?: null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    totalReviews: number | null;
+    totalReviews?: number | null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    positive: number | null;
+    positive?: number | null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    negative: number | null;
+    negative?: number | null;
 };

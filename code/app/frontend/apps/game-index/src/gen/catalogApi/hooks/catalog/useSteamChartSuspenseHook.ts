@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { SteamChartQueryResponse, SteamChartQueryParams } from "../../types/SteamTypes/SteamChart.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { SteamChartOptions, SteamChartStatus200 } from '../../types/SteamTypes/SteamChart'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { steamChart } from '../../clients/steamChart'
 
-export const steamChartSuspenseQueryKey = (params?: SteamChartQueryParams) => ["v1", { url: '/catalog/steam/chart' }, ...(params ? [params] : [])] as const
+export const steamChartSuspenseQueryKey = ({ query }: Omit<SteamChartOptions, 'headers'> = {}) => [{ url: '/catalog/steam/chart' }, ...(query ? [query] : [])] as const
 
-export type SteamChartSuspenseQueryKey = ReturnType<typeof steamChartSuspenseQueryKey>
+type SteamChartSuspenseQueryKey = ReturnType<typeof steamChartSuspenseQueryKey>
 
-/**
- * {@link /catalog/steam/chart}
- */
-export async function steamChartSuspenseHook({ params }: { params?: SteamChartQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<SteamChartQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/steam/chart`, params, ... requestConfig })
-  return res.data
-}
-
-export function steamChartSuspenseQueryOptionsHook({ params }: { params?: SteamChartQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = steamChartSuspenseQueryKey(params)
-        return queryOptions<SteamChartQueryResponse, ResponseErrorConfig<Error>, SteamChartQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return steamChartSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function steamChartSuspenseQueryOptionsHook({ query }: SteamChartOptions = {}, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = steamChartSuspenseQueryKey({ query })
+  return queryOptions<SteamChartStatus200, ResponseErrorConfig<Error>, SteamChartStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await steamChart({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/steam/chart}
  */
-export function useSteamChartSuspenseHook<TData = SteamChartQueryResponse, TQueryKey extends QueryKey = SteamChartSuspenseQueryKey>({ params }: { params?: SteamChartQueryParams } = {}, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<SteamChartQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useSteamChartSuspenseHook<TData = SteamChartStatus200, TQueryKey extends QueryKey = SteamChartSuspenseQueryKey>({ query }: { query?: SteamChartOptions['query'] | (() => SteamChartOptions['query']) } = {}, options: {
+  query?: Partial<UseSuspenseQueryOptions<SteamChartStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? steamChartSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? steamChartSuspenseQueryKey(params)
-         
+  const queryResult = useSuspenseQuery({
+   ...steamChartSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...steamChartSuspenseQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

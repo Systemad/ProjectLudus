@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { websiteDtoSchema } from "./websiteDtoSchema.ts";
+import * as z from 'zod'
+import { websiteDtoSchema } from './websiteDtoSchema'
 
 export const getGameLinksResponseSchema = z.object({
-    "websites": z.array(z.lazy(() => websiteDtoSchema))
-    })
+  websites: z.array(websiteDtoSchema),
+})

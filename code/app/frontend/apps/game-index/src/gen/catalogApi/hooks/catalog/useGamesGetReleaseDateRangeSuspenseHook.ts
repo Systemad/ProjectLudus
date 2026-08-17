@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { GamesGetReleaseDateRangeQueryResponse, GamesGetReleaseDateRangeQueryParams, GamesGetReleaseDateRange400 } from "../../types/GamesTypes/GamesGetReleaseDateRange.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetReleaseDateRangeOptions, GamesGetReleaseDateRangeStatus200, GamesGetReleaseDateRangeStatus400 } from '../../types/GamesTypes/GamesGetReleaseDateRange'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { gamesGetReleaseDateRange } from '../../clients/gamesGetReleaseDateRange'
 
-export const gamesGetReleaseDateRangeSuspenseQueryKey = (params: GamesGetReleaseDateRangeQueryParams) => ["v1", { url: '/catalog/games/release-date-range' }, ...(params ? [params] : [])] as const
+export const gamesGetReleaseDateRangeSuspenseQueryKey = ({ query }: Omit<GamesGetReleaseDateRangeOptions, 'headers'>) => [{ url: '/catalog/games/release-date-range' }, ...(query ? [query] : [])] as const
 
-export type GamesGetReleaseDateRangeSuspenseQueryKey = ReturnType<typeof gamesGetReleaseDateRangeSuspenseQueryKey>
+type GamesGetReleaseDateRangeSuspenseQueryKey = ReturnType<typeof gamesGetReleaseDateRangeSuspenseQueryKey>
 
-/**
- * {@link /catalog/games/release-date-range}
- */
-export async function gamesGetReleaseDateRangeSuspenseHook({ params }: { params: GamesGetReleaseDateRangeQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, unknown>({ method : "GET", url : `/catalog/games/release-date-range`, params, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetReleaseDateRangeSuspenseQueryOptionsHook({ params }: { params: GamesGetReleaseDateRangeQueryParams }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetReleaseDateRangeSuspenseQueryKey(params)
-        return queryOptions<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, GamesGetReleaseDateRangeQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetReleaseDateRangeSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetReleaseDateRangeSuspenseQueryOptionsHook({ query }: GamesGetReleaseDateRangeOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetReleaseDateRangeSuspenseQueryKey({ query })
+  return queryOptions<GamesGetReleaseDateRangeStatus200, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>, GamesGetReleaseDateRangeStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetReleaseDateRange({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/release-date-range}
  */
-export function useGamesGetReleaseDateRangeSuspenseHook<TData = GamesGetReleaseDateRangeQueryResponse, TQueryKey extends QueryKey = GamesGetReleaseDateRangeSuspenseQueryKey>({ params }: { params: GamesGetReleaseDateRangeQueryParams }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<GamesGetReleaseDateRangeQueryResponse, ResponseErrorConfig<GamesGetReleaseDateRange400>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetReleaseDateRangeSuspenseHook<TData = GamesGetReleaseDateRangeStatus200, TQueryKey extends QueryKey = GamesGetReleaseDateRangeSuspenseQueryKey>({ query }: { query: GamesGetReleaseDateRangeOptions['query'] | (() => GamesGetReleaseDateRangeOptions['query']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<GamesGetReleaseDateRangeStatus200, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDateRangeSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDateRangeSuspenseQueryKey(params)
-         
+  const queryResult = useSuspenseQuery({
+   ...gamesGetReleaseDateRangeSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDateRangeStatus400>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...gamesGetReleaseDateRangeSuspenseQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDateRange400>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

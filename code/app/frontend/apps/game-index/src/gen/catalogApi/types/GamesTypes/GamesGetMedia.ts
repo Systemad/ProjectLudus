@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetGameMediaResponse } from "../GetGameMediaResponse.ts";
+import type { GetGameMediaResponse } from '../GetGameMediaResponse'
 
-export type GamesGetMediaPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type GamesGetMediaPath = {
+    gameId: string;
+};
+
+export type GamesGetMediaStatus200 = GetGameMediaResponse;
+
+export type GamesGetMediaStatus400 = void;
+
+export type GamesGetMediaStatus404 = void;
+
+export type GamesGetMediaOptions = {
+    body?: never;
+    path: GamesGetMediaPath;
+    query?: never;
+    headers?: never;
+};
+
+export type GamesGetMediaResponses = {
+    "200": GamesGetMediaStatus200;
+    "400": GamesGetMediaStatus400;
+    "404": GamesGetMediaStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type GamesGetMedia200 = GetGameMediaResponse;
-
-/**
- * @description Not Found
-*/
-export type GamesGetMedia404 = any;
-
-export type GamesGetMediaQueryResponse = GamesGetMedia200;
-
-export type GamesGetMediaQuery = {
-    Response: GamesGetMedia200;
-    PathParams: GamesGetMediaPathParams;
-    Errors: GamesGetMedia404;
-};
+export type GamesGetMediaResponse = (GamesGetMediaStatus200 | GamesGetMediaStatus400 | GamesGetMediaStatus404);

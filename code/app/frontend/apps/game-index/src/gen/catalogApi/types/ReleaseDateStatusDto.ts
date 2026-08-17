@@ -3,14 +3,7 @@
 * Do not edit manually.
 */
 
-
 export type ReleaseDateStatusDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
 };

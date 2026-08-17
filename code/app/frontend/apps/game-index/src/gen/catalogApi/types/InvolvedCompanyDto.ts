@@ -3,38 +3,14 @@
 * Do not edit manually.
 */
 
-
 export type InvolvedCompanyDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type integer, int64
-    */
-    companyId: number;
-    /**
-     * @type string
-    */
+    id: string;
+    companyId: string;
     companyName: string;
-    /**
-     * @type string
-    */
     companySlug: string;
-    /**
-     * @type boolean
-    */
+    companyLogoImageId: string;
     developer: boolean;
-    /**
-     * @type boolean
-    */
     publisher: boolean;
-    /**
-     * @type boolean
-    */
     porting: boolean;
-    /**
-     * @type boolean
-    */
     supporting: boolean;
 };

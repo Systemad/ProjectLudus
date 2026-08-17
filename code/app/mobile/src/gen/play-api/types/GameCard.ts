@@ -6,12 +6,12 @@
 export type GameCard = {
     id: string;
     name: string;
-    coverImageId: string | null;
+    coverImageId: null;
     /**
      * @description
      * Format: `date-time`
      * @type string
     */
     firstReleaseDateUtc: string | null;
-    gameTypeName: string | null;
+    gameTypeName: null;
 };

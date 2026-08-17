@@ -3,14 +3,12 @@
 * Do not edit manually.
 */
 
-
 export type ReleaseDatesDto = {
     /**
-     * @type null,integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     releaseDate: number | null;
-    /**
-     * @type null,string
-    */
-    region: string | null;
+    region: null;
 };

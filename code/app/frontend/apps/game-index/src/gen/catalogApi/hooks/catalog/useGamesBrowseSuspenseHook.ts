@@ -3,66 +3,47 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { GamesBrowseQueryResponse, GamesBrowseQueryParams, GamesBrowse400 } from "../../types/GamesTypes/GamesBrowse.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesBrowseOptions, GamesBrowseStatus200, GamesBrowseStatus400 } from '../../types/GamesTypes/GamesBrowse'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { gamesBrowse } from '../../clients/gamesBrowse'
 
-export const gamesBrowseSuspenseQueryKey = (params?: GamesBrowseQueryParams) => ["v1", { url: '/catalog/games/browse' }, ...(params ? [params] : [])] as const
+export const gamesBrowseSuspenseQueryKey = ({ query }: Omit<GamesBrowseOptions, 'headers'> = {}) => [{ url: '/catalog/games/browse' }, ...(query ? [query] : [])] as const
 
-export type GamesBrowseSuspenseQueryKey = ReturnType<typeof gamesBrowseSuspenseQueryKey>
+type GamesBrowseSuspenseQueryKey = ReturnType<typeof gamesBrowseSuspenseQueryKey>
 
-/**
- * @summary Browse games
- * {@link /catalog/games/browse}
- */
-export async function gamesBrowseSuspenseHook({ params }: { params?: GamesBrowseQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesBrowseQueryResponse, ResponseErrorConfig<GamesBrowse400>, unknown>({ method : "GET", url : `/catalog/games/browse`, params, ... requestConfig })
-  return res.data
-}
-
-export function gamesBrowseSuspenseQueryOptionsHook({ params }: { params?: GamesBrowseQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesBrowseSuspenseQueryKey(params)
-        return queryOptions<GamesBrowseQueryResponse, ResponseErrorConfig<GamesBrowse400>, GamesBrowseQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesBrowseSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesBrowseSuspenseQueryOptionsHook({ query }: GamesBrowseOptions = {}, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesBrowseSuspenseQueryKey({ query })
+  return queryOptions<GamesBrowseStatus200, ResponseErrorConfig<GamesBrowseStatus400>, GamesBrowseStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesBrowse({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * @summary Browse games
  * {@link /catalog/games/browse}
  */
-export function useGamesBrowseSuspenseHook<TData = GamesBrowseQueryResponse, TQueryKey extends QueryKey = GamesBrowseSuspenseQueryKey>({ params }: { params?: GamesBrowseQueryParams } = {}, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<GamesBrowseQueryResponse, ResponseErrorConfig<GamesBrowse400>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesBrowseSuspenseHook<TData = GamesBrowseStatus200, TQueryKey extends QueryKey = GamesBrowseSuspenseQueryKey>({ query }: { query?: GamesBrowseOptions['query'] | (() => GamesBrowseOptions['query']) } = {}, options: {
+  query?: Partial<UseSuspenseQueryOptions<GamesBrowseStatus200, ResponseErrorConfig<GamesBrowseStatus400>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? gamesBrowseSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesBrowseSuspenseQueryKey(params)
-         
+  const queryResult = useSuspenseQuery({
+   ...gamesBrowseSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesBrowseStatus400>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...gamesBrowseSuspenseQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesBrowse400>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

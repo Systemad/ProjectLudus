@@ -3,12 +3,12 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const steamReviewDataSchema = z.object({
-    "score": z.nullable(z.number().int()),
-"desc": z.nullable(z.string()),
-"totalReviews": z.nullable(z.number().int()),
-"positive": z.nullable(z.number().int()),
-"negative": z.nullable(z.number().int())
-    })
+  score: z.int().nullish(),
+  desc: z.null().optional(),
+  totalReviews: z.int().nullish(),
+  positive: z.int().nullish(),
+  negative: z.int().nullish(),
+})

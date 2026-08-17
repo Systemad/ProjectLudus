@@ -3,12 +3,8 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { statisticsResponseSchema } from "./statisticsResponseSchema.ts";
+import { statisticsResponseSchema } from './statisticsResponseSchema'
 
-/**
- * @description OK
- */
-export const igdbGetStats200Schema = z.lazy(() => statisticsResponseSchema)
+export const igdbGetStatsStatus200Schema = statisticsResponseSchema
 
-export const igdbGetStatsQueryResponseSchema = z.lazy(() => igdbGetStats200Schema)
+export const igdbGetStatsResponseSchema = igdbGetStatsStatus200Schema

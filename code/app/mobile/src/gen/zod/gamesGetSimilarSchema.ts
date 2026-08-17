@@ -10,7 +10,7 @@ export const gamesGetSimilarPathGameIdSchema = z.string()
 
 export const gamesGetSimilarStatus200Schema = getSimilarGamesResponseSchema
 
-export const gamesGetSimilarStatus400Schema = z.any()
+export const gamesGetSimilarStatus400Schema = z.void()
 
 export const gamesGetSimilarResponseSchema = gamesGetSimilarStatus200Schema
 

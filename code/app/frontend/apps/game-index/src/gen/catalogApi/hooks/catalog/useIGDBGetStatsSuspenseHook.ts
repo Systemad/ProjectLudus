@@ -3,64 +3,45 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { IgdbGetStatsQueryResponse } from "../../types/IGDBTypes/IgdbGetStats.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { IgdbGetStatsStatus200 } from '../../types/IGDBTypes/IgdbGetStats'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { igdbGetStats } from '../../clients/igdbGetStats'
 
-export const igdbGetStatsSuspenseQueryKey = () => ["v1", { url: '/catalog/igdb/stats' }] as const
+export const igdbGetStatsSuspenseQueryKey = () => [{ url: '/catalog/igdb/stats' }] as const
 
-export type IgdbGetStatsSuspenseQueryKey = ReturnType<typeof igdbGetStatsSuspenseQueryKey>
+type IgdbGetStatsSuspenseQueryKey = ReturnType<typeof igdbGetStatsSuspenseQueryKey>
 
-/**
- * {@link /catalog/igdb/stats}
- */
-export async function igdbGetStatsSuspenseHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/igdb/stats`, ... requestConfig })
-  return res.data
-}
-
-export function igdbGetStatsSuspenseQueryOptionsHook(config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = igdbGetStatsSuspenseQueryKey()
-        return queryOptions<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, IgdbGetStatsQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return igdbGetStatsSuspenseHook({ ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function igdbGetStatsSuspenseQueryOptionsHook(config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = igdbGetStatsSuspenseQueryKey()
+  return queryOptions<IgdbGetStatsStatus200, ResponseErrorConfig<Error>, IgdbGetStatsStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await igdbGetStats({ ...config, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/igdb/stats}
  */
-export function useIgdbGetStatsSuspenseHook<TData = IgdbGetStatsQueryResponse, TQueryKey extends QueryKey = IgdbGetStatsSuspenseQueryKey>(options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<IgdbGetStatsQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useIgdbGetStatsSuspenseHook<TData = IgdbGetStatsStatus200, TQueryKey extends QueryKey = IgdbGetStatsSuspenseQueryKey>(options: {
+  query?: Partial<UseSuspenseQueryOptions<IgdbGetStatsStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const queryKey = resolvedOptions?.queryKey ?? igdbGetStatsSuspenseQueryKey()
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? igdbGetStatsSuspenseQueryKey()
-         
+  const queryResult = useSuspenseQuery({
+   ...igdbGetStatsSuspenseQueryOptionsHook(config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...igdbGetStatsSuspenseQueryOptionsHook(config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

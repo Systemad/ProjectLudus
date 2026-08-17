@@ -16,7 +16,7 @@ export type GetApiListsIdPath = {
 
 export type GetApiListsIdStatus200 = ListSummaryResponse;
 
-export type GetApiListsIdStatus404 = any;
+export type GetApiListsIdStatus404 = void;
 
 export type GetApiListsIdOptions = {
     body?: never;

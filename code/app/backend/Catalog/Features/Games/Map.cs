@@ -26,6 +26,13 @@ public static class Map
             .ProducesValidationProblem(StatusCodes.Status400BadRequest);
 
         group
+            .MapGet("/heroes", Browse.GetHeroes.Endpoint.HandleAsync)
+            .WithName($"{EndpointMetadata.Games}/GetHeroes")
+            .WithTags(EndpointMetadata.Games)
+            .Produces<Browse.GetHeroes.GetGameHeroesResponse>(StatusCodes.Status200OK)
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest);
+
+        group
             .MapGet("/{gameId}", Browse.GetOverview.Endpoint.HandleAsync)
             .WithName($"{EndpointMetadata.Games}/GetOverview")
             .WithTags(EndpointMetadata.Games)

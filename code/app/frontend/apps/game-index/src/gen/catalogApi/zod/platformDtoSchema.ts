@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const platformDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"slug": z.string()
-    })
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+})

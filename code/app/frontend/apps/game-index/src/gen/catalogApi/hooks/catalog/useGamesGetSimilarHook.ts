@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetSimilarQueryResponse, GamesGetSimilarPathParams } from "../../types/GamesTypes/GamesGetSimilar.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetSimilarOptions, GamesGetSimilarStatus200, GamesGetSimilarStatus400 } from '../../types/GamesTypes/GamesGetSimilar'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetSimilar } from '../../clients/gamesGetSimilar'
 
-export const gamesGetSimilarQueryKey = ({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/similar-games', params: {gameId:gameId} }] as const
+export const gamesGetSimilarQueryKey = ({ path }: Omit<GamesGetSimilarOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/similar-games', params: path }] as const
 
-export type GamesGetSimilarQueryKey = ReturnType<typeof gamesGetSimilarQueryKey>
+type GamesGetSimilarQueryKey = ReturnType<typeof gamesGetSimilarQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/similar-games}
- */
-export async function gamesGetSimilarHook({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetSimilarQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/similar-games`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetSimilarQueryOptionsHook({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetSimilarQueryKey({ gameId })
-        return queryOptions<GamesGetSimilarQueryResponse, ResponseErrorConfig<Error>, GamesGetSimilarQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetSimilarHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetSimilarQueryOptionsHook({ path }: GamesGetSimilarOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetSimilarQueryKey({ path })
+  return queryOptions<GamesGetSimilarStatus200, ResponseErrorConfig<GamesGetSimilarStatus400>, GamesGetSimilarStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetSimilar({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/similar-games}
  */
-export function useGamesGetSimilarHook<TData = GamesGetSimilarQueryResponse, TQueryData = GamesGetSimilarQueryResponse, TQueryKey extends QueryKey = GamesGetSimilarQueryKey>({ gameId }: { gameId: GamesGetSimilarPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetSimilarQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetSimilarHook<TData = GamesGetSimilarStatus200, TQueryData = GamesGetSimilarStatus200, TQueryKey extends QueryKey = GamesGetSimilarQueryKey>({ path }: { path: GamesGetSimilarOptions['path'] | (() => GamesGetSimilarOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetSimilarStatus200, ResponseErrorConfig<GamesGetSimilarStatus400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetSimilarQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetSimilarQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...gamesGetSimilarQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetSimilarStatus400>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetSimilarQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

@@ -3,22 +3,9 @@
 * Do not edit manually.
 */
 
-
 export type GameEnginesDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
-    /**
-     * @type null,string
-    */
-    imageId: string | null;
-    /**
-     * @type null,string
-    */
-    url: string | null;
+    imageId: null;
+    url: null;
 };

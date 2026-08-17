@@ -3,25 +3,27 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { platformsDtoSchema } from "./platformsDtoSchema.ts";
-import { releaseDatePlatformDtoSchema } from "./releaseDatePlatformDtoSchema.ts";
-import { releaseDatesDtoSchema } from "./releaseDatesDtoSchema.ts";
+import * as z from 'zod'
+import { platformsDtoSchema } from './platformsDtoSchema'
+import { releaseDatePlatformDtoSchema } from './releaseDatePlatformDtoSchema'
+import { releaseDatesDtoSchema } from './releaseDatesDtoSchema'
+import { steamDataSchema } from './steamDataSchema'
 
 export const gameOverviewDtoSchema = z.object({
-    "id": z.number().int(),
-"slug": z.string().nullish(),
-"name": z.string(),
-"summary": z.string().nullish(),
-"storyline": z.string().nullish(),
-"cover": z.string().nullish(),
-"coverUrl": z.string().nullish(),
-"gameType": z.number().int().nullish(),
-"gameTypeName": z.string().nullish(),
-"genres": z.array(z.string()),
-"themes": z.array(z.string()),
-"isReleased": z.boolean(),
-"platforms": z.array(z.lazy(() => platformsDtoSchema)),
-"releaseDatePlatform": z.array(z.lazy(() => releaseDatePlatformDtoSchema)),
-"releaseDates": z.array(z.lazy(() => releaseDatesDtoSchema))
-    })
+  id: z.string(),
+  slug: z.null().optional(),
+  name: z.string(),
+  summary: z.null().optional(),
+  storyline: z.null().optional(),
+  cover: z.null().optional(),
+  coverUrl: z.null().optional(),
+  gameType: z.null().optional(),
+  gameTypeName: z.null().optional(),
+  steam: z.union([z.null(), steamDataSchema.strict()]).optional(),
+  genres: z.array(z.string()),
+  themes: z.array(z.string()),
+  isReleased: z.boolean(),
+  platforms: z.array(platformsDtoSchema),
+  releaseDatePlatform: z.array(releaseDatePlatformDtoSchema),
+  releaseDates: z.array(releaseDatesDtoSchema),
+})

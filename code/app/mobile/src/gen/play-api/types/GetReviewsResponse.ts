@@ -5,7 +5,7 @@
 
 export type GetReviewsResponse = {
     gameId: string;
-    steamAppId: string | null;
+    steamAppId: string;
     /**
      * @description
      * Format: `int32`
@@ -18,7 +18,7 @@ export type GetReviewsResponse = {
      * @type integer
     */
     reviewScore: number | null;
-    reviewScoreDesc: string | null;
+    reviewScoreDesc: null;
     /**
      * @description
      * Format: `int32`

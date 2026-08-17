@@ -3,38 +3,38 @@
 * Do not edit manually.
 */
 
-
 export type GetReviewsResponse = {
+    gameId: string;
+    steamAppId: string;
     /**
-     * @type integer, int64
-    */
-    gameId: number;
-    /**
-     * @type null,integer, int64
-    */
-    steamAppId: number | null;
-    /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     numReviews: number | null;
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     reviewScore: number | null;
+    reviewScoreDesc: null;
     /**
-     * @type null,string
-    */
-    reviewScoreDesc: string | null;
-    /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     totalPositive: number | null;
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     totalNegative: number | null;
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     totalReviews: number | null;
 };

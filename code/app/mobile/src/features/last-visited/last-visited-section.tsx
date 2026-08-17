@@ -1,6 +1,6 @@
 import { Host } from "@expo/ui";
 import type { Href } from "expo-router";
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { getGameRailCardWidth } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
@@ -20,25 +20,19 @@ const gameHref = (gameId: GameId) =>
 export function LastVisitedSection() {
   const colors = useAppTheme();
   const { width } = useWindowDimensions();
-  const { gameId, game, isHydrating, isLoading, isError, retry } = useLastVisited();
+  const { games, isHydrating, isLoading, isError, retry } = useLastVisited();
 
-  if (isHydrating || gameId === null) {
+  if (isHydrating || (games.length === 0 && !isLoading && !isError)) {
     return null;
   }
 
-  const status = getContentStateStatus(isLoading, isError, !game);
-  const metadata = [
-    game?.firstReleaseDate?.slice(0, 4) ?? "TBA",
-    game?.gameTypeName ?? "Game",
-  ].join(" · ");
-  const imageUrl = game
-    ? (getIgdbImageUrl(game.cover, "cover_big", true) ?? game.coverUrl ?? undefined)
-    : undefined;
+  const status = getContentStateStatus(isLoading, isError, games.length === 0);
+  const cardWidth = getGameRailCardWidth(width);
 
   return (
     <View style={styles.section}>
       <View style={styles.header}>
-        <Text style={[styles.title, { color: colors.text }]}>Last visited</Text>
+        <Text style={[styles.title, { color: colors.text }]}>Recently visited</Text>
         <Text style={[styles.subtitle, { color: colors.textMuted }]}>
           Pick up where you left off
         </Text>
@@ -55,18 +49,33 @@ export function LastVisitedSection() {
         }}
         empty={{ message: "Your last visited game is no longer available." }}
       >
-        {game ? (
-          <Host matchContents>
-            <GameCard
-              title={game.name}
-              metadata={metadata}
-              imageUrl={imageUrl}
-              variant="rail"
-              href={gameHref(gameId)}
-              cardWidth={getGameRailCardWidth(width)}
-            />
-          </Host>
-        ) : null}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.cards}
+        >
+          {games.map(({ id, game }) => {
+            const metadata = [
+              game.firstReleaseDate?.slice(0, 4) ?? "TBA",
+              game.gameTypeName ?? "Game",
+            ].join(" · ");
+            const imageUrl =
+              getIgdbImageUrl(game.cover, "cover_big", true) ?? game.coverUrl ?? undefined;
+
+            return (
+              <Host key={id} matchContents>
+                <GameCard
+                  title={game.name}
+                  metadata={metadata}
+                  imageUrl={imageUrl}
+                  variant="rail"
+                  href={gameHref(id)}
+                  cardWidth={cardWidth}
+                />
+              </Host>
+            );
+          })}
+        </ScrollView>
       </ContentState>
     </View>
   );
@@ -88,5 +97,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 14,
+  },
+  cards: {
+    gap: 10,
   },
 });

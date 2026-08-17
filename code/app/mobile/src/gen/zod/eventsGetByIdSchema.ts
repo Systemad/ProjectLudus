@@ -10,9 +10,9 @@ export const eventsGetByIdPathIdSchema = z.string()
 
 export const eventsGetByIdStatus200Schema = getEventByIdResponseSchema
 
-export const eventsGetByIdStatus400Schema = z.any()
+export const eventsGetByIdStatus400Schema = z.void()
 
-export const eventsGetByIdStatus404Schema = z.any()
+export const eventsGetByIdStatus404Schema = z.void()
 
 export const eventsGetByIdResponseSchema = eventsGetByIdStatus200Schema
 

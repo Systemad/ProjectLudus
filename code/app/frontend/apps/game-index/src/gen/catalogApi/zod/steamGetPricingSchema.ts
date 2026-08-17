@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getPricingResponseSchema } from "./getPricingResponseSchema.ts";
+import * as z from 'zod'
+import { getPricingResponseSchema } from './getPricingResponseSchema'
 
-export const steamGetPricingPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const steamGetPricingPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const steamGetPricing200Schema = z.lazy(() => getPricingResponseSchema)
+export const steamGetPricingStatus200Schema = getPricingResponseSchema
 
-/**
- * @description Not Found
- */
-export const steamGetPricing404Schema = z.any()
+export const steamGetPricingStatus400Schema = z.void()
 
-export const steamGetPricingQueryResponseSchema = z.lazy(() => steamGetPricing200Schema)
+export const steamGetPricingStatus404Schema = z.void()
+
+export const steamGetPricingResponseSchema = steamGetPricingStatus200Schema
+
+export const steamGetPricingErrorSchema = z.union([steamGetPricingStatus400Schema, steamGetPricingStatus404Schema])

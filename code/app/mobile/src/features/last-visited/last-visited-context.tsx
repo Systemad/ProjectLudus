@@ -1,4 +1,4 @@
-import { useGamesGetHero } from "@/gen/hooks/GamesHooks/index";
+import { useGamesGetHeroes } from "@/gen/hooks/GamesHooks/useGamesGetHeroes";
 import type { GameHeroDto } from "@/gen/types/GameHeroDto";
 import { createContext, useCallback, useContext, useEffect, useRef, type ReactNode } from "react";
 
@@ -6,8 +6,7 @@ import { gameIdSchema, type GameId } from "./last-visited-storage";
 import { useLastVisitedStore } from "./last-visited-store";
 
 type LastVisitedContextValue = {
-  gameId: GameId | null;
-  game: GameHeroDto | undefined;
+  games: { id: GameId; game: GameHeroDto }[];
   isHydrating: boolean;
   isLoading: boolean;
   isError: boolean;
@@ -18,21 +17,21 @@ type LastVisitedContextValue = {
 const LastVisitedContext = createContext<LastVisitedContextValue | null>(null);
 
 export function LastVisitedProvider({ children }: { children: ReactNode }) {
-  const gameId = useLastVisitedStore((state) => state.lastVisitedGameId);
+  const gameIds = useLastVisitedStore((state) => state.lastVisitedGameIds);
   const hasHydrated = useLastVisitedStore((state) => state.hasHydrated);
-  const setLastVisitedGameId = useLastVisitedStore((state) => state.setLastVisitedGameId);
-  const clearLastVisitedGame = useLastVisitedStore((state) => state.clearLastVisitedGame);
-  const pendingGameId = useRef<GameId | null>(null);
+  const rememberGame = useLastVisitedStore((state) => state.rememberGame);
+  const removeGames = useLastVisitedStore((state) => state.removeGames);
+  const pendingGameIds = useRef<GameId[]>([]);
 
   useEffect(() => {
     const applyPendingGameId = () => {
-      if (pendingGameId.current === null) {
+      if (pendingGameIds.current.length === 0) {
         return;
       }
 
-      const nextGameId = pendingGameId.current;
-      pendingGameId.current = null;
-      setLastVisitedGameId(nextGameId);
+      const nextGameIds = pendingGameIds.current;
+      pendingGameIds.current = [];
+      nextGameIds.forEach((nextGameId) => rememberGame(nextGameId));
     };
 
     const unsubscribe = useLastVisitedStore.persist.onFinishHydration(applyPendingGameId);
@@ -41,7 +40,7 @@ export function LastVisitedProvider({ children }: { children: ReactNode }) {
     }
 
     return unsubscribe;
-  }, [setLastVisitedGameId]);
+  }, [rememberGame]);
 
   const remember = useCallback(
     (nextGameId: string) => {
@@ -51,39 +50,54 @@ export function LastVisitedProvider({ children }: { children: ReactNode }) {
       }
 
       if (!useLastVisitedStore.persist.hasHydrated()) {
-        pendingGameId.current = result.data;
+        pendingGameIds.current = [
+          ...pendingGameIds.current.filter((gameId) => gameId !== result.data),
+          result.data,
+        ];
       }
 
-      setLastVisitedGameId(result.data);
+      rememberGame(result.data);
     },
-    [setLastVisitedGameId],
+    [rememberGame],
   );
 
-  const gameQuery = useGamesGetHero(
-    { path: { gameId: gameId ?? "0" } },
-    { query: { enabled: hasHydrated && gameId !== null } },
+  const gameQuery = useGamesGetHeroes(
+    { query: { gameIds } },
+    { query: { enabled: hasHydrated && gameIds.length > 0 } },
   );
 
-  const isMissing =
-    hasHydrated &&
-    gameId !== null &&
-    (gameQuery.error?.status === 404 || (gameQuery.isSuccess && !gameQuery.data?.game));
+  const games = gameIds.flatMap((id) => {
+    const game = gameQuery.data?.games.find((item) => item.id === id);
+    return id && game ? [{ id, game }] : [];
+  });
 
   useEffect(() => {
-    if (isMissing) {
-      clearLastVisitedGame();
+    if (hasHydrated && gameQuery.isSuccess) {
+      const availableGameIds = new Set(gameQuery.data.games.map((game) => game.id));
+      const missingGameIds = gameIds.filter((id) => !availableGameIds.has(id));
+
+      if (missingGameIds.length > 0) {
+        removeGames(missingGameIds);
+      }
     }
-  }, [clearLastVisitedGame, isMissing]);
+  }, [gameIds, gameQuery.data, gameQuery.isSuccess, hasHydrated, removeGames]);
+
+  const isLoading = gameQuery.isLoading;
+  const isError = gameIds.length > 0 && gameQuery.isError;
+
+  const { refetch } = gameQuery;
+  const retry = useCallback(() => {
+    void refetch();
+  }, [refetch]);
 
   return (
     <LastVisitedContext.Provider
       value={{
-        gameId,
-        game: gameQuery.data?.game,
+        games,
         isHydrating: !hasHydrated,
-        isLoading: gameQuery.isLoading,
-        isError: gameQuery.isError,
-        retry: () => void gameQuery.refetch(),
+        isLoading,
+        isError,
+        retry,
         remember,
       }}
     >

@@ -11,9 +11,9 @@ export type GamesGetPath = {
 
 export type GamesGetStatus200 = GetGameResponse;
 
-export type GamesGetStatus400 = any;
+export type GamesGetStatus400 = void;
 
-export type GamesGetStatus404 = any;
+export type GamesGetStatus404 = void;
 
 export type GamesGetOptions = {
     body?: never;

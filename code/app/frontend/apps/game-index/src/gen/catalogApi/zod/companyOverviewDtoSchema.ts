@@ -3,19 +3,19 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { parentCompanyDtoSchema } from "./parentCompanyDtoSchema.ts";
+import * as z from 'zod'
+import { parentCompanyDtoSchema } from './parentCompanyDtoSchema'
 
 export const companyOverviewDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"slug": z.string(),
-"description": z.nullable(z.string()),
-"url": z.nullable(z.string()),
-"startDate": z.nullable(z.number().int()),
-"country": z.nullable(z.number().int()),
-"logoId": z.nullable(z.string()),
-"logoImageId": z.nullable(z.string()),
-"parentCompany": z.union([z.lazy(() => parentCompanyDtoSchema), z.null()]),
-"status": z.nullable(z.string())
-    })
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  description: z.null(),
+  url: z.null(),
+  startDate: z.int().nullable(),
+  country: z.int().nullable(),
+  logoId: z.null(),
+  logoImageId: z.null(),
+  parentCompany: z.union([z.null(), parentCompanyDtoSchema.strict()]),
+  status: z.null(),
+})

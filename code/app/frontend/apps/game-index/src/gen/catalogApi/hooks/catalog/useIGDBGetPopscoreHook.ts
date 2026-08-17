@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { IgdbGetPopscoreQueryResponse, IgdbGetPopscoreQueryParams, IgdbGetPopscore400 } from "../../types/IGDBTypes/IgdbGetPopscore.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { IgdbGetPopscoreOptions, IgdbGetPopscoreStatus200, IgdbGetPopscoreStatus400 } from '../../types/IGDBTypes/IgdbGetPopscore'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { igdbGetPopscore } from '../../clients/igdbGetPopscore'
 
-export const igdbGetPopscoreQueryKey = (params?: IgdbGetPopscoreQueryParams) => ["v1", { url: '/catalog/igdb/popscore' }, ...(params ? [params] : [])] as const
+export const igdbGetPopscoreQueryKey = ({ query }: Omit<IgdbGetPopscoreOptions, 'headers'> = {}) => [{ url: '/catalog/igdb/popscore' }, ...(query ? [query] : [])] as const
 
-export type IgdbGetPopscoreQueryKey = ReturnType<typeof igdbGetPopscoreQueryKey>
+type IgdbGetPopscoreQueryKey = ReturnType<typeof igdbGetPopscoreQueryKey>
 
-/**
- * {@link /catalog/igdb/popscore}
- */
-export async function igdbGetPopscoreHook({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, unknown>({ method : "GET", url : `/catalog/igdb/popscore`, params, ... requestConfig })
-  return res.data
-}
-
-export function igdbGetPopscoreQueryOptionsHook({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = igdbGetPopscoreQueryKey(params)
-        return queryOptions<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, IgdbGetPopscoreQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return igdbGetPopscoreHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function igdbGetPopscoreQueryOptionsHook({ query }: IgdbGetPopscoreOptions = {}, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = igdbGetPopscoreQueryKey({ query })
+  return queryOptions<IgdbGetPopscoreStatus200, ResponseErrorConfig<IgdbGetPopscoreStatus400>, IgdbGetPopscoreStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await igdbGetPopscore({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/igdb/popscore}
  */
-export function useIgdbGetPopscoreHook<TData = IgdbGetPopscoreQueryResponse, TQueryData = IgdbGetPopscoreQueryResponse, TQueryKey extends QueryKey = IgdbGetPopscoreQueryKey>({ params }: { params?: IgdbGetPopscoreQueryParams } = {}, options: 
-{
-  query?: Partial<QueryObserverOptions<IgdbGetPopscoreQueryResponse, ResponseErrorConfig<IgdbGetPopscore400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useIgdbGetPopscoreHook<TData = IgdbGetPopscoreStatus200, TQueryData = IgdbGetPopscoreStatus200, TQueryKey extends QueryKey = IgdbGetPopscoreQueryKey>({ query }: { query?: IgdbGetPopscoreOptions['query'] | (() => IgdbGetPopscoreOptions['query']) } = {}, options: {
+  query?: Partial<QueryObserverOptions<IgdbGetPopscoreStatus200, ResponseErrorConfig<IgdbGetPopscoreStatus400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? igdbGetPopscoreQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? igdbGetPopscoreQueryKey(params)
-         
+  const queryResult = useQuery({
+   ...igdbGetPopscoreQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<IgdbGetPopscoreStatus400>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...igdbGetPopscoreQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<IgdbGetPopscore400>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

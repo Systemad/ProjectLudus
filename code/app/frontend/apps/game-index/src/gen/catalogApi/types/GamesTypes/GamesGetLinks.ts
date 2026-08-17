@@ -3,24 +3,29 @@
 * Do not edit manually.
 */
 
-import type { GetGameLinksResponse } from "../GetGameLinksResponse.ts";
+import type { GetGameLinksResponse } from '../GetGameLinksResponse'
 
-export type GamesGetLinksPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type GamesGetLinksPath = {
+    gameId: string;
+};
+
+export type GamesGetLinksStatus200 = GetGameLinksResponse;
+
+export type GamesGetLinksStatus400 = void;
+
+export type GamesGetLinksOptions = {
+    body?: never;
+    path: GamesGetLinksPath;
+    query?: never;
+    headers?: never;
+};
+
+export type GamesGetLinksResponses = {
+    "200": GamesGetLinksStatus200;
+    "400": GamesGetLinksStatus400;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type GamesGetLinks200 = GetGameLinksResponse;
-
-export type GamesGetLinksQueryResponse = GamesGetLinks200;
-
-export type GamesGetLinksQuery = {
-    Response: GamesGetLinks200;
-    PathParams: GamesGetLinksPathParams;
-    Errors: any;
-};
+export type GamesGetLinksResponse = (GamesGetLinksStatus200 | GamesGetLinksStatus400);

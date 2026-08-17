@@ -3,14 +3,14 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const getPricingResponseSchema = z.object({
-    "gameId": z.number().int(),
-"steamAppId": z.nullable(z.number().int()),
-"finalCents": z.nullable(z.number().int()),
-"discountPercent": z.nullable(z.number().int()),
-"currency": z.nullable(z.string()),
-"high30d": z.nullable(z.number().int()),
-"low30d": z.nullable(z.number().int())
-    })
+  gameId: z.string(),
+  steamAppId: z.string(),
+  finalCents: z.int().nullable(),
+  discountPercent: z.int().nullable(),
+  currency: z.null(),
+  high30d: z.int().nullable(),
+  low30d: z.int().nullable(),
+})

@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetGamePageReleaseDataResponse } from "../GetGamePageReleaseDataResponse.ts";
+import type { GetGamePageReleaseDataResponse } from '../GetGamePageReleaseDataResponse'
 
-export type GamesGetReleaseDataPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type GamesGetReleaseDataPath = {
+    gameId: string;
+};
+
+export type GamesGetReleaseDataStatus200 = GetGamePageReleaseDataResponse;
+
+export type GamesGetReleaseDataStatus400 = void;
+
+export type GamesGetReleaseDataStatus404 = void;
+
+export type GamesGetReleaseDataOptions = {
+    body?: never;
+    path: GamesGetReleaseDataPath;
+    query?: never;
+    headers?: never;
+};
+
+export type GamesGetReleaseDataResponses = {
+    "200": GamesGetReleaseDataStatus200;
+    "400": GamesGetReleaseDataStatus400;
+    "404": GamesGetReleaseDataStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type GamesGetReleaseData200 = GetGamePageReleaseDataResponse;
-
-/**
- * @description Not Found
-*/
-export type GamesGetReleaseData404 = any;
-
-export type GamesGetReleaseDataQueryResponse = GamesGetReleaseData200;
-
-export type GamesGetReleaseDataQuery = {
-    Response: GamesGetReleaseData200;
-    PathParams: GamesGetReleaseDataPathParams;
-    Errors: GamesGetReleaseData404;
-};
+export type GamesGetReleaseDataResponse = (GamesGetReleaseDataStatus200 | GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404);

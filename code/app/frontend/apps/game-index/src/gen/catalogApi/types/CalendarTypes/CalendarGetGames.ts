@@ -3,48 +3,50 @@
 * Do not edit manually.
 */
 
-import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
-import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
+import type { HttpValidationProblemDetails } from '../HttpValidationProblemDetails'
+import type { PagedGamesResponse } from '../PagedGamesResponse'
 
-export type CalendarGetGamesPathParams = {
+export type CalendarGetGamesPath = {
     /**
-     * @minLength 1
-     * @maxLength 9999
-     * @type integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     year: number;
 };
 
-export type CalendarGetGamesQueryParams = {
+export type CalendarGetGamesQuery = {
     /**
-     * @minLength 1
-     * @maxLength 2147483647
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     Page?: number;
     /**
-     * @minLength 1
-     * @maxLength 50
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     PageSize?: number;
 };
 
-/**
- * @description OK
-*/
-export type CalendarGetGames200 = PagedGamesResponse;
+export type CalendarGetGamesStatus200 = PagedGamesResponse;
 
-/**
- * @description Bad Request
-*/
-export type CalendarGetGames400 = HttpValidationProblemDetails;
+export type CalendarGetGamesStatus400 = HttpValidationProblemDetails;
 
-export type CalendarGetGamesQueryResponse = CalendarGetGames200;
-
-export type CalendarGetGamesQuery = {
-    Response: CalendarGetGames200;
-    PathParams: CalendarGetGamesPathParams;
-    QueryParams: CalendarGetGamesQueryParams;
-    Errors: CalendarGetGames400;
+export type CalendarGetGamesOptions = {
+    body?: never;
+    path: CalendarGetGamesPath;
+    query?: CalendarGetGamesQuery;
+    headers?: never;
 };
+
+export type CalendarGetGamesResponses = {
+    "200": CalendarGetGamesStatus200;
+    "400": CalendarGetGamesStatus400;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type CalendarGetGamesResponse = (CalendarGetGamesStatus200 | CalendarGetGamesStatus400);

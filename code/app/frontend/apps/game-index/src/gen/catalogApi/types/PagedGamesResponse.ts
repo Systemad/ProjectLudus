@@ -3,19 +3,15 @@
 * Do not edit manually.
 */
 
-import type { GameBrowseDto } from "./GameBrowseDto.ts";
+import type { GameBrowseDto } from './GameBrowseDto'
 
 export type PagedGamesResponse = {
-    /**
-     * @type array
-    */
     games: GameBrowseDto[];
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     nextPage: number | null;
-    /**
-     * @type boolean
-    */
     hasMore: boolean;
 };

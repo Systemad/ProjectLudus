@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const languageSupportsDtoSchema = z.object({
-    "language": z.string(),
-"nativeName": z.nullable(z.string()),
-"type": z.nullable(z.string())
-    })
+  language: z.string(),
+  nativeName: z.null(),
+  type: z.null(),
+})

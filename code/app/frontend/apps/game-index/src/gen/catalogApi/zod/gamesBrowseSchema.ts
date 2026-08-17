@@ -3,28 +3,28 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
-import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
+import * as z from 'zod'
+import { httpValidationProblemDetailsSchema } from './httpValidationProblemDetailsSchema'
+import { pagedGamesResponseSchema } from './pagedGamesResponseSchema'
 
-export const gamesBrowseQueryParamsSchema = z.object({
-    "Genre": z.optional(z.string()),
-"Theme": z.optional(z.string()),
-"GameMode": z.optional(z.string()),
-"From": z.optional(z.string().datetime()),
-"To": z.optional(z.string().datetime()),
-"Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
-"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
-    }).optional()
+export const gamesBrowseQueryGenreSchema = z.string().optional()
 
-/**
- * @description OK
- */
-export const gamesBrowse200Schema = z.lazy(() => pagedGamesResponseSchema)
+export const gamesBrowseQueryThemeSchema = z.string().optional()
 
-/**
- * @description Bad Request
- */
-export const gamesBrowse400Schema = z.lazy(() => httpValidationProblemDetailsSchema)
+export const gamesBrowseQueryGameModeSchema = z.string().optional()
 
-export const gamesBrowseQueryResponseSchema = z.lazy(() => gamesBrowse200Schema)
+export const gamesBrowseQueryFromSchema = z.iso.datetime().optional()
+
+export const gamesBrowseQueryToSchema = z.iso.datetime().optional()
+
+export const gamesBrowseQueryPageSchema = z.int().optional()
+
+export const gamesBrowseQueryPageSizeSchema = z.int().optional()
+
+export const gamesBrowseStatus200Schema = pagedGamesResponseSchema
+
+export const gamesBrowseStatus400Schema = httpValidationProblemDetailsSchema
+
+export const gamesBrowseResponseSchema = gamesBrowseStatus200Schema
+
+export const gamesBrowseErrorSchema = gamesBrowseStatus400Schema

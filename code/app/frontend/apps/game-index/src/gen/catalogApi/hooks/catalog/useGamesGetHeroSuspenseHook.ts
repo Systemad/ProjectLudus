@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { GamesGetHeroQueryResponse, GamesGetHeroPathParams, GamesGetHero404 } from "../../types/GamesTypes/GamesGetHero.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetHeroOptions, GamesGetHeroStatus200, GamesGetHeroStatus400, GamesGetHeroStatus404 } from '../../types/GamesTypes/GamesGetHero'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { gamesGetHero } from '../../clients/gamesGetHero'
 
-export const gamesGetHeroSuspenseQueryKey = ({ gameId }: { gameId: GamesGetHeroPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/hero', params: {gameId:gameId} }] as const
+export const gamesGetHeroSuspenseQueryKey = ({ path }: Omit<GamesGetHeroOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/hero', params: path }] as const
 
-export type GamesGetHeroSuspenseQueryKey = ReturnType<typeof gamesGetHeroSuspenseQueryKey>
+type GamesGetHeroSuspenseQueryKey = ReturnType<typeof gamesGetHeroSuspenseQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/hero}
- */
-export async function gamesGetHeroSuspenseHook({ gameId }: { gameId: GamesGetHeroPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetHeroQueryResponse, ResponseErrorConfig<GamesGetHero404>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/hero`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetHeroSuspenseQueryOptionsHook({ gameId }: { gameId: GamesGetHeroPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetHeroSuspenseQueryKey({ gameId })
-        return queryOptions<GamesGetHeroQueryResponse, ResponseErrorConfig<GamesGetHero404>, GamesGetHeroQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetHeroSuspenseHook({ gameId: gameId }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetHeroSuspenseQueryOptionsHook({ path }: GamesGetHeroOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetHeroSuspenseQueryKey({ path })
+  return queryOptions<GamesGetHeroStatus200, ResponseErrorConfig<GamesGetHeroStatus400 | GamesGetHeroStatus404>, GamesGetHeroStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetHero({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/hero}
  */
-export function useGamesGetHeroSuspenseHook<TData = GamesGetHeroQueryResponse, TQueryKey extends QueryKey = GamesGetHeroSuspenseQueryKey>({ gameId }: { gameId: GamesGetHeroPathParams["gameId"] }, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<GamesGetHeroQueryResponse, ResponseErrorConfig<GamesGetHero404>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetHeroSuspenseHook<TData = GamesGetHeroStatus200, TQueryKey extends QueryKey = GamesGetHeroSuspenseQueryKey>({ path }: { path: GamesGetHeroOptions['path'] | (() => GamesGetHeroOptions['path']) }, options: {
+  query?: Partial<UseSuspenseQueryOptions<GamesGetHeroStatus200, ResponseErrorConfig<GamesGetHeroStatus400 | GamesGetHeroStatus404>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetHeroSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetHeroSuspenseQueryKey({ gameId })
-         
+  const queryResult = useSuspenseQuery({
+   ...gamesGetHeroSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetHeroStatus400 | GamesGetHeroStatus404>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...gamesGetHeroSuspenseQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GamesGetHero404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

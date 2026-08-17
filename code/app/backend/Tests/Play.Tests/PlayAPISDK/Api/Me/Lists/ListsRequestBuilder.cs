@@ -59,21 +59,36 @@ namespace PlayAPISDK.Api.Me.Lists
         public ListsRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/api/me/lists", rawUrl)
         {
         }
-        /// <returns>A List&lt;global::PlayAPISDK.Models.ListSummaryResponse&gt;</returns>
+        /// <returns>A <see cref="global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<List<global::PlayAPISDK.Models.ListSummaryResponse>?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse?> GetAsListsGetResponseAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<List<global::PlayAPISDK.Models.ListSummaryResponse>> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse> GetAsListsGetResponseAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            var collectionResult = await RequestAdapter.SendCollectionAsync<global::PlayAPISDK.Models.ListSummaryResponse>(requestInfo, global::PlayAPISDK.Models.ListSummaryResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
-            return collectionResult?.AsList();
+            return await RequestAdapter.SendAsync<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse>(requestInfo, global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+        }
+        /// <returns>A <see cref="global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+        [Obsolete("This method is obsolete. Use GetAsListsGetResponseAsync instead.")]
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse?> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse> GetAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToGetRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse>(requestInfo, global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
         }
         /// <returns>A <see cref="global::PlayAPISDK.Models.ListSummaryResponse"/></returns>
         /// <param name="body">The request body</param>
@@ -137,6 +152,56 @@ namespace PlayAPISDK.Api.Me.Lists
             return new global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
+        /// Composed type wrapper for classes List&lt;global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse&gt;
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        public partial class ListsGetResponse : IComposedTypeWrapper, IParsable
+        {
+            /// <summary>Composed type representation for type List&lt;global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse&gt;</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>? ListSummaryResponse { get; set; }
+#nullable restore
+#else
+            public List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse> ListSummaryResponse { get; set; }
+#endif
+            /// <summary>
+            /// Creates a new instance of the appropriate class based on discriminator value
+            /// </summary>
+            /// <returns>A <see cref="global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse"/></returns>
+            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
+            public static global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse CreateFromDiscriminatorValue(IParseNode parseNode)
+            {
+                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
+                var result = new global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsGetResponse();
+                if(parseNode.GetCollectionOfObjectValues<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>(global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse.CreateFromDiscriminatorValue)?.AsList() is List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse> listSummaryResponseValue)
+                {
+                    result.ListSummaryResponse = listSummaryResponseValue;
+                }
+                return result;
+            }
+            /// <summary>
+            /// The deserialization information for the current model
+            /// </summary>
+            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
+            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
+            {
+                return new Dictionary<string, Action<IParseNode>>();
+            }
+            /// <summary>
+            /// Serializes information the current object
+            /// </summary>
+            /// <param name="writer">Serialization writer to use to serialize this model</param>
+            public virtual void Serialize(ISerializationWriter writer)
+            {
+                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+                if(ListSummaryResponse != null)
+                {
+                    writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>(null, ListSummaryResponse);
+                }
+            }
+        }
+        /// <summary>
         /// Configuration for the request such as headers, query parameters, and middleware options.
         /// </summary>
         [Obsolete("This class is deprecated. Please use the generic RequestConfiguration class generated by the generator.")]
@@ -151,6 +216,56 @@ namespace PlayAPISDK.Api.Me.Lists
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class ListsRequestBuilderPostRequestConfiguration : RequestConfiguration<DefaultQueryParameters>
         {
+        }
+        /// <summary>
+        /// Composed type wrapper for classes List&lt;global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse&gt;
+        /// </summary>
+        [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
+        public partial class ListsResponse : IComposedTypeWrapper, IParsable
+        {
+            /// <summary>Composed type representation for type List&lt;global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse&gt;</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            public List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>? ListSummaryResponse { get; set; }
+#nullable restore
+#else
+            public List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse> ListSummaryResponse { get; set; }
+#endif
+            /// <summary>
+            /// Creates a new instance of the appropriate class based on discriminator value
+            /// </summary>
+            /// <returns>A <see cref="global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse"/></returns>
+            /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
+            public static global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse CreateFromDiscriminatorValue(IParseNode parseNode)
+            {
+                if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
+                var result = new global::PlayAPISDK.Api.Me.Lists.ListsRequestBuilder.ListsResponse();
+                if(parseNode.GetCollectionOfObjectValues<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>(global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse.CreateFromDiscriminatorValue)?.AsList() is List<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse> listSummaryResponseValue)
+                {
+                    result.ListSummaryResponse = listSummaryResponseValue;
+                }
+                return result;
+            }
+            /// <summary>
+            /// The deserialization information for the current model
+            /// </summary>
+            /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
+            public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
+            {
+                return new Dictionary<string, Action<IParseNode>>();
+            }
+            /// <summary>
+            /// Serializes information the current object
+            /// </summary>
+            /// <param name="writer">Serialization writer to use to serialize this model</param>
+            public virtual void Serialize(ISerializationWriter writer)
+            {
+                if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+                if(ListSummaryResponse != null)
+                {
+                    writer.WriteCollectionOfObjectValues<global::PlayAPISDK.Api.Me.Lists.ListSummaryResponse>(null, ListSummaryResponse);
+                }
+            }
         }
     }
 }

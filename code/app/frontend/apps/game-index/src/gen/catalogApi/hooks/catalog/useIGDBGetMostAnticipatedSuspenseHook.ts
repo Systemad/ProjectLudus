@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from "@tanstack/react-query";
-import type { IgdbGetMostAnticipatedQueryResponse, IgdbGetMostAnticipatedQueryParams } from "../../types/IGDBTypes/IgdbGetMostAnticipated.ts";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { IgdbGetMostAnticipatedOptions, IgdbGetMostAnticipatedStatus200 } from '../../types/IGDBTypes/IgdbGetMostAnticipated'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
+import { igdbGetMostAnticipated } from '../../clients/igdbGetMostAnticipated'
 
-export const igdbGetMostAnticipatedSuspenseQueryKey = (params?: IgdbGetMostAnticipatedQueryParams) => ["v1", { url: '/catalog/igdb/most-anticipated' }, ...(params ? [params] : [])] as const
+export const igdbGetMostAnticipatedSuspenseQueryKey = ({ query }: Omit<IgdbGetMostAnticipatedOptions, 'headers'> = {}) => [{ url: '/catalog/igdb/most-anticipated' }, ...(query ? [query] : [])] as const
 
-export type IgdbGetMostAnticipatedSuspenseQueryKey = ReturnType<typeof igdbGetMostAnticipatedSuspenseQueryKey>
+type IgdbGetMostAnticipatedSuspenseQueryKey = ReturnType<typeof igdbGetMostAnticipatedSuspenseQueryKey>
 
-/**
- * {@link /catalog/igdb/most-anticipated}
- */
-export async function igdbGetMostAnticipatedSuspenseHook({ params }: { params?: IgdbGetMostAnticipatedQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<IgdbGetMostAnticipatedQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/igdb/most-anticipated`, params, ... requestConfig })
-  return res.data
-}
-
-export function igdbGetMostAnticipatedSuspenseQueryOptionsHook({ params }: { params?: IgdbGetMostAnticipatedQueryParams } = {}, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = igdbGetMostAnticipatedSuspenseQueryKey(params)
-        return queryOptions<IgdbGetMostAnticipatedQueryResponse, ResponseErrorConfig<Error>, IgdbGetMostAnticipatedQueryResponse, typeof queryKey>({
-         
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return igdbGetMostAnticipatedSuspenseHook({ params: params }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function igdbGetMostAnticipatedSuspenseQueryOptionsHook({ query }: IgdbGetMostAnticipatedOptions = {}, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = igdbGetMostAnticipatedSuspenseQueryKey({ query })
+  return queryOptions<IgdbGetMostAnticipatedStatus200, ResponseErrorConfig<Error>, IgdbGetMostAnticipatedStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await igdbGetMostAnticipated({ ...config, query, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/igdb/most-anticipated}
  */
-export function useIgdbGetMostAnticipatedSuspenseHook<TData = IgdbGetMostAnticipatedQueryResponse, TQueryKey extends QueryKey = IgdbGetMostAnticipatedSuspenseQueryKey>({ params }: { params?: IgdbGetMostAnticipatedQueryParams } = {}, options: 
-{
-  query?: Partial<UseSuspenseQueryOptions<IgdbGetMostAnticipatedQueryResponse, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useIgdbGetMostAnticipatedSuspenseHook<TData = IgdbGetMostAnticipatedStatus200, TQueryKey extends QueryKey = IgdbGetMostAnticipatedSuspenseQueryKey>({ query }: { query?: IgdbGetMostAnticipatedOptions['query'] | (() => IgdbGetMostAnticipatedOptions['query']) } = {}, options: {
+  query?: Partial<UseSuspenseQueryOptions<IgdbGetMostAnticipatedStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { query: typeof query === 'function' ? query() : query }
+  const queryKey = resolvedOptions?.queryKey ?? igdbGetMostAnticipatedSuspenseQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? igdbGetMostAnticipatedSuspenseQueryKey(params)
-         
+  const queryResult = useSuspenseQuery({
+   ...igdbGetMostAnticipatedSuspenseQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
 
-         const query = useSuspenseQuery({
-          ...igdbGetMostAnticipatedSuspenseQueryOptionsHook({ params }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

@@ -1,9 +1,7 @@
 import { Box, Card, RNHostView, Text } from "@expo/ui/jetpack-compose";
-import { alpha, background, type ModifierConfig, height } from "@expo/ui/jetpack-compose/modifiers";
+import { alpha, type ModifierConfig, height } from "@expo/ui/jetpack-compose/modifiers";
 import { Image } from "expo-image";
 import type { ImageStyle } from "react-native";
-
-import { useAppTheme } from "@/hooks/use-app-theme";
 
 export type GameArtworkProps = {
   imageUrl?: string;
@@ -24,11 +22,9 @@ export function GameArtwork({
   contentFit = "cover",
   imageStyle,
 }: GameArtworkProps) {
-  const colors = useAppTheme();
-
   if (imageUrl) {
     return (
-      <Card colors={{ containerColor: "transparent", contentColor: colors.text }} elevation={0}>
+      <Card colors={{ containerColor: "transparent" }} elevation={0}>
         <RNHostView matchContents modifiers={modifiers}>
           <Image source={imageUrl} style={imageStyle} contentFit={contentFit} />
         </RNHostView>
@@ -37,19 +33,16 @@ export function GameArtwork({
   }
 
   return (
-    <Card colors={{ containerColor: colors.surfaceHigh, contentColor: colors.text }} elevation={0}>
+    <Card elevation={0}>
       <Box
         contentAlignment="center"
         modifiers={[
           ...modifiers,
-          background(colors.surfaceHigh),
           ...(fallbackHeight === undefined ? [] : [height(fallbackHeight)]),
           ...(fallbackAlpha === 1 ? [] : [alpha(fallbackAlpha)]),
         ]}
       >
-        <Text color={colors.textMuted as string} style={{ typography: "titleLarge" }}>
-          {fallbackLabel}
-        </Text>
+        <Text style={{ typography: "titleLarge" }}>{fallbackLabel}</Text>
       </Box>
     </Card>
   );

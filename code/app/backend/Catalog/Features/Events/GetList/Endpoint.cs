@@ -4,7 +4,7 @@ namespace Catalog.Features.Events.GetList;
 
 public static class Endpoint
 {
-    public static async Task<IResult> HandleAsync(
+    public static async Task<Results<ValidationProblem, Ok<GetEventsListResponse>>> HandleAsync(
         IEventService eventService,
         [FromQuery] int? year,
         [FromQuery] int? month,
@@ -14,7 +14,7 @@ public static class Endpoint
     )
     {
         if (year is < 1 or > 9999)
-            return Results.ValidationProblem(
+            return TypedResults.ValidationProblem(
                 new Dictionary<string, string[]>
                 {
                     [nameof(year)] = ["Year must be between 1 and 9999."],
@@ -22,7 +22,7 @@ public static class Endpoint
             );
 
         if (month is < 1 or > 12)
-            return Results.ValidationProblem(
+            return TypedResults.ValidationProblem(
                 new Dictionary<string, string[]>
                 {
                     [nameof(month)] = ["Month must be between 1 and 12."],
@@ -30,6 +30,6 @@ public static class Endpoint
             );
 
         var events = await eventService.GetListAsync(year, month, status, limit, cancellationToken);
-        return Results.Ok(new GetEventsListResponse(events));
+        return TypedResults.Ok(new GetEventsListResponse(events));
     }
 }

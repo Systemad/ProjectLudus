@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const chartPointDtoSchema = z.object({
-    "timestamp": z.string().datetime(),
-"peakPlayers": z.number().int(),
-"avgPlayers": z.number().int()
-    })
+  timestamp: z.iso.datetime(),
+  peakPlayers: z.int(),
+  avgPlayers: z.int(),
+})

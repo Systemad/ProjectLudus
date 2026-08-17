@@ -3,11 +3,11 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { chartPointDtoSchema } from "./chartPointDtoSchema.ts";
+import * as z from 'zod'
+import { chartPointDtoSchema } from './chartPointDtoSchema'
 
 export const concurrentUsersChartResponseSchema = z.object({
-    "range": z.string(),
-"bucketSize": z.string(),
-"points": z.array(z.lazy(() => chartPointDtoSchema))
-    })
+  range: z.string(),
+  bucketSize: z.string(),
+  points: z.array(chartPointDtoSchema),
+})

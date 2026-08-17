@@ -3,18 +3,8 @@
 * Do not edit manually.
 */
 
-
 export type LanguageSupportsDto = {
-    /**
-     * @type string
-    */
     language: string;
-    /**
-     * @type null,string
-    */
-    nativeName: string | null;
-    /**
-     * @type null,string
-    */
-    type: string | null;
+    nativeName: null;
+    type: null;
 };

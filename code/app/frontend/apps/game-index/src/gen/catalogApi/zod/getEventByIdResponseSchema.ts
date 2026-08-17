@@ -3,12 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { eventDtoSchema } from "./eventDtoSchema.ts";
+import * as z from 'zod'
+import { eventDtoSchema } from './eventDtoSchema'
 
-/**
- * @description Event details including associated games.
- */
 export const getEventByIdResponseSchema = z.object({
-    "event": z.lazy(() => eventDtoSchema)
-    }).describe("Event details including associated games.")
+  event: eventDtoSchema,
+})

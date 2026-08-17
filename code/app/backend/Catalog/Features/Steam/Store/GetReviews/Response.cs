@@ -2,7 +2,7 @@ namespace Catalog.Features.Steam.Store.GetReviews;
 
 public sealed record GetReviewsResponse(
     string GameId,
-    string? SteamAppId,
+    string SteamAppId,
     int? NumReviews,
     int? ReviewScore,
     string? ReviewScoreDesc,

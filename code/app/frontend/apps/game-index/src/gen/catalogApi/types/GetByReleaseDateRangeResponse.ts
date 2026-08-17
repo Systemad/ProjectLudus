@@ -3,23 +3,26 @@
 * Do not edit manually.
 */
 
-import type { GameBrowseDto } from "./GameBrowseDto.ts";
+import type { GameBrowseDto } from './GameBrowseDto'
 
 export type GetByReleaseDateRangeResponse = {
     /**
-     * @type string, date
+     * @description
+     * Format: `date`
+     * @type string
     */
     start: string;
     /**
-     * @type string, date
+     * @description
+     * Format: `date`
+     * @type string
     */
     end: string;
     /**
-     * @type integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     limit: number;
-    /**
-     * @type array
-    */
     games: GameBrowseDto[];
 };

@@ -20,7 +20,7 @@ export type GetApiMeLibraryHistoryStatus200 = UserLibraryHistoryResponse;
 
 export type GetApiMeLibraryHistoryStatus400 = HttpValidationProblemDetails;
 
-export type GetApiMeLibraryHistoryStatus503 = any;
+export type GetApiMeLibraryHistoryStatus503 = void;
 
 export type GetApiMeLibraryHistoryOptions = {
     body?: never;

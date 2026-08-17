@@ -5,7 +5,7 @@
 
 import type { UseMutationOptions, UseMutationResult, QueryClient } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { PostApiMeGamesMembershipOptions, PostApiMeGamesMembershipStatus200 } from '../../types/PostApiMeGamesMembership'
+import type { PostApiMeGamesMembershipOptions, PostApiMeGamesMembershipStatus200, PostApiMeGamesMembershipStatus400 } from '../../types/PostApiMeGamesMembership'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { postApiMeGamesMembership } from '../../clients/postApiMeGamesMembership'
 
@@ -13,7 +13,7 @@ export const postApiMeGamesMembershipMutationKey = () => [{ url: '/api/me/games/
 
 export function postApiMeGamesMembershipMutationOptions<TContext = unknown>(config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const mutationKey = postApiMeGamesMembershipMutationKey()
-  return mutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<Error>, PostApiMeGamesMembershipOptions, TContext>({
+  return mutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<PostApiMeGamesMembershipStatus400>, PostApiMeGamesMembershipOptions, TContext>({
     mutationKey,
     mutationFn: async({ body }) => {
       const { data } = await postApiMeGamesMembership({ ...config, body, throwOnError: true })
@@ -26,18 +26,18 @@ export function postApiMeGamesMembershipMutationOptions<TContext = unknown>(conf
  * {@link /api/me/games/membership}
  */
 export function usePostApiMeGamesMembership<TContext>(options: {
-  mutation?: UseMutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<Error>, PostApiMeGamesMembershipOptions, TContext> & { client?: QueryClient },
+  mutation?: UseMutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<PostApiMeGamesMembershipStatus400>, PostApiMeGamesMembershipOptions, TContext> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>,
 } = {}) {
   const { mutation = {}, client: config = {} } = options ?? {}
   const { client: queryClient, ...mutationOptions } = mutation;
   const mutationKey = mutationOptions.mutationKey ?? postApiMeGamesMembershipMutationKey()
 
-  const baseOptions = postApiMeGamesMembershipMutationOptions(config) as UseMutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<Error>, PostApiMeGamesMembershipOptions, TContext>
+  const baseOptions = postApiMeGamesMembershipMutationOptions(config) as UseMutationOptions<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<PostApiMeGamesMembershipStatus400>, PostApiMeGamesMembershipOptions, TContext>
 
-  return useMutation<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<Error>, PostApiMeGamesMembershipOptions, TContext>({
+  return useMutation<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<PostApiMeGamesMembershipStatus400>, PostApiMeGamesMembershipOptions, TContext>({
     ...baseOptions,
     mutationKey,
     ...mutationOptions,
-  }, queryClient) as UseMutationResult<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<Error>, PostApiMeGamesMembershipOptions, TContext>
+  }, queryClient) as UseMutationResult<PostApiMeGamesMembershipStatus200, ResponseErrorConfig<PostApiMeGamesMembershipStatus400>, PostApiMeGamesMembershipOptions, TContext>
 }

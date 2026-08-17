@@ -4,9 +4,11 @@ import * as WebBrowser from "expo-web-browser";
 import { createContext, useContext, type ReactNode } from "react";
 
 import { playApiUrl } from "@/api/play-api-client";
+import type { ResponseErrorConfig } from "@/gen/play-api/.kubb/client";
 import { getAuthMeQueryKey, useGetAuthMe } from "@/gen/play-api/hooks/AuthHooks/useGetAuthMe";
 import { usePostAuthLogout } from "@/gen/play-api/hooks/AuthHooks/usePostAuthLogout";
 import { usePostAuthMobileExchange } from "@/gen/play-api/hooks/AuthHooks/usePostAuthMobileExchange";
+import type { GetAuthMeStatus401 } from "@/gen/play-api/types/GetAuthMe";
 import { queryClient } from "@/lib/query-client";
 import { posthog } from "@/lib/posthog";
 
@@ -46,7 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = usePostAuthLogout();
   const profile = useGetAuthMe({
     query: {
-      enabled: typeof token === "string",
+      enabled: tokenQuery.isSuccess && token !== null,
       retry: false,
       select: (response) => userResponseSchema.parse(response),
     },
@@ -101,7 +103,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signOut() {
     try {
-      if (typeof token === "string") {
+      if (token !== null && token !== undefined) {
         await logout.mutateAsync(undefined);
       }
       posthog?.capture("account_signed_out", {
@@ -130,11 +132,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               : "error";
 
   const value: AuthContextValue = {
-    error: tokenQuery.isError
-      ? toError(tokenQuery.error)
-      : profile.isError
-        ? toError(profile.error)
-        : null,
+    error: tokenQuery.isError ? tokenQuery.error : profile.isError ? profile.error : null,
     isAuthenticated: status === "authenticated",
     isSigningIn: exchange.isPending,
     isSigningOut: logout.isPending,
@@ -157,10 +155,6 @@ export function useAuth() {
   return context;
 }
 
-function isUnauthorized(error: unknown): error is { status: number } {
-  return typeof error === "object" && error !== null && "status" in error && error.status === 401;
-}
-
-function toError(error: unknown) {
-  return error instanceof Error ? error : new Error("Authentication failed.", { cause: error });
+function isUnauthorized(error: ResponseErrorConfig<GetAuthMeStatus401>) {
+  return error.status === 401;
 }

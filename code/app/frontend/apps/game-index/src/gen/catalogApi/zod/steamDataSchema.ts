@@ -3,12 +3,16 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
+import { steamPricingDataSchema } from './steamPricingDataSchema'
+import { steamReviewDataSchema } from './steamReviewDataSchema'
 
 export const steamDataSchema = z.object({
-    "steamAppId": z.nullable(z.number().int()),
-"currentPlayers": z.nullable(z.number().int()),
-"peak24h": z.nullable(z.number().int()),
-"headerUrl": z.nullable(z.string()),
-"capsuleUrl": z.nullable(z.string())
-    })
+  steamAppId: z.string(),
+  currentPlayers: z.int().nullish(),
+  peak24h: z.int().nullish(),
+  headerUrl: z.null().optional(),
+  capsuleUrl: z.null().optional(),
+  pricing: z.union([z.null(), steamPricingDataSchema.strict()]).optional(),
+  review: z.union([z.null(), steamReviewDataSchema.strict()]).optional(),
+})

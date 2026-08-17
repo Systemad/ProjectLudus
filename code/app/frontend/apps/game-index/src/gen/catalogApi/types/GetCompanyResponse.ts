@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { CompanyOverviewDto } from "./CompanyOverviewDto.ts";
+import type { CompanyOverviewDto } from './CompanyOverviewDto'
 
 export type GetCompanyResponse = {
-    /**
-     * @type object
-    */
     company: CompanyOverviewDto;
 };

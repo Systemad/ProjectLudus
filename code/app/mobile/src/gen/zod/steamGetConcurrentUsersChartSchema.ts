@@ -12,8 +12,10 @@ export const steamGetConcurrentUsersChartQueryRangeSchema = z.string().optional(
 
 export const steamGetConcurrentUsersChartStatus200Schema = concurrentUsersChartResponseSchema
 
-export const steamGetConcurrentUsersChartStatus400Schema = z.any()
+export const steamGetConcurrentUsersChartStatus400Schema = z.void()
+
+export const steamGetConcurrentUsersChartStatus404Schema = z.void()
 
 export const steamGetConcurrentUsersChartResponseSchema = steamGetConcurrentUsersChartStatus200Schema
 
-export const steamGetConcurrentUsersChartErrorSchema = steamGetConcurrentUsersChartStatus400Schema
+export const steamGetConcurrentUsersChartErrorSchema = z.union([steamGetConcurrentUsersChartStatus400Schema, steamGetConcurrentUsersChartStatus404Schema])

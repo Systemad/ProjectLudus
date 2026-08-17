@@ -1,64 +1,57 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Catalog.Features.Games.Common.Dtos;
 
-public class GameBrowseDto
+public sealed record GameBrowseDto
 {
-    public string Id { get; set; } = string.Empty;
+    public required string Id { get; init; }
 
-    [Required]
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; init; }
 
-    //[Required] public string Status { get; set; } = string.Empty;
+    public DateOnly? FirstReleaseDate { get; init; }
 
-    public DateOnly? FirstReleaseDate { get; set; }
+    public string? CoverUrl { get; init; }
 
-    public string? CoverUrl { get; set; }
+    public SteamData? Steam { get; init; }
 
-    public SteamData Steam { get; set; } = new(null, null, null, null, null);
+    public required GameFeatures GameFeatures { get; init; }
 
-    public SteamPricingData Pricing { get; set; } = new(null, null, null, null, null, null, null, null);
+    public required IReadOnlyList<PlatformDto> Platforms { get; init; }
 
-    public SteamReviewData Review { get; set; } = new(null, null, null, null, null);
-
-    [Required]
-    public GameFeatures GameFeatures { get; set; } = new([], []);
-
-    [Required]
-    public List<PlatformDto> Platforms { get; set; } = [];
-
-    [Required]
-    public List<InvolvedCompanyDto> Companies { get; set; } = [];
+    public required IReadOnlyList<InvolvedCompanyDto> Companies { get; init; }
 }
 
-public sealed record SteamData(
-    string? SteamAppId,
-    long? CurrentPlayers,
-    long? Peak24h,
-    string? HeaderUrl,
-    string? CapsuleUrl
-);
+public sealed record SteamData
+{
+    public required string SteamAppId { get; init; }
+    public long? CurrentPlayers { get; init; }
+    public long? Peak24h { get; init; }
+    public string? HeaderUrl { get; init; }
+    public string? CapsuleUrl { get; init; }
+    public SteamPricingData? Pricing { get; init; }
+    public SteamReviewData? Review { get; init; }
+}
 
-public sealed record SteamPricingData(
-    int? FinalCents,
-    int? DiscountPercent,
-    string? Currency,
-    int? InitialCents,
-    string? InitialFormatted,
-    string? FinalFormatted,
-    int? High30d,
-    int? Low30d
-);
+public sealed record SteamPricingData
+{
+    public int? FinalCents { get; init; }
+    public int? DiscountPercent { get; init; }
+    public string? Currency { get; init; }
+    public int? InitialCents { get; init; }
+    public string? InitialFormatted { get; init; }
+    public string? FinalFormatted { get; init; }
+    public int? High30d { get; init; }
+    public int? Low30d { get; init; }
+}
 
-public sealed record SteamReviewData(
-    int? Score,
-    string? Desc,
-    int? TotalReviews,
-    int? Positive,
-    int? Negative
-);
+public sealed record SteamReviewData
+{
+    public int? Score { get; init; }
+    public string? Desc { get; init; }
+    public int? TotalReviews { get; init; }
+    public int? Positive { get; init; }
+    public int? Negative { get; init; }
+}
 
-public sealed record GameFeatures(List<Feature> Genres, List<Feature> Themes);
+public sealed record GameFeatures(IReadOnlyList<Feature> Genres, IReadOnlyList<Feature> Themes);
 
 public sealed record PlatformDto(string Id, string Name, string Slug);
 
@@ -74,6 +67,6 @@ public sealed record InvolvedCompanyDto(
     bool Supporting
 );
 
-public record Feature([Required] string Name, [Required] string Slug);
+public sealed record Feature(string Name, string Slug);
 
-public record WebsiteDto(string Name, string? Type, string Url, bool? Trusted);
+public sealed record WebsiteDto(string Name, string? Type, string Url, bool? Trusted);

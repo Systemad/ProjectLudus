@@ -5,7 +5,7 @@
 
 export type WebsiteDto = {
     name: string;
-    type: string | null;
+    type: null;
     url: string;
-    trusted: boolean | null;
+    trusted: null;
 };

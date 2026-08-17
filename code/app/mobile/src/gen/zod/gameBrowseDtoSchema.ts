@@ -8,17 +8,13 @@ import { gameFeaturesSchema } from './gameFeaturesSchema'
 import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
 import { platformDtoSchema } from './platformDtoSchema'
 import { steamDataSchema } from './steamDataSchema'
-import { steamPricingDataSchema } from './steamPricingDataSchema'
-import { steamReviewDataSchema } from './steamReviewDataSchema'
 
 export const gameBrowseDtoSchema = z.object({
   id: z.string(),
   name: z.string(),
   firstReleaseDate: z.iso.date().nullish(),
-  coverUrl: z.string().nullish(),
-  steam: steamDataSchema,
-  pricing: steamPricingDataSchema,
-  review: steamReviewDataSchema,
+  coverUrl: z.null().optional(),
+  steam: z.union([z.null(), steamDataSchema.strict()]).optional(),
   gameFeatures: gameFeaturesSchema,
   platforms: z.array(platformDtoSchema),
   companies: z.array(involvedCompanyDtoSchema),

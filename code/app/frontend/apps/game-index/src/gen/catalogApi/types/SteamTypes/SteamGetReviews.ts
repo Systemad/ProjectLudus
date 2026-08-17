@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetReviewsResponse } from "../GetReviewsResponse.ts";
+import type { GetReviewsResponse } from '../GetReviewsResponse'
 
-export type SteamGetReviewsPathParams = {
-    /**
-     * @type integer, int64
-    */
-    gameId: number;
+export type SteamGetReviewsPath = {
+    gameId: string;
+};
+
+export type SteamGetReviewsStatus200 = GetReviewsResponse;
+
+export type SteamGetReviewsStatus400 = void;
+
+export type SteamGetReviewsStatus404 = void;
+
+export type SteamGetReviewsOptions = {
+    body?: never;
+    path: SteamGetReviewsPath;
+    query?: never;
+    headers?: never;
+};
+
+export type SteamGetReviewsResponses = {
+    "200": SteamGetReviewsStatus200;
+    "400": SteamGetReviewsStatus400;
+    "404": SteamGetReviewsStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type SteamGetReviews200 = GetReviewsResponse;
-
-/**
- * @description Not Found
-*/
-export type SteamGetReviews404 = any;
-
-export type SteamGetReviewsQueryResponse = SteamGetReviews200;
-
-export type SteamGetReviewsQuery = {
-    Response: SteamGetReviews200;
-    PathParams: SteamGetReviewsPathParams;
-    Errors: SteamGetReviews404;
-};
+export type SteamGetReviewsResponse = (SteamGetReviewsStatus200 | SteamGetReviewsStatus400 | SteamGetReviewsStatus404);

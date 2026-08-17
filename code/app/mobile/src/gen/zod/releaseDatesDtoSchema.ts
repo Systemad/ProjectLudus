@@ -7,5 +7,5 @@ import * as z from 'zod'
 
 export const releaseDatesDtoSchema = z.object({
   releaseDate: z.int().nullable(),
-  region: z.string().nullable(),
+  region: z.null(),
 })

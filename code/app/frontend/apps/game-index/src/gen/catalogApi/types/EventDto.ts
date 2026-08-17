@@ -3,52 +3,29 @@
 * Do not edit manually.
 */
 
-import type { GameBrowseDto } from "./GameBrowseDto.ts";
-import type { GameMediaVideoDto } from "./GameMediaVideoDto.ts";
+import type { GameBrowseDto } from './GameBrowseDto'
+import type { GameMediaVideoDto } from './GameMediaVideoDto'
 
 export type EventDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
+    slug?: null;
+    description?: null;
+    liveStreamUrl?: null;
     /**
-     * @type null,string
-    */
-    slug?: string | null;
-    /**
-     * @type null,string
-    */
-    description?: string | null;
-    /**
-     * @type null,string
-    */
-    liveStreamUrl?: string | null;
-    /**
-     * @type null,string, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     startTimeUtc?: string | null;
     /**
-     * @type null,string, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     endTimeUtc?: string | null;
-    /**
-     * @type null,string
-    */
-    timeZone?: string | null;
-    /**
-     * @type null,string
-    */
-    logoImageId?: string | null;
-    /**
-     * @type array
-    */
+    timeZone?: null;
+    logoImageId?: null;
     games: GameBrowseDto[];
-    /**
-     * @type array
-    */
     videos: GameMediaVideoDto[];
 };

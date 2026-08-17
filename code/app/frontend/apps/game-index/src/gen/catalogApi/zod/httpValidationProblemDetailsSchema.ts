@@ -3,15 +3,13 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const httpValidationProblemDetailsSchema = z.object({
-    "type": z.string().nullish(),
-"title": z.string().nullish(),
-"status": z.number().int().nullish(),
-"detail": z.string().nullish(),
-"instance": z.string().nullish(),
-"errors": z.object({
-    
-    }).catchall(z.array(z.string()))
-    })
+  type: z.null().optional(),
+  title: z.null().optional(),
+  status: z.int().nullish(),
+  detail: z.null().optional(),
+  instance: z.null().optional(),
+  errors: z.object({}).catchall(z.array(z.string())),
+})

@@ -7,34 +7,34 @@ export type SteamPricingData = {
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    finalCents: number | null;
+    finalCents?: number | null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    discountPercent: number | null;
-    currency: string | null;
+    discountPercent?: number | null;
+    currency?: null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    initialCents: number | null;
-    initialFormatted: string | null;
-    finalFormatted: string | null;
+    initialCents?: number | null;
+    initialFormatted?: null;
+    finalFormatted?: null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    high30d: number | null;
+    high30d?: number | null;
     /**
      * @description
      * Format: `int32`
-     * @type integer
+     * @type integer | undefined
     */
-    low30d: number | null;
+    low30d?: number | null;
 };

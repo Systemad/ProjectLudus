@@ -3,69 +3,26 @@
 * Do not edit manually.
 */
 
-import type { PlatformsDto } from "./PlatformsDto.ts";
-import type { ReleaseDatePlatformDto } from "./ReleaseDatePlatformDto.ts";
-import type { ReleaseDatesDto } from "./ReleaseDatesDto.ts";
+import type { PlatformsDto } from './PlatformsDto'
+import type { ReleaseDatePlatformDto } from './ReleaseDatePlatformDto'
+import type { ReleaseDatesDto } from './ReleaseDatesDto'
+import type { SteamData } from './SteamData'
 
 export type GameOverviewDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type null,string
-    */
-    slug?: string | null;
-    /**
-     * @type string
-    */
+    id: string;
+    slug?: null;
     name: string;
-    /**
-     * @type null,string
-    */
-    summary?: string | null;
-    /**
-     * @type null,string
-    */
-    storyline?: string | null;
-    /**
-     * @type null,string
-    */
-    cover?: string | null;
-    /**
-     * @type null,string
-    */
-    coverUrl?: string | null;
-    /**
-     * @type null,integer, int64
-    */
-    gameType?: number | null;
-    /**
-     * @type null,string
-    */
-    gameTypeName?: string | null;
-    /**
-     * @type array
-    */
+    summary?: null;
+    storyline?: null;
+    cover?: null;
+    coverUrl?: null;
+    gameType?: null;
+    gameTypeName?: null;
+    steam?: (null | SteamData);
     genres: string[];
-    /**
-     * @type array
-    */
     themes: string[];
-    /**
-     * @type boolean
-    */
     isReleased: boolean;
-    /**
-     * @type array
-    */
     platforms: PlatformsDto[];
-    /**
-     * @type array
-    */
     releaseDatePlatform: ReleaseDatePlatformDto[];
-    /**
-     * @type array
-    */
     releaseDates: ReleaseDatesDto[];
 };

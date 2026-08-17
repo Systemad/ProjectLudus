@@ -3,69 +3,29 @@
 * Do not edit manually.
 */
 
-import type { Feature } from "./Feature.ts";
-import type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
-import type { PlatformDto } from "./PlatformDto.ts";
+import type { Feature } from './Feature'
+import type { InvolvedCompanyDto } from './InvolvedCompanyDto'
+import type { PlatformDto } from './PlatformDto'
 
 export type GameHeroDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type null,string
-    */
-    slug?: string | null;
-    /**
-     * @type string
-    */
+    id: string;
+    slug?: null;
     name: string;
+    summary?: null;
+    cover?: null;
+    coverUrl?: null;
+    gameTypeName?: null;
     /**
-     * @type null,string
-    */
-    summary?: string | null;
-    /**
-     * @type null,string
-    */
-    cover?: string | null;
-    /**
-     * @type null,string
-    */
-    coverUrl?: string | null;
-    /**
-     * @type null,string
-    */
-    gameTypeName?: string | null;
-    /**
-     * @type null,string, date
+     * @description
+     * Format: `date`
+     * @type string | undefined
     */
     firstReleaseDate?: string | null;
-    /**
-     * @type array
-    */
     genres: Feature[];
-    /**
-     * @type array
-    */
     themes: Feature[];
-    /**
-     * @type array
-    */
     gameModes: Feature[];
-    /**
-     * @type array
-    */
     keywords: Feature[];
-    /**
-     * @type array
-    */
     playerPerspectives: Feature[];
-    /**
-     * @type array
-    */
     platforms: PlatformDto[];
-    /**
-     * @type array
-    */
     companies: InvolvedCompanyDto[];
 };

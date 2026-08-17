@@ -11,7 +11,7 @@ export type GetApiMeGamesGameidListsPath = {
 
 export type GetApiMeGamesGameidListsStatus200 = GameListMembershipResponse;
 
-export type GetApiMeGamesGameidListsStatus400 = any;
+export type GetApiMeGamesGameidListsStatus400 = void;
 
 export type GetApiMeGamesGameidListsOptions = {
     body?: never;

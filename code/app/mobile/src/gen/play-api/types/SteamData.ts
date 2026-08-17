@@ -3,20 +3,25 @@
 * Do not edit manually.
 */
 
+import type { SteamPricingData } from './SteamPricingData'
+import type { SteamReviewData } from './SteamReviewData'
+
 export type SteamData = {
-    steamAppId: string | null;
+    steamAppId: string;
     /**
      * @description
      * Format: `int64`
-     * @type integer
+     * @type integer | undefined
     */
-    currentPlayers: number | null;
+    currentPlayers?: number | null;
     /**
      * @description
      * Format: `int64`
-     * @type integer
+     * @type integer | undefined
     */
-    peak24h: number | null;
-    headerUrl: string | null;
-    capsuleUrl: string | null;
+    peak24h?: number | null;
+    headerUrl?: null;
+    capsuleUrl?: null;
+    pricing?: (null | SteamPricingData);
+    review?: (null | SteamReviewData);
 };

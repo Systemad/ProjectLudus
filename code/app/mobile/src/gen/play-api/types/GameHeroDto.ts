@@ -9,12 +9,12 @@ import type { PlatformDto } from './PlatformDto'
 
 export type GameHeroDto = {
     id: string;
-    slug?: string | null;
+    slug?: null;
     name: string;
-    summary?: string | null;
-    cover?: string | null;
-    coverUrl?: string | null;
-    gameTypeName?: string | null;
+    summary?: null;
+    cover?: null;
+    coverUrl?: null;
+    gameTypeName?: null;
     /**
      * @description
      * Format: `date`

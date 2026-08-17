@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const releaseDateStatusDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string()
-    })
+  id: z.string(),
+  name: z.string(),
+})

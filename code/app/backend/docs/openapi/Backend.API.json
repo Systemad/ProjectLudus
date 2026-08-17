@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.1.2",
   "info": {
     "title": "Backend.API | v1",
     "version": "1.0.0"
@@ -200,6 +200,49 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetByReleaseDateRangeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/catalog/games/heroes": {
+      "get": {
+        "tags": [
+          "Games"
+        ],
+        "operationId": "Games/GetHeroes",
+        "parameters": [
+          {
+            "name": "gameIds",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetGameHeroesResponse"
                 }
               }
             }
@@ -859,6 +902,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }
@@ -969,8 +1015,8 @@
           "Auth"
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -1095,10 +1141,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ListSummaryResponse"
-                  }
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ListSummaryResponse"
+                      }
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ListSummaryResponse"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -1164,10 +1220,30 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "$ref": "#/components/schemas/GameMembership"
-                  }
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/GameMembership"
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/GameMembership"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
                 }
               }
             }
@@ -1405,10 +1481,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ListHistoryEntryResponse"
-                  }
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ListHistoryEntryResponse"
+                      }
+                    },
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ListHistoryEntryResponse"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -1636,12 +1722,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found"
-          },
-          "503": {
-            "description": "Service Unavailable"
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1651,6 +1731,12 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "503": {
+            "description": "Service Unavailable"
           }
         },
         "security": [
@@ -1696,9 +1782,6 @@
               }
             }
           },
-          "503": {
-            "description": "Service Unavailable"
-          },
           "400": {
             "description": "Bad Request",
             "content": {
@@ -1708,6 +1791,9 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "Service Unavailable"
           }
         },
         "security": [
@@ -1819,8 +1905,10 @@
             "type": "string"
           },
           "comment": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -1872,35 +1960,47 @@
             "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "url": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "startDate": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "country": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "logoId": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "logoImageId": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "parentCompany": {
             "oneOf": [
               {
-                "nullable": true
+                "type": "null"
               },
               {
                 "$ref": "#/components/schemas/ParentCompanyDto"
@@ -1908,8 +2008,10 @@
             ]
           },
           "status": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -1938,17 +2040,21 @@
       "CreateListRequest": {
         "required": [
           "name",
-          "description",
           "visibility"
         ],
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 100,
+            "minLength": 1,
             "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -1971,34 +2077,48 @@
             "type": "string"
           },
           "slug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "liveStreamUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "startTimeUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           },
           "endTimeUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           },
           "timeZone": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "logoImageId": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "games": {
             "type": "array",
@@ -2016,17 +2136,19 @@
       },
       "ExchangeRequest": {
         "required": [
-          "code",
-          "state"
+          "code"
         ],
         "type": "object",
         "properties": {
           "code": {
+            "minLength": 1,
             "type": "string"
           },
           "state": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -2062,14 +2184,11 @@
       },
       "GameBrowseDto": {
         "required": [
+          "id",
           "name",
           "gameFeatures",
           "platforms",
-          "companies",
-          "id",
-          "steam",
-          "pricing",
-          "review"
+          "companies"
         ],
         "type": "object",
         "properties": {
@@ -2080,22 +2199,27 @@
             "type": "string"
           },
           "firstReleaseDate": {
-            "type": "string",
-            "format": "date",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date"
           },
           "coverUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "steam": {
-            "$ref": "#/components/schemas/SteamData"
-          },
-          "pricing": {
-            "$ref": "#/components/schemas/SteamPricingData"
-          },
-          "review": {
-            "$ref": "#/components/schemas/SteamReviewData"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SteamData"
+              }
+            ]
           },
           "gameFeatures": {
             "$ref": "#/components/schemas/GameFeatures"
@@ -2131,17 +2255,23 @@
             "type": "string"
           },
           "coverImageId": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "firstReleaseDateUtc": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date-time"
           },
           "gameTypeName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -2239,12 +2369,16 @@
             "type": "string"
           },
           "imageId": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "url": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -2271,6 +2405,7 @@
       },
       "GameHeroDto": {
         "required": [
+          "id",
           "name",
           "genres",
           "themes",
@@ -2278,8 +2413,7 @@
           "keywords",
           "playerPerspectives",
           "platforms",
-          "companies",
-          "id"
+          "companies"
         ],
         "type": "object",
         "properties": {
@@ -2287,32 +2421,44 @@
             "type": "string"
           },
           "slug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "name": {
             "type": "string"
           },
           "summary": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "cover": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "coverUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "gameTypeName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "firstReleaseDate": {
-            "type": "string",
-            "format": "date",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "date"
           },
           "genres": {
             "type": "array",
@@ -2365,6 +2511,8 @@
         "type": "object",
         "properties": {
           "gameIds": {
+            "maxItems": 50,
+            "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
@@ -2448,14 +2596,13 @@
       },
       "GameOverviewDto": {
         "required": [
+          "id",
           "name",
           "genres",
           "themes",
           "platforms",
           "releaseDatePlatform",
           "releaseDates",
-          "id",
-          "steam",
           "isReleased"
         ],
         "type": "object",
@@ -2464,38 +2611,59 @@
             "type": "string"
           },
           "slug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "name": {
             "type": "string"
           },
           "summary": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "storyline": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "cover": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "coverUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "gameType": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "gameTypeName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "steam": {
-            "$ref": "#/components/schemas/SteamData"
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SteamData"
+              }
+            ]
           },
           "genres": {
             "type": "array",
@@ -2565,30 +2733,40 @@
         "type": "object",
         "properties": {
           "platformName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "platformSlug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "releaseDate": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "region": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "human": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "status": {
             "oneOf": [
               {
-                "nullable": true
+                "type": "null"
               },
               {
                 "$ref": "#/components/schemas/ReleaseDateStatusDto"
@@ -2598,7 +2776,7 @@
           "platform": {
             "oneOf": [
               {
-                "nullable": true
+                "type": "null"
               },
               {
                 "$ref": "#/components/schemas/PlatformDto"
@@ -2674,6 +2852,20 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/EventDto"
+            }
+          }
+        }
+      },
+      "GetGameHeroesResponse": {
+        "required": [
+          "games"
+        ],
+        "type": "object",
+        "properties": {
+          "games": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GameHeroDto"
             }
           }
         }
@@ -2763,32 +2955,41 @@
             "type": "string"
           },
           "steamAppId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "finalCents": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "discountPercent": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "currency": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "high30d": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "low30d": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           }
         }
       },
@@ -2809,37 +3010,48 @@
             "type": "string"
           },
           "steamAppId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "numReviews": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "reviewScore": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "reviewScoreDesc": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "totalPositive": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "totalNegative": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "totalReviews": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           }
         }
       },
@@ -2864,25 +3076,35 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "title": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "detail": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "instance": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "errors": {
             "type": "object",
@@ -2950,12 +3172,16 @@
             "type": "string"
           },
           "nativeName": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3032,8 +3258,10 @@
             "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -3068,6 +3296,8 @@
         "type": "object",
         "properties": {
           "gameIds": {
+            "maxItems": 50,
+            "minItems": 1,
             "type": "array",
             "items": {
               "type": "string"
@@ -3090,9 +3320,11 @@
             }
           },
           "nextPage": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "hasMore": {
             "type": "boolean"
@@ -3114,9 +3346,11 @@
             }
           },
           "nextPage": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "hasMore": {
             "type": "boolean"
@@ -3135,12 +3369,16 @@
             "type": "string"
           },
           "name": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "slug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3174,8 +3412,10 @@
             "type": "string"
           },
           "slug": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3187,13 +3427,17 @@
         "type": "object",
         "properties": {
           "releaseDate": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "platform": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3205,13 +3449,17 @@
         "type": "object",
         "properties": {
           "releaseDate": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "region": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3283,140 +3531,176 @@
       },
       "SteamData": {
         "required": [
-          "steamAppId",
-          "currentPlayers",
-          "peak24h",
-          "headerUrl",
-          "capsuleUrl"
+          "steamAppId"
         ],
         "type": "object",
         "properties": {
           "steamAppId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "currentPlayers": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "peak24h": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int64"
           },
           "headerUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "capsuleUrl": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "pricing": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SteamPricingData"
+              }
+            ]
+          },
+          "review": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SteamReviewData"
+              }
+            ]
           }
         }
       },
       "SteamPricingData": {
-        "required": [
-          "finalCents",
-          "discountPercent",
-          "currency",
-          "initialCents",
-          "initialFormatted",
-          "finalFormatted",
-          "high30d",
-          "low30d"
-        ],
         "type": "object",
         "properties": {
           "finalCents": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "discountPercent": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "currency": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "initialCents": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "initialFormatted": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "finalFormatted": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "high30d": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "low30d": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           }
         }
       },
       "SteamReviewData": {
-        "required": [
-          "score",
-          "desc",
-          "totalReviews",
-          "positive",
-          "negative"
-        ],
         "type": "object",
         "properties": {
           "score": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "desc": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "totalReviews": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "positive": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           },
           "negative": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "type": [
+              "null",
+              "integer"
+            ],
+            "format": "int32"
           }
         }
       },
       "UpdateListRequest": {
         "required": [
           "name",
-          "description",
           "visibility"
         ],
         "type": "object",
         "properties": {
           "name": {
+            "maxLength": 100,
+            "minLength": 1,
             "type": "string"
           },
           "description": {
-            "type": "string",
-            "nullable": true
+            "maxLength": 500,
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -3482,8 +3766,10 @@
             }
           },
           "nextCursor": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3505,8 +3791,10 @@
             }
           },
           "nextCursor": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           }
         }
       },
@@ -3628,15 +3916,19 @@
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "null",
+              "string"
+            ]
           },
           "url": {
             "type": "string"
           },
           "trusted": {
-            "type": "boolean",
-            "nullable": true
+            "type": [
+              "null",
+              "boolean"
+            ]
           }
         }
       }
@@ -3651,10 +3943,10 @@
   },
   "tags": [
     {
-      "name": "Calendar"
+      "name": "Auth"
     },
     {
-      "name": "Games"
+      "name": "Calendar"
     },
     {
       "name": "Companies"
@@ -3663,16 +3955,16 @@
       "name": "Events"
     },
     {
+      "name": "Games"
+    },
+    {
       "name": "IGDB"
     },
     {
-      "name": "Steam"
-    },
-    {
-      "name": "Auth"
-    },
-    {
       "name": "Lists"
+    },
+    {
+      "name": "Steam"
     },
     {
       "name": "User Library"

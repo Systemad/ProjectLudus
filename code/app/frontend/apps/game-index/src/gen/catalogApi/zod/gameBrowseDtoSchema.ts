@@ -3,23 +3,19 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameFeaturesSchema } from "./gameFeaturesSchema.ts";
-import { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
-import { platformDtoSchema } from "./platformDtoSchema.ts";
-import { steamDataSchema } from "./steamDataSchema.ts";
-import { steamPricingDataSchema } from "./steamPricingDataSchema.ts";
-import { steamReviewDataSchema } from "./steamReviewDataSchema.ts";
+import * as z from 'zod'
+import { gameFeaturesSchema } from './gameFeaturesSchema'
+import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
+import { platformDtoSchema } from './platformDtoSchema'
+import { steamDataSchema } from './steamDataSchema'
 
 export const gameBrowseDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"firstReleaseDate": z.string().date().nullish(),
-"coverUrl": z.string().nullish(),
-"steam": z.optional(z.union([z.lazy(() => steamDataSchema), z.null()])),
-"pricing": z.optional(z.union([z.lazy(() => steamPricingDataSchema), z.null()])),
-"review": z.optional(z.union([z.lazy(() => steamReviewDataSchema), z.null()])),
-"gameFeatures": z.lazy(() => gameFeaturesSchema),
-"platforms": z.array(z.lazy(() => platformDtoSchema)),
-"companies": z.array(z.lazy(() => involvedCompanyDtoSchema))
-    })
+  id: z.string(),
+  name: z.string(),
+  firstReleaseDate: z.iso.date().nullish(),
+  coverUrl: z.null().optional(),
+  steam: z.union([z.null(), steamDataSchema.strict()]).optional(),
+  gameFeatures: gameFeaturesSchema,
+  platforms: z.array(platformDtoSchema),
+  companies: z.array(involvedCompanyDtoSchema),
+})

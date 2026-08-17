@@ -11,10 +11,11 @@ import {
 } from "@expo/ui/jetpack-compose";
 import { Host } from "@expo/ui";
 import { fillMaxSize, fillMaxWidth } from "@expo/ui/jetpack-compose/modifiers";
-import { router, type Href } from "expo-router";
+import { router } from "expo-router";
 import { useState } from "react";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { settingsHref } from "@/navigation/routes";
 
 import { useAuth } from "./auth-context";
 import { SignedOutProfile } from "./signed-out-profile";
@@ -25,8 +26,6 @@ const tabs: readonly { value: ProfileLibraryTab; label: string }[] = [
   { value: "lists", label: "My lists" },
   { value: "history", label: "Recently viewed" },
 ];
-
-const settingsHref = "/(discover)/settings" as Href;
 
 export function ProfileScreen() {
   const colors = useAppTheme();
@@ -69,29 +68,21 @@ export function ProfileScreen() {
       >
         <Row modifiers={[fillMaxWidth()]} horizontalArrangement="spaceBetween">
           <Column verticalArrangement={{ spacedBy: 2 }}>
-            <Text color={colors.text as string} style={{ typography: "headlineSmall" }}>
-              Profile
-            </Text>
-            <Text color={colors.textMuted as string} style={{ typography: "bodyMedium" }}>
+            <Text style={{ typography: "headlineSmall" }}>Profile</Text>
+            <Text style={{ typography: "bodyMedium" }}>
               {isAuthenticated && user
                 ? user.steamName
                 : "Your games, lists, and recently viewed titles"}
             </Text>
           </Column>
           <IconButton onClick={() => router.push(settingsHref)}>
-            <Icon
-              source={require("@/assets/icons/settings.xml")}
-              tint={colors.text as string}
-              contentDescription="Settings"
-            />
+            <Icon source={require("@/assets/icons/settings.xml")} contentDescription="Settings" />
           </IconButton>
         </Row>
 
         <>
           <Row modifiers={[fillMaxWidth()]} horizontalArrangement="spaceBetween">
-            <Text color={colors.text as string} style={{ typography: "titleLarge" }}>
-              My library
-            </Text>
+            <Text style={{ typography: "titleLarge" }}>My library</Text>
             <Button enabled={!isSigningOut} onClick={() => void signOut()}>
               <Text>Sign out</Text>
             </Button>
@@ -126,10 +117,8 @@ export function ProfileScreen() {
             </Row>
           ) : null}
 
-          <Text color={colors.text as string} style={{ typography: "titleLarge" }}>
-            {title}
-          </Text>
-          <Text color={colors.textMuted as string} style={{ typography: "bodyMedium" }}>
+          <Text style={{ typography: "titleLarge" }}>{title}</Text>
+          <Text style={{ typography: "bodyMedium" }}>
             {isLoading
               ? "Loading games…"
               : isError
@@ -142,12 +131,8 @@ export function ProfileScreen() {
           {games.map((game) => (
             <Card key={game.id} modifiers={[fillMaxWidth()]}>
               <Column verticalArrangement={{ spacedBy: 4 }}>
-                <Text color={colors.text as string} style={{ typography: "titleMedium" }}>
-                  {game.name}
-                </Text>
-                <Text color={colors.textMuted as string} style={{ typography: "bodyMedium" }}>
-                  {game.gameTypeName ?? "Game"}
-                </Text>
+                <Text style={{ typography: "titleMedium" }}>{game.name}</Text>
+                <Text style={{ typography: "bodyMedium" }}>{game.gameTypeName ?? "Game"}</Text>
               </Column>
             </Card>
           ))}

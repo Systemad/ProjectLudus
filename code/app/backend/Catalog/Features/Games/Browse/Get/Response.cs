@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Games.Browse.Get;
@@ -8,44 +7,33 @@ public sealed record GetGameResponse(GameDetailsDto Game);
 
 public sealed record GameDetailsDto
 {
-    [Required]
-    public required string Id { get; set; }
+    public required string Id { get; init; }
 
-    [Required]
-    public required string Url { get; set; }
+    public required string Url { get; init; }
 
-    [Required]
-    public required List<InvolvedCompanyDto> InvolvedCompanies { get; set; } = [];
+    public required IReadOnlyList<InvolvedCompanyDto> InvolvedCompanies { get; init; }
 
-    [Required]
-    public required List<string> Themes { get; set; } = [];
+    public required IReadOnlyList<string> Themes { get; init; }
 
-    [Required]
-    public required List<string> GameModes { get; set; } = [];
+    public required IReadOnlyList<string> GameModes { get; init; }
 
-    [Required]
-    public required List<string> PlayerPerspectives { get; set; } = [];
+    public required IReadOnlyList<string> PlayerPerspectives { get; init; }
 
-    [Required]
-    public required List<WebsiteDto> Websites { get; set; } = [];
+    public required IReadOnlyList<WebsiteDto> Websites { get; init; }
 
-    [Required]
-    public required List<AlternativeNameDto> AlternativeNames { get; set; } = [];
+    public required IReadOnlyList<AlternativeNameDto> AlternativeNames { get; init; }
 
-    [Required]
-    public required List<GameEnginesDto> GameEngines { get; set; } = [];
+    public required IReadOnlyList<GameEnginesDto> GameEngines { get; init; }
 
-    [Required]
-    public required List<LanguageSupportsDto> LanguageSupports { get; set; } = [];
+    public required IReadOnlyList<LanguageSupportsDto> LanguageSupports { get; init; }
 
-    [Required]
-    public required List<FranchiseDto> Franchises { get; set; } = [];
+    public required IReadOnlyList<FranchiseDto> Franchises { get; init; }
 }
 
-public record AlternativeNameDto(string Id, string Name, string? Comment);
+public sealed record AlternativeNameDto(string Id, string Name, string? Comment);
 
-public record GameEnginesDto(string Id, string Name, string? ImageId, string? Url);
+public sealed record GameEnginesDto(string Id, string Name, string? ImageId, string? Url);
 
-public record LanguageSupportsDto(string Language, string? NativeName, string? Type);
+public sealed record LanguageSupportsDto(string Language, string? NativeName, string? Type);
 
-public record FranchiseDto(string Name, string Slug);
+public sealed record FranchiseDto(string Name, string Slug);

@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const releaseDatesDtoSchema = z.object({
-    "releaseDate": z.nullable(z.number().int()),
-"region": z.nullable(z.string())
-    })
+  releaseDate: z.int().nullable(),
+  region: z.null(),
+})

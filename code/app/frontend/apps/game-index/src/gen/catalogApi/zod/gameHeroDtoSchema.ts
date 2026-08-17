@@ -3,25 +3,25 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { featureSchema } from "./featureSchema.ts";
-import { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
-import { platformDtoSchema } from "./platformDtoSchema.ts";
+import * as z from 'zod'
+import { featureSchema } from './featureSchema'
+import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
+import { platformDtoSchema } from './platformDtoSchema'
 
 export const gameHeroDtoSchema = z.object({
-    "id": z.number().int(),
-"slug": z.string().nullish(),
-"name": z.string(),
-"summary": z.string().nullish(),
-"cover": z.string().nullish(),
-"coverUrl": z.string().nullish(),
-"gameTypeName": z.string().nullish(),
-"firstReleaseDate": z.string().date().nullish(),
-"genres": z.array(z.lazy(() => featureSchema)),
-"themes": z.array(z.lazy(() => featureSchema)),
-"gameModes": z.array(z.lazy(() => featureSchema)),
-"keywords": z.array(z.lazy(() => featureSchema)),
-"playerPerspectives": z.array(z.lazy(() => featureSchema)),
-"platforms": z.array(z.lazy(() => platformDtoSchema)),
-"companies": z.array(z.lazy(() => involvedCompanyDtoSchema))
-    })
+  id: z.string(),
+  slug: z.null().optional(),
+  name: z.string(),
+  summary: z.null().optional(),
+  cover: z.null().optional(),
+  coverUrl: z.null().optional(),
+  gameTypeName: z.null().optional(),
+  firstReleaseDate: z.iso.date().nullish(),
+  genres: z.array(featureSchema),
+  themes: z.array(featureSchema),
+  gameModes: z.array(featureSchema),
+  keywords: z.array(featureSchema),
+  playerPerspectives: z.array(featureSchema),
+  platforms: z.array(platformDtoSchema),
+  companies: z.array(involvedCompanyDtoSchema),
+})

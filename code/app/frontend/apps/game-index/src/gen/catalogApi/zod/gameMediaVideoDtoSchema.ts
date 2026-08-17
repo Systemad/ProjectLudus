@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const gameMediaVideoDtoSchema = z.object({
-    "name": z.string(),
-"videoId": z.string()
-    })
+  name: z.string(),
+  videoId: z.string(),
+})

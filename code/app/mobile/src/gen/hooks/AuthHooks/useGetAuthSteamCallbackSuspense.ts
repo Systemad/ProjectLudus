@@ -5,7 +5,7 @@
 
 import type { QueryKey, QueryClient, UseSuspenseQueryOptions, UseSuspenseQueryResult } from '@tanstack/react-query'
 import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
-import type { GetAuthSteamCallbackStatus200 } from '../../types/GetAuthSteamCallback'
+import type { GetAuthSteamCallbackResponse, GetAuthSteamCallbackStatus401 } from '../../types/GetAuthSteamCallback'
 import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { getAuthSteamCallback } from '../../clients/getAuthSteamCallback'
 
@@ -15,7 +15,7 @@ type GetAuthSteamCallbackSuspenseQueryKey = ReturnType<typeof getAuthSteamCallba
 
 export function getAuthSteamCallbackSuspenseQueryOptions(config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
   const queryKey = getAuthSteamCallbackSuspenseQueryKey()
-  return queryOptions<GetAuthSteamCallbackStatus200, ResponseErrorConfig<Error>, GetAuthSteamCallbackStatus200, typeof queryKey>({
+  return queryOptions<GetAuthSteamCallbackResponse, ResponseErrorConfig<GetAuthSteamCallbackStatus401>, GetAuthSteamCallbackResponse, typeof queryKey>({
    queryKey,
    queryFn: async ({ signal }) => {
       const { data } = await getAuthSteamCallback({ ...config, signal: config.signal ?? signal, throwOnError: true })
@@ -27,8 +27,8 @@ export function getAuthSteamCallbackSuspenseQueryOptions(config: Partial<Omit<Re
 /**
  * {@link /auth/steam/callback}
  */
-export function useGetAuthSteamCallbackSuspense<TData = GetAuthSteamCallbackStatus200, TQueryKey extends QueryKey = GetAuthSteamCallbackSuspenseQueryKey>(options: {
-  query?: Partial<UseSuspenseQueryOptions<GetAuthSteamCallbackStatus200, ResponseErrorConfig<Error>, TData, TQueryKey>> & { client?: QueryClient },
+export function useGetAuthSteamCallbackSuspense<TData = GetAuthSteamCallbackResponse, TQueryKey extends QueryKey = GetAuthSteamCallbackSuspenseQueryKey>(options: {
+  query?: Partial<UseSuspenseQueryOptions<GetAuthSteamCallbackResponse, ResponseErrorConfig<GetAuthSteamCallbackStatus401>, TData, TQueryKey>> & { client?: QueryClient },
   client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
 } = {}) {
   const { query: queryConfig = {}, client: config = {} } = options ?? {}
@@ -39,7 +39,7 @@ export function useGetAuthSteamCallbackSuspense<TData = GetAuthSteamCallbackStat
    ...getAuthSteamCallbackSuspenseQueryOptions(config),
    ...resolvedOptions,
    queryKey,
-  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  } as unknown as UseSuspenseQueryOptions, queryClient) as UseSuspenseQueryResult<TData, ResponseErrorConfig<GetAuthSteamCallbackStatus401>> & { queryKey: TQueryKey }
 
   queryResult.queryKey = queryKey as TQueryKey
 

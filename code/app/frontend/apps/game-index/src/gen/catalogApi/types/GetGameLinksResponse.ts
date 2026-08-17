@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { WebsiteDto } from "./WebsiteDto.ts";
+import type { WebsiteDto } from './WebsiteDto'
 
 export type GetGameLinksResponse = {
-    /**
-     * @type array
-    */
     websites: WebsiteDto[];
 };

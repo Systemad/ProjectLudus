@@ -3,18 +3,8 @@
 * Do not edit manually.
 */
 
-
 export type PlatformDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
-    /**
-     * @type string
-    */
     slug: string;
 };

@@ -3,20 +3,19 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { concurrentUsersChartResponseSchema } from "./concurrentUsersChartResponseSchema.ts";
+import * as z from 'zod'
+import { concurrentUsersChartResponseSchema } from './concurrentUsersChartResponseSchema'
 
-export const steamGetConcurrentUsersChartPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const steamGetConcurrentUsersChartPathGameIdSchema = z.string()
 
-export const steamGetConcurrentUsersChartQueryParamsSchema = z.object({
-    "range": z.optional(z.string())
-    }).optional()
+export const steamGetConcurrentUsersChartQueryRangeSchema = z.string().optional()
 
-/**
- * @description OK
- */
-export const steamGetConcurrentUsersChart200Schema = z.lazy(() => concurrentUsersChartResponseSchema)
+export const steamGetConcurrentUsersChartStatus200Schema = concurrentUsersChartResponseSchema
 
-export const steamGetConcurrentUsersChartQueryResponseSchema = z.lazy(() => steamGetConcurrentUsersChart200Schema)
+export const steamGetConcurrentUsersChartStatus400Schema = z.void()
+
+export const steamGetConcurrentUsersChartStatus404Schema = z.void()
+
+export const steamGetConcurrentUsersChartResponseSchema = steamGetConcurrentUsersChartStatus200Schema
+
+export const steamGetConcurrentUsersChartErrorSchema = z.union([steamGetConcurrentUsersChartStatus400Schema, steamGetConcurrentUsersChartStatus404Schema])

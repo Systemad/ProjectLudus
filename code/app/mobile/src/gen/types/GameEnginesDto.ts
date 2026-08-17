@@ -6,6 +6,6 @@
 export type GameEnginesDto = {
     id: string;
     name: string;
-    imageId: string | null;
-    url: string | null;
+    imageId: null;
+    url: null;
 };

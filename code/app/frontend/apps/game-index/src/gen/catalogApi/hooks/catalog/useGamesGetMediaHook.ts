@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetMediaQueryResponse, GamesGetMediaPathParams, GamesGetMedia404 } from "../../types/GamesTypes/GamesGetMedia.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetMediaOptions, GamesGetMediaStatus200, GamesGetMediaStatus400, GamesGetMediaStatus404 } from '../../types/GamesTypes/GamesGetMedia'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetMedia } from '../../clients/gamesGetMedia'
 
-export const gamesGetMediaQueryKey = ({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/media', params: {gameId:gameId} }] as const
+export const gamesGetMediaQueryKey = ({ path }: Omit<GamesGetMediaOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/media', params: path }] as const
 
-export type GamesGetMediaQueryKey = ReturnType<typeof gamesGetMediaQueryKey>
+type GamesGetMediaQueryKey = ReturnType<typeof gamesGetMediaQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/media}
- */
-export async function gamesGetMediaHook({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetMediaQueryResponse, ResponseErrorConfig<GamesGetMedia404>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/media`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetMediaQueryOptionsHook({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetMediaQueryKey({ gameId })
-        return queryOptions<GamesGetMediaQueryResponse, ResponseErrorConfig<GamesGetMedia404>, GamesGetMediaQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetMediaHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetMediaQueryOptionsHook({ path }: GamesGetMediaOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetMediaQueryKey({ path })
+  return queryOptions<GamesGetMediaStatus200, ResponseErrorConfig<GamesGetMediaStatus400 | GamesGetMediaStatus404>, GamesGetMediaStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetMedia({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/media}
  */
-export function useGamesGetMediaHook<TData = GamesGetMediaQueryResponse, TQueryData = GamesGetMediaQueryResponse, TQueryKey extends QueryKey = GamesGetMediaQueryKey>({ gameId }: { gameId: GamesGetMediaPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetMediaQueryResponse, ResponseErrorConfig<GamesGetMedia404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetMediaHook<TData = GamesGetMediaStatus200, TQueryData = GamesGetMediaStatus200, TQueryKey extends QueryKey = GamesGetMediaQueryKey>({ path }: { path: GamesGetMediaOptions['path'] | (() => GamesGetMediaOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetMediaStatus200, ResponseErrorConfig<GamesGetMediaStatus400 | GamesGetMediaStatus404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetMediaQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetMediaQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...gamesGetMediaQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetMediaStatus400 | GamesGetMediaStatus404>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetMediaQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetMedia404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

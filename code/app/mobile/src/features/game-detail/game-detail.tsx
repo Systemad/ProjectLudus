@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import type { Href } from "expo-router";
@@ -13,16 +12,10 @@ import { SteamChart } from "@/features/game-detail/steam-chart.android";
 import { SteamSummary } from "@/features/game-detail/steam-summary";
 import { GameListActions } from "@/features/lists/game-list-actions";
 import { useLastVisited } from "@/features/last-visited";
-import {
-  gamesGetHeroQueryOptions,
-  gamesGetOverviewQueryOptions,
-  gamesGetSimilarQueryOptions,
-  useGamesGetMedia,
-} from "@/gen/hooks/GamesHooks";
-import { useSteamGetPricing, useSteamGetReviews } from "@/gen/hooks/SteamHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { detailStyles } from "@/shared/ui/detail-shell";
+import { useGameDetailData } from "./use-game-detail-data";
 
 const getRelatedGameHref = (game: { id: string | number }) =>
   ({
@@ -34,83 +27,64 @@ export function GameDetail({ slug }: { slug: string }) {
   const colors = useAppTheme();
   const gameId = String(slug);
   const { remember } = useLastVisited();
-  const heroQuery = useQuery(gamesGetHeroQueryOptions({ path: { gameId } }));
-  const overviewQuery = useQuery(gamesGetOverviewQueryOptions({ path: { gameId } }));
-  const similarQuery = useQuery(gamesGetSimilarQueryOptions({ path: { gameId } }));
-  const mediaQuery = useGamesGetMedia({ path: { gameId } });
-  const reviewsQuery = useSteamGetReviews({ path: { gameId } }, { query: { retry: false } });
-  const pricingQuery = useSteamGetPricing({ path: { gameId } }, { query: { retry: false } });
-  const hero = heroQuery.data?.game;
-  const overview = overviewQuery.data?.game;
-  const screenshots = mediaQuery.data?.game.screenshots ?? [];
-  const isLoading = heroQuery.isLoading || overviewQuery.isLoading;
-  const isError = heroQuery.isError || overviewQuery.isError;
-  const status = getContentStateStatus(isLoading, isError, !hero || !overview);
+  const game = useGameDetailData(gameId);
+  const status = getContentStateStatus(
+    game.isCorePending,
+    game.hasCoreError,
+    !game.hero || !game.overview,
+  );
 
   useEffect(() => {
     remember(gameId);
   }, [gameId, remember]);
 
-  if (!hero || !overview || status !== "ready") {
+  if (!game.hero || !game.overview || status !== "ready") {
     return (
       <ContentState
         status={status}
         fullScreen
         loading={{ label: "Loading game…" }}
-        error={{ onRetry: () => void Promise.all([heroQuery.refetch(), overviewQuery.refetch()]) }}
+        error={{ onRetry: () => void game.retryCore() }}
         empty={{ title: "Game not found", message: "The API did not return this game." }}
       />
     );
   }
 
-  const companies = hero.companies;
-  const similar = similarQuery.data?.games ?? [];
+  const companies = game.hero.companies;
   const relatedStatus = getContentStateStatus(
-    similarQuery.isLoading,
-    similarQuery.isError,
-    similar.length === 0,
+    game.isSimilarPending,
+    game.hasSimilarError,
+    game.similar.length === 0,
   );
   const mediaStatus = getContentStateStatus(
-    mediaQuery.isLoading,
-    mediaQuery.isError,
-    screenshots.length === 0,
+    game.isMediaPending,
+    game.hasMediaError,
+    game.screenshots.length === 0,
   );
   const showRelated = relatedStatus !== "empty";
 
   return (
     <GameDetailShell
-      title={hero.name}
-      eyebrow={`${hero.firstReleaseDate?.slice(0, 4) ?? "TBA"} · ${hero.gameTypeName ?? "Game"}`}
-      summary={hero.summary ?? overview.storyline ?? "No summary is available yet."}
-      imageUrl={getIgdbImageUrl(hero.cover, "cover_big", true)}
+      title={game.hero.name}
+      eyebrow={`${game.hero.firstReleaseDate?.slice(0, 4) ?? "TBA"} · ${game.hero.gameTypeName ?? "Game"}`}
+      summary={game.hero.summary ?? game.overview.storyline ?? "No summary is available yet."}
+      imageUrl={getIgdbImageUrl(game.hero.cover, "cover_big", true)}
     >
       <GameListActions gameId={gameId} />
-      <SteamSummary
-        currentPlayers={overview.steam?.currentPlayers}
-        peak24h={overview.steam?.peak24h}
-        steamAppId={
-          overview.steam?.steamAppId ??
-          reviewsQuery.data?.steamAppId ??
-          pricingQuery.data?.steamAppId
-        }
-        reviewDescription={reviewsQuery.data?.reviewScoreDesc}
-        totalReviews={reviewsQuery.data?.totalReviews}
-        finalCents={pricingQuery.data?.finalCents}
-        currency={pricingQuery.data?.currency}
-      />
+      <SteamSummary steam={game.steam} reviews={game.reviews} pricing={game.pricing} />
       <GameFactGrid
         facts={[
           {
             label: "Platforms",
-            values: hero.platforms.map((item) => item.name),
+            values: game.hero.platforms.map((item) => item.name),
             wide: true,
           },
-          { label: "Genres", values: hero.genres.map((item) => item.name) },
-          { label: "Themes", values: hero.themes.map((item) => item.name) },
-          { label: "Game modes", values: hero.gameModes.map((item) => item.name) },
+          { label: "Genres", values: game.hero.genres.map((item) => item.name) },
+          { label: "Themes", values: game.hero.themes.map((item) => item.name) },
+          { label: "Game modes", values: game.hero.gameModes.map((item) => item.name) },
           {
             label: "Player perspective",
-            values: hero.playerPerspectives.map((item) => item.name),
+            values: game.hero.playerPerspectives.map((item) => item.name),
           },
         ]}
       />
@@ -122,14 +96,14 @@ export function GameDetail({ slug }: { slug: string }) {
           loading={{ label: "Loading screenshots…" }}
           error={{
             message: "Screenshots could not be loaded.",
-            onRetry: () => void mediaQuery.refetch(),
+            onRetry: () => void game.retryMedia(),
           }}
           empty={{
             title: "No screenshots available",
             message: "This game does not have screenshots yet.",
           }}
         >
-          <GameScreenshotGallery screenshotIds={screenshots} />
+          <GameScreenshotGallery screenshotIds={game.screenshots} />
         </ContentState>
       </View>
       {companies.length ? (
@@ -148,10 +122,10 @@ export function GameDetail({ slug }: { slug: string }) {
             loading={{ label: "Loading related games…" }}
             error={{
               message: "Related games could not be loaded.",
-              onRetry: () => void similarQuery.refetch(),
+              onRetry: () => void game.retrySimilar(),
             }}
           >
-            <GameCarousel games={similar} getHref={getRelatedGameHref} variant="cover" />
+            <GameCarousel games={game.similar} getHref={getRelatedGameHref} variant="cover" />
           </ContentState>
         </View>
       ) : null}

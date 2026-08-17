@@ -1,37 +1,31 @@
-using System.ComponentModel.DataAnnotations;
 using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Games.Page.GetReleaseData;
 
-public class GamePageReleaseDataDto
+public sealed record GamePageReleaseDataDto
 {
-    [Required]
-    public required string Id { get; set; }
+    public required string Id { get; init; }
 
-    [Required]
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
-    [Required]
-    public required string Slug { get; set; }
+    public required string Slug { get; init; }
 
-    [Required]
-    public required List<GameReleaseDto> Releases { get; set; }
+    public required IReadOnlyList<GameReleaseDto> Releases { get; init; }
 }
 
-public class GameReleaseDto
+public sealed record GameReleaseDto
 {
-    public string? PlatformName { get; set; }
-    public string? PlatformSlug { get; set; }
-    public long? ReleaseDate { get; set; }
-    public string? Region { get; set; }
-    public string? Human { get; set; }
-    public ReleaseDateStatusDto? Status { get; set; }
-    public PlatformDto? Platform { get; set; }
+    public string? PlatformName { get; init; }
+    public string? PlatformSlug { get; init; }
+    public long? ReleaseDate { get; init; }
+    public string? Region { get; init; }
+    public string? Human { get; init; }
+    public ReleaseDateStatusDto? Status { get; init; }
+    public PlatformDto? Platform { get; init; }
 
-    [Required]
-    public required List<InvolvedCompanyDto> InvolvedCompanies { get; set; }
+    public required IReadOnlyList<InvolvedCompanyDto> InvolvedCompanies { get; init; }
 }
 
-public record ReleaseDateStatusDto([Required] string Id, [Required] string Name);
+public sealed record ReleaseDateStatusDto(string Id, string Name);
 
 public sealed record GetGamePageReleaseDataResponse(GamePageReleaseDataDto Data);

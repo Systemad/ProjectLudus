@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GameMediaDto } from "./GameMediaDto.ts";
+import type { GameMediaDto } from './GameMediaDto'
 
 export type GetGameMediaResponse = {
-    /**
-     * @type object
-    */
     game: GameMediaDto;
 };

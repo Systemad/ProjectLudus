@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const franchiseDtoSchema = z.object({
-    "name": z.string(),
-"slug": z.string()
-    })
+  name: z.string(),
+  slug: z.string(),
+})

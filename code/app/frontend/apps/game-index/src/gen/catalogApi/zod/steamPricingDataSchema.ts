@@ -3,15 +3,15 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const steamPricingDataSchema = z.object({
-    "finalCents": z.nullable(z.number().int()),
-"discountPercent": z.nullable(z.number().int()),
-"currency": z.nullable(z.string()),
-"initialCents": z.nullable(z.number().int()),
-"initialFormatted": z.nullable(z.string()),
-"finalFormatted": z.nullable(z.string()),
-"high30d": z.nullable(z.number().int()),
-"low30d": z.nullable(z.number().int())
-    })
+  finalCents: z.int().nullish(),
+  discountPercent: z.int().nullish(),
+  currency: z.null().optional(),
+  initialCents: z.int().nullish(),
+  initialFormatted: z.null().optional(),
+  finalFormatted: z.null().optional(),
+  high30d: z.int().nullish(),
+  low30d: z.int().nullish(),
+})

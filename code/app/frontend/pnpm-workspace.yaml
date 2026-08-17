@@ -20,14 +20,12 @@ catalog:
   "@fontsource-variable/nunito-sans": ^5.2.7
   "@fontsource-variable/raleway": ^5.2.8
   '@heroicons/react': ^2.2.0
-  "@kubb/agent": ^4.37.12
-  "@kubb/cli": ^4.39.2
-  "@kubb/core": ^4.39.2
-  "@kubb/plugin-client": ^4.39.2
-  "@kubb/plugin-oas": ^4.39.2
-  "@kubb/plugin-react-query": ^4.39.2
-  "@kubb/plugin-ts": ^4.39.2
-  "@kubb/plugin-zod": ^4.39.2
+  "@kubb/adapter-oas": 5.0.0-beta.109
+  "@kubb/plugin-axios": 5.0.0-beta.109
+  "@kubb/plugin-react-query": 5.0.0-beta.109
+  "@kubb/plugin-ts": 5.0.0-beta.109
+  "@kubb/plugin-zod": 5.0.0-beta.109
+  kubb: 5.0.0-beta.109
   "@mantine/hooks": ^9.4.1
   '@stylexjs/babel-plugin': ^0.19.0
   '@stylexjs/stylex': 0.18.3

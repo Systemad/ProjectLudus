@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetLinksQueryResponse, GamesGetLinksPathParams } from "../../types/GamesTypes/GamesGetLinks.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetLinksOptions, GamesGetLinksStatus200, GamesGetLinksStatus400 } from '../../types/GamesTypes/GamesGetLinks'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetLinks } from '../../clients/gamesGetLinks'
 
-export const gamesGetLinksQueryKey = ({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/links', params: {gameId:gameId} }] as const
+export const gamesGetLinksQueryKey = ({ path }: Omit<GamesGetLinksOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/links', params: path }] as const
 
-export type GamesGetLinksQueryKey = ReturnType<typeof gamesGetLinksQueryKey>
+type GamesGetLinksQueryKey = ReturnType<typeof gamesGetLinksQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/links}
- */
-export async function gamesGetLinksHook({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/links`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetLinksQueryOptionsHook({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetLinksQueryKey({ gameId })
-        return queryOptions<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, GamesGetLinksQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetLinksHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetLinksQueryOptionsHook({ path }: GamesGetLinksOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetLinksQueryKey({ path })
+  return queryOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, GamesGetLinksStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetLinks({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/links}
  */
-export function useGamesGetLinksHook<TData = GamesGetLinksQueryResponse, TQueryData = GamesGetLinksQueryResponse, TQueryKey extends QueryKey = GamesGetLinksQueryKey>({ gameId }: { gameId: GamesGetLinksPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetLinksQueryResponse, ResponseErrorConfig<Error>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetLinksHook<TData = GamesGetLinksStatus200, TQueryData = GamesGetLinksStatus200, TQueryKey extends QueryKey = GamesGetLinksQueryKey>({ path }: { path: GamesGetLinksOptions['path'] | (() => GamesGetLinksOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetLinksStatus200, ResponseErrorConfig<GamesGetLinksStatus400>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetLinksQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetLinksQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...gamesGetLinksQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetLinksStatus400>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetLinksQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<Error>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

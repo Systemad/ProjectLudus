@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GetEventByIdResponse } from "../GetEventByIdResponse.ts";
+import type { GetEventByIdResponse } from '../GetEventByIdResponse'
 
-export type EventsGetByIdPathParams = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
+export type EventsGetByIdPath = {
+    id: string;
+};
+
+export type EventsGetByIdStatus200 = GetEventByIdResponse;
+
+export type EventsGetByIdStatus400 = void;
+
+export type EventsGetByIdStatus404 = void;
+
+export type EventsGetByIdOptions = {
+    body?: never;
+    path: EventsGetByIdPath;
+    query?: never;
+    headers?: never;
+};
+
+export type EventsGetByIdResponses = {
+    "200": EventsGetByIdStatus200;
+    "400": EventsGetByIdStatus400;
+    "404": EventsGetByIdStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type EventsGetById200 = GetEventByIdResponse;
-
-/**
- * @description Not Found
-*/
-export type EventsGetById404 = any;
-
-export type EventsGetByIdQueryResponse = EventsGetById200;
-
-export type EventsGetByIdQuery = {
-    Response: EventsGetById200;
-    PathParams: EventsGetByIdPathParams;
-    Errors: EventsGetById404;
-};
+export type EventsGetByIdResponse = (EventsGetByIdStatus200 | EventsGetByIdStatus400 | EventsGetByIdStatus404);

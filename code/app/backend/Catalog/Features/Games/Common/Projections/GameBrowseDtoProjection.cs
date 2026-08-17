@@ -15,32 +15,48 @@ public static class GameBrowseDtoProjection
                     ? DateOnly.FromDateTime(g.FirstReleaseDateUtc.Value)
                     : null,
             CoverUrl = g.CoverNavigation!.ImageId,
-            Steam = new SteamData(
-                g.SteamLatestPlayerCount!.SteamAppId.HasValue
-                    ? g.SteamLatestPlayerCount!.SteamAppId.Value.ToString()
-                    : null,
-                g.SteamLatestPlayerCount!.CurrentPlayers,
-                g.SteamLatestPlayerCount!.Peak24h,
-                g.SteamDetail!.HeaderUrl,
-                g.SteamDetail!.CapsuleUrl
-            ),
-            Pricing = new SteamPricingData(
-                g.SteamLatestPricing!.FinalCents,
-                g.SteamLatestPricing!.DiscountPercent,
-                g.SteamLatestPricing!.Currency,
-                g.SteamLatestPricing!.InitialCents,
-                g.SteamLatestPricing!.InitialFormatted,
-                g.SteamLatestPricing!.FinalFormatted,
-                g.SteamLatestPricing!.High30d,
-                g.SteamLatestPricing!.Low30d
-            ),
-            Review = new SteamReviewData(
-                g.SteamReview!.ReviewScore,
-                g.SteamReview!.ReviewScoreDesc,
-                g.SteamReview!.TotalReviews,
-                g.SteamReview!.TotalPositive,
-                g.SteamReview!.TotalNegative
-            ),
+            Steam =
+                g.SteamDetail == null || !g.SteamDetail.SteamAppId.HasValue
+                    ? null
+                    : new SteamData
+                    {
+                        SteamAppId = g.SteamDetail.SteamAppId.Value.ToString(),
+                        CurrentPlayers =
+                            g.SteamLatestPlayerCount != null
+                                ? g.SteamLatestPlayerCount.CurrentPlayers
+                                : null,
+                        Peak24h =
+                            g.SteamLatestPlayerCount != null
+                                ? g.SteamLatestPlayerCount.Peak24h
+                                : null,
+                        HeaderUrl = g.SteamDetail.HeaderUrl,
+                        CapsuleUrl = g.SteamDetail.CapsuleUrl,
+                        Pricing =
+                            g.SteamLatestPricing == null
+                                ? null
+                                : new SteamPricingData
+                                {
+                                    FinalCents = g.SteamLatestPricing.FinalCents,
+                                    DiscountPercent = g.SteamLatestPricing.DiscountPercent,
+                                    Currency = g.SteamLatestPricing.Currency,
+                                    InitialCents = g.SteamLatestPricing.InitialCents,
+                                    InitialFormatted = g.SteamLatestPricing.InitialFormatted,
+                                    FinalFormatted = g.SteamLatestPricing.FinalFormatted,
+                                    High30d = g.SteamLatestPricing.High30d,
+                                    Low30d = g.SteamLatestPricing.Low30d,
+                                },
+                        Review =
+                            g.SteamReview == null
+                                ? null
+                                : new SteamReviewData
+                                {
+                                    Score = g.SteamReview.ReviewScore,
+                                    Desc = g.SteamReview.ReviewScoreDesc,
+                                    TotalReviews = g.SteamReview.TotalReviews,
+                                    Positive = g.SteamReview.TotalPositive,
+                                    Negative = g.SteamReview.TotalNegative,
+                                },
+                    },
             GameFeatures = new GameFeatures(
                 g.Genres.Select(t => new Feature(t.Name!, t.Slug!)).ToList(),
                 g.Themes.Select(t => new Feature(t.Name!, t.Slug!)).ToList()

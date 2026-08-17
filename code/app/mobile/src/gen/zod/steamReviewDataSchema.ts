@@ -6,9 +6,9 @@
 import * as z from 'zod'
 
 export const steamReviewDataSchema = z.object({
-  score: z.int().nullable(),
-  desc: z.string().nullable(),
-  totalReviews: z.int().nullable(),
-  positive: z.int().nullable(),
-  negative: z.int().nullable(),
+  score: z.int().nullish(),
+  desc: z.null().optional(),
+  totalReviews: z.int().nullish(),
+  positive: z.int().nullish(),
+  negative: z.int().nullish(),
 })

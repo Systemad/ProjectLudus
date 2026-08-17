@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getGamePageReleaseDataResponseSchema } from "./getGamePageReleaseDataResponseSchema.ts";
+import * as z from 'zod'
+import { getGamePageReleaseDataResponseSchema } from './getGamePageReleaseDataResponseSchema'
 
-export const gamesGetReleaseDataPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const gamesGetReleaseDataPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const gamesGetReleaseData200Schema = z.lazy(() => getGamePageReleaseDataResponseSchema)
+export const gamesGetReleaseDataStatus200Schema = getGamePageReleaseDataResponseSchema
 
-/**
- * @description Not Found
- */
-export const gamesGetReleaseData404Schema = z.any()
+export const gamesGetReleaseDataStatus400Schema = z.void()
 
-export const gamesGetReleaseDataQueryResponseSchema = z.lazy(() => gamesGetReleaseData200Schema)
+export const gamesGetReleaseDataStatus404Schema = z.void()
+
+export const gamesGetReleaseDataResponseSchema = gamesGetReleaseDataStatus200Schema
+
+export const gamesGetReleaseDataErrorSchema = z.union([gamesGetReleaseDataStatus400Schema, gamesGetReleaseDataStatus404Schema])

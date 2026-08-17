@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameBrowseDtoSchema } from "./gameBrowseDtoSchema.ts";
+import * as z from 'zod'
+import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
 
 export const getSimilarGamesResponseSchema = z.object({
-    "games": z.array(z.lazy(() => gameBrowseDtoSchema))
-    })
+  games: z.array(gameBrowseDtoSchema),
+})

@@ -38,7 +38,9 @@ public static class UserLibraryEndpoints
             .ProducesValidationProblem();
     }
 
-    private static async Task<IResult> GetListAsync(
+    private static async Task<
+        Results<ValidationProblem, NotFound, StatusCodeHttpResult, Ok<UserLibraryListResponse>>
+    > GetListAsync(
         Guid listId,
         [AsParameters] UserLibraryCursorRequest request,
         ClaimsPrincipal principal,
@@ -68,7 +70,7 @@ public static class UserLibraryEndpoints
         );
 
         if (page is null)
-            return Results.NotFound();
+            return TypedResults.NotFound();
 
         var games = await catalogGames.GetGameCardsAsync(
             page.Games.Select(item => item.GameId).ToList(),
@@ -76,7 +78,7 @@ public static class UserLibraryEndpoints
         );
 
         if (games.Count != page.Games.Count)
-            return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+            return TypedResults.StatusCode(StatusCodes.Status503ServiceUnavailable);
 
         var nextCursor = page.NextCursor is null
             ? null
@@ -86,7 +88,7 @@ public static class UserLibraryEndpoints
                 page.NextCursor.GameId
             );
 
-        return Results.Ok(
+        return TypedResults.Ok(
             new UserLibraryListResponse(
                 new UserLibraryListSummary(
                     page.List.Id,
@@ -104,7 +106,9 @@ public static class UserLibraryEndpoints
         );
     }
 
-    private static async Task<IResult> GetHistoryAsync(
+    private static async Task<
+        Results<ValidationProblem, StatusCodeHttpResult, Ok<UserLibraryHistoryResponse>>
+    > GetHistoryAsync(
         [AsParameters] UserLibraryCursorRequest request,
         ClaimsPrincipal principal,
         PlayHistoryQueries historyQueries,
@@ -136,7 +140,7 @@ public static class UserLibraryEndpoints
         );
 
         if (games.Count != history.Items.Select(item => item.GameId).Distinct().Count())
-            return Results.StatusCode(StatusCodes.Status503ServiceUnavailable);
+            return TypedResults.StatusCode(StatusCodes.Status503ServiceUnavailable);
 
         var nextCursor = history.NextCursor is null
             ? null
@@ -146,7 +150,7 @@ public static class UserLibraryEndpoints
                 history.NextCursor.Id
             );
 
-        return Results.Ok(
+        return TypedResults.Ok(
             new UserLibraryHistoryResponse(
                 history
                     .Items.Select(item => new UserLibraryHistoryItemResponse(
@@ -162,7 +166,7 @@ public static class UserLibraryEndpoints
         );
     }
 
-    private static async Task<IResult> GetGameAsync(
+    private static async Task<Results<BadRequest, NotFound, Ok<UserLibraryGameResponse>>> GetGameAsync(
         string gameId,
         ClaimsPrincipal principal,
         CatalogGameQueries catalogGames,
@@ -171,7 +175,7 @@ public static class UserLibraryEndpoints
     )
     {
         if (!ApiId.TryParse(gameId, out var parsedGameId))
-            return Results.BadRequest();
+            return TypedResults.BadRequest();
 
         var cardsTask = catalogGames.GetGameCardsAsync([parsedGameId], ct);
         var membershipTask = membershipQueries.GetAsync(UserId(principal), [parsedGameId], ct);
@@ -182,11 +186,11 @@ public static class UserLibraryEndpoints
         var memberships = await membershipTask;
 
         return !cards.TryGetValue(parsedGameId, out var game)
-            ? Results.NotFound()
-            : Results.Ok(new UserLibraryGameResponse(game, memberships[parsedGameId]));
+            ? TypedResults.NotFound()
+            : TypedResults.Ok(new UserLibraryGameResponse(game, memberships[parsedGameId]));
     }
 
-    private static async Task<IResult> GetMembershipAsync(
+    private static async Task<Results<ValidationProblem, Ok<UserLibraryMembershipResponse>>> GetMembershipAsync(
         GameIdsRequest request,
         ClaimsPrincipal principal,
         PlayMembershipQueries membershipQueries,
@@ -195,7 +199,7 @@ public static class UserLibraryEndpoints
     {
         if (request.GameIds.Count is < 1 or > 50)
         {
-            return Results.ValidationProblem(
+            return TypedResults.ValidationProblem(
                 new Dictionary<string, string[]>
                 {
                     ["GameIds"] = ["Provide between 1 and 50 game IDs."],
@@ -205,7 +209,7 @@ public static class UserLibraryEndpoints
 
         if (request.GameIds.Any(gameId => !ApiId.TryParse(gameId, out _)))
         {
-            return Results.ValidationProblem(
+            return TypedResults.ValidationProblem(
                 new Dictionary<string, string[]>
                 {
                     ["GameIds"] = ["Game IDs must be non-negative integers."],
@@ -216,7 +220,7 @@ public static class UserLibraryEndpoints
         var gameIds = request.GameIds.Select(ApiId.Parse).ToList();
         var memberships = await membershipQueries.GetAsync(UserId(principal), gameIds, ct);
 
-        return Results.Ok(
+        return TypedResults.Ok(
             new UserLibraryMembershipResponse(
                 memberships
                     .Select(item => new UserLibraryMembershipItemResponse(
@@ -232,7 +236,11 @@ public static class UserLibraryEndpoints
     private static Guid UserId(ClaimsPrincipal principal) =>
         Guid.Parse(principal.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-    private static IResult? TryGetCursor(string? value, string scope, out UserLibraryCursor? cursor)
+    private static ValidationProblem? TryGetCursor(
+        string? value,
+        string scope,
+        out UserLibraryCursor? cursor
+    )
     {
         if (value is null)
         {
@@ -243,7 +251,7 @@ public static class UserLibraryEndpoints
         if (UserLibraryCursors.TryDecode(value, scope, out cursor))
             return null;
 
-        return Results.ValidationProblem(
+        return TypedResults.ValidationProblem(
             new Dictionary<string, string[]> { ["Cursor"] = ["Cursor is invalid."] }
         );
     }
@@ -257,7 +265,11 @@ public sealed class UserLibraryCursorRequest
     public int PageSize { get; init; } = 20;
 }
 
-public sealed record GameIdsRequest(IReadOnlyList<string> GameIds);
+public sealed record GameIdsRequest
+{
+    [Required, MinLength(1), MaxLength(50)]
+    public required IReadOnlyList<string> GameIds { get; init; }
+}
 
 public sealed record UserLibraryListSummary(
     Guid Id,

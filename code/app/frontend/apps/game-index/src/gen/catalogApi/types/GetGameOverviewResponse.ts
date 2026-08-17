@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GameOverviewDto } from "./GameOverviewDto.ts";
+import type { GameOverviewDto } from './GameOverviewDto'
 
 export type GetGameOverviewResponse = {
-    /**
-     * @type object
-    */
     game: GameOverviewDto;
 };

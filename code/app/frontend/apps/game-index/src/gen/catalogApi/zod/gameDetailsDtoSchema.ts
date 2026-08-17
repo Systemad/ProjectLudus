@@ -3,24 +3,24 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { alternativeNameDtoSchema } from "./alternativeNameDtoSchema.ts";
-import { franchiseDtoSchema } from "./franchiseDtoSchema.ts";
-import { gameEnginesDtoSchema } from "./gameEnginesDtoSchema.ts";
-import { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
-import { languageSupportsDtoSchema } from "./languageSupportsDtoSchema.ts";
-import { websiteDtoSchema } from "./websiteDtoSchema.ts";
+import * as z from 'zod'
+import { alternativeNameDtoSchema } from './alternativeNameDtoSchema'
+import { franchiseDtoSchema } from './franchiseDtoSchema'
+import { gameEnginesDtoSchema } from './gameEnginesDtoSchema'
+import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
+import { languageSupportsDtoSchema } from './languageSupportsDtoSchema'
+import { websiteDtoSchema } from './websiteDtoSchema'
 
 export const gameDetailsDtoSchema = z.object({
-    "id": z.number().int(),
-"url": z.string(),
-"involvedCompanies": z.array(z.lazy(() => involvedCompanyDtoSchema)),
-"themes": z.array(z.string()),
-"gameModes": z.array(z.string()),
-"playerPerspectives": z.array(z.string()),
-"websites": z.array(z.lazy(() => websiteDtoSchema)),
-"alternativeNames": z.array(z.lazy(() => alternativeNameDtoSchema)),
-"gameEngines": z.array(z.lazy(() => gameEnginesDtoSchema)),
-"languageSupports": z.array(z.lazy(() => languageSupportsDtoSchema)),
-"franchises": z.array(z.lazy(() => franchiseDtoSchema))
-    })
+  id: z.string(),
+  url: z.string(),
+  involvedCompanies: z.array(involvedCompanyDtoSchema),
+  themes: z.array(z.string()),
+  gameModes: z.array(z.string()),
+  playerPerspectives: z.array(z.string()),
+  websites: z.array(websiteDtoSchema),
+  alternativeNames: z.array(alternativeNameDtoSchema),
+  gameEngines: z.array(gameEnginesDtoSchema),
+  languageSupports: z.array(languageSupportsDtoSchema),
+  franchises: z.array(franchiseDtoSchema),
+})

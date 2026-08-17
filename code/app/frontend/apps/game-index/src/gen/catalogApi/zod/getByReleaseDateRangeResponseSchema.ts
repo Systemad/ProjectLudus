@@ -3,12 +3,12 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameBrowseDtoSchema } from "./gameBrowseDtoSchema.ts";
+import * as z from 'zod'
+import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
 
 export const getByReleaseDateRangeResponseSchema = z.object({
-    "start": z.string().date(),
-"end": z.string().date(),
-"limit": z.number().int(),
-"games": z.array(z.lazy(() => gameBrowseDtoSchema))
-    })
+  start: z.iso.date(),
+  end: z.iso.date(),
+  limit: z.int(),
+  games: z.array(gameBrowseDtoSchema),
+})

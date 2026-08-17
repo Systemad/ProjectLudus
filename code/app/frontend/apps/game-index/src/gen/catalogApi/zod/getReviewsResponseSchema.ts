@@ -3,15 +3,15 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const getReviewsResponseSchema = z.object({
-    "gameId": z.number().int(),
-"steamAppId": z.nullable(z.number().int()),
-"numReviews": z.nullable(z.number().int()),
-"reviewScore": z.nullable(z.number().int()),
-"reviewScoreDesc": z.nullable(z.string()),
-"totalPositive": z.nullable(z.number().int()),
-"totalNegative": z.nullable(z.number().int()),
-"totalReviews": z.nullable(z.number().int())
-    })
+  gameId: z.string(),
+  steamAppId: z.string(),
+  numReviews: z.int().nullable(),
+  reviewScore: z.int().nullable(),
+  reviewScoreDesc: z.null(),
+  totalPositive: z.int().nullable(),
+  totalNegative: z.int().nullable(),
+  totalReviews: z.int().nullable(),
+})

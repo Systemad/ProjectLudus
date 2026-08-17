@@ -5,7 +5,7 @@
 
 import type { ListSummaryResponse } from './ListSummaryResponse'
 
-export type GetApiMeListsStatus200 = ListSummaryResponse[];
+export type GetApiMeListsStatus200 = (ListSummaryResponse[] | ListSummaryResponse[]);
 
 export type GetApiMeListsOptions = {
     body?: never;

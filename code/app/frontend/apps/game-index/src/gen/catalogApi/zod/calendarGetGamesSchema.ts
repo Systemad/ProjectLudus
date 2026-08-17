@@ -3,27 +3,20 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { httpValidationProblemDetailsSchema } from "./httpValidationProblemDetailsSchema.ts";
-import { pagedGamesResponseSchema } from "./pagedGamesResponseSchema.ts";
+import * as z from 'zod'
+import { httpValidationProblemDetailsSchema } from './httpValidationProblemDetailsSchema'
+import { pagedGamesResponseSchema } from './pagedGamesResponseSchema'
 
-export const calendarGetGamesPathParamsSchema = z.object({
-    "year": z.coerce.number().int().min(1).max(9999)
-    })
+export const calendarGetGamesPathYearSchema = z.int()
 
-export const calendarGetGamesQueryParamsSchema = z.object({
-    "Page": z.optional(z.coerce.number().int().min(1).max(2147483647)),
-"PageSize": z.optional(z.coerce.number().int().min(1).max(50))
-    }).optional()
+export const calendarGetGamesQueryPageSchema = z.int().optional()
 
-/**
- * @description OK
- */
-export const calendarGetGames200Schema = z.lazy(() => pagedGamesResponseSchema)
+export const calendarGetGamesQueryPageSizeSchema = z.int().optional()
 
-/**
- * @description Bad Request
- */
-export const calendarGetGames400Schema = z.lazy(() => httpValidationProblemDetailsSchema)
+export const calendarGetGamesStatus200Schema = pagedGamesResponseSchema
 
-export const calendarGetGamesQueryResponseSchema = z.lazy(() => calendarGetGames200Schema)
+export const calendarGetGamesStatus400Schema = httpValidationProblemDetailsSchema
+
+export const calendarGetGamesResponseSchema = calendarGetGamesStatus200Schema
+
+export const calendarGetGamesErrorSchema = calendarGetGamesStatus400Schema

@@ -1,6 +1,6 @@
 import { Host } from "@expo/ui";
 import { Card, HorizontalPager, RNHostView } from "@expo/ui/jetpack-compose";
-import { clip, fillMaxWidth, Shapes } from "@expo/ui/jetpack-compose/modifiers";
+import { clip, fillMaxWidth } from "@expo/ui/jetpack-compose/modifiers";
 import { Galeria } from "@nandorojo/galeria";
 import { Image } from "expo-image";
 import { PAGE_GUTTER } from "@/config/layout";
@@ -37,7 +37,7 @@ export function GameScreenshotGallery({ screenshotIds }: GameScreenshotGalleryPr
             <Card elevation={0} key={screenshot.key} modifiers={[fillMaxWidth()]}>
               <RNHostView
                 matchContents
-                modifiers={[fillMaxWidth(), clip(Shapes.RoundedCorner(16))]}
+                modifiers={[fillMaxWidth(), clip({ type: "roundedCorner", radius: 16 })]}
               >
                 <Galeria.Image index={index} style={{ width: "100%", aspectRatio: 16 / 9 }}>
                   <Image

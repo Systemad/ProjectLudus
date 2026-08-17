@@ -14,9 +14,9 @@ export type PutApiMeListsIdPath = {
     id: string;
 };
 
-export type PutApiMeListsIdStatus204 = any;
+export type PutApiMeListsIdStatus204 = void;
 
-export type PutApiMeListsIdStatus404 = any;
+export type PutApiMeListsIdStatus404 = void;
 
 export type PutApiMeListsIdBody = UpdateListRequest;
 

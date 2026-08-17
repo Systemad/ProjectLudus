@@ -3,18 +3,23 @@
 * Do not edit manually.
 */
 
-
 export type ChartPointDto = {
     /**
-     * @type string, date-time
+     * @description
+     * Format: `date-time`
+     * @type string
     */
     timestamp: string;
     /**
-     * @type integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     peakPlayers: number;
     /**
-     * @type integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     avgPlayers: number;
 };

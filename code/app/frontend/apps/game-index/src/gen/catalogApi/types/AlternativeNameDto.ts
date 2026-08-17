@@ -3,18 +3,8 @@
 * Do not edit manually.
 */
 
-
 export type AlternativeNameDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
-    /**
-     * @type null,string
-    */
-    comment: string | null;
+    comment: null;
 };

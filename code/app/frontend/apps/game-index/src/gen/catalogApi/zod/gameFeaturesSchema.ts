@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { featureSchema } from "./featureSchema.ts";
+import * as z from 'zod'
+import { featureSchema } from './featureSchema'
 
 export const gameFeaturesSchema = z.object({
-    "genres": z.array(z.lazy(() => featureSchema)),
-"themes": z.array(z.lazy(() => featureSchema))
-    })
+  genres: z.array(featureSchema),
+  themes: z.array(featureSchema),
+})

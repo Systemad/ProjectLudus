@@ -11,9 +11,9 @@ export type SteamGetReviewsPath = {
 
 export type SteamGetReviewsStatus200 = GetReviewsResponse;
 
-export type SteamGetReviewsStatus400 = any;
+export type SteamGetReviewsStatus400 = void;
 
-export type SteamGetReviewsStatus404 = any;
+export type SteamGetReviewsStatus404 = void;
 
 export type SteamGetReviewsOptions = {
     body?: never;

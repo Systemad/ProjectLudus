@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { EventsGetByIdQueryResponse, EventsGetByIdPathParams, EventsGetById404 } from "../../types/EventsTypes/EventsGetById.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { EventsGetByIdOptions, EventsGetByIdStatus200, EventsGetByIdStatus400, EventsGetByIdStatus404 } from '../../types/EventsTypes/EventsGetById'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { eventsGetById } from '../../clients/eventsGetById'
 
-export const eventsGetByIdQueryKey = ({ id }: { id: EventsGetByIdPathParams["id"] | undefined }) => ["v1", { url: '/catalog/events/:id', params: {id:id} }] as const
+export const eventsGetByIdQueryKey = ({ path }: Omit<EventsGetByIdOptions, 'headers'>) => [{ url: '/catalog/events/:id', params: path }] as const
 
-export type EventsGetByIdQueryKey = ReturnType<typeof eventsGetByIdQueryKey>
+type EventsGetByIdQueryKey = ReturnType<typeof eventsGetByIdQueryKey>
 
-/**
- * {@link /catalog/events/:id}
- */
-export async function eventsGetByIdHook({ id }: { id: EventsGetByIdPathParams["id"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<EventsGetByIdQueryResponse, ResponseErrorConfig<EventsGetById404>, unknown>({ method : "GET", url : `/catalog/events/${id}`, ... requestConfig })
-  return res.data
-}
-
-export function eventsGetByIdQueryOptionsHook({ id }: { id: EventsGetByIdPathParams["id"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = eventsGetByIdQueryKey({ id })
-        return queryOptions<EventsGetByIdQueryResponse, ResponseErrorConfig<EventsGetById404>, EventsGetByIdQueryResponse, typeof queryKey>({
-         enabled: !!(id),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return eventsGetByIdHook({ id: id! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function eventsGetByIdQueryOptionsHook({ path }: EventsGetByIdOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = eventsGetByIdQueryKey({ path })
+  return queryOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>, EventsGetByIdStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await eventsGetById({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/events/:id}
  */
-export function useEventsGetByIdHook<TData = EventsGetByIdQueryResponse, TQueryData = EventsGetByIdQueryResponse, TQueryKey extends QueryKey = EventsGetByIdQueryKey>({ id }: { id: EventsGetByIdPathParams["id"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<EventsGetByIdQueryResponse, ResponseErrorConfig<EventsGetById404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useEventsGetByIdHook<TData = EventsGetByIdStatus200, TQueryData = EventsGetByIdStatus200, TQueryKey extends QueryKey = EventsGetByIdQueryKey>({ path }: { path: EventsGetByIdOptions['path'] | (() => EventsGetByIdOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<EventsGetByIdStatus200, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? eventsGetByIdQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? eventsGetByIdQueryKey({ id })
-         
+  const queryResult = useQuery({
+   ...eventsGetByIdQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<EventsGetByIdStatus400 | EventsGetByIdStatus404>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...eventsGetByIdQueryOptionsHook({ id }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<EventsGetById404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

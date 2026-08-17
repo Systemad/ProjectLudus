@@ -8,17 +8,17 @@ import type { PlatformDto } from './PlatformDto'
 import type { ReleaseDateStatusDto } from './ReleaseDateStatusDto'
 
 export type GameReleaseDto = {
-    platformName?: string | null;
-    platformSlug?: string | null;
+    platformName?: null;
+    platformSlug?: null;
     /**
      * @description
      * Format: `int64`
      * @type integer | undefined
     */
     releaseDate?: number | null;
-    region?: string | null;
-    human?: string | null;
-    status?: (any | ReleaseDateStatusDto);
-    platform?: (any | PlatformDto);
+    region?: null;
+    human?: null;
+    status?: (null | ReleaseDateStatusDto);
+    platform?: (null | PlatformDto);
     involvedCompanies: InvolvedCompanyDto[];
 };

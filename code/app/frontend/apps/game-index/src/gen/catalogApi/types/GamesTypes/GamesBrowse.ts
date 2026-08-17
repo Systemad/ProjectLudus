@@ -3,58 +3,56 @@
 * Do not edit manually.
 */
 
-import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
-import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
+import type { HttpValidationProblemDetails } from '../HttpValidationProblemDetails'
+import type { PagedGamesResponse } from '../PagedGamesResponse'
 
-export type GamesBrowseQueryParams = {
-    /**
-     * @type string | undefined
-    */
+export type GamesBrowseQuery = {
     Genre?: string;
-    /**
-     * @type string | undefined
-    */
     Theme?: string;
-    /**
-     * @type string | undefined
-    */
     GameMode?: string;
     /**
-     * @type string | undefined, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     From?: string;
     /**
-     * @type string | undefined, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     To?: string;
     /**
-     * @minLength 1
-     * @maxLength 2147483647
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     Page?: number;
     /**
-     * @minLength 1
-     * @maxLength 50
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     PageSize?: number;
 };
 
-/**
- * @description OK
-*/
-export type GamesBrowse200 = PagedGamesResponse;
+export type GamesBrowseStatus200 = PagedGamesResponse;
 
-/**
- * @description Bad Request
-*/
-export type GamesBrowse400 = HttpValidationProblemDetails;
+export type GamesBrowseStatus400 = HttpValidationProblemDetails;
 
-export type GamesBrowseQueryResponse = GamesBrowse200;
-
-export type GamesBrowseQuery = {
-    Response: GamesBrowse200;
-    QueryParams: GamesBrowseQueryParams;
-    Errors: GamesBrowse400;
+export type GamesBrowseOptions = {
+    body?: never;
+    path?: never;
+    query?: GamesBrowseQuery;
+    headers?: never;
 };
+
+export type GamesBrowseResponses = {
+    "200": GamesBrowseStatus200;
+    "400": GamesBrowseStatus400;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type GamesBrowseResponse = (GamesBrowseStatus200 | GamesBrowseStatus400);

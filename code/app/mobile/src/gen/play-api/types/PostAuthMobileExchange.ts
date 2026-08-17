@@ -8,7 +8,7 @@ import type { SessionResponse } from './SessionResponse'
 
 export type PostAuthMobileExchangeStatus200 = SessionResponse;
 
-export type PostAuthMobileExchangeStatus401 = any;
+export type PostAuthMobileExchangeStatus401 = void;
 
 export type PostAuthMobileExchangeBody = ExchangeRequest;
 

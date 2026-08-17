@@ -3,42 +3,48 @@
 * Do not edit manually.
 */
 
-import type { GetEventsListResponse } from "../GetEventsListResponse.ts";
-import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
+import type { GetEventsListResponse } from '../GetEventsListResponse'
+import type { HttpValidationProblemDetails } from '../HttpValidationProblemDetails'
 
-export type EventsGetListQueryParams = {
+export type EventsGetListQuery = {
     /**
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     year?: number;
     /**
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     month?: number;
-    /**
-     * @type string | undefined
-    */
     status?: string;
     /**
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     limit?: number;
 };
 
-/**
- * @description OK
-*/
-export type EventsGetList200 = GetEventsListResponse;
+export type EventsGetListStatus200 = GetEventsListResponse;
 
-/**
- * @description Bad Request
-*/
-export type EventsGetList400 = HttpValidationProblemDetails;
+export type EventsGetListStatus400 = HttpValidationProblemDetails;
 
-export type EventsGetListQueryResponse = EventsGetList200;
-
-export type EventsGetListQuery = {
-    Response: EventsGetList200;
-    QueryParams: EventsGetListQueryParams;
-    Errors: EventsGetList400;
+export type EventsGetListOptions = {
+    body?: never;
+    path?: never;
+    query?: EventsGetListQuery;
+    headers?: never;
 };
+
+export type EventsGetListResponses = {
+    "200": EventsGetListStatus200;
+    "400": EventsGetListStatus400;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type EventsGetListResponse = (EventsGetListStatus200 | EventsGetListStatus400);

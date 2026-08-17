@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameMediaVideoDtoSchema } from "./gameMediaVideoDtoSchema.ts";
+import * as z from 'zod'
+import { gameMediaVideoDtoSchema } from './gameMediaVideoDtoSchema'
 
 export const gameMediaDtoSchema = z.object({
-    "screenshots": z.array(z.string()),
-"videos": z.array(z.lazy(() => gameMediaVideoDtoSchema))
-    })
+  screenshots: z.array(z.string()),
+  videos: z.array(gameMediaVideoDtoSchema),
+})

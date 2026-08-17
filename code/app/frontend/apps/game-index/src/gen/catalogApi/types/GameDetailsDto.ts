@@ -3,56 +3,23 @@
 * Do not edit manually.
 */
 
-import type { AlternativeNameDto } from "./AlternativeNameDto.ts";
-import type { FranchiseDto } from "./FranchiseDto.ts";
-import type { GameEnginesDto } from "./GameEnginesDto.ts";
-import type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
-import type { LanguageSupportsDto } from "./LanguageSupportsDto.ts";
-import type { WebsiteDto } from "./WebsiteDto.ts";
+import type { AlternativeNameDto } from './AlternativeNameDto'
+import type { FranchiseDto } from './FranchiseDto'
+import type { GameEnginesDto } from './GameEnginesDto'
+import type { InvolvedCompanyDto } from './InvolvedCompanyDto'
+import type { LanguageSupportsDto } from './LanguageSupportsDto'
+import type { WebsiteDto } from './WebsiteDto'
 
 export type GameDetailsDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     url: string;
-    /**
-     * @type array
-    */
     involvedCompanies: InvolvedCompanyDto[];
-    /**
-     * @type array
-    */
     themes: string[];
-    /**
-     * @type array
-    */
     gameModes: string[];
-    /**
-     * @type array
-    */
     playerPerspectives: string[];
-    /**
-     * @type array
-    */
     websites: WebsiteDto[];
-    /**
-     * @type array
-    */
     alternativeNames: AlternativeNameDto[];
-    /**
-     * @type array
-    */
     gameEngines: GameEnginesDto[];
-    /**
-     * @type array
-    */
     languageSupports: LanguageSupportsDto[];
-    /**
-     * @type array
-    */
     franchises: FranchiseDto[];
 };

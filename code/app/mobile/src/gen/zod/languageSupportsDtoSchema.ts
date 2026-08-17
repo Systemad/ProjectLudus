@@ -7,6 +7,6 @@ import * as z from 'zod'
 
 export const languageSupportsDtoSchema = z.object({
   language: z.string(),
-  nativeName: z.string().nullable(),
-  type: z.string().nullable(),
+  nativeName: z.null(),
+  type: z.null(),
 })

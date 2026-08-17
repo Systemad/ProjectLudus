@@ -14,7 +14,7 @@ export type GetApiMeListsIdHistoryPath = {
     id: string;
 };
 
-export type GetApiMeListsIdHistoryStatus200 = ListHistoryEntryResponse[];
+export type GetApiMeListsIdHistoryStatus200 = (ListHistoryEntryResponse[] | ListHistoryEntryResponse[]);
 
 export type GetApiMeListsIdHistoryOptions = {
     body?: never;

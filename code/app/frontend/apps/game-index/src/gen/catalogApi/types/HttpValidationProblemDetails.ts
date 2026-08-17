@@ -3,31 +3,17 @@
 * Do not edit manually.
 */
 
-
 export type HttpValidationProblemDetails = {
+    type?: null;
+    title?: null;
     /**
-     * @type null,string
-    */
-    type?: string | null;
-    /**
-     * @type null,string
-    */
-    title?: string | null;
-    /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     status?: number | null;
-    /**
-     * @type null,string
-    */
-    detail?: string | null;
-    /**
-     * @type null,string
-    */
-    instance?: string | null;
-    /**
-     * @type object
-    */
+    detail?: null;
+    instance?: null;
     errors: {
         [key: string]: string[];
     };

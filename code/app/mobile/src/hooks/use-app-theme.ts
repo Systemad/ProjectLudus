@@ -1,17 +1,16 @@
-import { Color } from "expo-router";
-import { Platform, useColorScheme, type ColorValue } from "react-native";
+import { useColorScheme } from "react-native";
 
 export type AppTheme = {
-  background: ColorValue;
-  surface: ColorValue;
-  surfaceHigh: ColorValue;
-  primary: ColorValue;
-  onPrimary: ColorValue;
-  primaryContainer: ColorValue;
-  onPrimaryContainer: ColorValue;
-  text: ColorValue;
-  textMuted: ColorValue;
-  outline: ColorValue;
+  background: string;
+  surface: string;
+  surfaceHigh: string;
+  primary: string;
+  onPrimary: string;
+  primaryContainer: string;
+  onPrimaryContainer: string;
+  text: string;
+  textMuted: string;
+  outline: string;
 };
 
 const fallback = {
@@ -43,18 +42,5 @@ const fallback = {
 
 export function useAppTheme(): AppTheme {
   const scheme = useColorScheme() === "dark" ? "dark" : "light";
-  if (Platform.OS !== "android") return fallback[scheme];
-
-  return {
-    background: Color.android.dynamic.background,
-    surface: Color.android.dynamic.surface,
-    surfaceHigh: Color.android.dynamic.surfaceContainerHigh,
-    primary: Color.android.dynamic.primary,
-    onPrimary: Color.android.dynamic.onPrimary,
-    primaryContainer: Color.android.dynamic.primaryContainer,
-    onPrimaryContainer: Color.android.dynamic.onPrimaryContainer,
-    text: Color.android.dynamic.onSurface,
-    textMuted: Color.android.dynamic.onSurfaceVariant,
-    outline: Color.android.dynamic.outlineVariant,
-  };
+  return fallback[scheme];
 }

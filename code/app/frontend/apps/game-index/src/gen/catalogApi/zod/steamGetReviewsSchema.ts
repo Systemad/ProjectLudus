@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getReviewsResponseSchema } from "./getReviewsResponseSchema.ts";
+import * as z from 'zod'
+import { getReviewsResponseSchema } from './getReviewsResponseSchema'
 
-export const steamGetReviewsPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const steamGetReviewsPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const steamGetReviews200Schema = z.lazy(() => getReviewsResponseSchema)
+export const steamGetReviewsStatus200Schema = getReviewsResponseSchema
 
-/**
- * @description Not Found
- */
-export const steamGetReviews404Schema = z.any()
+export const steamGetReviewsStatus400Schema = z.void()
 
-export const steamGetReviewsQueryResponseSchema = z.lazy(() => steamGetReviews200Schema)
+export const steamGetReviewsStatus404Schema = z.void()
+
+export const steamGetReviewsResponseSchema = steamGetReviewsStatus200Schema
+
+export const steamGetReviewsErrorSchema = z.union([steamGetReviewsStatus400Schema, steamGetReviewsStatus404Schema])

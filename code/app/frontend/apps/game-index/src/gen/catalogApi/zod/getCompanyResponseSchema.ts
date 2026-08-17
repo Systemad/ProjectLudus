@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { companyOverviewDtoSchema } from "./companyOverviewDtoSchema.ts";
+import * as z from 'zod'
+import { companyOverviewDtoSchema } from './companyOverviewDtoSchema'
 
 export const getCompanyResponseSchema = z.object({
-    "company": z.lazy(() => companyOverviewDtoSchema)
-    })
+  company: companyOverviewDtoSchema,
+})

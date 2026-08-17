@@ -62,8 +62,8 @@ export function HomeTable({ title, icon, games, columns }: Props) {
                                                 </Heading>
                                                 {players && <Text type="supporting">👥 {players} current players</Text>}
                                                 <Text type="supporting">📅 {releaseDate}</Text>
-                                                {game.pricing?.finalFormatted && (
-                                                    <Text type="supporting">💰 {game.pricing.finalFormatted}</Text>
+                                                {game.steam?.pricing?.finalFormatted && (
+                                                    <Text type="supporting">💰 {game.steam.pricing.finalFormatted}</Text>
                                                 )}
                                             </VStack>
                                         </Section>

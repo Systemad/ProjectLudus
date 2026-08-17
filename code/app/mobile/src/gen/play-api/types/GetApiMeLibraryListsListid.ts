@@ -29,9 +29,9 @@ export type GetApiMeLibraryListsListidStatus200 = UserLibraryListResponse;
 
 export type GetApiMeLibraryListsListidStatus400 = HttpValidationProblemDetails;
 
-export type GetApiMeLibraryListsListidStatus404 = any;
+export type GetApiMeLibraryListsListidStatus404 = void;
 
-export type GetApiMeLibraryListsListidStatus503 = any;
+export type GetApiMeLibraryListsListidStatus503 = void;
 
 export type GetApiMeLibraryListsListidOptions = {
     body?: never;

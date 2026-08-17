@@ -10,9 +10,9 @@ export const companiesGetPathCompanyIdSchema = z.string()
 
 export const companiesGetStatus200Schema = getCompanyResponseSchema
 
-export const companiesGetStatus400Schema = z.any()
+export const companiesGetStatus400Schema = z.void()
 
-export const companiesGetStatus404Schema = z.any()
+export const companiesGetStatus404Schema = z.void()
 
 export const companiesGetResponseSchema = companiesGetStatus200Schema
 

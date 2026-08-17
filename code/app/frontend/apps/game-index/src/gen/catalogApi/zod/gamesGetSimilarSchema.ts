@@ -3,16 +3,15 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getSimilarGamesResponseSchema } from "./getSimilarGamesResponseSchema.ts";
+import * as z from 'zod'
+import { getSimilarGamesResponseSchema } from './getSimilarGamesResponseSchema'
 
-export const gamesGetSimilarPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const gamesGetSimilarPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const gamesGetSimilar200Schema = z.lazy(() => getSimilarGamesResponseSchema)
+export const gamesGetSimilarStatus200Schema = getSimilarGamesResponseSchema
 
-export const gamesGetSimilarQueryResponseSchema = z.lazy(() => gamesGetSimilar200Schema)
+export const gamesGetSimilarStatus400Schema = z.void()
+
+export const gamesGetSimilarResponseSchema = gamesGetSimilarStatus200Schema
+
+export const gamesGetSimilarErrorSchema = gamesGetSimilarStatus400Schema

@@ -3,64 +3,46 @@
 * Do not edit manually.
 */
 
-import fetch from "@kubb/plugin-client/clients/axios";
-import type { Client, RequestConfig, ResponseErrorConfig } from "@kubb/plugin-client/clients/axios";
-import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from "@tanstack/react-query";
-import type { GamesGetReleaseDataQueryResponse, GamesGetReleaseDataPathParams, GamesGetReleaseData404 } from "../../types/GamesTypes/GamesGetReleaseData.ts";
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import type { QueryKey, QueryClient, QueryObserverOptions, UseQueryResult } from '@tanstack/react-query'
+import type { RequestConfig, ResponseErrorConfig } from '../../.kubb/client'
+import type { GamesGetReleaseDataOptions, GamesGetReleaseDataStatus200, GamesGetReleaseDataStatus400, GamesGetReleaseDataStatus404 } from '../../types/GamesTypes/GamesGetReleaseData'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { gamesGetReleaseData } from '../../clients/gamesGetReleaseData'
 
-export const gamesGetReleaseDataQueryKey = ({ gameId }: { gameId: GamesGetReleaseDataPathParams["gameId"] | undefined }) => ["v1", { url: '/catalog/games/:gameId/page-release-data', params: {gameId:gameId} }] as const
+export const gamesGetReleaseDataQueryKey = ({ path }: Omit<GamesGetReleaseDataOptions, 'headers'>) => [{ url: '/catalog/games/:gameId/page-release-data', params: path }] as const
 
-export type GamesGetReleaseDataQueryKey = ReturnType<typeof gamesGetReleaseDataQueryKey>
+type GamesGetReleaseDataQueryKey = ReturnType<typeof gamesGetReleaseDataQueryKey>
 
-/**
- * {@link /catalog/games/:gameId/page-release-data}
- */
-export async function gamesGetReleaseDataHook({ gameId }: { gameId: GamesGetReleaseDataPathParams["gameId"] }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-  const { client: request = fetch, ...requestConfig } = config
-
-
-
-  const res = await request<GamesGetReleaseDataQueryResponse, ResponseErrorConfig<GamesGetReleaseData404>, unknown>({ method : "GET", url : `/catalog/games/${gameId}/page-release-data`, ... requestConfig })
-  return res.data
-}
-
-export function gamesGetReleaseDataQueryOptionsHook({ gameId }: { gameId: GamesGetReleaseDataPathParams["gameId"] | undefined }, config: Partial<RequestConfig> & { client?: Client } = {}) {
-
-        const queryKey = gamesGetReleaseDataQueryKey({ gameId })
-        return queryOptions<GamesGetReleaseDataQueryResponse, ResponseErrorConfig<GamesGetReleaseData404>, GamesGetReleaseDataQueryResponse, typeof queryKey>({
-         enabled: !!(gameId),
-         queryKey,
-         queryFn: async ({ signal }) => {
-            return gamesGetReleaseDataHook({ gameId: gameId! }, { ...config, signal: config.signal ?? signal })
-         },
-        })
-
+export function gamesGetReleaseDataQueryOptionsHook({ path }: GamesGetReleaseDataOptions, config: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>> = {}) {
+  const queryKey = gamesGetReleaseDataQueryKey({ path })
+  return queryOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>, GamesGetReleaseDataStatus200, typeof queryKey>({
+   queryKey,
+   queryFn: async ({ signal }) => {
+      const { data } = await gamesGetReleaseData({ ...config, path, signal: config.signal ?? signal, throwOnError: true })
+      return data
+   },
+  })
 }
 
 /**
  * {@link /catalog/games/:gameId/page-release-data}
  */
-export function useGamesGetReleaseDataHook<TData = GamesGetReleaseDataQueryResponse, TQueryData = GamesGetReleaseDataQueryResponse, TQueryKey extends QueryKey = GamesGetReleaseDataQueryKey>({ gameId }: { gameId: GamesGetReleaseDataPathParams["gameId"] | undefined }, options: 
-{
-  query?: Partial<QueryObserverOptions<GamesGetReleaseDataQueryResponse, ResponseErrorConfig<GamesGetReleaseData404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
-  client?: Partial<RequestConfig> & { client?: Client }
-}
- = {}) {
+export function useGamesGetReleaseDataHook<TData = GamesGetReleaseDataStatus200, TQueryData = GamesGetReleaseDataStatus200, TQueryKey extends QueryKey = GamesGetReleaseDataQueryKey>({ path }: { path: GamesGetReleaseDataOptions['path'] | (() => GamesGetReleaseDataOptions['path']) }, options: {
+  query?: Partial<QueryObserverOptions<GamesGetReleaseDataStatus200, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>, TData, TQueryData, TQueryKey>> & { client?: QueryClient },
+  client?: Partial<Omit<RequestConfig, 'path' | 'query' | 'body' | 'headers' | 'url'>>
+} = {}) {
+  const { query: queryConfig = {}, client: config = {} } = options ?? {}
+  const { client: queryClient, ...resolvedOptions } = queryConfig
+  const resolvedParams = { path: typeof path === 'function' ? path() : path }
+  const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDataQueryKey(resolvedParams)
 
-         const { query: queryConfig = {}, client: config = {} } = options ?? {}
-         const { client: queryClient, ...resolvedOptions } = queryConfig
-         const queryKey = resolvedOptions?.queryKey ?? gamesGetReleaseDataQueryKey({ gameId })
-         
+  const queryResult = useQuery({
+   ...gamesGetReleaseDataQueryOptionsHook(resolvedParams, config),
+   ...resolvedOptions,
+   queryKey,
+  } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseDataStatus400 | GamesGetReleaseDataStatus404>> & { queryKey: TQueryKey }
 
-         const query = useQuery({
-          ...gamesGetReleaseDataQueryOptionsHook({ gameId }, config),
-          ...resolvedOptions,
-          queryKey,
-         } as unknown as QueryObserverOptions, queryClient) as UseQueryResult<TData, ResponseErrorConfig<GamesGetReleaseData404>> & { queryKey: TQueryKey }
+  queryResult.queryKey = queryKey as TQueryKey
 
-         query.queryKey = queryKey as TQueryKey
-
-         return query
-         
+  return queryResult
 }

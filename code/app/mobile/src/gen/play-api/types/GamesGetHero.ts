@@ -11,9 +11,9 @@ export type GamesGetHeroPath = {
 
 export type GamesGetHeroStatus200 = GetGameHeroResponse;
 
-export type GamesGetHeroStatus400 = any;
+export type GamesGetHeroStatus400 = void;
 
-export type GamesGetHeroStatus404 = any;
+export type GamesGetHeroStatus404 = void;
 
 export type GamesGetHeroOptions = {
     body?: never;

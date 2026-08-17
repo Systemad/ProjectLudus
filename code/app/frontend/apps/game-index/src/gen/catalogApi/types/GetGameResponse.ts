@@ -3,14 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GameDetailsDto } from "./GameDetailsDto.ts";
+import type { GameDetailsDto } from './GameDetailsDto'
 
-/**
- * @description Response containing detailed game information.
-*/
 export type GetGameResponse = {
-    /**
-     * @type object
-    */
     game: GameDetailsDto;
 };

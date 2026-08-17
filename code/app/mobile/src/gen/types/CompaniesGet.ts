@@ -11,9 +11,9 @@ export type CompaniesGetPath = {
 
 export type CompaniesGetStatus200 = GetCompanyResponse;
 
-export type CompaniesGetStatus400 = any;
+export type CompaniesGetStatus400 = void;
 
-export type CompaniesGetStatus404 = any;
+export type CompaniesGetStatus404 = void;
 
 export type CompaniesGetOptions = {
     body?: never;

@@ -3,14 +3,7 @@
 * Do not edit manually.
 */
 
-
 export type GameMediaVideoDto = {
-    /**
-     * @type string
-    */
     name: string;
-    /**
-     * @type string
-    */
     videoId: string;
 };

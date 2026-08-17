@@ -3,18 +3,18 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { involvedCompanyDtoSchema } from "./involvedCompanyDtoSchema.ts";
-import { platformDtoSchema } from "./platformDtoSchema.ts";
-import { releaseDateStatusDtoSchema } from "./releaseDateStatusDtoSchema.ts";
+import * as z from 'zod'
+import { involvedCompanyDtoSchema } from './involvedCompanyDtoSchema'
+import { platformDtoSchema } from './platformDtoSchema'
+import { releaseDateStatusDtoSchema } from './releaseDateStatusDtoSchema'
 
 export const gameReleaseDtoSchema = z.object({
-    "platformName": z.string().nullish(),
-"platformSlug": z.string().nullish(),
-"releaseDate": z.number().int().nullish(),
-"region": z.string().nullish(),
-"human": z.string().nullish(),
-"status": z.optional(z.union([z.lazy(() => releaseDateStatusDtoSchema), z.null()])),
-"platform": z.optional(z.union([z.lazy(() => platformDtoSchema), z.null()])),
-"involvedCompanies": z.array(z.lazy(() => involvedCompanyDtoSchema))
-    })
+  platformName: z.null().optional(),
+  platformSlug: z.null().optional(),
+  releaseDate: z.int().nullish(),
+  region: z.null().optional(),
+  human: z.null().optional(),
+  status: z.union([z.null(), releaseDateStatusDtoSchema.strict()]).optional(),
+  platform: z.union([z.null(), platformDtoSchema.strict()]).optional(),
+  involvedCompanies: z.array(involvedCompanyDtoSchema),
+})

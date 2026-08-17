@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GameHeroDto } from "./GameHeroDto.ts";
+import type { GameHeroDto } from './GameHeroDto'
 
 export type GetGameHeroResponse = {
-    /**
-     * @type object
-    */
     game: GameHeroDto;
 };

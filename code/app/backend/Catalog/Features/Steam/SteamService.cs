@@ -12,35 +12,62 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
 {
     public async Task<GetPricingResponse?> GetPricingAsync(long gameId, CancellationToken ct)
     {
-        return await db
-            .SteamLatestPricings.Where(s => s.GameId == gameId)
-            .Select(s => new GetPricingResponse(
-                s.GameId.ToString(),
-                s.SteamAppId.HasValue ? s.SteamAppId.Value.ToString() : null,
+        var pricing = await db
+            .SteamLatestPricings.Where(s => s.GameId == gameId && s.SteamAppId.HasValue)
+            .Select(s => new
+            {
+                s.GameId,
+                s.SteamAppId,
                 s.FinalCents,
                 s.DiscountPercent,
                 s.Currency,
                 s.High30d,
-                s.Low30d
-            ))
+                s.Low30d,
+            })
             .FirstOrDefaultAsync(ct);
+
+        return pricing is null || pricing.SteamAppId is null
+            ? null
+            : new GetPricingResponse(
+                pricing.GameId.ToString(),
+                pricing.SteamAppId.Value.ToString(),
+                pricing.FinalCents,
+                pricing.DiscountPercent,
+                pricing.Currency,
+                pricing.High30d,
+                pricing.Low30d
+            );
     }
 
     public async Task<GetReviewsResponse?> GetReviewsAsync(long gameId, CancellationToken ct)
     {
-        return await db
-            .SteamReviews.Where(r => r.GameId == gameId)
-            .Select(r => new GetReviewsResponse(
-                r.GameId.ToString(),
-                r.SteamAppId.HasValue ? r.SteamAppId.Value.ToString() : null,
+        var reviews = await db
+            .SteamReviews.Where(r => r.GameId == gameId && r.SteamAppId.HasValue)
+            .Select(r => new
+            {
+                r.GameId,
+                r.SteamAppId,
                 r.NumReviews,
                 r.ReviewScore,
                 r.ReviewScoreDesc,
                 r.TotalPositive,
                 r.TotalNegative,
-                r.TotalReviews
-            ))
+                r.TotalReviews,
+            })
             .FirstOrDefaultAsync(ct);
+
+        return reviews is null || reviews.SteamAppId is null
+            ? null
+            : new GetReviewsResponse(
+                reviews.GameId.ToString(),
+                reviews.SteamAppId.Value.ToString(),
+                reviews.NumReviews,
+                reviews.ReviewScore,
+                reviews.ReviewScoreDesc,
+                reviews.TotalPositive,
+                reviews.TotalNegative,
+                reviews.TotalReviews
+            );
     }
 
     public async Task<PagedGamesResponse> GetChartAsync(Request request, CancellationToken ct)

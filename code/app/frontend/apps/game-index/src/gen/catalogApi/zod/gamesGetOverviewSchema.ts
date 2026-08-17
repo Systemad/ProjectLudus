@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getGameOverviewResponseSchema } from "./getGameOverviewResponseSchema.ts";
+import * as z from 'zod'
+import { getGameOverviewResponseSchema } from './getGameOverviewResponseSchema'
 
-export const gamesGetOverviewPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const gamesGetOverviewPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const gamesGetOverview200Schema = z.lazy(() => getGameOverviewResponseSchema)
+export const gamesGetOverviewStatus200Schema = getGameOverviewResponseSchema
 
-/**
- * @description Not Found
- */
-export const gamesGetOverview404Schema = z.any()
+export const gamesGetOverviewStatus400Schema = z.void()
 
-export const gamesGetOverviewQueryResponseSchema = z.lazy(() => gamesGetOverview200Schema)
+export const gamesGetOverviewStatus404Schema = z.void()
+
+export const gamesGetOverviewResponseSchema = gamesGetOverviewStatus200Schema
+
+export const gamesGetOverviewErrorSchema = z.union([gamesGetOverviewStatus400Schema, gamesGetOverviewStatus404Schema])

@@ -11,9 +11,9 @@ export type GamesGetReleaseDataPath = {
 
 export type GamesGetReleaseDataStatus200 = GetGamePageReleaseDataResponse;
 
-export type GamesGetReleaseDataStatus400 = any;
+export type GamesGetReleaseDataStatus400 = void;
 
-export type GamesGetReleaseDataStatus404 = any;
+export type GamesGetReleaseDataStatus404 = void;
 
 export type GamesGetReleaseDataOptions = {
     body?: never;

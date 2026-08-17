@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-export type PostAuthLogoutStatus204 = any;
+export type PostAuthLogoutStatus204 = void;
 
 export type PostAuthLogoutOptions = {
     body?: never;

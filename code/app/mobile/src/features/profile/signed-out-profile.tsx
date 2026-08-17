@@ -1,12 +1,11 @@
 import { Image } from "expo-image";
-import { router, type Href } from "expo-router";
+import { router } from "expo-router";
 import { Settings } from "lucide-react-native";
 import type { ReactNode } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
-
-const settingsHref = "/(discover)/settings" as Href;
+import { settingsHref } from "@/navigation/routes";
 
 export function SignedOutProfile({
   children,

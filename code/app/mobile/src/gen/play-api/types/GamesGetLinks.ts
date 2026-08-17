@@ -11,7 +11,7 @@ export type GamesGetLinksPath = {
 
 export type GamesGetLinksStatus200 = GetGameLinksResponse;
 
-export type GamesGetLinksStatus400 = any;
+export type GamesGetLinksStatus400 = void;
 
 export type GamesGetLinksOptions = {
     body?: never;

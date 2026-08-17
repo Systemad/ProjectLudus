@@ -15,7 +15,9 @@ export type SteamGetConcurrentUsersChartQuery = {
 
 export type SteamGetConcurrentUsersChartStatus200 = ConcurrentUsersChartResponse;
 
-export type SteamGetConcurrentUsersChartStatus400 = any;
+export type SteamGetConcurrentUsersChartStatus400 = void;
+
+export type SteamGetConcurrentUsersChartStatus404 = void;
 
 export type SteamGetConcurrentUsersChartOptions = {
     body?: never;
@@ -27,9 +29,10 @@ export type SteamGetConcurrentUsersChartOptions = {
 export type SteamGetConcurrentUsersChartResponses = {
     "200": SteamGetConcurrentUsersChartStatus200;
     "400": SteamGetConcurrentUsersChartStatus400;
+    "404": SteamGetConcurrentUsersChartStatus404;
 };
 
 /**
  * @description Union of all possible responses
 */
-export type SteamGetConcurrentUsersChartResponse = (SteamGetConcurrentUsersChartStatus200 | SteamGetConcurrentUsersChartStatus400);
+export type SteamGetConcurrentUsersChartResponse = (SteamGetConcurrentUsersChartStatus200 | SteamGetConcurrentUsersChartStatus400 | SteamGetConcurrentUsersChartStatus404);

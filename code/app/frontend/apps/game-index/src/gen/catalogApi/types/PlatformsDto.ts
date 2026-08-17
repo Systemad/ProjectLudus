@@ -3,14 +3,7 @@
 * Do not edit manually.
 */
 
-
 export type PlatformsDto = {
-    /**
-     * @type string
-    */
     name: string;
-    /**
-     * @type null,string
-    */
-    slug: string | null;
+    slug: null;
 };

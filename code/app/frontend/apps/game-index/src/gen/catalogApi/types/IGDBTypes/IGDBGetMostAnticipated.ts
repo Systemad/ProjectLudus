@@ -3,32 +3,37 @@
 * Do not edit manually.
 */
 
-import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
+import type { PagedGamesResponse } from '../PagedGamesResponse'
 
-export type IgdbGetMostAnticipatedQueryParams = {
+export type IgdbGetMostAnticipatedQuery = {
     /**
-     * @minLength 1
-     * @maxLength 2147483647
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     Page?: number;
     /**
-     * @minLength 1
-     * @maxLength 50
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     PageSize?: number;
 };
 
-/**
- * @description OK
-*/
-export type IgdbGetMostAnticipated200 = PagedGamesResponse;
+export type IgdbGetMostAnticipatedStatus200 = PagedGamesResponse;
 
-export type IgdbGetMostAnticipatedQueryResponse = IgdbGetMostAnticipated200;
-
-export type IgdbGetMostAnticipatedQuery = {
-    Response: IgdbGetMostAnticipated200;
-    QueryParams: IgdbGetMostAnticipatedQueryParams;
-    Errors: any;
+export type IgdbGetMostAnticipatedOptions = {
+    body?: never;
+    path?: never;
+    query?: IgdbGetMostAnticipatedQuery;
+    headers?: never;
 };
+
+export type IgdbGetMostAnticipatedResponses = {
+    "200": IgdbGetMostAnticipatedStatus200;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type IgdbGetMostAnticipatedResponse = IgdbGetMostAnticipatedStatus200;

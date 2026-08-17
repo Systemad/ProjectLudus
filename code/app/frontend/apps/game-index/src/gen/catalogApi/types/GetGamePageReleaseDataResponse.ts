@@ -3,11 +3,8 @@
 * Do not edit manually.
 */
 
-import type { GamePageReleaseDataDto } from "./GamePageReleaseDataDto.ts";
+import type { GamePageReleaseDataDto } from './GamePageReleaseDataDto'
 
 export type GetGamePageReleaseDataResponse = {
-    /**
-     * @type object
-    */
     data: GamePageReleaseDataDto;
 };

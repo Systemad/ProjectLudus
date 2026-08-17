@@ -14,6 +14,7 @@ public interface IGameService
     Task<GameOverviewDto?> GetOverviewAsync(long gameId, CancellationToken ct);
     Task<GameDetailsDto?> GetDetailsAsync(long gameId, CancellationToken ct);
     Task<GameHeroDto?> GetHeroAsync(long gameId, CancellationToken ct);
+    Task<List<GameHeroDto>> GetHeroesAsync(IReadOnlyCollection<long> gameIds, CancellationToken ct);
     Task<GameMediaDto?> GetMediaAsync(long gameId, CancellationToken ct);
     Task<GamePageReleaseDataDto?> GetReleaseDataAsync(long gameId, CancellationToken ct);
     Task<List<WebsiteDto>> GetLinksAsync(long gameId, CancellationToken ct);

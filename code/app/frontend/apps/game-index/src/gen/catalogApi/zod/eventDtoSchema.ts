@@ -3,20 +3,20 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameBrowseDtoSchema } from "./gameBrowseDtoSchema.ts";
-import { gameMediaVideoDtoSchema } from "./gameMediaVideoDtoSchema.ts";
+import * as z from 'zod'
+import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
+import { gameMediaVideoDtoSchema } from './gameMediaVideoDtoSchema'
 
 export const eventDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"slug": z.string().nullish(),
-"description": z.string().nullish(),
-"liveStreamUrl": z.string().nullish(),
-"startTimeUtc": z.string().datetime().nullish(),
-"endTimeUtc": z.string().datetime().nullish(),
-"timeZone": z.string().nullish(),
-"logoImageId": z.string().nullish(),
-"games": z.array(z.lazy(() => gameBrowseDtoSchema)),
-"videos": z.array(z.lazy(() => gameMediaVideoDtoSchema))
-    })
+  id: z.string(),
+  name: z.string(),
+  slug: z.null().optional(),
+  description: z.null().optional(),
+  liveStreamUrl: z.null().optional(),
+  startTimeUtc: z.iso.datetime().nullish(),
+  endTimeUtc: z.iso.datetime().nullish(),
+  timeZone: z.null().optional(),
+  logoImageId: z.null().optional(),
+  games: z.array(gameBrowseDtoSchema),
+  videos: z.array(gameMediaVideoDtoSchema),
+})

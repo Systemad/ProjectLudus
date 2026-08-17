@@ -30,17 +30,22 @@ internal sealed class GameService(AppDbContext db) : IGameService
                 GameType = g.GameType.HasValue ? g.GameType.Value.ToString() : null,
                 GameTypeName = g.GameTypeNavigation!.Type,
                 Steam =
-                    g.SteamLatestPlayerCount == null
-                        ? new SteamData(null, null, null, null, null)
-                        : new SteamData(
-                            g.SteamLatestPlayerCount.SteamAppId.HasValue
-                                ? g.SteamLatestPlayerCount.SteamAppId.Value.ToString()
-                                : null,
-                            g.SteamLatestPlayerCount.CurrentPlayers,
-                            g.SteamLatestPlayerCount.Peak24h,
-                            null,
-                            null
-                        ),
+                    g.SteamDetail == null || !g.SteamDetail.SteamAppId.HasValue
+                        ? null
+                        : new SteamData
+                        {
+                            SteamAppId = g.SteamDetail.SteamAppId.Value.ToString(),
+                            CurrentPlayers =
+                                g.SteamLatestPlayerCount != null
+                                    ? g.SteamLatestPlayerCount.CurrentPlayers
+                                    : null,
+                            Peak24h =
+                                g.SteamLatestPlayerCount != null
+                                    ? g.SteamLatestPlayerCount.Peak24h
+                                    : null,
+                            HeaderUrl = g.SteamDetail.HeaderUrl,
+                            CapsuleUrl = g.SteamDetail.CapsuleUrl,
+                        },
                 Genres = g
                     .Genres.Where(x => !string.IsNullOrEmpty(x.Name))
                     .Select(x => x.Name!)
@@ -144,62 +149,20 @@ internal sealed class GameService(AppDbContext db) : IGameService
         return await db
             .Games.Where(g => g.Id == gameId)
             .AsSplitQuery()
-            .Select(g => new GameHeroDto
-            {
-                Id = g.Id.ToString(),
-                Slug = g.Slug,
-                Name = g.Name,
-                Summary = g.Summary,
-                Cover = g.CoverNavigation!.ImageId,
-                CoverUrl = g.CoverNavigation!.Url,
-                GameTypeName = g.GameTypeNavigation!.Type,
-                FirstReleaseDate =
-                    g.FirstReleaseDateUtc != null
-                        ? DateOnly.FromDateTime(g.FirstReleaseDateUtc.Value)
-                        : null,
-                Genres = g
-                    .Genres.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(x => new Feature(x.Name!, x.Slug!))
-                    .ToList(),
-                Themes = g
-                    .Themes.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(x => new Feature(x.Name!, x.Slug!))
-                    .ToList(),
-                GameModes = g
-                    .GameModes.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(x => new Feature(x.Name!, x.Slug!))
-                    .ToList(),
-                Keywords = g
-                    .Keywords.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(x => new Feature(x.Name!, x.Slug!))
-                    .ToList(),
-                PlayerPerspectives = g
-                    .PlayerPerspectives.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(x => new Feature(x.Name!, x.Slug!))
-                    .ToList(),
-                Platforms = g
-                    .Platforms.Where(x => !string.IsNullOrEmpty(x.Name))
-                    .Select(p => new PlatformDto(p.Id.ToString(), p.Name, p.Slug))
-                    .ToList(),
-                Companies = g
-                    .InvolvedCompanies.Select(ic => new InvolvedCompanyDto(
-                        ic.Id.ToString(),
-                        ic.Company.ToString(),
-                        ic.CompanyNavigation.Name,
-                        ic.CompanyNavigation.Slug,
-                        (
-                            ic.CompanyNavigation.LogoNavigation != null
-                                ? ic.CompanyNavigation.LogoNavigation.ImageId
-                                : null
-                        ) ?? string.Empty,
-                        ic.Developer,
-                        ic.Publisher,
-                        ic.Porting,
-                        ic.Supporting
-                    ))
-                    .ToList(),
-            })
+            .SelectGameHeroDto()
             .FirstOrDefaultAsync(ct);
+    }
+
+    public async Task<List<GameHeroDto>> GetHeroesAsync(
+        IReadOnlyCollection<long> gameIds,
+        CancellationToken ct
+    )
+    {
+        return await db
+            .Games.Where(g => gameIds.Contains(g.Id))
+            .AsSplitQuery()
+            .SelectGameHeroDto()
+            .ToListAsync(ct);
     }
 
     public async Task<GameMediaDto?> GetMediaAsync(long gameId, CancellationToken ct)

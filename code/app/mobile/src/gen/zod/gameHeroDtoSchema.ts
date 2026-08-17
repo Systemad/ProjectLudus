@@ -10,12 +10,12 @@ import { platformDtoSchema } from './platformDtoSchema'
 
 export const gameHeroDtoSchema = z.object({
   id: z.string(),
-  slug: z.string().nullish(),
+  slug: z.null().optional(),
   name: z.string(),
-  summary: z.string().nullish(),
-  cover: z.string().nullish(),
-  coverUrl: z.string().nullish(),
-  gameTypeName: z.string().nullish(),
+  summary: z.null().optional(),
+  cover: z.null().optional(),
+  coverUrl: z.null().optional(),
+  gameTypeName: z.null().optional(),
   firstReleaseDate: z.iso.date().nullish(),
   genres: z.array(featureSchema),
   themes: z.array(featureSchema),

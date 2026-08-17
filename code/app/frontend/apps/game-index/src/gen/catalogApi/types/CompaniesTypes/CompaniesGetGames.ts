@@ -3,29 +3,32 @@
 * Do not edit manually.
 */
 
-import type { GameBrowseDto } from "../GameBrowseDto.ts";
+import type { GameBrowseDto } from '../GameBrowseDto'
 
-export type CompaniesGetGamesPathParams = {
-    /**
-     * @type integer, int64
-    */
-    companyId: number;
+export type CompaniesGetGamesPath = {
+    companyId: string;
+};
+
+export type CompaniesGetGamesStatus200 = GameBrowseDto[];
+
+export type CompaniesGetGamesStatus400 = void;
+
+export type CompaniesGetGamesStatus404 = void;
+
+export type CompaniesGetGamesOptions = {
+    body?: never;
+    path: CompaniesGetGamesPath;
+    query?: never;
+    headers?: never;
+};
+
+export type CompaniesGetGamesResponses = {
+    "200": CompaniesGetGamesStatus200;
+    "400": CompaniesGetGamesStatus400;
+    "404": CompaniesGetGamesStatus404;
 };
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type CompaniesGetGames200 = GameBrowseDto[];
-
-/**
- * @description Not Found
-*/
-export type CompaniesGetGames404 = any;
-
-export type CompaniesGetGamesQueryResponse = CompaniesGetGames200;
-
-export type CompaniesGetGamesQuery = {
-    Response: CompaniesGetGames200;
-    PathParams: CompaniesGetGamesPathParams;
-    Errors: CompaniesGetGames404;
-};
+export type CompaniesGetGamesResponse = (CompaniesGetGamesStatus200 | CompaniesGetGamesStatus400 | CompaniesGetGamesStatus404);

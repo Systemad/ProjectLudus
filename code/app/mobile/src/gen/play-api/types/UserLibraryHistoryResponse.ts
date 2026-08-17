@@ -7,5 +7,5 @@ import type { UserLibraryHistoryItemResponse } from './UserLibraryHistoryItemRes
 
 export type UserLibraryHistoryResponse = {
     items: UserLibraryHistoryItemResponse[];
-    nextCursor: string | null;
+    nextCursor: null;
 };

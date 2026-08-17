@@ -1,15 +1,12 @@
-using System.ComponentModel.DataAnnotations;
 using Catalog.Features.Games.Browse.GetMedia;
 using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Events.Dtos;
 
-public class EventDto
+public sealed record EventDto
 {
-    [Required]
     public required string Id { get; init; }
 
-    [Required]
     public required string Name { get; init; }
 
     public string? Slug { get; init; }
@@ -26,9 +23,7 @@ public class EventDto
 
     public string? LogoImageId { get; init; }
 
-    [Required]
-    public List<GameBrowseDto> Games { get; set; } = [];
+    public required IReadOnlyList<GameBrowseDto> Games { get; init; }
 
-    [Required]
-    public List<GameMediaVideoDto> Videos { get; set; } = [];
+    public required IReadOnlyList<GameMediaVideoDto> Videos { get; init; }
 }

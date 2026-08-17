@@ -3,19 +3,10 @@
 * Do not edit manually.
 */
 
-import type { ChartPointDto } from "./ChartPointDto.ts";
+import type { ChartPointDto } from './ChartPointDto'
 
 export type ConcurrentUsersChartResponse = {
-    /**
-     * @type string
-    */
     range: string;
-    /**
-     * @type string
-    */
     bucketSize: string;
-    /**
-     * @type array
-    */
     points: ChartPointDto[];
 };

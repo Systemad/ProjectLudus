@@ -3,36 +3,38 @@
 * Do not edit manually.
 */
 
-import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
+import type { PagedGamesResponse } from '../PagedGamesResponse'
 
-export type SteamChartQueryParams = {
-    /**
-     * @type string | undefined
-    */
+export type SteamChartQuery = {
     Type?: string;
     /**
-     * @minLength 1
-     * @maxLength 2147483647
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     Page?: number;
     /**
-     * @minLength 1
-     * @maxLength 50
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     PageSize?: number;
 };
 
-/**
- * @description OK
-*/
-export type SteamChart200 = PagedGamesResponse;
+export type SteamChartStatus200 = PagedGamesResponse;
 
-export type SteamChartQueryResponse = SteamChart200;
-
-export type SteamChartQuery = {
-    Response: SteamChart200;
-    QueryParams: SteamChartQueryParams;
-    Errors: any;
+export type SteamChartOptions = {
+    body?: never;
+    path?: never;
+    query?: SteamChartQuery;
+    headers?: never;
 };
+
+export type SteamChartResponses = {
+    "200": SteamChartStatus200;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type SteamChartResponse = SteamChartStatus200;

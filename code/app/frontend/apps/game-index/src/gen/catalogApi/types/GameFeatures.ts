@@ -3,15 +3,9 @@
 * Do not edit manually.
 */
 
-import type { Feature } from "./Feature.ts";
+import type { Feature } from './Feature'
 
 export type GameFeatures = {
-    /**
-     * @type array
-    */
     genres: Feature[];
-    /**
-     * @type array
-    */
     themes: Feature[];
 };

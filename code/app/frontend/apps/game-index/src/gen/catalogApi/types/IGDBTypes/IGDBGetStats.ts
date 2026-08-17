@@ -3,16 +3,22 @@
 * Do not edit manually.
 */
 
-import type { StatisticsResponse } from "../StatisticsResponse.ts";
+import type { StatisticsResponse } from '../StatisticsResponse'
+
+export type IgdbGetStatsStatus200 = StatisticsResponse;
+
+export type IgdbGetStatsOptions = {
+    body?: never;
+    path?: never;
+    query?: never;
+    headers?: never;
+};
+
+export type IgdbGetStatsResponses = {
+    "200": IgdbGetStatsStatus200;
+};
 
 /**
- * @description OK
+ * @description Union of all possible responses
 */
-export type IgdbGetStats200 = StatisticsResponse;
-
-export type IgdbGetStatsQueryResponse = IgdbGetStats200;
-
-export type IgdbGetStatsQuery = {
-    Response: IgdbGetStats200;
-    Errors: any;
-};
+export type IgdbGetStatsResponse = IgdbGetStatsStatus200;

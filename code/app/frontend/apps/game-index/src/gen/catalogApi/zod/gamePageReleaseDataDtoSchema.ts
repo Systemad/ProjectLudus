@@ -3,12 +3,12 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameReleaseDtoSchema } from "./gameReleaseDtoSchema.ts";
+import * as z from 'zod'
+import { gameReleaseDtoSchema } from './gameReleaseDtoSchema'
 
 export const gamePageReleaseDataDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"slug": z.string(),
-"releases": z.array(z.lazy(() => gameReleaseDtoSchema))
-    })
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
+  releases: z.array(gameReleaseDtoSchema),
+})

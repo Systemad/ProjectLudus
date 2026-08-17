@@ -5,14 +5,20 @@ import { createJSONStorage, type PersistStorage } from "zustand/middleware";
 export const gameIdSchema = z.string().regex(/^\d+$/);
 export type GameId = z.infer<typeof gameIdSchema>;
 
+export const MAX_LAST_VISITED = 10;
+
 const persistedLastVisitedStateSchema = z.object({
-  lastVisitedGameId: gameIdSchema.nullable(),
+  lastVisitedGameIds: z.array(gameIdSchema).max(MAX_LAST_VISITED),
 });
 
 export type PersistedLastVisitedState = z.infer<typeof persistedLastVisitedStateSchema>;
 
+const legacyPersistedLastVisitedStateSchema = z.object({
+  lastVisitedGameId: gameIdSchema.nullable(),
+});
+
 const persistedStorageValueSchema = z.object({
-  state: persistedLastVisitedStateSchema,
+  state: z.union([persistedLastVisitedStateSchema, legacyPersistedLastVisitedStateSchema]),
   version: z.number().optional(),
 });
 
@@ -42,7 +48,19 @@ export const lastVisitedStorage: PersistStorage<PersistedLastVisitedState> = {
 
       const result = persistedStorageValueSchema.safeParse(storedState);
       if (result.success) {
-        return result.data;
+        if ("lastVisitedGameIds" in result.data.state) {
+          return { state: result.data.state, version: 2 };
+        }
+
+        return {
+          state: {
+            lastVisitedGameIds:
+              result.data.state.lastVisitedGameId === null
+                ? []
+                : [result.data.state.lastVisitedGameId],
+          },
+          version: 2,
+        };
       }
     } catch {
       await discardStoredState(name);
@@ -53,7 +71,7 @@ export const lastVisitedStorage: PersistStorage<PersistedLastVisitedState> = {
     return null;
   },
   setItem: async (name, value) => {
-    if (value.state.lastVisitedGameId === null) {
+    if (value.state.lastVisitedGameIds.length === 0) {
       await discardStoredState(name);
       return null;
     }

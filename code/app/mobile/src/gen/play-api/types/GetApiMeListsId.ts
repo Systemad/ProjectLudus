@@ -16,7 +16,7 @@ export type GetApiMeListsIdPath = {
 
 export type GetApiMeListsIdStatus200 = ListSummaryResponse;
 
-export type GetApiMeListsIdStatus404 = any;
+export type GetApiMeListsIdStatus404 = void;
 
 export type GetApiMeListsIdOptions = {
     body?: never;

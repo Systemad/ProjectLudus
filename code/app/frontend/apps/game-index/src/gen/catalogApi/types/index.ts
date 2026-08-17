@@ -1,66 +1,118 @@
-export type { AlternativeNameDto } from "./AlternativeNameDto.ts";
-export type { CalendarGetGames200, CalendarGetGames400, CalendarGetGamesPathParams, CalendarGetGamesQuery, CalendarGetGamesQueryParams, CalendarGetGamesQueryResponse } from "./CalendarTypes/CalendarGetGames.ts";
-export type { ChartPointDto } from "./ChartPointDto.ts";
-export type { CompaniesGet200, CompaniesGet404, CompaniesGetPathParams, CompaniesGetQuery, CompaniesGetQueryResponse } from "./CompaniesTypes/CompaniesGet.ts";
-export type { CompaniesGetGames200, CompaniesGetGames404, CompaniesGetGamesPathParams, CompaniesGetGamesQuery, CompaniesGetGamesQueryResponse } from "./CompaniesTypes/CompaniesGetGames.ts";
-export type { CompanyOverviewDto } from "./CompanyOverviewDto.ts";
-export type { ConcurrentUsersChartResponse } from "./ConcurrentUsersChartResponse.ts";
-export type { EventDto } from "./EventDto.ts";
-export type { EventsGetById200, EventsGetById404, EventsGetByIdPathParams, EventsGetByIdQuery, EventsGetByIdQueryResponse } from "./EventsTypes/EventsGetById.ts";
-export type { EventsGetList200, EventsGetList400, EventsGetListQuery, EventsGetListQueryParams, EventsGetListQueryResponse } from "./EventsTypes/EventsGetList.ts";
-export type { Feature } from "./Feature.ts";
-export type { FranchiseDto } from "./FranchiseDto.ts";
-export type { GameBrowseDto } from "./GameBrowseDto.ts";
-export type { GameDetailsDto } from "./GameDetailsDto.ts";
-export type { GameEnginesDto } from "./GameEnginesDto.ts";
-export type { GameFeatures } from "./GameFeatures.ts";
-export type { GameHeroDto } from "./GameHeroDto.ts";
-export type { GameMediaDto } from "./GameMediaDto.ts";
-export type { GameMediaVideoDto } from "./GameMediaVideoDto.ts";
-export type { GameOverviewDto } from "./GameOverviewDto.ts";
-export type { GamePageReleaseDataDto } from "./GamePageReleaseDataDto.ts";
-export type { GameReleaseDto } from "./GameReleaseDto.ts";
-export type { GamesBrowse200, GamesBrowse400, GamesBrowseQuery, GamesBrowseQueryParams, GamesBrowseQueryResponse } from "./GamesTypes/GamesBrowse.ts";
-export type { GamesGet200, GamesGet404, GamesGetPathParams, GamesGetQuery, GamesGetQueryResponse } from "./GamesTypes/GamesGet.ts";
-export type { GamesGetHero200, GamesGetHero404, GamesGetHeroPathParams, GamesGetHeroQuery, GamesGetHeroQueryResponse } from "./GamesTypes/GamesGetHero.ts";
-export type { GamesGetLinks200, GamesGetLinksPathParams, GamesGetLinksQuery, GamesGetLinksQueryResponse } from "./GamesTypes/GamesGetLinks.ts";
-export type { GamesGetMedia200, GamesGetMedia404, GamesGetMediaPathParams, GamesGetMediaQuery, GamesGetMediaQueryResponse } from "./GamesTypes/GamesGetMedia.ts";
-export type { GamesGetOverview200, GamesGetOverview404, GamesGetOverviewPathParams, GamesGetOverviewQuery, GamesGetOverviewQueryResponse } from "./GamesTypes/GamesGetOverview.ts";
-export type { GamesGetReleaseData200, GamesGetReleaseData404, GamesGetReleaseDataPathParams, GamesGetReleaseDataQuery, GamesGetReleaseDataQueryResponse } from "./GamesTypes/GamesGetReleaseData.ts";
-export type { GamesGetReleaseDateRange200, GamesGetReleaseDateRange400, GamesGetReleaseDateRangeQuery, GamesGetReleaseDateRangeQueryParams, GamesGetReleaseDateRangeQueryResponse } from "./GamesTypes/GamesGetReleaseDateRange.ts";
-export type { GamesGetSimilar200, GamesGetSimilarPathParams, GamesGetSimilarQuery, GamesGetSimilarQueryResponse } from "./GamesTypes/GamesGetSimilar.ts";
-export type { GetByReleaseDateRangeResponse } from "./GetByReleaseDateRangeResponse.ts";
-export type { GetCompanyResponse } from "./GetCompanyResponse.ts";
-export type { GetEventByIdResponse } from "./GetEventByIdResponse.ts";
-export type { GetEventsListResponse } from "./GetEventsListResponse.ts";
-export type { GetGameHeroResponse } from "./GetGameHeroResponse.ts";
-export type { GetGameLinksResponse } from "./GetGameLinksResponse.ts";
-export type { GetGameMediaResponse } from "./GetGameMediaResponse.ts";
-export type { GetGameOverviewResponse } from "./GetGameOverviewResponse.ts";
-export type { GetGamePageReleaseDataResponse } from "./GetGamePageReleaseDataResponse.ts";
-export type { GetGameResponse } from "./GetGameResponse.ts";
-export type { GetPricingResponse } from "./GetPricingResponse.ts";
-export type { GetReviewsResponse } from "./GetReviewsResponse.ts";
-export type { GetSimilarGamesResponse } from "./GetSimilarGamesResponse.ts";
-export type { HttpValidationProblemDetails } from "./HttpValidationProblemDetails.ts";
-export type { IgdbGetMostAnticipated200, IgdbGetMostAnticipatedQuery, IgdbGetMostAnticipatedQueryParams, IgdbGetMostAnticipatedQueryResponse } from "./IGDBTypes/IgdbGetMostAnticipated.ts";
-export type { IgdbGetPopscore200, IgdbGetPopscore400, IgdbGetPopscoreQuery, IgdbGetPopscoreQueryParams, IgdbGetPopscoreQueryResponse } from "./IGDBTypes/IgdbGetPopscore.ts";
-export type { IgdbGetStats200, IgdbGetStatsQuery, IgdbGetStatsQueryResponse } from "./IGDBTypes/IgdbGetStats.ts";
-export type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
-export type { LanguageSupportsDto } from "./LanguageSupportsDto.ts";
-export type { PagedGamesResponse } from "./PagedGamesResponse.ts";
-export type { ParentCompanyDto } from "./ParentCompanyDto.ts";
-export type { PlatformDto } from "./PlatformDto.ts";
-export type { PlatformsDto } from "./PlatformsDto.ts";
-export type { ReleaseDatePlatformDto } from "./ReleaseDatePlatformDto.ts";
-export type { ReleaseDateStatusDto } from "./ReleaseDateStatusDto.ts";
-export type { ReleaseDatesDto } from "./ReleaseDatesDto.ts";
-export type { StatisticsResponse } from "./StatisticsResponse.ts";
-export type { SteamData } from "./SteamData.ts";
-export type { SteamPricingData } from "./SteamPricingData.ts";
-export type { SteamReviewData } from "./SteamReviewData.ts";
-export type { SteamChart200, SteamChartQuery, SteamChartQueryParams, SteamChartQueryResponse } from "./SteamTypes/SteamChart.ts";
-export type { SteamGetConcurrentUsersChart200, SteamGetConcurrentUsersChartPathParams, SteamGetConcurrentUsersChartQuery, SteamGetConcurrentUsersChartQueryParams, SteamGetConcurrentUsersChartQueryResponse } from "./SteamTypes/SteamGetConcurrentUsersChart.ts";
-export type { SteamGetPricing200, SteamGetPricing404, SteamGetPricingPathParams, SteamGetPricingQuery, SteamGetPricingQueryResponse } from "./SteamTypes/SteamGetPricing.ts";
-export type { SteamGetReviews200, SteamGetReviews404, SteamGetReviewsPathParams, SteamGetReviewsQuery, SteamGetReviewsQueryResponse } from "./SteamTypes/SteamGetReviews.ts";
-export type { WebsiteDto } from "./WebsiteDto.ts";
+export type { AlternativeNameDto } from './AlternativeNameDto'
+export type { GetAuthMeOptions, GetAuthMeResponse, GetAuthMeResponses, GetAuthMeStatus200, GetAuthMeStatus401 } from './AuthTypes/GetAuthMe'
+export type { GetAuthSteamCallbackOptions, GetAuthSteamCallbackResponse, GetAuthSteamCallbackResponses, GetAuthSteamCallbackStatus401 } from './AuthTypes/GetAuthSteamCallback'
+export type { GetAuthSteamLoginOptions, GetAuthSteamLoginQuery, GetAuthSteamLoginResponse, GetAuthSteamLoginResponses, GetAuthSteamLoginStatus200 } from './AuthTypes/GetAuthSteamLogin'
+export type { PostAuthLogoutOptions, PostAuthLogoutResponse, PostAuthLogoutResponses, PostAuthLogoutStatus204 } from './AuthTypes/PostAuthLogout'
+export type { PostAuthMobileExchangeBody, PostAuthMobileExchangeOptions, PostAuthMobileExchangeResponse, PostAuthMobileExchangeResponses, PostAuthMobileExchangeStatus200, PostAuthMobileExchangeStatus401 } from './AuthTypes/PostAuthMobileExchange'
+export type { CalendarGetGamesOptions, CalendarGetGamesPath, CalendarGetGamesQuery, CalendarGetGamesResponse, CalendarGetGamesResponses, CalendarGetGamesStatus200, CalendarGetGamesStatus400 } from './CalendarTypes/CalendarGetGames'
+export type { ChartPointDto } from './ChartPointDto'
+export type { CompaniesGetOptions, CompaniesGetPath, CompaniesGetResponse, CompaniesGetResponses, CompaniesGetStatus200, CompaniesGetStatus400, CompaniesGetStatus404 } from './CompaniesTypes/CompaniesGet'
+export type { CompaniesGetGamesOptions, CompaniesGetGamesPath, CompaniesGetGamesResponse, CompaniesGetGamesResponses, CompaniesGetGamesStatus200, CompaniesGetGamesStatus400, CompaniesGetGamesStatus404 } from './CompaniesTypes/CompaniesGetGames'
+export type { CompanyOverviewDto } from './CompanyOverviewDto'
+export type { ConcurrentUsersChartResponse } from './ConcurrentUsersChartResponse'
+export type { CreateListRequest } from './CreateListRequest'
+export type { EventDto } from './EventDto'
+export type { EventsGetByIdOptions, EventsGetByIdPath, EventsGetByIdResponse, EventsGetByIdResponses, EventsGetByIdStatus200, EventsGetByIdStatus400, EventsGetByIdStatus404 } from './EventsTypes/EventsGetById'
+export type { EventsGetListOptions, EventsGetListQuery, EventsGetListResponse, EventsGetListResponses, EventsGetListStatus200, EventsGetListStatus400 } from './EventsTypes/EventsGetList'
+export type { ExchangeRequest } from './ExchangeRequest'
+export type { Feature } from './Feature'
+export type { FranchiseDto } from './FranchiseDto'
+export type { GameBrowseDto } from './GameBrowseDto'
+export type { GameCard } from './GameCard'
+export type { GameDetailsDto } from './GameDetailsDto'
+export type { GameEnginesDto } from './GameEnginesDto'
+export type { GameFeatures } from './GameFeatures'
+export type { GameHeroDto } from './GameHeroDto'
+export type { GameIdsRequest } from './GameIdsRequest'
+export type { GameListMembershipResponse } from './GameListMembershipResponse'
+export type { GameMediaDto } from './GameMediaDto'
+export type { GameMediaVideoDto } from './GameMediaVideoDto'
+export type { GameMembership } from './GameMembership'
+export type { GameOverviewDto } from './GameOverviewDto'
+export type { GamePageReleaseDataDto } from './GamePageReleaseDataDto'
+export type { GameReleaseDto } from './GameReleaseDto'
+export type { GamesBrowseOptions, GamesBrowseQuery, GamesBrowseResponse, GamesBrowseResponses, GamesBrowseStatus200, GamesBrowseStatus400 } from './GamesTypes/GamesBrowse'
+export type { GamesGetOptions, GamesGetPath, GamesGetResponse, GamesGetResponses, GamesGetStatus200, GamesGetStatus400, GamesGetStatus404 } from './GamesTypes/GamesGet'
+export type { GamesGetHeroOptions, GamesGetHeroPath, GamesGetHeroResponse, GamesGetHeroResponses, GamesGetHeroStatus200, GamesGetHeroStatus400, GamesGetHeroStatus404 } from './GamesTypes/GamesGetHero'
+export type { GamesGetHeroesOptions, GamesGetHeroesQuery, GamesGetHeroesResponse, GamesGetHeroesResponses, GamesGetHeroesStatus200, GamesGetHeroesStatus400 } from './GamesTypes/GamesGetHeroes'
+export type { GamesGetLinksOptions, GamesGetLinksPath, GamesGetLinksResponse, GamesGetLinksResponses, GamesGetLinksStatus200, GamesGetLinksStatus400 } from './GamesTypes/GamesGetLinks'
+export type { GamesGetMediaOptions, GamesGetMediaPath, GamesGetMediaResponse, GamesGetMediaResponses, GamesGetMediaStatus200, GamesGetMediaStatus400, GamesGetMediaStatus404 } from './GamesTypes/GamesGetMedia'
+export type { GamesGetOverviewOptions, GamesGetOverviewPath, GamesGetOverviewResponse, GamesGetOverviewResponses, GamesGetOverviewStatus200, GamesGetOverviewStatus400, GamesGetOverviewStatus404 } from './GamesTypes/GamesGetOverview'
+export type { GamesGetReleaseDataOptions, GamesGetReleaseDataPath, GamesGetReleaseDataResponse, GamesGetReleaseDataResponses, GamesGetReleaseDataStatus200, GamesGetReleaseDataStatus400, GamesGetReleaseDataStatus404 } from './GamesTypes/GamesGetReleaseData'
+export type { GamesGetReleaseDateRangeOptions, GamesGetReleaseDateRangeQuery, GamesGetReleaseDateRangeResponse, GamesGetReleaseDateRangeResponses, GamesGetReleaseDateRangeStatus200, GamesGetReleaseDateRangeStatus400 } from './GamesTypes/GamesGetReleaseDateRange'
+export type { GamesGetSimilarOptions, GamesGetSimilarPath, GamesGetSimilarResponse, GamesGetSimilarResponses, GamesGetSimilarStatus200, GamesGetSimilarStatus400 } from './GamesTypes/GamesGetSimilar'
+export type { GetByReleaseDateRangeResponse } from './GetByReleaseDateRangeResponse'
+export type { GetCompanyResponse } from './GetCompanyResponse'
+export type { GetEventByIdResponse } from './GetEventByIdResponse'
+export type { GetEventsListResponse } from './GetEventsListResponse'
+export type { GetGameHeroResponse } from './GetGameHeroResponse'
+export type { GetGameHeroesResponse } from './GetGameHeroesResponse'
+export type { GetGameLinksResponse } from './GetGameLinksResponse'
+export type { GetGameMediaResponse } from './GetGameMediaResponse'
+export type { GetGameOverviewResponse } from './GetGameOverviewResponse'
+export type { GetGamePageReleaseDataResponse } from './GetGamePageReleaseDataResponse'
+export type { GetGameResponse } from './GetGameResponse'
+export type { GetPricingResponse } from './GetPricingResponse'
+export type { GetReviewsResponse } from './GetReviewsResponse'
+export type { GetSimilarGamesResponse } from './GetSimilarGamesResponse'
+export type { HttpValidationProblemDetails } from './HttpValidationProblemDetails'
+export type { IgdbGetMostAnticipatedOptions, IgdbGetMostAnticipatedQuery, IgdbGetMostAnticipatedResponse, IgdbGetMostAnticipatedResponses, IgdbGetMostAnticipatedStatus200 } from './IGDBTypes/IgdbGetMostAnticipated'
+export type { IgdbGetPopscoreOptions, IgdbGetPopscoreQuery, IgdbGetPopscoreResponse, IgdbGetPopscoreResponses, IgdbGetPopscoreStatus200, IgdbGetPopscoreStatus400 } from './IGDBTypes/IgdbGetPopscore'
+export type { IgdbGetStatsOptions, IgdbGetStatsResponse, IgdbGetStatsResponses, IgdbGetStatsStatus200 } from './IGDBTypes/IgdbGetStats'
+export type { InvolvedCompanyDto } from './InvolvedCompanyDto'
+export type { LanguageSupportsDto } from './LanguageSupportsDto'
+export type { ListActionKey } from './ListAction'
+export type { ListGameResponse } from './ListGameResponse'
+export type { ListHistoryEntryResponse } from './ListHistoryEntryResponse'
+export type { ListSummaryResponse } from './ListSummaryResponse'
+export type { ListVisibilityKey } from './ListVisibility'
+export type { DeleteApiMeListsIdOptions, DeleteApiMeListsIdPath, DeleteApiMeListsIdResponse, DeleteApiMeListsIdResponses, DeleteApiMeListsIdStatus204, DeleteApiMeListsIdStatus404 } from './ListsTypes/DeleteApiMeListsId'
+export type { DeleteApiMeListsIdGamesGameidOptions, DeleteApiMeListsIdGamesGameidPath, DeleteApiMeListsIdGamesGameidResponse, DeleteApiMeListsIdGamesGameidResponses, DeleteApiMeListsIdGamesGameidStatus204, DeleteApiMeListsIdGamesGameidStatus400, DeleteApiMeListsIdGamesGameidStatus404 } from './ListsTypes/DeleteApiMeListsIdGamesGameid'
+export type { DeleteApiMeWishlistGamesGameidOptions, DeleteApiMeWishlistGamesGameidPath, DeleteApiMeWishlistGamesGameidResponse, DeleteApiMeWishlistGamesGameidResponses, DeleteApiMeWishlistGamesGameidStatus204, DeleteApiMeWishlistGamesGameidStatus400, DeleteApiMeWishlistGamesGameidStatus404 } from './ListsTypes/DeleteApiMeWishlistGamesGameid'
+export type { GetApiListsIdOptions, GetApiListsIdPath, GetApiListsIdResponse, GetApiListsIdResponses, GetApiListsIdStatus200, GetApiListsIdStatus404 } from './ListsTypes/GetApiListsId'
+export type { GetApiMeGamesGameidListsOptions, GetApiMeGamesGameidListsPath, GetApiMeGamesGameidListsResponse, GetApiMeGamesGameidListsResponses, GetApiMeGamesGameidListsStatus200, GetApiMeGamesGameidListsStatus400 } from './ListsTypes/GetApiMeGamesGameidLists'
+export type { GetApiMeListsOptions, GetApiMeListsResponse, GetApiMeListsResponses, GetApiMeListsStatus200 } from './ListsTypes/GetApiMeLists'
+export type { GetApiMeListsIdOptions, GetApiMeListsIdPath, GetApiMeListsIdResponse, GetApiMeListsIdResponses, GetApiMeListsIdStatus200, GetApiMeListsIdStatus404 } from './ListsTypes/GetApiMeListsId'
+export type { GetApiMeListsIdGamesOptions, GetApiMeListsIdGamesPath, GetApiMeListsIdGamesQuery, GetApiMeListsIdGamesResponse, GetApiMeListsIdGamesResponses, GetApiMeListsIdGamesStatus200, GetApiMeListsIdGamesStatus404 } from './ListsTypes/GetApiMeListsIdGames'
+export type { GetApiMeListsIdHistoryOptions, GetApiMeListsIdHistoryPath, GetApiMeListsIdHistoryResponse, GetApiMeListsIdHistoryResponses, GetApiMeListsIdHistoryStatus200 } from './ListsTypes/GetApiMeListsIdHistory'
+export type { GetApiMeWishlistOptions, GetApiMeWishlistResponse, GetApiMeWishlistResponses, GetApiMeWishlistStatus200 } from './ListsTypes/GetApiMeWishlist'
+export type { PostApiMeGamesMembershipBody, PostApiMeGamesMembershipOptions, PostApiMeGamesMembershipResponse, PostApiMeGamesMembershipResponses, PostApiMeGamesMembershipStatus200, PostApiMeGamesMembershipStatus400 } from './ListsTypes/PostApiMeGamesMembership'
+export type { PostApiMeListsBody, PostApiMeListsOptions, PostApiMeListsResponse, PostApiMeListsResponses, PostApiMeListsStatus201 } from './ListsTypes/PostApiMeLists'
+export type { PutApiMeListsIdBody, PutApiMeListsIdOptions, PutApiMeListsIdPath, PutApiMeListsIdResponse, PutApiMeListsIdResponses, PutApiMeListsIdStatus204, PutApiMeListsIdStatus404 } from './ListsTypes/PutApiMeListsId'
+export type { PutApiMeListsIdGamesGameidOptions, PutApiMeListsIdGamesGameidPath, PutApiMeListsIdGamesGameidResponse, PutApiMeListsIdGamesGameidResponses, PutApiMeListsIdGamesGameidStatus204, PutApiMeListsIdGamesGameidStatus400, PutApiMeListsIdGamesGameidStatus404 } from './ListsTypes/PutApiMeListsIdGamesGameid'
+export type { PutApiMeWishlistGamesGameidOptions, PutApiMeWishlistGamesGameidPath, PutApiMeWishlistGamesGameidResponse, PutApiMeWishlistGamesGameidResponses, PutApiMeWishlistGamesGameidStatus204, PutApiMeWishlistGamesGameidStatus400, PutApiMeWishlistGamesGameidStatus404 } from './ListsTypes/PutApiMeWishlistGamesGameid'
+export type { MembershipRequest } from './MembershipRequest'
+export type { PagedGamesResponse } from './PagedGamesResponse'
+export type { PagedListGamesResponse } from './PagedListGamesResponse'
+export type { ParentCompanyDto } from './ParentCompanyDto'
+export type { PlatformDto } from './PlatformDto'
+export type { PlatformsDto } from './PlatformsDto'
+export type { ReleaseDatePlatformDto } from './ReleaseDatePlatformDto'
+export type { ReleaseDateStatusDto } from './ReleaseDateStatusDto'
+export type { ReleaseDatesDto } from './ReleaseDatesDto'
+export type { SessionResponse } from './SessionResponse'
+export type { StatisticsResponse } from './StatisticsResponse'
+export type { SteamData } from './SteamData'
+export type { SteamPricingData } from './SteamPricingData'
+export type { SteamReviewData } from './SteamReviewData'
+export type { SteamChartOptions, SteamChartQuery, SteamChartResponse, SteamChartResponses, SteamChartStatus200 } from './SteamTypes/SteamChart'
+export type { SteamGetConcurrentUsersChartOptions, SteamGetConcurrentUsersChartPath, SteamGetConcurrentUsersChartQuery, SteamGetConcurrentUsersChartResponse, SteamGetConcurrentUsersChartResponses, SteamGetConcurrentUsersChartStatus200, SteamGetConcurrentUsersChartStatus400, SteamGetConcurrentUsersChartStatus404 } from './SteamTypes/SteamGetConcurrentUsersChart'
+export type { SteamGetPricingOptions, SteamGetPricingPath, SteamGetPricingResponse, SteamGetPricingResponses, SteamGetPricingStatus200, SteamGetPricingStatus400, SteamGetPricingStatus404 } from './SteamTypes/SteamGetPricing'
+export type { SteamGetReviewsOptions, SteamGetReviewsPath, SteamGetReviewsResponse, SteamGetReviewsResponses, SteamGetReviewsStatus200, SteamGetReviewsStatus400, SteamGetReviewsStatus404 } from './SteamTypes/SteamGetReviews'
+export type { UpdateListRequest } from './UpdateListRequest'
+export type { GetApiMeLibraryGamesGameidOptions, GetApiMeLibraryGamesGameidPath, GetApiMeLibraryGamesGameidResponse, GetApiMeLibraryGamesGameidResponses, GetApiMeLibraryGamesGameidStatus200, GetApiMeLibraryGamesGameidStatus400, GetApiMeLibraryGamesGameidStatus404 } from './User LibraryTypes/GetApiMeLibraryGamesGameid'
+export type { GetApiMeLibraryHistoryOptions, GetApiMeLibraryHistoryQuery, GetApiMeLibraryHistoryResponse, GetApiMeLibraryHistoryResponses, GetApiMeLibraryHistoryStatus200, GetApiMeLibraryHistoryStatus400, GetApiMeLibraryHistoryStatus503 } from './User LibraryTypes/GetApiMeLibraryHistory'
+export type { GetApiMeLibraryListsListidOptions, GetApiMeLibraryListsListidPath, GetApiMeLibraryListsListidQuery, GetApiMeLibraryListsListidResponse, GetApiMeLibraryListsListidResponses, GetApiMeLibraryListsListidStatus200, GetApiMeLibraryListsListidStatus400, GetApiMeLibraryListsListidStatus404, GetApiMeLibraryListsListidStatus503 } from './User LibraryTypes/GetApiMeLibraryListsListid'
+export type { PostApiMeLibraryGamesMembershipBody, PostApiMeLibraryGamesMembershipOptions, PostApiMeLibraryGamesMembershipResponse, PostApiMeLibraryGamesMembershipResponses, PostApiMeLibraryGamesMembershipStatus200, PostApiMeLibraryGamesMembershipStatus400 } from './User LibraryTypes/PostApiMeLibraryGamesMembership'
+export type { UserLibraryGameResponse } from './UserLibraryGameResponse'
+export type { UserLibraryHistoryItemResponse } from './UserLibraryHistoryItemResponse'
+export type { UserLibraryHistoryResponse } from './UserLibraryHistoryResponse'
+export type { UserLibraryListResponse } from './UserLibraryListResponse'
+export type { UserLibraryListSummary } from './UserLibraryListSummary'
+export type { UserLibraryMembershipItemResponse } from './UserLibraryMembershipItemResponse'
+export type { UserLibraryMembershipResponse } from './UserLibraryMembershipResponse'
+export type { UserLibrarySavedGameResponse } from './UserLibrarySavedGameResponse'
+export type { UserResponse } from './UserResponse'
+export type { WebsiteDto } from './WebsiteDto'
+export { listAction } from './ListAction'
+export { listVisibility } from './ListVisibility'

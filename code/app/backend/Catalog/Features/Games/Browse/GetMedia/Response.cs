@@ -1,16 +1,12 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Catalog.Features.Games.Browse.GetMedia;
 
-public class GameMediaDto
+public sealed record GameMediaDto
 {
-    [Required]
-    public required List<string> Screenshots { get; set; } = [];
+    public required IReadOnlyList<string> Screenshots { get; init; }
 
-    [Required]
-    public required List<GameMediaVideoDto> Videos { get; set; } = [];
+    public required IReadOnlyList<GameMediaVideoDto> Videos { get; init; }
 }
 
-public record GameMediaVideoDto([Required] string Name, [Required] string VideoId);
+public sealed record GameMediaVideoDto(string Name, string VideoId);
 
 public sealed record GetGameMediaResponse(GameMediaDto Game);

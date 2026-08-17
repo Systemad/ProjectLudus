@@ -1,210 +1,81 @@
-export type { CalendarGetGamesQueryKey } from "./catalog/useCalendarGetGamesHook.ts";
-export type { CalendarGetGamesSuspenseQueryKey } from "./catalog/useCalendarGetGamesSuspenseHook.ts";
-export type { CompaniesGetGamesQueryKey } from "./catalog/useCompaniesGetGamesHook.ts";
-export type { CompaniesGetGamesSuspenseQueryKey } from "./catalog/useCompaniesGetGamesSuspenseHook.ts";
-export type { CompaniesGetQueryKey } from "./catalog/useCompaniesGetHook.ts";
-export type { CompaniesGetSuspenseQueryKey } from "./catalog/useCompaniesGetSuspenseHook.ts";
-export type { EventsGetByIdQueryKey } from "./catalog/useEventsGetByIdHook.ts";
-export type { EventsGetByIdSuspenseQueryKey } from "./catalog/useEventsGetByIdSuspenseHook.ts";
-export type { EventsGetListQueryKey } from "./catalog/useEventsGetListHook.ts";
-export type { EventsGetListSuspenseQueryKey } from "./catalog/useEventsGetListSuspenseHook.ts";
-export type { GamesBrowseQueryKey } from "./catalog/useGamesBrowseHook.ts";
-export type { GamesBrowseSuspenseQueryKey } from "./catalog/useGamesBrowseSuspenseHook.ts";
-export type { GamesGetHeroQueryKey } from "./catalog/useGamesGetHeroHook.ts";
-export type { GamesGetHeroSuspenseQueryKey } from "./catalog/useGamesGetHeroSuspenseHook.ts";
-export type { GamesGetQueryKey } from "./catalog/useGamesGetHook.ts";
-export type { GamesGetLinksQueryKey } from "./catalog/useGamesGetLinksHook.ts";
-export type { GamesGetLinksSuspenseQueryKey } from "./catalog/useGamesGetLinksSuspenseHook.ts";
-export type { GamesGetMediaQueryKey } from "./catalog/useGamesGetMediaHook.ts";
-export type { GamesGetMediaSuspenseQueryKey } from "./catalog/useGamesGetMediaSuspenseHook.ts";
-export type { GamesGetOverviewQueryKey } from "./catalog/useGamesGetOverviewHook.ts";
-export type { GamesGetOverviewSuspenseQueryKey } from "./catalog/useGamesGetOverviewSuspenseHook.ts";
-export type { GamesGetReleaseDataQueryKey } from "./catalog/useGamesGetReleaseDataHook.ts";
-export type { GamesGetReleaseDataSuspenseQueryKey } from "./catalog/useGamesGetReleaseDataSuspenseHook.ts";
-export type { GamesGetReleaseDateRangeQueryKey } from "./catalog/useGamesGetReleaseDateRangeHook.ts";
-export type { GamesGetReleaseDateRangeSuspenseQueryKey } from "./catalog/useGamesGetReleaseDateRangeSuspenseHook.ts";
-export type { GamesGetSimilarQueryKey } from "./catalog/useGamesGetSimilarHook.ts";
-export type { GamesGetSimilarSuspenseQueryKey } from "./catalog/useGamesGetSimilarSuspenseHook.ts";
-export type { GamesGetSuspenseQueryKey } from "./catalog/useGamesGetSuspenseHook.ts";
-export type { IgdbGetMostAnticipatedQueryKey } from "./catalog/useIgdbGetMostAnticipatedHook.ts";
-export type { IgdbGetMostAnticipatedSuspenseQueryKey } from "./catalog/useIgdbGetMostAnticipatedSuspenseHook.ts";
-export type { IgdbGetPopscoreQueryKey } from "./catalog/useIgdbGetPopscoreHook.ts";
-export type { IgdbGetPopscoreSuspenseQueryKey } from "./catalog/useIgdbGetPopscoreSuspenseHook.ts";
-export type { IgdbGetStatsQueryKey } from "./catalog/useIgdbGetStatsHook.ts";
-export type { IgdbGetStatsSuspenseQueryKey } from "./catalog/useIgdbGetStatsSuspenseHook.ts";
-export type { SteamChartQueryKey } from "./catalog/useSteamChartHook.ts";
-export type { SteamChartSuspenseQueryKey } from "./catalog/useSteamChartSuspenseHook.ts";
-export type { SteamGetConcurrentUsersChartQueryKey } from "./catalog/useSteamGetConcurrentUsersChartHook.ts";
-export type { SteamGetConcurrentUsersChartSuspenseQueryKey } from "./catalog/useSteamGetConcurrentUsersChartSuspenseHook.ts";
-export type { SteamGetPricingQueryKey } from "./catalog/useSteamGetPricingHook.ts";
-export type { SteamGetPricingSuspenseQueryKey } from "./catalog/useSteamGetPricingSuspenseHook.ts";
-export type { SteamGetReviewsQueryKey } from "./catalog/useSteamGetReviewsHook.ts";
-export type { SteamGetReviewsSuspenseQueryKey } from "./catalog/useSteamGetReviewsSuspenseHook.ts";
-export { calendarGetGamesHook } from "./catalog/useCalendarGetGamesHook.ts";
-export { calendarGetGamesQueryKey } from "./catalog/useCalendarGetGamesHook.ts";
-export { calendarGetGamesQueryOptionsHook } from "./catalog/useCalendarGetGamesHook.ts";
-export { useCalendarGetGamesHook } from "./catalog/useCalendarGetGamesHook.ts";
-export { calendarGetGamesSuspenseHook } from "./catalog/useCalendarGetGamesSuspenseHook.ts";
-export { calendarGetGamesSuspenseQueryKey } from "./catalog/useCalendarGetGamesSuspenseHook.ts";
-export { calendarGetGamesSuspenseQueryOptionsHook } from "./catalog/useCalendarGetGamesSuspenseHook.ts";
-export { useCalendarGetGamesSuspenseHook } from "./catalog/useCalendarGetGamesSuspenseHook.ts";
-export { companiesGetGamesHook } from "./catalog/useCompaniesGetGamesHook.ts";
-export { companiesGetGamesQueryKey } from "./catalog/useCompaniesGetGamesHook.ts";
-export { companiesGetGamesQueryOptionsHook } from "./catalog/useCompaniesGetGamesHook.ts";
-export { useCompaniesGetGamesHook } from "./catalog/useCompaniesGetGamesHook.ts";
-export { companiesGetGamesSuspenseHook } from "./catalog/useCompaniesGetGamesSuspenseHook.ts";
-export { companiesGetGamesSuspenseQueryKey } from "./catalog/useCompaniesGetGamesSuspenseHook.ts";
-export { companiesGetGamesSuspenseQueryOptionsHook } from "./catalog/useCompaniesGetGamesSuspenseHook.ts";
-export { useCompaniesGetGamesSuspenseHook } from "./catalog/useCompaniesGetGamesSuspenseHook.ts";
-export { companiesGetHook } from "./catalog/useCompaniesGetHook.ts";
-export { companiesGetQueryKey } from "./catalog/useCompaniesGetHook.ts";
-export { companiesGetQueryOptionsHook } from "./catalog/useCompaniesGetHook.ts";
-export { useCompaniesGetHook } from "./catalog/useCompaniesGetHook.ts";
-export { companiesGetSuspenseHook } from "./catalog/useCompaniesGetSuspenseHook.ts";
-export { companiesGetSuspenseQueryKey } from "./catalog/useCompaniesGetSuspenseHook.ts";
-export { companiesGetSuspenseQueryOptionsHook } from "./catalog/useCompaniesGetSuspenseHook.ts";
-export { useCompaniesGetSuspenseHook } from "./catalog/useCompaniesGetSuspenseHook.ts";
-export { eventsGetByIdHook } from "./catalog/useEventsGetByIdHook.ts";
-export { eventsGetByIdQueryKey } from "./catalog/useEventsGetByIdHook.ts";
-export { eventsGetByIdQueryOptionsHook } from "./catalog/useEventsGetByIdHook.ts";
-export { useEventsGetByIdHook } from "./catalog/useEventsGetByIdHook.ts";
-export { eventsGetByIdSuspenseHook } from "./catalog/useEventsGetByIdSuspenseHook.ts";
-export { eventsGetByIdSuspenseQueryKey } from "./catalog/useEventsGetByIdSuspenseHook.ts";
-export { eventsGetByIdSuspenseQueryOptionsHook } from "./catalog/useEventsGetByIdSuspenseHook.ts";
-export { useEventsGetByIdSuspenseHook } from "./catalog/useEventsGetByIdSuspenseHook.ts";
-export { eventsGetListHook } from "./catalog/useEventsGetListHook.ts";
-export { eventsGetListQueryKey } from "./catalog/useEventsGetListHook.ts";
-export { eventsGetListQueryOptionsHook } from "./catalog/useEventsGetListHook.ts";
-export { useEventsGetListHook } from "./catalog/useEventsGetListHook.ts";
-export { eventsGetListSuspenseHook } from "./catalog/useEventsGetListSuspenseHook.ts";
-export { eventsGetListSuspenseQueryKey } from "./catalog/useEventsGetListSuspenseHook.ts";
-export { eventsGetListSuspenseQueryOptionsHook } from "./catalog/useEventsGetListSuspenseHook.ts";
-export { useEventsGetListSuspenseHook } from "./catalog/useEventsGetListSuspenseHook.ts";
-export { gamesBrowseHook } from "./catalog/useGamesBrowseHook.ts";
-export { gamesBrowseQueryKey } from "./catalog/useGamesBrowseHook.ts";
-export { gamesBrowseQueryOptionsHook } from "./catalog/useGamesBrowseHook.ts";
-export { useGamesBrowseHook } from "./catalog/useGamesBrowseHook.ts";
-export { gamesBrowseSuspenseHook } from "./catalog/useGamesBrowseSuspenseHook.ts";
-export { gamesBrowseSuspenseQueryKey } from "./catalog/useGamesBrowseSuspenseHook.ts";
-export { gamesBrowseSuspenseQueryOptionsHook } from "./catalog/useGamesBrowseSuspenseHook.ts";
-export { useGamesBrowseSuspenseHook } from "./catalog/useGamesBrowseSuspenseHook.ts";
-export { gamesGetHeroHook } from "./catalog/useGamesGetHeroHook.ts";
-export { gamesGetHeroQueryKey } from "./catalog/useGamesGetHeroHook.ts";
-export { gamesGetHeroQueryOptionsHook } from "./catalog/useGamesGetHeroHook.ts";
-export { useGamesGetHeroHook } from "./catalog/useGamesGetHeroHook.ts";
-export { gamesGetHeroSuspenseHook } from "./catalog/useGamesGetHeroSuspenseHook.ts";
-export { gamesGetHeroSuspenseQueryKey } from "./catalog/useGamesGetHeroSuspenseHook.ts";
-export { gamesGetHeroSuspenseQueryOptionsHook } from "./catalog/useGamesGetHeroSuspenseHook.ts";
-export { useGamesGetHeroSuspenseHook } from "./catalog/useGamesGetHeroSuspenseHook.ts";
-export { gamesGetHook } from "./catalog/useGamesGetHook.ts";
-export { gamesGetQueryKey } from "./catalog/useGamesGetHook.ts";
-export { gamesGetQueryOptionsHook } from "./catalog/useGamesGetHook.ts";
-export { useGamesGetHook } from "./catalog/useGamesGetHook.ts";
-export { gamesGetLinksHook } from "./catalog/useGamesGetLinksHook.ts";
-export { gamesGetLinksQueryKey } from "./catalog/useGamesGetLinksHook.ts";
-export { gamesGetLinksQueryOptionsHook } from "./catalog/useGamesGetLinksHook.ts";
-export { useGamesGetLinksHook } from "./catalog/useGamesGetLinksHook.ts";
-export { gamesGetLinksSuspenseHook } from "./catalog/useGamesGetLinksSuspenseHook.ts";
-export { gamesGetLinksSuspenseQueryKey } from "./catalog/useGamesGetLinksSuspenseHook.ts";
-export { gamesGetLinksSuspenseQueryOptionsHook } from "./catalog/useGamesGetLinksSuspenseHook.ts";
-export { useGamesGetLinksSuspenseHook } from "./catalog/useGamesGetLinksSuspenseHook.ts";
-export { gamesGetMediaHook } from "./catalog/useGamesGetMediaHook.ts";
-export { gamesGetMediaQueryKey } from "./catalog/useGamesGetMediaHook.ts";
-export { gamesGetMediaQueryOptionsHook } from "./catalog/useGamesGetMediaHook.ts";
-export { useGamesGetMediaHook } from "./catalog/useGamesGetMediaHook.ts";
-export { gamesGetMediaSuspenseHook } from "./catalog/useGamesGetMediaSuspenseHook.ts";
-export { gamesGetMediaSuspenseQueryKey } from "./catalog/useGamesGetMediaSuspenseHook.ts";
-export { gamesGetMediaSuspenseQueryOptionsHook } from "./catalog/useGamesGetMediaSuspenseHook.ts";
-export { useGamesGetMediaSuspenseHook } from "./catalog/useGamesGetMediaSuspenseHook.ts";
-export { gamesGetOverviewHook } from "./catalog/useGamesGetOverviewHook.ts";
-export { gamesGetOverviewQueryKey } from "./catalog/useGamesGetOverviewHook.ts";
-export { gamesGetOverviewQueryOptionsHook } from "./catalog/useGamesGetOverviewHook.ts";
-export { useGamesGetOverviewHook } from "./catalog/useGamesGetOverviewHook.ts";
-export { gamesGetOverviewSuspenseHook } from "./catalog/useGamesGetOverviewSuspenseHook.ts";
-export { gamesGetOverviewSuspenseQueryKey } from "./catalog/useGamesGetOverviewSuspenseHook.ts";
-export { gamesGetOverviewSuspenseQueryOptionsHook } from "./catalog/useGamesGetOverviewSuspenseHook.ts";
-export { useGamesGetOverviewSuspenseHook } from "./catalog/useGamesGetOverviewSuspenseHook.ts";
-export { gamesGetReleaseDataHook } from "./catalog/useGamesGetReleaseDataHook.ts";
-export { gamesGetReleaseDataQueryKey } from "./catalog/useGamesGetReleaseDataHook.ts";
-export { gamesGetReleaseDataQueryOptionsHook } from "./catalog/useGamesGetReleaseDataHook.ts";
-export { useGamesGetReleaseDataHook } from "./catalog/useGamesGetReleaseDataHook.ts";
-export { gamesGetReleaseDataSuspenseHook } from "./catalog/useGamesGetReleaseDataSuspenseHook.ts";
-export { gamesGetReleaseDataSuspenseQueryKey } from "./catalog/useGamesGetReleaseDataSuspenseHook.ts";
-export { gamesGetReleaseDataSuspenseQueryOptionsHook } from "./catalog/useGamesGetReleaseDataSuspenseHook.ts";
-export { useGamesGetReleaseDataSuspenseHook } from "./catalog/useGamesGetReleaseDataSuspenseHook.ts";
-export { gamesGetReleaseDateRangeHook } from "./catalog/useGamesGetReleaseDateRangeHook.ts";
-export { gamesGetReleaseDateRangeQueryKey } from "./catalog/useGamesGetReleaseDateRangeHook.ts";
-export { gamesGetReleaseDateRangeQueryOptionsHook } from "./catalog/useGamesGetReleaseDateRangeHook.ts";
-export { useGamesGetReleaseDateRangeHook } from "./catalog/useGamesGetReleaseDateRangeHook.ts";
-export { gamesGetReleaseDateRangeSuspenseHook } from "./catalog/useGamesGetReleaseDateRangeSuspenseHook.ts";
-export { gamesGetReleaseDateRangeSuspenseQueryKey } from "./catalog/useGamesGetReleaseDateRangeSuspenseHook.ts";
-export { gamesGetReleaseDateRangeSuspenseQueryOptionsHook } from "./catalog/useGamesGetReleaseDateRangeSuspenseHook.ts";
-export { useGamesGetReleaseDateRangeSuspenseHook } from "./catalog/useGamesGetReleaseDateRangeSuspenseHook.ts";
-export { gamesGetSimilarHook } from "./catalog/useGamesGetSimilarHook.ts";
-export { gamesGetSimilarQueryKey } from "./catalog/useGamesGetSimilarHook.ts";
-export { gamesGetSimilarQueryOptionsHook } from "./catalog/useGamesGetSimilarHook.ts";
-export { useGamesGetSimilarHook } from "./catalog/useGamesGetSimilarHook.ts";
-export { gamesGetSimilarSuspenseHook } from "./catalog/useGamesGetSimilarSuspenseHook.ts";
-export { gamesGetSimilarSuspenseQueryKey } from "./catalog/useGamesGetSimilarSuspenseHook.ts";
-export { gamesGetSimilarSuspenseQueryOptionsHook } from "./catalog/useGamesGetSimilarSuspenseHook.ts";
-export { useGamesGetSimilarSuspenseHook } from "./catalog/useGamesGetSimilarSuspenseHook.ts";
-export { gamesGetSuspenseHook } from "./catalog/useGamesGetSuspenseHook.ts";
-export { gamesGetSuspenseQueryKey } from "./catalog/useGamesGetSuspenseHook.ts";
-export { gamesGetSuspenseQueryOptionsHook } from "./catalog/useGamesGetSuspenseHook.ts";
-export { useGamesGetSuspenseHook } from "./catalog/useGamesGetSuspenseHook.ts";
-export { igdbGetMostAnticipatedHook } from "./catalog/useIgdbGetMostAnticipatedHook.ts";
-export { igdbGetMostAnticipatedQueryKey } from "./catalog/useIgdbGetMostAnticipatedHook.ts";
-export { igdbGetMostAnticipatedQueryOptionsHook } from "./catalog/useIgdbGetMostAnticipatedHook.ts";
-export { useIgdbGetMostAnticipatedHook } from "./catalog/useIgdbGetMostAnticipatedHook.ts";
-export { igdbGetMostAnticipatedSuspenseHook } from "./catalog/useIgdbGetMostAnticipatedSuspenseHook.ts";
-export { igdbGetMostAnticipatedSuspenseQueryKey } from "./catalog/useIgdbGetMostAnticipatedSuspenseHook.ts";
-export { igdbGetMostAnticipatedSuspenseQueryOptionsHook } from "./catalog/useIgdbGetMostAnticipatedSuspenseHook.ts";
-export { useIgdbGetMostAnticipatedSuspenseHook } from "./catalog/useIgdbGetMostAnticipatedSuspenseHook.ts";
-export { igdbGetPopscoreHook } from "./catalog/useIgdbGetPopscoreHook.ts";
-export { igdbGetPopscoreQueryKey } from "./catalog/useIgdbGetPopscoreHook.ts";
-export { igdbGetPopscoreQueryOptionsHook } from "./catalog/useIgdbGetPopscoreHook.ts";
-export { useIgdbGetPopscoreHook } from "./catalog/useIgdbGetPopscoreHook.ts";
-export { igdbGetPopscoreSuspenseHook } from "./catalog/useIgdbGetPopscoreSuspenseHook.ts";
-export { igdbGetPopscoreSuspenseQueryKey } from "./catalog/useIgdbGetPopscoreSuspenseHook.ts";
-export { igdbGetPopscoreSuspenseQueryOptionsHook } from "./catalog/useIgdbGetPopscoreSuspenseHook.ts";
-export { useIgdbGetPopscoreSuspenseHook } from "./catalog/useIgdbGetPopscoreSuspenseHook.ts";
-export { igdbGetStatsHook } from "./catalog/useIgdbGetStatsHook.ts";
-export { igdbGetStatsQueryKey } from "./catalog/useIgdbGetStatsHook.ts";
-export { igdbGetStatsQueryOptionsHook } from "./catalog/useIgdbGetStatsHook.ts";
-export { useIgdbGetStatsHook } from "./catalog/useIgdbGetStatsHook.ts";
-export { igdbGetStatsSuspenseHook } from "./catalog/useIgdbGetStatsSuspenseHook.ts";
-export { igdbGetStatsSuspenseQueryKey } from "./catalog/useIgdbGetStatsSuspenseHook.ts";
-export { igdbGetStatsSuspenseQueryOptionsHook } from "./catalog/useIgdbGetStatsSuspenseHook.ts";
-export { useIgdbGetStatsSuspenseHook } from "./catalog/useIgdbGetStatsSuspenseHook.ts";
-export { steamChartHook } from "./catalog/useSteamChartHook.ts";
-export { steamChartQueryKey } from "./catalog/useSteamChartHook.ts";
-export { steamChartQueryOptionsHook } from "./catalog/useSteamChartHook.ts";
-export { useSteamChartHook } from "./catalog/useSteamChartHook.ts";
-export { steamChartSuspenseHook } from "./catalog/useSteamChartSuspenseHook.ts";
-export { steamChartSuspenseQueryKey } from "./catalog/useSteamChartSuspenseHook.ts";
-export { steamChartSuspenseQueryOptionsHook } from "./catalog/useSteamChartSuspenseHook.ts";
-export { useSteamChartSuspenseHook } from "./catalog/useSteamChartSuspenseHook.ts";
-export { steamGetConcurrentUsersChartHook } from "./catalog/useSteamGetConcurrentUsersChartHook.ts";
-export { steamGetConcurrentUsersChartQueryKey } from "./catalog/useSteamGetConcurrentUsersChartHook.ts";
-export { steamGetConcurrentUsersChartQueryOptionsHook } from "./catalog/useSteamGetConcurrentUsersChartHook.ts";
-export { useSteamGetConcurrentUsersChartHook } from "./catalog/useSteamGetConcurrentUsersChartHook.ts";
-export { steamGetConcurrentUsersChartSuspenseHook } from "./catalog/useSteamGetConcurrentUsersChartSuspenseHook.ts";
-export { steamGetConcurrentUsersChartSuspenseQueryKey } from "./catalog/useSteamGetConcurrentUsersChartSuspenseHook.ts";
-export { steamGetConcurrentUsersChartSuspenseQueryOptionsHook } from "./catalog/useSteamGetConcurrentUsersChartSuspenseHook.ts";
-export { useSteamGetConcurrentUsersChartSuspenseHook } from "./catalog/useSteamGetConcurrentUsersChartSuspenseHook.ts";
-export { steamGetPricingHook } from "./catalog/useSteamGetPricingHook.ts";
-export { steamGetPricingQueryKey } from "./catalog/useSteamGetPricingHook.ts";
-export { steamGetPricingQueryOptionsHook } from "./catalog/useSteamGetPricingHook.ts";
-export { useSteamGetPricingHook } from "./catalog/useSteamGetPricingHook.ts";
-export { steamGetPricingSuspenseHook } from "./catalog/useSteamGetPricingSuspenseHook.ts";
-export { steamGetPricingSuspenseQueryKey } from "./catalog/useSteamGetPricingSuspenseHook.ts";
-export { steamGetPricingSuspenseQueryOptionsHook } from "./catalog/useSteamGetPricingSuspenseHook.ts";
-export { useSteamGetPricingSuspenseHook } from "./catalog/useSteamGetPricingSuspenseHook.ts";
-export { steamGetReviewsHook } from "./catalog/useSteamGetReviewsHook.ts";
-export { steamGetReviewsQueryKey } from "./catalog/useSteamGetReviewsHook.ts";
-export { steamGetReviewsQueryOptionsHook } from "./catalog/useSteamGetReviewsHook.ts";
-export { useSteamGetReviewsHook } from "./catalog/useSteamGetReviewsHook.ts";
-export { steamGetReviewsSuspenseHook } from "./catalog/useSteamGetReviewsSuspenseHook.ts";
-export { steamGetReviewsSuspenseQueryKey } from "./catalog/useSteamGetReviewsSuspenseHook.ts";
-export { steamGetReviewsSuspenseQueryOptionsHook } from "./catalog/useSteamGetReviewsSuspenseHook.ts";
-export { useSteamGetReviewsSuspenseHook } from "./catalog/useSteamGetReviewsSuspenseHook.ts";
+export { deleteApiMeListsIdGamesGameidMutationKey, deleteApiMeListsIdGamesGameidMutationOptionsHook, useDeleteApiMeListsIdGamesGameidHook } from './api/useDeleteApiMeListsIdGamesGameidHook'
+export { deleteApiMeListsIdMutationKey, deleteApiMeListsIdMutationOptionsHook, useDeleteApiMeListsIdHook } from './api/useDeleteApiMeListsIdHook'
+export { deleteApiMeWishlistGamesGameidMutationKey, deleteApiMeWishlistGamesGameidMutationOptionsHook, useDeleteApiMeWishlistGamesGameidHook } from './api/useDeleteApiMeWishlistGamesGameidHook'
+export { getApiListsIdQueryKey, getApiListsIdQueryOptionsHook, useGetApiListsIdHook } from './api/useGetApiListsIdHook'
+export { getApiListsIdSuspenseQueryKey, getApiListsIdSuspenseQueryOptionsHook, useGetApiListsIdSuspenseHook } from './api/useGetApiListsIdSuspenseHook'
+export { getApiMeGamesGameidListsQueryKey, getApiMeGamesGameidListsQueryOptionsHook, useGetApiMeGamesGameidListsHook } from './api/useGetApiMeGamesGameidListsHook'
+export { getApiMeGamesGameidListsSuspenseQueryKey, getApiMeGamesGameidListsSuspenseQueryOptionsHook, useGetApiMeGamesGameidListsSuspenseHook } from './api/useGetApiMeGamesGameidListsSuspenseHook'
+export { getApiMeLibraryGamesGameidQueryKey, getApiMeLibraryGamesGameidQueryOptionsHook, useGetApiMeLibraryGamesGameidHook } from './api/useGetApiMeLibraryGamesGameidHook'
+export { getApiMeLibraryGamesGameidSuspenseQueryKey, getApiMeLibraryGamesGameidSuspenseQueryOptionsHook, useGetApiMeLibraryGamesGameidSuspenseHook } from './api/useGetApiMeLibraryGamesGameidSuspenseHook'
+export { getApiMeLibraryHistoryQueryKey, getApiMeLibraryHistoryQueryOptionsHook, useGetApiMeLibraryHistoryHook } from './api/useGetApiMeLibraryHistoryHook'
+export { getApiMeLibraryHistorySuspenseQueryKey, getApiMeLibraryHistorySuspenseQueryOptionsHook, useGetApiMeLibraryHistorySuspenseHook } from './api/useGetApiMeLibraryHistorySuspenseHook'
+export { getApiMeLibraryListsListidQueryKey, getApiMeLibraryListsListidQueryOptionsHook, useGetApiMeLibraryListsListidHook } from './api/useGetApiMeLibraryListsListidHook'
+export { getApiMeLibraryListsListidSuspenseQueryKey, getApiMeLibraryListsListidSuspenseQueryOptionsHook, useGetApiMeLibraryListsListidSuspenseHook } from './api/useGetApiMeLibraryListsListidSuspenseHook'
+export { getApiMeListsQueryKey, getApiMeListsQueryOptionsHook, useGetApiMeListsHook } from './api/useGetApiMeListsHook'
+export { getApiMeListsIdGamesQueryKey, getApiMeListsIdGamesQueryOptionsHook, useGetApiMeListsIdGamesHook } from './api/useGetApiMeListsIdGamesHook'
+export { getApiMeListsIdGamesSuspenseQueryKey, getApiMeListsIdGamesSuspenseQueryOptionsHook, useGetApiMeListsIdGamesSuspenseHook } from './api/useGetApiMeListsIdGamesSuspenseHook'
+export { getApiMeListsIdHistoryQueryKey, getApiMeListsIdHistoryQueryOptionsHook, useGetApiMeListsIdHistoryHook } from './api/useGetApiMeListsIdHistoryHook'
+export { getApiMeListsIdHistorySuspenseQueryKey, getApiMeListsIdHistorySuspenseQueryOptionsHook, useGetApiMeListsIdHistorySuspenseHook } from './api/useGetApiMeListsIdHistorySuspenseHook'
+export { getApiMeListsIdQueryKey, getApiMeListsIdQueryOptionsHook, useGetApiMeListsIdHook } from './api/useGetApiMeListsIdHook'
+export { getApiMeListsIdSuspenseQueryKey, getApiMeListsIdSuspenseQueryOptionsHook, useGetApiMeListsIdSuspenseHook } from './api/useGetApiMeListsIdSuspenseHook'
+export { getApiMeListsSuspenseQueryKey, getApiMeListsSuspenseQueryOptionsHook, useGetApiMeListsSuspenseHook } from './api/useGetApiMeListsSuspenseHook'
+export { getApiMeWishlistQueryKey, getApiMeWishlistQueryOptionsHook, useGetApiMeWishlistHook } from './api/useGetApiMeWishlistHook'
+export { getApiMeWishlistSuspenseQueryKey, getApiMeWishlistSuspenseQueryOptionsHook, useGetApiMeWishlistSuspenseHook } from './api/useGetApiMeWishlistSuspenseHook'
+export { postApiMeGamesMembershipMutationKey, postApiMeGamesMembershipMutationOptionsHook, usePostApiMeGamesMembershipHook } from './api/usePostApiMeGamesMembershipHook'
+export { postApiMeLibraryGamesMembershipMutationKey, postApiMeLibraryGamesMembershipMutationOptionsHook, usePostApiMeLibraryGamesMembershipHook } from './api/usePostApiMeLibraryGamesMembershipHook'
+export { postApiMeListsMutationKey, postApiMeListsMutationOptionsHook, usePostApiMeListsHook } from './api/usePostApiMeListsHook'
+export { putApiMeListsIdGamesGameidMutationKey, putApiMeListsIdGamesGameidMutationOptionsHook, usePutApiMeListsIdGamesGameidHook } from './api/usePutApiMeListsIdGamesGameidHook'
+export { putApiMeListsIdMutationKey, putApiMeListsIdMutationOptionsHook, usePutApiMeListsIdHook } from './api/usePutApiMeListsIdHook'
+export { putApiMeWishlistGamesGameidMutationKey, putApiMeWishlistGamesGameidMutationOptionsHook, usePutApiMeWishlistGamesGameidHook } from './api/usePutApiMeWishlistGamesGameidHook'
+export { getAuthMeQueryKey, getAuthMeQueryOptionsHook, useGetAuthMeHook } from './auth/useGetAuthMeHook'
+export { getAuthMeSuspenseQueryKey, getAuthMeSuspenseQueryOptionsHook, useGetAuthMeSuspenseHook } from './auth/useGetAuthMeSuspenseHook'
+export { getAuthSteamCallbackQueryKey, getAuthSteamCallbackQueryOptionsHook, useGetAuthSteamCallbackHook } from './auth/useGetAuthSteamCallbackHook'
+export { getAuthSteamCallbackSuspenseQueryKey, getAuthSteamCallbackSuspenseQueryOptionsHook, useGetAuthSteamCallbackSuspenseHook } from './auth/useGetAuthSteamCallbackSuspenseHook'
+export { getAuthSteamLoginQueryKey, getAuthSteamLoginQueryOptionsHook, useGetAuthSteamLoginHook } from './auth/useGetAuthSteamLoginHook'
+export { getAuthSteamLoginSuspenseQueryKey, getAuthSteamLoginSuspenseQueryOptionsHook, useGetAuthSteamLoginSuspenseHook } from './auth/useGetAuthSteamLoginSuspenseHook'
+export { postAuthLogoutMutationKey, postAuthLogoutMutationOptionsHook, usePostAuthLogoutHook } from './auth/usePostAuthLogoutHook'
+export { postAuthMobileExchangeMutationKey, postAuthMobileExchangeMutationOptionsHook, usePostAuthMobileExchangeHook } from './auth/usePostAuthMobileExchangeHook'
+export { calendarGetGamesQueryKey, calendarGetGamesQueryOptionsHook, useCalendarGetGamesHook } from './catalog/useCalendarGetGamesHook'
+export { calendarGetGamesSuspenseQueryKey, calendarGetGamesSuspenseQueryOptionsHook, useCalendarGetGamesSuspenseHook } from './catalog/useCalendarGetGamesSuspenseHook'
+export { companiesGetGamesQueryKey, companiesGetGamesQueryOptionsHook, useCompaniesGetGamesHook } from './catalog/useCompaniesGetGamesHook'
+export { companiesGetGamesSuspenseQueryKey, companiesGetGamesSuspenseQueryOptionsHook, useCompaniesGetGamesSuspenseHook } from './catalog/useCompaniesGetGamesSuspenseHook'
+export { companiesGetQueryKey, companiesGetQueryOptionsHook, useCompaniesGetHook } from './catalog/useCompaniesGetHook'
+export { companiesGetSuspenseQueryKey, companiesGetSuspenseQueryOptionsHook, useCompaniesGetSuspenseHook } from './catalog/useCompaniesGetSuspenseHook'
+export { eventsGetByIdQueryKey, eventsGetByIdQueryOptionsHook, useEventsGetByIdHook } from './catalog/useEventsGetByIdHook'
+export { eventsGetByIdSuspenseQueryKey, eventsGetByIdSuspenseQueryOptionsHook, useEventsGetByIdSuspenseHook } from './catalog/useEventsGetByIdSuspenseHook'
+export { eventsGetListQueryKey, eventsGetListQueryOptionsHook, useEventsGetListHook } from './catalog/useEventsGetListHook'
+export { eventsGetListSuspenseQueryKey, eventsGetListSuspenseQueryOptionsHook, useEventsGetListSuspenseHook } from './catalog/useEventsGetListSuspenseHook'
+export { gamesBrowseQueryKey, gamesBrowseQueryOptionsHook, useGamesBrowseHook } from './catalog/useGamesBrowseHook'
+export { gamesBrowseSuspenseQueryKey, gamesBrowseSuspenseQueryOptionsHook, useGamesBrowseSuspenseHook } from './catalog/useGamesBrowseSuspenseHook'
+export { gamesGetHeroQueryKey, gamesGetHeroQueryOptionsHook, useGamesGetHeroHook } from './catalog/useGamesGetHeroHook'
+export { gamesGetHeroSuspenseQueryKey, gamesGetHeroSuspenseQueryOptionsHook, useGamesGetHeroSuspenseHook } from './catalog/useGamesGetHeroSuspenseHook'
+export { gamesGetHeroesQueryKey, gamesGetHeroesQueryOptionsHook, useGamesGetHeroesHook } from './catalog/useGamesGetHeroesHook'
+export { gamesGetHeroesSuspenseQueryKey, gamesGetHeroesSuspenseQueryOptionsHook, useGamesGetHeroesSuspenseHook } from './catalog/useGamesGetHeroesSuspenseHook'
+export { gamesGetQueryKey, gamesGetQueryOptionsHook, useGamesGetHook } from './catalog/useGamesGetHook'
+export { gamesGetLinksQueryKey, gamesGetLinksQueryOptionsHook, useGamesGetLinksHook } from './catalog/useGamesGetLinksHook'
+export { gamesGetLinksSuspenseQueryKey, gamesGetLinksSuspenseQueryOptionsHook, useGamesGetLinksSuspenseHook } from './catalog/useGamesGetLinksSuspenseHook'
+export { gamesGetMediaQueryKey, gamesGetMediaQueryOptionsHook, useGamesGetMediaHook } from './catalog/useGamesGetMediaHook'
+export { gamesGetMediaSuspenseQueryKey, gamesGetMediaSuspenseQueryOptionsHook, useGamesGetMediaSuspenseHook } from './catalog/useGamesGetMediaSuspenseHook'
+export { gamesGetOverviewQueryKey, gamesGetOverviewQueryOptionsHook, useGamesGetOverviewHook } from './catalog/useGamesGetOverviewHook'
+export { gamesGetOverviewSuspenseQueryKey, gamesGetOverviewSuspenseQueryOptionsHook, useGamesGetOverviewSuspenseHook } from './catalog/useGamesGetOverviewSuspenseHook'
+export { gamesGetReleaseDataQueryKey, gamesGetReleaseDataQueryOptionsHook, useGamesGetReleaseDataHook } from './catalog/useGamesGetReleaseDataHook'
+export { gamesGetReleaseDataSuspenseQueryKey, gamesGetReleaseDataSuspenseQueryOptionsHook, useGamesGetReleaseDataSuspenseHook } from './catalog/useGamesGetReleaseDataSuspenseHook'
+export { gamesGetReleaseDateRangeQueryKey, gamesGetReleaseDateRangeQueryOptionsHook, useGamesGetReleaseDateRangeHook } from './catalog/useGamesGetReleaseDateRangeHook'
+export { gamesGetReleaseDateRangeSuspenseQueryKey, gamesGetReleaseDateRangeSuspenseQueryOptionsHook, useGamesGetReleaseDateRangeSuspenseHook } from './catalog/useGamesGetReleaseDateRangeSuspenseHook'
+export { gamesGetSimilarQueryKey, gamesGetSimilarQueryOptionsHook, useGamesGetSimilarHook } from './catalog/useGamesGetSimilarHook'
+export { gamesGetSimilarSuspenseQueryKey, gamesGetSimilarSuspenseQueryOptionsHook, useGamesGetSimilarSuspenseHook } from './catalog/useGamesGetSimilarSuspenseHook'
+export { gamesGetSuspenseQueryKey, gamesGetSuspenseQueryOptionsHook, useGamesGetSuspenseHook } from './catalog/useGamesGetSuspenseHook'
+export { igdbGetMostAnticipatedQueryKey, igdbGetMostAnticipatedQueryOptionsHook, useIgdbGetMostAnticipatedHook } from './catalog/useIgdbGetMostAnticipatedHook'
+export { igdbGetMostAnticipatedSuspenseQueryKey, igdbGetMostAnticipatedSuspenseQueryOptionsHook, useIgdbGetMostAnticipatedSuspenseHook } from './catalog/useIgdbGetMostAnticipatedSuspenseHook'
+export { igdbGetPopscoreQueryKey, igdbGetPopscoreQueryOptionsHook, useIgdbGetPopscoreHook } from './catalog/useIgdbGetPopscoreHook'
+export { igdbGetPopscoreSuspenseQueryKey, igdbGetPopscoreSuspenseQueryOptionsHook, useIgdbGetPopscoreSuspenseHook } from './catalog/useIgdbGetPopscoreSuspenseHook'
+export { igdbGetStatsQueryKey, igdbGetStatsQueryOptionsHook, useIgdbGetStatsHook } from './catalog/useIgdbGetStatsHook'
+export { igdbGetStatsSuspenseQueryKey, igdbGetStatsSuspenseQueryOptionsHook, useIgdbGetStatsSuspenseHook } from './catalog/useIgdbGetStatsSuspenseHook'
+export { steamChartQueryKey, steamChartQueryOptionsHook, useSteamChartHook } from './catalog/useSteamChartHook'
+export { steamChartSuspenseQueryKey, steamChartSuspenseQueryOptionsHook, useSteamChartSuspenseHook } from './catalog/useSteamChartSuspenseHook'
+export { steamGetConcurrentUsersChartQueryKey, steamGetConcurrentUsersChartQueryOptionsHook, useSteamGetConcurrentUsersChartHook } from './catalog/useSteamGetConcurrentUsersChartHook'
+export { steamGetConcurrentUsersChartSuspenseQueryKey, steamGetConcurrentUsersChartSuspenseQueryOptionsHook, useSteamGetConcurrentUsersChartSuspenseHook } from './catalog/useSteamGetConcurrentUsersChartSuspenseHook'
+export { steamGetPricingQueryKey, steamGetPricingQueryOptionsHook, useSteamGetPricingHook } from './catalog/useSteamGetPricingHook'
+export { steamGetPricingSuspenseQueryKey, steamGetPricingSuspenseQueryOptionsHook, useSteamGetPricingSuspenseHook } from './catalog/useSteamGetPricingSuspenseHook'
+export { steamGetReviewsQueryKey, steamGetReviewsQueryOptionsHook, useSteamGetReviewsHook } from './catalog/useSteamGetReviewsHook'
+export { steamGetReviewsSuspenseQueryKey, steamGetReviewsSuspenseQueryOptionsHook, useSteamGetReviewsSuspenseHook } from './catalog/useSteamGetReviewsSuspenseHook'

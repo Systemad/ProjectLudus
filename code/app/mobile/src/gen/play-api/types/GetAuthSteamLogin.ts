@@ -8,7 +8,7 @@ export type GetAuthSteamLoginQuery = {
     returnUrl?: string;
 };
 
-export type GetAuthSteamLoginStatus200 = any;
+export type GetAuthSteamLoginStatus200 = void;
 
 export type GetAuthSteamLoginOptions = {
     body?: never;

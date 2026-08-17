@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameBrowseDtoSchema } from "./gameBrowseDtoSchema.ts";
+import * as z from 'zod'
+import { gameBrowseDtoSchema } from './gameBrowseDtoSchema'
 
-export const companiesGetGamesPathParamsSchema = z.object({
-    "companyId": z.coerce.number().int()
-    })
+export const companiesGetGamesPathCompanyIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const companiesGetGames200Schema = z.array(z.lazy(() => gameBrowseDtoSchema))
+export const companiesGetGamesStatus200Schema = z.array(gameBrowseDtoSchema)
 
-/**
- * @description Not Found
- */
-export const companiesGetGames404Schema = z.any()
+export const companiesGetGamesStatus400Schema = z.void()
 
-export const companiesGetGamesQueryResponseSchema = z.lazy(() => companiesGetGames200Schema)
+export const companiesGetGamesStatus404Schema = z.void()
+
+export const companiesGetGamesResponseSchema = companiesGetGamesStatus200Schema
+
+export const companiesGetGamesErrorSchema = z.union([companiesGetGamesStatus400Schema, companiesGetGamesStatus404Schema])

@@ -22,7 +22,7 @@ export function PopularReleasesTable({ games }: Props) {
                 {
                     header: "Price",
                     numeric: true,
-                    render: (g) => <PricingCell pricing={g.pricing} />,
+                    render: (g) => <PricingCell pricing={g.steam?.pricing} />,
                 },
             ]}
         />

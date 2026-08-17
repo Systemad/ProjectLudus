@@ -3,38 +3,47 @@
 * Do not edit manually.
 */
 
-import type { GetByReleaseDateRangeResponse } from "../GetByReleaseDateRangeResponse.ts";
-import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
+import type { GetByReleaseDateRangeResponse } from '../GetByReleaseDateRangeResponse'
+import type { HttpValidationProblemDetails } from '../HttpValidationProblemDetails'
 
-export type GamesGetReleaseDateRangeQueryParams = {
+export type GamesGetReleaseDateRangeQuery = {
     /**
-     * @type string, date
+     * @description
+     * Format: `date`
+     * @type string
     */
     Start: string;
     /**
-     * @type string, date
+     * @description
+     * Format: `date`
+     * @type string
     */
     End: string;
     /**
-     * @type integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     Limit: number;
 };
 
-/**
- * @description OK
-*/
-export type GamesGetReleaseDateRange200 = GetByReleaseDateRangeResponse;
+export type GamesGetReleaseDateRangeStatus200 = GetByReleaseDateRangeResponse;
 
-/**
- * @description Bad Request
-*/
-export type GamesGetReleaseDateRange400 = HttpValidationProblemDetails;
+export type GamesGetReleaseDateRangeStatus400 = HttpValidationProblemDetails;
 
-export type GamesGetReleaseDateRangeQueryResponse = GamesGetReleaseDateRange200;
-
-export type GamesGetReleaseDateRangeQuery = {
-    Response: GamesGetReleaseDateRange200;
-    QueryParams: GamesGetReleaseDateRangeQueryParams;
-    Errors: GamesGetReleaseDateRange400;
+export type GamesGetReleaseDateRangeOptions = {
+    body?: never;
+    path?: never;
+    query: GamesGetReleaseDateRangeQuery;
+    headers?: never;
 };
+
+export type GamesGetReleaseDateRangeResponses = {
+    "200": GamesGetReleaseDateRangeStatus200;
+    "400": GamesGetReleaseDateRangeStatus400;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type GamesGetReleaseDateRangeResponse = (GamesGetReleaseDateRangeStatus200 | GamesGetReleaseDateRangeStatus400);

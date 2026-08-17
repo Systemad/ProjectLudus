@@ -6,13 +6,42 @@ import { pluginRedoc } from "@kubb/plugin-redoc";
 import { pluginTs } from "@kubb/plugin-ts";
 import { pluginZod } from "@kubb/plugin-zod";
 import { defineConfig } from "kubb/config";
+import { ast } from "kubb/kit";
+
+const nullableReferenceUnion = ast.defineMacro({
+  name: "nullable-reference-union",
+  property(node) {
+    if (
+      node.schema.type !== "union" ||
+      !node.schema.members?.some((member) => member.type === "ref")
+    ) {
+      return;
+    }
+
+    return {
+      ...node,
+      schema: {
+        ...node.schema,
+        members: node.schema.members.map((member) =>
+          member.type === "void"
+            ? ast.factory.createSchema({ type: "null", primitive: "null" })
+            : member,
+        ),
+      },
+    };
+  },
+});
 
 export default defineConfig([
   {
     name: "catalog-api",
     root: ".",
     input: "../backend/docs/openapi/Backend.API.json",
-    adapter: adapterOas({ integerType: "number" }),
+    adapter: adapterOas({
+      integerType: "number",
+      unknownType: "void",
+      emptySchemaType: "void",
+    }),
     output: {
       path: "./src/gen",
       clean: true,
@@ -22,12 +51,14 @@ export default defineConfig([
     },
     plugins: [
       pluginTs({
+        macros: [nullableReferenceUnion],
         output: { path: "./types", mode: "directory", barrel: { type: "named" } },
       }),
       pluginAxios({
         output: { path: "./clients", mode: "directory", barrel: { type: "named" } },
       }),
       pluginZod({
+        macros: [nullableReferenceUnion],
         output: { path: "./zod", mode: "directory", barrel: { type: "named" } },
       }),
       pluginRedoc(),
@@ -56,7 +87,11 @@ export default defineConfig([
     name: "play-api",
     root: ".",
     input: "../backend/docs/openapi/Backend.API.json",
-    adapter: adapterOas({ integerType: "number" }),
+    adapter: adapterOas({
+      integerType: "number",
+      unknownType: "void",
+      emptySchemaType: "void",
+    }),
     output: {
       path: "./src/gen/play-api",
       clean: true,
@@ -66,6 +101,7 @@ export default defineConfig([
     },
     plugins: [
       pluginTs({
+        macros: [nullableReferenceUnion],
         output: { path: "./types", mode: "directory", barrel: { type: "named" } },
       }),
       pluginFetch({

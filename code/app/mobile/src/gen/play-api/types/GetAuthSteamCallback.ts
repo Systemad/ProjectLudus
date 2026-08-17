@@ -3,7 +3,7 @@
 * Do not edit manually.
 */
 
-export type GetAuthSteamCallbackStatus200 = any;
+export type GetAuthSteamCallbackStatus401 = void;
 
 export type GetAuthSteamCallbackOptions = {
     body?: never;
@@ -13,10 +13,10 @@ export type GetAuthSteamCallbackOptions = {
 };
 
 export type GetAuthSteamCallbackResponses = {
-    "200": GetAuthSteamCallbackStatus200;
+    "401": GetAuthSteamCallbackStatus401;
 };
 
 /**
  * @description Union of all possible responses
 */
-export type GetAuthSteamCallbackResponse = GetAuthSteamCallbackStatus200;
+export type GetAuthSteamCallbackResponse = GetAuthSteamCallbackStatus401;

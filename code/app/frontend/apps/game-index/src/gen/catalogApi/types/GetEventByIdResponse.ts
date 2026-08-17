@@ -3,14 +3,8 @@
 * Do not edit manually.
 */
 
-import type { EventDto } from "./EventDto.ts";
+import type { EventDto } from './EventDto'
 
-/**
- * @description Event details including associated games.
-*/
 export type GetEventByIdResponse = {
-    /**
-     * @type object
-    */
     event: EventDto;
 };

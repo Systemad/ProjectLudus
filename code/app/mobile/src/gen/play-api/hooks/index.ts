@@ -11,6 +11,7 @@ export { eventsGetListQueryKey, eventsGetListQueryOptions, useEventsGetList } fr
 export { gamesBrowseQueryKey, gamesBrowseQueryOptions, useGamesBrowse } from './GamesHooks/useGamesBrowse'
 export { gamesGetQueryKey, gamesGetQueryOptions, useGamesGet } from './GamesHooks/useGamesGet'
 export { gamesGetHeroQueryKey, gamesGetHeroQueryOptions, useGamesGetHero } from './GamesHooks/useGamesGetHero'
+export { gamesGetHeroesQueryKey, gamesGetHeroesQueryOptions, useGamesGetHeroes } from './GamesHooks/useGamesGetHeroes'
 export { gamesGetLinksQueryKey, gamesGetLinksQueryOptions, useGamesGetLinks } from './GamesHooks/useGamesGetLinks'
 export { gamesGetMediaQueryKey, gamesGetMediaQueryOptions, useGamesGetMedia } from './GamesHooks/useGamesGetMedia'
 export { gamesGetOverviewQueryKey, gamesGetOverviewQueryOptions, useGamesGetOverview } from './GamesHooks/useGamesGetOverview'

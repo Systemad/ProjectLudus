@@ -3,22 +3,9 @@
 * Do not edit manually.
 */
 
-
 export type WebsiteDto = {
-    /**
-     * @type string
-    */
     name: string;
-    /**
-     * @type null,string
-    */
-    type: string | null;
-    /**
-     * @type string
-    */
+    type: null;
     url: string;
-    /**
-     * @type null,boolean
-    */
-    trusted: boolean | null;
+    trusted: null;
 };

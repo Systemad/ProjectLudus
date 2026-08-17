@@ -3,10 +3,10 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const parentCompanyDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.nullable(z.string()),
-"slug": z.nullable(z.string())
-    })
+  id: z.string(),
+  name: z.null(),
+  slug: z.null(),
+})

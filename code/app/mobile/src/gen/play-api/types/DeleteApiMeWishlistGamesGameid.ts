@@ -7,11 +7,11 @@ export type DeleteApiMeWishlistGamesGameidPath = {
     gameId: string;
 };
 
-export type DeleteApiMeWishlistGamesGameidStatus204 = any;
+export type DeleteApiMeWishlistGamesGameidStatus204 = void;
 
-export type DeleteApiMeWishlistGamesGameidStatus400 = any;
+export type DeleteApiMeWishlistGamesGameidStatus400 = void;
 
-export type DeleteApiMeWishlistGamesGameidStatus404 = any;
+export type DeleteApiMeWishlistGamesGameidStatus404 = void;
 
 export type DeleteApiMeWishlistGamesGameidOptions = {
     body?: never;

@@ -3,34 +3,32 @@
 * Do not edit manually.
 */
 
-
 export type GetPricingResponse = {
+    gameId: string;
+    steamAppId: string;
     /**
-     * @type integer, int64
-    */
-    gameId: number;
-    /**
-     * @type null,integer, int64
-    */
-    steamAppId: number | null;
-    /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     finalCents: number | null;
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     discountPercent: number | null;
+    currency: null;
     /**
-     * @type null,string
-    */
-    currency: string | null;
-    /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     high30d: number | null;
     /**
-     * @type null,integer, int32
+     * @description
+     * Format: `int32`
+     * @type integer
     */
     low30d: number | null;
 };

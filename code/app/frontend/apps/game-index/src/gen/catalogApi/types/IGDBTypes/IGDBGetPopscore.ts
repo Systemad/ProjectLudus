@@ -3,52 +3,54 @@
 * Do not edit manually.
 */
 
-import type { HttpValidationProblemDetails } from "../HttpValidationProblemDetails.ts";
-import type { PagedGamesResponse } from "../PagedGamesResponse.ts";
+import type { HttpValidationProblemDetails } from '../HttpValidationProblemDetails'
+import type { PagedGamesResponse } from '../PagedGamesResponse'
 
-export type IgdbGetPopscoreQueryParams = {
+export type IgdbGetPopscoreQuery = {
+    PopularityTypeId?: string;
     /**
-     * @minLength 1
-     * @maxLength 9223372036854776000
-     * @type integer | undefined, int64
-    */
-    PopularityTypeId?: number;
-    /**
-     * @type string | undefined, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     From?: string;
     /**
-     * @type string | undefined, date-time
+     * @description
+     * Format: `date-time`
+     * @type string | undefined
     */
     To?: string;
     /**
-     * @minLength 1
-     * @maxLength 2147483647
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     Page?: number;
     /**
-     * @minLength 1
-     * @maxLength 50
-     * @type integer | undefined, int32
+     * @description
+     * Format: `int32`
+     * @type integer | undefined
     */
     PageSize?: number;
 };
 
-/**
- * @description OK
-*/
-export type IgdbGetPopscore200 = PagedGamesResponse;
+export type IgdbGetPopscoreStatus200 = PagedGamesResponse;
 
-/**
- * @description Bad Request
-*/
-export type IgdbGetPopscore400 = HttpValidationProblemDetails;
+export type IgdbGetPopscoreStatus400 = HttpValidationProblemDetails;
 
-export type IgdbGetPopscoreQueryResponse = IgdbGetPopscore200;
-
-export type IgdbGetPopscoreQuery = {
-    Response: IgdbGetPopscore200;
-    QueryParams: IgdbGetPopscoreQueryParams;
-    Errors: IgdbGetPopscore400;
+export type IgdbGetPopscoreOptions = {
+    body?: never;
+    path?: never;
+    query?: IgdbGetPopscoreQuery;
+    headers?: never;
 };
+
+export type IgdbGetPopscoreResponses = {
+    "200": IgdbGetPopscoreStatus200;
+    "400": IgdbGetPopscoreStatus400;
+};
+
+/**
+ * @description Union of all possible responses
+*/
+export type IgdbGetPopscoreResponse = (IgdbGetPopscoreStatus200 | IgdbGetPopscoreStatus400);

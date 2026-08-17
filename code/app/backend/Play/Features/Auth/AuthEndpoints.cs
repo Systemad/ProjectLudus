@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using AspNet.Security.OpenId.Steam;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Play.Features.Auth.Exchange;
 using Play.Features.Auth.User;
 
@@ -28,7 +29,7 @@ public static class AuthEndpoints
                         properties.Items["state"] = state;
                     if (IsAllowedMobileReturnUrl(returnUrl, environment))
                         properties.Items["returnUrl"] = returnUrl!;
-                    return Results.Challenge(
+                    return TypedResults.Challenge(
                         properties,
                         [SteamAuthenticationDefaults.AuthenticationScheme]
                     );
@@ -40,7 +41,7 @@ public static class AuthEndpoints
         endpoints
             .MapGet(
                 "/auth/steam/callback",
-                async (
+                async Task<Results<UnauthorizedHttpResult, RedirectHttpResult>> (
                     HttpContext context,
                     AuthService auth,
                     IHostEnvironment environment,
@@ -49,7 +50,7 @@ public static class AuthEndpoints
                 {
                     var result = await context.AuthenticateAsync("SteamExternal");
                     if (!result.Succeeded || result.Principal is null)
-                        return Results.Unauthorized();
+                        return TypedResults.Unauthorized();
                     var (user, _) = await auth.ProvisionAsync(result.Principal, ct);
                     await context.SignOutAsync("SteamExternal");
                     string? state = null;
@@ -63,7 +64,7 @@ public static class AuthEndpoints
                     if (exchange.State is not null)
                         values.Add("state", exchange.State);
                     var target = QueryString.Create(values);
-                    return Results.Redirect(returnUrl + target);
+                    return TypedResults.Redirect(returnUrl + target);
                 }
             )
             .WithTags("Auth")
@@ -72,10 +73,16 @@ public static class AuthEndpoints
         endpoints
             .MapPost(
                 "/auth/mobile/exchange",
-                async (ExchangeRequest request, AuthService auth, CancellationToken ct) =>
+                async Task<Results<UnauthorizedHttpResult, Ok<SessionResponse>>> (
+                    ExchangeRequest request,
+                    AuthService auth,
+                    CancellationToken ct
+                ) =>
                 {
                     var response = await auth.ExchangeAsync(request.Code, request.State, ct);
-                    return response is null ? Results.Unauthorized() : Results.Ok(response);
+                    return response is null
+                        ? TypedResults.Unauthorized()
+                        : TypedResults.Ok(response);
                 }
             )
             .WithTags("Auth")
@@ -86,14 +93,14 @@ public static class AuthEndpoints
         endpoints
             .MapPost(
                 "/auth/logout",
-                async (HttpContext context, AuthService auth, CancellationToken ct) =>
+                async Task<NoContent> (HttpContext context, AuthService auth, CancellationToken ct) =>
                 {
                     var value = context.Request.Headers.Authorization.ToString();
                     if (value.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
                     {
                         await auth.RevokeAsync(value[7..].Trim(), ct);
                     }
-                    return Results.NoContent();
+                    return TypedResults.NoContent();
                 }
             )
             .WithTags("Auth")
@@ -103,7 +110,11 @@ public static class AuthEndpoints
         endpoints
             .MapGet(
                 "/auth/me",
-                async (HttpContext context, AuthService auth, CancellationToken ct) =>
+                async Task<Ok<UserResponse>> (
+                    HttpContext context,
+                    AuthService auth,
+                    CancellationToken ct
+                ) =>
                 {
                     var userId = Guid.Parse(
                         context.User.FindFirstValue(ClaimTypes.NameIdentifier)
@@ -111,7 +122,7 @@ public static class AuthEndpoints
                                 "Authenticated user is missing an identifier."
                             )
                     );
-                    return Results.Ok(await auth.GetUserAsync(userId, ct));
+                    return TypedResults.Ok(await auth.GetUserAsync(userId, ct));
                 }
             )
             .WithTags("Auth")

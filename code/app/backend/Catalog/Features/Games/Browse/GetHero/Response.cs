@@ -1,47 +1,38 @@
-using System.ComponentModel.DataAnnotations;
 using Catalog.Features.Games.Common.Dtos;
 
 namespace Catalog.Features.Games.Browse.GetHero;
 
-public class GameHeroDto
+public sealed record GameHeroDto
 {
-    public string Id { get; set; } = string.Empty;
+    public required string Id { get; init; }
 
-    public string? Slug { get; set; }
+    public string? Slug { get; init; }
 
-    [Required]
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
-    public string? Summary { get; set; }
+    public string? Summary { get; init; }
 
-    public string? Cover { get; set; }
+    public string? Cover { get; init; }
 
-    public string? CoverUrl { get; set; }
+    public string? CoverUrl { get; init; }
 
-    public string? GameTypeName { get; set; }
+    public string? GameTypeName { get; init; }
 
-    public DateOnly? FirstReleaseDate { get; set; }
+    public DateOnly? FirstReleaseDate { get; init; }
 
-    [Required]
-    public required List<Feature> Genres { get; set; } = [];
+    public required IReadOnlyList<Feature> Genres { get; init; }
 
-    [Required]
-    public required List<Feature> Themes { get; set; } = [];
+    public required IReadOnlyList<Feature> Themes { get; init; }
 
-    [Required]
-    public required List<Feature> GameModes { get; set; } = [];
+    public required IReadOnlyList<Feature> GameModes { get; init; }
 
-    [Required]
-    public required List<Feature> Keywords { get; set; } = [];
+    public required IReadOnlyList<Feature> Keywords { get; init; }
 
-    [Required]
-    public required List<Feature> PlayerPerspectives { get; set; } = [];
+    public required IReadOnlyList<Feature> PlayerPerspectives { get; init; }
 
-    [Required]
-    public required List<PlatformDto> Platforms { get; set; } = [];
+    public required IReadOnlyList<PlatformDto> Platforms { get; init; }
 
-    [Required]
-    public required List<InvolvedCompanyDto> Companies { get; set; } = [];
+    public required IReadOnlyList<InvolvedCompanyDto> Companies { get; init; }
 }
 
 public sealed record GetGameHeroResponse(GameHeroDto Game);

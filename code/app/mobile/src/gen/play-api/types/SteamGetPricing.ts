@@ -11,9 +11,9 @@ export type SteamGetPricingPath = {
 
 export type SteamGetPricingStatus200 = GetPricingResponse;
 
-export type SteamGetPricingStatus400 = any;
+export type SteamGetPricingStatus400 = void;
 
-export type SteamGetPricingStatus404 = any;
+export type SteamGetPricingStatus404 = void;
 
 export type SteamGetPricingOptions = {
     body?: never;

@@ -12,9 +12,9 @@ export type DeleteApiMeListsIdPath = {
     id: string;
 };
 
-export type DeleteApiMeListsIdStatus204 = any;
+export type DeleteApiMeListsIdStatus204 = void;
 
-export type DeleteApiMeListsIdStatus404 = any;
+export type DeleteApiMeListsIdStatus404 = void;
 
 export type DeleteApiMeListsIdOptions = {
     body?: never;

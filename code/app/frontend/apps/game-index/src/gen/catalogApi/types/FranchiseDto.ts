@@ -3,14 +3,7 @@
 * Do not edit manually.
 */
 
-
 export type FranchiseDto = {
-    /**
-     * @type string
-    */
     name: string;
-    /**
-     * @type string
-    */
     slug: string;
 };

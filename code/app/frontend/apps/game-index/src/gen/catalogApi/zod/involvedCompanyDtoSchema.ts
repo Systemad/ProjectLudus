@@ -3,15 +3,16 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const involvedCompanyDtoSchema = z.object({
-    "id": z.number().int(),
-"companyId": z.number().int(),
-"companyName": z.string(),
-"companySlug": z.string(),
-"developer": z.boolean(),
-"publisher": z.boolean(),
-"porting": z.boolean(),
-"supporting": z.boolean()
-    })
+  id: z.string(),
+  companyId: z.string(),
+  companyName: z.string(),
+  companySlug: z.string(),
+  companyLogoImageId: z.string(),
+  developer: z.boolean(),
+  publisher: z.boolean(),
+  porting: z.boolean(),
+  supporting: z.boolean(),
+})

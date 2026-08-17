@@ -3,35 +3,22 @@
 * Do not edit manually.
 */
 
-import type { InvolvedCompanyDto } from "./InvolvedCompanyDto.ts";
-import type { PlatformDto } from "./PlatformDto.ts";
-import type { ReleaseDateStatusDto } from "./ReleaseDateStatusDto.ts";
+import type { InvolvedCompanyDto } from './InvolvedCompanyDto'
+import type { PlatformDto } from './PlatformDto'
+import type { ReleaseDateStatusDto } from './ReleaseDateStatusDto'
 
 export type GameReleaseDto = {
+    platformName?: null;
+    platformSlug?: null;
     /**
-     * @type null,string
-    */
-    platformName?: string | null;
-    /**
-     * @type null,string
-    */
-    platformSlug?: string | null;
-    /**
-     * @type null,integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer | undefined
     */
     releaseDate?: number | null;
-    /**
-     * @type null,string
-    */
-    region?: string | null;
-    /**
-     * @type null,string
-    */
-    human?: string | null;
+    region?: null;
+    human?: null;
     status?: (null | ReleaseDateStatusDto);
     platform?: (null | PlatformDto);
-    /**
-     * @type array
-    */
     involvedCompanies: InvolvedCompanyDto[];
 };

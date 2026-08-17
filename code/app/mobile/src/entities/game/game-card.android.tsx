@@ -8,8 +8,6 @@ import {
 } from "@expo/ui/jetpack-compose/modifiers";
 import { useRouter } from "expo-router";
 
-import { useAppTheme } from "@/hooks/use-app-theme";
-
 import { GameArtwork } from "./game-artwork.android";
 import type { GameCardProps } from "./game-card-types";
 
@@ -27,7 +25,6 @@ export function GameCard({
   cardWidth,
   fillFraction = 0.5,
 }: GameCardProps) {
-  const colors = useAppTheme();
   const router = useRouter();
   const showCopy = variant !== "cover";
   const copyHeight = variant === "grid" ? 92 : 76;
@@ -36,11 +33,7 @@ export function GameCard({
     : [variant === "grid" ? fillMaxWidth(fillFraction) : fillMaxWidth()];
 
   return (
-    <Card
-      colors={{ containerColor: colors.surfaceHigh, contentColor: colors.text }}
-      elevation={0}
-      modifiers={[...cardModifiers, clickable(() => router.push(href))]}
-    >
+    <Card elevation={0} modifiers={[...cardModifiers, clickable(() => router.push(href))]}>
       <Column modifiers={[fillMaxWidth()]}>
         <GameArtwork
           imageUrl={imageUrl}
@@ -55,7 +48,6 @@ export function GameCard({
             verticalArrangement={{ spacedBy: 4 }}
           >
             <Text
-              color={colors.text as string}
               maxLines={2}
               style={{
                 typography: variant === "rail" ? "titleSmall" : "titleMedium",
@@ -64,11 +56,7 @@ export function GameCard({
             >
               {title}
             </Text>
-            <Text
-              color={colors.textMuted as string}
-              maxLines={1}
-              style={{ typography: "bodySmall" }}
-            >
+            <Text maxLines={1} style={{ typography: "bodySmall" }}>
               {metadata}
             </Text>
           </Column>

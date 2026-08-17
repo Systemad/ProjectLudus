@@ -3,48 +3,28 @@
 * Do not edit manually.
 */
 
-import type { ParentCompanyDto } from "./ParentCompanyDto.ts";
+import type { ParentCompanyDto } from './ParentCompanyDto'
 
 export type CompanyOverviewDto = {
-    /**
-     * @type integer, int64
-    */
-    id: number;
-    /**
-     * @type string
-    */
+    id: string;
     name: string;
-    /**
-     * @type string
-    */
     slug: string;
+    description: null;
+    url: null;
     /**
-     * @type null,string
-    */
-    description: string | null;
-    /**
-     * @type null,string
-    */
-    url: string | null;
-    /**
-     * @type null,integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     startDate: number | null;
     /**
-     * @type null,integer, int64
+     * @description
+     * Format: `int64`
+     * @type integer
     */
     country: number | null;
-    /**
-     * @type null,string
-    */
-    logoId: string | null;
-    /**
-     * @type null,string
-    */
-    logoImageId: string | null;
+    logoId: null;
+    logoImageId: null;
     parentCompany: (null | ParentCompanyDto);
-    /**
-     * @type null,string
-    */
-    status: string | null;
+    status: null;
 };

@@ -31,7 +31,7 @@ export type GetApiMeListsIdGamesQuery = {
 
 export type GetApiMeListsIdGamesStatus200 = PagedListGamesResponse;
 
-export type GetApiMeListsIdGamesStatus404 = any;
+export type GetApiMeListsIdGamesStatus404 = void;
 
 export type GetApiMeListsIdGamesOptions = {
     body?: never;

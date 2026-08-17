@@ -3,11 +3,11 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
+import * as z from 'zod'
 
 export const gameEnginesDtoSchema = z.object({
-    "id": z.number().int(),
-"name": z.string(),
-"imageId": z.nullable(z.string()),
-"url": z.nullable(z.string())
-    })
+  id: z.string(),
+  name: z.string(),
+  imageId: z.null(),
+  url: z.null(),
+})

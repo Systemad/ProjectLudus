@@ -3,21 +3,17 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { getGameMediaResponseSchema } from "./getGameMediaResponseSchema.ts";
+import * as z from 'zod'
+import { getGameMediaResponseSchema } from './getGameMediaResponseSchema'
 
-export const gamesGetMediaPathParamsSchema = z.object({
-    "gameId": z.coerce.number().int()
-    })
+export const gamesGetMediaPathGameIdSchema = z.string()
 
-/**
- * @description OK
- */
-export const gamesGetMedia200Schema = z.lazy(() => getGameMediaResponseSchema)
+export const gamesGetMediaStatus200Schema = getGameMediaResponseSchema
 
-/**
- * @description Not Found
- */
-export const gamesGetMedia404Schema = z.any()
+export const gamesGetMediaStatus400Schema = z.void()
 
-export const gamesGetMediaQueryResponseSchema = z.lazy(() => gamesGetMedia200Schema)
+export const gamesGetMediaStatus404Schema = z.void()
+
+export const gamesGetMediaResponseSchema = gamesGetMediaStatus200Schema
+
+export const gamesGetMediaErrorSchema = z.union([gamesGetMediaStatus400Schema, gamesGetMediaStatus404Schema])

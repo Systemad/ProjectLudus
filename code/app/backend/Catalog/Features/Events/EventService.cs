@@ -80,6 +80,7 @@ internal sealed class EventService(AppDbContext db) : IEventService
                     .Where(g => g != null)
                     .Select(g => g!)
                     .ToList(),
+                Videos = [],
             })
             .ToList();
     }
@@ -122,6 +123,7 @@ internal sealed class EventService(AppDbContext db) : IEventService
             TimeZone = raw.Event.TimeZone,
             LogoImageId = raw.Event.EventLogoNavigation?.ImageId,
             Games = games,
+            Videos = [],
         };
     }
 }

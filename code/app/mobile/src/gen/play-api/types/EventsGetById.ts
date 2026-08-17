@@ -11,9 +11,9 @@ export type EventsGetByIdPath = {
 
 export type EventsGetByIdStatus200 = GetEventByIdResponse;
 
-export type EventsGetByIdStatus400 = any;
+export type EventsGetByIdStatus400 = void;
 
-export type EventsGetByIdStatus404 = any;
+export type EventsGetByIdStatus404 = void;
 
 export type EventsGetByIdOptions = {
     body?: never;

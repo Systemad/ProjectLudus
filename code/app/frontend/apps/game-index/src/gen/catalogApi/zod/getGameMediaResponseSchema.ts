@@ -3,9 +3,9 @@
 * Do not edit manually.
 */
 
-import * as z from "zod";
-import { gameMediaDtoSchema } from "./gameMediaDtoSchema.ts";
+import * as z from 'zod'
+import { gameMediaDtoSchema } from './gameMediaDtoSchema'
 
 export const getGameMediaResponseSchema = z.object({
-    "game": z.lazy(() => gameMediaDtoSchema)
-    })
+  game: gameMediaDtoSchema,
+})

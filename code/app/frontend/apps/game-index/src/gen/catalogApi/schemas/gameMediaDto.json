@@ -1,1 +1,0 @@
-{"required":["screenshots","videos"],"type":"object","properties":{"screenshots":{"type":"array","items":{"type":"string"}},"videos":{"type":"array","items":{"required":["name","videoId"],"type":"object","properties":{"name":{"type":"string"},"videoId":{"type":"string"}},"x-readme-ref-name":"GameMediaVideoDto"}}},"x-readme-ref-name":"GameMediaDto"}

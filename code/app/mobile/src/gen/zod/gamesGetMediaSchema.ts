@@ -10,9 +10,9 @@ export const gamesGetMediaPathGameIdSchema = z.string()
 
 export const gamesGetMediaStatus200Schema = getGameMediaResponseSchema
 
-export const gamesGetMediaStatus400Schema = z.any()
+export const gamesGetMediaStatus400Schema = z.void()
 
-export const gamesGetMediaStatus404Schema = z.any()
+export const gamesGetMediaStatus404Schema = z.void()
 
 export const gamesGetMediaResponseSchema = gamesGetMediaStatus200Schema
 

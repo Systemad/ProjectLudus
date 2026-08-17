@@ -1,6 +1,7 @@
 export { gamesBrowseQueryKey, gamesBrowseQueryOptions, useGamesBrowse } from './useGamesBrowse'
 export { gamesGetQueryKey, gamesGetQueryOptions, useGamesGet } from './useGamesGet'
 export { gamesGetHeroQueryKey, gamesGetHeroQueryOptions, useGamesGetHero } from './useGamesGetHero'
+export { gamesGetHeroesQueryKey, gamesGetHeroesQueryOptions, useGamesGetHeroes } from './useGamesGetHeroes'
 export { gamesGetLinksQueryKey, gamesGetLinksQueryOptions, useGamesGetLinks } from './useGamesGetLinks'
 export { gamesGetMediaQueryKey, gamesGetMediaQueryOptions, useGamesGetMedia } from './useGamesGetMedia'
 export { gamesGetOverviewQueryKey, gamesGetOverviewQueryOptions, useGamesGetOverview } from './useGamesGetOverview'
