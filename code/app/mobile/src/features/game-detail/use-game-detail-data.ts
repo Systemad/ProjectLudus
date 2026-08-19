@@ -1,5 +1,6 @@
 import {
   useGamesGetHero,
+  useGamesGetLinks,
   useGamesGetMedia,
   useGamesGetOverview,
   useGamesGetSimilar,
@@ -12,9 +13,12 @@ import type { GameOverviewDto } from "@/gen/types/GameOverviewDto";
 import type { GetGameMediaResponse } from "@/gen/types/GetGameMediaResponse";
 import type { GetGameOverviewResponse } from "@/gen/types/GetGameOverviewResponse";
 import type { GetGameHeroResponse } from "@/gen/types/GetGameHeroResponse";
+import type { GetGameLinksResponse } from "@/gen/types/GetGameLinksResponse";
 import type { GetSimilarGamesResponse } from "@/gen/types/GetSimilarGamesResponse";
+import type { WebsiteDto } from "@/gen/types/WebsiteDto";
 
 const selectHero = (response: GetGameHeroResponse): GameHeroDto => response.game;
+const selectLinks = (response: GetGameLinksResponse): WebsiteDto[] => response.websites;
 const selectOverview = (response: GetGameOverviewResponse): GameOverviewDto => response.game;
 const selectMedia = (response: GetGameMediaResponse): GameMediaDto => response.game;
 const selectSimilar = (response: GetSimilarGamesResponse): GameBrowseDto[] => response.games;
@@ -36,6 +40,10 @@ export function useGameDetailData(gameId: string) {
     { path: { gameId } },
     { query: { select: selectMedia } },
   );
+  const linksQuery = useGamesGetLinks<WebsiteDto[]>(
+    { path: { gameId } },
+    { query: { retry: false, select: selectLinks } },
+  );
 
   const steamAvailable = overviewQuery.isSuccess && overviewQuery.data.steam != null;
   const reviewsQuery = useSteamGetReviews(
@@ -52,6 +60,8 @@ export function useGameDetailData(gameId: string) {
     overview: overviewQuery.data,
     similar: similarQuery.data ?? [],
     screenshots: mediaQuery.data?.screenshots ?? [],
+    videos: mediaQuery.data?.videos ?? [],
+    websites: linksQuery.data ?? [],
     steam: overviewQuery.data?.steam,
     reviews: reviewsQuery.data,
     pricing: pricingQuery.data,
@@ -61,8 +71,11 @@ export function useGameDetailData(gameId: string) {
     hasSimilarError: similarQuery.isError,
     isMediaPending: mediaQuery.isPending,
     hasMediaError: mediaQuery.isError,
+    isLinksPending: linksQuery.isPending,
+    hasLinksError: linksQuery.isError,
     retryCore: () => Promise.all([heroQuery.refetch(), overviewQuery.refetch()]),
     retrySimilar: () => similarQuery.refetch(),
     retryMedia: () => mediaQuery.refetch(),
+    retryLinks: () => linksQuery.refetch(),
   };
 }

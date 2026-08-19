@@ -13,7 +13,9 @@ export function getGameCardData(game: GameBrowseDto): GameCardData {
   const primaryGenre = game.gameFeatures.genres[0]?.name ?? "Game";
   const reviewRating = formatSteamReviewRating(game.steam?.review);
   const review =
-    reviewRating === "N/A" ? undefined : `${getSteamReviewEmoji(game.steam?.review)} ${reviewRating}`;
+    reviewRating === "N/A"
+      ? undefined
+      : `${getSteamReviewEmoji(game.steam?.review)} ${reviewRating}`;
   const metadata = [game.firstReleaseDate?.slice(0, 4) ?? "TBA", primaryGenre, review]
     .filter((value): value is string => value !== undefined)
     .join(" · ");

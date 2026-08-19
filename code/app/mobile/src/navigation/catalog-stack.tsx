@@ -17,9 +17,7 @@ export function CatalogStack({ children }: { children: ReactNode }) {
         contentStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
         ...(route.name === "games/[slug]" && {
-          headerTransparent: true,
-          headerTitle: "",
-          headerBackButtonDisplayMode: "minimal",
+          headerShown: false,
         }),
       })}
     >

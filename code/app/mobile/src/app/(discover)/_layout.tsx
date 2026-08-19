@@ -11,6 +11,7 @@ export default function DiscoverLayout() {
           title: "Discover",
         }}
       />
+      <Stack.Screen name="games/[slug]" options={{ headerShown: false }} />
       <Stack.Screen name="companies/[slug]" options={{ title: "Company" }} />
       <Stack.Screen name="events/[slug]" options={{ title: "Event" }} />
       <Stack.Screen name="collections/[collection]" options={{ title: "Collection" }} />

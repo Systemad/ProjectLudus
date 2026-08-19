@@ -1,71 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Column, Text } from "@expo/ui/jetpack-compose";
+import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
 
-import { PAGE_GUTTER } from "@/config/layout";
-import { useAppTheme } from "@/hooks/use-app-theme";
-import { commonStyles } from "@/shared/ui/common-styles";
+import { MetadataGrid, type MetadataItem } from "@/shared/ui/metadata-grid";
 
-type GameFact = {
-  label: string;
-  values: string[];
-  wide?: boolean;
-};
+type GameFact = { label: string; values: string[] };
 
 export function GameFactGrid({ facts }: { facts: GameFact[] }) {
-  const colors = useAppTheme();
-  const populatedFacts = facts.filter((fact) => fact.values.length > 0);
+  const items: MetadataItem[] = facts
+    .map((fact) => ({ label: fact.label, value: fact.values.join(" · ") }))
+    .filter((fact) => fact.value.length > 0);
 
-  if (populatedFacts.length === 0) {
-    return null;
-  }
+  if (items.length === 0) return null;
 
   return (
-    <View style={styles.grid}>
-      {populatedFacts.map((fact) => (
-        <View
-          key={fact.label}
-          style={[
-            commonStyles.surfaceCard,
-            styles.fact,
-            {
-              backgroundColor: colors.surfaceHigh,
-              flexBasis: fact.wide ? "100%" : "47%",
-            },
-          ]}
-        >
-          <Text style={[styles.label, { color: colors.textMuted }]}>
-            {fact.label.toUpperCase()}
-          </Text>
-          <Text selectable style={[styles.value, { color: colors.text }]}>
-            {fact.values.join(" · ")}
-          </Text>
-        </View>
-      ))}
-    </View>
+    <Column
+      modifiers={[fillMaxWidth(), padding(0, 14, 0, 0)]}
+      verticalArrangement={{ spacedBy: 9 }}
+    >
+      <Text style={{ typography: "titleLarge" }}>Game information</Text>
+      <MetadataGrid columns={2} items={items} />
+    </Column>
   );
 }
-
-const styles = StyleSheet.create({
-  grid: {
-    paddingHorizontal: PAGE_GUTTER,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-  },
-  fact: {
-    flexGrow: 1,
-    minWidth: 0,
-    padding: 14,
-    gap: 5,
-  },
-  label: {
-    fontSize: 11,
-    lineHeight: 14,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-  },
-  value: {
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "600",
-  },
-});
