@@ -7,6 +7,5 @@ import * as z from 'zod'
 
 export const chartPointDtoSchema = z.object({
   timestamp: z.iso.datetime(),
-  peakPlayers: z.int(),
-  avgPlayers: z.int(),
+  players: z.int(),
 })

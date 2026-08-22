@@ -13,7 +13,7 @@ import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";
 
 const getCompanyGameHref = (game: { id: string | number }) =>
   ({
-    pathname: "../games/[slug]",
+    pathname: "/games/[slug]",
     params: { slug: String(game.id) },
   }) satisfies Href;
 

@@ -1936,8 +1936,7 @@
       "ChartPointDto": {
         "required": [
           "timestamp",
-          "peakPlayers",
-          "avgPlayers"
+          "players"
         ],
         "type": "object",
         "properties": {
@@ -1945,11 +1944,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "peakPlayers": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "avgPlayers": {
+          "players": {
             "type": "integer",
             "format": "int32"
           }

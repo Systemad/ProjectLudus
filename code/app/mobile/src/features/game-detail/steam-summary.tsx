@@ -1,11 +1,10 @@
-import { Column, Row, Text, TextButton } from "@expo/ui/jetpack-compose";
-import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
-import type { ReactNode } from "react";
-import { Linking } from "react-native";
+import * as Linking from "expo-linking";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import type { GetPricingResponse } from "@/gen/types/GetPricingResponse";
 import type { GetReviewsResponse } from "@/gen/types/GetReviewsResponse";
 import type { SteamData } from "@/gen/types/SteamData";
+import { useAppTheme } from "@/hooks/use-app-theme";
 import { MetadataGrid } from "@/shared/ui/metadata-grid";
 
 export function SteamSummary({
@@ -17,23 +16,25 @@ export function SteamSummary({
   reviews?: GetReviewsResponse;
   pricing?: GetPricingResponse;
 }) {
+  const colors = useAppTheme();
   const steamUrl = steam?.steamAppId
     ? `https://store.steampowered.com/app/${steam.steamAppId}`
     : undefined;
 
   return (
-    <Column
-      modifiers={[fillMaxWidth(), padding(0, 14, 0, 0)]}
-      verticalArrangement={{ spacedBy: 12 }}
-    >
-      <SectionHeader title="Steam now">
-        <TextButton
-          enabled={steamUrl !== undefined}
-          onClick={() => steamUrl && void Linking.openURL(steamUrl)}
+    <View style={styles.section}>
+      <View style={styles.header}>
+        <Text style={[styles.title, { color: colors.text }]}>Steam now</Text>
+        <Pressable
+          accessibilityRole="link"
+          accessibilityLabel="Open this game on Steam"
+          disabled={!steamUrl}
+          onPress={() => steamUrl && void Linking.openURL(steamUrl)}
+          style={({ pressed }) => [styles.link, { opacity: !steamUrl || pressed ? 0.5 : 1 }]}
         >
-          <Text>Open Steam</Text>
-        </TextButton>
-      </SectionHeader>
+          <Text style={[styles.linkText, { color: colors.primary }]}>Open Steam</Text>
+        </Pressable>
+      </View>
       <MetadataGrid
         columns={3}
         items={[
@@ -42,7 +43,7 @@ export function SteamSummary({
           { label: "Steam app ID", value: steam?.steamAppId ?? "—" },
         ]}
       />
-      <Text style={{ typography: "titleLarge" }}>Ratings and price</Text>
+      <Text style={[styles.title, { color: colors.text }]}>Ratings and price</Text>
       <MetadataGrid
         columns={2}
         items={[
@@ -61,20 +62,7 @@ export function SteamSummary({
           { label: "IGDB rating", value: "—" },
         ]}
       />
-    </Column>
-  );
-}
-
-function SectionHeader({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <Row
-      modifiers={[fillMaxWidth()]}
-      horizontalArrangement="spaceBetween"
-      verticalAlignment="center"
-    >
-      <Text style={{ typography: "titleLarge" }}>{title}</Text>
-      {children}
-    </Row>
+    </View>
   );
 }
 
@@ -91,3 +79,27 @@ function formatPrice(finalCents: number | null | undefined, currency: string | n
   if (finalCents === 0) return "Free to play";
   return `${currency ?? ""} ${(finalCents / 100).toFixed(2)}`.trim();
 }
+
+const styles = StyleSheet.create({
+  section: {
+    gap: 10,
+  },
+  header: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  title: {
+    fontSize: 19,
+    fontWeight: "800",
+  },
+  link: {
+    minHeight: 36,
+    justifyContent: "center",
+    paddingHorizontal: 4,
+  },
+  linkText: {
+    fontSize: 14,
+    fontWeight: "800",
+  },
+});

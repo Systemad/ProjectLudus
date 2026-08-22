@@ -1,19 +1,16 @@
+import { Host } from "@expo/ui";
 import { FilterChip, LazyColumn, Row, Text } from "@expo/ui/jetpack-compose";
 import { fillMaxSize, fillMaxWidth, horizontalScroll } from "@expo/ui/jetpack-compose/modifiers";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
-import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 
-import { BrowseListCard } from "./browse-list-card.android";
+import { BrowseListCard } from "./browse-list-card";
 
 export type BrowseCollection = "mostPlayed" | "popularReleases" | "hotReleases" | "trending";
 
 type BrowseListProps = {
   collection: BrowseCollection;
   games: GameBrowseDto[];
-  isLoading: boolean;
-  isError: boolean;
-  onRetry: () => void;
   onCollectionChange: (collection: BrowseCollection) => void;
 };
 
@@ -47,50 +44,41 @@ function CollectionChip({
 export function BrowseList({
   collection,
   games,
-  isLoading,
-  isError,
-  onRetry,
   onCollectionChange,
 }: BrowseListProps) {
   return (
-    <LazyColumn
-      modifiers={[fillMaxSize()]}
-      contentPadding={{ bottom: 28, end: 16, start: 16, top: 12 }}
-      verticalArrangement={{ spacedBy: 10 }}
-    >
-      <Row modifiers={[fillMaxWidth(), horizontalScroll()]} horizontalArrangement={{ spacedBy: 8 }}>
-        {collections.map((item) => (
-          <CollectionChip
-            key={item.value}
-            collection={item.value}
-            selectedCollection={collection}
-            label={item.label}
-            onSelect={onCollectionChange}
-          />
-        ))}
-      </Row>
-
-      <Text style={{ typography: "labelMedium", fontWeight: "700" }}>LIVE PLAYER RANKINGS</Text>
-
-      <ContentState
-        status={getContentStateStatus(isLoading, isError, games.length === 0)}
-        loading={{ label: "Loading games…" }}
-        error={{
-          onRetry,
-          title: "This list could not be loaded.",
-          retryLabel: "Retry",
-        }}
-        empty={{ title: "No games found", message: "There are no games in this collection yet." }}
+    <Host style={{ flex: 1 }}>
+      <LazyColumn
+        modifiers={[fillMaxSize()]}
+        contentPadding={{ bottom: 28, end: 16, start: 16, top: 12 }}
+        verticalArrangement={{ spacedBy: 10 }}
       >
+        <Row
+          modifiers={[fillMaxWidth(), horizontalScroll()]}
+          horizontalArrangement={{ spacedBy: 8 }}
+        >
+          {collections.map((item) => (
+            <CollectionChip
+              key={item.value}
+              collection={item.value}
+              selectedCollection={collection}
+              label={item.label}
+              onSelect={onCollectionChange}
+            />
+          ))}
+        </Row>
+
+        <Text style={{ typography: "labelMedium", fontWeight: "700" }}>LIVE PLAYER RANKINGS</Text>
+
         {games.map((game, index) => (
           <BrowseListCard
             key={game.id}
             game={game}
             rank={index + 1}
-            href={{ pathname: "/(browse)/games/[slug]", params: { slug: game.id } }}
+            href={{ pathname: "/games/[slug]", params: { slug: game.id } }}
           />
         ))}
-      </ContentState>
-    </LazyColumn>
+      </LazyColumn>
+    </Host>
   );
 }

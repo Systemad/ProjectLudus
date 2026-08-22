@@ -104,7 +104,7 @@ export function ListDetail({ id }: { id: string }) {
           {gameItems.map((game, index) => {
             const hero = gameDetails[index]?.data?.game;
             const href = {
-              pathname: "/(discover)/games/[slug]",
+              pathname: "/games/[slug]",
               params: { slug: game.gameId },
             } satisfies Href;
             return (

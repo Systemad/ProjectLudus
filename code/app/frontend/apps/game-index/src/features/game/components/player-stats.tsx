@@ -13,7 +13,7 @@ type Props = {
     gameId: number;
 };
 
-function SimpleLineChart({ data }: { data: { bucket: string; avgPlayers: number }[] }) {
+function SimpleLineChart({ data }: { data: { bucket: string; players: number }[] }) {
     const { token } = useTheme();
     if (!data || data.length === 0) {
         return <Text color="secondary">No chart data available.</Text>;
@@ -25,38 +25,67 @@ function SimpleLineChart({ data }: { data: { bucket: string; avgPlayers: number 
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
 
-    const maxPlayers = Math.max(...data.map((d) => d.avgPlayers));
-    const minPlayers = Math.min(...data.map((d) => d.avgPlayers));
+    const maxPlayers = Math.max(...data.map((d) => d.players));
+    const minPlayers = Math.min(...data.map((d) => d.players));
     const range = maxPlayers - minPlayers || 1;
 
     const points = data.map((d, i) => {
         const x = padding.left + (i / Math.max(data.length - 1, 1)) * chartWidth;
-        const y = padding.top + chartHeight - ((d.avgPlayers - minPlayers) / range) * chartHeight;
+        const y = padding.top + chartHeight - ((d.players - minPlayers) / range) * chartHeight;
         return { x, y, ...d };
     });
 
     const pathD = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
 
     return (
-        <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} style={{ overflow: "visible" }}>
+        <svg
+            width="100%"
+            height={height}
+            viewBox={`0 0 ${width} ${height}`}
+            style={{ overflow: "visible" }}
+        >
             {/* Grid lines */}
             {[0, 0.25, 0.5, 0.75, 1].map((ratio) => {
                 const y = padding.top + chartHeight - ratio * chartHeight;
                 const value = minPlayers + ratio * range;
                 return (
                     <g key={ratio}>
-                        <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke={token("--color-border")} strokeWidth="1" />
-                        <text x={padding.left - 8} y={y + 4} textAnchor="end" fontSize="10" fill={token("--color-text-secondary")}>
+                        <line
+                            x1={padding.left}
+                            y1={y}
+                            x2={width - padding.right}
+                            y2={y}
+                            stroke={token("--color-border")}
+                            strokeWidth="1"
+                        />
+                        <text
+                            x={padding.left - 8}
+                            y={y + 4}
+                            textAnchor="end"
+                            fontSize="10"
+                            fill={token("--color-text-secondary")}
+                        >
                             {Math.round(value)}
                         </text>
                     </g>
                 );
             })}
             {/* Line */}
-            <path d={pathD} fill="none" stroke={token("--color-data-categorical-blue")} strokeWidth="2" />
+            <path
+                d={pathD}
+                fill="none"
+                stroke={token("--color-data-categorical-blue")}
+                strokeWidth="2"
+            />
             {/* Dots */}
             {points.map((p, i) => (
-                <circle key={i} cx={p.x} cy={p.y} r="3" fill={token("--color-data-categorical-blue")} />
+                <circle
+                    key={i}
+                    cx={p.x}
+                    cy={p.y}
+                    r="3"
+                    fill={token("--color-data-categorical-blue")}
+                />
             ))}
         </svg>
     );
@@ -67,24 +96,27 @@ export function PlayerStats({ gameId }: Props) {
 
     const { data } = useQuery({
         ...steamGetConcurrentUsersChartSuspenseQueryOptionsHook({
-            gameId,
-            params: { range },
+            path: { gameId: String(gameId) },
+            query: { range },
         }),
         placeholderData: (prev: unknown) => prev as any,
     });
 
-    const chartData = (data?.points ?? []).map((p: { timestamp: string; avgPlayers: number }) => ({
+    const chartData = (data?.points ?? []).map((p: { timestamp: string; players: number }) => ({
         bucket: p.timestamp,
-        avgPlayers: p.avgPlayers,
+        players: p.players,
     }));
 
     return (
         <VStack hAlign="stretch" gap={4} width="100%">
-            <Text style={{fontSize: "1.125rem", fontWeight: 600}}>
-                Player Activity
-            </Text>
+            <Text style={{ fontSize: "1.125rem", fontWeight: 600 }}>Player Activity</Text>
 
-            <SegmentedControl value={range} onChange={(v) => setRange(v)} label="Chart type" size="sm">
+            <SegmentedControl
+                value={range}
+                onChange={(v) => setRange(v)}
+                label="Chart type"
+                size="sm"
+            >
                 <SegmentedControlItem value="48h" label="48 hours" />
                 <SegmentedControlItem value="7d" label="7 days" />
                 <SegmentedControlItem value="30d" label="30 days" />

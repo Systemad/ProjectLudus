@@ -3,10 +3,7 @@ import { Chart } from "@tanstack/react-native-charts";
 import { tooltip } from "@tanstack/react-native-charts/tooltip";
 import { scaleLinear } from "@tanstack/charts-scales/linear";
 import { useState } from "react";
-import { Text as NativeText, View, StyleSheet } from "react-native";
-import { Host } from "@expo/ui";
-import { SegmentedButton, SingleChoiceSegmentedButtonRow, Text } from "@expo/ui/jetpack-compose";
-import { fillMaxWidth, weight } from "@expo/ui/jetpack-compose/modifiers";
+import { Pressable, Text as NativeText, View, StyleSheet } from "react-native";
 
 import { useSteamGetConcurrentUsersChart } from "@/gen/hooks/SteamHooks/index";
 import type { ChartPointDto } from "@/gen/types/ChartPointDto";
@@ -25,20 +22,18 @@ const EMPTY_POINTS: readonly ChartPointDto[] = [];
 
 type ChartDatum = {
   timestamp: number;
-  peakPlayers: number;
-  avgPlayers: number;
+  players: number;
 };
 
 function hasPlayerHistory(points: readonly ChartPointDto[]) {
-  return points.some((point) => point.peakPlayers > 0 || point.avgPlayers > 0);
+  return points.some((point) => point.players > 0);
 }
 
 function toChartData(points: readonly ChartPointDto[]): ChartDatum[] {
   return points
     .map((point) => ({
       timestamp: Date.parse(point.timestamp),
-      peakPlayers: point.peakPlayers,
-      avgPlayers: point.avgPlayers,
+      players: point.players,
     }))
     .filter((point) => Number.isFinite(point.timestamp));
 }
@@ -54,16 +49,24 @@ function RangeButton({
   selected: SteamChartRange;
   onSelect: (value: SteamChartRange) => void;
 }) {
+  const colors = useAppTheme();
+
   return (
-    <SegmentedButton
-      selected={value === selected}
-      onClick={() => onSelect(value)}
-      modifiers={[weight(1)]}
+    <Pressable
+      accessibilityRole="tab"
+      accessibilityState={{ selected: value === selected }}
+      onPress={() => onSelect(value)}
+      style={({ pressed }) => [
+        styles.rangeButton,
+        {
+          backgroundColor: value === selected ? colors.primaryContainer : colors.surface,
+          borderColor: colors.outline,
+          opacity: pressed ? 0.68 : 1,
+        },
+      ]}
     >
-      <SegmentedButton.Label>
-        <Text>{label}</Text>
-      </SegmentedButton.Label>
-    </SegmentedButton>
+      <NativeText style={[styles.rangeLabel, { color: colors.text }]}>{label}</NativeText>
+    </Pressable>
   );
 }
 
@@ -74,28 +77,30 @@ function RangeControl({
   selected: SteamChartRange;
   onSelect: (value: SteamChartRange) => void;
 }) {
-  const colors = useAppTheme();
-
   return (
-    <Host matchContents={{ vertical: true }} seedColor={colors.primary} style={{ width: "100%" }}>
-      <SingleChoiceSegmentedButtonRow modifiers={[fillMaxWidth()]}>
-        {RANGES.map((range) => (
-          <RangeButton
-            key={range.value}
-            label={range.label}
-            value={range.value}
-            selected={selected}
-            onSelect={onSelect}
-          />
-        ))}
-      </SingleChoiceSegmentedButtonRow>
-    </Host>
+    <View style={styles.rangeRow}>
+      {RANGES.map((range) => (
+        <RangeButton
+          key={range.value}
+          label={range.label}
+          value={range.value}
+          selected={selected}
+          onSelect={onSelect}
+        />
+      ))}
+    </View>
   );
 }
 
-export function SteamChart({ gameId }: { gameId: string }) {
+export function SteamChart({
+  gameId,
+  onTooltipDismiss,
+}: {
+  gameId: string;
+  onTooltipDismiss: (dismiss: () => void) => void;
+}) {
   const colors = useAppTheme();
-  const [range, setRange] = useState<SteamChartRange>("7d");
+  const [range, setRange] = useState<SteamChartRange>("24h");
 
   const chart24hQuery = useSteamGetConcurrentUsersChart(
     { path: { gameId }, query: { range: "24h" } },
@@ -117,18 +122,11 @@ export function SteamChart({ gameId }: { gameId: string }) {
   const definition = defineChart({
     marks: [
       lineY(chartData, {
-        id: "peak-players",
+        id: "players",
         x: "timestamp",
-        y: "peakPlayers",
+        y: "players",
         stroke: colors.primary,
         strokeWidth: 3,
-      }),
-      lineY(chartData, {
-        id: "average-players",
-        x: "timestamp",
-        y: "avgPlayers",
-        stroke: colors.textMuted,
-        strokeWidth: 2,
       }),
     ],
     x: {
@@ -153,10 +151,13 @@ export function SteamChart({ gameId }: { gameId: string }) {
     },
     tooltip: {
       use: tooltip,
-      format: (point) =>
-        `${formatTimestamp(Number(point.xValue), range)}\n${
-          point.groupLabel ?? "Players"
-        }: ${formatPlayerCount(Number(point.yValue))}`,
+      sticky: false,
+      format: (point) => {
+        const label = point.groupLabel === "players" ? "Players" : (point.groupLabel ?? "Players");
+        return `${formatTimestamp(Number(point.xValue), range)}\n${label}: ${formatPlayerCount(
+          Number(point.yValue),
+        )}`;
+      },
     },
   });
 
@@ -171,25 +172,25 @@ export function SteamChart({ gameId }: { gameId: string }) {
   );
 
   return (
-    <View style={commonStyles.section}>
-      <NativeText style={[commonStyles.sectionTitle, { color: colors.text }]}>
-        Steam players
-      </NativeText>
-      <RangeControl selected={range} onSelect={setRange} />
+    <View style={styles.section}>
+      <View style={styles.sectionHeader}>
+        <RangeControl selected={range} onSelect={setRange} />
+      </View>
       <View
         style={[commonStyles.surfaceCard, styles.card, { backgroundColor: colors.surfaceHigh }]}
       >
-        <View style={styles.legend}>
-          <View style={styles.legendItem}>
-            <View style={[styles.legendDot, { backgroundColor: colors.primary }]} />
-            <NativeText style={[styles.legendLabel, { color: colors.textMuted }]}>Peak</NativeText>
+        <View style={styles.chartHeader}>
+          <View style={styles.legend}>
+            <View style={styles.legendItem}>
+              <View style={[styles.legendDot, { backgroundColor: colors.primary }]} />
+              <NativeText style={[styles.legendLabel, { color: colors.textMuted }]}>
+                Players
+              </NativeText>
+            </View>
           </View>
-          <View style={styles.legendItem}>
-            <View style={[styles.legendDot, { backgroundColor: colors.textMuted }]} />
-            <NativeText style={[styles.legendLabel, { color: colors.textMuted }]}>
-              Average
-            </NativeText>
-          </View>
+          <NativeText numberOfLines={1} style={[styles.chartTitle, { color: colors.text }]}>
+            Steam players
+          </NativeText>
         </View>
         <ContentState
           status={selectedStatus}
@@ -206,10 +207,14 @@ export function SteamChart({ gameId }: { gameId: string }) {
         >
           <Chart
             definition={definition}
-            accessibilityLabel={`Steam player history for the last ${range}`}
+            accessibilityLabel={`Player history for the last ${range}`}
             aspectRatio={1.7}
             color={colors.text}
             focusFill={colors.surfaceHigh}
+            renderTooltip={({ defaultBody, dismiss }) => {
+              onTooltipDismiss(dismiss);
+              return defaultBody;
+            }}
             style={styles.chart}
           />
         </ContentState>
@@ -219,12 +224,50 @@ export function SteamChart({ gameId }: { gameId: string }) {
 }
 
 const styles = StyleSheet.create({
-  card: {
-    padding: 16,
+  section: {
     gap: 12,
+  },
+  card: {
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  sectionHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 8,
+  },
+  rangeRow: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 4,
+    marginLeft: "auto",
+  },
+  rangeButton: {
+    alignItems: "center",
+    borderRadius: 18,
+    borderWidth: StyleSheet.hairlineWidth,
+    flex: 1,
+    justifyContent: "center",
+    minHeight: 38,
+  },
+  rangeLabel: {
+    fontSize: 11,
+    fontWeight: "800",
   },
   chart: {
     width: "100%",
+  },
+  chartHeader: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 12,
+    justifyContent: "space-between",
+  },
+  chartTitle: {
+    flexShrink: 1,
+    fontSize: 12,
+    fontWeight: "800",
   },
   legend: {
     flexDirection: "row",

@@ -3,9 +3,6 @@ import { StyleSheet } from "react-native";
 import { PAGE_GUTTER } from "@/config/layout";
 
 export const commonStyles = StyleSheet.create({
-  page: {
-    flex: 1,
-  },
   pageGutter: {
     paddingHorizontal: PAGE_GUTTER,
   },
@@ -16,9 +13,6 @@ export const commonStyles = StyleSheet.create({
   sectionTitle: {
     fontSize: 22,
     fontWeight: "800",
-  },
-  listContent: {
-    gap: 12,
   },
   centeredState: {
     alignItems: "center",
@@ -51,8 +45,5 @@ export const commonStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-  },
-  meta: {
-    fontSize: 12,
   },
 });

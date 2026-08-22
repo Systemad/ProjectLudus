@@ -121,8 +121,7 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
                 .OrderBy(x => x.Bucket)
                 .Select(x => new ChartPointDto(
                     x.Bucket!.Value,
-                    x.PeakPlayers ?? 0,
-                    x.AvgPlayers ?? 0
+                    x.PeakPlayers ?? 0
                 ))
                 .ToListAsync(ct);
         }
@@ -133,8 +132,7 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
                 .OrderBy(x => x.Bucket)
                 .Select(x => new ChartPointDto(
                     x.Bucket!.Value,
-                    x.PeakPlayers ?? 0,
-                    x.AvgPlayers ?? 0
+                    x.PeakPlayers ?? 0
                 ))
                 .ToListAsync(ct);
         }
@@ -145,7 +143,7 @@ internal sealed class SteamService(AppDbContext db) : ISteamService
 
         for (var t = since; t <= fillEnd; t += interval)
         {
-            filled.Add(lookup.TryGetValue(t, out var p) ? p : new ChartPointDto(t, 0, 0));
+            filled.Add(lookup.TryGetValue(t, out var p) ? p : new ChartPointDto(t, 0));
         }
 
         return new ConcurrentUsersChartResponse(range ?? "7d", bucketSize, filled);

@@ -1,10 +1,10 @@
-#:sdk Aspire.AppHost.Sdk@13.4.6
-#:package Aspire.Hosting.Yarp@13.4.6
-#:package Aspire.Hosting.JavaScript@13.4.6
-#:package Aspire.Hosting.Docker@13.4.6
-#:package Aspire.Hosting.Browsers@13.4.6-preview.1.26319.6
-#:package Aspire.Hosting.DevTunnels@13.4.6
-#:package Aspire.Hosting.EntityFrameworkCore@13.4.6-preview.1.26319.6
+#:sdk Aspire.AppHost.Sdk@13.5.1
+#:package Aspire.Hosting.Yarp@13.5.1
+#:package Aspire.Hosting.JavaScript@13.5.1
+#:package Aspire.Hosting.Docker@13.5.1
+#:package Aspire.Hosting.Browsers@13.5.1-preview.1.26420.4
+#:package Aspire.Hosting.DevTunnels@13.5.1
+#:package Aspire.Hosting.EntityFrameworkCore@13.5.1-preview.1.26420.4
 #:property TargetFramework=net11.0
 #:property AspireUseCliBundle=true
 

@@ -25,7 +25,7 @@ const comingUpHref = {
 
 const getDiscoverGameHref = (game: { id: string | number }) =>
   ({
-    pathname: "/(discover)/games/[slug]",
+    pathname: "/games/[slug]",
     params: { slug: String(game.id) },
   }) satisfies Href;
 

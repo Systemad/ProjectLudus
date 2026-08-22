@@ -5,6 +5,7 @@
     ".expo/**",
     ".artifacts/**",
     "assets/**",
-    "src/gen/**"
+    "src/gen/**",
+    "tools/oxlint/anti-slop/**"
   ]
 }

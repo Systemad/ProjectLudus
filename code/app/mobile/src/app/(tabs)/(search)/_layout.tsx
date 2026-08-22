@@ -2,19 +2,17 @@ import { Stack } from "expo-router/stack";
 
 import { CatalogStack } from "@/navigation/catalog-stack";
 
-export default function DiscoverLayout() {
+export default function SearchLayout() {
   return (
     <CatalogStack>
       <Stack.Screen
         name="index"
         options={{
-          title: "Discover",
+          title: "Search",
         }}
       />
-      <Stack.Screen name="games/[slug]" options={{ headerShown: false }} />
       <Stack.Screen name="companies/[slug]" options={{ title: "Company" }} />
       <Stack.Screen name="events/[slug]" options={{ title: "Event" }} />
-      <Stack.Screen name="collections/[collection]" options={{ title: "Collection" }} />
       <Stack.Screen name="settings" options={{ title: "Settings" }} />
     </CatalogStack>
   );

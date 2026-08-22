@@ -12,7 +12,7 @@ const DEFAULT_RELEASE_YEAR = 2026;
 
 const getDiscoverGameHref = (game: GameBrowseDto) =>
   ({
-    pathname: "../games/[slug]",
+    pathname: "/games/[slug]",
     params: { slug: String(game.id) },
   }) satisfies Href;
 

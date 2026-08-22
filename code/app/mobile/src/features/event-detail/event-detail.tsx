@@ -11,7 +11,7 @@ import { formatShortDate } from "@/utils/date";
 
 const getEventGameHref = (game: { id: string | number }) =>
   ({
-    pathname: "../games/[slug]",
+    pathname: "/games/[slug]",
     params: { slug: String(game.id) },
   }) satisfies Href;
 

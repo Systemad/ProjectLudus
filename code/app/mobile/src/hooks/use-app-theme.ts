@@ -1,4 +1,5 @@
-import { useColorScheme } from "react-native";
+import { Color } from "expo-router";
+import { Platform, useColorScheme, type ColorValue } from "react-native";
 
 export type AppTheme = {
   background: string;
@@ -42,5 +43,56 @@ const fallback = {
 
 export function useAppTheme(): AppTheme {
   const scheme = useColorScheme() === "dark" ? "dark" : "light";
-  return fallback[scheme];
+  const palette = fallback[scheme];
+
+  return {
+    ...palette,
+    background: nativeColor(
+      Color.ios.systemBackground,
+      Color.android.dynamic.surface,
+      palette.background,
+    ),
+    surface: nativeColor(
+      Color.ios.systemBackground,
+      Color.android.dynamic.surface,
+      palette.surface,
+    ),
+    surfaceHigh: nativeColor(
+      Color.ios.secondarySystemBackground,
+      Color.android.dynamic.surfaceContainerHigh,
+      palette.surfaceHigh,
+    ),
+    primary: nativeColor(Color.ios.systemBlue, Color.android.dynamic.primary, palette.primary),
+    onPrimary: nativeColor(
+      Color.ios.systemBackground,
+      Color.android.dynamic.onPrimary,
+      palette.onPrimary,
+    ),
+    primaryContainer: nativeColor(
+      Color.ios.systemGray5,
+      Color.android.dynamic.primaryContainer,
+      palette.primaryContainer,
+    ),
+    onPrimaryContainer: nativeColor(
+      Color.ios.label,
+      Color.android.dynamic.onPrimaryContainer,
+      palette.onPrimaryContainer,
+    ),
+    text: nativeColor(Color.ios.label, Color.android.dynamic.onSurface, palette.text),
+    textMuted: nativeColor(
+      Color.ios.secondaryLabel,
+      Color.android.dynamic.onSurfaceVariant,
+      palette.textMuted,
+    ),
+    outline: nativeColor(
+      Color.ios.separator,
+      Color.android.dynamic.outlineVariant,
+      palette.outline,
+    ),
+  };
+}
+
+function nativeColor(ios: ColorValue, android: ColorValue, fallbackColor: string): string {
+  // SAFETY: Platform.select always returns one of the supplied platform color values or the string fallback.
+  return Platform.select({ ios, android, default: fallbackColor }) as string;
 }

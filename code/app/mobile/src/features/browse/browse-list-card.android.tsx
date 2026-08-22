@@ -12,20 +12,13 @@ import { type Href, useRouter } from "expo-router";
 import { GameArtwork } from "@/entities/game/game-artwork.android";
 import { getGameCardImage } from "@/entities/game/game-image";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
+import { formatPlayerCount } from "@/utils/steam-chart";
 
 type BrowseListCardProps = {
   game: GameBrowseDto;
   rank: number;
   href: Href;
 };
-
-function formatPlayerCount(value: number | null | undefined) {
-  if (value === null || value === undefined) {
-    return "—";
-  }
-
-  return value.toLocaleString();
-}
 
 export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
   const router = useRouter();

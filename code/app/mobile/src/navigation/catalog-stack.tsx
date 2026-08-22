@@ -11,15 +11,12 @@ export function CatalogStack({ children }: { children: ReactNode }) {
 
   return (
     <Stack
-      screenOptions={({ route }) => ({
+      screenOptions={{
         headerStyle: { backgroundColor: colors.surface },
         headerTintColor: colors.text,
         contentStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
-        ...(route.name === "games/[slug]" && {
-          headerShown: false,
-        }),
-      })}
+      }}
     >
       {children}
     </Stack>

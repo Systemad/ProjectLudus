@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Host } from "@expo/ui";
 
 import { useIgdbGetPopscore } from "@/gen/hooks/IGDBHooks";
 import { useSteamChart } from "@/gen/hooks/SteamHooks";
-import { useAppTheme } from "@/hooks/use-app-theme";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 
-import { BrowseList, type BrowseCollection } from "./browse-list.android";
+import { BrowseList, type BrowseCollection } from "./browse-list";
 
 export default function BrowseScreen() {
-  const colors = useAppTheme();
   const [collection, setCollection] = useState<BrowseCollection>("mostPlayed");
 
   const mostPlayed = useSteamChart({
@@ -25,17 +23,28 @@ export default function BrowseScreen() {
   });
 
   const selected = { mostPlayed, popularReleases, hotReleases, trending }[collection];
-
-  return (
-    <Host style={{ flex: 1, backgroundColor: colors.background }}>
-      <BrowseList
-        collection={collection}
-        games={selected.data?.games ?? []}
-        isLoading={selected.isLoading}
-        isError={selected.isError}
-        onRetry={() => void selected.refetch()}
-        onCollectionChange={setCollection}
-      />
-    </Host>
+  const games = selected.data?.games ?? [];
+  const status = getContentStateStatus(
+    selected.isLoading,
+    selected.isError,
+    games.length === 0,
   );
+
+  if (status !== "ready") {
+    return (
+      <ContentState
+        fullScreen
+        status={status}
+        loading={{ label: "Loading games…" }}
+        error={{
+          onRetry: () => void selected.refetch(),
+          title: "This list could not be loaded.",
+          retryLabel: "Retry",
+        }}
+        empty={{ title: "No games found", message: "There are no games in this collection yet." }}
+      />
+    );
+  }
+
+  return <BrowseList collection={collection} games={games} onCollectionChange={setCollection} />;
 }

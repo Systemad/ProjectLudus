@@ -14,10 +14,8 @@ namespace CatalogAPISDK.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The avgPlayers property</summary>
-        public int? AvgPlayers { get; set; }
-        /// <summary>The peakPlayers property</summary>
-        public int? PeakPlayers { get; set; }
+        /// <summary>The players property</summary>
+        public int? Players { get; set; }
         /// <summary>The timestamp property</summary>
         public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
@@ -45,8 +43,7 @@ namespace CatalogAPISDK.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "avgPlayers", n => { AvgPlayers = n.GetIntValue(); } },
-                { "peakPlayers", n => { PeakPlayers = n.GetIntValue(); } },
+                { "players", n => { Players = n.GetIntValue(); } },
                 { "timestamp", n => { Timestamp = n.GetDateTimeOffsetValue(); } },
             };
         }
@@ -57,8 +54,7 @@ namespace CatalogAPISDK.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteIntValue("avgPlayers", AvgPlayers);
-            writer.WriteIntValue("peakPlayers", PeakPlayers);
+            writer.WriteIntValue("players", Players);
             writer.WriteDateTimeOffsetValue("timestamp", Timestamp);
             writer.WriteAdditionalData(AdditionalData);
         }

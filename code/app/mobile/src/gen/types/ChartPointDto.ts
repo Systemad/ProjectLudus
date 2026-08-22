@@ -15,11 +15,5 @@ export type ChartPointDto = {
      * Format: `int32`
      * @type integer
     */
-    peakPlayers: number;
-    /**
-     * @description
-     * Format: `int32`
-     * @type integer
-    */
-    avgPlayers: number;
+    players: number;
 };

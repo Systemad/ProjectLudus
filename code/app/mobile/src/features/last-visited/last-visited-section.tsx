@@ -13,7 +13,7 @@ import type { GameId } from "./last-visited-storage";
 
 const gameHref = (gameId: GameId) =>
   ({
-    pathname: "/(discover)/games/[slug]",
+    pathname: "/games/[slug]",
     params: { slug: gameId },
   }) satisfies Href;
 
