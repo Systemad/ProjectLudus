@@ -11,7 +11,12 @@ import type { ChartPointDto } from "@/gen/types/ChartPointDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { commonStyles } from "@/shared/ui/common-styles";
-import { formatPlayerCount, formatTimestamp, type SteamChartRange } from "@/utils/steam-chart";
+import {
+  formatPlayerCount,
+  formatTimestamp,
+  formatTooltipTimestamp,
+  type SteamChartRange,
+} from "@/utils/steam-chart";
 
 const RANGES: readonly { label: string; value: SteamChartRange }[] = [
   { label: "24H", value: "24h" },
@@ -154,7 +159,7 @@ export function SteamChart({
       sticky: false,
       format: (point) => {
         const label = point.groupLabel === "players" ? "Players" : (point.groupLabel ?? "Players");
-        return `${formatTimestamp(Number(point.xValue), range)}\n${label}: ${formatPlayerCount(
+        return `${formatTooltipTimestamp(Number(point.xValue))}\n${label}: ${formatPlayerCount(
           Number(point.yValue),
         )}`;
       },
@@ -177,6 +182,9 @@ export function SteamChart({
                 Players
               </NativeText>
             </View>
+            <NativeText style={[styles.legendNote, { color: colors.textMuted }]}>
+              UTC / local
+            </NativeText>
           </View>
           <NativeText numberOfLines={1} style={[styles.chartTitle, { color: colors.text }]}>
             Steam players
@@ -276,5 +284,9 @@ const styles = StyleSheet.create({
   legendLabel: {
     fontSize: 12,
     fontWeight: "700",
+  },
+  legendNote: {
+    fontSize: 11,
+    fontWeight: "600",
   },
 });

@@ -26,7 +26,7 @@ import { GameListActions } from "../lists/game-list-actions";
 import { GameFactGrid } from "./game-fact-grid";
 import { GameLinkList } from "./game-link-list";
 import { GameScreenshotGallery } from "./game-screenshot-gallery";
-import { GameSummaryCard } from "./game-summary-card";
+import { GameSummaryText } from "./game-summary-text";
 import { GameCarousel } from "@/entities/game/game-carousel";
 import { SteamChart } from "./steam-chart";
 import { SteamSummary } from "./steam-summary";
@@ -144,7 +144,7 @@ function OverviewContent({
 
   return (
     <View style={styles.sectionList}>
-      <GameSummaryCard summary={summary} />
+      <GameSummaryText summary={summary} />
       <SteamSummary steam={game.steam} reviews={game.reviews} pricing={game.pricing} />
       <GameFactGrid facts={facts} />
       <SteamChart gameId={gameId} onTooltipDismiss={onSteamTooltipDismiss} />
