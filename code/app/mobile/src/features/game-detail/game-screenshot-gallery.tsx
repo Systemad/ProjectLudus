@@ -1,6 +1,7 @@
+import { Galeria } from "@nandorojo/galeria";
 import { Image } from "expo-image";
 import { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -9,28 +10,28 @@ export function GameScreenshotGallery({ screenshotIds }: { screenshotIds: string
   const colors = useAppTheme();
   const screenshots = screenshotIds.flatMap((imageId, index) => {
     const thumbnailUrl = getIgdbImageUrl(imageId, "screenshot_med");
-    if (!thumbnailUrl) return [];
-    return [{ key: `${imageId}-${index}`, thumbnailUrl }];
+    const imageUrl = getIgdbImageUrl(imageId, "screenshot_huge");
+    if (!thumbnailUrl || !imageUrl) return [];
+    return [{ key: `${imageId}-${index}`, imageUrl, thumbnailUrl }];
   });
 
   if (screenshots.length === 0) return null;
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.content}
-    >
-      {screenshots.map((screenshot, index) => (
-        <Screenshot
-          key={screenshot.key}
-          colors={colors}
-          index={index}
-          source={screenshot.thumbnailUrl}
-          total={screenshots.length}
-        />
-      ))}
-    </ScrollView>
+    <Galeria urls={screenshots.map((screenshot) => screenshot.imageUrl)} theme="dark">
+      <View style={styles.grid}>
+        {screenshots.map((screenshot, index) => (
+          <Galeria.Image key={screenshot.key} index={index} style={styles.item}>
+            <Screenshot
+              colors={colors}
+              index={index}
+              source={screenshot.thumbnailUrl}
+              total={screenshots.length}
+            />
+          </Galeria.Image>
+        ))}
+      </View>
+    </Galeria>
   );
 }
 
@@ -76,15 +77,20 @@ function Screenshot({
 }
 
 const styles = StyleSheet.create({
-  content: {
+  grid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     gap: 12,
-    paddingRight: 32,
   },
-  frame: {
+  item: {
     aspectRatio: 16 / 9,
     borderRadius: 16,
     overflow: "hidden",
-    width: 300,
+    width: "48%",
+  },
+  frame: {
+    height: "100%",
+    width: "100%",
   },
   image: {
     height: "100%",
