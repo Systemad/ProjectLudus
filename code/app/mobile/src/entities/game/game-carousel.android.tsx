@@ -23,9 +23,10 @@ export function GameCarousel({
 }: GameCarouselProps) {
   const { width } = useWindowDimensions();
   const cardWidth = getGameRailCardWidth(width, visibleCardCount);
+  const cardHeight = cardWidth / 0.72 + (variant === "rail" ? 76 : 0);
 
   return (
-    <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
+    <Host style={{ height: cardHeight, width: "100%" }}>
       <LazyRow
         modifiers={[fillMaxWidth()]}
         horizontalArrangement={{ spacedBy: GAME_RAIL_GAP }}

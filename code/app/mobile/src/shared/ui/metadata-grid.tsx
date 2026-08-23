@@ -71,8 +71,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   cell: {
+    alignItems: "center",
     flex: 1,
     gap: 5,
+    justifyContent: "center",
     minHeight: 76,
     padding: 12,
   },
@@ -80,10 +82,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "700",
     letterSpacing: 0.2,
+    textAlign: "center",
   },
   value: {
     fontSize: 14,
     fontWeight: "600",
     lineHeight: 19,
+    textAlign: "center",
   },
 });

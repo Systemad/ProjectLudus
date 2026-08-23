@@ -1,5 +1,4 @@
 import { Host } from "@expo/ui";
-import type { Href } from "expo-router";
 import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 
 import { getGameRailCardWidth } from "@/config/layout";
@@ -7,15 +6,9 @@ import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 import { useLastVisited } from "./last-visited-context";
-import type { GameId } from "./last-visited-storage";
-
-const gameHref = (gameId: GameId) =>
-  ({
-    pathname: "/games/[slug]",
-    params: { slug: gameId },
-  }) satisfies Href;
 
 export function LastVisitedSection() {
   const colors = useAppTheme();
@@ -69,7 +62,7 @@ export function LastVisitedSection() {
                   metadata={metadata}
                   imageUrl={imageUrl}
                   variant="rail"
-                  href={gameHref(id)}
+                  href={getGameDetailHref(id)}
                   cardWidth={cardWidth}
                 />
               </Host>

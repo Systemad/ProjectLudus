@@ -1,7 +1,6 @@
 import { Configure, InstantSearch, useSearchBox } from "react-instantsearch-core";
 import { useState } from "react";
 import { View } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Host } from "@expo/ui";
 import { DockedSearchBar, RNHostView, Text } from "@expo/ui/jetpack-compose";
@@ -9,13 +8,14 @@ import { fillMaxWidth } from "@expo/ui/jetpack-compose/modifiers";
 import { Search } from "lucide-react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { useContentBottomInset } from "@/shared/ui/insets";
 import { SearchFilterSheet } from "./components/search-filter-sheet.android";
 import { SearchResultsSurface } from "./components/search-results-surface.android";
 import { GAMES_SEARCH_INDEX_NAME, searchClient } from "./typesense-client";
 
 export default function SearchRoot() {
   const colors = useAppTheme();
-  const insets = useSafeAreaInsets();
+  const bottomInset = useContentBottomInset(96);
   const [filterOpen, setFilterOpen] = useState(false);
 
   return (
@@ -27,7 +27,7 @@ export default function SearchRoot() {
       <Configure hitsPerPage={20} />
       <SearchContent
         colors={colors}
-        bottomInset={insets.bottom + 96}
+        bottomInset={bottomInset}
         onFilterOpen={() => setFilterOpen(true)}
         onFilterDismiss={() => setFilterOpen(false)}
         filterOpen={filterOpen}
@@ -52,7 +52,7 @@ function SearchContent({
   const { refine } = useSearchBox();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={{ paddingHorizontal: 16, paddingBottom: 8 }}>
         <Host matchContents style={{ width: "100%" }}>
           <DockedSearchBar onQueryChange={refine} modifiers={[fillMaxWidth()]}>
@@ -69,6 +69,6 @@ function SearchContent({
       </View>
       <SearchResultsSurface bottomInset={bottomInset} onFilterOpen={onFilterOpen} />
       {filterOpen ? <SearchFilterSheet onDismiss={onFilterDismiss} /> : null}
-    </SafeAreaView>
+    </View>
   );
 }

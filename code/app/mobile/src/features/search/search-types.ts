@@ -1,5 +1,3 @@
-import type { Href } from "expo-router";
-
 export type SearchHitFields = {
   objectID: string;
   [key: string]: string | number | string[] | null | undefined;
@@ -16,10 +14,3 @@ export type FacetDefinition = {
   attribute: string;
   label: string;
 };
-
-export function getSearchGameHref(id: string | number) {
-  return {
-    pathname: "/games/[slug]",
-    params: { slug: String(id) },
-  } satisfies Href;
-}

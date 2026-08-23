@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Text, View } from "react-native";
-import type { Href } from "expo-router";
 
 import { GameCarousel } from "@/entities/game/game-carousel";
 import {
@@ -10,12 +9,7 @@ import {
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";
-
-const getCompanyGameHref = (game: { id: string | number }) =>
-  ({
-    pathname: "/games/[slug]",
-    params: { slug: String(game.id) },
-  }) satisfies Href;
+import { getGameDetailHref } from "@/utils/game-routes";
 
 export function CompanyDetail({ slug }: { slug: string }) {
   const colors = useAppTheme();
@@ -57,7 +51,7 @@ export function CompanyDetail({ slug }: { slug: string }) {
       {games.length ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Games</Text>
-          <GameCarousel games={games} getHref={getCompanyGameHref} />
+          <GameCarousel games={games} getHref={(game) => getGameDetailHref(game.id)} />
         </View>
       ) : null}
     </DetailShell>

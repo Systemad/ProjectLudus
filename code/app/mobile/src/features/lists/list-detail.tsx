@@ -1,7 +1,7 @@
 import { useQueries, useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
-import { type Href, Link, router } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Link, router } from "expo-router";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { gamesGetHeroQueryOptions } from "@/gen/hooks/GamesHooks/useGamesGetHero";
@@ -17,9 +17,12 @@ import { useAppTheme } from "@/hooks/use-app-theme";
 import { posthog } from "@/lib/posthog";
 import { commonStyles } from "@/shared/ui/common-styles";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { useContentBottomInset } from "@/shared/ui/insets";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 export function ListDetail({ id }: { id: string }) {
   const colors = useAppTheme();
+  const bottomInset = useContentBottomInset(32);
   const queryClient = useQueryClient();
   const lists = useGetApiMeLists();
   const games = useGetApiMeListsIdGames({ path: { id }, query: { Page: 1, PageSize: 50 } });
@@ -88,7 +91,11 @@ export function ListDetail({ id }: { id: string }) {
   };
 
   return (
-    <View style={[styles.screen, { backgroundColor: colors.background }]}>
+    <ScrollView
+      style={{ backgroundColor: colors.background }}
+      contentContainerStyle={[styles.screen, { paddingBottom: bottomInset }]}
+      contentInsetAdjustmentBehavior="automatic"
+    >
       <View style={styles.heading}>
         <Text style={[styles.title, { color: colors.text }]}>{list.name}</Text>
         <Text
@@ -103,10 +110,7 @@ export function ListDetail({ id }: { id: string }) {
         <View style={styles.games}>
           {gameItems.map((game, index) => {
             const hero = gameDetails[index]?.data?.game;
-            const href = {
-              pathname: "/games/[slug]",
-              params: { slug: game.gameId },
-            } satisfies Href;
+            const href = getGameDetailHref(game.gameId);
             return (
               <View
                 key={game.gameId}
@@ -171,7 +175,7 @@ export function ListDetail({ id }: { id: string }) {
           </Pressable>
         </View>
       ) : null}
-    </View>
+    </ScrollView>
   );
 }
 

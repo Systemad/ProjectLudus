@@ -7,6 +7,8 @@ import { useIgdbGetMostAnticipated, useIgdbGetPopscore } from "@/gen/hooks/IGDBH
 import { useSteamChart } from "@/gen/hooks/SteamHooks";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { commonStyles } from "@/shared/ui/common-styles";
+import { useContentBottomInset } from "@/shared/ui/insets";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 const trendingHref = {
   pathname: "/(discover)/collections/[collection]",
@@ -23,14 +25,9 @@ const comingUpHref = {
   params: { collection: "coming-up" },
 } satisfies Href;
 
-const getDiscoverGameHref = (game: { id: string | number }) =>
-  ({
-    pathname: "/games/[slug]",
-    params: { slug: String(game.id) },
-  }) satisfies Href;
-
 export default function DiscoverScreen() {
   const colors = useAppTheme();
+  const bottomInset = useContentBottomInset(24);
   const trending = useIgdbGetPopscore({
     query: { PopularityTypeId: String(9), Page: 1, PageSize: 12 },
   });
@@ -44,13 +41,18 @@ export default function DiscoverScreen() {
   return (
     <ScrollView
       style={{ backgroundColor: colors.background }}
-      contentContainerStyle={[commonStyles.pageGutter, styles.content]}
+      contentContainerStyle={[
+        commonStyles.pageGutter,
+        styles.content,
+        { paddingBottom: bottomInset },
+      ]}
+      contentInsetAdjustmentBehavior="automatic"
     >
       <DiscoverRail
         title="Trending"
         subtitle="Global top sellers right now"
         href={trendingHref}
-        getGameHref={getDiscoverGameHref}
+        getGameHref={(game) => getGameDetailHref(game.id)}
         games={trending.data?.games ?? []}
         isLoading={trending.isLoading}
         isError={trending.isError}
@@ -61,7 +63,7 @@ export default function DiscoverScreen() {
         title="Most played on Steam"
         subtitle="Games with the most active players"
         href={mostPlayedHref}
-        getGameHref={getDiscoverGameHref}
+        getGameHref={(game) => getGameDetailHref(game.id)}
         games={mostPlayed.data?.games ?? []}
         isLoading={mostPlayed.isLoading}
         isError={mostPlayed.isError}
@@ -71,7 +73,7 @@ export default function DiscoverScreen() {
         title="Coming up"
         subtitle="Most anticipated games in the next 30 days"
         href={comingUpHref}
-        getGameHref={getDiscoverGameHref}
+        getGameHref={(game) => getGameDetailHref(game.id)}
         games={comingUp.data?.games ?? []}
         isLoading={comingUp.isLoading}
         isError={comingUp.isError}
@@ -85,7 +87,6 @@ export default function DiscoverScreen() {
 const styles = StyleSheet.create({
   content: {
     paddingTop: 12,
-    paddingBottom: 24,
     gap: 24,
   },
 });

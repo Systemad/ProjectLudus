@@ -10,7 +10,9 @@ import { useWindowDimensions } from "react-native";
 import { PAGE_GUTTER } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
-import { getSearchGameHref, type GameSearchHit } from "../search-types";
+import { getGameDetailHref } from "@/utils/game-routes";
+
+import type { GameSearchHit } from "../search-types";
 
 export function SearchResults({
   items,
@@ -41,10 +43,9 @@ export function SearchResults({
             title={item.name ?? "Untitled"}
             metadata={`Game · ${String(item.release_year ?? "Release date unknown")}`}
             imageUrl={item.cover_url ? getIgdbImageUrl(item.cover_url, "cover_big") : undefined}
-            href={getSearchGameHref(item.id)}
+            href={getGameDetailHref(item.id)}
             variant="grid"
             cardWidth={cardWidth}
-            fillFraction={1}
           />
         ))}
       </FlowRow>

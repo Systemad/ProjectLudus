@@ -3,6 +3,8 @@ import { FilterChip, LazyColumn, Row, Text } from "@expo/ui/jetpack-compose";
 import { fillMaxSize, fillMaxWidth, horizontalScroll } from "@expo/ui/jetpack-compose/modifiers";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
+import { useContentBottomInset } from "@/shared/ui/insets";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 import { BrowseListCard } from "./browse-list-card";
 
@@ -41,16 +43,14 @@ function CollectionChip({
   );
 }
 
-export function BrowseList({
-  collection,
-  games,
-  onCollectionChange,
-}: BrowseListProps) {
+export function BrowseList({ collection, games, onCollectionChange }: BrowseListProps) {
+  const bottomInset = useContentBottomInset(28);
+
   return (
     <Host style={{ flex: 1 }}>
       <LazyColumn
         modifiers={[fillMaxSize()]}
-        contentPadding={{ bottom: 28, end: 16, start: 16, top: 12 }}
+        contentPadding={{ bottom: bottomInset, end: 16, start: 16, top: 12 }}
         verticalArrangement={{ spacedBy: 10 }}
       >
         <Row
@@ -75,7 +75,7 @@ export function BrowseList({
             key={game.id}
             game={game}
             rank={index + 1}
-            href={{ pathname: "/games/[slug]", params: { slug: game.id } }}
+            href={getGameDetailHref(game.id)}
           />
         ))}
       </LazyColumn>

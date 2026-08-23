@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { Text, View } from "react-native";
-import type { Href } from "expo-router";
 
 import { GameCarousel } from "@/entities/game/game-carousel";
 import { eventsGetByIdQueryOptions } from "@/gen/hooks/EventsHooks/index";
@@ -8,12 +7,7 @@ import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
 import { DetailShell, FactGroup, detailStyles } from "@/shared/ui/detail-shell";
 import { formatShortDate } from "@/utils/date";
-
-const getEventGameHref = (game: { id: string | number }) =>
-  ({
-    pathname: "/games/[slug]",
-    params: { slug: String(game.id) },
-  }) satisfies Href;
+import { getGameDetailHref } from "@/utils/game-routes";
 
 export function EventDetail({ slug }: { slug: string }) {
   const colors = useAppTheme();
@@ -46,7 +40,7 @@ export function EventDetail({ slug }: { slug: string }) {
       {event.games.length ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Featured games</Text>
-          <GameCarousel games={event.games} getHref={getEventGameHref} />
+          <GameCarousel games={event.games} getHref={(game) => getGameDetailHref(game.id)} />
         </View>
       ) : null}
     </DetailShell>

@@ -2,10 +2,11 @@ import { defineChart, lineY } from "@tanstack/charts/universal";
 import { Chart } from "@tanstack/react-native-charts";
 import { tooltip } from "@tanstack/react-native-charts/tooltip";
 import { scaleLinear } from "@tanstack/charts-scales/linear";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Pressable, Text as NativeText, View, StyleSheet } from "react-native";
 
-import { useSteamGetConcurrentUsersChart } from "@/gen/hooks/SteamHooks/index";
+import { steamGetConcurrentUsersChartQueryOptions } from "@/gen/hooks/SteamHooks/index";
 import type { ChartPointDto } from "@/gen/types/ChartPointDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -102,22 +103,21 @@ export function SteamChart({
   const colors = useAppTheme();
   const [range, setRange] = useState<SteamChartRange>("24h");
 
-  const chart24hQuery = useSteamGetConcurrentUsersChart(
-    { path: { gameId }, query: { range: "24h" } },
-    { query: { retry: false } },
+  const chartQuery = useQuery({
+    ...steamGetConcurrentUsersChartQueryOptions({
+      path: { gameId },
+      query: { range },
+    }),
+    placeholderData: keepPreviousData,
+    retry: false,
+  });
+  const selectedPoints = chartQuery.data?.points ?? EMPTY_POINTS;
+  const hasChartData = selectedPoints.length > 0 && hasPlayerHistory(selectedPoints);
+  const selectedStatus = getContentStateStatus(
+    chartQuery.isLoading && !hasChartData,
+    chartQuery.isError && !hasChartData,
+    !hasChartData,
   );
-  const chart7dQuery = useSteamGetConcurrentUsersChart(
-    { path: { gameId }, query: { range: "7d" } },
-    { query: { retry: false } },
-  );
-  const chart30dQuery = useSteamGetConcurrentUsersChart(
-    { path: { gameId }, query: { range: "30d" } },
-    { query: { retry: false } },
-  );
-
-  const selectedQuery = { "24h": chart24hQuery, "7d": chart7dQuery, "30d": chart30dQuery }[range];
-  const hasSteamEntry = chart30dQuery.data ? hasPlayerHistory(chart30dQuery.data.points) : false;
-  const selectedPoints = selectedQuery.data?.points ?? EMPTY_POINTS;
   const chartData = toChartData(selectedPoints);
   const definition = defineChart({
     marks: [
@@ -161,16 +161,6 @@ export function SteamChart({
     },
   });
 
-  if (chart30dQuery.isLoading || chart30dQuery.isError || !hasSteamEntry) {
-    return null;
-  }
-
-  const selectedStatus = getContentStateStatus(
-    selectedQuery.isLoading,
-    selectedQuery.isError,
-    selectedPoints.length === 0 || !hasPlayerHistory(selectedPoints),
-  );
-
   return (
     <View style={styles.section}>
       <View style={styles.sectionHeader}>
@@ -198,7 +188,7 @@ export function SteamChart({
           loading={{ label: "Loading Steam history…" }}
           error={{
             message: "Steam history could not be loaded.",
-            onRetry: () => void selectedQuery.refetch(),
+            onRetry: () => void chartQuery.refetch(),
           }}
           empty={{
             title: "No player history",

@@ -1,14 +1,14 @@
 import { Configure, InstantSearch, useSearchBox } from "react-instantsearch-core";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { TextInput, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { useContentBottomInset } from "@/shared/ui/insets";
 import { SearchResults } from "./components";
 import { GAMES_SEARCH_INDEX_NAME, searchClient } from "./typesense-client";
 
 export default function SearchRoot() {
   const colors = useAppTheme();
-  const insets = useSafeAreaInsets();
+  const bottomInset = useContentBottomInset(20);
 
   return (
     <InstantSearch
@@ -17,7 +17,7 @@ export default function SearchRoot() {
       future={{ preserveSharedStateOnUnmount: true }}
     >
       <Configure hitsPerPage={20} />
-      <SearchBody colors={colors} bottomInset={insets.bottom + 20} topInset={insets.top} />
+      <SearchBody colors={colors} bottomInset={bottomInset} />
     </InstantSearch>
   );
 }
@@ -25,16 +25,14 @@ export default function SearchRoot() {
 function SearchBody({
   colors,
   bottomInset,
-  topInset,
 }: {
   colors: ReturnType<typeof useAppTheme>;
   bottomInset: number;
-  topInset: number;
 }) {
   const { query, refine } = useSearchBox();
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: topInset }}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <TextInput
         value={query}
         onChangeText={refine}

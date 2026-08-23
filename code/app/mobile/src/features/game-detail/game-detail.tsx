@@ -3,8 +3,15 @@ import { Image } from "expo-image";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Share2 } from "lucide-react-native";
 import { useRef, useState, type ReactNode } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Share, StyleSheet, Text, View } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -13,16 +20,17 @@ import {
   getContentStateStatus,
   type ContentStateStatus,
 } from "@/shared/ui/content-state";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 import { GameListActions } from "../lists/game-list-actions";
 import { GameFactGrid } from "./game-fact-grid";
 import { GameLinkList } from "./game-link-list";
 import { GameScreenshotGallery } from "./game-screenshot-gallery";
 import { GameSummaryCard } from "./game-summary-card";
-import { RelatedGameRail } from "./related-game-rail";
+import { GameCarousel } from "@/entities/game/game-carousel";
 import { SteamChart } from "./steam-chart";
 import { SteamSummary } from "./steam-summary";
-import { useGameDetailData } from "./use-game-detail-data";
+import { useGameDetailViewModel } from "./use-game-detail-view-model";
 
 const TABS = [
   { value: "overview", label: "Overview" },
@@ -33,11 +41,10 @@ type GameDetailTab = (typeof TABS)[number]["value"];
 
 export function GameDetail() {
   const colors = useAppTheme();
-  const insets = useSafeAreaInsets();
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const gameId = String(slug);
-  const game = useGameDetailData(gameId);
   const [activeTab, setActiveTab] = useState<GameDetailTab>("overview");
+  const game = useGameDetailViewModel(gameId, { activeTab });
   const dismissSteamTooltipRef = useRef<() => void>(() => {});
 
   const title = game.hero?.name ?? "Game";
@@ -78,12 +85,12 @@ export function GameDetail() {
         </View>
       ) : (
         <ScrollView
-          contentInsetAdjustmentBehavior="never"
+          contentInsetAdjustmentBehavior="automatic"
           onTouchStart={() => dismissSteamTooltipRef.current()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             gap: 24,
-            paddingBottom: insets.bottom + 28,
+            paddingBottom: 24,
             paddingHorizontal: 16,
             paddingTop: 12,
           }}
@@ -108,14 +115,14 @@ export function GameDetail() {
   );
 }
 
-type GameDetailData = ReturnType<typeof useGameDetailData>;
+type GameDetailViewModel = ReturnType<typeof useGameDetailViewModel>;
 
 function OverviewContent({
   game,
   gameId,
   onSteamTooltipDismiss,
 }: {
-  game: GameDetailData;
+  game: GameDetailViewModel;
   gameId: string;
   onSteamTooltipDismiss: (dismiss: () => void) => void;
 }) {
@@ -152,12 +159,9 @@ function OverviewContent({
             onRetry={() => void game.retrySimilar()}
             errorMessage="Related games could not be loaded."
           >
-            <RelatedGameRail
+            <GameCarousel
               games={game.similar}
-              getHref={(relatedGameId) => ({
-                pathname: "/games/[slug]",
-                params: { slug: relatedGameId },
-              })}
+              getHref={(relatedGame) => getGameDetailHref(relatedGame.id)}
             />
           </NativeSectionState>
         </NativeSection>
@@ -171,7 +175,7 @@ function SecondaryContent({
   game,
 }: {
   activeTab: Exclude<GameDetailTab, "overview">;
-  game: GameDetailData;
+  game: GameDetailViewModel;
 }) {
   return (
     <View style={styles.sectionList}>
@@ -210,7 +214,7 @@ function SecondaryContent({
   );
 }
 
-function MediaRecord({ game }: { game: GameDetailData }) {
+function MediaRecord({ game }: { game: GameDetailViewModel }) {
   const colors = useAppTheme();
   const hero = game.hero;
   if (!hero) return null;

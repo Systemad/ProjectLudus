@@ -786,6 +786,9 @@ typesense-data/
 # Agent device output
 **/agent-device-output/
 
+# Local implementation plans
+/plans/
+
 # ========== Common language / tool ignores ==========
 # Python
 .venv/

@@ -1,8 +1,9 @@
-import { Link, type Href } from "expo-router";
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { useContentBottomInset } from "@/shared/ui/insets";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 import { BrowseListCard } from "./browse-list-card";
 
@@ -55,12 +56,14 @@ function CollectionChip({
 
 export function BrowseList({ collection, games, onCollectionChange }: BrowseListProps) {
   const colors = useAppTheme();
+  const bottomInset = useContentBottomInset(28);
 
   return (
     <FlatList
       data={games}
       keyExtractor={(game) => String(game.id)}
-      contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={[styles.content, { paddingBottom: bottomInset }]}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListHeaderComponent={
         <View style={styles.header}>
@@ -81,11 +84,7 @@ export function BrowseList({ collection, games, onCollectionChange }: BrowseList
         </View>
       }
       renderItem={({ item, index }) => (
-        <BrowseListCard
-          game={item}
-          rank={index + 1}
-          href={{ pathname: "/games/[slug]", params: { slug: String(item.id) } } satisfies Href}
-        />
+        <BrowseListCard game={item} rank={index + 1} href={getGameDetailHref(item.id)} />
       )}
     />
   );
@@ -93,7 +92,6 @@ export function BrowseList({ collection, games, onCollectionChange }: BrowseList
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: 28,
     paddingHorizontal: 16,
     paddingTop: 12,
   },

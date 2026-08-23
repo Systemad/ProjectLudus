@@ -6,25 +6,46 @@ import { PAGE_GUTTER } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { ContentState } from "@/shared/ui/content-state";
-import { getSearchGameHref, type GameSearchHit } from "../search-types";
+import { getGameDetailHref } from "@/utils/game-routes";
+
+import { getSearchContentStatus, SEARCH_STATE_COPY } from "../search-state";
+import type { GameSearchHit } from "../search-types";
 
 export function SearchResults({ bottomInset }: { bottomInset: number }) {
   const { items } = useHits<GameSearchHit>();
   const { status, error, refresh } = useInstantSearch({ catchError: true });
+  const contentStatus = getSearchContentStatus({
+    status,
+    error,
+    hasResults: items.length > 0,
+  });
 
-  if ((status === "loading" || status === "stalled") && items.length === 0) {
+  if (contentStatus === "loading") {
     return <ContentState status="loading" minHeight={240} />;
   }
 
-  if (error) {
+  if (contentStatus === "error") {
     return (
       <ContentState
         status="error"
         error={{
-          title: "Search failed",
-          message: "The search service could not be reached.",
+          title: SEARCH_STATE_COPY.errorTitle,
+          message: SEARCH_STATE_COPY.errorMessage,
           onRetry: refresh,
         }}
+      />
+    );
+  }
+
+  if (contentStatus === "empty") {
+    return (
+      <ContentState
+        status="empty"
+        empty={{
+          title: SEARCH_STATE_COPY.emptyTitle,
+          message: SEARCH_STATE_COPY.emptyMessage,
+        }}
+        minHeight={240}
       />
     );
   }
@@ -35,6 +56,7 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
       numColumns={2}
       keyExtractor={(item) => item.objectID}
       style={styles.list}
+      contentInsetAdjustmentBehavior="automatic"
       columnWrapperStyle={styles.row}
       contentContainerStyle={{
         gap: 12,
@@ -49,22 +71,11 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
             title={item.name ?? "Untitled"}
             metadata={`Game · ${String(item.release_year ?? "Release date unknown")}`}
             imageUrl={item.cover_url ? getIgdbImageUrl(item.cover_url, "cover_big") : undefined}
-            href={getSearchGameHref(item.id)}
+            href={getGameDetailHref(item.id)}
             variant="grid"
-            fillFraction={1}
           />
         </Host>
       )}
-      ListEmptyComponent={
-        <ContentState
-          status="empty"
-          empty={{
-            title: "No results found",
-            message: "Try another title or adjust your filters.",
-          }}
-          minHeight={240}
-        />
-      }
     />
   );
 }

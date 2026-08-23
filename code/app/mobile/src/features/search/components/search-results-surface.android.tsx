@@ -3,6 +3,7 @@ import { Box, FloatingActionButton, Host, Icon } from "@expo/ui/jetpack-compose"
 import { align, fillMaxSize, offset } from "@expo/ui/jetpack-compose/modifiers";
 
 import { ContentState } from "@/shared/ui/content-state";
+import { getSearchContentStatus, SEARCH_STATE_COPY } from "../search-state";
 import type { GameSearchHit } from "../search-types";
 import { SearchResults } from "./search-results.android";
 
@@ -15,18 +16,23 @@ export function SearchResultsSurface({
 }) {
   const { items } = useHits<GameSearchHit>();
   const { status, error, refresh } = useInstantSearch({ catchError: true });
+  const contentStatus = getSearchContentStatus({
+    status,
+    error,
+    hasResults: items.length > 0,
+  });
 
-  if ((status === "loading" || status === "stalled") && items.length === 0) {
+  if (contentStatus === "loading") {
     return <ContentState status="loading" minHeight={240} />;
   }
 
-  if (error) {
+  if (contentStatus === "error") {
     return (
       <ContentState
         status="error"
         error={{
-          title: "Search failed",
-          message: "The search service could not be reached.",
+          title: SEARCH_STATE_COPY.errorTitle,
+          message: SEARCH_STATE_COPY.errorMessage,
           onRetry: refresh,
         }}
         minHeight={240}
@@ -34,13 +40,13 @@ export function SearchResultsSurface({
     );
   }
 
-  if (items.length === 0) {
+  if (contentStatus === "empty") {
     return (
       <ContentState
         status="empty"
         empty={{
-          title: "No results found",
-          message: "Try another title or adjust your filters.",
+          title: SEARCH_STATE_COPY.emptyTitle,
+          message: SEARCH_STATE_COPY.emptyMessage,
         }}
         minHeight={240}
       />

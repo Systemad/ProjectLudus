@@ -9,15 +9,7 @@ export { getGameCardData } from "./game-card-data";
 export type { GameCardData } from "./game-card-data";
 export type { GameCardProps, GameCardVariant } from "./game-card-types";
 
-export function GameCard({
-  title,
-  metadata,
-  imageUrl,
-  variant,
-  href,
-  cardWidth,
-  fillFraction = 0.5,
-}: GameCardProps) {
+export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }: GameCardProps) {
   const colors = useAppTheme();
   const showCopy = variant !== "cover";
 
@@ -28,11 +20,7 @@ export function GameCard({
         accessibilityLabel={`View ${title}`}
         style={({ pressed }) => [
           styles.card,
-          cardWidth
-            ? { width: cardWidth }
-            : variant === "grid"
-              ? { width: `${fillFraction * 100}%` }
-              : undefined,
+          cardWidth ? { width: cardWidth } : undefined,
           { backgroundColor: colors.surfaceHigh, opacity: pressed ? 0.82 : 1 },
         ]}
       >

@@ -5,16 +5,9 @@ import { useCalendarGetGames } from "@/gen/hooks/CalendarHooks";
 import { useIgdbGetMostAnticipated, useIgdbGetPopscore } from "@/gen/hooks/IGDBHooks";
 import { useSteamChart } from "@/gen/hooks/SteamHooks";
 import { parseYearParam } from "@/utils/search-params";
-import type { Href } from "expo-router";
-import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
+import { getGameDetailHref } from "@/utils/game-routes";
 
 const DEFAULT_RELEASE_YEAR = 2026;
-
-const getDiscoverGameHref = (game: GameBrowseDto) =>
-  ({
-    pathname: "/games/[slug]",
-    params: { slug: String(game.id) },
-  }) satisfies Href;
 
 export default function CollectionScreen() {
   const { collection, year } = useLocalSearchParams<{
@@ -53,7 +46,7 @@ function TrendingCollection() {
     <>
       <Stack.Screen options={{ title: "Trending" }} />
       <GameGrid
-        getHref={getDiscoverGameHref}
+        getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
@@ -75,7 +68,7 @@ function ComingUpCollection() {
     <>
       <Stack.Screen options={{ title: "Coming up" }} />
       <GameGrid
-        getHref={getDiscoverGameHref}
+        getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
@@ -98,7 +91,7 @@ function SteamCollection({
     <>
       <Stack.Screen options={{ title }} />
       <GameGrid
-        getHref={getDiscoverGameHref}
+        getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}
@@ -121,7 +114,7 @@ function ReleasedCollection({ year }: { year: number }) {
     <>
       <Stack.Screen options={{ title: `Released in ${year}` }} />
       <GameGrid
-        getHref={getDiscoverGameHref}
+        getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
         isError={query.isError}

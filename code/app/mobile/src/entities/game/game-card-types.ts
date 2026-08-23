@@ -8,5 +8,4 @@ export type GameCardProps = GameCardData & {
   variant: GameCardVariant;
   href: Href;
   cardWidth?: number;
-  fillFraction?: number;
 };

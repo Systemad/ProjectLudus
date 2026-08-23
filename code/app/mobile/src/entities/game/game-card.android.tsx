@@ -16,21 +16,11 @@ export type { GameCardData } from "./game-card-data";
 
 export type { GameCardProps, GameCardVariant } from "./game-card-types";
 
-export function GameCard({
-  title,
-  metadata,
-  imageUrl,
-  variant,
-  href,
-  cardWidth,
-  fillFraction = 0.5,
-}: GameCardProps) {
+export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }: GameCardProps) {
   const router = useRouter();
   const showCopy = variant !== "cover";
   const copyHeight = variant === "grid" ? 92 : 76;
-  const cardModifiers = cardWidth
-    ? [width(cardWidth)]
-    : [variant === "grid" ? fillMaxWidth(fillFraction) : fillMaxWidth()];
+  const cardModifiers = cardWidth ? [width(cardWidth)] : [fillMaxWidth()];
 
   return (
     <Card elevation={0} modifiers={[...cardModifiers, clickable(() => router.push(href))]}>

@@ -1,11 +1,9 @@
-import { Host } from "@expo/ui";
-import { Column, FlowRow } from "@expo/ui/jetpack-compose";
-import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
-import { useWindowDimensions } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { useContentBottomInset } from "@/shared/ui/insets";
 import type { Href } from "expo-router";
 
 type GameGridProps = {
@@ -17,8 +15,7 @@ type GameGridProps = {
 };
 
 export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGridProps) {
-  const { width } = useWindowDimensions();
-  const cardWidth = Math.floor((width - 40 - 14) / 2);
+  const bottomInset = useContentBottomInset(120);
 
   return (
     <ContentState
@@ -28,28 +25,34 @@ export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGr
       error={{ onRetry, title: "Couldn’t load this collection." }}
       empty={{ title: "No games found", message: "There are no games in this collection yet." }}
     >
-      <Host style={{ flex: 1 }}>
-        <Column
-          modifiers={[fillMaxWidth(), padding(20, 20, 20, 120)]}
-          verticalArrangement={{ spacedBy: 14 }}
-        >
-          <FlowRow
-            horizontalArrangement={{ spacedBy: 14 }}
-            verticalArrangement={{ spacedBy: 16 }}
-            modifiers={[fillMaxWidth()]}
-          >
-            {games.map((game) => (
-              <GameCard
-                key={String(game.id)}
-                {...getGameCardData(game)}
-                variant="grid"
-                href={getHref(game)}
-                cardWidth={cardWidth}
-              />
-            ))}
-          </FlowRow>
-        </Column>
-      </Host>
+      <FlatList
+        data={games}
+        numColumns={2}
+        keyExtractor={(game) => String(game.id)}
+        contentInsetAdjustmentBehavior="automatic"
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={[styles.content, { paddingBottom: bottomInset }]}
+        renderItem={({ item }) => (
+          <View style={styles.cell}>
+            <GameCard {...getGameCardData(item)} variant="grid" href={getHref(item)} />
+          </View>
+        )}
+      />
     </ContentState>
   );
 }
+
+const styles = StyleSheet.create({
+  content: {
+    gap: 16,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  row: {
+    gap: 14,
+  },
+  cell: {
+    flex: 1,
+    minWidth: 0,
+  },
+});
