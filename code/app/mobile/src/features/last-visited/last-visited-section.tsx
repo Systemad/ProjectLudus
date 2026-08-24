@@ -1,7 +1,7 @@
-import { Host } from "@expo/ui";
-import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { Host, Row, ScrollView as ExpoScrollView } from "@expo/ui";
+import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { getGameRailCardWidth } from "@/config/layout";
+import { GAME_RAIL_CARD_WIDTH, GAME_RAIL_GAP } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
@@ -12,7 +12,6 @@ import { useLastVisited } from "./last-visited-context";
 
 export function LastVisitedSection() {
   const colors = useAppTheme();
-  const { width } = useWindowDimensions();
   const { games, isHydrating, isLoading, isError, retry } = useLastVisited();
 
   if (isHydrating || (games.length === 0 && !isLoading && !isError)) {
@@ -20,7 +19,25 @@ export function LastVisitedSection() {
   }
 
   const status = getContentStateStatus(isLoading, isError, games.length === 0);
-  const cardWidth = getGameRailCardWidth(width);
+  const cards = games.map(({ id, game }) => {
+    const metadata = [
+      game.firstReleaseDate?.slice(0, 4) ?? "TBA",
+      game.gameTypeName ?? "Game",
+    ].join(" · ");
+    const imageUrl = getIgdbImageUrl(game.cover, "cover_big", true) ?? game.coverUrl ?? undefined;
+
+    return (
+      <GameCard
+        key={id}
+        title={game.name}
+        metadata={metadata}
+        imageUrl={imageUrl}
+        variant="rail"
+        href={getGameDetailHref(id)}
+        cardWidth={GAME_RAIL_CARD_WIDTH}
+      />
+    );
+  });
 
   return (
     <View style={styles.section}>
@@ -42,33 +59,25 @@ export function LastVisitedSection() {
         }}
         empty={{ message: "Your last visited game is no longer available." }}
       >
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.cards}
-        >
-          {games.map(({ id, game }) => {
-            const metadata = [
-              game.firstReleaseDate?.slice(0, 4) ?? "TBA",
-              game.gameTypeName ?? "Game",
-            ].join(" · ");
-            const imageUrl =
-              getIgdbImageUrl(game.cover, "cover_big", true) ?? game.coverUrl ?? undefined;
-
-            return (
-              <Host key={id} matchContents>
-                <GameCard
-                  title={game.name}
-                  metadata={metadata}
-                  imageUrl={imageUrl}
-                  variant="rail"
-                  href={getGameDetailHref(id)}
-                  cardWidth={cardWidth}
-                />
-              </Host>
-            );
-          })}
-        </ScrollView>
+        {Platform.OS === "android" ? (
+          <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
+            <ExpoScrollView
+              direction="horizontal"
+              showsIndicators={false}
+              style={{ width: "100%" }}
+            >
+              <Row spacing={GAME_RAIL_GAP}>{cards}</Row>
+            </ExpoScrollView>
+          </Host>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.cards}
+          >
+            {cards}
+          </ScrollView>
+        )}
       </ContentState>
     </View>
   );
@@ -92,6 +101,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   cards: {
-    gap: 10,
+    gap: GAME_RAIL_GAP,
   },
 });

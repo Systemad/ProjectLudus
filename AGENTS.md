@@ -36,6 +36,11 @@ code/
 - Preserve module ownership, generated-file boundaries, and existing route/API contracts.
 - Run focused formatting, linting, typechecking, and tests for the changed slice; report blockers instead of broad unrelated cleanup.
 
+## Product scope preference
+
+- The mobile app is the default product scope for UI requests. Do not modify the web client unless the user explicitly asks for the web version.
+- Bun is used for mobile work.
+
 ## Scoped instructions
 
 - [code/app/AGENTS.md](code/app/AGENTS.md): Aspire, backend composition, clients, and app resources.

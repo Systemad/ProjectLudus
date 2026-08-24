@@ -2,6 +2,10 @@
 
 Expo SDK 57 client. Android is the active target; support iOS only when requested.
 
+## Package manager
+
+- Bun is used for this mobile app.
+
 ## Structure
 
 - Use Expo Router; keep routes thin.
@@ -18,7 +22,7 @@ Expo SDK 57 client. Android is the active target; support iOS only when requeste
 
 ## Data and types
 
-- Use generated Kubb hooks/types and run `pnpm run generate` after API changes.
+- Use generated Kubb hooks/types and run `bun run generate` after API changes.
 - Keep server state in TanStack Query and authentication in the existing auth provider.
 - Never use `any`. Treat client IDs as strings; never put `BigInt` in query keys.
 - Use environment variables for API configuration. Never bundle secrets.
@@ -32,6 +36,6 @@ Expo SDK 57 client. Android is the active target; support iOS only when requeste
 
 ## Workflow
 
-- For focused changes, run from this directory: `pnpm run fmt`, `pnpm exec tsc --noEmit`, and `pnpm run lint`.
+- For focused changes, run from this directory: `bun run fmt`, `bunx tsc --noEmit`, and `bun run lint`.
 - Do not install packages, start Expo/Aspire, or use device automation unless requested.
 - Keep changes focused, uncommitted, and local.
