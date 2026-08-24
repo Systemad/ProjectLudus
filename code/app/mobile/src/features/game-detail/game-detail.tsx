@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Share2 } from "lucide-react-native";
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -15,6 +15,7 @@ import {
 
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { useLastVisited } from "@/features/last-visited";
 import {
   ContentState,
   getContentStateStatus,
@@ -46,6 +47,13 @@ export function GameDetail() {
   const [activeTab, setActiveTab] = useState<GameDetailTab>("overview");
   const game = useGameDetailViewModel(gameId, { activeTab });
   const dismissSteamTooltipRef = useRef<() => void>(() => {});
+  const { remember } = useLastVisited();
+
+  useEffect(() => {
+    if (game.hero?.id === gameId) {
+      remember(gameId);
+    }
+  }, [game.hero?.id, gameId, remember]);
 
   const title = game.hero?.name ?? "Game";
   const shareGame = () => void Share.share({ message: `Open this game in Ludus: ${gameId}` });
