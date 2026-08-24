@@ -792,6 +792,9 @@ typesense-data/
 # Local implementation plans
 /plans/
 
+# Local design drafts and previews
+/design/
+
 # ========== Common language / tool ignores ==========
 # Python
 .venv/
