@@ -783,8 +783,11 @@ code/typesense-data/
 **/typesense-data/
 typesense-data/
 
-# Agent device output
+# Agent-device and dogfood artifacts
 **/agent-device-output/
+**/.agent-device/
+**/agent-device/
+**/dogfood-output/
 
 # Local implementation plans
 /plans/
