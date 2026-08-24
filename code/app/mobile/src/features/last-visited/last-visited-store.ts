@@ -29,9 +29,11 @@ export const useLastVisitedStore = create<LastVisitedStore>()(
         }));
       },
       removeGames: (gameIds) => {
+        const removedGameIds = new Set(gameIds);
+
         set((state) => {
           const nextGameIds = state.lastVisitedGameIds.filter(
-            (visitedGameId) => !gameIds.includes(visitedGameId),
+            (visitedGameId) => !removedGameIds.has(visitedGameId),
           );
 
           return nextGameIds.length === state.lastVisitedGameIds.length
@@ -47,7 +49,11 @@ export const useLastVisitedStore = create<LastVisitedStore>()(
       partialize: ({ lastVisitedGameIds }) => ({ lastVisitedGameIds }),
       version: 2,
       onRehydrateStorage: () => (state) => {
-        state?.setHasHydrated(true);
+        if (state) {
+          state.setHasHydrated(true);
+        } else {
+          useLastVisitedStore.setState({ hasHydrated: true });
+        }
       },
     },
   ),
