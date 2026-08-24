@@ -14,7 +14,6 @@ export default function DiscoverLayout() {
       <Stack.Screen name="companies/[slug]" options={{ title: "Company" }} />
       <Stack.Screen name="events/[slug]" options={{ title: "Event" }} />
       <Stack.Screen name="collections/[collection]" options={{ title: "Collection" }} />
-      <Stack.Screen name="settings" options={{ title: "Settings" }} />
     </CatalogStack>
   );
 }

@@ -13,7 +13,6 @@ export default function SearchLayout() {
       />
       <Stack.Screen name="companies/[slug]" options={{ title: "Company" }} />
       <Stack.Screen name="events/[slug]" options={{ title: "Event" }} />
-      <Stack.Screen name="settings" options={{ title: "Settings" }} />
     </CatalogStack>
   );
 }

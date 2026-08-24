@@ -22,6 +22,7 @@ export default function RootLayout() {
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="(tabs)" />
                 <Stack.Screen name="games/[slug]" options={{ headerShown: true }} />
+                <Stack.Screen name="settings" options={{ headerShown: true, title: "Settings" }} />
               </Stack>
             </ThemeProvider>
           </AuthProvider>
