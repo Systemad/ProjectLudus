@@ -1,10 +1,10 @@
-#:sdk Aspire.AppHost.Sdk@13.5.1
-#:package Aspire.Hosting.Yarp@13.5.1
-#:package Aspire.Hosting.JavaScript@13.5.1
-#:package Aspire.Hosting.Docker@13.5.1
-#:package Aspire.Hosting.Browsers@13.5.1-preview.1.26420.4
-#:package Aspire.Hosting.DevTunnels@13.5.1
-#:package Aspire.Hosting.EntityFrameworkCore@13.5.1-preview.1.26420.4
+#:sdk Aspire.AppHost.Sdk@13.5.2
+#:package Aspire.Hosting.Yarp@13.5.2
+#:package Aspire.Hosting.JavaScript@13.5.2
+#:package Aspire.Hosting.Docker@13.5.2
+#:package Aspire.Hosting.Browsers@13.5.2-preview.1.26421.6
+#:package Aspire.Hosting.DevTunnels@13.5.2
+#:package Aspire.Hosting.EntityFrameworkCore@13.5.2-preview.1.26421.6
 #:property TargetFramework=net11.0
 #:property AspireUseCliBundle=true
 
@@ -114,19 +114,19 @@ builder
     .AddDevTunnel("mobile-typesense")
     .WithReference(typesenseProxy.GetEndpoint("http"), allowAnonymous: true);
 
-#pragma warning disable ASPIREBROWSERLOGS001, ASPIREJAVASCRIPT001
-var frontend = builder
-    .AddJavaScriptApp("frontend", "./frontend", runScriptName: "dev")
-    .WithPnpm()
-    .WithReference(backendApi)
-    .WaitFor(backendApi)
-    .WithHttpEndpoint(name: "http", targetPort: 5173)
-    .WithBrowserLogs(browser: "chrome")
-    .PublishAsStaticWebsite(
-        "/catalog",
-        backendApi,
-        opts => opts.OutputPath = "apps/game-index/dist"
-    )
-    .WithExplicitStart;
-#pragma warning restore ASPIREBROWSERLOGS001, ASPIREJAVASCRIPT001
+// #pragma warning disable ASPIREBROWSERLOGS001, ASPIREJAVASCRIPT001
+// var frontend = builder
+//     .AddJavaScriptApp("frontend", "./frontend", runScriptName: "dev")
+//     .WithPnpm()
+//     .WithReference(backendApi)
+//     .WaitFor(backendApi)
+//     .WithHttpEndpoint(name: "http", targetPort: 5173)
+//     .WithBrowserLogs(browser: "chrome")
+//     .PublishAsStaticWebsite(
+//         "/catalog",
+//         backendApi,
+//         opts => opts.OutputPath = "apps/game-index/dist"
+//     )
+//     .WithExplicitStart;
+// #pragma warning restore ASPIREBROWSERLOGS001, ASPIREJAVASCRIPT001
 builder.Build().Run();

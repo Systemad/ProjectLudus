@@ -1,8 +1,8 @@
 #!/usr/bin/env dotnet run
 
-#:sdk Aspire.AppHost.Sdk@13.4.6
-#:package Aspire.Hosting.PostgreSQL@13.4.6
-#:package Aspire.Hosting.Docker@13.4.6
+#:sdk Aspire.AppHost.Sdk@13.5.2
+#:package Aspire.Hosting.PostgreSQL@13.5.2
+#:package Aspire.Hosting.Docker@13.5.2
 #:property ExperimentalFileBasedProgramEnableIncludeDirective=true
 #:property ExperimentalFileBasedProgramEnableTransitiveDirectives=true
 

@@ -4,45 +4,37 @@
     <CentralPackageTransitivePinningEnabled>false</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Riok.Mapperly" Version="5.0.0-next.6" />
+    <PackageVersion Include="Riok.Mapperly" Version="5.0.0-next.10" />
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="11.0.0-preview.7.26381.103" />
-    
     <PackageVersion Include="EFCore.NamingConventions" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="11.0.0-preview.7.26381.103" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
-    
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.10" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.11" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11" />
+    <PackageVersion Include="AngleSharp" Version="1.7.2" />
     <PackageVersion Include="AspNet.Security.OpenId.Steam" Version="10.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.8.0" />
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.8.0" />
-
-
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.17.0" />
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.17.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.17.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.17.0" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.17.0" />
-    <PackageVersion Include="Scalar.AspNetCore" Version="2.16.16" />
-    
-    <PackageVersion Include="Refit" Version="14.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.9.0" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.9.0" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.18.0" />
+    <PackageVersion Include="Scalar.AspNetCore" Version="2.17.1" />
+    <PackageVersion Include="Refit" Version="15.2.0" />
     <PackageVersion Include="Microsoft.Kiota.Bundle" Version="2.0.0" />
-    <PackageVersion Include="TUnit" Version="1.61.38" />
-    <PackageVersion Include="TUnit.AspNetCore" Version="1.61.38" />
+    <PackageVersion Include="TUnit" Version="1.65.63" />
+    <PackageVersion Include="TUnit.AspNetCore" Version="1.65.63" />
     <PackageVersion Include="Microsoft.Extensions.ApiDescription.Server" Version="11.0.0-preview.7.26381.103" />
-    <PackageVersion Include="Microsoft.OpenApi" Version="3.10.0" />
-
-
-    <PackageVersion Include="CmdScale.EntityFrameworkCore.TimescaleDB" Version="10.1.2" />
-    <PackageVersion Include="CmdScale.EntityFrameworkCore.TimescaleDB.Design" Version="10.1.2" />
+    <PackageVersion Include="Microsoft.OpenApi" Version="3.10.2" />
+    <PackageVersion Include="CmdScale.EntityFrameworkCore.TimescaleDB" Version="10.2.0" />
+    <PackageVersion Include="CmdScale.EntityFrameworkCore.TimescaleDB.Design" Version="10.2.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
-    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.13.0" />
-  <!-- Aspire -->
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.4.6" />
-    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.4.6-preview.1.26319.6" />
-
-
+    <PackageVersion Include="Testcontainers.PostgreSql" Version="4.14.0" />
+    <!-- Aspire -->
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.5.2" />
+    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.5.2-preview.1.26421.6" />
     <PackageVersion Include="SteamWebAPI2" Version="5.0.0" />
     <PackageVersion Include="TickerQ" Version="10.4.0" />
     <PackageVersion Include="TickerQ.EntityFrameworkCore" Version="10.4.0" />
