@@ -3,10 +3,10 @@ import { ChevronRight } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { GameCarousel } from "@/entities/game/game-carousel";
-import { FeaturedCarousel } from "@/features/discover/featured-carousel";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { spacing, typography } from "@/theme";
 
 type DiscoverRailProps = {
   title: string;
@@ -60,11 +60,7 @@ export function DiscoverRail({
         }}
         empty={{ message: "No games are available in this collection yet." }}
       >
-        {featured ? (
-          <FeaturedCarousel games={games} getHref={getGameHref} />
-        ) : (
-          <GameCarousel games={games} getHref={getGameHref} />
-        )}
+        <GameCarousel games={games} getHref={getGameHref} variant={featured ? "cover" : "rail"} />
       </ContentState>
     </View>
   );
@@ -72,12 +68,12 @@ export function DiscoverRail({
 
 const styles = StyleSheet.create({
   section: {
-    gap: 8,
+    gap: spacing.xs,
   },
   header: {
     minHeight: 56,
     justifyContent: "center",
-    gap: 3,
+    gap: spacing.xxs - 1,
   },
   titleRow: {
     width: "100%",
@@ -86,11 +82,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: "800",
+    ...typography.sectionTitle,
   },
   subtitle: {
-    fontSize: 14,
+    ...typography.body,
   },
 });

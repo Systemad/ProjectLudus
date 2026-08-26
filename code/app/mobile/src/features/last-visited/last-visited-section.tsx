@@ -1,14 +1,15 @@
-import { Host, Row, ScrollView as ExpoScrollView } from "@expo/ui";
-import { Platform, ScrollView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-import { GAME_RAIL_CARD_WIDTH, GAME_RAIL_GAP } from "@/config/layout";
+import { GAME_RAIL_CARD_WIDTH } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { spacing, typography } from "@/theme";
 import { getGameDetailHref } from "@/utils/game-routes";
 
 import { useLastVisited } from "./last-visited-context";
+import { LastVisitedCarousel } from "./last-visited-carousel";
 
 export function LastVisitedSection() {
   const colors = useAppTheme();
@@ -59,25 +60,7 @@ export function LastVisitedSection() {
         }}
         empty={{ message: "Your last visited game is no longer available." }}
       >
-        {Platform.OS === "android" ? (
-          <Host matchContents={{ vertical: true }} style={{ width: "100%" }}>
-            <ExpoScrollView
-              direction="horizontal"
-              showsIndicators={false}
-              style={{ width: "100%" }}
-            >
-              <Row spacing={GAME_RAIL_GAP}>{cards}</Row>
-            </ExpoScrollView>
-          </Host>
-        ) : (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.cards}
-          >
-            {cards}
-          </ScrollView>
-        )}
+        <LastVisitedCarousel>{cards}</LastVisitedCarousel>
       </ContentState>
     </View>
   );
@@ -85,22 +68,17 @@ export function LastVisitedSection() {
 
 const styles = StyleSheet.create({
   section: {
-    gap: 8,
+    gap: spacing.xs,
   },
   header: {
     minHeight: 56,
     justifyContent: "center",
-    gap: 3,
+    gap: spacing.xxs - 1,
   },
   title: {
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: "800",
+    ...typography.sectionTitle,
   },
   subtitle: {
-    fontSize: 14,
-  },
-  cards: {
-    gap: GAME_RAIL_GAP,
+    ...typography.body,
   },
 });

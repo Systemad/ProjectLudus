@@ -3,6 +3,7 @@ import { Column, FlowRow } from "@expo/ui/jetpack-compose";
 import { fillMaxWidth, padding } from "@expo/ui/jetpack-compose/modifiers";
 import { useWindowDimensions } from "react-native";
 
+import { GRID_COLUMN_GAP, GRID_PAGE_PADDING, GRID_ROW_GAP } from "@/config/layout";
 import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -20,7 +21,7 @@ type GameGridProps = {
 export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGridProps) {
   const { width } = useWindowDimensions();
   const bottomInset = useContentBottomInset(120);
-  const cardWidth = Math.floor((width - 40 - 14) / 2);
+  const cardWidth = Math.floor((width - GRID_PAGE_PADDING * 2 - GRID_COLUMN_GAP) / 2);
 
   return (
     <ContentState
@@ -32,12 +33,15 @@ export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGr
     >
       <Host style={{ flex: 1 }}>
         <Column
-          modifiers={[fillMaxWidth(), padding(20, 20, 20, bottomInset)]}
-          verticalArrangement={{ spacedBy: 14 }}
+          modifiers={[
+            fillMaxWidth(),
+            padding(GRID_PAGE_PADDING, GRID_PAGE_PADDING, GRID_PAGE_PADDING, bottomInset),
+          ]}
+          verticalArrangement={{ spacedBy: GRID_COLUMN_GAP }}
         >
           <FlowRow
-            horizontalArrangement={{ spacedBy: 14 }}
-            verticalArrangement={{ spacedBy: 16 }}
+            horizontalArrangement={{ spacedBy: GRID_COLUMN_GAP }}
+            verticalArrangement={{ spacedBy: GRID_ROW_GAP }}
             modifiers={[fillMaxWidth()]}
           >
             {games.map((game) => (

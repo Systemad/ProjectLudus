@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import type { WebsiteDto } from "@/gen/types/WebsiteDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { radius, spacing, typography } from "@/theme";
 
 export function GameLinkList({ websites }: { websites: WebsiteDto[] }) {
   const colors = useAppTheme();
@@ -64,7 +65,7 @@ function looksLikeUrl(value: string): boolean {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
     borderCurve: "continuous",
     overflow: "hidden",
@@ -72,21 +73,20 @@ const styles = StyleSheet.create({
   row: {
     alignItems: "center",
     flexDirection: "row",
-    gap: 12,
+    gap: spacing.md,
     minHeight: 68,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.sm,
   },
   copy: {
     flex: 1,
-    gap: 3,
+    gap: spacing.xxs - 1,
     minWidth: 0,
   },
   title: {
-    fontSize: 15,
-    fontWeight: "800",
+    ...typography.linkTitle,
   },
   address: {
-    fontSize: 12,
+    ...typography.cardMetadata,
   },
 });

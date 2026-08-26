@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, View } from "react-native";
 
+import { GRID_COLUMN_GAP, GRID_PAGE_PADDING, GRID_ROW_GAP } from "@/config/layout";
 import { GameCard, getGameCardData } from "@/entities/game/game-card";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -44,12 +45,12 @@ export function GameGrid({ games, getHref, isLoading, isError, onRetry }: GameGr
 
 const styles = StyleSheet.create({
   content: {
-    gap: 16,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    gap: GRID_ROW_GAP,
+    paddingHorizontal: GRID_PAGE_PADDING,
+    paddingTop: GRID_PAGE_PADDING,
   },
   row: {
-    gap: 14,
+    gap: GRID_COLUMN_GAP,
   },
   cell: {
     flex: 1,

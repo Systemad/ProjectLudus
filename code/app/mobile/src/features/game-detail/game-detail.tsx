@@ -16,6 +16,7 @@ import {
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { useLastVisited } from "@/features/last-visited";
+import { radius, shadows, spacing, typography } from "@/theme";
 import {
   ContentState,
   getContentStateStatus,
@@ -386,18 +387,17 @@ const styles = StyleSheet.create({
     paddingTop: 72,
   },
   sectionList: {
-    gap: 24,
+    gap: spacing.xxxl,
   },
   section: {
-    gap: 10,
+    gap: spacing.sm,
   },
   sectionTitle: {
-    fontSize: 19,
-    fontWeight: "800",
+    ...typography.detailSectionTitle,
   },
   hero: {
     aspectRatio: 16 / 8.2,
-    borderRadius: 20,
+    borderRadius: radius.xl,
     borderCurve: "continuous",
     overflow: "hidden",
   },
@@ -417,15 +417,15 @@ const styles = StyleSheet.create({
     bottom: 10,
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 6,
+    gap: spacing.xs - 2,
     left: 10,
     position: "absolute",
     right: 10,
   },
   chip: {
-    borderRadius: 999,
-    paddingHorizontal: 9,
-    paddingVertical: 5,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.sm - 1,
+    paddingVertical: spacing.xxs + 1,
   },
   chipText: {
     color: "#FFFFFF",
@@ -435,19 +435,16 @@ const styles = StyleSheet.create({
   recordDetails: {
     alignItems: "flex-end",
     flexDirection: "row",
-    gap: 14,
+    gap: spacing.lg,
     marginTop: -42,
-    paddingHorizontal: 12,
+    paddingHorizontal: spacing.md,
   },
   coverWrap: {
-    borderRadius: 14,
+    boxShadow: shadows.cover,
+    borderRadius: radius.lg,
     borderCurve: "continuous",
-    elevation: 5,
     height: 138,
     overflow: "hidden",
-    shadowColor: "#000000",
-    shadowOpacity: 0.25,
-    shadowRadius: 8,
     width: 96,
   },
   cover: {
@@ -456,17 +453,14 @@ const styles = StyleSheet.create({
   },
   recordCopy: {
     flex: 1,
-    gap: 5,
-    paddingBottom: 7,
+    gap: spacing.xxs + 1,
+    paddingBottom: spacing.xs - 1,
   },
   recordTitle: {
-    fontSize: 25,
-    fontWeight: "900",
-    lineHeight: 30,
+    ...typography.heroTitle,
   },
   recordMeta: {
-    fontSize: 13,
-    fontWeight: "700",
+    ...typography.label,
   },
   tabs: {
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -475,7 +469,7 @@ const styles = StyleSheet.create({
   tab: {
     alignItems: "center",
     flex: 1,
-    gap: 8,
+    gap: spacing.xs,
     minHeight: 44,
     justifyContent: "flex-end",
   },
@@ -484,7 +478,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
   },
   tabIndicator: {
-    borderRadius: 999,
+    borderRadius: radius.pill,
     height: 3,
     width: 48,
   },

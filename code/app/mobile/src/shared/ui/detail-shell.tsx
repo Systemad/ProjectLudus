@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { PAGE_GUTTER } from "@/config/layout";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { radius, spacing, typography } from "@/theme";
 import { commonStyles } from "./common-styles";
 
 type DetailShellProps = {
@@ -91,48 +92,44 @@ export const detailStyles = {
 const styles = StyleSheet.create({
   content: {
     paddingBottom: 110,
-    gap: 24,
+    gap: spacing.xxxl,
   },
   header: {
     paddingHorizontal: PAGE_GUTTER,
     flexDirection: "row",
     alignItems: "flex-end",
-    gap: 16,
+    gap: spacing.xl,
   },
   cover: {
     width: 124,
     aspectRatio: 0.72,
-    borderRadius: 14,
+    borderRadius: radius.md,
     borderCurve: "continuous",
   },
   heading: {
     flex: 1,
     minWidth: 0,
     paddingBottom: 4,
-    gap: 7,
+    gap: spacing.sm - 3,
   },
   eyebrow: {
-    fontSize: 12,
-    fontWeight: "900",
+    ...typography.detailEyebrow,
     letterSpacing: 1.2,
   },
   title: {
-    fontSize: 30,
-    lineHeight: 34,
-    fontWeight: "900",
+    ...typography.detailTitle,
   },
   summary: {
     paddingHorizontal: PAGE_GUTTER,
-    fontSize: 16,
-    lineHeight: 24,
+    ...typography.bodyLarge,
   },
   facts: {
     marginHorizontal: PAGE_GUTTER,
   },
   factRow: {
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    gap: 5,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    gap: spacing.xxs + 1,
   },
   factTitle: {
     fontSize: 11,

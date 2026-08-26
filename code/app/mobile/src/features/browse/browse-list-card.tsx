@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { getGameCardImage } from "@/entities/game/game-image";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { radius, spacing, typography } from "@/theme";
 import { formatPlayerCount } from "@/utils/steam-chart";
 
 type BrowseListCardProps = {
@@ -24,7 +25,9 @@ export function BrowseListCard({ game, rank, href }: BrowseListCardProps) {
         {imageUrl ? (
           <Image source={imageUrl} style={styles.image} contentFit="cover" />
         ) : (
-          <View style={[styles.image, styles.placeholder, { backgroundColor: colors.primaryContainer }]}>
+          <View
+            style={[styles.image, styles.placeholder, { backgroundColor: colors.primaryContainer }]}
+          >
             <Text style={[styles.initial, { color: colors.onPrimaryContainer }]}>
               {game.name.slice(0, 1)}
             </Text>
@@ -77,14 +80,14 @@ function PlayerStat({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: radius.lg,
     flexDirection: "row",
-    gap: 12,
+    gap: spacing.md,
     overflow: "hidden",
-    padding: 8,
+    padding: spacing.xs,
   },
   image: {
-    borderRadius: 10,
+    borderRadius: radius.sm,
     height: 104,
     width: 76,
   },
@@ -93,12 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   initial: {
-    fontSize: 28,
-    fontWeight: "800",
+    ...typography.browseInitial,
   },
   copy: {
     flex: 1,
-    gap: 6,
+    gap: spacing.xs - 2,
     justifyContent: "space-between",
     minWidth: 0,
     paddingVertical: 1,
@@ -106,34 +108,31 @@ const styles = StyleSheet.create({
   titleRow: {
     alignItems: "flex-start",
     flexDirection: "row",
-    gap: 8,
+    gap: spacing.xs,
   },
   title: {
     flex: 1,
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.browseTitle,
   },
   rank: {
     fontSize: 14,
     fontWeight: "800",
   },
   genre: {
-    fontSize: 14,
+    ...typography.bodyCompact,
   },
   stats: {
     flexDirection: "row",
-    gap: 16,
+    gap: spacing.xl,
   },
   stat: {
     flex: 1,
-    gap: 2,
+    gap: spacing.xxs / 2,
   },
   statLabel: {
-    fontSize: 10,
-    fontWeight: "700",
+    ...typography.browseStatLabel,
   },
   statValue: {
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.browseStatValue,
   },
 });

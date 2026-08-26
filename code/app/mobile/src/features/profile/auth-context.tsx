@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { createContext, useContext, type ReactNode } from "react";
@@ -9,7 +9,6 @@ import { getAuthMeQueryKey, useGetAuthMe } from "@/gen/play-api/hooks/AuthHooks/
 import { usePostAuthLogout } from "@/gen/play-api/hooks/AuthHooks/usePostAuthLogout";
 import { usePostAuthMobileExchange } from "@/gen/play-api/hooks/AuthHooks/usePostAuthMobileExchange";
 import type { GetAuthMeStatus401 } from "@/gen/play-api/types/GetAuthMe";
-import { queryClient } from "@/lib/query-client";
 import { posthog } from "@/lib/posthog";
 
 import {
@@ -37,6 +36,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 const sessionTokenQueryKey = ["play", "access-token"] as const;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const tokenQuery = useQuery({
     queryKey: sessionTokenQueryKey,
     queryFn: authStorage.get,

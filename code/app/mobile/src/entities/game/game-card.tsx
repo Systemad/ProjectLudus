@@ -3,6 +3,7 @@ import { Link } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { radius, spacing, typography } from "@/theme";
 import type { GameCardProps } from "./game-card-types";
 
 export { getGameCardData } from "./game-card-data";
@@ -62,13 +63,13 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     overflow: "hidden",
-    borderRadius: 12,
+    borderRadius: radius.md,
     borderCurve: "continuous",
   },
   image: {
     width: "100%",
     aspectRatio: 0.72,
-    borderRadius: 12,
+    borderRadius: radius.md,
     borderCurve: "continuous",
   },
   placeholder: {
@@ -76,29 +77,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   placeholderText: {
-    fontSize: 32,
-    fontWeight: "800",
+    ...typography.placeholder,
   },
   copy: {
-    padding: 12,
-    gap: 4,
+    padding: spacing.md,
+    gap: spacing.xxs,
   },
   railCopy: {
-    paddingHorizontal: 8,
-    paddingVertical: 9,
-    gap: 3,
+    paddingHorizontal: spacing.xs,
+    paddingVertical: spacing.sm - 1,
+    gap: spacing.xxs - 1,
   },
   name: {
-    fontSize: 15,
-    lineHeight: 19,
-    fontWeight: "700",
+    ...typography.cardTitle,
   },
   railName: {
-    fontSize: 13,
-    lineHeight: 16,
+    ...typography.railTitle,
   },
   meta: {
-    fontSize: 12,
+    ...typography.cardMetadata,
   },
   railMeta: {
     fontSize: 11,

@@ -3,6 +3,7 @@ import { Box, FloatingActionButton, Host, Icon } from "@expo/ui/jetpack-compose"
 import { align, fillMaxSize, offset } from "@expo/ui/jetpack-compose/modifiers";
 
 import { ContentState } from "@/shared/ui/content-state";
+import { CONTENT_STATE_MIN_HEIGHT } from "@/config/layout";
 import { getSearchContentStatus, SEARCH_STATE_COPY } from "../search-state";
 import type { GameSearchHit } from "../search-types";
 import { SearchResults } from "./search-results.android";
@@ -23,7 +24,7 @@ export function SearchResultsSurface({
   });
 
   if (contentStatus === "loading") {
-    return <ContentState status="loading" minHeight={240} />;
+    return <ContentState status="loading" minHeight={CONTENT_STATE_MIN_HEIGHT} />;
   }
 
   if (contentStatus === "error") {
@@ -35,7 +36,7 @@ export function SearchResultsSurface({
           message: SEARCH_STATE_COPY.errorMessage,
           onRetry: refresh,
         }}
-        minHeight={240}
+        minHeight={CONTENT_STATE_MIN_HEIGHT}
       />
     );
   }
@@ -48,7 +49,7 @@ export function SearchResultsSurface({
           title: SEARCH_STATE_COPY.emptyTitle,
           message: SEARCH_STATE_COPY.emptyMessage,
         }}
-        minHeight={240}
+        minHeight={CONTENT_STATE_MIN_HEIGHT}
       />
     );
   }

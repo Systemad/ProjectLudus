@@ -2,7 +2,7 @@ import { useHits, useInstantSearch } from "react-instantsearch-core";
 import { Host } from "@expo/ui";
 import { FlatList, StyleSheet } from "react-native";
 
-import { PAGE_GUTTER } from "@/config/layout";
+import { CONTENT_STATE_MIN_HEIGHT, GRID_COLUMN_GAP, PAGE_GUTTER } from "@/config/layout";
 import { GameCard } from "@/entities/game/game-card";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { ContentState } from "@/shared/ui/content-state";
@@ -21,7 +21,7 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
   });
 
   if (contentStatus === "loading") {
-    return <ContentState status="loading" minHeight={240} />;
+    return <ContentState status="loading" minHeight={CONTENT_STATE_MIN_HEIGHT} />;
   }
 
   if (contentStatus === "error") {
@@ -45,7 +45,7 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
           title: SEARCH_STATE_COPY.emptyTitle,
           message: SEARCH_STATE_COPY.emptyMessage,
         }}
-        minHeight={240}
+        minHeight={CONTENT_STATE_MIN_HEIGHT}
       />
     );
   }
@@ -59,7 +59,7 @@ export function SearchResults({ bottomInset }: { bottomInset: number }) {
       contentInsetAdjustmentBehavior="automatic"
       columnWrapperStyle={styles.row}
       contentContainerStyle={{
-        gap: 12,
+        gap: GRID_COLUMN_GAP,
         paddingHorizontal: PAGE_GUTTER,
         paddingTop: 4,
         paddingBottom: bottomInset + 20,
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   row: {
-    gap: 12,
+    gap: GRID_COLUMN_GAP,
   },
 });

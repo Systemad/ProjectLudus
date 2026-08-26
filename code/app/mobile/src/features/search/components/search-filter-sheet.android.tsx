@@ -3,6 +3,7 @@ import { Column, ModalBottomSheet, Text } from "@expo/ui/jetpack-compose";
 import { fillMaxWidth, paddingAll, verticalScroll } from "@expo/ui/jetpack-compose/modifiers";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { spacing } from "@/theme";
 import { SearchFacets } from "./search-facets";
 
 export function SearchFilterSheet({ onDismiss }: { onDismiss: () => void }) {
@@ -17,8 +18,8 @@ export function SearchFilterSheet({ onDismiss }: { onDismiss: () => void }) {
         onDismissRequest={onDismiss}
       >
         <Column
-          verticalArrangement={{ spacedBy: 16 }}
-          modifiers={[fillMaxWidth(), verticalScroll(), paddingAll(24)]}
+          verticalArrangement={{ spacedBy: spacing.xl }}
+          modifiers={[fillMaxWidth(), verticalScroll(), paddingAll(spacing.xxxl)]}
         >
           <Text style={{ typography: "headlineSmall", fontWeight: "800" }}>Filter games</Text>
           <SearchFacets />

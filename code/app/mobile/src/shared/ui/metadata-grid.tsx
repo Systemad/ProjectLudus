@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
+import { radius, spacing, typography } from "@/theme";
 
 export type MetadataItem = {
   label: string;
@@ -62,7 +63,7 @@ export function MetadataGrid({ items, columns = 2 }: { items: MetadataItem[]; co
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
     borderCurve: "continuous",
     overflow: "hidden",
@@ -73,21 +74,19 @@ const styles = StyleSheet.create({
   cell: {
     alignItems: "center",
     flex: 1,
-    gap: 5,
+    gap: spacing.xxs + 1,
     justifyContent: "center",
     minHeight: 76,
-    padding: 12,
+    padding: spacing.md,
   },
   label: {
-    fontSize: 11,
+    ...typography.microLabel,
     fontWeight: "700",
     letterSpacing: 0.2,
     textAlign: "center",
   },
   value: {
-    fontSize: 14,
-    fontWeight: "600",
-    lineHeight: 19,
+    ...typography.metadataValue,
     textAlign: "center",
   },
 });

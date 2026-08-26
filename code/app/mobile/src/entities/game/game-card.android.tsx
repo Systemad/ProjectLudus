@@ -8,6 +8,8 @@ import {
 } from "@expo/ui/jetpack-compose/modifiers";
 import { useRouter } from "expo-router";
 
+import { GAME_RAIL_COPY_HEIGHT } from "@/config/layout";
+import { spacing } from "@/theme";
 import { GameArtwork } from "./game-artwork.android";
 import type { GameCardProps } from "./game-card-types";
 
@@ -19,7 +21,7 @@ export type { GameCardProps, GameCardVariant } from "./game-card-types";
 export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }: GameCardProps) {
   const router = useRouter();
   const showCopy = variant !== "cover";
-  const copyHeight = variant === "grid" ? 92 : 76;
+  const copyHeight = variant === "grid" ? 92 : GAME_RAIL_COPY_HEIGHT;
   const cardModifiers = cardWidth ? [width(cardWidth)] : [fillMaxWidth()];
 
   return (
@@ -34,8 +36,11 @@ export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }
         />
         {showCopy && metadata ? (
           <Column
-            modifiers={[height(copyHeight), paddingAll(variant === "rail" ? 8 : 12)]}
-            verticalArrangement={{ spacedBy: 4 }}
+            modifiers={[
+              height(copyHeight),
+              paddingAll(variant === "rail" ? spacing.xs : spacing.md),
+            ]}
+            verticalArrangement={{ spacedBy: spacing.xxs }}
           >
             <Text
               maxLines={2}
