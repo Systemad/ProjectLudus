@@ -20,7 +20,7 @@
  <div id="redoc-container"></div>
  <script>
    const data = {
-  "openapi": "3.1.2",
+  "openapi": "3.1.1",
   "info": {
     "title": "Backend.API | v1",
     "version": "1.0.0"
@@ -1927,8 +1927,8 @@
           },
           "comment": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -1977,46 +1977,49 @@
           },
           "description": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "url": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "startDate": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "country": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "logoId": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "logoImageId": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "parentCompany": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/ParentCompanyDto"
@@ -2025,8 +2028,8 @@
           },
           "status": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -2068,8 +2071,8 @@
           "description": {
             "maxLength": 500,
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "visibility": {
@@ -2094,46 +2097,46 @@
           },
           "slug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "description": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "liveStreamUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "startTimeUtc": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ],
             "format": "date-time"
           },
           "endTimeUtc": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ],
             "format": "date-time"
           },
           "timeZone": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "logoImageId": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "games": {
@@ -2162,8 +2165,8 @@
           },
           "state": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -2216,21 +2219,24 @@
           },
           "firstReleaseDate": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ],
             "format": "date"
           },
           "coverUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "steam": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamData"
@@ -2272,21 +2278,21 @@
           },
           "coverImageId": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "firstReleaseDateUtc": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ],
             "format": "date-time"
           },
           "gameTypeName": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -2386,14 +2392,14 @@
           },
           "imageId": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "url": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -2438,8 +2444,8 @@
           },
           "slug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "name": {
@@ -2447,32 +2453,32 @@
           },
           "summary": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "cover": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "coverUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "gameTypeName": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "firstReleaseDate": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ],
             "format": "date"
           },
@@ -2628,8 +2634,8 @@
           },
           "slug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "name": {
@@ -2637,44 +2643,47 @@
           },
           "summary": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "storyline": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "cover": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "coverUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "gameType": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "gameTypeName": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "steam": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamData"
@@ -2750,39 +2759,42 @@
         "properties": {
           "platformName": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "platformSlug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "releaseDate": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "region": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "human": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "status": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/ReleaseDateStatusDto"
@@ -2792,7 +2804,10 @@
           "platform": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/PlatformDto"
@@ -2975,35 +2990,35 @@
           },
           "finalCents": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "discountPercent": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "currency": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "high30d": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "low30d": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           }
@@ -3030,42 +3045,42 @@
           },
           "numReviews": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "reviewScore": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "reviewScoreDesc": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "totalPositive": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "totalNegative": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "totalReviews": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           }
@@ -3093,33 +3108,33 @@
         "properties": {
           "type": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "title": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "status": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "detail": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "instance": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "errors": {
@@ -3189,14 +3204,14 @@
           },
           "nativeName": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "type": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3275,8 +3290,8 @@
           },
           "description": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "visibility": {
@@ -3337,8 +3352,8 @@
           },
           "nextPage": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
@@ -3363,8 +3378,8 @@
           },
           "nextPage": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
@@ -3386,14 +3401,14 @@
           },
           "name": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "slug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3429,8 +3444,8 @@
           },
           "slug": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3444,15 +3459,15 @@
         "properties": {
           "releaseDate": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "platform": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3466,15 +3481,15 @@
         "properties": {
           "releaseDate": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "region": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3556,34 +3571,37 @@
           },
           "currentPlayers": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "peak24h": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int64"
           },
           "headerUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "capsuleUrl": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "pricing": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamPricingData"
@@ -3593,7 +3611,10 @@
           "review": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamReviewData"
@@ -3607,54 +3628,54 @@
         "properties": {
           "finalCents": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "discountPercent": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "currency": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "initialCents": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "initialFormatted": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "finalFormatted": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "high30d": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "low30d": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           }
@@ -3665,35 +3686,35 @@
         "properties": {
           "score": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "desc": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "totalReviews": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "positive": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           },
           "negative": {
             "type": [
-              "null",
-              "integer"
+              "integer",
+              "null"
             ],
             "format": "int32"
           }
@@ -3714,8 +3735,8 @@
           "description": {
             "maxLength": 500,
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "visibility": {
@@ -3783,8 +3804,8 @@
           },
           "nextCursor": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3808,8 +3829,8 @@
           },
           "nextCursor": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           }
         }
@@ -3933,8 +3954,8 @@
           },
           "type": {
             "type": [
-              "null",
-              "string"
+              "string",
+              "null"
             ]
           },
           "url": {
@@ -3942,8 +3963,8 @@
           },
           "trusted": {
             "type": [
-              "null",
-              "boolean"
+              "boolean",
+              "null"
             ]
           }
         }

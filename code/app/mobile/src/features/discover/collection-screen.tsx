@@ -1,11 +1,16 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 
+import { getGameCardItem } from "@/entities/game/game-card";
 import { GameGrid } from "@/entities/game/game-grid";
 import { useCalendarGetGames } from "@/gen/hooks/CalendarHooks";
+import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useIgdbGetMostAnticipated, useIgdbGetPopscore } from "@/gen/hooks/IGDBHooks";
 import { useSteamChart } from "@/gen/hooks/SteamHooks";
+import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { useContentBottomInset } from "@/shared/ui/insets";
 import { parseYearParam } from "@/utils/search-params";
 import { getGameDetailHref } from "@/utils/game-routes";
+import type { Href } from "expo-router";
 
 const DEFAULT_RELEASE_YEAR = 2026;
 
@@ -45,7 +50,7 @@ function TrendingCollection() {
   return (
     <>
       <Stack.Screen options={{ title: "Trending" }} />
-      <GameGrid
+      <CollectionGrid
         getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
@@ -67,7 +72,7 @@ function ComingUpCollection() {
   return (
     <>
       <Stack.Screen options={{ title: "Coming up" }} />
-      <GameGrid
+      <CollectionGrid
         getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
@@ -90,7 +95,7 @@ function SteamCollection({
   return (
     <>
       <Stack.Screen options={{ title }} />
-      <GameGrid
+      <CollectionGrid
         getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
@@ -113,7 +118,7 @@ function ReleasedCollection({ year }: { year: number }) {
   return (
     <>
       <Stack.Screen options={{ title: `Released in ${year}` }} />
-      <GameGrid
+      <CollectionGrid
         getHref={(game) => getGameDetailHref(game.id)}
         games={query.data?.games ?? []}
         isLoading={query.isLoading}
@@ -121,5 +126,36 @@ function ReleasedCollection({ year }: { year: number }) {
         onRetry={() => void query.refetch()}
       />
     </>
+  );
+}
+
+function CollectionGrid({
+  games,
+  getHref,
+  isLoading,
+  isError,
+  onRetry,
+}: {
+  games: GameBrowseDto[];
+  getHref: (game: GameBrowseDto) => Href;
+  isLoading: boolean;
+  isError: boolean;
+  onRetry: () => void;
+}) {
+  const bottomInset = useContentBottomInset(120);
+
+  return (
+    <ContentState
+      fullScreen
+      status={getContentStateStatus(isLoading, isError, games.length === 0)}
+      loading={{ label: "Loading games…" }}
+      error={{ onRetry, title: "Couldn’t load this collection." }}
+      empty={{ title: "No games found", message: "There are no games in this collection yet." }}
+    >
+      <GameGrid
+        items={games.map((game) => getGameCardItem(game, getHref(game)))}
+        bottomInset={bottomInset}
+      />
+    </ContentState>
   );
 }

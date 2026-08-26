@@ -2,11 +2,12 @@ import { Link, type Href } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { GameCarousel } from "@/entities/game/game-carousel";
-import { FeaturedCarousel } from "@/features/discover/featured-carousel";
+import { getGameCardItem } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
+import { spacing, typography } from "@/theme";
 
 type DiscoverRailProps = {
   title: string;
@@ -17,7 +18,6 @@ type DiscoverRailProps = {
   isLoading: boolean;
   isError: boolean;
   onRetry: () => void;
-  featured?: boolean;
 };
 
 export function DiscoverRail({
@@ -29,7 +29,6 @@ export function DiscoverRail({
   isLoading,
   isError,
   onRetry,
-  featured = false,
 }: DiscoverRailProps) {
   const colors = useAppTheme();
 
@@ -60,11 +59,7 @@ export function DiscoverRail({
         }}
         empty={{ message: "No games are available in this collection yet." }}
       >
-        {featured ? (
-          <FeaturedCarousel games={games} getHref={getGameHref} />
-        ) : (
-          <GameCarousel games={games} getHref={getGameHref} />
-        )}
+        <GameRail items={games.map((game) => getGameCardItem(game, getGameHref(game)))} />
       </ContentState>
     </View>
   );
@@ -72,12 +67,12 @@ export function DiscoverRail({
 
 const styles = StyleSheet.create({
   section: {
-    gap: 8,
+    gap: spacing.xs,
   },
   header: {
     minHeight: 56,
     justifyContent: "center",
-    gap: 3,
+    gap: spacing.xxs - 1,
   },
   titleRow: {
     width: "100%",
@@ -86,11 +81,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: "800",
+    ...typography.sectionTitle,
   },
   subtitle: {
-    fontSize: 14,
+    ...typography.body,
   },
 });

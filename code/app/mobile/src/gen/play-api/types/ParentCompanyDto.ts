@@ -5,6 +5,6 @@
 
 export type ParentCompanyDto = {
     id: string;
-    name: null;
-    slug: null;
+    name: string | null;
+    slug: string | null;
 };

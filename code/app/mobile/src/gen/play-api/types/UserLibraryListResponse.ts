@@ -9,5 +9,5 @@ import type { UserLibrarySavedGameResponse } from './UserLibrarySavedGameRespons
 export type UserLibraryListResponse = {
     list: UserLibraryListSummary;
     games: UserLibrarySavedGameResponse[];
-    nextCursor: null;
+    nextCursor: string | null;
 };

@@ -6,5 +6,5 @@
 export type AlternativeNameDto = {
     id: string;
     name: string;
-    comment: null;
+    comment: string | null;
 };

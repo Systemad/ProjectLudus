@@ -57,7 +57,6 @@ export default function DiscoverScreen() {
         isLoading={trending.isLoading}
         isError={trending.isError}
         onRetry={() => void trending.refetch()}
-        featured
       />
       <DiscoverRail
         title="Most played on Steam"

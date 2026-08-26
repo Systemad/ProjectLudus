@@ -9,7 +9,7 @@ import { listVisibilitySchema } from './listVisibilitySchema'
 export const listSummaryResponseSchema = z.object({
   id: z.uuid(),
   name: z.string(),
-  description: z.null(),
+  description: z.string().nullable(),
   visibility: listVisibilitySchema,
   isDefault: z.boolean(),
   itemCount: z.int(),

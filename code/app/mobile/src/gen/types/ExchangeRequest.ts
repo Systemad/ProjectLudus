@@ -9,5 +9,5 @@ export type ExchangeRequest = {
      * @type string
     */
     code: string;
-    state?: null;
+    state?: string | null;
 };

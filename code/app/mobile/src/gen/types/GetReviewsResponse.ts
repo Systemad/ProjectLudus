@@ -18,7 +18,7 @@ export type GetReviewsResponse = {
      * @type integer
     */
     reviewScore: number | null;
-    reviewScoreDesc: null;
+    reviewScoreDesc: string | null;
     /**
      * @description
      * Format: `int32`

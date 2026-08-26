@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
-import { PAGE_GUTTER } from "@/config/layout";
+import { CONTENT_STATE_MIN_HEIGHT, PAGE_GUTTER } from "@/config/layout";
+import { radius, spacing, typography } from "@/theme";
 
 export const commonStyles = StyleSheet.create({
   pageGutter: {
@@ -8,42 +9,36 @@ export const commonStyles = StyleSheet.create({
   },
   section: {
     paddingHorizontal: PAGE_GUTTER,
-    gap: 12,
+    gap: spacing.md,
   },
-  sectionTitle: {
-    fontSize: 22,
-    fontWeight: "800",
-  },
+  sectionTitle: typography.sectionTitle,
   centeredState: {
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    gap: spacing.sm,
   },
   fullScreenState: {
     flex: 1,
-    minHeight: 240,
-    padding: 24,
+    minHeight: CONTENT_STATE_MIN_HEIGHT,
+    padding: spacing.xxxl,
   },
-  stateText: {
-    fontSize: 14,
-    textAlign: "center",
-  },
+  stateText: { ...typography.body, textAlign: "center" },
   retry: {
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 22,
+    paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.xl,
   },
   retryText: {
     fontWeight: "700",
   },
   surfaceCard: {
     overflow: "hidden",
-    borderRadius: 16,
+    borderRadius: radius.lg,
     borderCurve: "continuous",
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 12,
+    gap: spacing.md,
   },
 });

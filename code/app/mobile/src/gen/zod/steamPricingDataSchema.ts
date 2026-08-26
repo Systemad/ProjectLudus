@@ -8,10 +8,10 @@ import * as z from 'zod'
 export const steamPricingDataSchema = z.object({
   finalCents: z.int().nullish(),
   discountPercent: z.int().nullish(),
-  currency: z.null().optional(),
+  currency: z.string().nullish(),
   initialCents: z.int().nullish(),
-  initialFormatted: z.null().optional(),
-  finalFormatted: z.null().optional(),
+  initialFormatted: z.string().nullish(),
+  finalFormatted: z.string().nullish(),
   high30d: z.int().nullish(),
   low30d: z.int().nullish(),
 })

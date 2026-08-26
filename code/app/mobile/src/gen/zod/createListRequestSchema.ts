@@ -8,6 +8,6 @@ import { listVisibilitySchema } from './listVisibilitySchema'
 
 export const createListRequestSchema = z.object({
   name: z.string().min(1).max(100),
-  description: z.null().optional(),
+  description: z.string().max(500).nullish(),
   visibility: listVisibilitySchema,
 })

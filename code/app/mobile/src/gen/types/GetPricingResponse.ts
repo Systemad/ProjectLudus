@@ -18,7 +18,7 @@ export type GetPricingResponse = {
      * @type integer
     */
     discountPercent: number | null;
-    currency: null;
+    currency: string | null;
     /**
      * @description
      * Format: `int32`

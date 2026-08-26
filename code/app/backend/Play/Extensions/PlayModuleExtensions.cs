@@ -22,7 +22,7 @@ public static class PlayModuleExtensions
         );
         builder.Services.AddOpenApi(options =>
         {
-            options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_1;
+            options.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0;
             options.AddDocumentTransformer(
                 (document, _, _) =>
                 {

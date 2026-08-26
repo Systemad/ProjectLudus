@@ -4,16 +4,16 @@
 */
 
 export type HttpValidationProblemDetails = {
-    type?: null;
-    title?: null;
+    type?: string | null;
+    title?: string | null;
     /**
      * @description
      * Format: `int32`
      * @type integer | undefined
     */
     status?: number | null;
-    detail?: null;
-    instance?: null;
+    detail?: string | null;
+    instance?: string | null;
     errors: {
         [key: string]: string[];
     };

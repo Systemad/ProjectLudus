@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.2",
+  "openapi": "3.0.4",
   "info": {
     "title": "Backend.API | v1",
     "version": "1.0.0"
@@ -1905,10 +1905,8 @@
             "type": "string"
           },
           "comment": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1955,47 +1953,38 @@
             "type": "string"
           },
           "description": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "url": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "startDate": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "country": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "logoId": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "logoImageId": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "parentCompany": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/ParentCompanyDto"
@@ -2003,10 +1992,8 @@
             ]
           },
           "status": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2046,10 +2033,8 @@
           },
           "description": {
             "maxLength": 500,
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -2072,48 +2057,34 @@
             "type": "string"
           },
           "slug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "description": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "liveStreamUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "startTimeUtc": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date-time"
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "endTimeUtc": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date-time"
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "timeZone": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "logoImageId": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "games": {
             "type": "array",
@@ -2140,10 +2111,8 @@
             "type": "string"
           },
           "state": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2194,22 +2163,21 @@
             "type": "string"
           },
           "firstReleaseDate": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "coverUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "steam": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamData"
@@ -2250,23 +2218,17 @@
             "type": "string"
           },
           "coverImageId": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "firstReleaseDateUtc": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date-time"
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "gameTypeName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2364,16 +2326,12 @@
             "type": "string"
           },
           "imageId": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "url": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2416,44 +2374,32 @@
             "type": "string"
           },
           "slug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "name": {
             "type": "string"
           },
           "summary": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "cover": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "coverUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "gameTypeName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "firstReleaseDate": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "format": "date"
+            "type": "string",
+            "format": "date",
+            "nullable": true
           },
           "genres": {
             "type": "array",
@@ -2606,54 +2552,43 @@
             "type": "string"
           },
           "slug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "name": {
             "type": "string"
           },
           "summary": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "storyline": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "cover": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "coverUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "gameType": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "gameTypeName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "steam": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamData"
@@ -2728,40 +2663,33 @@
         "type": "object",
         "properties": {
           "platformName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "platformSlug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "releaseDate": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "region": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "human": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "status": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/ReleaseDateStatusDto"
@@ -2771,7 +2699,10 @@
           "platform": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/PlatformDto"
@@ -2953,38 +2884,28 @@
             "type": "string"
           },
           "finalCents": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "discountPercent": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "currency": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "high30d": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "low30d": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -3008,45 +2929,33 @@
             "type": "string"
           },
           "numReviews": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "reviewScore": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "reviewScoreDesc": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "totalPositive": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "totalNegative": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "totalReviews": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -3071,35 +2980,25 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "title": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "status": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "detail": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "instance": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "errors": {
             "type": "object",
@@ -3167,16 +3066,12 @@
             "type": "string"
           },
           "nativeName": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "type": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3253,10 +3148,8 @@
             "type": "string"
           },
           "description": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -3315,11 +3208,9 @@
             }
           },
           "nextPage": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "hasMore": {
             "type": "boolean"
@@ -3341,11 +3232,9 @@
             }
           },
           "nextPage": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "hasMore": {
             "type": "boolean"
@@ -3364,16 +3253,12 @@
             "type": "string"
           },
           "name": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "slug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3407,10 +3292,8 @@
             "type": "string"
           },
           "slug": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3422,17 +3305,13 @@
         "type": "object",
         "properties": {
           "releaseDate": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "platform": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3444,17 +3323,13 @@
         "type": "object",
         "properties": {
           "releaseDate": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "region": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3534,35 +3409,30 @@
             "type": "string"
           },
           "currentPlayers": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "peak24h": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int64"
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           },
           "headerUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "capsuleUrl": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "pricing": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamPricingData"
@@ -3572,7 +3442,10 @@
           "review": {
             "oneOf": [
               {
-                "type": "null"
+                "enum": [
+                  null
+                ],
+                "nullable": true
               },
               {
                 "$ref": "#/components/schemas/SteamReviewData"
@@ -3585,57 +3458,41 @@
         "type": "object",
         "properties": {
           "finalCents": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "discountPercent": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "currency": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "initialCents": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "initialFormatted": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "finalFormatted": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "high30d": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "low30d": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -3643,38 +3500,28 @@
         "type": "object",
         "properties": {
           "score": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "desc": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "totalReviews": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "positive": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
           "negative": {
-            "type": [
-              "null",
-              "integer"
-            ],
-            "format": "int32"
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         }
       },
@@ -3692,10 +3539,8 @@
           },
           "description": {
             "maxLength": 500,
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "visibility": {
             "$ref": "#/components/schemas/ListVisibility"
@@ -3761,10 +3606,8 @@
             }
           },
           "nextCursor": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3786,10 +3629,8 @@
             }
           },
           "nextCursor": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3911,19 +3752,15 @@
             "type": "string"
           },
           "type": {
-            "type": [
-              "null",
-              "string"
-            ]
+            "type": "string",
+            "nullable": true
           },
           "url": {
             "type": "string"
           },
           "trusted": {
-            "type": [
-              "null",
-              "boolean"
-            ]
+            "type": "boolean",
+            "nullable": true
           }
         }
       }

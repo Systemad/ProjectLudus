@@ -9,9 +9,9 @@ import type { GameMediaVideoDto } from './GameMediaVideoDto'
 export type EventDto = {
     id: string;
     name: string;
-    slug?: null;
-    description?: null;
-    liveStreamUrl?: null;
+    slug?: string | null;
+    description?: string | null;
+    liveStreamUrl?: string | null;
     /**
      * @description
      * Format: `date-time`
@@ -24,8 +24,8 @@ export type EventDto = {
      * @type string | undefined
     */
     endTimeUtc?: string | null;
-    timeZone?: null;
-    logoImageId?: null;
+    timeZone?: string | null;
+    logoImageId?: string | null;
     games: GameBrowseDto[];
     videos: GameMediaVideoDto[];
 };

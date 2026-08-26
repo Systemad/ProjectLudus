@@ -13,7 +13,7 @@ export type ListSummaryResponse = {
     */
     id: string;
     name: string;
-    description: null;
+    description: string | null;
     visibility: ListVisibilityKey;
     isDefault: boolean;
     /**

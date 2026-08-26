@@ -10,14 +10,14 @@ import type { SteamData } from './SteamData'
 
 export type GameOverviewDto = {
     id: string;
-    slug?: null;
+    slug?: string | null;
     name: string;
-    summary?: null;
-    storyline?: null;
-    cover?: null;
-    coverUrl?: null;
-    gameType?: null;
-    gameTypeName?: null;
+    summary?: string | null;
+    storyline?: string | null;
+    cover?: string | null;
+    coverUrl?: string | null;
+    gameType?: string | null;
+    gameTypeName?: string | null;
     steam?: (null | SteamData);
     genres: string[];
     themes: string[];

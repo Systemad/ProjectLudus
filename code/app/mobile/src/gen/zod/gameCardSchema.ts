@@ -8,7 +8,7 @@ import * as z from 'zod'
 export const gameCardSchema = z.object({
   id: z.string(),
   name: z.string(),
-  coverImageId: z.null(),
+  coverImageId: z.string().nullable(),
   firstReleaseDateUtc: z.iso.datetime().nullable(),
-  gameTypeName: z.null(),
+  gameTypeName: z.string().nullable(),
 })

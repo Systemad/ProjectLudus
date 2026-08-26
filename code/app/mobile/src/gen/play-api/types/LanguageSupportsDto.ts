@@ -5,6 +5,6 @@
 
 export type LanguageSupportsDto = {
     language: string;
-    nativeName: null;
-    type: null;
+    nativeName: string | null;
+    type: string | null;
 };

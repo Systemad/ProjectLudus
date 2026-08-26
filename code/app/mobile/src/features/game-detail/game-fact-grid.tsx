@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { MetadataGrid, type MetadataItem } from "@/shared/ui/metadata-grid";
+import { spacing, typography } from "@/theme";
 
 type GameFact = { label: string; values: string[] };
 
@@ -23,10 +24,10 @@ export function GameFactGrid({ facts }: { facts: GameFact[] }) {
 
 const styles = StyleSheet.create({
   section: {
-    gap: 10,
+    gap: spacing.sm,
   },
   title: {
+    ...typography.sectionTitle,
     fontSize: 19,
-    fontWeight: "800",
   },
 });

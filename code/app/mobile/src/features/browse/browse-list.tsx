@@ -3,6 +3,7 @@ import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from "react-n
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { useContentBottomInset } from "@/shared/ui/insets";
+import { radius, spacing, typography } from "@/theme";
 import { getGameDetailHref } from "@/utils/game-routes";
 
 import { BrowseListCard } from "./browse-list-card";
@@ -49,7 +50,7 @@ function CollectionChip({
         },
       ]}
     >
-      <Text style={{ color: colors.text, fontSize: 13, fontWeight: "700" }}>{label}</Text>
+      <Text style={[typography.label, { color: colors.text }]}>{label}</Text>
     </Pressable>
   );
 }
@@ -92,28 +93,28 @@ export function BrowseList({ collection, games, onCollectionChange }: BrowseList
 
 const styles = StyleSheet.create({
   content: {
-    paddingHorizontal: 16,
-    paddingTop: 12,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.md,
   },
   header: {
-    gap: 10,
+    gap: spacing.sm,
     paddingBottom: 2,
   },
   chips: {
     flexDirection: "row",
-    gap: 8,
+    gap: spacing.xs,
   },
   chip: {
-    borderRadius: 18,
+    borderRadius: radius.xl,
     borderWidth: StyleSheet.hairlineWidth,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm - 1,
   },
   eyebrow: {
-    fontSize: 12,
+    ...typography.metadata,
     fontWeight: "700",
   },
   separator: {
-    height: 10,
+    height: spacing.sm,
   },
 });

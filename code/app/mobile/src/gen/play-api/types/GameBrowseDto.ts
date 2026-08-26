@@ -17,7 +17,7 @@ export type GameBrowseDto = {
      * @type string | undefined
     */
     firstReleaseDate?: string | null;
-    coverUrl?: null;
+    coverUrl?: string | null;
     steam?: (null | SteamData);
     gameFeatures: GameFeatures;
     platforms: PlatformDto[];
