@@ -13,7 +13,7 @@ export const gameBrowseDtoSchema = z.object({
   id: z.string(),
   name: z.string(),
   firstReleaseDate: z.iso.date().nullish(),
-  coverUrl: z.null().optional(),
+  coverUrl: z.string().nullish(),
   steam: z.union([z.null(), steamDataSchema.strict()]).optional(),
   gameFeatures: gameFeaturesSchema,
   platforms: z.array(platformDtoSchema),

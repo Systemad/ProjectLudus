@@ -16,15 +16,15 @@ export type SteamPricingData = {
      * @type integer | undefined
     */
     discountPercent?: number | null;
-    currency?: null;
+    currency?: string | null;
     /**
      * @description
      * Format: `int32`
      * @type integer | undefined
     */
     initialCents?: number | null;
-    initialFormatted?: null;
-    finalFormatted?: null;
+    initialFormatted?: string | null;
+    finalFormatted?: string | null;
     /**
      * @description
      * Format: `int32`

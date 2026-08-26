@@ -12,6 +12,10 @@ export type CreateListRequest = {
      * @type string
     */
     name: string;
-    description?: null;
+    /**
+     * @maxLength 500
+     * @type string | undefined
+    */
+    description?: string | null;
     visibility: ListVisibilityKey;
 };

@@ -20,8 +20,8 @@ export type SteamData = {
      * @type integer | undefined
     */
     peak24h?: number | null;
-    headerUrl?: null;
-    capsuleUrl?: null;
+    headerUrl?: string | null;
+    capsuleUrl?: string | null;
     pricing?: (null | SteamPricingData);
     review?: (null | SteamReviewData);
 };

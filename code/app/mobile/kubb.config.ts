@@ -45,8 +45,8 @@ export default defineConfig([
     output: {
       path: "./src/gen",
       clean: true,
-      format: "auto",
-      lint: "auto",
+      format: false,
+      lint: false,
       barrel: { type: "named" },
     },
     plugins: [
@@ -95,8 +95,8 @@ export default defineConfig([
     output: {
       path: "./src/gen/play-api",
       clean: true,
-      format: "auto",
-      lint: "auto",
+      format: false,
+      lint: false,
       barrel: { type: "named" },
     },
     plugins: [

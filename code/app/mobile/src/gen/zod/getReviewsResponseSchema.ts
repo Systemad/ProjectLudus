@@ -10,7 +10,7 @@ export const getReviewsResponseSchema = z.object({
   steamAppId: z.string(),
   numReviews: z.int().nullable(),
   reviewScore: z.int().nullable(),
-  reviewScoreDesc: z.null(),
+  reviewScoreDesc: z.string().nullable(),
   totalPositive: z.int().nullable(),
   totalNegative: z.int().nullable(),
   totalReviews: z.int().nullable(),

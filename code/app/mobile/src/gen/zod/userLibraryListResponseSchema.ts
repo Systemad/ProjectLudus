@@ -10,5 +10,5 @@ import { userLibrarySavedGameResponseSchema } from './userLibrarySavedGameRespon
 export const userLibraryListResponseSchema = z.object({
   list: userLibraryListSummarySchema,
   games: z.array(userLibrarySavedGameResponseSchema),
-  nextCursor: z.null(),
+  nextCursor: z.string().nullable(),
 })

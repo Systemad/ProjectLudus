@@ -7,7 +7,7 @@ import * as z from 'zod'
 
 export const websiteDtoSchema = z.object({
   name: z.string(),
-  type: z.null(),
+  type: z.string().nullable(),
   url: z.string(),
-  trusted: z.null(),
+  trusted: z.boolean().nullable(),
 })

@@ -10,5 +10,5 @@ export type ReleaseDatePlatformDto = {
      * @type integer
     */
     releaseDate: number | null;
-    platform: null;
+    platform: string | null;
 };

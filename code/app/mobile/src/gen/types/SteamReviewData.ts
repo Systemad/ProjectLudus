@@ -10,7 +10,7 @@ export type SteamReviewData = {
      * @type integer | undefined
     */
     score?: number | null;
-    desc?: null;
+    desc?: string | null;
     /**
      * @description
      * Format: `int32`

@@ -10,7 +10,7 @@ export const getPricingResponseSchema = z.object({
   steamAppId: z.string(),
   finalCents: z.int().nullable(),
   discountPercent: z.int().nullable(),
-  currency: z.null(),
+  currency: z.string().nullable(),
   high30d: z.int().nullable(),
   low30d: z.int().nullable(),
 })

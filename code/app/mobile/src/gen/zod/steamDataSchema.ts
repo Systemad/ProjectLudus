@@ -11,8 +11,8 @@ export const steamDataSchema = z.object({
   steamAppId: z.string(),
   currentPlayers: z.int().nullish(),
   peak24h: z.int().nullish(),
-  headerUrl: z.null().optional(),
-  capsuleUrl: z.null().optional(),
+  headerUrl: z.string().nullish(),
+  capsuleUrl: z.string().nullish(),
   pricing: z.union([z.null(), steamPricingDataSchema.strict()]).optional(),
   review: z.union([z.null(), steamReviewDataSchema.strict()]).optional(),
 })

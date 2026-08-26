@@ -8,5 +8,5 @@ import { userLibraryHistoryItemResponseSchema } from './userLibraryHistoryItemRe
 
 export const userLibraryHistoryResponseSchema = z.object({
   items: z.array(userLibraryHistoryItemResponseSchema),
-  nextCursor: z.null(),
+  nextCursor: z.string().nullable(),
 })

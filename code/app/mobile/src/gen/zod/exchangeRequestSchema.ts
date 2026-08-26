@@ -7,5 +7,5 @@ import * as z from 'zod'
 
 export const exchangeRequestSchema = z.object({
   code: z.string().min(1),
-  state: z.null().optional(),
+  state: z.string().nullish(),
 })

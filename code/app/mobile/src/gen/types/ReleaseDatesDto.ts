@@ -10,5 +10,5 @@ export type ReleaseDatesDto = {
      * @type integer
     */
     releaseDate: number | null;
-    region: null;
+    region: string | null;
 };

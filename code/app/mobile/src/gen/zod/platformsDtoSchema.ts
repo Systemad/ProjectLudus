@@ -7,5 +7,5 @@ import * as z from 'zod'
 
 export const platformsDtoSchema = z.object({
   name: z.string(),
-  slug: z.null(),
+  slug: z.string().nullable(),
 })
