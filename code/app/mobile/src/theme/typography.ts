@@ -29,11 +29,6 @@ export const typography = {
     lineHeight: 19,
     fontWeight: "700",
   },
-  railTitle: {
-    fontSize: 13,
-    lineHeight: 16,
-    fontWeight: "700",
-  },
   cardMetadata: {
     fontSize: 12,
   },

@@ -2,7 +2,8 @@ import { Link, type Href } from "expo-router";
 import { ChevronRight } from "lucide-react-native";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { GameCarousel } from "@/entities/game/game-carousel";
+import { getGameCardItem } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -17,7 +18,6 @@ type DiscoverRailProps = {
   isLoading: boolean;
   isError: boolean;
   onRetry: () => void;
-  featured?: boolean;
 };
 
 export function DiscoverRail({
@@ -29,7 +29,6 @@ export function DiscoverRail({
   isLoading,
   isError,
   onRetry,
-  featured = false,
 }: DiscoverRailProps) {
   const colors = useAppTheme();
 
@@ -60,7 +59,7 @@ export function DiscoverRail({
         }}
         empty={{ message: "No games are available in this collection yet." }}
       >
-        <GameCarousel games={games} getHref={getGameHref} variant={featured ? "cover" : "rail"} />
+        <GameRail items={games.map((game) => getGameCardItem(game, getGameHref(game)))} />
       </ContentState>
     </View>
   );

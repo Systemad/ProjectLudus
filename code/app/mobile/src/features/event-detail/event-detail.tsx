@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Text, View } from "react-native";
 
-import { GameCarousel } from "@/entities/game/game-carousel";
+import { getGameCardItem } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import { eventsGetByIdQueryOptions } from "@/gen/hooks/EventsHooks/index";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -40,7 +41,9 @@ export function EventDetail({ slug }: { slug: string }) {
       {event.games.length ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Featured games</Text>
-          <GameCarousel games={event.games} getHref={(game) => getGameDetailHref(game.id)} />
+          <GameRail
+            items={event.games.map((game) => getGameCardItem(game, getGameDetailHref(game.id)))}
+          />
         </View>
       ) : null}
     </DetailShell>

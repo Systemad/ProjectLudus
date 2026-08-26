@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Text, View } from "react-native";
 
-import { GameCarousel } from "@/entities/game/game-carousel";
+import { getGameCardItem } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import {
   companiesGetGamesQueryOptions,
   companiesGetQueryOptions,
@@ -51,7 +52,9 @@ export function CompanyDetail({ slug }: { slug: string }) {
       {games.length ? (
         <View style={detailStyles.section}>
           <Text style={[detailStyles.sectionTitle, { color: colors.text }]}>Games</Text>
-          <GameCarousel games={games} getHref={(game) => getGameDetailHref(game.id)} />
+          <GameRail
+            items={games.map((game) => getGameCardItem(game, getGameDetailHref(game.id)))}
+          />
         </View>
       ) : null}
     </DetailShell>

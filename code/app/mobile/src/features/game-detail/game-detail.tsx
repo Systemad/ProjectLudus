@@ -29,7 +29,8 @@ import { GameFactGrid } from "./game-fact-grid";
 import { GameLinkList } from "./game-link-list";
 import { GameScreenshotGallery } from "./game-screenshot-gallery";
 import { GameSummaryText } from "./game-summary-text";
-import { GameCarousel } from "@/entities/game/game-carousel";
+import { getGameCardItem } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import { SteamChart } from "./steam-chart";
 import { SteamSummary } from "./steam-summary";
 import { useGameDetailViewModel } from "./use-game-detail-view-model";
@@ -168,9 +169,10 @@ function OverviewContent({
             onRetry={() => void game.retrySimilar()}
             errorMessage="Related games could not be loaded."
           >
-            <GameCarousel
-              games={game.similar}
-              getHref={(relatedGame) => getGameDetailHref(relatedGame.id)}
+            <GameRail
+              items={game.similar.map((relatedGame) =>
+                getGameCardItem(relatedGame, getGameDetailHref(relatedGame.id)),
+              )}
             />
           </NativeSectionState>
         </NativeSection>

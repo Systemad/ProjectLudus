@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { GAME_RAIL_CARD_WIDTH } from "@/config/layout";
-import { GameCard } from "@/entities/game/game-card";
+import { GameRail } from "@/entities/game/game-rail";
 import { getIgdbImageUrl } from "@/entities/game/game-image";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { ContentState, getContentStateStatus } from "@/shared/ui/content-state";
@@ -9,7 +8,6 @@ import { spacing, typography } from "@/theme";
 import { getGameDetailHref } from "@/utils/game-routes";
 
 import { useLastVisited } from "./last-visited-context";
-import { LastVisitedCarousel } from "./last-visited-carousel";
 
 export function LastVisitedSection() {
   const colors = useAppTheme();
@@ -27,17 +25,13 @@ export function LastVisitedSection() {
     ].join(" · ");
     const imageUrl = getIgdbImageUrl(game.cover, "cover_big", true) ?? game.coverUrl ?? undefined;
 
-    return (
-      <GameCard
-        key={id}
-        title={game.name}
-        metadata={metadata}
-        imageUrl={imageUrl}
-        variant="rail"
-        href={getGameDetailHref(id)}
-        cardWidth={GAME_RAIL_CARD_WIDTH}
-      />
-    );
+    return {
+      id: String(id),
+      title: game.name,
+      metadata,
+      imageUrl,
+      href: getGameDetailHref(id),
+    };
   });
 
   return (
@@ -60,7 +54,7 @@ export function LastVisitedSection() {
         }}
         empty={{ message: "Your last visited game is no longer available." }}
       >
-        <LastVisitedCarousel>{cards}</LastVisitedCarousel>
+        <GameRail items={cards} />
       </ContentState>
     </View>
   );

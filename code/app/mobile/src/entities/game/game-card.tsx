@@ -1,18 +1,45 @@
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { Link, type Href } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import type { GameBrowseDto } from "@/gen/types/GameBrowseDto";
 import { useAppTheme } from "@/hooks/use-app-theme";
 import { radius, spacing, typography } from "@/theme";
-import type { GameCardProps } from "./game-card-types";
 
-export { getGameCardData } from "./game-card-data";
-export type { GameCardData } from "./game-card-data";
-export type { GameCardProps, GameCardVariant } from "./game-card-types";
+import { getGameCardImage } from "./game-image";
+import { formatSteamReviewRating, getSteamReviewEmoji } from "./steam-review";
 
-export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }: GameCardProps) {
+const GAME_CARD_ASPECT_RATIO = 0.72;
+
+export type GameCardItem = {
+  id: string;
+  title: string;
+  metadata: string;
+  imageUrl?: string;
+  href: Href;
+};
+
+export function getGameCardItem(game: GameBrowseDto, href: Href): GameCardItem {
+  const primaryGenre = game.gameFeatures.genres[0]?.name ?? "Game";
+  const reviewRating = formatSteamReviewRating(game.steam?.review);
+  const review =
+    reviewRating === "N/A"
+      ? undefined
+      : `${getSteamReviewEmoji(game.steam?.review)} ${reviewRating}`;
+
+  return {
+    id: String(game.id),
+    title: game.name,
+    metadata: [game.firstReleaseDate?.slice(0, 4) ?? "TBA", primaryGenre, review]
+      .filter((value): value is string => value !== undefined)
+      .join(" · "),
+    imageUrl: getGameCardImage(game),
+    href,
+  };
+}
+
+export function GameCard({ title, metadata, imageUrl, href }: GameCardItem) {
   const colors = useAppTheme();
-  const showCopy = variant !== "cover";
 
   return (
     <Link href={href} asChild>
@@ -21,7 +48,6 @@ export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }
         accessibilityLabel={`View ${title}`}
         style={({ pressed }) => [
           styles.card,
-          cardWidth ? { width: cardWidth } : undefined,
           { backgroundColor: colors.surfaceHigh, opacity: pressed ? 0.82 : 1 },
         ]}
       >
@@ -34,26 +60,18 @@ export function GameCard({ title, metadata, imageUrl, variant, href, cardWidth }
             </Text>
           </View>
         )}
-        {showCopy && metadata ? (
-          <View style={[styles.copy, variant === "rail" && styles.railCopy]}>
-            <Text
-              style={[styles.name, variant === "rail" && styles.railName, { color: colors.text }]}
-              numberOfLines={2}
-            >
-              {title}
-            </Text>
-            <Text
-              style={[
-                styles.meta,
-                variant === "rail" && styles.railMeta,
-                { color: colors.textMuted },
-              ]}
-              numberOfLines={1}
-            >
-              {metadata}
-            </Text>
-          </View>
-        ) : null}
+        <View style={styles.body}>
+          <Text
+            style={[styles.title, { color: colors.text }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {title}
+          </Text>
+          <Text style={[styles.metadata, { color: colors.textMuted }]} numberOfLines={1}>
+            {metadata}
+          </Text>
+        </View>
       </Pressable>
     </Link>
   );
@@ -68,7 +86,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    aspectRatio: 0.72,
+    aspectRatio: GAME_CARD_ASPECT_RATIO,
     borderRadius: radius.md,
     borderCurve: "continuous",
   },
@@ -79,26 +97,14 @@ const styles = StyleSheet.create({
   placeholderText: {
     ...typography.placeholder,
   },
-  copy: {
+  body: {
     padding: spacing.md,
     gap: spacing.xxs,
   },
-  railCopy: {
-    paddingHorizontal: spacing.xs,
-    paddingVertical: spacing.sm - 1,
-    gap: spacing.xxs - 1,
-  },
-  name: {
+  title: {
     ...typography.cardTitle,
   },
-  railName: {
-    ...typography.railTitle,
-  },
-  meta: {
+  metadata: {
     ...typography.cardMetadata,
-  },
-  railMeta: {
-    fontSize: 11,
-    lineHeight: 14,
   },
 });
